@@ -23,293 +23,240 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/topSheet"
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="true">
+                android:background="@drawable/shape_invest_bg"
+                android:focusableInTouchMode="true"
+                android:padding="@dimen/space_8"
+                app:el_duration="500"
+                app:el_expanded="false"
+                app:expanded="@{vm.filter}">
 
-                <View
-                    android:id="@+id/mDivider"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/clFilter"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="24dp"
-                    android:background="@drawable/shape_invest_bg"
-                    app:layout_constraintBottom_toBottomOf="@+id/ivExClp"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/edtSearch"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_16"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:background="@drawable/shape_edt_white_round"
-                    android:drawableEnd="@drawable/ic_search_white_24dp"
-                    android:hint="@string/find_your_mutual_fund"
-                    android:inputType="text"
-                    android:paddingBottom="@dimen/space_6"
-                    android:paddingEnd="@dimen/space_8"
-                    android:paddingStart="@dimen/space_16"
-                    android:paddingTop="@dimen/space_6"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/white"
-                    app:layout_constraintBottom_toTopOf="@+id/ivExClp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0" />
-
-
-                <net.cachapa.expandablelayout.ExpandableLayout
-                    android:id="@+id/expandableLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_16"
-                    app:el_duration="500"
-                    app:el_expanded="false"
-                    app:expanded="@{vm.filter}"
-                    app:layout_constraintBottom_toTopOf="@+id/ivExClp"
-                    app:layout_constraintTop_toBottomOf="@+id/mBarrier">
-
-                    <android.support.constraint.ConstraintLayout
-                        android:id="@+id/clFilter"
+                    <EditText
+                        android:id="@+id/edtSearch"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/shape_edt_white_round"
+                        android:drawableEnd="@drawable/ic_search_white_24dp"
+                        android:hint="@string/find_your_mutual_fund"
+                        android:inputType="text"
+                        android:paddingBottom="@dimen/space_6"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingStart="@dimen/space_16"
+                        android:paddingTop="@dimen/space_6"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rvFundType"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvFundType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:dividerH="@{@drawable/shape_transferant_divider}"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/edtSearch"
+                        tools:listitem="@layout/row_fund_type_list_item" />
+
+                    <CheckBox
+                        android:id="@+id/cbLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:button="@drawable/selector_check_box"
+                        android:checked="true"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingStart="@dimen/space_8"
+                        android:text="@string/risk_level"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rvFundType" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvRiskLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                        app:layout_constraintStart_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cbLevel"
+                        app:spanCount="5"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/row_risk_level_indicator" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guidelineVCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/tvSortByReturn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_2"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="@string/sort_by_returns"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rvRiskLevel" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvFundReturns"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:orientation="horizontal"
+                        android:overScrollMode="never"
+                        app:dividerH="@{@drawable/shape_transferant_divider_4dp}"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSortByReturn"
+                        tools:listitem="@layout/row_fund_returns_list_item" />
+
+                    <TextView
+                        android:id="@+id/tvCategoryL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_2"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="@string/category"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cbDividend" />
+
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/shape_edt_white_round"
+                        app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
+
+                        <Spinner
+                            android:id="@+id/spnCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:overScrollMode="never"
-                            app:dividerH="@{@drawable/shape_transferant_divider}"
-                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:listitem="@layout/row_fund_type_list_item" />
+                            android:background="@null"
+                            android:spinnerMode="dialog" />
 
-                        <CheckBox
-                            android:id="@+id/cbLevel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8"
-                            android:button="@drawable/selector_check_box"
-                            android:checked="true"
-                            android:paddingEnd="@dimen/space_8"
-                            android:paddingStart="@dimen/space_8"
-                            android:text="@string/risk_level"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rvFundType" />
+                    </FrameLayout>
+                    <!--******-->
+                    <TextView
+                        android:id="@+id/tvInvestType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="@string/sort_by_returns"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/rvRiskLevel" />
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rvRiskLevel"
+                    <CheckBox
+                        android:id="@+id/cbGrowth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:button="@drawable/selector_check_box"
+                        android:checked="true"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingStart="@dimen/space_8"
+                        android:text="@string/growth"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInvestType" />
+
+                    <CheckBox
+                        android:id="@+id/cbDividend"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:button="@drawable/selector_check_box"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingStart="@dimen/space_8"
+                        android:text="@string/dividend_payout"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/cbGrowth" />
+
+                    <TextView
+                        android:id="@+id/tvSubCategoryL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="@string/sub_category"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/cbDividend" />
+
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shape_edt_white_round"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSubCategoryL">
+
+                        <Spinner
+                            android:id="@+id/spnSubCategory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8"
-                            app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                            app:layout_constraintStart_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbLevel"
-                            app:spanCount="5"
-                            tools:itemCount="5"
-                            tools:listitem="@layout/row_risk_level_indicator" />
+                            android:background="@null"
+                            android:spinnerMode="dialog" />
 
-                        <android.support.constraint.Guideline
-                            android:id="@+id/guidelineVCenter"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            app:layout_constraintGuide_percent="0.5" />
+                    </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/tvSortByReturn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/space_2"
-                            android:layout_marginTop="@dimen/space_16"
-                            android:text="@string/sort_by_returns"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/rvRiskLevel" />
+                </android.support.constraint.ConstraintLayout>
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/rvFundReturns"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_8"
-                            android:orientation="horizontal"
-                            android:overScrollMode="never"
-                            app:dividerH="@{@drawable/shape_transferant_divider_4dp}"
-                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                            app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSortByReturn"
-                            tools:listitem="@layout/row_fund_returns_list_item" />
+            </net.cachapa.expandablelayout.ExpandableLayout>
 
-                        <TextView
-                            android:id="@+id/tvCategoryL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/space_2"
-                            android:layout_marginTop="@dimen/space_16"
-                            android:text="@string/category"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/cbDividend" />
-
-
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginTop="@dimen/space_8"
-                            android:background="@drawable/shape_edt_white_round"
-                            app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
-
-                            <Spinner
-                                android:id="@+id/spnCategory"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:spinnerMode="dialog" />
-
-                        </FrameLayout>
-                        <!--******-->
-                        <TextView
-                            android:id="@+id/tvInvestType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="@dimen/space_16"
-                            android:text="@string/sort_by_returns"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/rvRiskLevel" />
-
-                        <CheckBox
-                            android:id="@+id/cbGrowth"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="@dimen/space_8"
-                            android:button="@drawable/selector_check_box"
-                            android:checked="true"
-                            android:paddingEnd="@dimen/space_8"
-                            android:paddingStart="@dimen/space_8"
-                            android:text="@string/growth"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/tvInvestType" />
-
-                        <CheckBox
-                            android:id="@+id/cbDividend"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="@dimen/space_8"
-                            android:button="@drawable/selector_check_box"
-                            android:paddingEnd="@dimen/space_8"
-                            android:paddingStart="@dimen/space_8"
-                            android:text="@string/dividend_payout"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/cbGrowth" />
-
-                        <TextView
-                            android:id="@+id/tvSubCategoryL"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="@dimen/space_16"
-                            android:text="@string/sub_category"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/cbDividend" />
-
-
-                        <FrameLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/shape_edt_white_round"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSubCategoryL">
-
-                            <Spinner
-                                android:id="@+id/spnSubCategory"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:spinnerMode="dialog" />
-
-                        </FrameLayout>
-
-                        <!--<TextView
-                            android:id="@+id/tvSubCategory"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginTop="@dimen/space_4"
-                            android:background="@drawable/shape_edt_white_round"
-                            android:drawableEnd="@drawable/ic_drop_down_white_24dp"
-                            android:gravity="center_vertical"
-                            android:paddingBottom="@dimen/space_6"
-                            android:paddingEnd="@dimen/space_8"
-                            android:paddingStart="@dimen/space_16"
-                            android:paddingTop="@dimen/space_6"
-                            android:text="@string/all"
-                            android:textAllCaps="true"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@android:color/white"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/guidelineVCenter"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSubCategoryL" />-->
-
-
-                    </android.support.constraint.ConstraintLayout>
-
-                </net.cachapa.expandablelayout.ExpandableLayout>
-
-                <ImageView
-                    android:id="@+id/ivExClp"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center_horizontal"
-                    android:adjustViewBounds="true"
-                    android:src="@{vm.filter ? @drawable/filter_down :  @drawable/filter_up}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:src="@drawable/filter_up" />
-
-                <android.support.constraint.Barrier
-                    android:id="@+id/mBarrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:barrierDirection="bottom"
-                    app:constraint_referenced_ids="edtSearch"
-                    app:layout_constraintTop_toBottomOf="@+id/edtSearch" />
-
-            </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/ivExClp"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:paddingBottom="@dimen/space_8"
+                android:paddingEnd="@dimen/space_8"
+                android:paddingStart="@dimen/space_8"
+                android:src="@{vm.filter ? @drawable/filter_up :  @drawable/filter_down}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/filter_down" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvFunds"
