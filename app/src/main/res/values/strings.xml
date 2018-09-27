@@ -46,6 +46,8 @@
         Achieve life goals and financial milestones faster.
         Paperless Investing - Direct Plans (No Agent Commissions)
     </string>
+    <string name="category">Category</string>
+    <string name="sub_category">Sub Category</string>
     <string-array name="risk_level">
         <item>LOW</item>
         <item>MODERATELY LOW</item>

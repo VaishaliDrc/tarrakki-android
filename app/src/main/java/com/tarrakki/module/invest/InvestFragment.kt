@@ -3,11 +3,13 @@ package com.tarrakki.module.invest
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.databinding.*
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+
 
 /**
  * A simple [Fragment] subclass.
@@ -74,6 +76,15 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             binder.fund = item
             binder.executePendingBindings()
         }
+
+        val adapter = ArrayAdapter.createFromResource(
+                activity,
+                R.array.risk_level,
+                R.layout.simple_spinner_item
+        )
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnCategory.adapter = adapter
+        spnSubCategory.adapter = adapter
     }
 
     companion object {

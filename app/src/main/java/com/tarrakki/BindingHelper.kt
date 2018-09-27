@@ -75,3 +75,4 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
         view.collapse(true)
     }
 }
+
