@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Tarrakki</string>
+    <string name="home">Home</string>
+    <string name="plan">Plan</string>
+    <string name="invest">Invest</string>
+    <string name="learn">Learn</string>
+    <string name="info">Info</string>
+    <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="account">Account</string>
+    <string name="why_tarrakki">Why Tarrakki ?</string>
+    <string name="view_all">View All</string>
+    <string name="portfolio_value">Portfolio Value</string>
+    <string name="dummy">\u20B9 3,246</string>
+    <string name="dummy1">\u20B9 5,0000,00</string>
+    <string name="dummy2">+\u20B9 36.17</string>
+    <string name="rs">\u20A8</string>
+    <string name="view_portfolio">View Portfolio</string>
+    <string name="total_investment_value">Total Investment Value</string>
+    <string name="total_return">Total Return</string>
+    <string name="cart">Cart</string>
+    <string name="financial_goals_assist">Financial goals assist you in making small, regular investments towards fulfilling your dreams. Tarrakki Goal Setting helps you make time-bound, risk-evaluated investments aimed at giving you the returns you need to achieve your goal. Select a goal and get started</string>
+    <string name="set_a_goal">Set a Goal</string>
+    <string name="our_recommended">Our Recommended</string>
+    <string name="your_investment_plan">Your Investment Plan</string>
+    <string name="monthly_investment">Monthly Investment</string>
+    <string name="our_recommended_info">To own your dream home, your goal is to reach about <font color='#4EB95D'><u>\u20B93.95 Lakh.</u></font> This means investing <font color='#4EB95D'><u>\u20B92.85 Lakh</u></font> over the next <font color='#4EB95D'><u>5</u></font> years, including a one-time lumpsum of <font color='#4EB95D'><u>\u20B910,000</u></font> up front. </string>
+    <string name="funds_to_achieve_your_goal">Funds to Achieve Your Goal</string>
+    <string name="get_this_goal">Get This Goal</string>
+    <string name="current">Current</string>
+    <string name="since_launch_sl">Since Launch\n(SL)</string>
+    <string name="_1y_return">1Y Return</string>
+    <string name="three_y_fund">3Y Fund:</string>
+    <string name="three_y_fd">3Y Fixed Deposit:</string>
+    <string name="find_your_mutual_fund">Find Your Mutual Fund</string>
+    <string name="risk_level">Risk Level</string>
+    <string name="sort_by_returns">Sort by returns</string>
+    <string name="all">All</string>
+    <string name="growth">Growth</string>
+    <string name="dividend_payout">Dividend Payout</string>
+    <string name="why_tarrakki_info">
+        Tarrakki helps you invest your hard earned money in mutual funds that best fit your income, age, and risk appetite.
+        Watch your money grow beyond the rate of inflation.
+        Achieve life goals and financial milestones faster.
+        Paperless Investing - Direct Plans (No Agent Commissions)
+    </string>
+    <string-array name="risk_level">
+        <item>LOW</item>
+        <item>MODERATELY LOW</item>
+        <item>MODERATE</item>
+        <item>MODERATELY HIGH</item>
+        <item>HIGH</item>
+    </string-array>
+</resources>

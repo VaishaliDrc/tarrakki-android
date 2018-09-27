@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.recommended.RecommendedVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".module.recommended.RecommendedFragment">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/homeView"
+                android:layout_width="match_parent"
+                android:layout_height="224dp"
+                android:background="@color/colorPrimary"
+                android:scaleType="fitXY"
+                android:src="@drawable/home_top_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvInvestmentPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:text="@string/your_investment_plan"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/mViewCircle"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="@dimen/space_16"
+                android:background="@drawable/shape_monthly_investment_bg"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInvestmentPlan" />
+
+            <TextView
+                android:id="@+id/tvInvestmentMonthlyL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/monthly_investment"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/home_title_color"
+                app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.45" />
+
+            <TextView
+                android:id="@+id/tvInvestmentMonthly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dummy"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mViewCircle" />
+
+            <TextView
+                android:id="@+id/tvInvestmentDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="For 5 Years"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/home_title_color"
+                app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
+                app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.8" />
+
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guidelineVCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/mPieChart"
+                android:layout_width="168dp"
+                android:layout_height="168dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guidelineVCenter"
+                app:layout_constraintTop_toBottomOf="@+id/tvInvestmentPlan" />
+
+            <TextView
+                android:id="@+id/tvRecommendedInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_16"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:padding="@dimen/space_8"
+                android:text="@string/our_recommended_info"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeView" />
+
+            <View
+                android:id="@+id/mViewAMSContainer"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/space_16"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommendedInfo" />
+
+            <TextView
+                android:id="@+id/tvAchieveL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_8"
+                android:elevation="@dimen/space_2"
+                android:text="@string/funds_to_achieve_your_goal"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
+                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer"
+                app:layout_constraintTop_toTopOf="@id/mViewAMSContainer" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvAMCList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/space_8"
+                android:layout_marginBottom="8dp"
+                android:elevation="@dimen/space_2"
+                app:layout_constraintBottom_toTopOf="@+id/button"
+                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
+                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer"
+                app:layout_constraintTop_toBottomOf="@+id/tvAchieveL"
+                app:layout_constraintVertical_bias="0"
+                tools:itemCount="2" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:elevation="@dimen/space_2"
+                android:text="@string/get_this_goal"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/mViewAMSContainer"
+                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
+                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>

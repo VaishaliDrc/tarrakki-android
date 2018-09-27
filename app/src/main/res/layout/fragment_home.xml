@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.home.HomeVM" />
+
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".module.home.HomeFragment">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/homeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/home_top_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/cpPortfolio"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                app:cpb_background_progressbar_color="#2E1D3E"
+                app:cpb_background_progressbar_width="8dp"
+                app:cpb_progress="78"
+                app:cpb_progressbar_color="@color/colorAccent"
+                app:cpb_progressbar_width="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvPortfolio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="140dp"
+                android:text="@string/portfolio_value"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/home_title_color"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.135"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <TextView
+                android:id="@+id/tvPortfolioValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:minWidth="140dp"
+                android:text="@string/dummy"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.135"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.45"
+                tools:text="@string/dummy" />
+
+            <TextView
+                android:id="@+id/tvViewPortfolio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_green_round_bg"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/view_portfolio"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintEnd_toEndOf="@+id/tvPortfolioValue"
+                app:layout_constraintStart_toStartOf="@+id/tvPortfolioValue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.7" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.55" />
+
+            <TextView
+                android:id="@+id/tvTotalInvestment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/total_investment_value"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/home_title_color"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <TextView
+                android:id="@+id/tvTotalInvestmentValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/dummy1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/white"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalInvestment" />
+
+            <TextView
+                android:id="@+id/tvTotalReturn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/total_return"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/home_title_color"
+                app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.55" />
+
+            <TextView
+                android:id="@+id/tvTotalReturnValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/dummy2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintStart_toEndOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalReturn" />
+
+            <TextView
+                android:id="@+id/tvTotalReturnInPercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text="(+1.05%)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvTotalReturnValue"
+                app:layout_constraintStart_toEndOf="@id/tvTotalReturnValue" />
+
+            <LinearLayout
+                android:id="@+id/llWhyTarrakki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeView">
+
+                <TextView
+                    android:id="@+id/tvWhyTarrakkii"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@{vm.whayTarrakki ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                    android:text="@string/why_tarrakki"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black"
+                    tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="true"
+                    app:expanded="@{vm.whayTarrakki}">
+
+                    <TextView
+                        android:id="@+id/tvWhyTarrakkiiReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/why_tarrakki_info" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvHomeItem"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:dividerV="@{@drawable/shape_transferant_divider}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llWhyTarrakki"
+                tools:background="@drawable/shape_cart_view"
+                tools:elevation="2dp"
+                tools:itemCount="1"
+                tools:listitem="@layout/row_section_investment_item"
+                tools:padding="8dp" />
+
+            <Button
+                android:id="@+id/btnIdle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:text="Move idle money from your bank A/C"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvHomeItem"
+                app:layout_constraintVertical_bias="1" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

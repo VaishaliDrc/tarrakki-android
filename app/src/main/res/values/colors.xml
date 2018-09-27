@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#48194A</color>
+    <color name="colorPrimaryDark">#4D204A</color>
+    <color name="colorAccent">#4EB95D</color>
+
+    <color name="bg_color">#ddd</color>
+    <color name="lighter_gray">#ddd</color>
+    <color name="home_title_color">#B5ADB5</color>
+    <color name="equity_fund_color">#2C87EC</color>
+    <color name="debt_fund_color">#67C6C6</color>
+    <color name="item_selected_color">#A14E9E</color>
+    <string-array name="risk_level_color">
+        <item>#00CB00</item>
+        <item>#5DFE5D</item>
+        <item>#FDDD18</item>
+        <item>#FE860D</item>
+        <item>#FC0000</item>
+    </string-array>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="amc"
+            type="com.tarrakki.module.recommended.AMC" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_amc_item_bg"
+        android:elevation="@dimen/space_2"
+        tools:layout_margin="@dimen/space_8">
+
+        <View
+            android:id="@+id/mView"
+            android:layout_width="@dimen/space_4"
+            android:layout_height="0dp"
+            android:background="@{amc.fundType}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/equity_fund_color" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{amc.name}"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toEndOf="@id/mView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ICICI Prudential NIFTY Next 50 Index Growth Direct Plan" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

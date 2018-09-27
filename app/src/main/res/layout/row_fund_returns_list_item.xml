@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fundType"
+            type="com.tarrakki.module.invest.FundType" />
+    </data>
+
+    <TextView
+        android:id="@+id/tvFundType"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@{fundType.selected ? @drawable/shape_fund_return_selected_bg : @drawable/shape_fund_return_unselected_bg}"
+        android:gravity="center"
+        android:text="@{fundType.name}"
+        android:textSize="9sp"
+        android:textColor="@android:color/white"
+        tools:background="@drawable/shape_fund_return_selected_bg"
+        tools:layout_marginEnd="4dp"
+        tools:text="AUM">
+
+    </TextView>
+</layout>
