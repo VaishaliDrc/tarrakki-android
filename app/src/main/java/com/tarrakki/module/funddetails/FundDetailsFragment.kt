@@ -1,0 +1,71 @@
+package com.tarrakki.module.funddetails
+
+
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import com.tarrakki.R
+import com.tarrakki.databinding.FragmentFundDetailsBinding
+import com.tarrakki.module.funddetails.fragments.OverviewFragment
+import com.tarrakki.module.funddetails.fragments.PerformanceFragment
+import com.tarrakki.module.invest.Fund
+import kotlinx.android.synthetic.main.fragment_fund_details.*
+import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.Page
+import org.supportcompact.adapters.setFragmentPagerAdapter
+
+/**
+ * A simple [Fragment] subclass.
+ * Use the [FundDetailsFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ *
+ */
+
+const val ITEM = "item"
+
+class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBinding>() {
+
+    override val isBackEnabled: Boolean
+        get() = true
+    override val title: String
+        get() = getString(R.string.fund_details)
+
+    override fun getLayout(): Int {
+        return R.layout.fragment_fund_details
+    }
+
+    override fun createViewModel(): Class<out FundDetailsVM> {
+        return FundDetailsVM::class.java
+    }
+
+    override fun setVM(binding: FragmentFundDetailsBinding) {
+        binding.fund = getViewModel()
+        binding.executePendingBindings()
+    }
+
+    override fun createReference() {
+        arguments?.let {
+            getViewModel().fund = it.getSerializable(ITEM) as Fund
+        }
+        val pages = arrayListOf(
+                Page("Overview", OverviewFragment.newInstance()),
+                Page("Performance", PerformanceFragment.newInstance())
+        )
+        mPager?.isNestedScrollingEnabled = false
+        mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
+        mTab?.setupWithViewPager(mPager, true)
+    }
+
+    companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment FundDetailsFragment.
+         */
+        // TODO: Rename and change types and number of parameters
+        @JvmStatic
+        fun newInstance(basket: Bundle? = null) = FundDetailsFragment().apply { arguments = basket }
+    }
+}

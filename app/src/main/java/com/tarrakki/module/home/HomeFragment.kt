@@ -55,11 +55,16 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         rvHomeItem.isNestedScrollingEnabled = false
         rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
             binder.setVariable(BR.section, item)
+            binder.setVariable(BR.onViewAll, View.OnClickListener {
+                when (position) {
+                    1 -> {
+                        startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                    }
+                }
+            })
             binder.executePendingBindings()
         }
-        tvViewPortfolio.setOnClickListener {
-            startFragment(GoalFragment.newInstance(), R.id.frmContainer)
-        }
+        cpPortfolio.setProgressWithAnimation(78f)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

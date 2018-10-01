@@ -20,6 +20,9 @@ import org.supportcompact.widgets.ItemOffsetDecoration
  * create an instance of this fragment.
  *
  */
+
+const val canBack = "canBack"
+
 class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
 
     override val isBackEnabled: Boolean
@@ -48,8 +51,15 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
             binder.goal = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
-                startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+                //startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        arguments?.let {
+            coreActivityVM?.isBackEnabled?.value = it.getBoolean(canBack, true)
         }
     }
 

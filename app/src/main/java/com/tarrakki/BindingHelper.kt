@@ -7,7 +7,6 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
-import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import com.tarrakki.databinding.RowInvestmentListItemBinding
 import com.tarrakki.module.home.HomeItem
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -41,26 +40,32 @@ fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
     view.adapter = adapter
 }
 
-@BindingAdapter("dividerH")
-fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable) {
+@BindingAdapter("dividerH", requireAll = false)
+fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable? = null) {
     val divider = DividerItemDecoration(rv.context, LinearLayoutManager.HORIZONTAL)
-    divider.setDrawable(drawable)
+    drawable?.let {
+        divider.setDrawable(it)
+    }
     rv.addItemDecoration(divider)
 }
 
-@BindingAdapter("dividerV")
-fun setDividerVertical(rv: RecyclerView, drawable: Drawable) {
+@BindingAdapter("dividerV", requireAll = false)
+fun setDividerVertical(rv: RecyclerView, drawable: Drawable? = null) {
     val divider = DividerItemDecoration(rv.context, LinearLayoutManager.VERTICAL)
-    divider.setDrawable(drawable)
+    drawable?.let {
+        divider.setDrawable(it)
+    }
     rv.addItemDecoration(divider)
 }
 
+/*
 @BindingAdapter("indicator")
 fun setIndicator(indicator: IndefinitePagerIndicator, rv: RecyclerView) {
     indicator.attachToRecyclerView(rv)
     // If you need to change the adapter size, you should call this function
     //indicator.forceUpdateItemCount();
 }
+*/
 
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, @DrawableRes res: Int) {

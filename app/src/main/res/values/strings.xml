@@ -17,6 +17,7 @@
     <string name="dummy1">\u20B9 5,0000,00</string>
     <string name="dummy2">+\u20B9 36.17</string>
     <string name="rs">\u20A8</string>
+    <string name="rs_symbol">\u20B9</string>
     <string name="view_portfolio">View Portfolio</string>
     <string name="total_investment_value">Total Investment Value</string>
     <string name="total_return">Total Return</string>
@@ -30,7 +31,7 @@
     <string name="funds_to_achieve_your_goal">Funds to Achieve Your Goal</string>
     <string name="get_this_goal">Get This Goal</string>
     <string name="current">Current</string>
-    <string name="since_launch_sl">Since Launch\n(SL)</string>
+    <string name="since_launch_sl">Since Launch (SL)</string>
     <string name="_1y_return">1Y Return</string>
     <string name="three_y_fund">3Y Fund:</string>
     <string name="three_y_fd">3Y Fixed Deposit:</string>
@@ -42,12 +43,22 @@
     <string name="dividend_payout">Dividend Payout</string>
     <string name="why_tarrakki_info">
         Tarrakki helps you invest your hard earned money in mutual funds that best fit your income, age, and risk appetite.
-        Watch your money grow beyond the rate of inflation.
-        Achieve life goals and financial milestones faster.
-        Paperless Investing - Direct Plans (No Agent Commissions)
+        \n\nWatch your money grow beyond the rate of inflation.
+        \n\nAchieve life goals and financial milestones faster.
+            \n\n
+        <ui>
+            <li>
+                Paperless Investing - Direct Plans (No Agent Commissions)
+            </li>
+        </ui>
     </string>
     <string name="category">Category</string>
     <string name="sub_category">Sub Category</string>
+    <string name="fund_details">Fund Details</string>
+    <string name="fund_objective">Fund Objective</string>
+    <string name="fund_objective_info">This fund aims to achieve long term capital appreciation, predominantly through investments in equity and equity related instruments of Mid Cap companies.</string>
+    <string name="invest_now">Invest Now</string>
+
     <string-array name="risk_level">
         <item>LOW</item>
         <item>MODERATELY LOW</item>
@@ -55,4 +66,118 @@
         <item>MODERATELY HIGH</item>
         <item>HIGH</item>
     </string-array>
+
+    <string-array name="category">
+        <item>All</item>
+        <item>Equity</item>
+        <item>Fixed Income</item>
+        <item>Allocation</item>
+        <item>Alternative</item>
+        <item>Money Market</item>
+    </string-array>
+
+    <string-array name="all">
+        <item>All</item>
+        <item>Large-Cap</item>
+        <item>Mid-Cap</item>
+        <item>Small-Cap</item>
+        <item>Multi-Cap</item>
+        <item>Large &amp; Mid-Cap</item>
+        <item>Global-Other</item>
+        <item>ELSS</item>
+        <item>Value Funds</item>
+        <item>Contra Funds</item>
+        <item>Dividend Yield Funds</item>
+        <item>Focused Funds</item>
+        <item>Sector - Energy</item>
+        <item>Sector - Financial Services</item>
+        <item>Sector - FMCG</item>
+        <item>Sector - Healthcare</item>
+        <item>Sector - Precious Metals</item>
+        <item>Sector - Technology</item>
+        <item>Unltra Short Duration</item>
+        <item>Low Duration</item>
+        <item>Money Market</item>
+        <item>Short Duration</item>
+        <item>Medium Duration</item>
+        <item>Medium to Long Duration</item>
+        <item>Logn Duration</item>
+        <item>Dynamic Bond</item>
+        <item>Corporate Bond Funds</item>
+        <item>Credit Risk</item>
+        <item>Baning &amp; PSU</item>
+        <item>Government Bond</item>
+        <item>Floating Rate</item>
+        <item>Conservative</item>
+        <item>Balanced</item>
+        <item>Aggressive</item>
+        <item>Dynamic Asset</item>
+        <item>Multi Asset</item>
+        <item>Equity Savings</item>
+        <item>Retirement</item>
+        <item>Children\'s</item>
+        <item>Fund of Funds</item>
+        <item>Arbitrage Fund</item>
+        <item>Liquid</item>
+        <item>Overnight</item>
+    </string-array>
+
+    <string-array name="equity">
+        <item>Large-Cap</item>
+        <item>Mid-Cap</item>
+        <item>Small-Cap</item>
+        <item>Multi-Cap</item>
+        <item>Large &amp; Mid-Cap</item>
+        <item>Global-Other</item>
+        <item>ELSS</item>
+        <item>Value Funds</item>
+        <item>Contra Funds</item>
+        <item>Dividend Yield Funds</item>
+        <item>Focused Funds</item>
+        <item>Sector - Energy</item>
+        <item>Sector - Financial Services</item>
+        <item>Sector - FMCG</item>
+        <item>Sector - Healthcare</item>
+        <item>Sector - Precious Metals</item>
+        <item>Sector - Technology</item>
+
+    </string-array>
+
+    <string-array name="fixed_income">
+        <item>Unltra Short Duration</item>
+        <item>Low Duration</item>
+        <item>Money Market</item>
+        <item>Short Duration</item>
+        <item>Medium Duration</item>
+        <item>Medium to Long Duration</item>
+        <item>Logn Duration</item>
+        <item>Dynamic Bond</item>
+        <item>Corporate Bond Funds</item>
+        <item>Credit Risk</item>
+        <item>Baning &amp; PSU</item>
+        <item>Government Bond</item>
+        <item>Floating Rate</item>
+    </string-array>
+
+    <string-array name="allocation">
+        <item>Conservative</item>
+        <item>Balanced</item>
+        <item>Aggressive</item>
+        <item>Dynamic Asset</item>
+        <item>Multi Asset</item>
+        <item>Equity Savings</item>
+        <item>Retirement</item>
+        <item>Children\'s</item>
+        <item>Fund of Funds</item>
+    </string-array>
+
+    <string-array name="alternative">
+        <item>Arbitrage Fund</item>
+    </string-array>
+
+    <string-array name="money_market">
+        <item>Liquid</item>
+        <item>Overnight</item>
+    </string-array>
+
 </resources>

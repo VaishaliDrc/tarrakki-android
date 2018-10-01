@@ -8,6 +8,7 @@ import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
+import java.io.Serializable
 
 class InvestVM : FragmentViewModel() {
 
@@ -15,7 +16,7 @@ class InvestVM : FragmentViewModel() {
     var fundTypes = arrayListOf<FundType>()
     var fundReturns = arrayListOf<FundType>()
     var arrRiskLevel = arrayListOf<RiskLevel>()
-    val filter = ObservableField<Boolean>(false)
+    val filter = ObservableField<Boolean>(true)
 
     init {
 
@@ -47,7 +48,8 @@ class InvestVM : FragmentViewModel() {
                 4.6f,
                 14.8f,
                 25.7f,
-                6.5f)
+                6.5f,
+                true)
         )
 
         funds.add(Fund(
@@ -78,8 +80,9 @@ data class Fund(
         var returnInYear: Float,
         var volatility: Float,
         var threeYearOfFundReturn: Float,
-        var threeYearOfFDReturn: Float
-)
+        var threeYearOfFDReturn: Float,
+        var hasNegativeReturn: Boolean = false
+) : Serializable
 
 data class FundType(
         var name: String,

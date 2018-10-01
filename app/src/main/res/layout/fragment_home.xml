@@ -43,7 +43,7 @@
                 android:layout_height="160dp"
                 app:cpb_background_progressbar_color="#2E1D3E"
                 app:cpb_background_progressbar_width="8dp"
-                app:cpb_progress="78"
+
                 app:cpb_progressbar_color="@color/colorAccent"
                 app:cpb_progressbar_width="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"

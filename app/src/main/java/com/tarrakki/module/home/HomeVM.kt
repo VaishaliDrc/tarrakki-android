@@ -1,8 +1,8 @@
 package com.tarrakki.module.home
 
 import android.databinding.ObservableField
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
-import android.view.View
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -24,15 +24,15 @@ class HomeVM : FragmentViewModel() {
                                 ),
                                 HomeItem(
                                         "Very Long Term Investments",
-                                        "Diversified equity founds, 10+ years or longer"
+                                        "Diversified equity founds, 5+ years or longer"
                                 ),
                                 HomeItem(
                                         "Very Long Term Investments",
-                                        "Diversified equity founds, 10+ years or longer"
+                                        "Diversified equity founds, 3+ years or longer"
                                 ),
                                 HomeItem(
                                         "Very Long Term Investments",
-                                        "Diversified equity founds, 10+ years or longer"
+                                        "Diversified equity founds, 2+ years or longer"
                                 )
                         ))
         )
@@ -42,16 +42,20 @@ class HomeVM : FragmentViewModel() {
                         "Set a Goal",
                         arrayListOf(
                                 HomeItem(
-                                        "Very Long Term Investments"
+                                        title = "Wealth creation",
+                                        imgUrl = R.drawable.wealth_creation
                                 ),
                                 HomeItem(
-                                        "Very Long Term Investments"
+                                        title = "Holiday",
+                                        imgUrl = R.drawable.holiday
                                 ),
                                 HomeItem(
-                                        "Very Long Term Investments"
+                                        title = "Electronic Gadget",
+                                        imgUrl = R.drawable.electronic_gadget
                                 ),
                                 HomeItem(
-                                        "Very Long Term Investments"
+                                        title = "Automobile",
+                                        imgUrl = R.drawable.automobile
                                 )
                         ))
         )
@@ -64,4 +68,4 @@ data class HomeSection(@LayoutRes val layout: Int, var title: String, var homeIt
     }
 }
 
-data class HomeItem(var title: String, var description: String = "", var imgUrl: String = "")
+data class HomeItem(var title: String, var description: String = "", @DrawableRes var imgUrl: Int = R.drawable.very_long_investments)

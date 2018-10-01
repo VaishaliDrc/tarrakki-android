@@ -3,12 +3,17 @@ package com.tarrakki.module.invest
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.databinding.*
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.startFragment
 
 
 /**
@@ -75,16 +80,60 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, getViewModel().funds) { item: Fund, binder: RowFundListItemBinding, position ->
             binder.fund = item
             binder.executePendingBindings()
+            binder.root.setOnClickListener {
+                startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
+            }
         }
 
         val adapter = ArrayAdapter.createFromResource(
                 activity,
-                R.array.risk_level,
+                R.array.category,
                 R.layout.simple_spinner_item
         )
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         spnCategory.adapter = adapter
-        spnSubCategory.adapter = adapter
+        val adapterSub = ArrayAdapter(
+                activity,
+                R.layout.simple_spinner_item,
+                resources.getStringArray(R.array.all).toMutableList()
+        )
+        adapterSub.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnSubCategory.adapter = adapterSub
+        spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.all))
+                    }
+                    1 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.equity))
+                    }
+                    2 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.fixed_income))
+                    }
+                    3 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.allocation))
+                    }
+                    4 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.alternative))
+                    }
+                    5 -> {
+                        adapterSub.clear()
+                        adapterSub.addAll(*resources.getStringArray(R.array.money_market))
+                    }
+                }
+                //adapterSub.notifyDataSetChanged()
+            }
+        }
     }
 
     companion object {

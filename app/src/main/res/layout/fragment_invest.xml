@@ -26,12 +26,12 @@
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_invest_bg"
+                android:layout_height="380dp"
+                android:background="@drawable/filter_bg"
                 android:focusableInTouchMode="true"
                 android:padding="@dimen/space_8"
                 app:el_duration="500"
-                app:el_expanded="false"
+                app:el_expanded="true"
                 app:expanded="@{vm.filter}">
 
                 <android.support.constraint.ConstraintLayout
@@ -160,6 +160,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:prompt="@string/category"
                             android:spinnerMode="dialog" />
 
                     </FrameLayout>
@@ -235,6 +236,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@null"
+                            android:prompt="@string/sub_category"
                             android:spinnerMode="dialog" />
 
                     </FrameLayout>

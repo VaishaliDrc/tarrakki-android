@@ -11,5 +11,5 @@
     android:paddingTop="@dimen/space_8"
     android:text="@string/all"
     android:textAllCaps="true"
-    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+    android:textSize="10sp"
     android:textColor="@android:color/white" />

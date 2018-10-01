@@ -49,11 +49,13 @@ fun <T, U : ViewDataBinding> ViewPager.setPageAdapter(@LayoutRes layout: Int, it
  * @param fm Is fragment manager.
  * @param fragments is list of fragment to be show.
  * */
-fun <T : Fragment> ViewPager.setFragmentPagerAdapter(fm: FragmentManager, fragments: ArrayList<T>): FragmentPagerAdapter? {
+fun ViewPager.setFragmentPagerAdapter(fm: FragmentManager, pages: ArrayList<Page>): FragmentPagerAdapter? {
     adapter = object : FragmentPagerAdapter(fm) {
-        override fun getItem(position: Int) = fragments[position]
-        override fun getCount() = fragments.size
-        override fun getPageTitle(position: Int) = fragments[position].toString()
+        override fun getItem(position: Int) = pages[position].page
+        override fun getCount() = pages.size
+        override fun getPageTitle(position: Int) = pages[position].title
     }
     return adapter as FragmentPagerAdapter
 }
+
+data class Page(var title: String, var page: Fragment)

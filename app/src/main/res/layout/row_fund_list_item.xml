@@ -45,7 +45,7 @@
             android:id="@+id/tvCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_arrow_upward_green"
+            android:drawableEnd="@{fund.hasNegativeReturn? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
             android:drawablePadding="@dimen/space_2"
             android:text="@{fund.currentReturn +`%`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -86,7 +86,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvReturnSinceLaunch"
-            tools:text="Since Launch\n(SL)" />
+            tools:text="Since Launch (SL)" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
@@ -194,8 +194,8 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.41"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
             tools:text="3Y Fixed Deposit:" />
 
