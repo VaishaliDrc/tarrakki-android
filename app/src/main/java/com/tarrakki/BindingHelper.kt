@@ -7,18 +7,18 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
-import com.tarrakki.databinding.RowInvestmentListItemBinding
-import com.tarrakki.module.home.HomeItem
 import net.cachapa.expandablelayout.ExpandableLayout
-import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.widgets.DividerItemDecorationNoLast
 
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
-fun setAdapterH(view: RecyclerView, homeItems: ArrayList<HomeItem>?) {
+fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
     view.isFocusable = false
     view.isNestedScrollingEnabled = false
     homeItems?.let {
-        view.setUpRecyclerView(R.layout.row_investment_list_item, it) { item: HomeItem, binder: RowInvestmentListItemBinding, position ->
-            binder.homeItem = item
+        view.setUpMultiViewRecyclerAdapter(homeItems) { item, binder, position ->
+            binder.setVariable(BR.widget,item)
             binder.executePendingBindings()
         }
     }
@@ -42,7 +42,7 @@ fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
 
 @BindingAdapter("dividerH", requireAll = false)
 fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable? = null) {
-    val divider = DividerItemDecoration(rv.context, LinearLayoutManager.HORIZONTAL)
+    val divider = DividerItemDecorationNoLast(rv.context, LinearLayoutManager.HORIZONTAL)
     drawable?.let {
         divider.setDrawable(it)
     }
@@ -51,7 +51,7 @@ fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable? = null) {
 
 @BindingAdapter("dividerV", requireAll = false)
 fun setDividerVertical(rv: RecyclerView, drawable: Drawable? = null) {
-    val divider = DividerItemDecoration(rv.context, LinearLayoutManager.VERTICAL)
+    val divider = DividerItemDecorationNoLast(rv.context, LinearLayoutManager.VERTICAL)
     drawable?.let {
         divider.setDrawable(it)
     }

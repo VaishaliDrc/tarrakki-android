@@ -10,6 +10,7 @@
     <color name="equity_fund_color">#2C87EC</color>
     <color name="debt_fund_color">#67C6C6</color>
     <color name="item_selected_color">#A14E9E</color>
+    <color name="semi_black">#323232</color>
     <string-array name="risk_level_color">
         <item>#00CB00</item>
         <item>#5DFE5D</item>

@@ -2,8 +2,8 @@ package com.tarrakki.module.home
 
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
 import com.tarrakki.R
+import com.tarrakki.module.goal.Goal
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 
@@ -15,7 +15,6 @@ class HomeVM : FragmentViewModel() {
     init {
         homeSections.add(
                 HomeSection(
-                        R.layout.row_section_investment_item,
                         "Investment Strategies",
                         arrayListOf(
                                 HomeItem(
@@ -23,11 +22,11 @@ class HomeVM : FragmentViewModel() {
                                         "Diversified equity founds, 10+ years or longer"
                                 ),
                                 HomeItem(
-                                        "Very Long Term Investments",
+                                        "Long Term Investments",
                                         "Diversified equity founds, 5+ years or longer"
                                 ),
                                 HomeItem(
-                                        "Very Long Term Investments",
+                                        "Short Long Term Investments",
                                         "Diversified equity founds, 3+ years or longer"
                                 ),
                                 HomeItem(
@@ -38,34 +37,26 @@ class HomeVM : FragmentViewModel() {
         )
         homeSections.add(
                 HomeSection(
-                        R.layout.row_section_investment_item,
                         "Set a Goal",
                         arrayListOf(
-                                HomeItem(
-                                        title = "Wealth creation",
-                                        imgUrl = R.drawable.wealth_creation
-                                ),
-                                HomeItem(
-                                        title = "Holiday",
-                                        imgUrl = R.drawable.holiday
-                                ),
-                                HomeItem(
-                                        title = "Electronic Gadget",
-                                        imgUrl = R.drawable.electronic_gadget
-                                ),
-                                HomeItem(
-                                        title = "Automobile",
-                                        imgUrl = R.drawable.automobile
-                                )
-                        ))
-        )
+                                Goal("Wealth creation", R.drawable.wealth_creation),
+                                Goal("Holiday", R.drawable.holiday),
+                                Goal("Electronic Gadget", R.drawable.electronic_gadget),
+                                Goal("Automobile", R.drawable.automobile),
+                                Goal("Own a Home", R.drawable.own_a_home)
+                        )
+                ))
     }
 }
 
-data class HomeSection(@LayoutRes val layout: Int, var title: String, var homeItems: ArrayList<HomeItem>?) : WidgetsViewModel {
+data class HomeSection(var title: String, var homeItems: ArrayList<WidgetsViewModel>?) : WidgetsViewModel {
     override fun layoutId(): Int {
-        return layout
+        return R.layout.row_section_investment_item
     }
 }
 
-data class HomeItem(var title: String, var description: String = "", @DrawableRes var imgUrl: Int = R.drawable.very_long_investments)
+data class HomeItem(var title: String, var description: String = "", @DrawableRes var imgUrl: Int = R.drawable.very_long_investments) : WidgetsViewModel {
+    override fun layoutId(): Int {
+        return R.layout.row_investment_list_item
+    }
+}

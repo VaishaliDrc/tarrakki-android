@@ -3,6 +3,7 @@ package com.tarrakki.module.goal
 import android.support.annotation.DrawableRes
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
+import org.supportcompact.adapters.WidgetsViewModel
 
 class GoalVM : FragmentViewModel() {
 
@@ -20,4 +21,8 @@ class GoalVM : FragmentViewModel() {
     }
 }
 
-data class Goal(var title: String, @DrawableRes var imgUrl: Int)
+data class Goal(var title: String, @DrawableRes var imgUrl: Int) : WidgetsViewModel {
+    override fun layoutId(): Int {
+        return R.layout.row_goal_home_list_item
+    }
+}

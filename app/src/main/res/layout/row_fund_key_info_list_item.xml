@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@{keyInfo.key}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@android:color/black"
+            android:textColor="@color/semi_black"
             app:layout_constraintEnd_toStartOf="@id/tvValue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

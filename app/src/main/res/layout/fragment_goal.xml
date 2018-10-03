@@ -19,15 +19,18 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:paddingStart="@dimen/default_space"
+            android:paddingEnd="@dimen/default_space">
 
             <TextView
                 android:id="@+id/tvGoal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:padding="8dp"
+                android:lineSpacingExtra="4dp"
                 android:text="@string/financial_goals_assist"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,8 +40,8 @@
                 android:id="@+id/rvGoals"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:padding="@dimen/space_4"
@@ -49,7 +52,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvGoal"
                 app:layout_constraintVertical_bias="0"
                 app:spanCount="2"
-                tools:itemCount="4"
+                tools:itemCount="6"
                 tools:listitem="@layout/row_goal_list_item" />
 
         </android.support.constraint.ConstraintLayout>

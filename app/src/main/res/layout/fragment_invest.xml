@@ -264,12 +264,18 @@
                 android:id="@+id/rvFunds"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/space_8"
-                app:dividerV="@{@drawable/shape_transferant_divider}"
+                android:paddingBottom="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:itemCount="2"
                 tools:listitem="@layout/row_fund_list_item"
-                tools:padding="0dp" />
+                tools:paddingBottom="0dp"
+                tools:paddingEnd="0dp"
+                tools:paddingStart="0dp"
+                tools:paddingTop="0dp" />
 
         </LinearLayout>
 

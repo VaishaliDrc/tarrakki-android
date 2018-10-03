@@ -25,8 +25,8 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
             android:text="@{section.title}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,26 +51,13 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
             android:overScrollMode="never"
-
             app:dividerH="@{@drawable/shape_transferant_divider}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:setAdapterH="@{section.homeItems}"
             tools:listitem="@layout/row_investment_list_item" />
-
-        <!--<com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
-            android:id="@+id/recyclerview_pager_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dotColor="@android:color/darker_gray"
-            app:indicator="@{rvHomeItem}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:selectedDotColor="@color/colorAccent" />-->
 
     </android.support.constraint.ConstraintLayout>
 

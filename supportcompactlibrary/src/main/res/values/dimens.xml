@@ -4,7 +4,9 @@
     <dimen name="tool_bar_height">56dp</dimen>
     <dimen name="tool_bar_text_size">18sp</dimen>
 
+
     <!--spaces-->
+    <dimen name="default_space">16dp</dimen>
     <dimen name="space_1">1dp</dimen>
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_3">3dp</dimen>

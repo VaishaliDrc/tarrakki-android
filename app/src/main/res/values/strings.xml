@@ -13,16 +13,20 @@
     <string name="why_tarrakki">Why Tarrakki ?</string>
     <string name="view_all">View All</string>
     <string name="portfolio_value">Portfolio Value</string>
-    <string name="dummy">\u20B9 3,246</string>
-    <string name="dummy1">\u20B9 5,0000,00</string>
-    <string name="dummy2">+\u20B9 36.17</string>
+    <string name="dummy">\u20B93,246</string>
+    <string name="dummy1">\u20B95,000,00</string>
+    <string name="dummy2">+\u20B936.17</string>
     <string name="rs">\u20A8</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="view_portfolio">View Portfolio</string>
     <string name="total_investment_value">Total Investment Value</string>
     <string name="total_return">Total Return</string>
     <string name="cart">Cart</string>
-    <string name="financial_goals_assist">Financial goals assist you in making small, regular investments towards fulfilling your dreams. Tarrakki Goal Setting helps you make time-bound, risk-evaluated investments aimed at giving you the returns you need to achieve your goal. Select a goal and get started</string>
+    <string name="financial_goals_assist">
+        Financial goals assist you in making small, regular investments towards fulfilling your dreams.
+        Tarrakki Goal Setting helps you make time-bound, risk-evaluated investments aimed at giving you the returns you need to achieve your goal.
+        Select a goal and get started.
+    </string>
     <string name="set_a_goal">Set a Goal</string>
     <string name="our_recommended">Our Recommended</string>
     <string name="your_investment_plan">Your Investment Plan</string>
@@ -45,12 +49,7 @@
         Tarrakki helps you invest your hard earned money in mutual funds that best fit your income, age, and risk appetite.
         \n\nWatch your money grow beyond the rate of inflation.
         \n\nAchieve life goals and financial milestones faster.
-            \n\n
-        <ui>
-            <li>
-                Paperless Investing - Direct Plans (No Agent Commissions)
-            </li>
-        </ui>
+        \n\n\u2022 Paperless Investing - Direct Plans (No Agent Commissions)
     </string>
     <string name="category">Category</string>
     <string name="sub_category">Sub Category</string>
@@ -58,6 +57,12 @@
     <string name="fund_objective">Fund Objective</string>
     <string name="fund_objective_info">This fund aims to achieve long term capital appreciation, predominantly through investments in equity and equity related instruments of Mid Cap companies.</string>
     <string name="invest_now">Invest Now</string>
+    <string name="move_idle_money_from_your_bank_a_c">Move idle money from your bank A/C</string>
+    <string name="top_10_holdings">Top 10 holdings</string>
+    <string name="key_information">key Information</string>
+    <string name="returns">Returns</string>
+    <string name="returns_sysmbol">Returns(%)</string>
+    <string name="calculate_historical_performance">Calculate Historical Performance</string>
 
     <string-array name="risk_level">
         <item>LOW</item>
@@ -95,13 +100,13 @@
         <item>Sector - Healthcare</item>
         <item>Sector - Precious Metals</item>
         <item>Sector - Technology</item>
-        <item>Unltra Short Duration</item>
+        <item>Ultra Short Duration</item>
         <item>Low Duration</item>
         <item>Money Market</item>
         <item>Short Duration</item>
         <item>Medium Duration</item>
         <item>Medium to Long Duration</item>
-        <item>Logn Duration</item>
+        <item>Long Duration</item>
         <item>Dynamic Bond</item>
         <item>Corporate Bond Funds</item>
         <item>Credit Risk</item>
@@ -144,13 +149,13 @@
     </string-array>
 
     <string-array name="fixed_income">
-        <item>Unltra Short Duration</item>
+        <item>Ultra Short Duration</item>
         <item>Low Duration</item>
         <item>Money Market</item>
         <item>Short Duration</item>
         <item>Medium Duration</item>
         <item>Medium to Long Duration</item>
-        <item>Logn Duration</item>
+        <item>Long Duration</item>
         <item>Dynamic Bond</item>
         <item>Corporate Bond Funds</item>
         <item>Credit Risk</item>

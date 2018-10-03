@@ -49,9 +49,6 @@ dependencies {
     implementation 'ru.bullyboo.animation:text_counter:1.0.2'
     // ViewModel and LiveData
     implementation "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
-    //implementation 'com.android.support:support-v4:27.1.1'
-    //implementation 'com.android.support:support-v4:27.1.1'
-    kapt "com.android.databinding:compiler:3.1.4"
     implementation project(':supportcompactlibrary')
     implementation 'com.mikhaellopez:circularprogressbar:2.0.0'
     //api 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'

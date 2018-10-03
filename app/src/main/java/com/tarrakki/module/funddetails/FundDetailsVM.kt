@@ -10,6 +10,7 @@ class FundDetailsVM : FragmentViewModel() {
 
     var fund: Fund? = null
     val keysInfo = arrayListOf<KeyInfo>()
+    val returns = arrayListOf<KeyInfo>()
     val topsHolding = arrayListOf<TopHolding>()
 
     init {
@@ -37,6 +38,14 @@ class FundDetailsVM : FragmentViewModel() {
         topsHolding.add(TopHolding("Astral Poly Technik Ltd.", 60, "3.35%"))
         topsHolding.add(TopHolding("V-Guard Industries Ltd.", 55, "3.33%"))
         topsHolding.add(TopHolding("Avenue Supermarts Ltd.", 50, "2.95%"))
+
+        returns.add(KeyInfo("1 Month", "5.6"))
+        returns.add(KeyInfo("3 Month", "6.4"))
+        returns.add(KeyInfo("6 Month", "12.8"))
+        returns.add(KeyInfo("1 Years", "25.2"))
+        returns.add(KeyInfo("3 Years", "11.5"))
+        returns.add(KeyInfo("5 Years", "27.7"))
+        returns.add(KeyInfo("Since Inception", "20.6"))
 
     }
 }
