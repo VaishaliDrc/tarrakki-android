@@ -20,7 +20,6 @@ import org.supportcompact.ktx.startFragment
  * A simple [Fragment] subclass.
  * Use the [InvestFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
 class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
 

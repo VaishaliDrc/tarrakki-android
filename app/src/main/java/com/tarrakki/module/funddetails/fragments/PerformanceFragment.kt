@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
@@ -17,6 +20,21 @@ import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
+import com.anychart.AnyChartView
+import android.R.attr.data
+import android.graphics.Color
+import android.graphics.DashPathEffect
+import android.support.v4.content.ContextCompat
+import com.anychart.chart.common.dataentry.ValueDataEntry
+import com.anychart.chart.common.dataentry.DataEntry
+import com.anychart.AnyChart
+import com.anychart.charts.Pie
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.github.mikephil.charting.utils.Utils
+import java.util.ArrayList
+
 
 /**
  * A simple [Fragment] subclass.
@@ -58,6 +76,47 @@ class PerformanceFragment : Fragment() {
                 binder.executePendingBindings()
             }
         }
+        setChartData()
+    }
+
+    private fun setChartData() {
+        val values = ArrayList<Entry>()
+
+        for (i in 0 until 50) {
+
+            val value = (Math.random() * 50).toFloat() + 3
+            values.add(Entry(i.toFloat(), value))
+        }
+
+        var set1: LineDataSet
+
+        // create a dataset and give it a type
+        set1 = LineDataSet(values, "DataSet 1")
+
+        set1.setDrawIcons(false)
+
+        // set the line to be drawn like this "- - - - - -"
+        set1.enableDashedLine(10f, 5f, 0f)
+        set1.enableDashedHighlightLine(10f, 5f, 0f)
+        /*set1.color = Color.BLACK
+        set1.setCircleColor(Color.BLACK)
+        set1.lineWidth = 1f
+        set1.circleRadius = 3f*/
+        set1.setDrawCircleHole(false)
+        set1.valueTextSize = 9f
+        set1.setDrawFilled(true)
+        /*set1.formLineWidth = 1f
+        set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+        set1.formSize = 15f*/
+
+        val dataSets = ArrayList<ILineDataSet>()
+        dataSets.add(set1) // add the datasets
+        // create a data object with the datasets
+        val data = LineData(dataSets)
+        // set data
+        mChart.data = data
+        mChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        mChart.axisLeft.isEnabled = false
     }
 
 
@@ -66,8 +125,7 @@ class PerformanceFragment : Fragment() {
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
          *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
+         * @param basket param as Bundle.
          * @return A new instance of fragment PerformanceFragment.
          */
         // TODO: Rename and change types and number of parameters

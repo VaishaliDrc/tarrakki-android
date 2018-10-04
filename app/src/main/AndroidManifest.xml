@@ -12,7 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup">
+
+        <activity
+            android:name=".module.splash.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".module.home.HomeActivity"
@@ -31,14 +42,15 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".module.splash.SplashActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".module.learn.LearnActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".module.account.AccountActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

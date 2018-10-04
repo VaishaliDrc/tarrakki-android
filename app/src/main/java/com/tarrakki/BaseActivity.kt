@@ -8,8 +8,10 @@ import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
 import android.view.MenuItem
 import com.tarrakki.databinding.ActivityBaseBinding
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
+import com.tarrakki.module.learn.LearnActivity
 import com.tarrakki.module.plan.PlanActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
@@ -64,9 +66,15 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                     true
                 }
                 R.id.action_learn -> {
+                    if (this@BaseActivity !is LearnActivity) {
+                        startActivity<LearnActivity>()
+                    }
                     true
                 }
-                R.id.action_info -> {
+                R.id.action_account -> {
+                    if (this@BaseActivity !is AccountActivity) {
+                        startActivity<AccountActivity>()
+                    }
                     true
                 }
                 else -> {
@@ -108,6 +116,8 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             this@BaseActivity is HomeActivity -> mBottomNav.selectedItemId = R.id.action_home
             this@BaseActivity is PlanActivity -> mBottomNav.selectedItemId = R.id.action_plan
             this@BaseActivity is InvestActivity -> mBottomNav.selectedItemId = R.id.action_invest
+            this@BaseActivity is LearnActivity -> mBottomNav.selectedItemId = R.id.action_learn
+            this@BaseActivity is AccountActivity -> mBottomNav.selectedItemId = R.id.action_account
         }
     }
 
