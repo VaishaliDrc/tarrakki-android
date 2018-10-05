@@ -44,7 +44,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             }
         })
         setToolBar()
-        BottomNavigationViewHelper.disableShiftMode(mBottomNav)
+        //BottomNavigationViewHelper.disableShiftMode(mBottomNav)
         mBottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.action_home -> {

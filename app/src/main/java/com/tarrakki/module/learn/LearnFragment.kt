@@ -1,21 +1,18 @@
 package com.tarrakki.module.learn
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentLearnBinding
-import kotlinx.android.synthetic.main.fragment_performance.*
+import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
-import java.util.*
-import com.github.mikephil.charting.components.AxisBase
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import kotlinx.android.synthetic.main.fragment_fund_details.*
+import org.supportcompact.ktx.getColor
+import com.tarrakki.R.id.graph
+import com.jjoe64.graphview.helper.StaticLabelsFormatter
 
 
 /**
@@ -44,37 +41,6 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
     }
 
     override fun createReference() {
-        setChartData()
-    }
-
-
-    private fun setChartData() {
-        val values = ArrayList<Entry>()
-
-        for (i in 0 until 50) {
-
-            val value = (Math.random() * 50).toFloat() + 3
-            values.add(Entry(i.toFloat(), value))
-        }
-
-        var set1: LineDataSet
-        set1 = LineDataSet(values, "DataSet 1")
-        set1.setDrawIcons(false)
-        set1.setDrawCircleHole(false)
-        set1.valueTextSize = 9f
-        set1.setDrawFilled(true)
-        val dataSets = ArrayList<ILineDataSet>()
-        dataSets.add(set1) // add the datasets
-        // create a data object with the datasets
-        val data = LineData(dataSets)
-        // set data
-        mChart.data = data
-        mChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        mChart.axisLeft.isEnabled = false
-        mChart.xAxis.valueFormatter = IAxisValueFormatter { value, axis ->
-            val index = value.toInt()
-            "Jan 18"
-        }
     }
 
     companion object {

@@ -2,12 +2,15 @@ package org.supportcompact.ktx
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.support.annotation.LayoutRes
 import android.support.annotation.RequiresApi
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

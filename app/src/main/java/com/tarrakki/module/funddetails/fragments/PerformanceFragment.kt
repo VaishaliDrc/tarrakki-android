@@ -3,14 +3,15 @@ package com.tarrakki.module.funddetails.fragments
 
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.jjoe64.graphview.helper.StaticLabelsFormatter
+import com.jjoe64.graphview.series.DataPoint
+import com.jjoe64.graphview.series.LineGraphSeries
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
@@ -20,20 +21,7 @@ import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
-import com.anychart.AnyChartView
-import android.R.attr.data
-import android.graphics.Color
-import android.graphics.DashPathEffect
-import android.support.v4.content.ContextCompat
-import com.anychart.chart.common.dataentry.ValueDataEntry
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.AnyChart
-import com.anychart.charts.Pie
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.github.mikephil.charting.utils.Utils
-import java.util.ArrayList
+import org.supportcompact.ktx.convertToPx
 
 
 /**
@@ -80,43 +68,28 @@ class PerformanceFragment : Fragment() {
     }
 
     private fun setChartData() {
-        val values = ArrayList<Entry>()
+        val series = LineGraphSeries(
+                arrayOf(
+                        DataPoint(0.0, 1.0),
+                        DataPoint(1.0, 5.0),
+                        DataPoint(2.0, 3.0),
+                        DataPoint(3.0, 2.0),
+                        DataPoint(4.0, 6.0)
+                )
+        )
+        series.backgroundColor = Color.parseColor("#A9DCB0")
+        series.isDrawBackground = true
+        series.setAnimated(true)
+        series.isDrawDataPoints = true
 
-        for (i in 0 until 50) {
 
-            val value = (Math.random() * 50).toFloat() + 3
-            values.add(Entry(i.toFloat(), value))
-        }
-
-        var set1: LineDataSet
-
-        // create a dataset and give it a type
-        set1 = LineDataSet(values, "DataSet 1")
-
-        set1.setDrawIcons(false)
-
-        // set the line to be drawn like this "- - - - - -"
-        set1.enableDashedLine(10f, 5f, 0f)
-        set1.enableDashedHighlightLine(10f, 5f, 0f)
-        /*set1.color = Color.BLACK
-        set1.setCircleColor(Color.BLACK)
-        set1.lineWidth = 1f
-        set1.circleRadius = 3f*/
-        set1.setDrawCircleHole(false)
-        set1.valueTextSize = 9f
-        set1.setDrawFilled(true)
-        /*set1.formLineWidth = 1f
-        set1.formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-        set1.formSize = 15f*/
-
-        val dataSets = ArrayList<ILineDataSet>()
-        dataSets.add(set1) // add the datasets
-        // create a data object with the datasets
-        val data = LineData(dataSets)
-        // set data
-        mChart.data = data
-        mChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        mChart.axisLeft.isEnabled = false
+        val staticLabelsFormatter = StaticLabelsFormatter(graph)
+        staticLabelsFormatter.setHorizontalLabels(arrayOf("Apr 18", "May 18", "Jun 18", "Jul 18", "Aug 18"))
+        staticLabelsFormatter.setVerticalLabels(arrayOf("10.00", "20.00", "30.00", "40.00"))
+        graph.gridLabelRenderer.labelFormatter = staticLabelsFormatter
+        graph.addSeries(series)
+        graph.gridLabelRenderer.textSize = 10f.convertToPx()
+        graph.gridLabelRenderer.reloadStyles()
     }
 
 
