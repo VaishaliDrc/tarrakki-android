@@ -12,6 +12,7 @@ class FundDetailsVM : FragmentViewModel() {
     val keysInfo = arrayListOf<KeyInfo>()
     val returns = arrayListOf<KeyInfo>()
     val topsHolding = arrayListOf<TopHolding>()
+    val earningBase = arrayListOf<TopHolding>()
 
     init {
 
@@ -47,9 +48,19 @@ class FundDetailsVM : FragmentViewModel() {
         returns.add(KeyInfo("5 Years", "27.7"))
         returns.add(KeyInfo("Since Inception", "20.6"))
 
+        earningBase.add(TopHolding("Tarrakki Direct Plan", 100, "25.24% return", 125237.00))
+        earningBase.add(TopHolding("Regular Plan", 65, "8.5% return", 109300.00))
+        earningBase.add(TopHolding("Fixed Deposit", 45, "6.5% return", 106500.00))
+        earningBase.add(TopHolding("Bank Savings Account", 40, "3.5% return", 103500.00))
+
     }
 }
 
 data class KeyInfo(var key: String, var value: String)
 
-data class TopHolding(var name: String, @IntRange(from = 0, to = 100) var process: Int, var percentageHolding: String)
+data class TopHolding(
+        var name: String,
+        @IntRange(from = 0, to = 100) var process: Int,
+        var percentageHolding: String,
+        var amount: Double = 0.0
+)

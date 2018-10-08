@@ -63,6 +63,16 @@
     <string name="returns">Returns</string>
     <string name="returns_sysmbol">Returns(%)</string>
     <string name="calculate_historical_performance">Calculate Historical Performance</string>
+    <string name="if_you_had_invested">If you had invested:</string>
+    <string name="over_the_last">Over the last:</string>
+    <string name="you_would_have_earned">You would have earned:</string>
+    <string name="duration">Duration</string>
+    <string name="disclaimer_expected_returns">Disclaimer: Expected returns are not guaranteed. The above calculations are based on historical returns. Invests are subject to market risk.</string>
+
+    <string-array name="durations">
+        <item>Year</item>
+        <item>Month</item>
+    </string-array>
 
     <string-array name="risk_level">
         <item>LOW</item>

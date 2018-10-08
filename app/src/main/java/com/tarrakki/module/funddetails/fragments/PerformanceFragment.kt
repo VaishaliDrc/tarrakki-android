@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.jjoe64.graphview.helper.StaticLabelsFormatter
 import com.jjoe64.graphview.series.DataPoint
 import com.jjoe64.graphview.series.LineGraphSeries
@@ -19,6 +20,7 @@ import com.tarrakki.databinding.RowTopTenHoldingsListItemBinding
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
+import kotlinx.android.synthetic.main.fragment_invest.*
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.convertToPx
@@ -59,11 +61,19 @@ class PerformanceFragment : Fragment() {
             }
             rvEarned?.isFocusable = false
             rvEarned?.isNestedScrollingEnabled = false
-            rvEarned?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, it.topsHolding) { item: TopHolding, binder: RowTopTenHoldingsListItemBinding, position ->
+            rvEarned?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, it.earningBase) { item: TopHolding, binder: RowTopTenHoldingsListItemBinding, position ->
                 binder.topFund = item
                 binder.executePendingBindings()
             }
         }
+        val adapter = ArrayAdapter.createFromResource(
+                activity,
+                R.array.durations,
+                R.layout.simple_spinner_item_gray
+        )
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnDuration.adapter = adapter
+
         setChartData()
     }
 

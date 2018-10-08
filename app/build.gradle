@@ -54,6 +54,7 @@ dependencies {
     //api 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.jjoe64:graphview:4.2.2'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.0.4'
 
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     //implementation 'com.daasuu:CountAnimationTextView:0.1.1'

@@ -1,18 +1,11 @@
 package com.tarrakki.module.learn
 
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentLearnBinding
-import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.getColor
-import com.tarrakki.R.id.graph
-import com.jjoe64.graphview.helper.StaticLabelsFormatter
 
 
 /**
@@ -41,7 +34,9 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
     }
 
     override fun createReference() {
+
     }
+
 
     companion object {
         /**
