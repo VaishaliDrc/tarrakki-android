@@ -14,7 +14,10 @@
         android:layout_height="match_parent"
         tools:context=".module.learn.LearnFragment">
 
-
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/mLineChart"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
 
     </FrameLayout>
 

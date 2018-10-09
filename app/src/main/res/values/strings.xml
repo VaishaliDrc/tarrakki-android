@@ -68,6 +68,9 @@
     <string name="you_would_have_earned">You would have earned:</string>
     <string name="duration">Duration</string>
     <string name="disclaimer_expected_returns">Disclaimer: Expected returns are not guaranteed. The above calculations are based on historical returns. Invests are subject to market risk.</string>
+    <string name="last_price">Last Price</string>
+    <string name="year_to_date_return">Year-To-Date Return</string>
+    <string name="_1_day_change">1 Day Change</string>
 
     <string-array name="durations">
         <item>Year</item>

@@ -4,6 +4,7 @@ import android.support.annotation.IntRange
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.invest.Fund
+import com.tarrakki.module.invest.FundType
 import org.supportcompact.FragmentViewModel
 
 class FundDetailsVM : FragmentViewModel() {
@@ -13,6 +14,7 @@ class FundDetailsVM : FragmentViewModel() {
     val returns = arrayListOf<KeyInfo>()
     val topsHolding = arrayListOf<TopHolding>()
     val earningBase = arrayListOf<TopHolding>()
+    val durations = arrayListOf<FundType>()
 
     init {
 
@@ -52,6 +54,11 @@ class FundDetailsVM : FragmentViewModel() {
         earningBase.add(TopHolding("Regular Plan", 65, "8.5% return", 109300.00))
         earningBase.add(TopHolding("Fixed Deposit", 45, "6.5% return", 106500.00))
         earningBase.add(TopHolding("Bank Savings Account", 40, "3.5% return", 103500.00))
+
+        durations.add(FundType("1Y"))
+        durations.add(FundType("5Y"))
+        durations.add(FundType("10Y"))
+        durations.add(FundType("Since Inception", true))
 
     }
 }
