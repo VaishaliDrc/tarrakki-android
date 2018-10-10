@@ -7,6 +7,7 @@
     <color name="white">#FFF</color>
     <color name="bg_color">#ddd</color>
     <color name="lighter_gray">#ddd</color>
+    <color name="darker_gray">#aaa</color>
     <color name="home_title_color">#B5ADB5</color>
     <color name="equity_fund_color">#2C87EC</color>
     <color name="debt_fund_color">#67C6C6</color>
@@ -19,4 +20,5 @@
         <item>#FE860D</item>
         <item>#FC0000</item>
     </string-array>
+
 </resources>

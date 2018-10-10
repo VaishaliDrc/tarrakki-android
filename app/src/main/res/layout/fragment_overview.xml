@@ -54,11 +54,11 @@
                     android:id="@+id/tvCurrentL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.43(1.10%)"
+                    android:text="0.43 (1.10%)"
                     android:textSize="@dimen/sp9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="0.43(1.10%)" />
+                    tools:text="0.43 (1.10%)" />
 
                 <TextView
                     android:id="@+id/tvCurrent"
@@ -68,14 +68,14 @@
                     android:drawableEnd="@{fund.hasNegativeReturn? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
                     android:drawablePadding="@dimen/space_2"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@{fund.currentReturn +`%`}"
+                    android:text="@{fund.temp}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@android:color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentL"
                     app:layout_constraintEnd_toStartOf="@+id/tvCurrentL"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:drawableEnd="@drawable/ic_arrow_upward_green"
-                    tools:text="39.550%" />
+                    tools:text="39.550" />
 
                 <TextView
                     android:id="@+id/tvDate"
@@ -122,7 +122,7 @@
                     android:id="@+id/progress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
+                    android:layout_height="8dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_marginTop="@dimen/space_8"

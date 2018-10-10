@@ -19,11 +19,11 @@ class FundDetailsVM : FragmentViewModel() {
     init {
 
         keysInfo.add(KeyInfo("AMC Name", "Axis Mutual Fund"))
-        keysInfo.add(KeyInfo("AMC Type", "Open-Ended"))
+        keysInfo.add(KeyInfo("Fund Type", "Open-Ended"))
         keysInfo.add(KeyInfo("Investment Plan", "Growth"))
         keysInfo.add(KeyInfo("Launch Date", "Feb 01, 2013"))
         keysInfo.add(KeyInfo("Benchmark", "S&P BSE MidCap"))
-        keysInfo.add(KeyInfo("Assets Size", App.INSTANCE.getString(R.string.rs_symbol).plus("80.09 cr(31 Mar, 2018)")))
+        keysInfo.add(KeyInfo("Assets Size (\u20B9cr)", App.INSTANCE.getString(R.string.rs_symbol).plus("80.09 cr(31 Mar, 2018)")))
         keysInfo.add(KeyInfo("Asset Date", "Mar 31, 2018"))
         keysInfo.add(KeyInfo("Minimum Investment SIP", App.INSTANCE.getString(R.string.rs_symbol).plus("2000")))
         keysInfo.add(KeyInfo("Minimum Investment Lump sum", App.INSTANCE.getString(R.string.rs_symbol).plus("5000")))

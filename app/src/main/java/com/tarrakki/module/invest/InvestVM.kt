@@ -81,7 +81,8 @@ data class Fund(
         var volatility: Float,
         var threeYearOfFundReturn: Float,
         var threeYearOfFDReturn: Float,
-        var hasNegativeReturn: Boolean = false
+        var hasNegativeReturn: Boolean = false,
+        var temp: String = "39.550"
 ) : Serializable
 
 data class FundType(

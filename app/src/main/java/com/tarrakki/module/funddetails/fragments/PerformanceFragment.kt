@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.res.ResourcesCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,16 +21,20 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tarrakki.R
-import com.tarrakki.databinding.*
+import com.tarrakki.chartformaters.MyMarkerView
+import com.tarrakki.chartformaters.MyYAxisValueFormatter
+import com.tarrakki.databinding.FragmentPerformanceBinding
+import com.tarrakki.databinding.RowDurationListItemBinding
+import com.tarrakki.databinding.RowEarningBaseReturnsListItemBinding
+import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
 import com.tarrakki.module.invest.FundType
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
-import com.tarrakki.chartformaters.MyYAxisValueFormatter
-
-
+import org.supportcompact.ktx.getColor
+import java.util.concurrent.ThreadLocalRandom
 
 
 /**
@@ -83,7 +88,7 @@ class PerformanceFragment : Fragment() {
                     item.isSelected = !item.isSelected
                     selectedAt = position
                     // add data
-                    setUpChart(15, 40f)
+                    setUpChart(15)
                     mChart.invalidate()
                 }
             }
@@ -100,7 +105,11 @@ class PerformanceFragment : Fragment() {
     }
 
     private fun setUpChart() {
-
+        // create a custom MarkerView (extend MarkerView) and specify the layout
+        // to use for it
+        val mv = MyMarkerView(context, R.layout.custom_marker_view)
+        mv.chartView = mChart // For bounds control
+        mChart.marker = mv // Set the marker to the chart
         mChart.setBackgroundColor(Color.WHITE)
         mChart.setDrawBorders(false)
 
@@ -109,10 +118,14 @@ class PerformanceFragment : Fragment() {
 
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mChart.setPinchZoom(true)
+        mChart.setPinchZoom(false)
+        mChart.setScaleEnabled(false)
 
         val l = mChart.legend
         l.isEnabled = false
+
+        val typeface = context?.let { ResourcesCompat.getFont(it, R.font.lato_regular) }
+
 
         val xAxis = mChart.xAxis
         xAxis.isEnabled = true
@@ -131,6 +144,10 @@ class PerformanceFragment : Fragment() {
                 else -> ""
             }
         }
+        getColor(R.color.darker_gray)?.let {
+            xAxis.textColor = it
+        }
+        xAxis.typeface = typeface
 
         val leftAxis = mChart.axisRight
         leftAxis.labelCount = 4
@@ -139,24 +156,30 @@ class PerformanceFragment : Fragment() {
         leftAxis.setDrawAxisLine(true)
         leftAxis.setDrawZeroLine(true)
         leftAxis.setDrawGridLines(true)
-        mChart.axisLeft.isEnabled = false
         leftAxis.valueFormatter = MyYAxisValueFormatter()
+        getColor(R.color.darker_gray)?.let {
+            leftAxis.textColor = it
+        }
+        leftAxis.typeface = typeface
+        mChart.axisLeft.isEnabled = false
+
 
         // add data
-        setUpChart(15, 40f)
+        setUpChart(15)
 
         mChart.invalidate()
     }
 
-    private fun setUpChart(count: Int, range: Float) {
+    private fun setUpChart(count: Int) {
 
         val yVals1 = ArrayList<Entry>()
         val x = 0.0
         for (i in 0 until count) {
-            val `val` = (Math.random() * range).toFloat() + 40// + (float)
+            val valY = ThreadLocalRandom.current().nextDouble(10.00, 40.00).toFloat()
+            //val `val` = (Math.random() * range).toFloat() + 40// + (float)
             // ((mult *
             // 0.1) / 10);
-            yVals1.add(Entry(i.toFloat(), `val`))
+            yVals1.add(Entry(i.toFloat(), valY))
         }
 
         val set1: LineDataSet
@@ -180,7 +203,9 @@ class PerformanceFragment : Fragment() {
             val drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.shape_line_chart_bg) }
             set1.fillDrawable = drawable
             //set1.fillColor = Color.WHITE
-            set1.highLightColor = Color.rgb(244, 117, 117)
+            getColor(R.color.colorAccent)?.let {
+                set1.highLightColor = it
+            }
             set1.setDrawCircleHole(false)
             set1.fillFormatter = IFillFormatter { dataSet, dataProvider -> mChart.axisLeft.axisMinimum }
 
@@ -195,7 +220,6 @@ class PerformanceFragment : Fragment() {
             mChart.data = data
         }
     }
-
 
     companion object {
         /**

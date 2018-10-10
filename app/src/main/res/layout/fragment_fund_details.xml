@@ -23,7 +23,7 @@
             app:tabBackground="@color/colorPrimary"
             app:tabIndicatorColor="@color/item_selected_color"
             app:tabMode="fixed"
-            app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+            app:tabTextAppearance="@style/tab_text"
             app:tabIndicatorHeight="4dp"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextColor="@color/home_title_color" />
