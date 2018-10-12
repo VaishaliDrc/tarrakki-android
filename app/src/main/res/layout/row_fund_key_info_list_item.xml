@@ -13,8 +13,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/space_8"
-        android:paddingTop="@dimen/space_8">
+        android:paddingTop="@dimen/space_8"
+        android:paddingBottom="@dimen/space_8">
 
 
         <TextView
@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:text="@{keyInfo.value}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Axis Mutual Fund" />

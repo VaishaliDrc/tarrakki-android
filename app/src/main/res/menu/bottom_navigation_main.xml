@@ -8,17 +8,18 @@
         android:title="@string/home"
         app:showAsAction="always|withText" />
     <item
-        android:id="@+id/action_plan"
-        android:enabled="true"
-        android:icon="@drawable/plan"
-        android:title="@string/plan"
-        app:showAsAction="always|withText" />
-    <item
         android:id="@+id/action_invest"
         android:enabled="true"
         android:icon="@drawable/invest"
         android:title="@string/invest"
         app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_plan"
+        android:enabled="true"
+        android:icon="@drawable/plan"
+        android:title="@string/plan"
+        app:showAsAction="always|withText" />
+
     <item
         android:id="@+id/action_learn"
         android:enabled="true"

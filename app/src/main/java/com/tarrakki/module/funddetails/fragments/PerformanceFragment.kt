@@ -8,9 +8,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -33,6 +36,8 @@ import com.tarrakki.module.funddetails.TopHolding
 import com.tarrakki.module.invest.FundType
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.inputclasses.InputFilterMinMax
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getColor
 import java.util.concurrent.ThreadLocalRandom
 
@@ -92,7 +97,88 @@ class PerformanceFragment : Fragment() {
                     mChart.invalidate()
                 }
             }
+            var amount = 100000
+            var durations = 1.0
+            edtInvestAmount?.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p: Editable?) {
+                    if (p != null && p.isNotEmpty()) {
+                        amount = p.toString().toInt()
+                        itVM.earningBase.forEach { item ->
+                            item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                durations * 12
+                            } else {
+                                durations
+                            }, item.percentageHolding)
+                        }
+                        rvEarned?.adapter?.notifyDataSetChanged()
+                    } else {
+                        itVM.earningBase.forEach { item ->
+                            item.amount = 00.00
+                        }
+                        rvEarned?.adapter?.notifyDataSetChanged()
+                    }
+                }
 
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+            })
+
+            edtYears?.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p: Editable?) {
+                    if (p != null && p.isNotEmpty()) {
+                        durations = p.toString().toDouble()
+                        itVM.earningBase.forEach { item ->
+                            item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                durations * 12
+                            } else {
+                                durations
+                            }, item.percentageHolding)
+                        }
+                        rvEarned?.adapter?.notifyDataSetChanged()
+                    } else {
+                        itVM.earningBase.forEach { item ->
+                            item.amount = 00.00
+                        }
+                        rvEarned?.adapter?.notifyDataSetChanged()
+                    }
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+            })
+            spnDuration?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    if (spnDuration?.selectedItemPosition == 0) {
+                        edtYears?.setText("1")
+                        edtYears?.filters = arrayOf(InputFilterMinMax(1, 99))
+                    } else {
+                        edtYears?.setText("12")
+                        edtYears?.filters = arrayOf(InputFilterMinMax(1, 1188))
+                    }
+                    itVM.earningBase.forEach { item ->
+                        item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                            durations * 12
+                        } else {
+                            durations
+                        }, item.percentageHolding)
+                    }
+                    rvEarned?.adapter?.notifyDataSetChanged()
+                }
+            }
         }
         val adapter = ArrayAdapter.createFromResource(
                 activity,
@@ -102,6 +188,16 @@ class PerformanceFragment : Fragment() {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         spnDuration.adapter = adapter
         setUpChart()
+        edtInvestAmount?.filters = arrayOf(InputFilterMinMax(1))
+        edtYears?.filters = arrayOf(InputFilterMinMax(1))
+    }
+
+    // Calculating the compount interest using formula A = P  (1 + r/n)^nt
+    fun calculateReturns(amount: Int, durations: Double, rateOfInterest: Double = 5.0): Double {
+        val floatRateOfInterest = rateOfInterest / 100
+        val floatFirstValueOfPower = (1 + floatRateOfInterest / 12)
+        val tn = durations / 12 * 12
+        return amount * Math.pow(floatFirstValueOfPower, tn)
     }
 
     private fun setUpChart() {
@@ -144,7 +240,7 @@ class PerformanceFragment : Fragment() {
                 else -> ""
             }
         }
-        getColor(R.color.darker_gray)?.let {
+        getColor(R.color.semi_black)?.let {
             xAxis.textColor = it
         }
         xAxis.typeface = typeface
@@ -157,12 +253,11 @@ class PerformanceFragment : Fragment() {
         leftAxis.setDrawZeroLine(true)
         leftAxis.setDrawGridLines(true)
         leftAxis.valueFormatter = MyYAxisValueFormatter()
-        getColor(R.color.darker_gray)?.let {
+        getColor(R.color.semi_black)?.let {
             leftAxis.textColor = it
         }
         leftAxis.typeface = typeface
         mChart.axisLeft.isEnabled = false
-
 
         // add data
         setUpChart(15)
@@ -203,7 +298,7 @@ class PerformanceFragment : Fragment() {
             val drawable = context?.let { ContextCompat.getDrawable(it, R.drawable.shape_line_chart_bg) }
             set1.fillDrawable = drawable
             //set1.fillColor = Color.WHITE
-            getColor(R.color.colorAccent)?.let {
+            getColor(R.color.darker_gray)?.let {
                 set1.highLightColor = it
             }
             set1.setDrawCircleHole(false)

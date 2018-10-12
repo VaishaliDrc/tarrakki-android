@@ -42,6 +42,7 @@
     <string name="find_your_mutual_fund">Find Your Mutual Fund</string>
     <string name="risk_level">Risk Level</string>
     <string name="sort_by_returns">Sort by returns</string>
+    <string name="investment_type">Investment Type</string>
     <string name="all">All</string>
     <string name="growth">Growth</string>
     <string name="dividend_payout">Dividend Payout</string>
@@ -49,7 +50,7 @@
         Tarrakki helps you invest your hard earned money in mutual funds that best fit your income, age, and risk appetite.
         \n\nWatch your money grow beyond the rate of inflation.
         \n\nAchieve life goals and financial milestones faster.
-        \n\n\u2022 Paperless Investing - Direct Plans (No Agent Commissions)
+        \n\n- Paperless Investing - Direct Plans (No Agent Commissions)
     </string>
     <string name="category">Category</string>
     <string name="sub_category">Sub Category</string>
@@ -60,6 +61,7 @@
     <string name="move_idle_money_from_your_bank_a_c">Move idle money from your bank A/C</string>
     <string name="top_10_holdings">Top 10 holdings</string>
     <string name="key_information">key Information</string>
+    <string name="return_">return</string>
     <string name="returns">Returns</string>
     <string name="returns_sysmbol">Returns(%)</string>
     <string name="calculate_historical_performance">Calculate Historical Performance</string>
@@ -71,10 +73,15 @@
     <string name="last_price">Last Price</string>
     <string name="year_to_date_return">Year-To-Date Return</string>
     <string name="_1_day_change">1 Day Change</string>
+    <string name="your_goal">Your Goal</string>
+    <string name="previous">Previous</string>
+    <string name="next">Next</string>
+    <string name="numbers_of_years_you_d_like_to_buy_it">Numbers of years you\'d like to buy it</string>
+    <string name="current_value_of_your_dream_home">Current value of your dream home</string>
 
     <string-array name="durations">
-        <item>Year</item>
-        <item>Month</item>
+        <item>Year(s)</item>
+        <item>Month(s)</item>
     </string-array>
 
     <string-array name="risk_level">

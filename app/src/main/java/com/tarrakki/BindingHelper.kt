@@ -3,6 +3,7 @@ package com.tarrakki
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
@@ -25,6 +26,12 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
         view.setUpMultiViewRecyclerAdapter(homeItems) { item, binder, position ->
             binder.setVariable(BR.widget, item)
             binder.executePendingBindings()
+            binder.root.setOnClickListener { it ->
+                val mContext = it.context
+                if (mContext is AppCompatActivity) {
+                    //mContext.startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item as Serializable) }), R.id.frmContainer)
+                }
+            }
         }
     }
 }

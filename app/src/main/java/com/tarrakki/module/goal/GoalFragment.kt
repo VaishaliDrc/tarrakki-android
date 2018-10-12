@@ -1,12 +1,18 @@
 package com.tarrakki.module.goal
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
+import android.widget.TextView
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentGoalBinding
 import com.tarrakki.databinding.RowGoalListItemBinding
-import com.tarrakki.module.recommended.RecommendedFragment
+import com.tarrakki.module.yourgoal.KEY_GOAL
+import com.tarrakki.module.yourgoal.YourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -51,7 +57,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
             binder.goal = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
-                //startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+                //startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
             }
         }
     }
@@ -61,6 +67,18 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         arguments?.let {
             coreActivityVM?.isBackEnabled?.value = it.getBoolean(canBack, true)
         }
+        coreActivityVM?.isBackEnabled?.value?.let {
+            setHasOptionsMenu(!it)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.home_menu, menu)
+        val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
+        App.INSTANCE.cartCount.observe(this, Observer {
+            tvCartCount?.text = it.toString()
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

@@ -301,15 +301,18 @@
                         android:layout_marginStart="@dimen/space_4"
                         android:layout_marginEnd="@dimen/space_4"
                         android:text="@string/rs_symbol"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/semi_black" />
 
                     <EditText
+                        android:id="@+id/edtInvestAmount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="1,00,000"
                         android:inputType="number"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                        android:text="100000"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/semi_black" />
 
                 </LinearLayout>
 
@@ -322,10 +325,11 @@
                     android:layout_marginEnd="@dimen/space_8"
                     android:background="@drawable/shape_rounded_gray"
                     android:gravity="center"
-                    android:hint="1"
                     android:inputType="number"
                     android:padding="@dimen/space_8"
+                    android:text="1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
                     app:layout_constraintEnd_toStartOf="@+id/frmDuration"
                     app:layout_constraintHorizontal_weight="0.6"
                     app:layout_constraintStart_toEndOf="@+id/llContainer"

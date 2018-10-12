@@ -174,7 +174,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="@dimen/space_16"
-                        android:text="@string/sort_by_returns"
+                        android:text="@string/investment_type"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@android:color/white"

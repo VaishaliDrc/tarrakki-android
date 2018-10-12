@@ -4,6 +4,7 @@ import android.support.annotation.DrawableRes
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
+import java.io.Serializable
 
 class GoalVM : FragmentViewModel() {
 
@@ -21,7 +22,7 @@ class GoalVM : FragmentViewModel() {
     }
 }
 
-data class Goal(var title: String, @DrawableRes var imgUrl: Int) : WidgetsViewModel {
+data class Goal(var title: String, @DrawableRes var imgUrl: Int) : WidgetsViewModel, Serializable {
     override fun layoutId(): Int {
         return R.layout.row_goal_home_list_item
     }
