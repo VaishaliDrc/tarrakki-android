@@ -310,7 +310,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:inputType="number"
-                        android:text="100000"
+                        android:text="100,000"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                         android:textColor="@color/semi_black" />
 

@@ -93,3 +93,21 @@ fun applyCurrencyFormat(txt: TextView, amount: Double) {
 fun applyDCurrencyFormat(txt: TextView, amount: Double) {
     txt.text = String.format(Locale.US, "%s%s", txt.context.getString(R.string.rs_symbol), dformatter.format(amount))
 }
+
+@BindingAdapter("amount")
+fun applyAmountFormat(txt: TextView, amount: Double) {
+    txt.text = String.format(Locale.US, "%,d", amount)
+}
+
+@BindingAdapter("dAmount")
+fun applyDAmountFormat(txt: TextView, amount: Double) {
+    txt.text = String.format(Locale.US, "%,.2f", amount)
+}
+
+fun TextView.decimalFormat(amount: Double) {
+    this.text = String.format(Locale.US, "%,.2f", amount)
+}
+
+fun TextView.format(amount: Double) {
+    this.text = String.format(Locale.US, "%,d", Math.round(amount))
+}

@@ -9,17 +9,22 @@
         </shape>
     </item>
 
-    <item android:id="@android:id/progress">
-        <clip>
-            <shape>
+    <item
+        android:id="@android:id/progress"
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
 
+        <scale android:scaleWidth="100%">
+            <shape>
+                <corners android:radius="16dp" />
                 <gradient
                     android:centerColor="#8B44B9"
                     android:endColor="#7144C9"
                     android:startColor="#C64594" />
-                <corners android:radius="16dp" />
             </shape>
-        </clip>
+        </scale>
     </item>
 
 </layer-list>

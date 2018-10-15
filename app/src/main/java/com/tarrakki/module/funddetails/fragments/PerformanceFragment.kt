@@ -30,6 +30,7 @@ import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowDurationListItemBinding
 import com.tarrakki.databinding.RowEarningBaseReturnsListItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
+import com.tarrakki.format
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
@@ -37,8 +38,8 @@ import com.tarrakki.module.invest.FundType
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.inputclasses.InputFilterMinMax
-import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getColor
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 
@@ -66,6 +67,7 @@ class PerformanceFragment : Fragment() {
         parentFragment?.let {
             fundVM = ViewModelProviders.of(it).get(FundDetailsVM::class.java)
         }
+
         fundVM?.let { itVM ->
             binder?.fund = itVM.fund
             binder?.executePendingBindings()
@@ -102,18 +104,28 @@ class PerformanceFragment : Fragment() {
             edtInvestAmount?.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p: Editable?) {
                     if (p != null && p.isNotEmpty()) {
-                        amount = p.toString().toInt()
-                        itVM.earningBase.forEach { item ->
-                            item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                durations * 12
-                            } else {
-                                durations
-                            }, item.percentageHolding)
+                        try {
+                            amount = p.toString().replace(",", "").toInt()
+                            itVM.earningBase.forEach { item ->
+                                item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                    durations * 12
+                                } else {
+                                    durations
+                                }, item.percentageHolding)
+                                if (itVM.earningBase.indexOf(item) == 0) {
+                                    item.process = 100
+                                } else {
+                                    item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                                }
+                            }
+                            rvEarned?.adapter?.notifyDataSetChanged()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                        rvEarned?.adapter?.notifyDataSetChanged()
                     } else {
                         itVM.earningBase.forEach { item ->
                             item.amount = 00.00
+                            item.process = 0
                         }
                         rvEarned?.adapter?.notifyDataSetChanged()
                     }
@@ -123,8 +135,21 @@ class PerformanceFragment : Fragment() {
 
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                private var current = ""
 
+                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (s == null || s.isEmpty()) {
+                        current = ""
+                        return
+                    }
+                    if (s.toString() != current) {
+                        edtInvestAmount?.removeTextChangedListener(this)
+                        val cleanString = s.toString().replace(",", "")
+                        edtInvestAmount?.format(cleanString.toDouble())
+                        current = edtInvestAmount?.text.toString()
+                        edtInvestAmount?.setSelection(current.length)
+                        edtInvestAmount?.addTextChangedListener(this)
+                    }
                 }
             })
 
@@ -138,11 +163,17 @@ class PerformanceFragment : Fragment() {
                             } else {
                                 durations
                             }, item.percentageHolding)
+                            if (itVM.earningBase.indexOf(item) == 0) {
+                                item.process = 100
+                            } else {
+                                item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                            }
                         }
                         rvEarned?.adapter?.notifyDataSetChanged()
                     } else {
                         itVM.earningBase.forEach { item ->
                             item.amount = 00.00
+                            item.process = 0
                         }
                         rvEarned?.adapter?.notifyDataSetChanged()
                     }
@@ -175,6 +206,11 @@ class PerformanceFragment : Fragment() {
                         } else {
                             durations
                         }, item.percentageHolding)
+                        if (itVM.earningBase.indexOf(item) == 0) {
+                            item.process = 100
+                        } else {
+                            item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                        }
                     }
                     rvEarned?.adapter?.notifyDataSetChanged()
                 }
@@ -188,7 +224,7 @@ class PerformanceFragment : Fragment() {
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         spnDuration.adapter = adapter
         setUpChart()
-        edtInvestAmount?.filters = arrayOf(InputFilterMinMax(1))
+        //edtInvestAmount?.filters = arrayOf(InputFilterMinMax(1))
         edtYears?.filters = arrayOf(InputFilterMinMax(1))
     }
 
