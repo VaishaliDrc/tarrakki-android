@@ -57,7 +57,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
             binder.goal = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
-                //startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+                startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
             }
         }
     }

@@ -2,12 +2,16 @@ package com.tarrakki.module.yourgoal
 
 
 import android.arch.lifecycle.Observer
+import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentYourGoalBinding
 import com.tarrakki.module.goal.Goal
+import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setMultiViewPageAdapter
 
 /**
  * A simple [Fragment] subclass.
@@ -43,8 +47,23 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             getBinding().goal = it
             getBinding().executePendingBindings()
         })
-    }
+        mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
+            binder.setVariable(BR.yourGoal, item)
+            binder.executePendingBindings()
+        }
 
+        btnPrevious?.setOnClickListener {
+            if (mPageGoal.currentItem <= getViewModel().yourGoalSteps.size - 1) {
+                mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
+            }
+        }
+
+        btnNext?.setOnClickListener {
+            if (mPageGoal.currentItem < getViewModel().yourGoalSteps.size - 1) {
+                mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+            }
+        }
+    }
 
     companion object {
         /**

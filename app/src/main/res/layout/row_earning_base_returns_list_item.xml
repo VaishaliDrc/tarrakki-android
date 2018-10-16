@@ -19,20 +19,24 @@
             android:id="@+id/tvAmountL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="@{topFund.name}"
-            android:textColor="@color/semi_black"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Gruh Finance Ltd." />
 
         <TextView
             android:id="@+id/tvAmount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintBottom_toBottomOf="@+id/progress"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@id/progress"
             app:layout_constraintTop_toTopOf="@+id/progress"
             app:price="@{topFund.amount}"
             tools:text="@string/dummy1" />
@@ -60,6 +64,7 @@
             android:progress="@{topFund.process}"
             android:progressDrawable="@drawable/progress_horisental"
             app:layout_constraintEnd_toStartOf="@+id/tvAmount"
+            app:layout_constraintHorizontal_weight="6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAmountL"
             tools:progress="85" />

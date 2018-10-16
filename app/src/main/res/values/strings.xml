@@ -60,7 +60,7 @@
     <string name="invest_now">Invest Now</string>
     <string name="move_idle_money_from_your_bank_a_c">Move idle money from your bank A/C</string>
     <string name="top_10_holdings">Top 10 holdings</string>
-    <string name="key_information">key Information</string>
+    <string name="key_information">Key Information</string>
     <string name="return_">return</string>
     <string name="returns">Returns</string>
     <string name="returns_sysmbol">Returns(%)</string>
@@ -78,6 +78,10 @@
     <string name="next">Next</string>
     <string name="numbers_of_years_you_d_like_to_buy_it">Numbers of years you\'d like to buy it</string>
     <string name="current_value_of_your_dream_home">Current value of your dream home</string>
+    <string name="years">years</string>
+    <string name="down_payment">Home much do they plan to make as down payment?</string>
+    <string name="do_want_lumpsum">Do you want to make a lumpsum investment</string>
+    <string name="how_much">Home much?</string>
 
     <string-array name="durations">
         <item>Year(s)</item>

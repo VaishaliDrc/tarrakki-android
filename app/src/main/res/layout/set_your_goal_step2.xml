@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="yourGoal"
+            type="com.tarrakki.module.yourgoal.YourGoalSteps" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvGoalValueL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:text="@{yourGoal.question}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/semi_black"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/current_value_of_your_dream_home" />
+
+        <ToggleButton
+            android:id="@+id/switchHasHomeLoan"
+            android:layout_width="96dp"
+            android:layout_height="38dp"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@drawable/shape_switch_bg"
+            android:button="@null"
+            android:checked="@={yourGoal.ans}"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGoalValueL"
+            tools:checked="true" />
+
+        <TextView
+            android:id="@+id/tvGoalDurationL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:text="@{yourGoal.question2}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/semi_black"
+            app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan"
+            tools:text="@string/down_payment" />
+
+        <RelativeLayout
+            android:id="@+id/llContainer2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@drawable/shape_rounded_gray"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGoalDurationL">
+
+            <EditText
+                android:id="@+id/edtDurations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:layout_toStartOf="@+id/tvDurations"
+                android:background="@null"
+                android:inputType="number"
+                android:maxLength="3"
+                android:text="@={yourGoal.answered2}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black" />
+
+            <TextView
+                android:id="@+id/tvDurations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:fontFamily="@font/lato_semibold"
+                android:text="%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black" />
+
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
