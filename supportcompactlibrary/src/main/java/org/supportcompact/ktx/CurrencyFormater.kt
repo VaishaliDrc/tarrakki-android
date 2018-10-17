@@ -24,12 +24,54 @@ fun EditText.applyCurrencyFormat() {
                 return
             }
             if (s.toString() != current) {
-                this@applyCurrencyFormat.removeTextChangedListener(this)
-                val cleanString = s.toString().replace(",", "")
-                this@applyCurrencyFormat.format(cleanString.toDouble())
-                current = this@applyCurrencyFormat.text.toString()
-                this@applyCurrencyFormat.setSelection(current.length)
-                this@applyCurrencyFormat.addTextChangedListener(this)
+                try {
+                    this@applyCurrencyFormat.removeTextChangedListener(this)
+                    val cleanString = s.toString().replace(",", "")
+                    this@applyCurrencyFormat.format(cleanString.toDouble())
+                    current = this@applyCurrencyFormat.text.toString()
+                    this@applyCurrencyFormat.setSelection(current.length)
+                    this@applyCurrencyFormat.addTextChangedListener(this)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    })
+}
+
+fun EditText.applyCurrencyFormatPositiveOnly() {
+
+    addTextChangedListener(object : TextWatcher {
+        private var current = ""
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if (s == null || s.isEmpty()) {
+                current = ""
+                return
+            }
+            if (s.toString() != current) {
+                try {
+                    this@applyCurrencyFormatPositiveOnly.removeTextChangedListener(this)
+                    val cleanString = s.toString().replace(",", "")
+                    val amount = cleanString.toDouble()
+                    if (amount > 0) {
+                        this@applyCurrencyFormatPositiveOnly.format(amount)
+                    } else {
+                        this@applyCurrencyFormatPositiveOnly.text.clear()
+                    }
+                    current = this@applyCurrencyFormatPositiveOnly.text.toString()
+                    this@applyCurrencyFormatPositiveOnly.setSelection(current.length)
+                    this@applyCurrencyFormatPositiveOnly.addTextChangedListener(this)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     })

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentYourGoalBinding
@@ -12,6 +13,7 @@ import com.tarrakki.module.goal.Goal
 import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setMultiViewPageAdapter
+import org.supportcompact.ktx.simpleAlert
 
 /**
  * A simple [Fragment] subclass.
@@ -59,8 +61,30 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         }
 
         btnNext?.setOnClickListener {
-            if (mPageGoal.currentItem < getViewModel().yourGoalSteps.size - 1) {
-                mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+            val index = mPageGoal.currentItem
+            val item = getViewModel().yourGoalSteps[index]
+            when (index) {
+                0 -> {
+                    if (TextUtils.isEmpty(item.answered)) {
+                        context?.simpleAlert("Please enter amount")
+                    } else if (TextUtils.isEmpty(item.answered2)) {
+                        context?.simpleAlert("Please enter years")
+                    } else {
+                        mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+                    }
+                }
+                1 -> {
+                    if (TextUtils.isEmpty(item.answered2)) {
+                        context?.simpleAlert("Please enter a valid percentage between 1 and 99")
+                    } else {
+                        mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+                    }
+                }
+                2 -> {
+                    if (TextUtils.isEmpty(item.answered2)) {
+                        context?.simpleAlert("Please enter amount")
+                    }
+                }
             }
         }
     }
@@ -69,7 +93,6 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
-         *
          * @return A new instance of fragment YourGoalFragment.
          */
         // TODO: Rename and change types and number of parameters

@@ -19,6 +19,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.applyCurrencyFormat
+import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import java.text.DecimalFormat
@@ -124,6 +125,14 @@ fun disableSwipe(mPager: ViewPager, swappable: Boolean) {
 fun inputType(edt: EditText, isCurrency: Boolean) = if (isCurrency) {
     edt.applyCurrencyFormat()
 } else {
+
+}
+
+@BindingAdapter("isPositiveCurrency")
+fun inputTypePositive(edt: EditText, isPositiveCurrency: Boolean) = if (isPositiveCurrency) {
+    edt.applyCurrencyFormatPositiveOnly()
+} else {
+    edt.applyCurrencyFormat()
 }
 
 fun TextView.decimalFormat(amount: Double) {

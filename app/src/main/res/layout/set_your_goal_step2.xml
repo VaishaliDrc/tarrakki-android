@@ -45,7 +45,7 @@
             android:id="@+id/tvGoalDurationL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginTop="@dimen/space_30"
             android:fontFamily="@font/lato_semibold"
             android:gravity="center"
             android:text="@{yourGoal.question2}"
@@ -77,10 +77,11 @@
                 android:layout_toStartOf="@+id/tvDurations"
                 android:background="@null"
                 android:inputType="number"
-                android:maxLength="3"
+                android:maxLength="2"
                 android:text="@={yourGoal.answered2}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/semi_black" />
+                android:textColor="@color/semi_black"
+                app:isPositiveCurrency="@{true}" />
 
             <TextView
                 android:id="@+id/tvDurations"

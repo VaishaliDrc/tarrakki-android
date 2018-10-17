@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
 import android.view.MenuItem
+import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.home.HomeActivity
@@ -16,8 +17,8 @@ import com.tarrakki.module.plan.PlanActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
+import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.startActivity
-import org.supportcompact.widgets.BottomNavigationViewHelper
 
 abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBinding>() {
 
@@ -81,6 +82,9 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                     true
                 }
             }
+        }
+        keyboardListener { isOpen ->
+            getViewModel().footerVisibility.set(if (isOpen) View.INVISIBLE else View.VISIBLE)
         }
     }
 
