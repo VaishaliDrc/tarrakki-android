@@ -84,7 +84,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             }
         }
         keyboardListener { isOpen ->
-            getViewModel().footerVisibility.set(if (isOpen) View.INVISIBLE else View.VISIBLE)
+            getViewModel().footerVisibility.set(if (isOpen) View.GONE else View.VISIBLE)
         }
     }
 

@@ -1,22 +1,10 @@
 package com.tarrakki.module.learn
 
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import com.github.mikephil.charting.components.Description
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.IFillFormatter
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentLearnBinding
-import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
 
 

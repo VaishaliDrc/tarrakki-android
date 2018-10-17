@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
+import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentYourGoalBinding
@@ -50,42 +51,49 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             getBinding().executePendingBindings()
         })
         mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
+            item.onNext = View.OnClickListener {
+                onNext()
+            }
+            item.onPrevious = View.OnClickListener {
+                onPrevious()
+            }
+            binder.setVariable(BR.goal, getViewModel().goalVM.value)
             binder.setVariable(BR.yourGoal, item)
             binder.executePendingBindings()
         }
+    }
 
-        btnPrevious?.setOnClickListener {
-            if (mPageGoal.currentItem <= getViewModel().yourGoalSteps.size - 1) {
-                mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
+    private fun onNext() {
+        val index = mPageGoal.currentItem
+        val item = getViewModel().yourGoalSteps[index]
+        when (index) {
+            0 -> {
+                if (TextUtils.isEmpty(item.answered)) {
+                    context?.simpleAlert("Please enter amount")
+                } else if (TextUtils.isEmpty(item.answered2)) {
+                    context?.simpleAlert("Please enter years")
+                } else {
+                    mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+                }
+            }
+            1 -> {
+                if (item.isSelected && TextUtils.isEmpty(item.answered2)) {
+                    context?.simpleAlert("Please enter a valid percentage between 1 and 99")
+                } else {
+                    mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+                }
+            }
+            2 -> {
+                if (TextUtils.isEmpty(item.answered2)) {
+                    context?.simpleAlert("Please enter amount")
+                }
             }
         }
+    }
 
-        btnNext?.setOnClickListener {
-            val index = mPageGoal.currentItem
-            val item = getViewModel().yourGoalSteps[index]
-            when (index) {
-                0 -> {
-                    if (TextUtils.isEmpty(item.answered)) {
-                        context?.simpleAlert("Please enter amount")
-                    } else if (TextUtils.isEmpty(item.answered2)) {
-                        context?.simpleAlert("Please enter years")
-                    } else {
-                        mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
-                    }
-                }
-                1 -> {
-                    if (TextUtils.isEmpty(item.answered2)) {
-                        context?.simpleAlert("Please enter a valid percentage between 1 and 99")
-                    } else {
-                        mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
-                    }
-                }
-                2 -> {
-                    if (TextUtils.isEmpty(item.answered2)) {
-                        context?.simpleAlert("Please enter amount")
-                    }
-                }
-            }
+    private fun onPrevious() {
+        if (mPageGoal.currentItem <= getViewModel().yourGoalSteps.size - 1) {
+            mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
         }
     }
 
