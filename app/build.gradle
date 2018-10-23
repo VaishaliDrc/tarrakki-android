@@ -58,7 +58,7 @@ dependencies {
 
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
-    implementation 'com.github.BlacKCaT27:CurrencyEditText:2.0.2'
+    implementation 'com.google.android:flexbox:1.0.0'
 
     //implementation 'com.daasuu:CountAnimationTextView:0.1.1'
 

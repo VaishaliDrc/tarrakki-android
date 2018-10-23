@@ -1,5 +1,6 @@
 package com.tarrakki
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
@@ -18,9 +19,7 @@ import com.tarrakki.module.yourgoal.YourGoalFragment
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.applyCurrencyFormat
-import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import java.text.DecimalFormat
 import java.util.*
@@ -95,14 +94,31 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
     }
 }
 
-@BindingAdapter("price")
-fun applyCurrencyFormat(txt: TextView, amount: Double) {
+@BindingAdapter(value = ["price", "anim"], requireAll = false)
+fun applyCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
+    if (anim != null && anim) {
+        handleTextView((amount % 10).toInt(), amount.toInt(), txt)
+        return
+    }
     txt.text = String.format(Locale.US, "%s%s", txt.context.getString(R.string.rs_symbol), formatter.format(amount))
 }
 
-@BindingAdapter("dprice")
-fun applyDCurrencyFormat(txt: TextView, amount: Double) {
+@BindingAdapter(value = ["dprice", "anim"], requireAll = false)
+fun applyDCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
+    if (anim != null && anim) {
+        handleTextView((amount % 10), amount, txt)
+        return
+    }
     txt.text = String.format(Locale.US, "%s%s", txt.context.getString(R.string.rs_symbol), dformatter.format(amount))
+}
+
+@BindingAdapter(value = ["returns", "anim", "returnType"], requireAll = false)
+fun returns(txt: TextView, amount: Double, anim: Boolean = true, returnType: Boolean = true) {
+    if (anim) {
+        returns((amount % 10), amount, txt, returnType)
+        return
+    }
+    txt.text = String.format(Locale.US, "+%s%s", txt.context.getString(R.string.rs_symbol), dformatter.format(amount))
 }
 
 @BindingAdapter("amount")
@@ -143,3 +159,30 @@ fun TextView.format(amount: Double) {
     this.text = String.format(Locale.US, "%,d", Math.round(amount))
 }
 
+fun handleTextView(initialValue: Int, finalValue: Int, textview: TextView) {
+    val valueAnimator = ValueAnimator.ofInt(initialValue, finalValue)
+    valueAnimator.duration = 1500
+    valueAnimator.addUpdateListener { it ->
+        textview.text = it.animatedValue.toString().toDouble().toCurrency()
+    }
+    valueAnimator.start()
+}
+
+fun handleTextView(initialValue: Double, finalValue: Double, textview: TextView) {
+    val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
+    valueAnimator.duration = 1500
+    valueAnimator.addUpdateListener { it ->
+        textview.text = it.animatedValue.toString().toDouble().toDecimalCurrency()
+    }
+    valueAnimator.start()
+}
+
+fun returns(initialValue: Double, finalValue: Double, textview: TextView, isPositiveCurrency: Boolean) {
+    val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
+    valueAnimator.duration = 1500
+    val returnType = if (isPositiveCurrency) "+" else "-"
+    valueAnimator.addUpdateListener { it ->
+        textview.text = returnType.plus(it.animatedValue.toString().toDouble().toDecimalCurrency())
+    }
+    valueAnimator.start()
+}

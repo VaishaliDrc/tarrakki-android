@@ -143,12 +143,21 @@ class PerformanceFragment : Fragment() {
                         return
                     }
                     if (s.toString() != current) {
-                        edtInvestAmount?.removeTextChangedListener(this)
-                        val cleanString = s.toString().replace(",", "")
-                        edtInvestAmount?.format(cleanString.toDouble())
-                        current = edtInvestAmount?.text.toString()
-                        edtInvestAmount?.setSelection(current.length)
-                        edtInvestAmount?.addTextChangedListener(this)
+                        try {
+                            edtInvestAmount?.removeTextChangedListener(this)
+                            val cleanString = s.toString().replace(",", "")
+                            val price = cleanString.toDouble()
+                            if (price > 0) {
+                                edtInvestAmount?.format(price)
+                            } else {
+                                edtInvestAmount?.text?.clear()
+                            }
+                            current = edtInvestAmount?.text.toString()
+                            edtInvestAmount?.setSelection(current.length)
+                            edtInvestAmount?.addTextChangedListener(this)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             })

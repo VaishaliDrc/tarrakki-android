@@ -18,6 +18,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.startFragment
 
+
 /**
  * A simple [Fragment] subclass.
  * Use the [HomeFragment.newInstance] factory method to
@@ -75,6 +76,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         })
         super.onCreateOptionsMenu(menu, inflater)
     }
+
+
 
     companion object {
         /**

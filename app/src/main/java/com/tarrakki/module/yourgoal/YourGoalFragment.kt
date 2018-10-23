@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setMultiViewPageAdapter
 import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -86,6 +87,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             2 -> {
                 if (TextUtils.isEmpty(item.answered2)) {
                     context?.simpleAlert("Please enter amount")
+                } else {
+                    startFragment(YourGoalSummaryFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, getBinding().goal) }), R.id.frmContainer)
                 }
             }
         }

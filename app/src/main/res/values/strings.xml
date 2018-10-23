@@ -16,6 +16,7 @@
     <string name="dummy">\u20B93,246</string>
     <string name="dummy1">\u20B95,000,00</string>
     <string name="dummy2">+\u20B936.17</string>
+    <string name="dummy3">\u20B91,583</string>
     <string name="rs">\u20A8</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="view_portfolio">View Portfolio</string>
@@ -82,6 +83,17 @@
     <string name="down_payment">Home much do they plan to make as down payment?</string>
     <string name="do_want_lumpsum">Do you want to make a lumpsum investment</string>
     <string name="how_much">Home much?</string>
+    <string name="we_recommending_investing">We recommending investing</string>
+    <string name="every_month_for_the_next_5_years">every month, for the next <font color='#00CB00'><u>5</u></font> years</string>
+    <string name="a_lumpsum_of_10_000_upfront_to_achieve_your_goal">A lumpsum of <font color='#00CB00'><u>\u20B910,000</u></font> upfront, to achieve your goal</string>
+    <string name="add_this_goal">Add this goal</string>
+    <string name="set_a_custom_investment_amount">Set a custom investment amount</string>
+    <string name="why_does_the_inflation_rate_matter">Why does the Inflation Rate matter?</string>
+    <string name="the_house_that">
+        The house that costs 60 lakhs today, used to cost 10 lakhs, just 20 years ago. How much is it likely to cost in the next 10 years?
+        \n\nWhen you make an investment for a future goal, you want your future re-turns to be at par with the going market rates of that time. The inflation rate is calculated based on various fiscal parameters, to ensure that the return on your investment remains relevant in future.
+    </string>
+    <string name="here_is_a_summary_of_your_goal">Here is a Summary of Your Goal:</string>
 
     <string-array name="durations">
         <item>Year(s)</item>

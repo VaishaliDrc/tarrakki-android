@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.yourgoal.YourGoalVM" />
+
+        <variable
+            name="goal"
+            type="com.tarrakki.module.goal.Goal" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".module.yourgoal.YourGoalSummaryFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_space">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/space_8">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/view2"
+                    android:layout_width="144dp"
+                    android:layout_height="144dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:elevation="12dp"
+                    app:cardBackgroundColor="@color/circular_bg"
+                    app:cardCornerRadius="72dp">
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_40"
+                        app:imgUrl="@{goal.imgUrl}"
+                        tools:src="@drawable/own_a_home" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/space_30"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingStart="@dimen/space_5"
+                        android:paddingEnd="@dimen/space_5"
+                        android:text="@{goal.title}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/semi_black"
+                        android:textSize="@dimen/sp10"
+                        tools:text="Children's Education" />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/we_recommending_investing"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/dummy3"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/item_selected_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/every_month_for_the_next_5_years"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:padding="@dimen/space_4"
+                    android:src="@drawable/ic_add_circle_gray_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/a_lumpsum_of_10_000_upfront_to_achieve_your_goal"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_semibold"
+                    android:paddingStart="@dimen/space_32"
+                    android:paddingEnd="@dimen/space_32"
+                    android:text="@string/add_this_goal"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/set_a_custom_investment_amount"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/here_is_a_summary_of_your_goal"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/mFlax"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/default_space"
+                    app:alignContent="stretch"
+                    app:alignItems="center"
+                    app:flexWrap="wrap">
+
+
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llWhyInflationMatter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_2"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeView">
+
+                <TextView
+                    android:id="@+id/tvWhyInflationMatter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@{vm.whyInflationMatter ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/why_does_the_inflation_rate_matter"
+                    android:textColor="@android:color/black"
+                    tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="true"
+                    app:expanded="@{vm.whyInflationMatter}">
+
+                    <TextView
+                        android:id="@+id/tvWhyTarrakkiiReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="@dimen/space_4"
+                        android:text="@string/the_house_that" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>
