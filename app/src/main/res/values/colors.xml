@@ -13,6 +13,7 @@
     <color name="debt_fund_color">#67C6C6</color>
     <color name="item_selected_color">#A14E9E</color>
     <color name="semi_black">#323232</color>
+    <color name="semi_white">#EADDEA</color>
     <color name="black">#000000</color>
     <color name="circular_bg">#D1F3F5</color>
     <string-array name="risk_level_color">

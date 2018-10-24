@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,27 +12,28 @@
 
     <RelativeLayout
         android:id="@+id/llContainer2"
-        android:layout_width="80dp"
+        android:layout_width="56dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rounded_gray"
+        android:background="@drawable/shape_rectangle_gray"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="@dimen/space_8">
+        android:padding="@dimen/space_4">
 
         <EditText
             android:id="@+id/edtDurations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
+            android:layout_marginStart="@dimen/space_4"
             android:layout_toStartOf="@+id/tvDurations"
             android:background="@null"
             android:inputType="number"
+            android:gravity="center"
             android:maxLength="2"
             android:text="@={goalSummary.txt}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/semi_black"
+            tools:text="55"
             app:isPositiveCurrency="@{true}" />
 
         <TextView
@@ -39,8 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/space_8"
-            android:layout_marginEnd="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_4"
             android:fontFamily="@font/lato_semibold"
             android:text="%"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"

@@ -6,6 +6,7 @@ import android.databinding.Bindable
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
+import android.text.SpannableStringBuilder
 import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
@@ -19,6 +20,7 @@ class YourGoalVM : FragmentViewModel() {
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
     val goalSummary = arrayListOf<GoalSummary>()
+    val gSummary = ObservableField<SpannableStringBuilder>()
 
     init {
         yourGoalSteps.add(YourGoalSteps(
@@ -49,16 +51,18 @@ class YourGoalVM : FragmentViewModel() {
         )
 
         goalSummary.add(GoalSummary("You'd like to purchase a house currently costing", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("10,00,000", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE))
+        goalSummary.add(GoalSummary("10,00,000", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE, "investment"))
         goalSummary.add(GoalSummary("in", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("5", SummaryWidget.TXT, WidgetSpace.RIGHT_SPACE))
+        goalSummary.add(GoalSummary("5", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
         goalSummary.add(GoalSummary("years.", SummaryWidget.LABEL, WidgetSpace.RIGHT_SPACE))
         goalSummary.add(GoalSummary("Since you plan to pay", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("30", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("down payment during your purchase, you would need to build a corpus of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("down payment", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("during your purchase, you would need to build a", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("corpus of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("3,82,884", SummaryWidget.TXT_CURRENCY, WidgetSpace.BOTH_SIDE_SPACE))
         goalSummary.add(GoalSummary("by the end of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("5", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE))
+        goalSummary.add(GoalSummary("5", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
         goalSummary.add(GoalSummary("your (inflation adjusted)", SummaryWidget.LABEL, WidgetSpace.NOTHING))
 
     }
@@ -67,7 +71,8 @@ class YourGoalVM : FragmentViewModel() {
 data class GoalSummary(
         var txt: String,
         var widgetType: SummaryWidget,
-        var widgetSpace: WidgetSpace
+        var widgetSpace: WidgetSpace,
+        var type: String = ""
 ) : BaseObservable()
 
 enum class SummaryWidget {

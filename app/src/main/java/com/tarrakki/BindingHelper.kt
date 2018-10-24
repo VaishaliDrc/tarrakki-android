@@ -21,12 +21,8 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
 import org.supportcompact.widgets.DividerItemDecorationNoLast
-import java.text.DecimalFormat
 import java.util.*
 
-
-val dformatter = DecimalFormat("##,##,##,##,###.00")
-val formatter = DecimalFormat("##,##,##,##,###.##")
 
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
 fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
@@ -100,7 +96,7 @@ fun applyCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
         handleTextView((amount % 10).toInt(), amount.toInt(), txt)
         return
     }
-    txt.text = String.format(Locale.US, "%s%s", txt.context.getString(R.string.rs_symbol), formatter.format(amount))
+    txt.text = amount.toCurrency()
 }
 
 @BindingAdapter(value = ["dprice", "anim"], requireAll = false)
@@ -109,16 +105,16 @@ fun applyDCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
         handleTextView((amount % 10), amount, txt)
         return
     }
-    txt.text = String.format(Locale.US, "%s%s", txt.context.getString(R.string.rs_symbol), dformatter.format(amount))
+    txt.text = amount.toDecimalCurrency()
 }
 
-@BindingAdapter(value = ["returns", "anim", "returnType"], requireAll = false)
-fun returns(txt: TextView, amount: Double, anim: Boolean = true, returnType: Boolean = true) {
+@BindingAdapter(value = ["returns", "anim"], requireAll = false)
+fun returns(txt: TextView, amount: Double, anim: Boolean = true) {
     if (anim) {
-        returns((amount % 10), amount, txt, returnType)
+        returns((amount % 10), amount, txt)
         return
     }
-    txt.text = String.format(Locale.US, "+%s%s", txt.context.getString(R.string.rs_symbol), dformatter.format(amount))
+    txt.text = amount.toCurrency()
 }
 
 @BindingAdapter("amount")
@@ -177,10 +173,10 @@ fun handleTextView(initialValue: Double, finalValue: Double, textview: TextView)
     valueAnimator.start()
 }
 
-fun returns(initialValue: Double, finalValue: Double, textview: TextView, isPositiveCurrency: Boolean) {
+fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
     valueAnimator.duration = 1500
-    val returnType = if (isPositiveCurrency) "+" else "-"
+    val returnType = if (finalValue > 0) "+" else "-"
     valueAnimator.addUpdateListener { it ->
         textview.text = returnType.plus(it.animatedValue.toString().toDouble().toDecimalCurrency())
     }

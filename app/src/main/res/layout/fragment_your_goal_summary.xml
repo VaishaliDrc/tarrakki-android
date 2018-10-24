@@ -140,13 +140,15 @@
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_8"
                     android:text="@string/here_is_a_summary_of_your_goal"
                     android:textColor="@android:color/black" />
 
@@ -154,14 +156,23 @@
                     android:id="@+id/mFlax"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/default_space"
-                    app:alignContent="stretch"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_8"
+                    app:alignContent="center"
                     app:alignItems="center"
-                    app:flexWrap="wrap">
+                    app:flexWrap="wrap" />
 
 
-
-                </com.google.android.flexbox.FlexboxLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_goal_summary_bg"
+                    android:lineSpacingExtra="@dimen/space_4"
+                    android:layout_marginTop="@dimen/space_25"
+                    android:padding="8dp"
+                    android:text="@{vm.GSummary}"
+                    android:textColor="@color/semi_white"
+                    tools:text="To achieve your goal of saving 10,00,000 in 5 years you'll have to invest 1583 every month." />
 
             </LinearLayout>
 
