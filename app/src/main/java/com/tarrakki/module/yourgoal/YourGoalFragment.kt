@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentYourGoalBinding
 import com.tarrakki.module.goal.Goal
 import kotlinx.android.synthetic.main.fragment_your_goal.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setMultiViewPageAdapter
 import org.supportcompact.ktx.simpleAlert
@@ -50,6 +53,9 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         getViewModel().goalVM.observe(this, Observer {
             getBinding().goal = it
             getBinding().executePendingBindings()
+            getViewModel().yourGoalSteps.forEach { item ->
+                item.goal = it
+            }
         })
         mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
             item.onNext = View.OnClickListener {
@@ -60,8 +66,18 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             }
             binder.setVariable(BR.goal, getViewModel().goalVM.value)
             binder.setVariable(BR.yourGoal, item)
+            binder.setVariable(BR.onEditorAction, TextView.OnEditorActionListener { textView, actionId, keyEvent ->
+                return@OnEditorActionListener when (actionId) {
+                    EditorInfo.IME_ACTION_NEXT -> {
+                        onNext()
+                        true
+                    }
+                    else -> false
+                }
+            })
             binder.executePendingBindings()
         }
+
     }
 
     private fun onNext() {
@@ -69,9 +85,9 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         val item = getViewModel().yourGoalSteps[index]
         when (index) {
             0 -> {
-                if (TextUtils.isEmpty(item.answered)) {
+                if (item.goal != null && TextUtils.isEmpty(item.goal?.investmentAmount)) {
                     context?.simpleAlert("Please enter amount")
-                } else if (TextUtils.isEmpty(item.answered2)) {
+                } else if (item.goal != null && TextUtils.isEmpty(item.goal?.investmentDuration)) {
                     context?.simpleAlert("Please enter years")
                 } else {
                     mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
@@ -88,7 +104,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 if (TextUtils.isEmpty(item.answered2)) {
                     context?.simpleAlert("Please enter amount")
                 } else {
-                    startFragment(YourGoalSummaryFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, getBinding().goal) }), R.id.frmContainer)
+                    startFragment(YourGoalSummaryFragment.newInstance(/*Bundle().apply { putSerializable(KEY_GOAL, getBinding().goal) }*/), R.id.frmContainer)
+                    EventBus.getDefault().postSticky(item.goal)
                 }
             }
         }
@@ -97,6 +114,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     private fun onPrevious() {
         if (mPageGoal.currentItem <= getViewModel().yourGoalSteps.size - 1) {
             mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
+            mPageGoal?.adapter?.notifyDataSetChanged()
         }
     }
 

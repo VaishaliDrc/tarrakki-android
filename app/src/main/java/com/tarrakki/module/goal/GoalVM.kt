@@ -1,6 +1,9 @@
 package com.tarrakki.module.goal
 
+import android.databinding.BaseObservable
+import android.databinding.Bindable
 import android.support.annotation.DrawableRes
+import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -22,7 +25,22 @@ class GoalVM : FragmentViewModel() {
     }
 }
 
-data class Goal(var title: String, @DrawableRes var imgUrl: Int) : WidgetsViewModel, Serializable {
+data class Goal(var title: String, @DrawableRes var imgUrl: Int) : BaseObservable(), WidgetsViewModel, Serializable {
+
+    @Bindable
+    var investmentAmount: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.investmentAmount)
+        }
+
+    @Bindable
+    var investmentDuration: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.investmentDuration)
+        }
+
     override fun layoutId(): Int {
         return R.layout.row_goal_home_list_item
     }

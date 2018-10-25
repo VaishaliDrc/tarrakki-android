@@ -13,6 +13,10 @@
             name="goal"
             type="com.tarrakki.module.goal.Goal" />
 
+        <variable
+            name="onEditorAction"
+            type="android.widget.TextView.OnEditorActionListener" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -135,22 +139,23 @@
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_switch_bg"
                 android:button="@null"
-                android:checked="@={yourGoal.selected}"
+                android:checked="@{yourGoal.selected}"
+                android:onClick="@{yourGoal.onToggleClick}"
                 android:textOff=""
                 android:textOn=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalValueL"
-                tools:checked="false" />
+                tools:checked="true" />
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:el_duration="500"
-                app:el_expanded="true"
                 app:expanded="@{yourGoal.selected}"
-                app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan">
+                app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan"
+                tools:el_expanded="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -193,12 +198,14 @@
                             android:layout_marginEnd="@dimen/space_8"
                             android:layout_toStartOf="@+id/tvDurations"
                             android:background="@null"
+                            android:imeOptions="actionNext"
                             android:inputType="number"
                             android:maxLength="2"
                             android:text="@={yourGoal.answered2}"
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/semi_black"
-                            app:isPositiveCurrency="@{true}" />
+                            app:isPositiveCurrency="@{true}"
+                            app:onEditorAction="@{onEditorAction}" />
 
                         <TextView
                             android:id="@+id/tvDurations"

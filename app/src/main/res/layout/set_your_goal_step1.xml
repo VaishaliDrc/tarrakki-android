@@ -13,6 +13,10 @@
             name="goal"
             type="com.tarrakki.module.goal.Goal" />
 
+        <variable
+            name="onEditorAction"
+            type="android.widget.TextView.OnEditorActionListener" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -157,7 +161,7 @@
                     android:background="@null"
                     android:hint="1,00,000"
                     android:inputType="number"
-                    android:text="@={yourGoal.answered}"
+                    android:text="@={yourGoal.goal.investmentAmount}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
                     app:isPositiveCurrency="@{true}" />
@@ -199,12 +203,14 @@
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_toStartOf="@+id/tvDurations"
                     android:background="@null"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:maxLength="2"
-                    android:text="@={yourGoal.answered2}"
+                    android:text="@={yourGoal.goal.investmentDuration}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
-                    app:isPositiveCurrency="@{true}" />
+                    app:isPositiveCurrency="@{true}"
+                    app:onEditorAction="@{onEditorAction}" />
 
                 <TextView
                     android:id="@+id/tvDurations"

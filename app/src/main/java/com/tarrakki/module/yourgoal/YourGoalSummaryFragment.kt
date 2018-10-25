@@ -21,6 +21,10 @@ import com.tarrakki.module.goal.Goal
 import com.tarrakki.module.yourgoal.SummaryWidget.*
 import com.tarrakki.module.yourgoal.WidgetSpace.*
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
+import kotlinx.android.synthetic.main.set_your_goal_step1.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.convertToPx
 
@@ -52,10 +56,92 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     }
 
     override fun createReference() {
-        getViewModel().goalVM.value = arguments?.getSerializable(KEY_GOAL) as Goal
         getViewModel().goalVM.observe(this, Observer {
             getBinding().goal = it
             getBinding().executePendingBindings()
+            getViewModel().goalSummary.forEach { item ->
+                when (item.type) {
+                    "investment" -> {
+                        item.txt = it?.investmentAmount!!
+                    }
+                    "durations" -> {
+                        item.txt = it?.investmentDuration!!
+                    }
+                }
+            }
+            var investAmount = ""
+            var durations = ""
+            var txtDuration: TextView? = null
+            getViewModel().goalSummary.forEach { item ->
+                val lParam: FlexboxLayout.LayoutParams
+                when (item.widgetType) {
+                    LABEL -> {
+                        lParam = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                        val label = DataBindingUtil.inflate<SummaryLabelBinding>(layoutInflater, R.layout.summary_label, mFlax, true)
+                        label.goalSummary = item
+                        label.executePendingBindings()
+                        addSpace(item, label, lParam)
+                        if ("durations" == item.type) {
+                            txtDuration = label.edtDurations
+                        }
+                    }
+                    TXT -> {
+                        lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+                        val txt = DataBindingUtil.inflate<SummaryTxtBinding>(layoutInflater, R.layout.summary_txt, mFlax, true)
+                        txt.goalSummary = item
+                        txt.executePendingBindings()
+                        addSpace(item, txt, lParam)
+                        if ("durations" == item.type) {
+                            durations = item.txt
+                            txt.edtDurations.addTextChangedListener(object : TextWatcher {
+                                override fun afterTextChanged(p0: Editable?) {
+                                    durations = p0.toString()
+                                    setGoalSummary(amount = investAmount, durations = durations)
+                                    txtDuration?.text = durations
+                                }
+
+                                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                                }
+
+                                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                                }
+                            })
+                        }
+                    }
+                    TXT_CURRENCY -> {
+                        lParam = FlexboxLayout.LayoutParams(120f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+                        val txtCurrency = DataBindingUtil.inflate<SummaryTxtCurrencyBinding>(layoutInflater, R.layout.summary_txt_currency, mFlax, true)
+                        txtCurrency.goalSummary = item
+                        txtCurrency.executePendingBindings()
+                        addSpace(item, txtCurrency, lParam)
+                        if ("investment" == item.type) {
+                            investAmount = item.txt
+                            txtCurrency.edtInvestAmount.addTextChangedListener(object : TextWatcher {
+                                override fun afterTextChanged(p0: Editable?) {
+
+                                }
+
+                                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                                }
+
+                                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                                    investAmount = p0.toString()
+                                    setGoalSummary(amount = investAmount, durations = durations)
+                                }
+                            })
+                        }
+                    }
+                    TXT_PERCENTAGE -> {
+                        lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
+                        val tatPercentage = DataBindingUtil.inflate<SummaryTxtPercetageBinding>(layoutInflater, R.layout.summary_txt_percetage, mFlax, true)
+                        tatPercentage.goalSummary = item
+                        tatPercentage.executePendingBindings()
+                        addSpace(item, tatPercentage, lParam)
+                    }
+                }
+            }
+            setGoalSummary(amount = investAmount, durations = durations)
         })
 
         tvWhyInflationMatter?.setOnClickListener { _ ->
@@ -63,83 +149,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 getViewModel().whyInflationMatter.set(!it)
             }
         }
-
-        var investAmount = ""
-        var durations = ""
-        var txtDuration: TextView? = null
-        getViewModel().goalSummary.forEach { item ->
-            val lParam: FlexboxLayout.LayoutParams
-            when (item.widgetType) {
-                LABEL -> {
-                    lParam = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                    val label = DataBindingUtil.inflate<SummaryLabelBinding>(layoutInflater, R.layout.summary_label, mFlax, true)
-                    label.goalSummary = item
-                    label.executePendingBindings()
-                    addSpace(item, label, lParam)
-                    if ("durations" == item.type) {
-                        txtDuration = label.edtDurations
-                    }
-                }
-                TXT -> {
-                    lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                    val txt = DataBindingUtil.inflate<SummaryTxtBinding>(layoutInflater, R.layout.summary_txt, mFlax, true)
-                    txt.goalSummary = item
-                    txt.executePendingBindings()
-                    addSpace(item, txt, lParam)
-                    if ("durations" == item.type) {
-                        durations = item.txt
-                        txt.edtDurations.addTextChangedListener(object : TextWatcher {
-                            override fun afterTextChanged(p0: Editable?) {
-                                durations = p0.toString()
-                                setGoalSummary(amount = investAmount, durations = durations)
-                                txtDuration?.text = durations
-                            }
-
-                            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            }
-
-                            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            }
-                        })
-                    }
-                }
-                TXT_CURRENCY -> {
-                    lParam = FlexboxLayout.LayoutParams(120f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                    val txtCurrency = DataBindingUtil.inflate<SummaryTxtCurrencyBinding>(layoutInflater, R.layout.summary_txt_currency, mFlax, true)
-                    txtCurrency.goalSummary = item
-                    txtCurrency.executePendingBindings()
-                    addSpace(item, txtCurrency, lParam)
-                    if ("investment" == item.type) {
-                        investAmount = item.txt
-                        txtCurrency.edtInvestAmount.addTextChangedListener(object : TextWatcher {
-                            override fun afterTextChanged(p0: Editable?) {
-
-                            }
-
-                            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                            }
-
-                            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                investAmount = p0.toString()
-                                setGoalSummary(amount = investAmount, durations = durations)
-                            }
-                        })
-                    }
-                }
-                TXT_PERCENTAGE -> {
-                    lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                    val tatPercentage = DataBindingUtil.inflate<SummaryTxtPercetageBinding>(layoutInflater, R.layout.summary_txt_percetage, mFlax, true)
-                    tatPercentage.goalSummary = item
-                    tatPercentage.executePendingBindings()
-                    addSpace(item, tatPercentage, lParam)
-                }
-            }
-        }
-        setGoalSummary(amount = investAmount, durations = durations)
     }
 
     private fun setGoalSummary(amount: String, durations: String) {
+        getBinding().goal?.investmentAmount = amount
+        getBinding().goal?.investmentDuration = durations
         val ssb = SpannableStringBuilder("To achieve your goal of saving ")
         ssb.append(SpannableString(getString(R.string.rs_symbol).plus(" ").plus(amount)).apply {
             setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -179,6 +193,24 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 binder.root.layoutParams = lParam
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(goal: Goal) {
+        if (getBinding().goal == null) {
+            getViewModel().goalVM.value = goal
+        }
+        EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

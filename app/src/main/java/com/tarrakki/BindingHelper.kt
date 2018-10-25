@@ -147,6 +147,12 @@ fun inputTypePositive(edt: EditText, isPositiveCurrency: Boolean) = if (isPositi
     edt.applyCurrencyFormat()
 }
 
+
+@BindingAdapter("onEditorAction")
+fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEditorActionListener) {
+    editText.setOnEditorActionListener(onEditorActionListener)
+}
+
 fun TextView.decimalFormat(amount: Double) {
     this.text = String.format(Locale.US, "%,.2f", amount)
 }

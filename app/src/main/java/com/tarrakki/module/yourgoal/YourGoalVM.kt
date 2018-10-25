@@ -51,9 +51,9 @@ class YourGoalVM : FragmentViewModel() {
         )
 
         goalSummary.add(GoalSummary("You'd like to purchase a house currently costing", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("10,00,000", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE, "investment"))
+        goalSummary.add(GoalSummary("", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE, "investment"))
         goalSummary.add(GoalSummary("in", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("5", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
+        goalSummary.add(GoalSummary("", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
         goalSummary.add(GoalSummary("years.", SummaryWidget.LABEL, WidgetSpace.RIGHT_SPACE))
         goalSummary.add(GoalSummary("Since you plan to pay", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("30", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.BOTH_SIDE_SPACE))
@@ -62,7 +62,7 @@ class YourGoalVM : FragmentViewModel() {
         goalSummary.add(GoalSummary("corpus of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("3,82,884", SummaryWidget.TXT_CURRENCY, WidgetSpace.BOTH_SIDE_SPACE))
         goalSummary.add(GoalSummary("by the end of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("5", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
+        goalSummary.add(GoalSummary("", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
         goalSummary.add(GoalSummary("your (inflation adjusted)", SummaryWidget.LABEL, WidgetSpace.NOTHING))
 
     }
@@ -85,6 +85,7 @@ enum class WidgetSpace {
 
 data class YourGoalSteps(@LayoutRes
                          val layout: Int,
+                         var goal: Goal? = null,
                          var question: String,
                          var answered: String = "",
                          var ans: Boolean = false,
@@ -107,4 +108,7 @@ data class YourGoalSteps(@LayoutRes
             field = value
             notifyPropertyChanged(BR.selected)
         }
+    val onToggleClick = View.OnClickListener {
+        isSelected = !isSelected
+    }
 }

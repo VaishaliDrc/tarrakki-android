@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
 
+
 /**
  * This is extension function setup the of ViewPager's PagerAdapter.
  * @param layout layout to be bound to adapter.
@@ -39,6 +40,10 @@ fun <T : WidgetsViewModel> ViewPager.setMultiViewPageAdapter(items: ArrayList<T>
 
         override fun getPageTitle(position: Int): CharSequence? {
             return items[position].toString()
+        }
+
+        override fun getItemPosition(`object`: Any): Int {
+            return POSITION_NONE
         }
     }
     return adapter
