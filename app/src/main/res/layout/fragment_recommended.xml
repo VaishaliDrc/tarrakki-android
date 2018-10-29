@@ -37,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
+                android:fontFamily="@font/lato_bold"
                 android:text="@string/your_investment_plan"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/white"
@@ -48,7 +49,7 @@
                 android:id="@+id/mViewCircle"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_monthly_investment_bg"
                 app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/monthly_investment"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/home_title_color"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
                 app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +72,7 @@
                 android:id="@+id/tvInvestmentMonthly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
                 android:text="@string/dummy"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
@@ -85,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:text="For 5 Years"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/home_title_color"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
                 app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,9 +104,9 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/mPieChart"
-                android:layout_width="168dp"
-                android:layout_height="168dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="@dimen/default_space"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintTop_toBottomOf="@+id/tvInvestmentPlan" />
@@ -113,9 +115,10 @@
                 android:id="@+id/tvRecommendedInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
+                android:lineSpacingExtra="@dimen/space_4"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:padding="@dimen/space_8"
@@ -125,57 +128,55 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/homeView" />
 
-            <View
-                android:id="@+id/mViewAMSContainer"
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/space_16"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_8"
                 android:background="@drawable/shape_cart_view"
-                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRecommendedInfo" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommendedInfo">
 
-            <TextView
-                android:id="@+id/tvAchieveL"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_8"
-                android:elevation="@dimen/space_2"
-                android:text="@string/funds_to_achieve_your_goal"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
-                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer"
-                app:layout_constraintTop_toTopOf="@id/mViewAMSContainer" />
+                <TextView
+                    android:id="@+id/tvAchieveL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/space_8"
+                    android:text="@string/funds_to_achieve_your_goal"
+                    android:textColor="@android:color/black" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvAMCList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/space_8"
-                android:layout_marginBottom="8dp"
-                android:elevation="@dimen/space_2"
-                app:layout_constraintBottom_toTopOf="@+id/button"
-                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
-                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer"
-                app:layout_constraintTop_toBottomOf="@+id/tvAchieveL"
-                app:layout_constraintVertical_bias="0"
-                tools:itemCount="2" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/bg_color" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/shape_btn_idle_bg"
-                android:elevation="@dimen/space_2"
-                android:text="@string/get_this_goal"
-                android:textColor="@android:color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/mViewAMSContainer"
-                app:layout_constraintEnd_toEndOf="@id/mViewAMSContainer"
-                app:layout_constraintStart_toStartOf="@id/mViewAMSContainer" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvAMCList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerV="@{@drawable/shape_amc_list_divider}"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/row_amc_list_item" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:elevation="@dimen/space_2"
+                    android:text="@string/get_this_goal"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

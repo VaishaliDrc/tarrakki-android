@@ -10,8 +10,10 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentRecommendedBinding
+import com.tarrakki.databinding.RowAmcListItemBinding
 import kotlinx.android.synthetic.main.fragment_recommended.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getColor
 
 
@@ -44,24 +46,37 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
 
     override fun createReference() {
         setPieChartData()
+        rvAMCList?.isFocusable = false
+        rvAMCList?.isNestedScrollingEnabled = false
+        rvAMCList?.setUpRecyclerView(R.layout.row_amc_list_item, getViewModel().AMCList) { item: AMC, binder: RowAmcListItemBinding, position ->
+            binder.amc = item
+            binder.executePendingBindings()
+        }
     }
 
     private fun setPieChartData() {
         val entries: MutableList<PieEntry> = ArrayList()
-        entries.add(PieEntry(61.5f, "EQUITY"))
-        entries.add(PieEntry(38.5f, "DEBT"))
+        entries.add(PieEntry(25.0f, "EQUITY"))
+        entries.add(PieEntry(14.0f, "DEBT"))
+        entries.add(PieEntry(61.0f, "BALANCED"))
         val set = PieDataSet(entries, "")
-        set.colors = arrayListOf(getColor(R.color.equity_fund_color), getColor(R.color.debt_fund_color))
+        set.colors = arrayListOf(getColor(R.color.equity_fund_color), getColor(R.color.debt_fund_color), getColor(R.color.balanced_fund_color))
         set.sliceSpace = 0f
         val data = PieData(set)
         data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(14f)
+        data.setValueTextSize(8f)
+
+
         data.setValueTextColor(Color.WHITE)
         mPieChart.data = data
+        mPieChart.setEntryLabelTextSize(9f)
+
         mPieChart.setTouchEnabled(false)
         mPieChart.isDrawHoleEnabled = false // To file entire
         mPieChart.description.isEnabled = false // To remove description
         mPieChart.legend.isEnabled = false // To remove legend
+        mPieChart.setExtraOffsets(-5f, -5f, -5f, -5f)
+        mPieChart.rotation = 0f
         mPieChart.invalidate() // refresh
         //for rotating anti-clockwise
         mPieChart.animateY(500)

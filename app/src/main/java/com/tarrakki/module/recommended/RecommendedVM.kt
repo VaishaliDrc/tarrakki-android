@@ -16,7 +16,8 @@ class RecommendedVM : FragmentViewModel() {
                 2300.toDouble(),
                 16.1f,
                 "Last 5Y",
-                48f))
+                48f,
+                R.color.balanced_fund_color))
         AMCList.add(AMC(
                 "DSP 10Y G SEC Growth Direct Plan",
                 "Debt - Bonds - Government Bond Fund",
@@ -25,7 +26,7 @@ class RecommendedVM : FragmentViewModel() {
                 7f,
                 "Last 5Y",
                 38.5f,
-                R.color.debt_fund_color))
+                R.color.equity_fund_color))
 
         AMCList.add(AMC(
                 "IDFC NIFTY Growth Direct Plan",
@@ -34,7 +35,8 @@ class RecommendedVM : FragmentViewModel() {
                 600.toDouble(),
                 14.7f,
                 "Last 5Y",
-                13.5f
+                13.5f,
+                R.color.debt_fund_color
         ))
     }
 }
@@ -47,5 +49,5 @@ data class AMC(
         var returns: Float,
         var returnsSince: String,
         var weightage: Float,
-        @ColorRes var fundType: Int = R.color.equity_fund_color
+        @ColorRes var fundColor: Int = R.color.equity_fund_color
 )

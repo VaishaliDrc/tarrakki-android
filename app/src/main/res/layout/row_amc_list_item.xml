@@ -13,30 +13,154 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_amc_item_bg"
+        android:background="@color/white"
         android:elevation="@dimen/space_2"
-        tools:layout_margin="@dimen/space_8">
-
-        <View
-            android:id="@+id/mView"
-            android:layout_width="@dimen/space_4"
-            android:layout_height="0dp"
-            android:background="@{amc.fundType}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:background="@color/equity_fund_color" />
+        android:padding="@dimen/space_8"
+        tools:layout_marginBottom="@dimen/default_space">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
+            android:fontFamily="@font/lato_semibold"
+            android:maxLines="2"
             android:text="@{amc.name}"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toEndOf="@id/mView"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toStartOf="@id/tvWeightageLabel"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="ICICI Prudential NIFTY Next 50 Index Growth Direct Plan" />
 
+        <TextView
+            android:id="@+id/tvWeightageLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weightage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvWeightage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:padding="@dimen/space_4"
+            android:text="@{amc.weightage + `%`}"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tvWeightageLabel"
+            app:layout_constraintTop_toBottomOf="@id/tvWeightageLabel"
+            tools:text="61%" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="@{amc.description}"
+            android:textColor="@{context.getColor(amc.fundColor)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWeightage"
+            tools:text="Equity - India Multi Cap Equity"
+            tools:textColor="@color/balanced_fund_color" />
+
+        <TextView
+            android:id="@+id/tvOneTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            app:price="@{amc.oneTime}"
+            tools:text="@string/dummy" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/one_time"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gdlCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.30" />
+
+
+        <TextView
+            android:id="@+id/tvInvestmentMonthly"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@+id/gdlEnd"
+            app:layout_constraintStart_toStartOf="@+id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            app:price="@{amc.monthly}"
+            tools:text="@string/dummy1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/monthly"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toStartOf="@+id/gdlEnd"
+            app:layout_constraintStart_toStartOf="@+id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gdlEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.60" />
+
+        <TextView
+            android:id="@+id/tvReturn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@{amc.returns + `%`}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            tools:text="16.1%" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@{@string/returns + ` (`+ amc.returnsSince +`)`}"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="@+id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvOneTime"
+            tools:text="Returns (Last 5Y)" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

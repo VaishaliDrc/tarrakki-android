@@ -4,6 +4,7 @@ import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 
+
 fun AppCompatActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = supportFragmentManager
     fm.beginTransaction()

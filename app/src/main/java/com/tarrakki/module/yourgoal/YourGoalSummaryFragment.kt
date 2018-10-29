@@ -18,15 +18,16 @@ import com.google.android.flexbox.FlexboxLayout
 import com.tarrakki.R
 import com.tarrakki.databinding.*
 import com.tarrakki.module.goal.Goal
+import com.tarrakki.module.recommended.RecommendedFragment
 import com.tarrakki.module.yourgoal.SummaryWidget.*
 import com.tarrakki.module.yourgoal.WidgetSpace.*
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
-import kotlinx.android.synthetic.main.set_your_goal_step1.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.convertToPx
+import org.supportcompact.ktx.startFragment
 
 
 /**
@@ -149,11 +150,15 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 getViewModel().whyInflationMatter.set(!it)
             }
         }
+
+        btnAddThisGoal?.setOnClickListener {
+            startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+        }
     }
 
     private fun setGoalSummary(amount: String, durations: String) {
-        getBinding().goal?.investmentAmount = amount
-        getBinding().goal?.investmentDuration = durations
+        /*getBinding().goal?.investmentAmount = amount
+        getBinding().goal?.investmentDuration = durations*/
         val ssb = SpannableStringBuilder("To achieve your goal of saving ")
         ssb.append(SpannableString(getString(R.string.rs_symbol).plus(" ").plus(amount)).apply {
             setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
