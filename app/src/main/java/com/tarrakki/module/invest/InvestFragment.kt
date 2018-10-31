@@ -79,6 +79,9 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, getViewModel().funds) { item: Fund, binder: RowFundListItemBinding, position ->
             binder.fund = item
             binder.executePendingBindings()
+            binder.btnInvest.setOnClickListener {
+                //startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            }
             binder.root.setOnClickListener {
                 startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
             }
@@ -146,5 +149,6 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = InvestFragment().apply { arguments = basket }
+
     }
 }

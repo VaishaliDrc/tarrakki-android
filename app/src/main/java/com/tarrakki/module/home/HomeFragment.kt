@@ -12,7 +12,9 @@ import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
+import com.tarrakki.module.portfolio.PortfolioFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -47,10 +49,13 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override fun createReference() {
         setHasOptionsMenu(true)
-        tvWhyTarrakkii?.setOnClickListener { it ->
+        tvWhyTarrakkii?.setOnClickListener { _ ->
             getViewModel().whayTarrakki.get()?.let {
                 getViewModel().whayTarrakki.set(!it)
             }
+        }
+        tvViewPortfolio?.setOnClickListener {
+            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
@@ -74,9 +79,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         App.INSTANCE.cartCount.observe(this, Observer {
             tvCartCount?.text = it.toString()
         })
-        super.onCreateOptionsMenu(menu, inflater)
+        menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+        }
     }
-
 
 
     companion object {

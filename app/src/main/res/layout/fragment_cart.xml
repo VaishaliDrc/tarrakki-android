@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:focusableInTouchMode="true"
         tools:background="@color/bg_color"
         tools:context=".module.cart.CartFragment">
 
@@ -39,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/great_job"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/black" />
 
                 <TextView
@@ -52,14 +53,17 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <Button
+                    android:id="@+id/btnAddFund"
                     android:layout_width="wrap_content"
-                    android:layout_height="42dp"
+                    android:layout_height="38dp"
                     android:layout_marginTop="@dimen/default_space"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:fontFamily="@font/lato_bold"
-                    android:paddingStart="@dimen/space_32"
-                    android:paddingEnd="@dimen/space_32"
+                    android:paddingStart="@dimen/space_16"
+                    android:paddingEnd="@dimen/space_16"
                     android:text="@string/add_funds"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -80,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/order_summary"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -112,10 +116,9 @@
                     android:id="@+id/tvLumpsumAmount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_8"
                     android:layout_marginEnd="8dp"
                     android:text="@string/dummy3"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toStartOf="@+id/tvSIP"
                     app:layout_constraintStart_toStartOf="parent"
@@ -126,9 +129,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="@dimen/space_8"
                     android:text="@string/dummy3"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tvLumpsumAmount"
@@ -140,13 +142,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
+                    app:enableNestedScrollView="@{false}"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLumpsumAmount" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvLumpsumAmount"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/row_cart_item" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="@dimen/space_8"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:fontFamily="@font/lato_bold"
                     android:paddingStart="@dimen/space_32"

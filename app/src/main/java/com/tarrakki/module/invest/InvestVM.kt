@@ -83,8 +83,22 @@ data class Fund(
         var threeYearOfFDReturn: Float,
         var hasNegativeReturn: Boolean = false,
         var temp: String = "39.550",
-        var fundType: String = "Equity"
-) : Serializable
+        var fundType: String = "Equity",
+        var whatNew: String = "Folio"
+) : BaseObservable(), Serializable {
+    @get:Bindable
+    var hasOneTimeAmount: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.hasOneTimeAmount)
+        }
+    @get:Bindable
+    var date: String = "07 Sep 2018"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.date)
+        }
+}
 
 data class FundType(
         var name: String,

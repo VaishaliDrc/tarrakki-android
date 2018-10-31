@@ -27,7 +27,7 @@ class CartVM : FragmentViewModel() {
                 4.6f,
                 14.8f,
                 25.7f,
-                6.5f)
+                6.5f).apply { hasOneTimeAmount = true }
         )
     }
 

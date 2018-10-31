@@ -12,7 +12,6 @@ fun String.toDate(withFormat: String = "yyyy/MM/dd hh:mm"): Date {
     try {
         convertedDate = dateFormat.parse(this)
     } catch (e: ParseException) {
-        // TODO Auto-generated catch block
         e.printStackTrace()
     }
     return convertedDate

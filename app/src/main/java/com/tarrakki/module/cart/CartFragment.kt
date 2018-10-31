@@ -3,15 +3,25 @@ package com.tarrakki.module.cart
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentCartBinding
+import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.invest.Fund
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
+import kotlinx.android.synthetic.main.activity_base.*
+import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.toCalendar
+import org.supportcompact.ktx.toDate
+import java.text.DateFormatSymbols
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
  * Use the [CartFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
 class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
@@ -34,6 +44,36 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     }
 
     override fun createReference() {
+        btnAddFund?.setOnClickListener { _ ->
+            activity?.let {
+                if (it is BaseActivity) {
+                    it.mBottomNav.selectedItemId = R.id.action_invest
+                }
+            }
+        }
+        rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: Fund, binder: RowCartItemBinding, position ->
+            binder.fund = item
+            binder.executePendingBindings()
+            binder.tvAddOneTimeAmount.setOnClickListener {
+                item.hasOneTimeAmount = true
+            }
+            binder.tvDate.setOnClickListener {
+                lateinit var now: Calendar
+                item.date.toDate("dd MMM yyyy").let { date ->
+                    now = date.toCalendar()
+                }
+                SpinnerDatePickerDialogBuilder()
+                        .context(context)
+                        .callback { view, year, monthOfYear, dayOfMonth ->
+                            item.date = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                        }
+                        .showTitle(true)
+                        .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+                        //.minDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+                        .build()
+                        .show()
+            }
+        }
     }
 
     companion object {

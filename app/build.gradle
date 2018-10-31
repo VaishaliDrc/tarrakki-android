@@ -29,6 +29,17 @@ android {
         }
     }
 
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appName = "Tarrakki"
+            def SEP = "_"
+            def date = new Date()
+            def formattedDate = date.format('dd_MMM_yyyy')
+            def newApkName = appName + SEP + formattedDate + ".apk"
+            outputFileName = newApkName
+        }
+    }
+
     dataBinding {
         enabled true
     }
@@ -55,15 +66,13 @@ dependencies {
     implementation 'com.mikhaellopez:circularprogressbar:2.0.0'
     //api 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'com.jjoe64:graphview:4.2.2'
-    implementation 'com.github.AnyChart:AnyChart-Android:1.0.4'
 
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.google.android:flexbox:1.0.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
 
-    //implementation 'com.daasuu:CountAnimationTextView:0.1.1'
 
     implementation 'com.android.support:support-v4:28.0.0'
     testImplementation 'junit:junit:4.12'

@@ -105,6 +105,11 @@
     <string name="total_one_time_lumpsum_investment">Total One-time Lumpsum Investment</string>
     <string name="total_monthly_investment_sip">Total Monthly Investment (SIP)</string>
     <string name="place_order">Place Order</string>
+    <string name="new_">New:</string>
+    <string name="sip">SIP</string>
+    <string name="lumpsum_amount">Lumpsum Amount</string>
+    <string name="add_one_time_amount">+ Add one time amount</string>
+    <string name="portfolio">Portfolio</string>
 
     <string-array name="durations">
         <item>Year(s)</item>

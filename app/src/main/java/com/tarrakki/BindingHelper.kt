@@ -14,7 +14,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.tarrakki.module.goal.Goal
-import com.tarrakki.module.recommended.RecommendedFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
 import com.tarrakki.module.yourgoal.YourGoalFragment
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -76,6 +75,12 @@ fun setDividerVertical(rv: RecyclerView, drawable: Drawable? = null) {
         divider.setDrawable(it)
     }
     rv.addItemDecoration(divider)
+}
+
+@BindingAdapter("enableNestedScrollView")
+fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
+    rv.isNestedScrollingEnabled = enable
+    rv.isFocusable = enable
 }
 
 @BindingAdapter("imgUrl")
