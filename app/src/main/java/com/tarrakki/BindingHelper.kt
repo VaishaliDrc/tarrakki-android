@@ -1,12 +1,10 @@
 package com.tarrakki
 
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.annotation.DrawableRes
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -124,21 +122,6 @@ fun returns(txt: TextView, amount: Double, anim: Boolean = true) {
     txt.text = amount.toCurrency()
 }
 
-@BindingAdapter("amount")
-fun applyAmountFormat(txt: TextView, amount: Double) {
-    txt.text = String.format(Locale.US, "%,d", amount)
-}
-
-@BindingAdapter("dAmount")
-fun applyDAmountFormat(txt: TextView, amount: Double) {
-    txt.text = String.format(Locale.US, "%,.2f", amount)
-}
-
-@SuppressLint("ClickableViewAccessibility")
-@BindingAdapter("isSwappable")
-fun disableSwipe(mPager: ViewPager, swappable: Boolean) {
-    mPager.setOnTouchListener { p0, p1 -> !swappable }
-}
 
 @BindingAdapter("isCurrency")
 fun inputType(edt: EditText, isCurrency: Boolean) = if (isCurrency) {

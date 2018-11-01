@@ -14,9 +14,12 @@
         android:id="@+id/rvDInvests"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:padding="@dimen/default_space"
         app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".module.portfolio.fragments.DirectInvestmentFragment" />
+        tools:context=".module.portfolio.fragments.DirectInvestmentFragment"
+        tools:listitem="@layout/row_direct_investment_list_item" />
 
 </layout>
 

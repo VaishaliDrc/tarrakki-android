@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".module.portfolio.fragments.GoalBasedInvestmentFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.portfolio.PortfolioVM" />
+    </data>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvGBInvests"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:overScrollMode="never"
+        android:padding="@dimen/default_space"
+        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:context=".module.portfolio.fragments.DirectInvestmentFragment"
+        tools:listitem="@layout/row_goal_based_investment_list_item" />
 
-</FrameLayout>
+</layout>
+

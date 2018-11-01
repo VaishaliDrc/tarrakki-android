@@ -110,6 +110,12 @@
     <string name="lumpsum_amount">Lumpsum Amount</string>
     <string name="add_one_time_amount">+ Add one time amount</string>
     <string name="portfolio">Portfolio</string>
+    <string name="total_investment_">Total Investment:</string>
+    <string name="xirr_">XIRR:</string>
+    <string name="current_value_">Current Value:</string>
+    <string name="stop">Stop</string>
+    <string name="start">Start</string>
+    <string name="edit">Edit</string>
 
     <string-array name="durations">
         <item>Year(s)</item>

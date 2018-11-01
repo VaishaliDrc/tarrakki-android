@@ -8,8 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tarrakki.R
-import com.tarrakki.databinding.FragmentPortfolioBinding
+import com.tarrakki.databinding.FragmentDirectInvestmentBinding
+import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
+import com.tarrakki.module.portfolio.Investment
 import com.tarrakki.module.portfolio.PortfolioVM
+import kotlinx.android.synthetic.main.fragment_direct_investment.*
+import org.supportcompact.adapters.setUpRecyclerView
 
 /**
  * A simple [Fragment] subclass.
@@ -20,7 +24,7 @@ import com.tarrakki.module.portfolio.PortfolioVM
 class DirectInvestmentFragment : Fragment() {
 
     var vm: PortfolioVM? = null
-    var binder: FragmentPortfolioBinding? = null
+    var binder: FragmentDirectInvestmentBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -35,8 +39,11 @@ class DirectInvestmentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm?.let {
-            
+        vm?.let { vm ->
+            rvDInvests?.setUpRecyclerView(R.layout.row_direct_investment_list_item, vm.directInvestment) { item: Investment, binder: RowDirectInvestmentListItemBinding, position ->
+                binder.investment = item
+                binder.executePendingBindings()
+            }
         }
     }
 
