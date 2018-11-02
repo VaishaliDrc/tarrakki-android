@@ -1,13 +1,19 @@
 package com.tarrakki.module.invest
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.*
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM
 import kotlinx.android.synthetic.main.fragment_invest.*
@@ -42,6 +48,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         ivExClp?.setOnClickListener { _ ->
             getViewModel().filter.set(!getViewModel().filter.get()!!)
         }
@@ -135,6 +142,17 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 }
                 //adapterSub.notifyDataSetChanged()
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.home_menu, menu)
+        val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
+        App.INSTANCE.cartCount.observe(this, Observer {
+            tvCartCount?.text = it.toString()
+        })
+        menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
     }
 

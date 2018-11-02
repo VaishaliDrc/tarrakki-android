@@ -12,7 +12,7 @@ fun Context.simpleAlert(msg: String, positiveButton: (() -> Unit)? = null) {
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(getString(R.string.app_name))
             .setMessage(msg)
-            .addButton(getString(R.string.ok), R.color.white, R.color.colorPrimary) {
+            .addButton(getString(R.string.ok), R.color.white, R.color.btn_bg_color) {
                 positiveButton?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -31,7 +31,7 @@ fun Context.simpleAlert(title: String, msg: String, positiveButton: (() -> Unit)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)
-            .addButton(getString(R.string.ok), R.color.white, R.color.colorPrimary) {
+            .addButton(getString(R.string.ok), R.color.white, R.color.btn_bg_color) {
                 positiveButton?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -49,10 +49,10 @@ fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = nu
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(getString(R.string.app_name))
             .setMessage(msg)
-            .addButton(getString(R.string.yes), R.color.white, R.color.pdlg_color_green) {
+            .addButton(getString(R.string.yes), R.color.white, R.color.btn_bg_color) {
                 btnPositiveClick?.invoke()
                 mDialog.dismiss()
-            }.addButton(getString(R.string.no), R.color.white, R.color.pdlg_color_red) {
+            }.addButton(getString(R.string.no), R.color.white, R.color.btn_bg_color) {
                 btnNegativeClick?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -69,10 +69,10 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositiveClick: (()
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)
-            .addButton(getString(R.string.yes), R.color.white, R.color.pdlg_color_green) {
+            .addButton(getString(R.string.yes), R.color.white, R.color.btn_bg_color) {
                 btnPositiveClick?.invoke()
                 mDialog.dismiss()
-            }.addButton(getString(R.string.no), R.color.white, R.color.pdlg_color_red) {
+            }.addButton(getString(R.string.no), R.color.white, R.color.btn_bg_color) {
                 btnNegativeClick?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -89,10 +89,10 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositive: String, 
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)
-            .addButton(btnPositive, R.color.white, R.color.pdlg_color_green) {
+            .addButton(btnPositive, R.color.white, R.color.btn_bg_color) {
                 btnPositiveClick?.invoke()
                 mDialog.dismiss()
-            }.addButton(btnNegative, R.color.white, R.color.pdlg_color_red) {
+            }.addButton(btnNegative, R.color.white, R.color.btn_bg_color) {
                 btnNegativeClick?.invoke()
                 mDialog.dismiss()
             }.show()

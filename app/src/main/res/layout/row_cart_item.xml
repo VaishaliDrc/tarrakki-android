@@ -98,29 +98,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvNewLbl" />
 
-        <EditText
-            android:id="@+id/edtSIPAmount"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/llSIP"
             android:layout_width="80dp"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/space_8"
             android:background="@drawable/shape_edt_white_round"
-            android:fontFamily="@font/lato_semibold"
-            android:inputType="number"
-            android:maxLines="1"
-            android:padding="@dimen/space_8"
-            android:text="@string/dummy1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/tvSIP"
             app:layout_constraintStart_toEndOf="@id/tvSIP"
-            app:layout_constraintTop_toTopOf="@+id/tvSIP"
-            tools:text="@string/dummy3" />
+            app:layout_constraintTop_toTopOf="@+id/tvSIP">
+
+            <TextView
+                android:id="@+id/tvSIPLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:text="@string/rs_symbol"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edtSIPAmount"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_semibold"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text="5,000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/white"
+                app:isPositiveCurrency="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvSIPLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="5000" />
+
+        </android.support.constraint.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/space_8"
+            android:layout_height="33dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/shape_edt_white_round"
             android:drawableEnd="@drawable/ic_drop_down_white_24dp"
             android:fontFamily="@font/lato_semibold"
@@ -128,9 +155,9 @@
             android:text="@{fund.date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/edtSIPAmount"
-            app:layout_constraintStart_toEndOf="@id/edtSIPAmount"
-            app:layout_constraintTop_toTopOf="@+id/edtSIPAmount"
+            app:layout_constraintBottom_toBottomOf="@+id/llSIP"
+            app:layout_constraintStart_toEndOf="@+id/llSIP"
+            app:layout_constraintTop_toTopOf="@+id/llSIP"
             tools:text="07 Sep 2018" />
 
         <TextView
@@ -168,7 +195,53 @@
             app:layout_constraintTop_toBottomOf="@id/tvSIP"
             tools:visibility="visible" />
 
-        <EditText
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/llLumpsum"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space_8"
+            android:background="@drawable/shape_edt_white_round"
+            android:gravity="center"
+            android:visibility="@{fund.hasOneTimeAmount ? View.VISIBLE: View.INVISIBLE}"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLumpsum"
+            app:layout_constraintStart_toEndOf="@id/tvLumpsum"
+            app:layout_constraintTop_toTopOf="@+id/tvLumpsum">
+
+            <TextView
+                android:id="@+id/tvLumpsumLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:text="@string/rs_symbol"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edtLumpsum"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:fontFamily="@font/lato_semibold"
+                android:inputType="number"
+                android:minWidth="100dp"
+                android:maxLines="1"
+                android:text="20,000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/white"
+                app:isPositiveCurrency="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvLumpsumLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="20,000" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <!--<EditText
             android:id="@+id/edtLumpsum"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -187,7 +260,7 @@
             app:layout_constraintStart_toEndOf="@id/tvLumpsum"
             app:layout_constraintTop_toTopOf="@+id/tvLumpsum"
             tools:text="@string/dummy3"
-            tools:visibility="visible" />
+            tools:visibility="visible" />-->
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -11,6 +11,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentGoalBinding
 import com.tarrakki.databinding.RowGoalListItemBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
 import com.tarrakki.module.yourgoal.YourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
@@ -78,7 +79,9 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         App.INSTANCE.cartCount.observe(this, Observer {
             tvCartCount?.text = it.toString()
         })
-        super.onCreateOptionsMenu(menu, inflater)
+        menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+        }
     }
 
     companion object {
