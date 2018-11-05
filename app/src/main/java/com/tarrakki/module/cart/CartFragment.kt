@@ -8,6 +8,7 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
 import com.tarrakki.module.invest.Fund
+import com.tarrakki.module.invest.InvestActivity
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -47,7 +48,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         btnAddFund?.setOnClickListener { _ ->
             activity?.let {
                 if (it is BaseActivity) {
-                    it.mBottomNav.selectedItemId = R.id.action_invest
+                    if (it is InvestActivity) {
+                        it.onBackPressed()
+                    } else {
+                        it.mBottomNav.selectedItemId = R.id.action_invest
+                    }
                 }
             }
         }
