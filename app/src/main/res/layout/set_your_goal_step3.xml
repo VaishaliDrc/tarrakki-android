@@ -148,56 +148,74 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvGoalValueL"
                 tools:checked="true" />
 
-            <TextView
-                android:id="@+id/tvGoalDurationL"
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/expandableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_30"
-                android:fontFamily="@font/lato_semibold"
-                android:gravity="center"
-                android:text="@{yourGoal.question2}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/semi_black"
+                app:el_duration="500"
+                app:expanded="@{yourGoal.selected}"
                 app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan"
-                tools:text="@string/how_much" />
+                tools:el_expanded="true">
 
-            <LinearLayout
-                android:id="@+id/llContainer"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:background="@drawable/shape_rounded_gray"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/space_8"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGoalDurationL">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:text="@string/rs_symbol"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/semi_black" />
-
-                <EditText
-                    android:id="@+id/edtInvestAmount"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:hint="1,00,000"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:text="@={yourGoal.answered2}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/semi_black"
-                    app:isPositiveCurrency="@{true}"
-                    app:onEditorAction="@{onEditorAction}" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tvGoalDurationL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_30"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center"
+                        android:text="@{yourGoal.question2}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/semi_black"
+                        app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan"
+                        tools:text="@string/how_much" />
+
+                    <LinearLayout
+                        android:id="@+id/llContainer"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/default_space"
+                        android:background="@drawable/shape_rounded_gray"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/space_8"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvGoalDurationL">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/space_8"
+                            android:layout_marginEnd="@dimen/space_8"
+                            android:text="@string/rs_symbol"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/semi_black" />
+
+                        <EditText
+                            android:id="@+id/edtInvestAmount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="1,00,000"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:text="@={yourGoal.answered2}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@color/semi_black"
+                            app:isPositiveCurrency="@{true}"
+                            app:onEditorAction="@{onEditorAction}" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
 
             <Button
                 android:id="@+id/btnPrevious"
@@ -220,7 +238,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@id/llContainer"
+                app:layout_constraintTop_toBottomOf="@id/expandableLayout"
                 app:layout_constraintVertical_bias="1" />
 
             <Button
@@ -243,7 +261,7 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toBottomOf="@id/llContainer"
+                app:layout_constraintTop_toBottomOf="@id/expandableLayout"
                 app:layout_constraintVertical_bias="1" />
 
             <android.support.constraint.Guideline

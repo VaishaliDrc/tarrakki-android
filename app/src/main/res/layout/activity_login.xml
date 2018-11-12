@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.login.LoginVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            tools:context=".module.login.LoginActivity">
+
+            <ImageView
+                android:id="@+id/ivLogin"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_50"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLoginLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/login_start_investing"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivLogin" />
+
+            <EditText
+                android:id="@+id/edtUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/space_32"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_edt_white_round"
+                android:drawableEnd="@drawable/ic_user"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLoginLbl" />
+
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_edt_white_round"
+                android:drawableEnd="@drawable/ic_password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtUserName" />
+
+            <CheckBox
+                android:id="@+id/cbKeepMeSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:button="@drawable/selector_check_box"
+                android:checked="true"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/space_8"
+                android:text="@string/keep_me_sign_in"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@+id/edtPassword"
+                app:layout_constraintTop_toBottomOf="@id/edtPassword" />
+
+            <TextView
+                android:id="@+id/tvForgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/forgot_password_"
+                android:textColor="@color/white"
+                app:layout_constraintBaseline_toBaselineOf="@id/cbKeepMeSignIn"
+                app:layout_constraintEnd_toEndOf="@id/edtPassword" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/login"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cbKeepMeSignIn" />
+
+            <TextView
+                android:id="@+id/tvOr"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/or_bg"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="center"
+                android:text="@string/or"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
+            <TextView
+                android:id="@+id/tvLoginWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/login_with"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOr" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLoginWith">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_fb_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_8"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_weight="2"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/facebook" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="#1C3C7E" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:text="Facebook"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_g_plus_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_8"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_weight="2"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/google_plus" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:background="#BE3610" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:text="@string/google_plus"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -8,7 +8,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 
-const val IS_REGISTERED = "is_registered"
+const val IS_LOGIN = "is_login"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -86,14 +86,14 @@ private fun SharedPreferences.apply(editor: SharedPreferences.Editor) {
     editor.apply()
 }
 
-fun Context.setIsRegistered(has: Boolean) {
-    return getPreferences.putBoolean(IS_REGISTERED, has)
+fun Context.setIsLogin(has: Boolean) {
+    return getPreferences.putBoolean(IS_LOGIN, has)
 }
 
-fun Context.isRegistered(): Boolean {
-    return getPreferences.getBoolean(IS_REGISTERED, false)
+fun Context.isLogin(): Boolean {
+    return getPreferences.getBoolean(IS_LOGIN, false)
 }
 
 fun Context.clearUserData() {
-    getPreferences.remove(IS_REGISTERED)
+    getPreferences.remove(IS_LOGIN)
 }

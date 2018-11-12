@@ -23,6 +23,7 @@ class YourGoalVM : FragmentViewModel() {
     val gSummary = ObservableField<SpannableStringBuilder>()
 
     init {
+
         yourGoalSteps.add(YourGoalSteps(
                 layout = R.layout.set_your_goal_step1,
                 question = "Current value of your dream home",
@@ -58,12 +59,15 @@ class YourGoalVM : FragmentViewModel() {
         goalSummary.add(GoalSummary("Since you plan to pay", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("30", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.BOTH_SIDE_SPACE))
         goalSummary.add(GoalSummary("down payment", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("during your purchase, you would need to build a", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("corpus of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("during your purchase, you need to build a corpus", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("3,82,884", SummaryWidget.TXT_CURRENCY, WidgetSpace.BOTH_SIDE_SPACE))
         goalSummary.add(GoalSummary("by the end of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
-        goalSummary.add(GoalSummary("your (inflation adjusted)", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("year", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("(inflation adjusted at", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary("6", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.LEFT_SPACE))
+        goalSummary.add(GoalSummary(")", SummaryWidget.LABEL, WidgetSpace.NOTHING))
 
     }
 }
@@ -90,7 +94,7 @@ data class YourGoalSteps(@LayoutRes
                          var answered: String = "",
                          var ans: Boolean = false,
                          var question2: String,
-                         var answered2: String = "",
+//                         var answered2: String = "",
                          var ans2: Boolean = false,
                          @DrawableRes
                          var drawable1: Int,
@@ -102,10 +106,19 @@ data class YourGoalSteps(@LayoutRes
     override fun layoutId() = layout
     var onNext: View.OnClickListener? = null
     var onPrevious: View.OnClickListener? = null
+
+    @get:Bindable
+    var answered2: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.answered2)
+        }
+
     @get:Bindable
     var isSelected: Boolean = ans
         set(value) {
             field = value
+            answered2 = if (value) answered2 else ""
             notifyPropertyChanged(BR.selected)
         }
     val onToggleClick = View.OnClickListener {

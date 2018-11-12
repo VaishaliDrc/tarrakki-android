@@ -101,7 +101,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 }
             }
             2 -> {
-                if (TextUtils.isEmpty(item.answered2)) {
+                if (item.isSelected && TextUtils.isEmpty(item.answered2)) {
                     context?.simpleAlert("Please enter amount")
                 } else {
                     startFragment(YourGoalSummaryFragment.newInstance(/*Bundle().apply { putSerializable(KEY_GOAL, getBinding().goal) }*/), R.id.frmContainer)

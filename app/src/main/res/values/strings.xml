@@ -116,6 +116,15 @@
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="edit">Edit</string>
+    <string name="username">Username</string>
+    <string name="login_start_investing">Login. Start investing.</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="keep_me_sign_in">Keep me sign in</string>
+    <string name="forgot_password_">Forgot Password?</string>
+    <string name="or">Or</string>
+    <string name="login_with">Login with</string>
+    <string name="google_plus">Google Plus</string>
 
     <string-array name="durations">
         <item>Year(s)</item>
