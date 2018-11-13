@@ -60,6 +60,7 @@
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.userName}"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +83,7 @@
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.password}"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,7 +144,6 @@
                 android:gravity="center"
                 android:text="@string/or"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -161,87 +162,109 @@
                 app:layout_constraintTop_toBottomOf="@id/tvOr" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/llFB"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_32"
                 android:layout_marginTop="@dimen/default_space"
-                android:layout_marginEnd="@dimen/space_32"
+                android:layout_marginEnd="@dimen/space_8"
+                android:background="@drawable/shape_fb_bg"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:padding="@dimen/space_8"
+                android:weightSum="10"
+                app:layout_constraintEnd_toStartOf="@id/llGpl"
+                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvLoginWith">
 
-                <LinearLayout
+                <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_fb_bg"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/space_8"
-                    android:weightSum="10">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:layout_weight="2"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/facebook" />
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:background="#1C3C7E" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:gravity="center"
-                        android:text="Facebook"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:layout_marginStart="@dimen/space_8"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_g_plus_bg"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/space_8"
-                    android:weightSum="10">
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/facebook" />
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="24dp"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:layout_weight="2"
-                        android:adjustViewBounds="true"
-                        android:src="@drawable/google_plus" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:background="#1C3C7E" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/space_8"
-                        android:background="#BE3610" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="8"
-                        android:gravity="center"
-                        android:text="@string/google_plus"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/facebook"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llGpl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_g_plus_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_8"
+                android:weightSum="10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/llFB"
+                app:layout_constraintTop_toBottomOf="@id/tvLoginWith">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_weight="2"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/google_plus" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:background="#BE3610" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/google_plus"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/mDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/space_32"
+                android:background="@color/semi_white"
+                app:layout_constraintTop_toBottomOf="@id/llGpl" />
+
+            <TextView
+                android:id="@+id/tvGetStarted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/space_12"
+                android:text="@string/don_t_have_an_account_yet_get_started"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@id/mDivider" />
 
 
         </android.support.constraint.ConstraintLayout>

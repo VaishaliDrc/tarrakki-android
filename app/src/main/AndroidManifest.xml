@@ -51,6 +51,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".module.forgotpassword.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppWindowBGThem"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".module.register.RegisterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppWindowBGThem"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
     </application>
 
