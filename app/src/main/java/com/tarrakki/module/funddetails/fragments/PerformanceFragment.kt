@@ -30,7 +30,6 @@ import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowDurationListItemBinding
 import com.tarrakki.databinding.RowEarningBaseReturnsListItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
-import com.tarrakki.format
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
@@ -38,6 +37,7 @@ import com.tarrakki.module.invest.FundType
 import kotlinx.android.synthetic.main.fragment_performance.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.inputclasses.InputFilterMinMax
+import org.supportcompact.ktx.format
 import org.supportcompact.ktx.getColor
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom

@@ -61,6 +61,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".module.otp.OtpVerificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppWindowBGThem"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
     </application>
 

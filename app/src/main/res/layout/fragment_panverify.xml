@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.panverify.PANVerifyVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true"
+        tools:context=".module.pansverify.PANVerifyFragment">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:padding="@dimen/space_32">
+
+            <EditText
+                android:id="@+id/edtPAN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_edt_gray_round"
+                android:drawableEnd="@drawable/ic_user"
+                android:hint="@string/pan_number"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.pan}"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDOB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_edt_gray_round"
+                android:drawableEnd="@drawable/ic_user"
+                android:hint="@string/date_of_birth"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.dob}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtPAN" />
+
+            <EditText
+                android:id="@+id/edtMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_edt_gray_round"
+                android:drawableEnd="@drawable/ic_user"
+                android:hint="@string/mobile_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.mobile}"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvDOB" />
+
+            <CheckBox
+                android:id="@+id/cbIAmIndian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:button="@drawable/selector_check_box"
+                android:checked="@{vm.IAmIndian}"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/space_8"
+                android:text="@string/my_country_of_tax_residency_is_only_india"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/semi_black"
+                app:layout_constraintStart_toStartOf="@+id/edtMobile"
+                app:layout_constraintTop_toBottomOf="@id/edtMobile"
+                tools:checked="true" />
+
+            <Button
+                android:id="@+id/btnVerify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/verify"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cbIAmIndian" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

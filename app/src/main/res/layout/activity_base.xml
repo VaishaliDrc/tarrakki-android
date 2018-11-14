@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="@{vm.footerVisibility}"
+            android:elevation="@dimen/space_2"
             app:itemBackground="@android:color/white"
             app:itemIconTint="@color/nave_bar_selector"
             app:itemTextColor="@color/nave_bar_selector"

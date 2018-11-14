@@ -77,14 +77,16 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
     })
 }
 
-private fun TextView.decimalFormat(amount: Double) {
-    this.text = String.format(Locale.US, "%,.2f", amount)
+var locale = Locale("en", "IN")
+
+fun TextView.decimalFormat(amount: Double) {
+    this.text = String.format(locale, "%,.2f", amount)
 }
 
-private fun TextView.format(amount: Double) {
-    this.text = String.format(Locale.US, "%,d", Math.round(amount))
+fun TextView.format(amount: Double) {
+    this.text = String.format(locale, "%,d", Math.round(amount))
 }
 
-fun Double.toDecimalCurrency() = String.format(Locale.US, "\u20B9%,.2f", this)
+fun Double.toDecimalCurrency() = String.format(locale, "\u20B9%,.2f", this)
 
-fun Double.toCurrency() = String.format(Locale.US, "\u20B9%,d", Math.round(this))
+fun Double.toCurrency() = String.format(locale, "\u20B9%,d", Math.round(this))

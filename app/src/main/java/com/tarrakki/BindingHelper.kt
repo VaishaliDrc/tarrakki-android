@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.tarrakki.module.goal.Goal
+import com.tarrakki.module.panverify.PANVerifyFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
 import com.tarrakki.module.yourgoal.YourGoalFragment
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -35,6 +36,8 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
                 if (mContext is AppCompatActivity && item is Goal) {
                     mContext.startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                     //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+                } else if (mContext is AppCompatActivity) {
+                    mContext.startFragment(PANVerifyFragment.newInstance(), R.id.frmContainer)
                 }
             }
         }
@@ -143,13 +146,13 @@ fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEdito
     editText.setOnEditorActionListener(onEditorActionListener)
 }
 
-fun TextView.decimalFormat(amount: Double) {
+/*fun TextView.decimalFormat(amount: Double) {
     this.text = String.format(Locale.US, "%,.2f", amount)
 }
 
 fun TextView.format(amount: Double) {
     this.text = String.format(Locale.US, "%,d", Math.round(amount))
-}
+}*/
 
 fun handleTextView(initialValue: Int, finalValue: Int, textview: TextView) {
     val valueAnimator = ValueAnimator.ofInt(initialValue, finalValue)

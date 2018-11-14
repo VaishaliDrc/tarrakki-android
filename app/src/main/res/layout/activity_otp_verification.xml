@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.otp.OptVerificationsVM" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.otp.OtpVerificationActivity">
+
+        <ImageView
+            android:id="@+id/ivLogin"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_50"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFPLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32"
+            android:fontFamily="@font/lato_bold"
+            android:text="@string/verify_mobile_number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogin" />
+
+        <TextView
+            android:id="@+id/tvFPDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_40"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_40"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="@string/otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFPLbl" />
+
+        <EditText
+            android:id="@+id/edtOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_32"
+            android:layout_marginTop="@dimen/space_32"
+            android:layout_marginEnd="@dimen/space_32"
+            android:background="@drawable/shape_edt_white_round"
+            android:hint="@string/enter_otp"
+            android:inputType="number"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:paddingStart="@dimen/default_space"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/default_space"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@={vm.otp}"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />
+
+        <Button
+            android:id="@+id/btnSummit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_32"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_32"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/submit"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtOtp" />
+
+        <TextView
+            android:id="@+id/tvResendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_8"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:padding="@dimen/space_4"
+            android:text="@string/not_received_your_otp_resend_otp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSummit" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

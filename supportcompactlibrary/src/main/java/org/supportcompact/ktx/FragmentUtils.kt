@@ -30,6 +30,13 @@ fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
             ?.commit()
 }
 
+fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container: Int) {
+    val fm = activity?.supportFragmentManager
+    fm?.beginTransaction()
+            ?.replace(container, fragment)
+            ?.commit()
+}
+
 fun Fragment.letShow(@IdRes container: Int) {
     val fm = activity?.supportFragmentManager
     fm?.beginTransaction()
