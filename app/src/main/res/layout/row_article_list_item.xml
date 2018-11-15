@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="article"
+            type="com.tarrakki.module.learn.Article" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="@dimen/space_2"
+        android:padding="@dimen/space_8"
+        tools:layout_marginTop="@dimen/default_space">
+
+        <ImageView
+            android:id="@+id/ivArticle"
+            imgUrl="@{article.imgUrl}"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:src="@drawable/temp_fpi"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivVideoPLay"
+            openYoutube="@{article.title}"
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:background="#80000000"
+            android:padding="@dimen/space_32"
+            android:src="@drawable/video_play"
+            android:visibility="@{article.videoVisibility()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:maxLines="2"
+            android:text="@{article.title}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivArticle"
+            tools:text="Are Fl Is buying the same stocks as MFs?" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
+            android:text="@{article.description}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivArticle"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Equity markets have been volatile so far this year with Nifty 50 falling abou" />
+
+        <Button
+            android:id="@+id/btnReadMore"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:fontFamily="@font/lato_semibold"
+            android:paddingStart="@dimen/default_space"
+            android:paddingEnd="@dimen/default_space"
+            android:text="@string/read_more"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/ivArticle"
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+        <View
+            android:id="@+id/mDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/ivArticle" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:drawableStart="@drawable/ic_calendar"
+            android:drawablePadding="@dimen/space_8"
+            android:gravity="center_vertical"
+            android:text="@{article.data}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider"
+            tools:text="3 Sep, 2018" />
+
+        <TextView
+            android:id="@+id/tvComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:drawableStart="@drawable/ic_mode_comment_gray"
+            android:drawablePadding="@dimen/space_8"
+            android:gravity="center_vertical"
+            android:text="@{article.comments + ` Comments`}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider"
+            tools:text="46 Comments" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

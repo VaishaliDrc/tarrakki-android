@@ -150,6 +150,8 @@
     <string name="my_country_of_tax_residency_is_only_india">My country of tax residency is only India</string>
     <string name="verify">Verify</string>
     <string name="verify_your_pan">Verify Your PAN</string>
+    <string name="read_more">Read More</string>
+    <string name="volatility_">Volatility (Vol)</string>
 
     <string-array name="durations">
         <item>Year(s)</item>

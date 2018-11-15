@@ -1,13 +1,16 @@
 package com.tarrakki
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -144,6 +147,18 @@ fun inputTypePositive(edt: EditText, isPositiveCurrency: Boolean) = if (isPositi
 @BindingAdapter("onEditorAction")
 fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEditorActionListener) {
     editText.setOnEditorActionListener(onEditorActionListener)
+}
+
+@BindingAdapter("openYoutube")
+fun watchYoutubeVideo(view: View, videoUrl: String) {
+    view.setOnClickListener {
+        try {
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(videoUrl))
+            view.context.startActivity(webIntent)
+        } catch (ex: Exception) {
+            //view.context.startActivity(webIntent)
+        }
+    }
 }
 
 /*fun TextView.decimalFormat(amount: Double) {

@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentLearnBinding
+import com.tarrakki.databinding.RowArticleListItemBinding
+import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setUpRecyclerView
 
 
 /**
@@ -34,6 +37,10 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
     }
 
     override fun createReference() {
+        rvArticles?.setUpRecyclerView(R.layout.row_article_list_item, getViewModel().articles) { item: Article, binder: RowArticleListItemBinding, position ->
+            binder.article = item
+            binder.executePendingBindings()
+        }
     }
 
 
