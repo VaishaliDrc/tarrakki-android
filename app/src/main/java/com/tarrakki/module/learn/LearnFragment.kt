@@ -9,7 +9,7 @@ import com.tarrakki.databinding.RowArticleListItemBinding
 import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -17,6 +17,9 @@ import org.supportcompact.adapters.setUpRecyclerView
  * create an instance of this fragment.
  *
  */
+
+const val ARTICLE = "article"
+
 class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
 
     override val isBackEnabled: Boolean
@@ -40,6 +43,11 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
         rvArticles?.setUpRecyclerView(R.layout.row_article_list_item, getViewModel().articles) { item: Article, binder: RowArticleListItemBinding, position ->
             binder.article = item
             binder.executePendingBindings()
+            binder.btnReadMore.setOnClickListener {
+                startFragment(LearnDetailsFragment.newInstance(Bundle().apply {
+                    putSerializable(ARTICLE, item)
+                }), R.id.frmContainer)
+            }
         }
     }
 

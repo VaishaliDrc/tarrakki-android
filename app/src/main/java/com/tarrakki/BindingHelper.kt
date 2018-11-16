@@ -39,9 +39,9 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
                 if (mContext is AppCompatActivity && item is Goal) {
                     mContext.startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                     //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
-                } else if (mContext is AppCompatActivity) {
+                } /*else if (mContext is AppCompatActivity) {
                     mContext.startFragment(PANVerifyFragment.newInstance(), R.id.frmContainer)
-                }
+                }*/
             }
         }
     }

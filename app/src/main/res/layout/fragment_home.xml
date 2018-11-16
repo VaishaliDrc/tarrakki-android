@@ -124,14 +124,15 @@
 
             <TextView
                 android:id="@+id/tvTotalInvestmentValue"
+                price="@{500000}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/dummy1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/white"
                 app:layout_constraintStart_toEndOf="@id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/tvTotalInvestment" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTotalInvestment"
+                tools:text="@string/dummy1" />
 
             <TextView
                 android:id="@+id/tvTotalReturn"

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="article"
+            type="com.tarrakki.module.learn.Article" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.learn.LearnDetailsFragment">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_cart_view"
+            android:layout_margin="@dimen/default_space"
+            android:elevation="@dimen/space_2"
+            android:padding="@dimen/space_8">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_8"
+                android:fontFamily="@font/lato_bold"
+                android:maxLines="2"
+                android:text="@{article.title}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/tvShare"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Are FIIs Is buying the same stocks as MFs?" />
+
+            <TextView
+                android:id="@+id/tvShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_share_black_24dp"
+                android:drawablePadding="@dimen/space_4"
+                android:text="@string/share"
+                android:textColor="@color/black"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvTitle"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:drawableStart="@drawable/ic_calendar"
+                android:drawablePadding="@dimen/space_8"
+                android:gravity="center_vertical"
+                android:text="@{article.data}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/semi_black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="3 Sep, 2018" />
+
+            <ImageView
+                android:id="@+id/ivArticle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:adjustViewBounds="true"
+                android:src="@drawable/temp_article_details"
+                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+            <TextView
+                android:id="@+id/tvDescriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:lineSpacingExtra="@dimen/space_4"
+                android:text="Equity markets have been volatile so far this year with Nifty 50 falling about 10% in the Jan-Mar period and recovering swiftly to make new highs. But broader markets are still losing with Nifty Midcap 100 down 10% and BSE Small cap down 13% while Nifty 50 has returned 8.5% in the year to date. So how are foreign institutional investors (FII) and mutual funds playing this market?"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivArticle" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </ScrollView>
+</layout>

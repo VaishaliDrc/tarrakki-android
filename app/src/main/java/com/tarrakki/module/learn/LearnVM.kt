@@ -4,6 +4,7 @@ import android.support.annotation.DrawableRes
 import android.view.View
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
+import java.io.Serializable
 
 class LearnVM : FragmentViewModel() {
 
@@ -46,7 +47,7 @@ data class Article(
         var comments: Int,
         @DrawableRes
         var imgUrl: Int,
-        var isVideo: Boolean = false) {
+        var isVideo: Boolean = false) : Serializable {
 
 
     fun videoVisibility() = if (isVideo) View.VISIBLE else View.GONE

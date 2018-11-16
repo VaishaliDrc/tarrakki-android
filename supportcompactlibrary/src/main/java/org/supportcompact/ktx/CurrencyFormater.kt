@@ -4,6 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 fun EditText.applyCurrencyFormat() {
@@ -77,16 +79,19 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
     })
 }
 
-var locale = Locale("en", "IN")
+
+//val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
+val formatter = DecimalFormat("##,##,##0")
+val dFormatter = DecimalFormat("##,##,##.##")
 
 fun TextView.decimalFormat(amount: Double) {
-    this.text = String.format(locale, "%,.2f", amount)
+    this.text = dFormatter.format(amount)//String.format(locale, "%,.2f", amount)
 }
 
 fun TextView.format(amount: Double) {
-    this.text = String.format(locale, "%,d", Math.round(amount))
+    this.text = formatter.format(Math.round(amount))//String.format(locale, "%,d", Math.round(amount))
 }
 
-fun Double.toDecimalCurrency() = String.format(locale, "\u20B9%,.2f", this)
+fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.format(locale, "\u20B9%,.2f", this)
 
-fun Double.toCurrency() = String.format(locale, "\u20B9%,d", Math.round(this))
+fun Double.toCurrency() = "\u20B9".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
