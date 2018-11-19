@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:drawableStart="@drawable/ic_mode_comment_gray"
+            android:drawableStart="@drawable/ic_comment"
             android:drawablePadding="@dimen/space_8"
             android:gravity="center_vertical"
             android:text="@{article.comments + ` Comments`}"

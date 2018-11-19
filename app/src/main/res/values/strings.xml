@@ -83,7 +83,7 @@
     <string name="down_payment">Home much do they plan to make as down payment?</string>
     <string name="do_want_lumpsum">Do you want to make a lumpsum investment</string>
     <string name="how_much">Home much?</string>
-    <string name="we_recommending_investing">We recommending investing</string>
+    <string name="we_recommending_investing">We recommend investing</string>
     <string name="every_month_for_the_next_5_years">every month, for the next <font color='#00CB00'><u>5</u></font> years</string>
     <string name="a_lumpsum_of_10_000_upfront_to_achieve_your_goal">A lumpsum of <font color='#00CB00'><u>\u20B910,000</u></font> upfront, to achieve your goal</string>
     <string name="add_this_goal">Add this goal</string>
@@ -120,7 +120,7 @@
     <string name="login_start_investing">Login. Start investing.</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
-    <string name="keep_me_sign_in">Keep me sign in</string>
+    <string name="keep_me_sign_in">Keep me signed in</string>
     <string name="forgot_password_">Forgot Password?</string>
     <string name="or">Or</string>
     <string name="login_with">Login with</string>
