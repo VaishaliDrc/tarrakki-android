@@ -1,15 +1,17 @@
-package com.osquare.security
+package com.tarrakki.api
 
 import android.util.Base64
+import com.tarrakki.App
+import com.tarrakki.R
 import java.nio.charset.StandardCharsets
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
+import java.util.*
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException
 import javax.crypto.NoSuchPaddingException
-import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 object AES {
@@ -21,7 +23,7 @@ object AES {
     @Throws(Exception::class)
     fun encrypt(data: String): String {
 
-        val keyStart = "test".toByteArray(StandardCharsets.UTF_8)
+        val keyStart = App.INSTANCE.getString(R.string.key).toByteArray(StandardCharsets.UTF_8)
         val key = SecretKeySpec(keyStart, "AES")
 
 //        val IV = BuildConfig.IV.toByteArray(StandardCharsets.UTF_8)
@@ -37,12 +39,13 @@ object AES {
         }
 
         val plaintext = ByteArray(plaintextLength)
+        Arrays.fill(plaintext, 5)
         System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.size)
 
         cipher.init(Cipher.ENCRYPT_MODE, key/*, IVSpec*/)
         val encrypted = cipher.doFinal(plaintext)
 
-        return Base64.encodeToString(encrypted, Base64.NO_WRAP)
+        return Base64.encodeToString(encrypted, Base64.DEFAULT)
     }
 
     /**
@@ -51,8 +54,7 @@ object AES {
      *@return Dencrypted data in string form
      */
     fun decrypt(ciphertext: String): String {
-
-        val keyStart = "test".toByteArray(StandardCharsets.UTF_8)
+        val keyStart = App.INSTANCE.getString(R.string.key).toByteArray(StandardCharsets.UTF_8)
         val key = SecretKeySpec(keyStart, "AES")
 
 
@@ -81,15 +83,13 @@ object AES {
         return result
     }
 
-    fun removeTrailingNulls(source: ByteArray): ByteArray {
+    private fun removeTrailingNulls(source: ByteArray): ByteArray {
         var i = source.size
         while (source[i - 1].toInt() == 0x00) {
             i--
         }
-
         val result = ByteArray(i)
         System.arraycopy(source, 0, result, 0, i)
-
         return result
     }
 }

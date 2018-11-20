@@ -110,7 +110,7 @@
             app:layout_constraintTop_toBottomOf="@id/mDivider"
             tools:text="3 Sep, 2018" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tvComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,9 +121,10 @@
             android:text="@{article.comments + ` Comments`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mDivider"
-            tools:text="46 Comments" />
+            tools:text="46 Comments" />-->
 
     </android.support.constraint.ConstraintLayout>
 

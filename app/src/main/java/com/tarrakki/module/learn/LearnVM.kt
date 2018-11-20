@@ -17,13 +17,13 @@ class LearnVM : FragmentViewModel() {
                 "1 August, 2018",
                 46,
                 R.drawable.temp_fpi))
-        articles.add(Article(
+       /* articles.add(Article(
                 "https://www.youtube.com/watch?v=IpOY-at6Dfik",
                 "",
                 "3 Sep, 2018",
                 46,
                 R.drawable.temp_video,
-                true))
+                true))*/
         articles.add(Article(
                 "Fundslndia Explains: Capture Ratio",
                 "The market has done extremely well, has my fund kept up with it?",
