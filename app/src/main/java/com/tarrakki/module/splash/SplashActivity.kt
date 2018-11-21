@@ -26,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
         e("DData=>", ddata)
         Handler().postDelayed({
             if (isLogin()) {
+                App.INSTANCE.isAuthorise.value = false
                 startActivity<HomeActivity>()
             } else {
                 startActivity<LoginActivity>()

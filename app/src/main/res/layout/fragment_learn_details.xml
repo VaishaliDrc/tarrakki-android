@@ -85,6 +85,7 @@
 
                 <TextView
                     android:id="@+id/tvDescriptions"
+                    HTML="@{article.tempTxt}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
@@ -92,11 +93,11 @@
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/space_8"
                     android:lineSpacingExtra="@dimen/space_4"
-                    android:text="Equity markets have been volatile so far this year with Nifty 50 falling about 10% in the Jan-Mar period and recovering swiftly to make new highs. But broader markets are still losing with Nifty Midcap 100 down 10% and BSE Small cap down 13% while Nifty 50 has returned 8.5% in the year to date. So how are foreign institutional investors (FII) and mutual funds playing this market?"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivArticle" />
+                    app:layout_constraintTop_toBottomOf="@id/ivArticle"
+                    tools:text="Equity markets have been volatile so far this year with Nifty 50 falling about 10% in the Jan-Mar period and recovering swiftly to make new highs. But broader markets are still losing with Nifty Midcap 100 down 10% and BSE Small cap down 13% while Nifty 50 has returned 8.5% in the year to date. So how are foreign institutional investors (FII) and mutual funds playing this market?" />
 
                 <!--<View
                     android:id="@+id/mDivider"

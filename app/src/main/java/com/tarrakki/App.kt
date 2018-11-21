@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData
 class App : Application() {
 
     val cartCount = MutableLiveData<Int>()
+    val isAuthorise = MutableLiveData<Boolean>()
 
     init {
         App.INSTANCE = this

@@ -5,17 +5,19 @@ import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Html
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.tarrakki.module.goal.Goal
-import com.tarrakki.module.panverify.PANVerifyFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
 import com.tarrakki.module.yourgoal.YourGoalFragment
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -161,6 +163,15 @@ fun watchYoutubeVideo(view: View, videoUrl: String) {
     }
 }
 
+@BindingAdapter("HTML")
+fun setHtml(txt: TextView, txtHtml: String) {
+    val html = "<!DOCTYPE html><html><body>$txtHtml</body></html>"
+    txt.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        Html.fromHtml(html)
+    }
+}
 /*fun TextView.decimalFormat(amount: Double) {
     this.text = String.format(Locale.US, "%,.2f", amount)
 }

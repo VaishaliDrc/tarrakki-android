@@ -3,9 +3,14 @@ package com.tarrakki.module.account
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAccountBinding
+import com.tarrakki.databinding.RowAccountMenuItemBinding
+import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.confirmationDialog
 
 /**
  * A simple [Fragment] subclass.
@@ -34,7 +39,15 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     }
 
     override fun createReference() {
-
+        rvMenus?.setUpRecyclerView(R.layout.row_account_menu_item, getViewModel().accountMenus) { item: AccountMenu, binder: RowAccountMenuItemBinding, position ->
+            binder.menu = item
+            binder.executePendingBindings()
+        }
+        btnLogout?.setOnClickListener {
+            context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
+                getViewModel().logoutVisibility.set(View.GONE)
+            })
+        }
     }
 
 

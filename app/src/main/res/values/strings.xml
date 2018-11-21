@@ -70,7 +70,7 @@
     <string name="over_the_last">Over the last:</string>
     <string name="you_would_have_earned">You would have earned:</string>
     <string name="duration">Duration</string>
-    <string name="disclaimer_expected_returns">Disclaimer: Expected returns are not guaranteed. The above calculations are based on historical returns. Invests are subject to market risk.</string>
+    <string name="disclaimer_expected_returns">Disclaimer: Expected returns are not guaranteed. The above calculations are based on historical returns. Investments are subject to market risk.</string>
     <string name="last_price">Last Price</string>
     <string name="year_to_date_return">Year-To-Date Return</string>
     <string name="_1_day_change">1 Day Change</string>
@@ -153,6 +153,8 @@
     <string name="read_more">Read More</string>
     <string name="volatility_">Volatility (Vol)</string>
     <string name="share">Share</string>
+    <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
+
 
     <string-array name="durations">
         <item>Year(s)</item>
@@ -282,18 +284,14 @@
 
 
     <string name="temp_description">
-        Equity markets have been volatile so far this year with Nifty 50 falling about 10% in the Jan-Mar period and recovering swiftly to make new highs. But broader markets are still losing with Nifty Midcap 100 down 10% and BSE Small cap down 13% while Nifty 50 has returned 8.5% in the year to date. So how are foreign institutional investors (FII) and mutual funds playing this market?
-        Flls have been net sellers this year, selling Rs.37,583 crore while mutual funds have made net investments of Rs.69,471 crore. This divergence be-tween Flls and mutual funds is not just in the overall numbers. They differ vastly in their stock picks as well.
-        Larger or smaller companies?
-        With large-caps and small-caps taking different directions, the choice be-tween them has become even tougher. Mutual funds have settled with taking the cautious approach of sticking to quality large-caps. They have, in fact, been pruning their exposure to small-caps. If we look at all funds which can invest across market capitalisations, exposure to mid and small caps has reduced from 36% in January to 30% in June. The share of large-cap stocks has increased from 58% to 63% in the same period. Here, the definition of market cap segments is as per SEBI.
-        In this same period, given that Flls have been heavy sellers, large-cap stocks have seen Flls reduce stake in more stocks and increased stake in just a few. MFs have increased stake in 70 large-cap stocks while they have reduced it in 27 of them. Flls increased stake in just 37 stocks and reduced stake in 62.
-        Even within the limited number of large-cap stocks where Flls increased stake, the choice of stocks differ from MFs. In Asian Paints, for example, Flls now hold 14.7% against a nil holding in January. Mutual funds have just have stayed put with around a 2% stake. Similarly, in Interglobe Avia-tion Flls increased holding by 3 percentage points while mutual funds reduced their holding to the same extent. The same holds true for Adani Ports, where Flls upped stake and mutual funds did the reverse.
-        Sectoral deviation
-        Marketcaps aside, even within sectors, Flls and mutual funds take differ-ent paths.
-        Consider the telecom sector. Mutual funds have upped stake in both Idea Cellular and Bharti Airtel. Flls have not, but instead chosen Tata Communi-cations to hike holding.
-        Flls also seemed to find opportunities in healthcare stocks Fortis Health-care and Dr.Lal Pathlabs where mutual funds decreased. Funds picked up the beleaguered Dr Reddy and Sun Pharma while Flls preferred Divis Labs.
+        Are you looking for Best Performing Tax Saving Mutual Funds for Investment? As the financial year, 2018-19 is about to end, you must have started tax saving and tax planning exercise of 2019. ELSS – Tax saving mutual funds play a vital role during tax planning exercise. ELSS (Equity Linked Saving Scheme) is one of the best ways to save tax and generate wealth.\nELSS offers tax benefits under section 80 C of the Income Tax Act. ELSS comes with a lock-in period of 3 years. However, ELSS offers multiple benefits to the investor.\n\n<p><strong>Key Features of ELSS funds</strong></p><ul><li>ELSS is equity linked saving scheme. ELSS is a type of mutual fund that invests the major corpus in the equity market.</li><li>ELSS comes with both dividend and growth options.</li><li>ELSS funds come with Lock-in period of 3 years from the date of purchase.</li><li>Long-term capital gain tax is applicable to ELSS.</li><li>Investment in ELSS can be started with a minimum amount of Rs.500.</li></ul>\n\n<p><strong>Benefits of Investing in ELSS Mutual Funds</strong></p><ul><li>ELSS is dual purpose investment. You can save tax as well as generate wealth by making the investment in ELSS.</li><li>An investor can claim a tax deduction up to 1.5 Lakh by making the investment in ELSS.</li><li>The lock-in period of ELSS is lowest compared to all other tax saving options such as tax saving FD or PPF.</li><li>ELSS provides higher returns compared to other tax saving instruments.</li><li>ELSS fund offers SIP investment option, which brings discipline in regular investing.</li><li>ELSS has no fixed maturity date or period. You can continue to hold ELSS as long as you can.</li><li>ELSS is the best tax saving instrument in terms of expected return, lock-in period and periodicity of investment.</li></ul>
     </string>
 
     <string name="key">S1D$F#q76S458G9h6u5DF7pk5T7Lpart</string>
+
+    <string name="send_to">Send To</string>
+    <string name="app_lock_touch_id">App Lock (Touch ID)</string>
+    <string name="invite_your_friends">Invite Your Friends</string>
+    <string name="logout">Logout</string>
 
 </resources>

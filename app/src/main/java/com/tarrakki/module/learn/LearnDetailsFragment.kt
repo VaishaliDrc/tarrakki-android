@@ -3,8 +3,10 @@ package com.tarrakki.module.learn
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.ShareCompat
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentLearnDetailsBinding
+import kotlinx.android.synthetic.main.fragment_learn_details.*
 import org.supportcompact.CoreFragment
 
 /**
@@ -36,7 +38,17 @@ class LearnDetailsFragment : CoreFragment<LearnVM, FragmentLearnDetailsBinding>(
     }
 
     override fun createReference() {
-
+        tvShare?.setOnClickListener {
+            val mimeType = "text/plain"
+            ShareCompat.IntentBuilder.from(activity)
+                    .setChooserTitle(R.string.send_to)
+                    .setType(mimeType)
+                    .setText(
+                            getBinding().article?.title
+                                    .plus("\n\n")
+                                    .plus(getBinding().article?.description)
+                    ).startChooser()
+        }
     }
 
 
