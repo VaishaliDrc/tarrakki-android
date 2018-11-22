@@ -33,7 +33,7 @@
                     android:id="@+id/ivLogo"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@mipmap/ic_launcher_round"
+                    android:background="@drawable/ic_app_lock"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -53,15 +53,82 @@
 
                 <ToggleButton
                     android:id="@+id/switchOnOff"
-                    android:layout_width="70dp"
-                    android:layout_height="28dp"
+                    android:layout_width="64dp"
+                    android:layout_height="24dp"
                     android:background="@drawable/shape_switch_bg"
                     android:button="@null"
                     android:checked="@={vm.appLock}"
                     android:textOff=""
                     android:textOn=""
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:checked="true" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:padding="@dimen/space_8">
+
+
+                <ImageView
+                    android:id="@+id/ivBankAccount"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_bank_account"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvBankAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
+                    android:text="@string/bank_accounts"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivBankAccount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivBankAccount"
+                    app:layout_constraintTop_toTopOf="@+id/ivBankAccount"
+                    tools:text="@string/bank_accounts" />
+
+                <View
+                    android:id="@+id/mDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@color/lighter_gray"
+                    app:layout_constraintBottom_toTopOf="@+id/ivBankMandateAccount"
+                    app:layout_constraintTop_toBottomOf="@+id/ivBankAccount" />
+
+
+                <ImageView
+                    android:id="@+id/ivBankMandateAccount"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:src="@drawable/ic_bank_mandate"
+                    app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+                <TextView
+                    android:id="@+id/tvBankMandateAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
+                    android:text="@string/bank_mandate"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivBankMandateAccount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/ivBankMandateAccount"
+                    app:layout_constraintTop_toTopOf="@+id/ivBankMandateAccount"
+                    tools:text="@string/bank_mandate" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -99,7 +166,7 @@
                     android:id="@+id/ivLogoInvite"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@mipmap/ic_launcher_round"
+                    android:src="@drawable/ic_invite_friends"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -293,5 +293,24 @@
     <string name="app_lock_touch_id">App Lock (Touch ID)</string>
     <string name="invite_your_friends">Invite Your Friends</string>
     <string name="logout">Logout</string>
+    <string name="txtcontinue">Continue</string>
+    <string name="car">Car</string>
+    <string name="l_e_honda_city">l.e Honda City</string>
+    <string name="my_account">My Account</string>
+    <string name="bank_accounts">Bank Accounts</string>
+    <string name="bank_mandate">Bank Mandate</string>
+    <string name="change_password">Change Password</string>
+    <string name="my_profile">My Profile</string>
+    <string name="transactions">Transactions</string>
+    <string name="my_portfolio">My Portfolio</string>
+    <string name="saved_goal">Saved Goal</string>
+    <string name="support">Support</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_and_condditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="save">Save</string>
 
 </resources>

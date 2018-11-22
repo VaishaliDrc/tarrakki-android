@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -18,8 +17,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.tarrakki.module.goal.Goal
+import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
-import com.tarrakki.module.yourgoal.YourGoalFragment
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -39,7 +38,7 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
             binder.root.setOnClickListener { it ->
                 val mContext = it.context
                 if (mContext is AppCompatActivity && item is Goal) {
-                    mContext.startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+                    mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                     //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                 } /*else if (mContext is AppCompatActivity) {
                     mContext.startFragment(PANVerifyFragment.newInstance(), R.id.frmContainer)

@@ -12,8 +12,8 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentGoalBinding
 import com.tarrakki.databinding.RowGoalListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
-import com.tarrakki.module.yourgoal.YourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -58,7 +58,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
             binder.goal = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
-                startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+                startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
             }
         }
     }

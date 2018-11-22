@@ -21,9 +21,13 @@ class YourGoalVM : FragmentViewModel() {
     val whyInflationMatter = ObservableField(true)
     val goalSummary = arrayListOf<GoalSummary>()
     val gSummary = ObservableField<SpannableStringBuilder>()
+    val iniateYourGoal = ObservableField<YourGoalSteps>()
+    val goal = ObservableField<Goal>()
 
     init {
-
+        iniateYourGoal.set(YourGoalSteps(
+                "Which of the following would you like to purchase?",
+                "Name of the vehicle you would like to purchase"))
         yourGoalSteps.add(YourGoalSteps(
                 layout = R.layout.set_your_goal_step1,
                 question = "Current value of your dream home",
@@ -88,7 +92,7 @@ enum class WidgetSpace {
 }
 
 data class YourGoalSteps(@LayoutRes
-                         val layout: Int,
+                         val layout: Int = 0,
                          var goal: Goal? = null,
                          var question: String,
                          var answered: String = "",
@@ -97,12 +101,15 @@ data class YourGoalSteps(@LayoutRes
 //                         var answered2: String = "",
                          var ans2: Boolean = false,
                          @DrawableRes
-                         var drawable1: Int,
+                         var drawable1: Int = 0,
                          @DrawableRes
-                         var drawable2: Int,
+                         var drawable2: Int = 0,
                          @DrawableRes
-                         var drawable3: Int
+                         var drawable3: Int = 0
 ) : BaseObservable(), WidgetsViewModel {
+
+    constructor(q1: String, q2: String) : this(question = q1, question2 = q2)
+
     override fun layoutId() = layout
     var onNext: View.OnClickListener? = null
     var onPrevious: View.OnClickListener? = null
