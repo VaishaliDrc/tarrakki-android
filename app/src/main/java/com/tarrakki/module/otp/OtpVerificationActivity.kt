@@ -1,10 +1,13 @@
 package com.tarrakki.module.otp
 
+import com.tarrakki.App
+import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityOtpVerificationBinding
 import com.tarrakki.module.home.HomeActivity
 import kotlinx.android.synthetic.main.activity_otp_verification.*
 import org.supportcompact.CoreActivity
+import org.supportcompact.ktx.setIsLogin
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startActivity
 
@@ -32,8 +35,14 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                     edtOtp?.requestFocus()
                 }
             } else {
-                startActivity<HomeActivity>()
-                finishAffinity()
+                if (intent.hasExtra(IS_FROM_ACCOUNT)) {
+                    setIsLogin(true)
+                    App.INSTANCE.isLogedIn.value = true
+                    finish()
+                } else {
+                    startActivity<HomeActivity>()
+                    finishAffinity()
+                }
             }
         }
 

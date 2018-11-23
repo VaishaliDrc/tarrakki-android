@@ -39,6 +39,7 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
             } else {
                 simpleAlert("Reset password link has been sent to your email address") {
                     edtEmail?.text?.clear()
+                    finish()
                 }
             }
         }

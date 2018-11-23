@@ -1,6 +1,10 @@
 package com.tarrakki.module.register
 
+import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.util.Patterns
+import com.tarrakki.App
+import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityRegisterBinding
 import com.tarrakki.module.otp.OtpVerificationActivity
@@ -57,9 +61,20 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     edtConfirmPassword?.requestFocus()
                 }
             } else {
-                startActivity<OtpVerificationActivity>()
+                if (intent.hasExtra(IS_FROM_ACCOUNT)) {
+                    startActivity(Intent(this, OtpVerificationActivity::class.java).apply {
+                        putExtra(IS_FROM_ACCOUNT, true)
+                    })
+                } else {
+                    startActivity<OtpVerificationActivity>()
+                }
             }
         }
-
+        App.INSTANCE.isLogedIn.observe(this, Observer {
+            it?.let { isLogin ->
+                if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
+                    finish()
+            }
+        })
     }
 }

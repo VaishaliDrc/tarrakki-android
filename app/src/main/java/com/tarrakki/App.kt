@@ -1,12 +1,13 @@
 package com.tarrakki
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
+import org.supportcompact.CoreApp
 
-class App : Application() {
+class App : CoreApp() {
 
     val cartCount = MutableLiveData<Int>()
     val isAuthorise = MutableLiveData<Boolean>()
+    val isLogedIn = MutableLiveData<Boolean>()
 
     init {
         App.INSTANCE = this

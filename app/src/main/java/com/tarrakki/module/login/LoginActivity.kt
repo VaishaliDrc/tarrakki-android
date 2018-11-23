@@ -1,5 +1,9 @@
 package com.tarrakki.module.login
 
+import android.arch.lifecycle.Observer
+import android.content.Intent
+import com.tarrakki.App
+import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityLoginBinding
 import com.tarrakki.module.forgotpassword.ForgotPasswordActivity
@@ -33,7 +37,13 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
         }
 
         tvGetStarted?.setOnClickListener {
-            startActivity<RegisterActivity>()
+            if (intent.hasExtra(IS_FROM_ACCOUNT)) {
+                startActivity(Intent(this, RegisterActivity::class.java).apply {
+                    putExtra(IS_FROM_ACCOUNT, true)
+                })
+            } else {
+                startActivity<RegisterActivity>()
+            }
         }
 
         btnLogin?.setOnClickListener {
@@ -49,12 +59,21 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                     }
                 }
                 else -> {
-                    startActivity<HomeActivity>()
+                    if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
+                        startActivity<HomeActivity>()
+                    }
                     setIsLogin(cbKeepMeSignIn.isChecked)
+                    App.INSTANCE.isLogedIn.value = true
                     finish()
                 }
             }
         }
+        App.INSTANCE.isLogedIn.observe(this, Observer {
+            it?.let { isLogin ->
+                if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
+                    finish()
+            }
+        })
 
     }
 }

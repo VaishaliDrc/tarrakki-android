@@ -156,6 +156,13 @@
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
 
 
+    <string-array name="automobile">
+        <item>Car</item>
+        <item>Bike</item>
+        <item>Auto-Rickshaw</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="durations">
         <item>Year(s)</item>
         <item>Month(s)</item>
@@ -294,7 +301,7 @@
     <string name="invite_your_friends">Invite Your Friends</string>
     <string name="logout">Logout</string>
     <string name="txtcontinue">Continue</string>
-    <string name="car">Car</string>
+    <string name="car">Select</string>
     <string name="l_e_honda_city">l.e Honda City</string>
     <string name="my_account">My Account</string>
     <string name="bank_accounts">Bank Accounts</string>
@@ -312,5 +319,17 @@
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="save">Save</string>
+    <string name="email_id">Email ID</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="amount">Amount</string>
+    <string name="date">Date</string>
+    <string name="units">Units</string>
+    <string name="nav">NAV</string>
+    <string name="type_">Type:</string>
+    <string name="mode_">Mode:</string>
+    <string name="completed">Completed</string>
+    <string name="pending">Pending</string>
 
 </resources>

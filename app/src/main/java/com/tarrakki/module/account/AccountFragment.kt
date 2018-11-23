@@ -1,17 +1,25 @@
 package com.tarrakki.module.account
 
 
+import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import com.tarrakki.App
+import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.changepassword.ChangePasswordFragment
+import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.myprofile.MyProfileFragment
+import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.setIsLogin
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -49,16 +57,42 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     R.drawable.ic_change_password -> {
                         startFragment(ChangePasswordFragment.newInstance(), R.id.frmContainer)
                     }
+                    R.drawable.ic_my_profile -> {
+                        if (App.INSTANCE.isLogedIn.value!!) {
+                            //Open My Profile
+                            startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
+                        } else {
+                            //Open Redirect to login screen
+                            startActivity(Intent(activity, LoginActivity::class.java).apply {
+                                putExtra(IS_FROM_ACCOUNT, true)
+                            })
+                        }
+                    }
+                    R.drawable.ic_transactions -> {
+                        startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
+                    }
                 }
             }
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
-                getViewModel().logoutVisibility.set(View.GONE)
+                App.INSTANCE.isLogedIn.value = false
             })
         }
+        App.INSTANCE.isLogedIn.observe(this, Observer { isLogin ->
+            isLogin?.let {
+                if (it) {
+                    getViewModel().logoutVisibility.set(View.VISIBLE)
+                    getViewModel().setAccountMenu()
+                } else {
+                    context?.setIsLogin(it)
+                    getViewModel().logoutVisibility.set(View.GONE)
+                    getViewModel().setAccountMenu()
+                }
+                rvMenus?.adapter?.notifyDataSetChanged()
+            }
+        })
     }
-
 
     companion object {
         /**

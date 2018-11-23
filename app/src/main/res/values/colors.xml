@@ -19,6 +19,7 @@
     <color name="circular_bg">#D1F3F5</color>
     <color name="fb_color">#3B5998</color>
     <color name="g_plus_color">#CC5B3B</color>
+    <color name="pending">#FE860D</color>
     <string-array name="risk_level_color">
         <item>#00CB00</item>
         <item>#5DFE5D</item>

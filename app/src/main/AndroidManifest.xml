@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup">
+        tools:replace="android:allowBackup,android:name">
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -45,7 +45,8 @@
         <activity
             android:name=".module.account.AccountActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.login.LoginActivity"
             android:screenOrientation="portrait"
@@ -66,6 +67,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 

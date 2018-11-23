@@ -104,3 +104,4 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositive: String, 
             .setNegativeButton(getString(R.string.yes)) { dialg, which -> btnPositiveClick?.invoke() }
             .create().show()*/
 }
+

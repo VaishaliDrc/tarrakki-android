@@ -73,7 +73,8 @@
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
-                android:padding="@dimen/space_8">
+                android:padding="@dimen/space_8"
+                android:visibility="@{vm.logoutVisibility}">
 
 
                 <ImageView

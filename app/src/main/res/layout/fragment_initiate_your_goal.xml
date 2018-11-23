@@ -100,7 +100,7 @@
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:text="@{vm.iniateYourGoal.question}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
                     app:layout_constraintTop_toBottomOf="@+id/view2"
                     tools:text="Which of the following would you like to purchase?" />
@@ -116,6 +116,7 @@
                     android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
                     android:hint="@string/car"
                     android:maxLines="1"
+                    android:visibility="gone"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
@@ -128,6 +129,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_32"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_32"
+                    android:background="@drawable/shape_edt_gray_round"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
+
+                    <Spinner
+                        android:id="@+id/spnCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:prompt="@string/car"
+                        android:spinnerMode="dialog" />
+
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/tvQ2"
                     android:layout_width="match_parent"
@@ -136,7 +158,7 @@
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:text="@{vm.iniateYourGoal.question2}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
                     app:layout_constraintTop_toBottomOf="@+id/view2"
                     tools:text="Name of the vehicle you would like to purchase" />
@@ -151,6 +173,7 @@
                     android:layout_marginEnd="@dimen/space_32"
                     android:background="@drawable/shape_edt_gray_round"
                     android:hint="@string/l_e_honda_city"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"

@@ -4,6 +4,7 @@ package com.tarrakki.module.yourgoal
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
+import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentInitiateYourGoalBinding
 import com.tarrakki.module.goal.Goal
@@ -49,6 +50,13 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                 }
             }
         }
+        val adapter = ArrayAdapter.createFromResource(
+                activity,
+                R.array.automobile,
+                R.layout.simple_spinner_item_gray_small
+        )
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnCategory.adapter = adapter
     }
 
 
