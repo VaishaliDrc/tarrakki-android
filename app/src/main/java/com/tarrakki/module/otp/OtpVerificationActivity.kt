@@ -37,7 +37,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             } else {
                 if (intent.hasExtra(IS_FROM_ACCOUNT)) {
                     setIsLogin(true)
-                    App.INSTANCE.isLogedIn.value = true
+                    App.INSTANCE.isLoggedIn.value = true
                     finish()
                 } else {
                     startActivity<HomeActivity>()

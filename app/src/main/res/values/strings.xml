@@ -331,5 +331,10 @@
     <string name="mode_">Mode:</string>
     <string name="completed">Completed</string>
     <string name="pending">Pending</string>
+    <string name="txt_default">Default</string>
+    <string name="account_number">Account Number</string>
+    <string name="breach_name">Breach Name</string>
+    <string name="ifsc_code">IFSC Code</string>
+    <string name="add_new_bank_account">Add New Bank Account</string>
 
 </resources>

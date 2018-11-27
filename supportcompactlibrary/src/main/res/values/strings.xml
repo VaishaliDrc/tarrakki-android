@@ -5,10 +5,15 @@
     <string name="no">No</string>
     <string name="settings">SETTINGS</string>
     <string name="cancel">Cancel</string>
+    <string name="permission">Permission</string>
     <string name="allow">Allow</string>
     <string name="dont_allow">Don\'t Allow</string>
     <string name="top_sheet_behavior" translatable="false">org.supportcompact.widgets.TopSheetBehavior</string>
     <string name="phone_state_permission_title">Phone State Permission is necessary</string>
     <string name="camera_title">Camera Permission is necessary</string>
-    <string name="write_external_storage_title">Write external storage Permission is necessary</string>
+    <string name="write_external_storage_title">Read, Write external storage Permissions are necessary</string>
+    <string-array name="select_image_from">
+        <item>Gallery</item>
+        <item>Camera</item>
+    </string-array>
 </resources>

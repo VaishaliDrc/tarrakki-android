@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="widget"
+            type="com.tarrakki.module.bankaccount.Bank" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="@dimen/space_2"
+        android:padding="@dimen/space_8"
+        tools:layout_marginBottom="@dimen/space_16">
+
+        <ImageView
+            android:id="@+id/ivBank"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/temp_icici"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="4dp"
+            android:fontFamily="@font/lato_semibold"
+            android:maxLines="1"
+            android:text="@{widget.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/item_selected_color"
+            app:layout_constraintBottom_toBottomOf="@id/ivBank"
+            app:layout_constraintEnd_toStartOf="@+id/tvDefault"
+            app:layout_constraintStart_toEndOf="@id/ivBank"
+            app:layout_constraintTop_toTopOf="@id/ivBank"
+            tools:text="ICICI Bank" />
+
+        <TextView
+            android:id="@+id/tvDefault"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:paddingStart="@dimen/default_space"
+            android:paddingTop="@dimen/space_4"
+            android:paddingEnd="@dimen/default_space"
+            android:paddingBottom="@dimen/space_4"
+            android:text="@string/txt_default"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="@+id/ivBank"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivBank" />
+
+        <View
+            android:id="@+id/mDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/ivBank" />
+
+        <TextView
+            android:id="@+id/tvAccountNoL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@string/account_number"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+        <TextView
+            android:id="@+id/tvAccountNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@{widget.accountNumber}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccountNoL"
+            tools:text="1210000091052" />
+
+        <TextView
+            android:id="@+id/tvBreachNameL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@string/breach_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="@+id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+        <TextView
+            android:id="@+id/tvBreachName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@{widget.breachName}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="@id/tvBreachNameL"
+            app:layout_constraintTop_toBottomOf="@+id/tvBreachNameL"
+            tools:text="Ahmedabad" />
+
+        <TextView
+            android:id="@+id/tvIFSCCodeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@string/ifsc_code"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/tvIFSCCode"
+            app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+        <TextView
+            android:id="@+id/tvIFSCCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:minWidth="80dp"
+            android:text="@{widget.IFSCCode}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvIFSCCodeLabel"
+            tools:text="IC1C00000457" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gdlCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.40" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

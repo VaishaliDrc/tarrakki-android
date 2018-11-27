@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="widget"
+            type="org.supportcompact.adapters.WidgetsViewModel" />
+    </data>
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_btn_idle_bg"
+        android:fontFamily="@font/lato_bold"
+        android:text="@string/add_new_bank_account"
+        android:textAllCaps="false"
+        android:layout_marginEnd="@dimen/default_space"
+        android:layout_marginStart="@dimen/default_space"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/white" />
+
+</layout>

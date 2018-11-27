@@ -1,6 +1,7 @@
 package org.supportcompact
 
 import android.arch.lifecycle.ViewModelProviders
+import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
@@ -9,6 +10,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.supportcompact.ktx.PermissionCallBack
+import org.supportcompact.ktx.checkPermissionRationale
+import org.supportcompact.ktx.checkSelfPermissions
+import org.supportcompact.ktx.requestAllPermissions
 
 abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Fragment() {
 
@@ -18,6 +23,9 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
     protected abstract val isBackEnabled: Boolean
     protected abstract val title: String
     protected var coreActivityVM: ActivityViewModel? = null
+    private val PERMISSION_CODE = 101
+    private var permissionCallBack: PermissionCallBack? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (!::binding.isInitialized) {
@@ -53,4 +61,30 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
     fun getBinding(): DB = binding
 
     fun getViewModel(): VM = vm
+
+    protected fun requestPermissionsIfRequired(permissions: ArrayList<String>, permissionCallBack: PermissionCallBack?) {
+        this.permissionCallBack = permissionCallBack
+        if (checkSelfPermissions(permissions)) {
+            permissionCallBack?.permissionGranted()
+        } else {
+            requestAllPermissions(permissions, PERMISSION_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionCallBack?.permissionGranted()
+                } else {
+                    if (checkPermissionRationale(permissions)) {
+                        permissionCallBack?.permissionDenied()
+                    } else {
+                        permissionCallBack?.onPermissionDisabled()
+                    }
+                }
+            }
+        }
+    }
 }

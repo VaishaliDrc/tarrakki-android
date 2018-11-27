@@ -6,8 +6,8 @@ import org.supportcompact.CoreApp
 class App : CoreApp() {
 
     val cartCount = MutableLiveData<Int>()
-    val isAuthorise = MutableLiveData<Boolean>()
-    val isLogedIn = MutableLiveData<Boolean>()
+    val isAuthorise = MutableLiveData<Boolean>().apply { value = false }
+    val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
 
     init {
         App.INSTANCE = this

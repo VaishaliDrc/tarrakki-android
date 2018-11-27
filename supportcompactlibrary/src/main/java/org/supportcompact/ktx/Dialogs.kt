@@ -1,6 +1,7 @@
 package org.supportcompact.ktx
 
 import android.content.Context
+import android.support.v7.app.AlertDialog
 import libs.mjn.prettydialog.PrettyDialog
 import org.supportcompact.R
 
@@ -105,3 +106,22 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositive: String, 
             .create().show()*/
 }
 
+fun Context.takePick(onGallery: (() -> Unit)? = null, onCamera: (() -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle("Select Picture")
+            .setItems(R.array.select_image_from) { dialogInterface, which ->
+                when (which) {
+                    0 -> {
+                        dialogInterface.dismiss()
+                        /**Open gallery*/
+                        onGallery?.invoke()
+                    }
+                    1 -> {
+                        dialogInterface.dismiss()
+                        /**Open camera*/
+                        onCamera?.invoke()
+                    }
+                }
+            }
+            .create().show()
+}

@@ -11,6 +11,8 @@ import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
+import com.tarrakki.module.bankaccount.BankAccountsFragment
+import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.MyProfileFragment
@@ -58,7 +60,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(ChangePasswordFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_my_profile -> {
-                        if (App.INSTANCE.isLogedIn.value!!) {
+                        if (App.INSTANCE.isLoggedIn.value!!) {
                             //Open My Profile
                             startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
                         } else {
@@ -74,12 +76,18 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 }
             }
         }
+        tvBankAccount?.setOnClickListener {
+            startFragment(BankAccountsFragment.newInstance(), R.id.frmContainer)
+        }
+        tvBankMandateAccount?.setOnClickListener {
+            startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
+        }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
-                App.INSTANCE.isLogedIn.value = false
+                App.INSTANCE.isLoggedIn.value = false
             })
         }
-        App.INSTANCE.isLogedIn.observe(this, Observer { isLogin ->
+        App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->
             isLogin?.let {
                 if (it) {
                     getViewModel().logoutVisibility.set(View.VISIBLE)

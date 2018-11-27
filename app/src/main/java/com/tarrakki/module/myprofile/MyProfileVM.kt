@@ -12,5 +12,7 @@ class MyProfileVM : FragmentViewModel() {
     val PANNumber = ObservableField("1ABCDE1234F")
     val isEdit = ObservableField(false)
     val cvPhotoName = "profilePick"
-    val RQ_CODE = 101
+    val IMAGE_RQ_CODE = 101
+    val ICAMERA_RQ_CODE = 181
+
 }

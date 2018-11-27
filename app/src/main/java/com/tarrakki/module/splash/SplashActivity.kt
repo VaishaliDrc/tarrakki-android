@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         Handler().postDelayed({
             App.INSTANCE.isAuthorise.value = false
-            App.INSTANCE.isLogedIn.value = isLogin()
+            App.INSTANCE.isLoggedIn.value = isLogin()
             startActivity<HomeActivity>()
             finish()
         }, 2500)

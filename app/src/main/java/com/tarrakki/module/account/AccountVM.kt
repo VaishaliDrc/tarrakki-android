@@ -14,7 +14,7 @@ class AccountVM : FragmentViewModel() {
 
     val appLock = ObservableField(App.INSTANCE.hasAppLock())
     val accountMenus = arrayListOf<AccountMenu>()
-    val logoutVisibility = ObservableField(if (App.INSTANCE.isLogedIn.value!!) View.VISIBLE else View.GONE)
+    val logoutVisibility = ObservableField(if (App.INSTANCE.isLoggedIn.value != null && App.INSTANCE.isLoggedIn.value!!) View.VISIBLE else View.GONE)
 
     init {
         appLock.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -29,7 +29,7 @@ class AccountVM : FragmentViewModel() {
 
     fun setAccountMenu() {
         accountMenus.clear()
-        if (App.INSTANCE.isLogedIn.value!!) {
+        if (App.INSTANCE.isLoggedIn.value!!) {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))

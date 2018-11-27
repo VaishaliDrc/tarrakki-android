@@ -70,7 +70,7 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 }
             }
         }
-        App.INSTANCE.isLogedIn.observe(this, Observer {
+        App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
                     finish()

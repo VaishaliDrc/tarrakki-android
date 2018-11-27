@@ -63,12 +63,12 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                         startActivity<HomeActivity>()
                     }
                     setIsLogin(cbKeepMeSignIn.isChecked)
-                    App.INSTANCE.isLogedIn.value = true
+                    App.INSTANCE.isLoggedIn.value = true
                     finish()
                 }
             }
         }
-        App.INSTANCE.isLogedIn.observe(this, Observer {
+        App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
                     finish()

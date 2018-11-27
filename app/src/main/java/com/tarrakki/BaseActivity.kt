@@ -148,14 +148,16 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == INTENT_AUTHENTICATE) {
             if (resultCode == RESULT_OK) {
                 App.INSTANCE.isAuthorise.value = true
                 //do something you want when pass the security
-                return super.onActivityResult(requestCode, resultCode, data)
+            } else {
+                finish()
             }
         }
-        finish()
+
     }
 
     @RequiresApi(api = android.os.Build.VERSION_CODES.LOLLIPOP)
