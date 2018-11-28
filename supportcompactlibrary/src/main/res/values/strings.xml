@@ -16,4 +16,20 @@
         <item>Gallery</item>
         <item>Camera</item>
     </string-array>
+    <string-array name="accountTypes">
+        <item>Saving Account</item>
+        <item>Current Account</item>
+    </string-array>
+    <string-array name="list_of_bank">
+        <item>Axis Bank</item>
+        <item>Catholic Syrian Bank</item>
+        <item>City Union Bank</item>
+        <item>DCB Bank</item>
+        <item>Dhanlaxmi Bank</item>
+        <item>Federal Bank</item>
+        <item>HDFC Bank</item>
+        <item>ICICI Bank</item>
+        <item>SBI Bank</item>
+        <item>Yes Bank</item>
+    </string-array>
 </resources>

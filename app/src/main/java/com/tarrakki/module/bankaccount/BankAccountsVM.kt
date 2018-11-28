@@ -9,7 +9,6 @@ class BankAccountsVM : FragmentViewModel() {
     val banks = arrayListOf<WidgetsViewModel>()
 
     init {
-
         banks.add(Bank(
                 "ICICI Bank",
                 "1210000091052",

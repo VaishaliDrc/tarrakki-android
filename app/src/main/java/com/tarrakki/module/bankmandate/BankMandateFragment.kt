@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.databinding.BtnAddNextBankMandateBinding
 import com.tarrakki.databinding.FragmentBankMandateBinding
+import com.tarrakki.module.bankaccount.AddBankAccountFragment
+import com.tarrakki.module.bankaccount.AddBankAccountVM
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +46,11 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         rvBankMandate?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandate) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.executePendingBindings()
+            if (binder is BtnAddNextBankMandateBinding) {
+                binder.btnAdd.setOnClickListener {
+                    startFragment(AddBankAccountFragment.newInstance(),R.id.frmContainer)
+                }
+            }
         }
     }
 

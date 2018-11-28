@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.bankaccount.AddBankAccountVM" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.bankaccount.AddBankAccountFragment">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_space"
+            android:background="@drawable/shape_cart_view"
+            android:elevation="@dimen/space_2"
+            android:padding="@dimen/space_8">
+
+            <TextView
+                android:id="@+id/tvAddl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/add_new_bank_account"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/select_bank"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAddl" />
+
+            <AutoCompleteTextView
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:completionThreshold="1"
+                android:drawableEnd="@drawable/ic_search_gray_24dp"
+                android:entries="@array/list_of_bank"
+                android:hint="@string/icici_bank"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.name}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toStartOf="@id/edtLName"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+            <TextView
+                android:id="@+id/tvAccountNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/account_number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtName" />
+
+            <EditText
+                android:id="@+id/edtAccountNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:hint="@string/account_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.accountNo}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAccountNo" />
+
+            <TextView
+                android:id="@+id/tvReAccountNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/re_enter_account_number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtAccountNo" />
+
+            <EditText
+                android:id="@+id/edtReAccountNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:hint="@string/re_enter_account_number"
+                android:inputType="number"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.reenterAccountNo}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvReAccountNo" />
+
+
+            <TextView
+                android:id="@+id/tvBreach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/breach_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtReAccountNo" />
+
+            <EditText
+                android:id="@+id/edtBreach"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:hint="@string/breach_name"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.breachName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toStartOf="@id/edtLName"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBreach" />
+
+
+            <TextView
+                android:id="@+id/tvAccountTypeL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_4"
+                android:text="@string/account_type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@id/tvIFSCLabel"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtBreach" />
+
+            <TextView
+                android:id="@+id/tvAccountType"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+                android:hint="@string/account_type"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/space_8"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.accountType}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toStartOf="@id/edtLName"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAccountTypeL" />
+
+            <TextView
+                android:id="@+id/tvIFSCLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/ifsc_code"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tvAccountTypeL"
+                app:layout_constraintTop_toBottomOf="@id/edtBreach" />
+
+            <EditText
+                android:id="@+id/edtLName"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/space_4"
+                android:layout_marginTop="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:hint="@string/ifsc_code"
+                android:inputType="textCapSentences"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.IFSCCode}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/tvAccountType"
+                app:layout_constraintTop_toBottomOf="@id/tvAccountTypeL" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_8"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/add_bank_account"
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAccountType" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</layout>

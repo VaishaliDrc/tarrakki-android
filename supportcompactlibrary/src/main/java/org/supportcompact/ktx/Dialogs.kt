@@ -125,3 +125,14 @@ fun Context.takePick(onGallery: (() -> Unit)? = null, onCamera: (() -> Unit)? = 
             }
             .create().show()
 }
+
+fun Context.accountTypes(onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data = resources.getStringArray(R.array.accountTypes)
+    mDialog.setTitle("Account Type")
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which])
+            }
+            .create().show()
+}
