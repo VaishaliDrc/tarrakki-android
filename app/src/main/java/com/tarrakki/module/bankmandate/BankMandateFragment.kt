@@ -4,13 +4,14 @@ package com.tarrakki.module.bankmandate
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import com.tarrakki.BR
+import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
-import com.tarrakki.databinding.BtnAddNextBankMandateBinding
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
-import com.tarrakki.module.bankaccount.AddBankAccountVM
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -45,12 +46,14 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     override fun createReference() {
         rvBankMandate?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandate) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
+            binder.setVariable(BR.onNext, View.OnClickListener {
+                startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
+                EventBus.getDefault().postSticky(getViewModel().bankMandate[0])
+            })
+            binder.setVariable(BR.onAdd, View.OnClickListener {
+                startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, false) }), R.id.frmContainer)
+            })
             binder.executePendingBindings()
-            if (binder is BtnAddNextBankMandateBinding) {
-                binder.btnAdd.setOnClickListener {
-                    startFragment(AddBankAccountFragment.newInstance(),R.id.frmContainer)
-                }
-            }
         }
     }
 

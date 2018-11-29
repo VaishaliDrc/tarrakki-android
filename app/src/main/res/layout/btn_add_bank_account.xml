@@ -6,18 +6,24 @@
         <variable
             name="widget"
             type="org.supportcompact.adapters.WidgetsViewModel" />
+
+        <variable
+            name="onAdd"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
         android:background="@drawable/shape_btn_idle_bg"
         android:fontFamily="@font/lato_bold"
+        android:onClick="@{onAdd}"
         android:text="@string/add_new_bank_account"
         android:textAllCaps="false"
-        android:layout_marginEnd="@dimen/default_space"
-        android:layout_marginStart="@dimen/default_space"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/white" />
 

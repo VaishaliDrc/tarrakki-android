@@ -4,13 +4,16 @@ package com.tarrakki.module.bankaccount
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import com.tarrakki.BR
+import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -41,6 +44,9 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     override fun createReference() {
         rvBanks?.setUpMultiViewRecyclerAdapter(getViewModel().banks) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
+            binder.setVariable(BR.onAdd, View.OnClickListener {
+                startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
+            })
             binder.executePendingBindings()
         }
     }

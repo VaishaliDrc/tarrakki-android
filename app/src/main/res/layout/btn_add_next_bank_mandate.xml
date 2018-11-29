@@ -6,6 +6,15 @@
         <variable
             name="widget"
             type="org.supportcompact.adapters.WidgetsViewModel" />
+
+        <variable
+            name="onAdd"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onNext"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <LinearLayout
@@ -22,6 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_bold"
+            android:onClick="@{onAdd}"
             android:text="@string/add_new_bank_account"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -32,11 +42,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
+            android:layout_marginBottom="@dimen/space_8"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_bold"
+            android:onClick="@{onNext}"
             android:text="@string/next"
             android:textAllCaps="false"
-            android:layout_marginBottom="@dimen/space_8"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/white" />
     </LinearLayout>

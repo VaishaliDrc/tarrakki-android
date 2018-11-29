@@ -341,5 +341,6 @@
     <string name="re_enter_account_number">Re-enter Account Number</string>
     <string name="account_type">Account Type</string>
     <string name="add_bank_account">Add Bank Account</string>
+    <string name="max_auto_debit">Maximum auto-debit limit</string>
 
 </resources>

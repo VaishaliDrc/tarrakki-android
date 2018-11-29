@@ -27,7 +27,7 @@ import org.supportcompact.widgets.DividerItemDecorationNoLast
 import java.util.*
 
 const val IS_FROM_ACCOUNT = "is_from_account"
-
+const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
 fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {

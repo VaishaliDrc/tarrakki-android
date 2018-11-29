@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="fundType"
+            type="com.tarrakki.module.bankmandate.AutoDebitAmount" />
+    </data>
+
+    <TextView
+        android:id="@+id/tvFundType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@{fundType.selected ? @drawable/shape_round_gren_bg : @drawable/shape_round_gray_bg}"
+        android:gravity="center"
+        android:minWidth="48dp"
+        android:paddingStart="@dimen/default_space"
+        android:paddingTop="@dimen/space_8"
+        android:paddingEnd="@dimen/default_space"
+        android:paddingBottom="@dimen/space_8"
+        price="@{fundType.amount}"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@{fundType.selected ? @color/white : @color/dark}"
+        tools:background="@drawable/shape_round_gray_bg"
+        tools:layout_marginEnd="@dimen/space_8"
+        tools:text="@string/dummy1"
+        tools:textColor="@color/dark">
+
+    </TextView>
+</layout>

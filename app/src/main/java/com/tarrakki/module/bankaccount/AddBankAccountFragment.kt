@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.widget.ArrayAdapter
+import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
@@ -23,7 +24,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.bank_mandate)
+        get() = getString(R.string.bank_accounts)
 
     override fun getLayout(): Int {
         return R.layout.fragment_add_bank_account
@@ -39,6 +40,13 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
     }
 
     override fun createReference() {
+        arguments?.let {
+            coreActivityVM?.title?.set(if (it.getBoolean(IS_FROM_BANK_ACCOUNT, true)) {
+                getString(R.string.bank_accounts)
+            } else {
+                getString(R.string.bank_accounts)
+            })
+        }
         context?.let {
             // Get the string array
             val countries: Array<out String> = it.resources.getStringArray(R.array.list_of_bank)

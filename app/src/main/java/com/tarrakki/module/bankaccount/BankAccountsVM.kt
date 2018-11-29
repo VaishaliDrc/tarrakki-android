@@ -16,6 +16,7 @@ class BankAccountsVM : FragmentViewModel() {
                 "IC1C00000457",
                 true))
         banks.add(object : WidgetsViewModel {
+
             override fun layoutId(): Int {
                 return R.layout.btn_add_bank_account
             }
