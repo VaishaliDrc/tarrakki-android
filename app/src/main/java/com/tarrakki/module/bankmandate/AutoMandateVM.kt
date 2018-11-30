@@ -9,7 +9,7 @@ import org.supportcompact.FragmentViewModel
 class AutoMandateVM : FragmentViewModel() {
 
     val ammounts = arrayListOf<AutoDebitAmount>()
-    val amount = ObservableField(25000)
+    val amount = ObservableField("")
     val bankMandate = ObservableField<BankMandate>()
 
     init {
@@ -19,7 +19,6 @@ class AutoMandateVM : FragmentViewModel() {
         ammounts.add(AutoDebitAmount(50000))
         ammounts.add(AutoDebitAmount(100000))
         ammounts.add(AutoDebitAmount(500000))
-
 
     }
 }

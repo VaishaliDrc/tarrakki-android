@@ -172,7 +172,7 @@
                     android:text="@string/max_auto_debit"
                     android:textColor="@color/black" />
 
-                <TextView
+                <!--<TextView
                     price="@{vm.amount}"
                     android:layout_width="168dp"
                     android:layout_height="wrap_content"
@@ -182,7 +182,47 @@
                     android:gravity="center"
                     android:padding="@dimen/space_8"
                     android:textColor="@color/black"
-                    tools:text="@string/dummy3" />
+                    tools:text="@string/dummy3" />-->
+                <RelativeLayout
+                    android:id="@+id/llContainer"
+                    android:layout_width="168dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_8"
+                    app:layout_constraintEnd_toStartOf="@id/edtYears"
+                    app:layout_constraintHorizontal_weight="1.2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvInvestL">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_4"
+                        android:layout_marginEnd="@dimen/space_4"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/rs_symbol"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/semi_black" />
+
+                    <EditText
+                        android:id="@+id/edtInvestAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/lato_bold"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/default_space"
+                        android:paddingEnd="@dimen/default_space"
+                        android:text="@={vm.amount}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/semi_black" />
+
+                </RelativeLayout>
+
 
                 <View
                     android:layout_width="match_parent"
@@ -198,8 +238,8 @@
                     android:layout_marginBottom="@dimen/space_8"
                     android:orientation="horizontal"
                     android:overScrollMode="never"
-                    app:dividerV="@{@drawable/shape_transferant_divider}"
                     app:dividerH="@{@drawable/shape_transferant_divider}"
+                    app:dividerV="@{@drawable/shape_transferant_divider}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:itemCount="2"
@@ -213,6 +253,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_4"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/txtcontinue"

@@ -9,6 +9,7 @@ import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
 import org.supportcompact.ktx.simpleAlert
@@ -62,7 +63,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 context?.simpleAlert("Please enter account number")
             } else if (TextUtils.isEmpty(getViewModel().reenterAccountNo.get())) {
                 context?.simpleAlert("Please enter re-enter account number")
-            } else if (getViewModel().accountNo.get() == getViewModel().reenterAccountNo.get()) {
+            } else if (getViewModel().accountNo.get() != getViewModel().reenterAccountNo.get()) {
                 context?.simpleAlert("Account number and re-enter account number should be same")
             } else if (TextUtils.isEmpty(getViewModel().breachName.get())) {
                 context?.simpleAlert("Please enter breach name")
@@ -71,6 +72,12 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
             } else if (TextUtils.isEmpty(getViewModel().IFSCCode.get())) {
                 context?.simpleAlert("Please enter IFSC code")
             } else {
+                EventBus.getDefault().post(Bank(
+                        "ICICI Bank",
+                        "1210000091052",
+                        "Ahmedabad",
+                        "IC1C00000457",
+                        true))
                 context?.simpleAlert("New Bank Account has been added successfully") {
                     activity?.onBackPressed()
                 }

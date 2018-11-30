@@ -14,6 +14,8 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
+import org.supportcompact.ktx.startFragment
 
 
 /**
@@ -57,10 +59,16 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
                 }
                 item.isSelected = !item.isSelected
                 selectedAt = position
-                getViewModel().amount.set(item.amount)
+                getViewModel().amount.set(item.amount.toString())
             }
             binder.executePendingBindings()
         }
+        btnContinue?.setOnClickListener {
+            startFragment(BankMandateWayFragment.newInstance(), R.id.frmContainer)
+        }
+        edtInvestAmount?.applyCurrencyFormatPositiveOnly()
+        getViewModel().amount.set(getViewModel().ammounts[2].amount.toString())
+
     }
 
     override fun onStart() {

@@ -10,6 +10,9 @@ import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -49,8 +52,22 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
             })
             binder.executePendingBindings()
         }
+        EventBus.getDefault().register(this)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAdd(bank: Bank) {
+        if (getViewModel().banks[0] !is Bank) {
+            getViewModel().banks.removeAt(0)
+        }
+        getViewModel().banks.add(0, bank)
+        rvBanks?.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
+    }
 
     companion object {
         /**

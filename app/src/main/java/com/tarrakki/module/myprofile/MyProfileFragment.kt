@@ -5,6 +5,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.databinding.Observable
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,8 +22,6 @@ import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.takePick
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
 
 
 /**
