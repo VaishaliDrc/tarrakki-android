@@ -3,11 +3,9 @@ package com.tarrakki.module.bankmandate
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
 import com.tarrakki.R
+import com.tarrakki.databinding.FragmentDownloadBankMandateFromBinding
+import org.supportcompact.CoreFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -15,11 +13,28 @@ import com.tarrakki.R
  * create an instance of this fragment.
  *
  */
-class DownloadBankMandateFromFragment : Fragment() {
+class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, FragmentDownloadBankMandateFromBinding>() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_download_bank_mandate_from, container, false)
+    override val isBackEnabled: Boolean
+        get() = true
+    override val title: String
+        get() = getString(R.string.bank_mandate)
+
+    override fun getLayout(): Int {
+        return R.layout.fragment_download_bank_mandate_from
+    }
+
+    override fun createViewModel(): Class<out DownloadBankMandateFromVM> {
+        return DownloadBankMandateFromVM::class.java
+    }
+
+    override fun setVM(binding: FragmentDownloadBankMandateFromBinding) {
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
+    }
+
+    override fun createReference() {
+        
     }
 
 

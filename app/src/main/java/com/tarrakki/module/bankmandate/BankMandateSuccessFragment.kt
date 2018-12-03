@@ -35,7 +35,9 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     }
 
     override fun createReference() {
-        btnInvest?.setOnClickListener { }
+        btnInvest?.setOnClickListener {
+            activity?.onBackPressed()
+        }
     }
 
 

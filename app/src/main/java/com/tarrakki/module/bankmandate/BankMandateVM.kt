@@ -1,5 +1,8 @@
 package com.tarrakki.module.bankmandate
 
+import android.databinding.BaseObservable
+import android.databinding.Bindable
+import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -29,7 +32,15 @@ data class BankMandate(var name: String,
                        var breachName: String,
                        var IFSCCode: String,
                        var isDefault: Boolean = false
-) : WidgetsViewModel {
+) : WidgetsViewModel, BaseObservable() {
+
+    @get:Bindable
+    var isPending: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.pending)
+        }
+
     override fun layoutId(): Int {
         return R.layout.row_bank_mandate_list_item
     }

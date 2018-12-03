@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="widget"
             type="com.tarrakki.module.bankmandate.BankMandate" />
@@ -141,6 +143,44 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.40" />
 
+        <View
+            android:id="@+id/mDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@color/darker_gray"
+            android:visibility="@{widget.pending ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccountNo" />
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="8dp"
+            android:text="@string/normally_take_"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="@{widget.pending ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/tvPending"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mDivider2" />
+
+        <TextView
+            android:id="@+id/tvPending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@drawable/shape_pending_bg"
+            android:paddingStart="@dimen/space_25"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/space_25"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@string/pending"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:visibility="@{widget.pending ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mDivider2" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -10,11 +10,14 @@ import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
+import com.tarrakki.module.bankaccount.SingleButton
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -55,6 +58,29 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
             })
             binder.executePendingBindings()
         }
+        EventBus.getDefault().register(this)
+    }
+
+    @Subscribe
+    fun onEvent(event: Event) {
+        when (event) {
+            Event.BANK_MANDATE_SUBMITTED -> {
+                getViewModel().bankMandate.forEach { item ->
+                    if (item is BankMandate) {
+                        item.isPending = true
+                    } else {
+                        getViewModel().bankMandate.remove(item)
+                    }
+                }
+                getViewModel().bankMandate.add(SingleButton(R.string.add_new_bank_account))
+                rvBankMandate?.adapter?.notifyDataSetChanged()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
 

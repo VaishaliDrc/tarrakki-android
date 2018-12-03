@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.tarrakki.module.bankmandate.DownloadBankMandateFromVM" />
+            type="com.tarrakki.module.bankmandate.UploadBankMandateFormVM" />
     </data>
 
     <LinearLayout
@@ -43,28 +43,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
                 android:fontFamily="@font/lato_semibold"
-                android:text="@string/please_look_at_the_pre_filled"
+                android:text="@string/please_double_check_"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:fontFamily="@font/lato_semibold"
-                android:text="@string/sign_scan_and_upload"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnDownload"
+            android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_bold"
-            android:text="@string/doenload_mandate_form"
+            android:text="@string/submit"
             android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/white" />

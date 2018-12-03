@@ -356,5 +356,11 @@
     <string name="download_bank_form_description">Download the bank mandate form and fill out your details to set up Auto- Payments./n/nThis form allows secure auto-debiting of a specified amount of money towards your SIP, to create an easier investment experience for you.</string>
     <string name="upload_scanned_form">Upload Scanned Mandate</string>
     <string name="upload_scanned_form_description">Once you have filled out the bank mandate form, please scan the form and upload it.</string>
+    <string name="bank_mandate_preview">Bank Mandate Preview</string>
+    <string name="please_look_at_the_pre_filled">Please look at the pre-filled Bank Mandate carefully to verify that all the in-formation is correct. Download the Bank Mandate and Print.</string>
+    <string name="sign_scan_and_upload">Sign, Scan, and Upload.</string>
+    <string name="doenload_mandate_form">Download Mandate Form</string>
+    <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
+    <string name="normally_take_">Normally takes 15-30 working days for approval</string>
 
 </resources>

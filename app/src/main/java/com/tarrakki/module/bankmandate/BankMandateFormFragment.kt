@@ -45,7 +45,10 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         rvBankMandateForm?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandateWays) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.setVariable(BR.onAdd, View.OnClickListener {
-                startFragment(BankMandateSuccessFragment.newInstance(), R.id.frmContainer)
+                startFragment(if (selectedAt == 0)
+                    DownloadBankMandateFromFragment.newInstance()
+                else
+                    UploadBankMandateFormFragment.newInstance(), R.id.frmContainer)
             })
             binder.root.setOnClickListener {
                 if (item is BankMandateWay) {
