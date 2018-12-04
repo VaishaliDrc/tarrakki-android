@@ -4,6 +4,8 @@ package com.tarrakki.module.yourgoal
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentInitiateYourGoalBinding
@@ -50,12 +52,24 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                 }
             }
         }
-        val adapter = ArrayAdapter.createFromResource(
+        val data = resources.getStringArray(R.array.automobile)
+        val adapter = ArrayAdapter(
                 activity,
-                R.array.automobile,
-                R.layout.simple_spinner_item_gray_small
+                R.layout.simple_spinner_item_gray_small,
+                data
         )
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                getViewModel().iniateYourGoal.get()?.let { item ->
+                    item.answered = data[position]
+                }
+            }
+        }
         spnCategory.adapter = adapter
     }
 

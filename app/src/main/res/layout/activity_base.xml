@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_bold"
-            android:maxLength="18"
+            android:maxLength="24"
             android:maxLines="1"
             android:text="@{vm.title}"
             android:textAllCaps="true"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Home" />
+            tools:text="Investment Strategies" />
 
         <FrameLayout
             android:id="@+id/frmContainer"

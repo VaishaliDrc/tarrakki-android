@@ -14,6 +14,7 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
+import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
@@ -65,6 +66,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 when (position) {
                     1 -> {
                         startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                    }
+                    0 -> {
+                        startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             })

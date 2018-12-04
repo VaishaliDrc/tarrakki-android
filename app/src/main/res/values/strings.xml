@@ -362,5 +362,15 @@
     <string name="doenload_mandate_form">Download Mandate Form</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
     <string name="normally_take_">Normally takes 15-30 working days for approval</string>
+    <string name="investment_strategies">Investment Strategies</string>
+    <string name="note_to_investors_">Note to Investors:</string>
+    <string name="note_to_investors_details">
+        Before opting for an investment strategy, rethink your priorities as practi-cally as possible.
+        \n\nIf you are investing in order to grow your money significantly in the long run, you may need to have a higher exposure to direct equity (stocks). This would require you to opt for an Aggressive or Moderate Investment Strategy. This also means that you may see the value of your portfolio go down, based on market conditions. The key to grow your money is to not get sentimental when markets dip, because markets that dip, inevitably rise again.
+        \n\nThese strategies are advisable for people who intend to invest for a longer run.
+        \n\nIf the safety of your invested money and capital protection in the near future is very important to you, you might want to opt for a Conservative Investment Strategy. While your money will grow very slowly with this strategy, it will also be less likely to see major ups and downs irrespective of market conditions.
+    </string>
+    <string name="opt_for_this_if">OPT FOR THIS IF:</string>
+    <string name="select">Select</string>
 
 </resources>

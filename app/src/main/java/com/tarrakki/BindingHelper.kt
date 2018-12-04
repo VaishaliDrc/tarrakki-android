@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.tarrakki.module.goal.Goal
+import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -42,9 +43,9 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
                 if (mContext is AppCompatActivity && item is Goal) {
                     mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                     //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
-                } /*else if (mContext is AppCompatActivity) {
-                    mContext.startFragment(PANVerifyFragment.newInstance(), R.id.frmContainer)
-                }*/
+                } else if (mContext is AppCompatActivity) {
+                    mContext.startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
+                }
             }
         }
     }

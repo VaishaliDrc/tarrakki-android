@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyVM" />
+    </data>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.investmentstrategies.SelectInvestmentStrategyFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_space">
+
+            <org.supportcompact.widgets.WrapContentViewPager
+                android:id="@+id/mPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2" />
+
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/pageIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:ci_drawable="@drawable/page_selected"
+                app:ci_drawable_unselected="@drawable/page_unselected" />
+
+            <LinearLayout
+                android:id="@+id/llNoteToInvestors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvNoteToInvestorsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@{vm.noteToInvestors ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/note_to_investors_"
+                    android:textColor="@android:color/black"
+                    tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="true"
+                    app:expanded="@{vm.noteToInvestors}">
+
+                    <TextView
+                        android:id="@+id/tvNoteToInvestorsiReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="@dimen/space_4"
+                        android:text="@string/note_to_investors_details" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

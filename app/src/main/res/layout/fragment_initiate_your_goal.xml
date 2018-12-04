@@ -105,7 +105,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/view2"
                     tools:text="Which of the following would you like to purchase?" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/edtQ1Answer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -127,7 +127,7 @@
                     android:textColorHint="@color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />
+                    app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />-->
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@{vm.iniateYourGoal.answered2}"
+                    android:text="@={vm.iniateYourGoal.answered2}"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
