@@ -4,14 +4,17 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
+import java.io.Serializable
 
 class SelectInvestmentStrategyVM : FragmentViewModel() {
 
@@ -21,11 +24,11 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
     init {
         investmentOptions.add(InvestmentOption(
                 title = "Aggressive",
-                imgRes = R.drawable.very_long_investments,
+                imgRes = R.drawable.ic_aggressive,
                 riskLevel = "High Risk",
-                riskLevelIMGRes = R.drawable.very_long_investments,
+                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_up),
                 returnOnRiskLevel = "High Return",
-                returnOnRiskLevelIMGRes = R.drawable.very_long_investments,
+                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_up),
                 sortDescription = "An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds.",
                 descriptions = SpannableStringBuilder().apply {
                     append(SpannableString("You have a high risk tolerance").apply {
@@ -46,11 +49,11 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
         })
         investmentOptions.add(InvestmentOption(
                 title = "Moderate",
-                imgRes = R.drawable.very_long_investments,
+                imgRes = R.drawable.ic_moderate,
                 riskLevel = "Medium Risk",
-                riskLevelIMGRes = R.drawable.very_long_investments,
+                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_equal),
                 returnOnRiskLevel = "Medium Return",
-                returnOnRiskLevelIMGRes = R.drawable.very_long_investments,
+                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_equal),
                 sortDescription = "An aggressive investment strategy involves allocating equal money to equity and bonds.",
                 descriptions = SpannableStringBuilder().apply {
                     append(SpannableString("You have medium risk tolerance").apply {
@@ -68,11 +71,11 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
         ))
         investmentOptions.add(InvestmentOption(
                 title = "Conservative",
-                imgRes = R.drawable.very_long_investments,
+                imgRes = R.drawable.ic_conservative,
                 riskLevel = "Low Risk",
-                riskLevelIMGRes = R.drawable.very_long_investments,
+                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_down),
                 returnOnRiskLevel = "Low Return",
-                returnOnRiskLevelIMGRes = R.drawable.very_long_investments,
+                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_down),
                 sortDescription = "This investment strategy involves allocating most of the money to bonds and liquid assets. This strategy works well if you are a risk averse investor.",
                 descriptions = SpannableStringBuilder().apply {
                     append(SpannableString("You have a low risk tolerance").apply {
@@ -99,14 +102,12 @@ data class InvestmentOption(
         @DrawableRes
         var imgRes: Int,
         var riskLevel: String,
-        @DrawableRes
-        var riskLevelIMGRes: Int,
+        var riskLevelIMGRes: Drawable?,
         var returnOnRiskLevel: String,
-        @DrawableRes
-        var returnOnRiskLevelIMGRes: Int,
+        var returnOnRiskLevelIMGRes: Drawable?,
         var sortDescription: String,
         var descriptions: SpannableStringBuilder
-) : BaseObservable() {
+) : BaseObservable(), Serializable {
     @get:Bindable
     var hasNext: Boolean = true
         set(value) {

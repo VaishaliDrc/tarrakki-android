@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.support.annotation.IntRange
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -85,6 +86,16 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
                     }
                 }
             }
+        }
+    }
+
+    protected fun onBack() {
+        activity?.onBackPressed()
+    }
+
+    protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {
+        for (i in 1..steps) {
+            activity?.supportFragmentManager?.popBackStack()
         }
     }
 }

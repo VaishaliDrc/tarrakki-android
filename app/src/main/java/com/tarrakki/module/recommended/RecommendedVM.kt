@@ -1,12 +1,15 @@
 package com.tarrakki.module.recommended
 
+import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.ColorRes
 import com.tarrakki.R
+import com.tarrakki.module.investmentstrategies.InvestmentOption
 import org.supportcompact.FragmentViewModel
 
 class RecommendedVM : FragmentViewModel() {
 
     val AMCList = arrayListOf<AMC>()
+    val investment = MutableLiveData<InvestmentOption>()
 
     init {
         AMCList.add(AMC(

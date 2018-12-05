@@ -166,23 +166,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
-                    android:drawableEnd="@drawable/ic_info_green_24dp"
+                    android:drawableEnd="@drawable/ic_info"
                     android:drawablePadding="@dimen/space_4"
                     android:fontFamily="@font/lato_semibold"
+                    android:gravity="center_vertical"
                     android:text="@string/max_auto_debit"
                     android:textColor="@color/black" />
 
-                <!--<TextView
-                    price="@{vm.amount}"
-                    android:layout_width="168dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:fontFamily="@font/lato_bold"
-                    android:gravity="center"
-                    android:padding="@dimen/space_8"
-                    android:textColor="@color/black"
-                    tools:text="@string/dummy3" />-->
                 <RelativeLayout
                     android:id="@+id/llContainer"
                     android:layout_width="168dp"

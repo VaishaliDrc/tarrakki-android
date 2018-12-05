@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/ivPrevious"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@{invest.hasPrevious? @drawable/circular_bg_green : @drawable/circular_bg_gray}"
             android:padding="@dimen/space_8"
             android:src="@drawable/prev_arrow"
@@ -30,8 +30,8 @@
 
         <ImageView
             android:id="@+id/ivNext"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:background="@{invest.hasNext? @drawable/circular_bg_green : @drawable/circular_bg_gray}"
             android:padding="@dimen/space_8"
             android:src="@drawable/next_arrow"
@@ -48,7 +48,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/default_space"
             android:elevation="12dp"
-            app:cardBackgroundColor="@color/circular_bg"
             app:cardCornerRadius="72dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -58,16 +57,13 @@
                 imgUrl="@{invest.imgRes}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingStart="@dimen/space_8"
-                android:paddingEnd="@dimen/space_8"
-                android:paddingBottom="@dimen/space_40"
-                tools:src="@drawable/own_a_home" />
+                tools:src="@drawable/ic_aggressive" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/space_30"
+                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/lato_bold"
                 android:gravity="center"
                 android:maxLines="2"
@@ -90,14 +86,18 @@
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="@dimen/space_8"
             android:background="@drawable/shape_risk_level_bg"
+            android:drawableStart="@{invest.riskLevelIMGRes}"
+            android:drawablePadding="@dimen/space_8"
             android:fontFamily="@font/lato_semibold"
             android:gravity="center_vertical"
-            android:minWidth="125dp"
+            android:minWidth="120dp"
             android:padding="@dimen/space_8"
             android:text="@{invest.riskLevel}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/pdlg_color_red"
             app:layout_constraintEnd_toStartOf="@id/glCenter"
             app:layout_constraintTop_toBottomOf="@id/view2"
+            tools:drawableStart="@drawable/ic_red_up"
             tools:text="High Risk" />
 
         <TextView
@@ -108,14 +108,18 @@
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="@dimen/space_8"
             android:background="@drawable/shape_risk_to_revord_level_bg"
+            android:drawableStart="@{invest.returnOnRiskLevelIMGRes}"
+            android:drawablePadding="@dimen/space_8"
             android:fontFamily="@font/lato_semibold"
             android:gravity="center_vertical"
-            android:minWidth="125dp"
+            android:minWidth="120dp"
             android:padding="@dimen/space_8"
             android:text="@{invest.returnOnRiskLevel}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/pdlg_color_green"
             app:layout_constraintStart_toStartOf="@id/glCenter"
             app:layout_constraintTop_toBottomOf="@id/view2"
+            tools:drawableStart="@drawable/ic_green_up"
             tools:text="High Return" />
 
         <android.support.constraint.Guideline

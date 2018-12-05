@@ -1,6 +1,8 @@
 package org.supportcompact;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 
 import org.supportcompact.utilise.AppForegroundChecker;
 
@@ -9,6 +11,9 @@ public class CoreApp extends Application {
 
     private static CoreApp mInstance;
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     AppForegroundChecker.Listener listener = new AppForegroundChecker.Listener() {
         public void onBecameForeground() {

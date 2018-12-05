@@ -372,5 +372,8 @@
     </string>
     <string name="opt_for_this_if">OPT FOR THIS IF:</string>
     <string name="select">Select</string>
+    <string name="invest_in_this_strategy">Invest in this strategy</string>
+    <string name="saved_goals">Saved Goals</string>
+    <string name="add_a_goal">Add a goal</string>
 
 </resources>

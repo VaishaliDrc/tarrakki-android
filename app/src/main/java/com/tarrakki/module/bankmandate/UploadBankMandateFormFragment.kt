@@ -39,11 +39,7 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
 
     override fun createReference() {
         btnSubmit?.setOnClickListener {
-            activity?.supportFragmentManager?.let { manager ->
-                for (i in 1..4) {
-                    manager.popBackStack()
-                }
-            }
+            onBack(4)
             EventBus.getDefault().post(Event.BANK_MANDATE_SUBMITTED)
             startFragment(BankMandateSuccessFragment.newInstance(), R.id.frmContainer)
         }

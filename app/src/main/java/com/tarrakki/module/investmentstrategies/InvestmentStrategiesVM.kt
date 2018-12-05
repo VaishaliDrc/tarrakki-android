@@ -11,19 +11,58 @@ class InvestmentStrategiesVM : FragmentViewModel() {
     init {
         investmentStrategies.add(InvestmentStrategy(
                 "Very Long Term Investments",
-                "Diversified equity founds, 10+ years or longer"
+                "Diversified equity founds, 10+ years or longer",
+                imgUrl = R.drawable.very_long_investments
         ))
         investmentStrategies.add(InvestmentStrategy(
                 "Long Term Investments",
-                "Diversified equity founds, 5+ years or longer"
+                "Diversified equity founds, 5+ years or longer",
+                imgUrl = R.drawable.very_long_investments
         ))
         investmentStrategies.add(InvestmentStrategy(
-                "Short Long Term Investments",
-                "Diversified equity founds, 3+ years or longer"
+                "Short Term Investments",
+                "Debt fund for 1-5 years, FD Alternative",
+                imgUrl = R.drawable.very_long_investments
         ))
         investmentStrategies.add(InvestmentStrategy(
-                "Very Long Term Investments",
-                "Diversified equity founds, 2+ years or longer"
+                "Emergency Fund",
+                "Deft fund for 0-12 months, Debit card",
+                imgUrl = R.drawable.emergency_fund
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Tax Savers",
+                "Save tax up to 45,000 with ELSS funds",
+                imgUrl = R.drawable.tax_savers
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "High Risk - High Return",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.high_risk_high_return
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Medium Risk - Medium Return",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.medium_risk_medium_return
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Invest in Large Cap",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.invest_in_large_cap
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Invest in Mid Cap",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.invest_in_mid_cap
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Invest in Small Cap",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.invest_in_small_cap
+        ))
+        investmentStrategies.add(InvestmentStrategy(
+                "Thematic Investment",
+                "Lorem ipsum is simply dummy text of the printing",
+                imgUrl = R.drawable.thematic_investment
         ))
     }
 }

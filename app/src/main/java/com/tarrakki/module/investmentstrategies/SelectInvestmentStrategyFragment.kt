@@ -6,9 +6,15 @@ import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentSelectInvestmentStrategiesBinding
 import com.tarrakki.databinding.PageInvestmentOptionsItemBinding
+import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import kotlinx.android.synthetic.main.fragment_select_investment_strategies.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setPageAdapter
+import org.supportcompact.ktx.startFragment
+import org.supportcompact.widgets.CubeInDepthTransformation
+import org.supportcompact.widgets.DepthTransformation
+import org.supportcompact.widgets.FadeOutTransformation
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +48,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             }
         }
         mPager?.setPagingEnabled(true)
+        mPager?.setPageTransformer(true, FadeOutTransformation())
         mPager?.setPageAdapter(R.layout.page_investment_options_item, getViewModel().investmentOptions) { binder: PageInvestmentOptionsItemBinding, item: InvestmentOption ->
             binder.invest = item
             binder.ivNext.setOnClickListener {
@@ -49,6 +56,10 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             }
             binder.ivPrevious.setOnClickListener {
                 mPager.currentItem = mPager.currentItem - 1
+            }
+            binder.btnSelect.setOnClickListener {
+                startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(), R.id.frmContainer)
+                EventBus.getDefault().postSticky(item)
             }
             binder.executePendingBindings()
         }

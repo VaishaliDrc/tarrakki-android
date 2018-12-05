@@ -10,18 +10,29 @@
             type="com.tarrakki.module.investmentstrategies.InvestmentStrategiesVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvInvestmentStrategies"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_space"
-        android:background="@drawable/shape_cart_view"
-        android:elevation="2dp"
-        android:overScrollMode="never"
-        android:padding="@dimen/space_4"
-        app:layoutManager="android.support.v7.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="15"
-        tools:listitem="@layout/row_investment_strategies_item" />
+        android:layout_height="match_parent">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvInvestmentStrategies"
+                enableNestedScrollView="@{false}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:overScrollMode="never"
+                android:padding="@dimen/space_4"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:itemCount="15"
+                tools:listitem="@layout/row_investment_strategies_item" />
+
+        </FrameLayout>
+    </android.support.v4.widget.NestedScrollView>
 </layout>

@@ -16,6 +16,8 @@ import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.MyProfileFragment
+import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
@@ -69,6 +71,12 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                 putExtra(IS_FROM_ACCOUNT, true)
                             })
                         }
+                    }
+                    R.drawable.ic_my_portfolio -> {
+                        startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+                    }
+                    R.drawable.ic_saved_goals -> {
+                        startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
                         startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
