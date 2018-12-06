@@ -136,3 +136,14 @@ fun Context.accountTypes(onItemSelected: ((item: String) -> Unit)? = null) {
             }
             .create().show()
 }
+
+fun Context.showStates(onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data = resources.getStringArray(R.array.state_list)
+    mDialog.setTitle("Select State")
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which])
+            }
+            .create().show()
+}

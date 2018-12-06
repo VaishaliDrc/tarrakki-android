@@ -15,7 +15,7 @@ import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.login.LoginActivity
-import com.tarrakki.module.myprofile.MyProfileFragment
+import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
@@ -64,7 +64,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     R.drawable.ic_my_profile -> {
                         if (App.INSTANCE.isLoggedIn.value!!) {
                             //Open My Profile
-                            startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
+                            startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
                         } else {
                             //Open Redirect to login screen
                             startActivity(Intent(activity, LoginActivity::class.java).apply {

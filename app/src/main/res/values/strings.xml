@@ -379,5 +379,14 @@
     <string name="make_an_investment">Make an Investment</string>
     <string name="enter_sip_amount">Enter SIP amount</string>
     <string name="monthly_investment_amount_sip_">Monthly investment amount (SIP)</string>
+    <string name="nomination_details">Nomination Details</string>
+    <string name="personal_details">Personal Details</string>
+    <string name="add_nominee">Add Nominee</string>
+    <string name="nominee_name">Nominee Name</string>
+    <string name="relationship">Relationship</string>
+    <string name="occupation">Occupation</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_of_birth_">Date Of Birth</string>
+    <string name="name_of_guardian">Name Of Guardian</string>
 
 </resources>

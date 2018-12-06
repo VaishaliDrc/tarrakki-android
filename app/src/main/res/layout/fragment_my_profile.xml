@@ -19,11 +19,10 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_space"
             android:background="@drawable/shape_cart_view"
+            android:layout_margin="@dimen/default_space"
             android:elevation="@dimen/space_2"
             android:padding="@dimen/space_8">
-
 
             <android.support.v7.widget.CardView
                 android:id="@+id/view2"
@@ -64,26 +63,23 @@
 
             <TextView
                 android:id="@+id/tvFName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
-                android:layout_marginEnd="@dimen/space_4"
-                android:text="@string/first_name"
+                android:text="@string/full_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                app:layout_constraintEnd_toStartOf="@id/tvLName"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view2" />
 
             <EditText
                 android:id="@+id/edtFName"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_4"
-                android:layout_marginEnd="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
                 android:enabled="@{vm.isEdit()}"
-                android:hint="@string/first_name"
+                android:hint="@string/full_name"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
@@ -94,47 +90,114 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 android:textColorHint="@color/darker_gray"
-                app:layout_constraintEnd_toStartOf="@id/edtLName"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFName" />
 
             <TextView
-                android:id="@+id/tvLName"
+                android:id="@+id/tvPAN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_4"
+                android:text="@string/pan_number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                app:layout_constraintEnd_toStartOf="@id/tvDOBL"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtFName" />
+
+            <EditText
+                android:id="@+id/edtPAN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
+                android:enabled="@{vm.isEdit()}"
+                android:hint="@string/pan_number"
+                android:inputType="textCapCharacters"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.PANNumber}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toStartOf="@id/edtDOB"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPAN" />
+
+
+            <TextView
+                android:id="@+id/tvDOBL"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"
                 android:layout_marginTop="@dimen/default_space"
-                android:text="@string/last_name"
+                android:text="@string/date_of_birth_"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/tvFName"
-                app:layout_constraintTop_toBottomOf="@id/view2" />
+                app:layout_constraintStart_toEndOf="@id/tvPAN"
+                app:layout_constraintTop_toBottomOf="@id/edtFName" />
 
-            <EditText
-                android:id="@+id/edtLName"
+            <TextView
+                android:id="@+id/edtDOB"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_4"
                 android:layout_marginTop="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
+                android:drawableEnd="@drawable/ic_calendar"
+                android:hint="@string/date_of_birth_"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.dob}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/black"
+                android:textColorHint="@color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/edtPAN"
+                app:layout_constraintTop_toBottomOf="@id/tvPAN" />
+
+            <TextView
+                android:id="@+id/tvGuardian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/name_of_guardian"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtPAN" />
+
+            <EditText
+                android:id="@+id/edtGuardian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:background="@drawable/shape_edt_gray_round"
                 android:enabled="@{vm.isEdit()}"
-                android:hint="@string/last_name"
+                android:hint="@string/name_of_guardian"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
-                android:text="@={vm.LName}"
+                android:text="@={vm.guardian}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 android:textColorHint="@color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@id/edtFName"
-                app:layout_constraintTop_toBottomOf="@id/tvFName" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvGuardian" />
+
 
             <TextView
                 android:id="@+id/tvEmailID"
@@ -144,7 +207,7 @@
                 android:text="@string/email_id"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtFName" />
+                app:layout_constraintTop_toBottomOf="@id/edtGuardian" />
 
             <EditText
                 android:id="@+id/edtEmail"
@@ -202,36 +265,36 @@
                 app:layout_constraintTop_toBottomOf="@id/tvMobile" />
 
             <TextView
-                android:id="@+id/tvPAN"
+                android:id="@+id/tvOcc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
-                android:text="@string/pan_number"
+                android:text="@string/occupation"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtMobile" />
 
             <EditText
-                android:id="@+id/edtPAN"
+                android:id="@+id/edtOcc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
                 android:enabled="@{vm.isEdit()}"
-                android:hint="@string/pan_number"
-                android:inputType="textCapCharacters"
+                android:hint="@string/occupation"
+                android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
-                android:text="@={vm.PANNumber}"
+                android:text="@={vm.occupation}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 android:textColorHint="@color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvPAN" />
+                app:layout_constraintTop_toBottomOf="@id/tvOcc" />
 
             <Button
                 android:id="@+id/btnEdit"
@@ -248,7 +311,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtPAN"
+                app:layout_constraintTop_toBottomOf="@id/edtOcc"
                 tools:text="@string/edit_profile" />
 
         </android.support.constraint.ConstraintLayout>
