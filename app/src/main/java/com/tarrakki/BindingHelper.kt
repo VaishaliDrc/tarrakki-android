@@ -1,6 +1,7 @@
 package com.tarrakki
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
@@ -8,14 +9,17 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.DrawableRes
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.tarrakki.databinding.DialogInvestBinding
 import com.tarrakki.module.goal.Goal
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
@@ -208,4 +212,19 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
         textview.text = returnType.plus(it.animatedValue.toString().toDouble().toDecimalCurrency())
     }
     valueAnimator.start()
+}
+
+fun Context.investDialog(onInvest: ((amountLumpsum: String, amountSIP: String) -> Unit)? = null) {
+    val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+    mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.btnInvest.setOnClickListener {
+        mDialog.dismiss()
+        onInvest?.invoke(mBinder.edtLumpsum.text.toString(), mBinder.edtSIPAmount.text.toString())
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+    }
+    mDialog.show()
 }

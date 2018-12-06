@@ -94,7 +94,7 @@
             android:padding="@dimen/space_8"
             android:text="@{invest.riskLevel}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/pdlg_color_red"
+            android:textColor="@color/name_aggressive"
             app:layout_constraintEnd_toStartOf="@id/glCenter"
             app:layout_constraintTop_toBottomOf="@id/view2"
             tools:drawableStart="@drawable/ic_red_up"

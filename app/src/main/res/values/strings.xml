@@ -375,5 +375,9 @@
     <string name="invest_in_this_strategy">Invest in this strategy</string>
     <string name="saved_goals">Saved Goals</string>
     <string name="add_a_goal">Add a goal</string>
+    <string name="enter_one_time_lumpsum_amount">Enter one-time lumpsum amount</string>
+    <string name="make_an_investment">Make an Investment</string>
+    <string name="enter_sip_amount">Enter SIP amount</string>
+    <string name="monthly_investment_amount_sip_">Monthly investment amount (SIP)</string>
 
 </resources>

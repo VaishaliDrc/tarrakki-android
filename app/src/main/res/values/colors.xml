@@ -21,6 +21,7 @@
     <color name="g_plus_color">#CC5B3B</color>
     <color name="pending">#FE860D</color>
     <color name="dark">#8C8C8C</color>
+    <color name="name_aggressive">#B78B0A</color>
     <string-array name="risk_level_color">
         <item>#00CB00</item>
         <item>#5DFE5D</item>

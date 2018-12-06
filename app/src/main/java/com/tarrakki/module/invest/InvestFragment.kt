@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.*
+import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM
@@ -87,6 +88,9 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             binder.fund = item
             binder.executePendingBindings()
             binder.btnInvest.setOnClickListener {
+                context?.investDialog { amountLumpsum, amountSIP ->
+                    /**onInvest called*/
+                }
                 //startFragment(CartFragment.newInstance(), R.id.frmContainer)
             }
             binder.root.setOnClickListener {
