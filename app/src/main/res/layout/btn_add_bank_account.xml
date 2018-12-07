@@ -24,8 +24,6 @@
         android:fontFamily="@font/lato_bold"
         android:onClick="@{onAdd}"
         android:text="@{widget.title}"
-        android:textAllCaps="false"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@color/white"
         tools:text="@string/add_new_bank_account" />
 

@@ -247,8 +247,6 @@
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/txtcontinue"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white" />
 
         </LinearLayout>

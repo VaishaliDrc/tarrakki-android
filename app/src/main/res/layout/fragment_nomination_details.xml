@@ -95,8 +95,6 @@
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/add_nominee"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

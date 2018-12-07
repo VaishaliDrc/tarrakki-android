@@ -33,8 +33,6 @@
             android:fontFamily="@font/lato_bold"
             android:onClick="@{onAdd}"
             android:text="@string/add_new_bank_account"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/white" />
 
         <Button
@@ -47,8 +45,6 @@
             android:fontFamily="@font/lato_bold"
             android:onClick="@{onNext}"
             android:text="@string/next"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/white" />
     </LinearLayout>
 

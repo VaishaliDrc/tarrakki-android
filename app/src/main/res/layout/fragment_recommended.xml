@@ -170,6 +170,7 @@
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/default_space"
+                    android:fontFamily="@font/lato_semibold"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:elevation="@dimen/space_2"
                     android:text="@string/get_this_goal"

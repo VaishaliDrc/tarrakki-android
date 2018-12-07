@@ -7,13 +7,15 @@ import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentRecommendedBaseOnRiskLevelBinding
 import com.tarrakki.databinding.RowAmcListItemBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.investmentstrategies.InvestmentOption
-import kotlinx.android.synthetic.main.fragment_recommended.*
+import kotlinx.android.synthetic.main.fragment_recommended_base_on_risk_level.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.startFragment
 
 
 /**
@@ -54,6 +56,9 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
         rvAMCList?.setUpRecyclerView(R.layout.row_amc_list_item, getViewModel().AMCList) { item: AMC, binder: RowAmcListItemBinding, position ->
             binder.amc = item
             binder.executePendingBindings()
+        }
+        btnInvest?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
         EventBus.getDefault().register(this)
     }

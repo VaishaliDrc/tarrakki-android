@@ -44,7 +44,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         LocalBroadcastManager.getInstance(this).registerReceiver(finisAllTask, IntentFilter(ACTION_FINISH_ALL_TASK))
         getViewModel().isBackEnabled.observe(this, Observer { it ->
             it?.let {
-                mToolBar?.setNavigationIcon(if (it) R.drawable.ic_arrow_back_white_24dp else R.drawable.ic_menu_white_24dp)
+                mToolBar?.setNavigationIcon(if (it) getDrawable(R.drawable.ic_arrow_back_white_24dp) else null/*R.drawable.ic_menu_white_24dp*/)
             }
         })
         setToolBar()

@@ -14,14 +14,15 @@ import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentMyProfileBinding
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_my_profile.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.takePick
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
+import java.text.DateFormatSymbols
+import java.util.*
 
 
 /**
@@ -77,6 +78,29 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         openCamera()
                     }
             )
+        }
+        edtDOB?.setOnClickListener {
+            lateinit var now: Calendar
+            var date: String? = getViewModel().dob.get()
+            date?.toDate("dd MMM, yyyy")?.let { dob ->
+                now = dob.toCalendar()
+            }
+            SpinnerDatePickerDialogBuilder()
+                    .context(context)
+                    .callback { view, year, monthOfYear, dayOfMonth ->
+                        date = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                        getViewModel().dob.set(date)
+                    }
+                    .showTitle(true)
+                    .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+                    //.minDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+                    .build()
+                    .show()
+        }
+        tvState?.setOnClickListener {
+            context?.showStates { state ->
+                getViewModel().state.set(state)
+            }
         }
     }
 

@@ -192,12 +192,13 @@
                     tools:listitem="@layout/row_amc_list_item" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btnInvest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/default_space"
+                    android:fontFamily="@font/lato_semibold"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:elevation="@dimen/space_2"
                     android:text="@string/invest_in_this_strategy"

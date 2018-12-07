@@ -48,7 +48,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             }
         }
         mPager?.setPagingEnabled(true)
-        mPager?.setPageTransformer(true, FadeOutTransformation())
+        //mPager?.setPageTransformer(true, FadeOutTransformation())
         mPager?.setPageAdapter(R.layout.page_investment_options_item, getViewModel().investmentOptions) { binder: PageInvestmentOptionsItemBinding, item: InvestmentOption ->
             binder.invest = item
             binder.ivNext.setOnClickListener {
