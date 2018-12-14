@@ -116,6 +116,7 @@
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="edit">Edit</string>
+    <string name="redeem">Redeem</string>
     <string name="username">Username</string>
     <string name="login_start_investing">Login. Start investing.</string>
     <string name="password">Password</string>
@@ -394,5 +395,7 @@
     <string name="state">State</string>
     <string name="country">Country</string>
     <string name="check_mandate_status">Check mandate status</string>
+
+    <string name="try_again_to">Something went wrong, Please try again later</string>
 
 </resources>

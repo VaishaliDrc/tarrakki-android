@@ -26,8 +26,8 @@ object AES {
         val keyStart = App.INSTANCE.getString(R.string.key).toByteArray(StandardCharsets.UTF_8)
         val key = SecretKeySpec(keyStart, "AES")
 
-//        val IV = BuildConfig.IV.toByteArray(StandardCharsets.UTF_8)
-//        val IVSpec = IvParameterSpec(IV)
+        /*val IV = BuildConfig.IV.toByteArray(StandardCharsets.UTF_8)
+        val IVSpec = IvParameterSpec(IV)*/
 
         val cipher = Cipher.getInstance("AES/ECB/NoPadding")
         val blockSize = cipher.blockSize
@@ -39,13 +39,13 @@ object AES {
         }
 
         val plaintext = ByteArray(plaintextLength)
-        Arrays.fill(plaintext, 5)
+        Arrays.fill(plaintext, 6)
         System.arraycopy(dataBytes, 0, plaintext, 0, dataBytes.size)
 
         cipher.init(Cipher.ENCRYPT_MODE, key/*, IVSpec*/)
         val encrypted = cipher.doFinal(plaintext)
 
-        return Base64.encodeToString(encrypted, Base64.DEFAULT)
+        return Base64.encodeToString(encrypted, Base64.NO_WRAP)
     }
 
     /**
@@ -53,18 +53,19 @@ object AES {
      * @param data
      *@return Dencrypted data in string form
      */
-    fun decrypt(ciphertext: String): String {
+    fun decrypt(cipherText: String): String {
+
         val keyStart = App.INSTANCE.getString(R.string.key).toByteArray(StandardCharsets.UTF_8)
         val key = SecretKeySpec(keyStart, "AES")
 
 
-//        val IV = BuildConfig.IV.toByteArray(StandardCharsets.UTF_8)
-//        val IVSpec = IvParameterSpec(IV)
+        /*val IV = BuildConfig.IV.toByteArray(StandardCharsets.UTF_8)
+        val IVSpec = IvParameterSpec(IV)*/
         var result = ""
         try {
             val cipher = Cipher.getInstance("AES/ECB/NoPadding")
             cipher.init(Cipher.DECRYPT_MODE, key/*, IVSpec*/)
-            val decrypted = removeTrailingNulls(cipher.doFinal(Base64.decode(ciphertext, Base64.DEFAULT)))
+            val decrypted = removeTrailingNulls(cipher.doFinal(Base64.decode(cipherText, Base64.NO_WRAP)))
             result = String(decrypted)
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
@@ -88,8 +89,10 @@ object AES {
         while (source[i - 1].toInt() == 0x00) {
             i--
         }
+
         val result = ByteArray(i)
         System.arraycopy(source, 0, result, 0, i)
+
         return result
     }
 }

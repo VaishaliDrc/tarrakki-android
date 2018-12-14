@@ -42,7 +42,6 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
-        mPager?.isNestedScrollingEnabled = false
         mTab?.setupWithViewPager(mPager, true)
     }
 

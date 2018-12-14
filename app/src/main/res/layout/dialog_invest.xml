@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_cart_view"
-        android:layout_margin="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:background="@drawable/shape_cart_view_16dp"
         android:padding="@dimen/default_space">
 
         <TextView
@@ -96,12 +97,14 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/_32sdp"
             android:layout_marginTop="@dimen/default_space"
+            android:layout_marginBottom="@dimen/_4sdp"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
             android:paddingStart="@dimen/_24sdp"
             android:paddingEnd="@dimen/_24sdp"
             android:text="@string/invest_now"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtSIPAmount" />

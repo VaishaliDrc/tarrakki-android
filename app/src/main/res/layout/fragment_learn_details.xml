@@ -61,16 +61,27 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_marginBottom="8dp"
                     android:drawableStart="@drawable/ic_calendar"
                     android:drawablePadding="@dimen/space_8"
                     android:gravity="center_vertical"
                     android:text="@{article.data}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
+                    app:layout_constraintBottom_toBottomOf="@+id/ivSocial"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     tools:text="3 Sep, 2018" />
+
+                <ImageView
+                    android:id="@+id/ivSocial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_margin="@dimen/space_8"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_social_iocn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
                 <ImageView
                     android:id="@+id/ivArticle"
@@ -81,7 +92,7 @@
                     android:layout_marginEnd="@dimen/space_8"
                     android:adjustViewBounds="true"
                     android:src="@drawable/temp_article_details"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+                    app:layout_constraintTop_toBottomOf="@+id/ivSocial" />
 
                 <TextView
                     android:id="@+id/tvDescriptions"

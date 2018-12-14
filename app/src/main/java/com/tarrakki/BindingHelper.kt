@@ -226,5 +226,7 @@ fun Context.investDialog(onInvest: ((amountLumpsum: String, amountSIP: String) -
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
     }
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
     mDialog.show()
 }

@@ -45,7 +45,7 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLogin" />
 
             <EditText
-                android:id="@+id/edtUserName"
+                android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_32"
@@ -53,8 +53,8 @@
                 android:layout_marginEnd="@dimen/space_32"
                 android:background="@drawable/shape_edt_white_round"
                 android:drawableEnd="@drawable/ic_user"
-                android:hint="@string/username"
-                android:inputType="text"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
@@ -88,7 +88,7 @@
                 android:textColorHint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtUserName" />
+                app:layout_constraintTop_toBottomOf="@id/edtEmail" />
 
             <CheckBox
                 android:id="@+id/cbKeepMeSignIn"
@@ -266,6 +266,14 @@
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/mDivider" />
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{vm.progressBar}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

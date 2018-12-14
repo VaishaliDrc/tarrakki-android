@@ -29,36 +29,50 @@
             android:text="@{investment.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/item_selected_color"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tvDate"
-            app:layout_constraintEnd_toStartOf="@+id/tvDate"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvRedeem"
+            app:layout_constraintEnd_toStartOf="@+id/tvRedeem"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
         <TextView
+            android:id="@+id/tvRedeem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_redeem"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="@string/redeem"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_8"
+            android:layout_marginTop="@dimen/default_space"
             android:text="@{investment.date}"
             android:textSize="@dimen/sp10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvName"
             tools:text="NAV on 16 Aug, 2018" />
 
         <TextView
             android:id="@+id/tvCurrent"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/default_space"
             android:drawableEnd="@{investment.returns &lt; 0 ? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
             android:drawablePadding="@dimen/space_2"
             android:fontFamily="@font/lato_semibold"
             android:text="@{investment.returns + `%`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
-            app:layout_constraintEnd_toEndOf="@+id/tvDate"
-            app:layout_constraintStart_toStartOf="@+id/tvDate"
-            app:layout_constraintTop_toBottomOf="@+id/tvDate"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvDate"
+            app:layout_constraintStart_toEndOf="@id/tvDate"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
             tools:drawableEnd="@drawable/ic_arrow_upward_green"
             tools:text="10.7%" />
 
@@ -67,9 +81,9 @@
             android:id="@+id/mDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/default_space"
             android:background="@color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
 
         <TextView

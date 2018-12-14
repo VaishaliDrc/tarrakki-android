@@ -2,6 +2,7 @@ package com.tarrakki.module.login
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.util.Patterns
 import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
@@ -49,8 +50,13 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
         btnLogin?.setOnClickListener {
             when {
                 getViewModel().userName.get()?.length == 0 -> {
-                    simpleAlert("Please enter username") {
-                        edtUserName?.requestFocus()
+                    simpleAlert("Please enter email address") {
+                        edtEmail?.requestFocus()
+                    }
+                }
+                !Patterns.EMAIL_ADDRESS.matcher(getViewModel().userName.get()).matches() -> {
+                    simpleAlert("Please enter valid email address") {
+                        edtEmail?.requestFocus()
                     }
                 }
                 getViewModel().password.get()?.length == 0 -> {
@@ -59,6 +65,14 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                     }
                 }
                 else -> {
+                    /*getViewModel().doLogin().observe(this, Observer { loginResponse ->
+                        if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
+                            startActivity<HomeActivity>()
+                        }
+                        setIsLogin(cbKeepMeSignIn.isChecked)
+                        App.INSTANCE.isLoggedIn.value = true
+                        finish()
+                    })*/
                     if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                         startActivity<HomeActivity>()
                     }

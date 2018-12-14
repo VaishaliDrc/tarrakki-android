@@ -13,7 +13,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/space_8"
+        android:paddingTop="@dimen/space_4"
         android:paddingBottom="@dimen/space_8"
         tools:layout_marginBottom="@dimen/space_16">
 
@@ -28,6 +28,7 @@
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/cbStartStop"
             app:layout_constraintEnd_toStartOf="@+id/tvEdit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,10 +39,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_8"
-            android:drawableStart="@drawable/ic_edit"
+            android:drawableStart="@drawable/ic_redeem"
+            android:drawablePadding="@dimen/_4sdp"
             android:gravity="center"
-            android:text="@string/edit"
+            android:text="@string/redeem"
             android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="@+id/cbStartStop"
             app:layout_constraintEnd_toStartOf="@id/cbStartStop"
             app:layout_constraintTop_toTopOf="parent" />
 
