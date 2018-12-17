@@ -296,6 +296,7 @@
     </string>
 
     <string name="key">S1D$F#q76S458G9h6u5DF7pk5T7Lpart</string>
+    <string name="iv">0123456789012345</string>
 
     <string name="send_to">Send To</string>
     <string name="app_lock_touch_id">App Lock (Touch ID)</string>

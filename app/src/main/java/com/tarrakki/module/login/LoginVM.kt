@@ -20,14 +20,14 @@ import org.supportcompact.networking.subscribeToSingle
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    val userName = ObservableField("")
-    val password = ObservableField("")
+    val userName = ObservableField("admin@admin.com")
+    val password = ObservableField("Drc@1234")
     val onLogin = MutableLiveData<LoginResponse>()
 
     fun doLogin(): MutableLiveData<LoginResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
-        json.addProperty("username", "${userName.get()}")
+        json.addProperty("email", "${userName.get()}")
         json.addProperty("password", "${password.get()}")
         e("Plain Data=>", json.toString())
         val authData = AES.encrypt(json.toString())

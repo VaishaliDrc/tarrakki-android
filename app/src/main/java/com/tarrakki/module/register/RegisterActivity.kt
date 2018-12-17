@@ -61,13 +61,15 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     edtConfirmPassword?.requestFocus()
                 }
             } else {
-                if (intent.hasExtra(IS_FROM_ACCOUNT)) {
-                    startActivity(Intent(this, OtpVerificationActivity::class.java).apply {
-                        putExtra(IS_FROM_ACCOUNT, true)
-                    })
-                } else {
-                    startActivity<OtpVerificationActivity>()
-                }
+                getViewModel().onSignUp().observe(this, Observer { response ->
+                    if (intent.hasExtra(IS_FROM_ACCOUNT)) {
+                        startActivity(Intent(this, OtpVerificationActivity::class.java).apply {
+                            putExtra(IS_FROM_ACCOUNT, true)
+                        })
+                    } else {
+                        startActivity<OtpVerificationActivity>()
+                    }
+                })
             }
         }
         App.INSTANCE.isLoggedIn.observe(this, Observer {

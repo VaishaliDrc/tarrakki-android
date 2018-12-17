@@ -65,20 +65,20 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                     }
                 }
                 else -> {
-                    /*getViewModel().doLogin().observe(this, Observer { loginResponse ->
+                    getViewModel().doLogin().observe(this, Observer { loginResponse ->
                         if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                             startActivity<HomeActivity>()
                         }
                         setIsLogin(cbKeepMeSignIn.isChecked)
                         App.INSTANCE.isLoggedIn.value = true
                         finish()
-                    })*/
-                    if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
+                    })
+                    /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                         startActivity<HomeActivity>()
                     }
                     setIsLogin(cbKeepMeSignIn.isChecked)
                     App.INSTANCE.isLoggedIn.value = true
-                    finish()
+                    finish()*/
                 }
             }
         }
