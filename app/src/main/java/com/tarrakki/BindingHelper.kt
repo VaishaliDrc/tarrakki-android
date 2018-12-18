@@ -19,6 +19,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.tarrakki.databinding.DialogInvestBinding
 import com.tarrakki.module.goal.Goal
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
@@ -28,6 +29,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
+import org.supportcompact.networking.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import java.util.*
 
@@ -98,6 +100,13 @@ fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, @DrawableRes res: Int) {
     img.setImageResource(res)
+}
+
+@BindingAdapter("imgUrl")
+fun setIndicator(img: ImageView, url: String?) {
+    url?.let {
+        Glide.with(img).load(ApiClient.IMAGE_BASE_URL.plus(it)).into(img)
+    }
 }
 
 @BindingAdapter("expanded")

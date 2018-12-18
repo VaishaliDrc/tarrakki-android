@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 
 
 const val IS_LOGIN = "is_login"
+const val LOGIN_TOKEN = "login_token"
 const val APP_LOCK = "app_lock"
 
 public val Context.getPreferences: SharedPreferences
@@ -95,6 +96,14 @@ fun Context.isLogin(): Boolean {
     return getPreferences.getBoolean(IS_LOGIN, false)
 }
 
+fun Context.setLoginToken(token: String) {
+    return getPreferences.putString(LOGIN_TOKEN, token)
+}
+
+fun Context.getLoginToken(): String? {
+    return getPreferences.getString(LOGIN_TOKEN, "")
+}
+
 fun Context.setAppIsLock(has: Boolean) {
     return getPreferences.putBoolean(APP_LOCK, has)
 }
@@ -103,7 +112,8 @@ fun Context.hasAppLock(): Boolean {
     return getPreferences.getBoolean(APP_LOCK, false)
 }
 
-
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
+    getPreferences.remove(LOGIN_TOKEN)
+    getPreferences.remove(APP_LOCK)
 }

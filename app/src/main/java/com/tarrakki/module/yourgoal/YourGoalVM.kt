@@ -22,7 +22,7 @@ class YourGoalVM : FragmentViewModel() {
     val goalSummary = arrayListOf<GoalSummary>()
     val gSummary = ObservableField<SpannableStringBuilder>()
     val iniateYourGoal = ObservableField<YourGoalSteps>()
-    val goal = ObservableField<Goal>()
+    val goal = ObservableField<com.tarrakki.api.model.Goal.Data>()
 
     init {
         iniateYourGoal.set(YourGoalSteps(

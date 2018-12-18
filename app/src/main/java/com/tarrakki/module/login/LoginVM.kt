@@ -27,7 +27,7 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
     fun doLogin(): MutableLiveData<LoginResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
-        json.addProperty("email", "${userName.get()}")
+        json.addProperty("username", "${userName.get()}")
         json.addProperty("password", "${password.get()}")
         e("Plain Data=>", json.toString())
         val authData = AES.encrypt(json.toString())

@@ -1,10 +1,12 @@
 package com.tarrakki.api
 
+import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.LoginResponse
 import com.tarrakki.api.model.SignUpresponse
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 
@@ -22,11 +24,13 @@ interface WebserviceBuilder {
     @POST("users/signup/")
     fun onSignUp(@Field("data") data: String): Observable<SignUpresponse>
 
+    @GET("goals/")
+    fun getGoals(): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
-        onLogin, onSignUp
+        onLogin, onSignUp, getGoals
     }
 }

@@ -13,6 +13,7 @@ import com.tarrakki.module.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.setIsLogin
+import org.supportcompact.ktx.setLoginToken
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startActivity
 
@@ -66,6 +67,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                 }
                 else -> {
                     getViewModel().doLogin().observe(this, Observer { loginResponse ->
+                        loginResponse?.token?.let { it1 -> setLoginToken(it1) }
                         if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                             startActivity<HomeActivity>()
                         }

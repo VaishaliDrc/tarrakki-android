@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentGoalBinding
 import com.tarrakki.databinding.RowGoalListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
-import com.tarrakki.module.yourgoal.KEY_GOAL
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -51,16 +52,21 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
     }
 
     override fun createReference() {
-        rvGoals.isFocusable = false
-        rvGoals.isNestedScrollingEnabled = false
-        rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
-        rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, getViewModel().goals) { item: Goal, binder: RowGoalListItemBinding, position ->
-            binder.goal = item
-            binder.executePendingBindings()
-            binder.root.setOnClickListener {
-                startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+        getViewModel().getGoals().observe(this, Observer { response ->
+            response?.let {
+                rvGoals.visibility = View.VISIBLE
+                rvGoals.isFocusable = false
+                rvGoals.isNestedScrollingEnabled = false
+                rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
+                rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data) { item: Goal.Data, binder: RowGoalListItemBinding, position ->
+                    binder.goal = item
+                    binder.executePendingBindings()
+                    binder.root.setOnClickListener {
+                        startFragment(InitiateYourGoalFragment.newInstance(), R.id.frmContainer)
+                    }
+                }
             }
-        }
+        })
     }
 
     override fun onStart() {

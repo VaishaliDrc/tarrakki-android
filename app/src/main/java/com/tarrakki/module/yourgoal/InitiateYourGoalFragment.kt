@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentInitiateYourGoalBinding
-import com.tarrakki.module.goal.Goal
 import kotlinx.android.synthetic.main.fragment_initiate_your_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.simpleAlert
@@ -19,7 +18,6 @@ import org.supportcompact.ktx.startFragment
  * A simple [Fragment] subclass.
  * Use the [InitiateYourGoalFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
 class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGoalBinding>() {
 
@@ -42,13 +40,15 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
     }
 
     override fun createReference() {
-        getViewModel().goal.set(arguments?.getSerializable(KEY_GOAL) as Goal)
+        //getViewModel().goal.set(arguments?.getSerializable(KEY_GOAL) as Goal)
         btnContinue?.setOnClickListener {
             getViewModel().iniateYourGoal.get()?.let { item ->
                 when {
                     TextUtils.isEmpty(item.answered) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
                     TextUtils.isEmpty(item.answered2) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
-                    else -> startFragment(YourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, getViewModel().goal.get()) }), R.id.frmContainer)
+                    else -> {
+                        startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
+                    }
                 }
             }
         }
@@ -83,6 +83,6 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
          * @return A new instance of fragment InitiateYourGoalFragment.
          */
         @JvmStatic
-        fun newInstance(basket: Bundle) = InitiateYourGoalFragment().apply { arguments = basket }
+        fun newInstance(basket: Bundle? = null) = InitiateYourGoalFragment().apply { arguments = basket }
     }
 }

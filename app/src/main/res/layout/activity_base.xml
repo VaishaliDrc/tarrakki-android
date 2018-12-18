@@ -56,8 +56,8 @@
             android:id="@+id/mBottomNav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{vm.footerVisibility}"
             android:elevation="@dimen/space_2"
+            android:visibility="@{vm.footerVisibility}"
             app:itemBackground="@android:color/white"
             app:itemIconTint="@color/nave_bar_selector"
             app:itemTextColor="@color/nave_bar_selector"
@@ -67,6 +67,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_main"
             tools:layout_height="56dp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.progressBar}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -25,7 +25,8 @@ object ApiClient {
     private lateinit var retrofitHeader: Retrofit
     private lateinit var okHttpClient: OkHttpClient
     const val BUILD_TYPE_DEBUG = true
-    private const val BASE_URL = "http://172.10.29.36:8000/api/v1/" /// Latest url
+    private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone
@@ -84,8 +85,9 @@ object ApiClient {
 
             builder.addInterceptor { chain ->
                 val requestBuilder = chain.request().newBuilder()
-                /*requestBuilder.header("Content-Type","application/json")
-                requestBuilder.header("Accept", "application/json")*/
+                requestBuilder.header("Content-Type", "application/json")
+                requestBuilder.header("Accept", "application/json")
+                requestBuilder.header("api-key", "gduy$&#(@0jdfid")
                 chain.proceed(requestBuilder.build())
             }
             okHttpClient = builder.build()
