@@ -11,7 +11,7 @@
 
         <variable
             name="goal"
-            type="com.tarrakki.module.goal.Goal" />
+            type="com.tarrakki.api.model.Goal.Data" />
 
         <variable
             name="onEditorAction"
@@ -93,12 +93,12 @@
 
                 <ImageView
                     android:id="@+id/imageView1"
+                    imgUrl="@{goal.goalImage}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="@dimen/space_8"
                     android:paddingEnd="@dimen/space_8"
                     android:paddingBottom="@dimen/space_40"
-                    app:imgUrl="@{goal.imgUrl}"
                     tools:src="@drawable/own_a_home" />
 
                 <TextView
@@ -111,7 +111,7 @@
                     android:minLines="2"
                     android:paddingStart="@dimen/space_5"
                     android:paddingEnd="@dimen/space_5"
-                    android:text="@{goal.title}"
+                    android:text="@{goal.goal}"
                     android:textAllCaps="true"
                     android:textColor="@color/semi_black"
                     android:textSize="@dimen/sp10"

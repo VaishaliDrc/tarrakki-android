@@ -11,10 +11,12 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentYourGoalBinding
-import com.tarrakki.module.goal.Goal
 import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setMultiViewPageAdapter
 import org.supportcompact.ktx.simpleAlert
@@ -49,34 +51,30 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     }
 
     override fun createReference() {
-        getViewModel().goalVM.value = arguments?.getSerializable(KEY_GOAL) as Goal
         getViewModel().goalVM.observe(this, Observer {
-            getBinding().goal = it
-            getBinding().executePendingBindings()
-            getViewModel().yourGoalSteps.forEach { item ->
-                item.goal = it
+            it?.let { goal ->
+                mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
+                    item.onNext = View.OnClickListener {
+                        onNext()
+                    }
+                    item.onPrevious = View.OnClickListener {
+                        onPrevious()
+                    }
+                    binder.setVariable(BR.goal, goal)
+                    binder.setVariable(BR.yourGoal, item)
+                    binder.setVariable(BR.onEditorAction, TextView.OnEditorActionListener { textView, actionId, keyEvent ->
+                        return@OnEditorActionListener when (actionId) {
+                            EditorInfo.IME_ACTION_NEXT -> {
+                                onNext()
+                                true
+                            }
+                            else -> false
+                        }
+                    })
+                    binder.executePendingBindings()
+                }
             }
         })
-        mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
-            item.onNext = View.OnClickListener {
-                onNext()
-            }
-            item.onPrevious = View.OnClickListener {
-                onPrevious()
-            }
-            binder.setVariable(BR.goal, getViewModel().goalVM.value)
-            binder.setVariable(BR.yourGoal, item)
-            binder.setVariable(BR.onEditorAction, TextView.OnEditorActionListener { textView, actionId, keyEvent ->
-                return@OnEditorActionListener when (actionId) {
-                    EditorInfo.IME_ACTION_NEXT -> {
-                        onNext()
-                        true
-                    }
-                    else -> false
-                }
-            })
-            binder.executePendingBindings()
-        }
 
     }
 
@@ -116,6 +114,14 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
             mPageGoal?.adapter?.notifyDataSetChanged()
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(goal: Goal.Data) {
+        if (getViewModel().goalVM.value == null) {
+            getViewModel().goalVM.value = goal
+        }
+        EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

@@ -51,7 +51,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
         }
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
     }
@@ -60,7 +60,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
-
+*/
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onReceive(data: Investment) {
         getViewModel().investment.value = data

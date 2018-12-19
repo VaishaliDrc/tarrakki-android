@@ -11,6 +11,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.checkPermissionRationale
 import org.supportcompact.ktx.checkSelfPermissions
@@ -97,5 +100,29 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
         for (i in 1..steps) {
             activity?.supportFragmentManager?.popBackStack()
         }
+    }
+
+    fun post(data: Any) {
+        EventBus.getDefault().post(data)
+    }
+
+    fun postSticky(data: Any) {
+        EventBus.getDefault().postSticky(data)
+    }
+
+    @Subscribe
+    open fun onEvent(event: Event) {
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }

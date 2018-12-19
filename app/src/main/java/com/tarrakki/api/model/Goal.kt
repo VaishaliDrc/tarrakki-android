@@ -1,5 +1,6 @@
 package com.tarrakki.api.model
 
+import android.view.View
 import com.google.gson.annotations.SerializedName
 
 data class Goal(
@@ -39,11 +40,55 @@ data class Goal(
 
         data class IntroQuestion(
                 @SerializedName("options")
-                val options: Any,
+                val options: String,
                 @SerializedName("question")
                 val question: String,
                 @SerializedName("question_type")
-                val questionType: String
+                val questionType: String,
+                var ans1: String,
+                var ans2: String
         )
+
+        fun getInitQ1(): String {
+            return if (introQuestions.isEmpty()) "" else introQuestions[0].question
+        }
+
+        fun getInitQ2(): String {
+            return if (!introQuestions.isEmpty() && introQuestions.size == 2) introQuestions[1].question else ""
+        }
+
+        fun setAnsQ1(ans: String) {
+            if (introQuestions.isNotEmpty()) {
+                introQuestions[0].ans1 = ans
+            }
+        }
+
+        fun getAnsQ1() = if (introQuestions.isNotEmpty()) introQuestions[0].ans1 else ""
+
+        fun setAnsQ2(ans: String) {
+            if (introQuestions.isNotEmpty() && introQuestions.size > 1) {
+                introQuestions[1].ans1 = ans
+            }
+        }
+
+        fun getAnsQ2() = if (introQuestions.isNotEmpty() && introQuestions.size > 1) introQuestions[1].ans1 else ""
+
+        fun initQ1Visibility(): Int {
+            return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Select")
+                View.VISIBLE
+            else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
+                View.GONE
+            else
+                View.VISIBLE
+        }
+
+        fun initQ2Visibility(): Int {
+            return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Text")
+                View.VISIBLE
+            else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
+                View.GONE
+            else
+                View.VISIBLE
+        }
     }
 }

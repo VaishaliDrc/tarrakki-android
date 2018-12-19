@@ -5,9 +5,15 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.tarrakki.module.yourgoal.YourGoalVM" />
+
+        <variable
+            name="goal"
+            type="com.tarrakki.api.model.Goal.Data" />
 
     </data>
 
@@ -43,7 +49,7 @@
 
                     <ImageView
                         android:id="@+id/imageView1"
-                        imgUrl="@{vm.goal.imgUrl}"
+                        imgUrl="@{goal.goalImage}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingStart="@dimen/space_8"
@@ -61,7 +67,7 @@
                         android:minLines="2"
                         android:paddingStart="@dimen/space_5"
                         android:paddingEnd="@dimen/space_5"
-                        android:text="@{vm.goal.title}"
+                        android:text="@{goal.goal}"
                         android:textAllCaps="true"
                         android:textColor="@color/semi_black"
                         android:textSize="@dimen/sp10"
@@ -76,22 +82,38 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:fontFamily="@font/lato_semibold"
                     android:lineSpacingExtra="@dimen/space_4"
-                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting in-dustry. Lorem Ipsum has been the industry's standard dummy text ever since the an unof type and scrambled it to a type specimen book electronic typesetting, remaining essentially unchanged."
+                    android:text="@{goal.description}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
-                    app:layout_constraintTop_toBottomOf="@+id/view2" />
+                    app:layout_constraintTop_toBottomOf="@+id/view2"
+                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting in-dustry. Lorem Ipsum has been the industry's standard dummy text ever since the an unof type and scrambled it to a type specimen book electronic typesetting, remaining essentially unchanged." />
 
             </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnContinue1"
+                android:layout_width="230dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:gravity="center"
+                android:text="@string/txtcontinue"
+                android:textColor="@color/white"
+                android:visibility="@{vm.hasQuestions?View.GONE:View.VISIBLE}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_2"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
-                android:layout_marginBottom="@dimen/space_2"
                 android:orientation="vertical"
-                android:padding="@dimen/default_space">
+                android:padding="@dimen/default_space"
+                android:visibility="@{vm.hasQuestions?View.VISIBLE:View.GONE}">
 
                 <TextView
                     android:id="@+id/tvQ1"
@@ -99,35 +121,12 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
-                    android:text="@{vm.iniateYourGoal.question}"
+                    android:text="@{goal.initQ1}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
+                    android:visibility="@{goal.initQ1Visibility()}"
                     app:layout_constraintTop_toBottomOf="@+id/view2"
                     tools:text="Which of the following would you like to purchase?" />
-
-                <!--<TextView
-                    android:id="@+id/edtQ1Answer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_32"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginEnd="@dimen/space_32"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
-                    android:hint="@string/car"
-                    android:maxLines="1"
-                    android:visibility="gone"
-                    android:paddingStart="@dimen/default_space"
-                    android:paddingTop="@dimen/space_8"
-                    android:paddingEnd="@dimen/default_space"
-                    android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.iniateYourGoal.answered}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />-->
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -136,6 +135,7 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_32"
                     android:background="@drawable/shape_edt_gray_round"
+                    android:visibility="@{goal.initQ1Visibility()}"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
@@ -157,9 +157,10 @@
                     android:layout_marginTop="@dimen/space_32"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
-                    android:text="@{vm.iniateYourGoal.question2}"
+                    android:text="@{goal.initQ2}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/semi_black"
+                    android:visibility="@{goal.initQ2Visibility()}"
                     app:layout_constraintTop_toBottomOf="@+id/view2"
                     tools:text="Name of the vehicle you would like to purchase" />
 
@@ -173,16 +174,16 @@
                     android:layout_marginEnd="@dimen/space_32"
                     android:background="@drawable/shape_edt_gray_round"
                     android:hint="@string/l_e_honda_city"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.iniateYourGoal.answered2}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
+                    android:visibility="@{goal.initQ2Visibility()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />

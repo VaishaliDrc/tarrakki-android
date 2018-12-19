@@ -71,7 +71,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
 
     }
 
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
     }
@@ -80,7 +80,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
-
+*/
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: BankMandate) {
         getViewModel().bankMandate.set(data)

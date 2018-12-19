@@ -16,18 +16,15 @@ import org.supportcompact.adapters.WidgetsViewModel
 
 class YourGoalVM : FragmentViewModel() {
 
-    val goalVM: MutableLiveData<Goal?> = MutableLiveData()
+    val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
     val goalSummary = arrayListOf<GoalSummary>()
     val gSummary = ObservableField<SpannableStringBuilder>()
-    val iniateYourGoal = ObservableField<YourGoalSteps>()
-    val goal = ObservableField<com.tarrakki.api.model.Goal.Data>()
+    val hasQuestions = ObservableField<Boolean>(true)
 
     init {
-        iniateYourGoal.set(YourGoalSteps(
-                "Which of the following would you like to purchase?",
-                "Name of the vehicle you would like to purchase"))
+
         yourGoalSteps.add(YourGoalSteps(
                 layout = R.layout.set_your_goal_step1,
                 question = "Current value of your dream home",

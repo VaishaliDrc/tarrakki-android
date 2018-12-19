@@ -13,7 +13,6 @@ import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import com.tarrakki.module.bankaccount.SingleButton
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -58,11 +57,9 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
             })
             binder.executePendingBindings()
         }
-        EventBus.getDefault().register(this)
     }
 
-    @Subscribe
-    fun onEvent(event: Event) {
+    override fun onEvent(event: Event) {
         when (event) {
             Event.BANK_MANDATE_SUBMITTED -> {
                 getViewModel().bankMandate.forEach { item ->
@@ -77,13 +74,6 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
             }
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
-
-
     companion object {
         /**
          * Use this factory method to create a new instance of

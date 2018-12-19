@@ -7,9 +7,6 @@
             name="vm"
             type="com.tarrakki.module.yourgoal.YourGoalVM" />
 
-        <variable
-            name="goal"
-            type="com.tarrakki.module.goal.Goal" />
     </data>
 
     <org.supportcompact.widgets.NonSwipeableViewPager

@@ -57,7 +57,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     }
 
     override fun createReference() {
-        getViewModel().goalVM.observe(this, Observer {
+        /*getViewModel().goalVM.observe(this, Observer {
             getBinding().goal = it
             getBinding().executePendingBindings()
             getViewModel().goalSummary.forEach { item ->
@@ -143,7 +143,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 }
             }
             setGoalSummary(amount = investAmount, durations = durations)
-        })
+        })*/
 
         tvWhyInflationMatter?.setOnClickListener { _ ->
             getViewModel().whyInflationMatter.get()?.let {
@@ -200,20 +200,10 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: Goal) {
         if (getBinding().goal == null) {
-            getViewModel().goalVM.value = goal
+            //getViewModel().goalVM.value = goal
         }
         EventBus.getDefault().removeStickyEvent(goal)
     }

@@ -63,6 +63,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
                     binder.executePendingBindings()
                     binder.root.setOnClickListener {
                         startFragment(InitiateYourGoalFragment.newInstance(), R.id.frmContainer)
+                        postSticky(item)
                     }
                 }
             }
