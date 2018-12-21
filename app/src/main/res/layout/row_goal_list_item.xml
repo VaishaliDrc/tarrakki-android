@@ -7,7 +7,7 @@
 
         <variable
             name="goal"
-            type="com.tarrakki.api.model.Goal.Data" />
+            type="com.tarrakki.api.model.Goal.Data.GoalData" />
     </data>
 
     <android.support.constraint.ConstraintLayout

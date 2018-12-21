@@ -2,25 +2,27 @@ package com.tarrakki.module.yourgoal
 
 
 import android.arch.lifecycle.Observer
+import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentYourGoalBinding
+import com.tarrakki.databinding.PagetYourGoalStepBinding
+import com.tarrakki.databinding.QuestionBooleanBinding
 import kotlinx.android.synthetic.main.fragment_your_goal.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setMultiViewPageAdapter
+import org.supportcompact.adapters.setPageAdapter
+import org.supportcompact.ktx.inflate
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -53,24 +55,38 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     override fun createReference() {
         getViewModel().goalVM.observe(this, Observer {
             it?.let { goal ->
-                mPageGoal?.setMultiViewPageAdapter(getViewModel().yourGoalSteps) { binder: ViewDataBinding, item: YourGoalSteps ->
-                    item.onNext = View.OnClickListener {
-                        onNext()
-                    }
-                    item.onPrevious = View.OnClickListener {
-                        onPrevious()
-                    }
-                    binder.setVariable(BR.goal, goal)
-                    binder.setVariable(BR.yourGoal, item)
-                    binder.setVariable(BR.onEditorAction, TextView.OnEditorActionListener { textView, actionId, keyEvent ->
-                        return@OnEditorActionListener when (actionId) {
-                            EditorInfo.IME_ACTION_NEXT -> {
-                                onNext()
-                                true
+                goal.questions.forEach { q ->
+                    q.ansBoolean = true
+                }
+                val dataList = goal.questions.chunked(2)
+                mPageGoal?.setPageAdapter(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { binder: PagetYourGoalStepBinding, item: List<Goal.Data.GoalData.Question> ->
+                    binder.yourGoal = getViewModel().yourGoalSteps[mPageGoal.currentItem]
+                    binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
+                    binder.btnNext.setOnClickListener { onNext() }
+                    //binder.btnNext.alpha = if (mPageGoal.currentItem == (dataList.size - 1)) 0.6f else 1f
+                    //binder.btnNext.isEnabled = mPageGoal.currentItem != (dataList.size - 1)
+                    binder.btnPrevious.alpha = if (mPageGoal.currentItem == 0) 0.6f else 1f
+                    binder.btnPrevious.isEnabled = mPageGoal.currentItem != 0
+                    binder.btnPrevious.setOnClickListener { onPrevious() }
+                    binder.goal = goal
+                    binder.llContainer.removeAllViews()
+                    var mViewBoolean: QuestionBooleanBinding? = null
+                    item.forEach { question ->
+                        val mView: ViewDataBinding = DataBindingUtil.bind(mPageGoal.inflate(question.layoutId()))!!
+                        mView.setVariable(BR.question, question)
+                        mView.executePendingBindings()
+                        when {
+                            mView is QuestionBooleanBinding -> {
+                                if (mViewBoolean == null)
+                                    mViewBoolean = mView
+                                binder.llContainer.addView(mView.root)
                             }
-                            else -> false
+                            mViewBoolean != null -> {
+                                mViewBoolean?.expandableLayout?.addView(mView.root)
+                            }
+                            else -> binder.llContainer.addView(mView.root)
                         }
-                    })
+                    }
                     binder.executePendingBindings()
                 }
             }
@@ -78,50 +94,100 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
 
     }
 
+
     private fun onNext() {
         val index = mPageGoal.currentItem
-        val item = getViewModel().yourGoalSteps[index]
-        when (index) {
-            0 -> {
-                if (item.goal != null && TextUtils.isEmpty(item.goal?.investmentAmount)) {
-                    context?.simpleAlert("Please enter amount")
-                } else if (item.goal != null && TextUtils.isEmpty(item.goal?.investmentDuration)) {
-                    context?.simpleAlert("Please enter years")
-                } else {
-                    mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+        getViewModel().goalVM.value?.let { goal ->
+            val dataList = goal.questions.chunked(2)
+            val questions = dataList[index]
+            var isValidate = false
+            val isBoolean: Boolean
+            when (questions.size) {
+                2 -> {
+                    val item1 = questions[0]
+                    val item2 = questions[1]
+                    isBoolean = item1.questionType == "boolean"
+                    if (isBoolean) {
+                        if (item1.ansBoolean && TextUtils.isEmpty(item2.ans)) {
+                            context?.simpleAlert("All the questions mentioned above are mandatory so please answers them first to continue!")
+                        } else if (item1.ansBoolean && !TextUtils.isEmpty(item2.ans)) {
+                            isValidate = isValid(item2)
+                        } else {
+                            isValidate = true
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(item1.ans) && TextUtils.isEmpty(item2.ans)) {
+                            context?.simpleAlert("All the questions mentioned above are mandatory so please answers them first to continue!")
+                        } else if (isValid(item1) && isValid(item2)) {
+                            isValidate = true
+                        }
+                    }
+                }
+                else -> {
+                    isValidate = true
                 }
             }
-            1 -> {
-                if (item.isSelected && TextUtils.isEmpty(item.answered2)) {
-                    context?.simpleAlert("Please enter a valid percentage between 1 and 99")
-                } else {
-                    mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
-                }
+            if (isValidate && (dataList.size - 1) == 0) {
+                startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
+                postSticky(goal)
+            } else if (isValidate) {
+                mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
+                mPageGoal?.adapter?.notifyDataSetChanged()
             }
-            2 -> {
-                if (item.isSelected && TextUtils.isEmpty(item.answered2)) {
-                    context?.simpleAlert("Please enter amount")
-                } else {
-                    startFragment(YourGoalSummaryFragment.newInstance(/*Bundle().apply { putSerializable(KEY_GOAL, getBinding().goal) }*/), R.id.frmContainer)
-                    EventBus.getDefault().postSticky(item.goal)
+        }
+    }
+
+    private fun isValid(question: Goal.Data.GoalData.Question): Boolean {
+        try {
+            return when ("${question.parameter}") {
+                "cv", "pv" -> {
+                    val amount = question.ans
+                    if (amount.isEmpty() || amount.replace(",", "").toInt() < question.minValue) {
+                        var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        context?.simpleAlert(msg)
+                        false
+                    } else
+                        true
                 }
+                "n" -> {
+                    if (question.ans.isEmpty() || question.ans.toInt() in question.minValue..question.maxValue.toString().toInt()) {
+                        var msg = "Please enter a valid number of years between"
+                        msg.plus(" ".plus(question.minValue))
+                        msg.plus(" to ".plus(question.minValue))
+                        context?.simpleAlert(msg)
+                        false
+                    } else
+                        true
+                }
+                "dp" -> {
+                    if (question.ans.isEmpty() || question.ans.toInt() in question.minValue..question.maxValue.toString().toInt()) {
+                        var msg = "Please enter a valid percentage between"
+                        msg.plus(" ".plus(question.minValue))
+                        msg.plus(" to ".plus(question.minValue))
+                        context?.simpleAlert(msg)
+                        false
+                    } else
+                        true
+                }
+                else -> true
             }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
         }
     }
 
     private fun onPrevious() {
-        if (mPageGoal.currentItem <= getViewModel().yourGoalSteps.size - 1) {
-            mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
-            mPageGoal?.adapter?.notifyDataSetChanged()
-        }
+        mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
+        mPageGoal?.adapter?.notifyDataSetChanged()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(goal: Goal.Data) {
+    fun onReceive(goal: Goal.Data.GoalData) {
         if (getViewModel().goalVM.value == null) {
             getViewModel().goalVM.value = goal
         }
-        EventBus.getDefault().removeStickyEvent(goal)
+        //EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

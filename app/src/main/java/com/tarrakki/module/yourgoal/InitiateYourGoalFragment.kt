@@ -4,7 +4,6 @@ package com.tarrakki.module.yourgoal
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.TextUtils
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -16,7 +15,6 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -68,7 +66,11 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         })
         btnContinue?.setOnClickListener {
             getViewModel().goalVM.value?.let { goal ->
-                if (goal.introQuestions.size == 2) {
+                if (goal.introQuestions[0].questionType == "Text")
+                    goal.setAnsQ1(edtQ2Answer.text.toString())
+                startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
+                postSticky(goal)
+                /*if (goal.introQuestions.size == 2) {
                     goal.setAnsQ2(edtQ2Answer.text.toString())
                     when {
                         TextUtils.isEmpty(goal.getAnsQ1()) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
@@ -88,7 +90,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                             postSticky(goal)
                         }
                     }
-                }
+                }*/
             }
         }
         spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -103,16 +105,18 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
 
         btnContinue1?.setOnClickListener {
             startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
-            getViewModel().goalVM.value?.let { goal -> postSticky(goal) }
+            getViewModel().goalVM.value?.let { goal ->
+                postSticky(goal)
+            }
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(goal: Goal.Data) {
+    fun onReceive(goal: Goal.Data.GoalData) {
         if (getViewModel().goalVM.value == null) {
             getViewModel().goalVM.value = goal
         }
-        EventBus.getDefault().removeStickyEvent(goal)
+        //EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

@@ -11,6 +11,9 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
+import android.support.v4.view.PagerAdapter.POSITION_NONE
+
+
 
 
 /**
@@ -76,6 +79,10 @@ fun <T, U : ViewDataBinding> ViewPager.setPageAdapter(@LayoutRes layout: Int, it
 
         override fun getPageTitle(position: Int): CharSequence? {
             return items[position].toString()
+        }
+
+        override fun getItemPosition(`object`: Any): Int {
+            return POSITION_NONE
         }
     }
     return adapter

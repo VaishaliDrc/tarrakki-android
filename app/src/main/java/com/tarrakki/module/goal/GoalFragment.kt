@@ -58,7 +58,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
                 rvGoals.isFocusable = false
                 rvGoals.isNestedScrollingEnabled = false
                 rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
-                rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data) { item: Goal.Data, binder: RowGoalListItemBinding, position ->
+                rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data.goalData) { item: Goal.Data.GoalData, binder: RowGoalListItemBinding, position ->
                     binder.goal = item
                     binder.executePendingBindings()
                     binder.root.setOnClickListener {

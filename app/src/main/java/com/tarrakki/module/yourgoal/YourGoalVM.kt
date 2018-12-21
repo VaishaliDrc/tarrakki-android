@@ -16,7 +16,7 @@ import org.supportcompact.adapters.WidgetsViewModel
 
 class YourGoalVM : FragmentViewModel() {
 
-    val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data> = MutableLiveData()
+    val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
     val goalSummary = arrayListOf<GoalSummary>()

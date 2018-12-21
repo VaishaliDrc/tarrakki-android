@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="question"
+            type="com.tarrakki.api.model.Goal.Data.GoalData.Question" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvGoalValueL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:text="@{question.question}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/semi_black"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/current_value_of_your_dream_home" />
+
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@drawable/shape_rounded_gray"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGoalValueL">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:text="@string/rs_symbol"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black" />
+
+            <EditText
+                android:id="@+id/edtInvestAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="1,00,000"
+                android:inputType="number"
+                android:text="@={question.ans}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black"
+                app:isPositiveCurrency="@{true}" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

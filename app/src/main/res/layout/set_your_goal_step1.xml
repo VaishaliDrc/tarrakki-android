@@ -11,7 +11,7 @@
 
         <variable
             name="goal"
-            type="com.tarrakki.api.model.Goal.Data" />
+            type="com.tarrakki.api.model.Goal.Data.GoalData" />
 
         <variable
             name="onEditorAction"

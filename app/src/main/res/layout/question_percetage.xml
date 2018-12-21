@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="question"
+            type="com.tarrakki.api.model.Goal.Data.GoalData.Question" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvGoalDurationL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_30"
+            android:fontFamily="@font/lato_semibold"
+            android:gravity="center"
+            android:text="@{question.question}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/semi_black"
+            app:layout_constraintTop_toBottomOf="@+id/switchHasHomeLoan"
+            tools:text="@string/down_payment" />
+
+        <RelativeLayout
+            android:id="@+id/llContainer2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@drawable/shape_rounded_gray"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvGoalDurationL">
+
+            <EditText
+                android:id="@+id/edtDurations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:layout_toStartOf="@+id/tvDurations"
+                android:background="@null"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text="@={question.ans}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black"
+                app:isPositiveCurrency="@{true}" />
+
+            <TextView
+                android:id="@+id/tvDurations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:fontFamily="@font/lato_semibold"
+                android:text="%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>
