@@ -2,24 +2,22 @@ package com.tarrakki.module.yourgoal
 
 
 import android.arch.lifecycle.Observer
-import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.*
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
-import android.view.ViewGroup
-import android.widget.TextView
+import android.text.style.UnderlineSpan
 import com.google.android.flexbox.FlexboxLayout
 import com.tarrakki.R
-import com.tarrakki.databinding.*
-import com.tarrakki.module.goal.Goal
+import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
 import com.tarrakki.module.recommended.RecommendedFragment
-import com.tarrakki.module.yourgoal.SummaryWidget.*
 import com.tarrakki.module.yourgoal.WidgetSpace.*
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
 import org.greenrobot.eventbus.EventBus
@@ -28,6 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.convertToPx
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toCurrency
 
 
 /**
@@ -144,8 +143,22 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             }
             setGoalSummary(amount = investAmount, durations = durations)
         })*/
+        getViewModel().goalVM.observe(this, Observer { it ->
+            it?.let { goal ->
+                var investAmount = "${goal.getCVAmount()}"
+                var durations = "${goal.getNDuration()}"
+                getBinding().goal = goal
+                getBinding().executePendingBindings()
+                getViewModel().calculatePMT(goal).observe(this, Observer { it ->
+                    it?.let { pmtResponse ->
+                        tvPMT.text = pmtResponse.pmt.toCurrency()
+                        setGoalSummary(investAmount, durations, pmtResponse.pmt)
+                    }
+                })
+            }
+        })
 
-        tvWhyInflationMatter?.setOnClickListener { _ ->
+        tvWhyInflationMatter?.setOnClickListener { v ->
             getViewModel().whyInflationMatter.get()?.let {
                 getViewModel().whyInflationMatter.set(!it)
             }
@@ -156,7 +169,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         }
     }
 
-    private fun setGoalSummary(amount: String, durations: String) {
+    private fun setGoalSummary(amount: String, durations: String, pmt: Double) {
         /*getBinding().goal?.investmentAmount = amount
         getBinding().goal?.investmentDuration = durations*/
         val ssb = SpannableStringBuilder("To achieve your goal of saving ")
@@ -170,13 +183,29 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
         ssb.append(" years, you'll have to invest ")
-        ssb.append(SpannableString(getString(R.string.rs_symbol).plus(" 1,583")).apply {
+        ssb.append(SpannableString(pmt.toCurrency()/*getString(R.string.rs_symbol).plus(" 1,583")*/).apply {
             setSpan(RelativeSizeSpan(1.2f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(StyleSpan(Typeface.BOLD), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
         ssb.append(" every month.")
         getViewModel().gSummary.set(ssb)
+
+        val ssb1 = SpannableStringBuilder("every month, for the next ")
+        ssb1.append(SpannableString(durations).apply {
+            setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        })
+        ssb1.append(" years")
+        getViewModel().tmpFor.set(ssb1)
+
+        val ssb2 = SpannableStringBuilder("A lumpsum of ")
+        ssb2.append(SpannableString(amount).apply {
+            setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        })
+        ssb2.append("  upfront, to achieve your goal")
+        getViewModel().lumpsumpFor.set(ssb2)
     }
 
     private fun addSpace(item: GoalSummary, binder: ViewDataBinding, lParam: FlexboxLayout.LayoutParams) {
@@ -201,9 +230,9 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(goal: Goal) {
-        if (getBinding().goal == null) {
-            //getViewModel().goalVM.value = goal
+    fun onReceive(goal: com.tarrakki.api.model.Goal.Data.GoalData) {
+        if (getViewModel().goalVM.value == null) {
+            getViewModel().goalVM.value = goal
         }
         EventBus.getDefault().removeStickyEvent(goal)
     }

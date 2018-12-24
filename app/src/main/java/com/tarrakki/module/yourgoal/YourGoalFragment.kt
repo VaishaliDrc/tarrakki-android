@@ -124,10 +124,16 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     }
                 }
                 else -> {
-                    isValidate = true
+                    val item1 = questions[0]
+                    isBoolean = item1.questionType == "boolean"
+                    isValidate = if (isBoolean) {
+                        true
+                    } else {
+                        isValid(item1)
+                    }
                 }
             }
-            if (isValidate && (dataList.size - 1) == 0) {
+            if (isValidate && (dataList.size - 1) == mPageGoal.currentItem) {
                 startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             } else if (isValidate) {
@@ -141,8 +147,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         try {
             return when ("${question.parameter}") {
                 "cv", "pv" -> {
-                    val amount = question.ans
-                    if (amount.isEmpty() || amount.replace(",", "").toInt() < question.minValue) {
+                    val amount = "${question.ans}".replace(",", "")
+                    if (TextUtils.isEmpty(amount) || amount.toInt() < question.minValue) {
                         var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
                         context?.simpleAlert(msg)
                         false
@@ -150,20 +156,20 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         true
                 }
                 "n" -> {
-                    if (question.ans.isEmpty() || question.ans.toInt() in question.minValue..question.maxValue.toString().toInt()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toInt()) {
                         var msg = "Please enter a valid number of years between"
-                        msg.plus(" ".plus(question.minValue))
-                        msg.plus(" to ".plus(question.minValue))
+                                .plus(" ".plus(question.minValue))
+                                .plus(" to ".plus(question.maxValue.toIntOrNull()))
                         context?.simpleAlert(msg)
                         false
                     } else
                         true
                 }
                 "dp" -> {
-                    if (question.ans.isEmpty() || question.ans.toInt() in question.minValue..question.maxValue.toString().toInt()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toInt()) {
                         var msg = "Please enter a valid percentage between"
-                        msg.plus(" ".plus(question.minValue))
-                        msg.plus(" to ".plus(question.minValue))
+                                .plus(" ".plus(question.minValue))
+                                .plus(" to ".plus(question.maxValue.toInt()))
                         context?.simpleAlert(msg)
                         false
                     } else

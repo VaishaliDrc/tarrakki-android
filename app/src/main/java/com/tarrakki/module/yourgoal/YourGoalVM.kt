@@ -8,18 +8,32 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.text.SpannableStringBuilder
 import android.view.View
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.PMTResponse
+import com.tarrakki.api.model.parseTo
 import com.tarrakki.module.goal.Goal
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.SingleCallback
+import org.supportcompact.networking.subscribeToSingle
 
 class YourGoalVM : FragmentViewModel() {
 
     val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
-    val goalSummary = arrayListOf<GoalSummary>()
+    //val goalSummary = arrayListOf<GoalSummary>()
+    val tmpFor = ObservableField<SpannableStringBuilder>()
+    val lumpsumpFor = ObservableField<SpannableStringBuilder>()
     val gSummary = ObservableField<SpannableStringBuilder>()
     val hasQuestions = ObservableField<Boolean>(true)
 
@@ -52,7 +66,7 @@ class YourGoalVM : FragmentViewModel() {
                 drawable3 = R.drawable.icon_status_purple_left)
         )
 
-        goalSummary.add(GoalSummary("You'd like to purchase a house currently costing", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        /*goalSummary.add(GoalSummary("You'd like to purchase a house currently costing", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE, "investment"))
         goalSummary.add(GoalSummary("in", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE))
         goalSummary.add(GoalSummary("", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
@@ -68,8 +82,38 @@ class YourGoalVM : FragmentViewModel() {
         goalSummary.add(GoalSummary("year", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("(inflation adjusted at", SummaryWidget.LABEL, WidgetSpace.NOTHING))
         goalSummary.add(GoalSummary("6", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.LEFT_SPACE))
-        goalSummary.add(GoalSummary(")", SummaryWidget.LABEL, WidgetSpace.NOTHING))
+        goalSummary.add(GoalSummary(")", SummaryWidget.LABEL, WidgetSpace.NOTHING))*/
 
+    }
+
+    fun calculatePMT(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<PMTResponse> {
+        val pmtResponse = MutableLiveData<PMTResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).calculatePMT(goal.getPMTJSON()),
+                apiNames = WebserviceBuilder.ApiNames.calculatePMT,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            if (o.status.code == 1) {
+                                val data = o.data?.parseTo<PMTResponse>()
+                                pmtResponse.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError(o.status.message))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return pmtResponse
     }
 }
 

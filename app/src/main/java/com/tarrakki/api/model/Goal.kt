@@ -3,9 +3,11 @@ package com.tarrakki.api.model
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.view.View
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.AES
 import org.supportcompact.adapters.WidgetsViewModel
 
 data class Goal(
@@ -38,7 +40,7 @@ data class Goal(
                     @SerializedName("dependent_question")
                     val dependentQuestion: Any,
                     @SerializedName("max_value")
-                    val maxValue: Any,
+                    val maxValue: String,
                     @SerializedName("min_value")
                     val minValue: Int,
                     @SerializedName("parameter")
@@ -128,6 +130,25 @@ data class Goal(
                     View.GONE
                 else
                     View.VISIBLE
+            }
+
+            fun getCVAmount(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "cv" }?.ans
+            }
+
+            fun getNDuration(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "n" }?.ans
+            }
+
+            fun getPMTJSON(): String {
+                val json = JsonObject()
+                questions.forEach { q ->
+                    if ("${q.questionType}" != "boolean") {
+                        json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                    }
+                }
+                json.addProperty("goal_id", this@GoalData.id)
+                return AES.encrypt(json.toString())
             }
         }
     }

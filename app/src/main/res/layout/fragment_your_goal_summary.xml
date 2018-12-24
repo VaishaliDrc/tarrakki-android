@@ -11,7 +11,7 @@
 
         <variable
             name="goal"
-            type="com.tarrakki.module.goal.Goal" />
+            type="com.tarrakki.api.model.Goal.Data.GoalData" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -46,12 +46,12 @@
 
                     <ImageView
                         android:id="@+id/imageView1"
+                        imgUrl="@{goal.goalImage}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingStart="@dimen/space_8"
                         android:paddingEnd="@dimen/space_8"
                         android:paddingBottom="@dimen/space_40"
-                        app:imgUrl="@{goal.imgUrl}"
                         tools:src="@drawable/own_a_home" />
 
                     <TextView
@@ -64,7 +64,7 @@
                         android:minLines="2"
                         android:paddingStart="@dimen/space_5"
                         android:paddingEnd="@dimen/space_5"
-                        android:text="@{goal.title}"
+                        android:text="@{goal.goal}"
                         android:textAllCaps="true"
                         android:textColor="@color/semi_black"
                         android:textSize="@dimen/sp10"
@@ -82,6 +82,7 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvPMT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
@@ -91,11 +92,13 @@
                     android:textColor="@color/item_selected_color" />
 
                 <TextView
+                    android:id="@+id/tvPMTFor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
-                    android:text="@string/every_month_for_the_next_5_years"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:text="@{vm.tmpFor}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    tools:text="@string/every_month_for_the_next_5_years" />
 
                 <ImageView
                     android:layout_width="40dp"
@@ -108,8 +111,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/a_lumpsum_of_10_000_upfront_to_achieve_your_goal"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:text="@{vm.lumpsumpFor}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    tools:text="@string/a_lumpsum_of_10_000_upfront_to_achieve_your_goal" />
 
                 <Button
                     android:id="@+id/btnAddThisGoal"

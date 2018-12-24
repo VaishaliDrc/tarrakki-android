@@ -4,10 +4,7 @@ import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.LoginResponse
 import com.tarrakki.api.model.SignUpresponse
 import io.reactivex.Observable
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 /**
@@ -27,10 +24,13 @@ interface WebserviceBuilder {
     @GET("goals/")
     fun getGoals(): Observable<ApiResponse>
 
+    @GET("goals/cal_pmt/")
+    fun calculatePMT(@Query("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
-        onLogin, onSignUp, getGoals
+        onLogin, onSignUp, getGoals, calculatePMT
     }
 }
