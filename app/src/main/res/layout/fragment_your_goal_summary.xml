@@ -157,15 +157,28 @@
                     android:text="@string/here_is_a_summary_of_your_goal"
                     android:textColor="@android:color/black" />
 
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/mFlax"
+                <!--  <com.google.android.flexbox.FlexboxLayout
+                      android:id="@+id/mFlax"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginStart="@dimen/space_8"
+                      android:layout_marginEnd="@dimen/space_8"
+                      app:alignContent="center"
+                      app:alignItems="center"
+                      app:flexWrap="wrap" />-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvGoalSummary"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
-                    app:alignContent="center"
-                    app:alignItems="center"
-                    app:flexWrap="wrap" />
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:dividerH="@{@drawable/shape_transferant_divider}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:listitem="@layout/row_goal_summary_txt" />
 
 
                 <TextView

@@ -21,6 +21,8 @@ data class Goal(
             val inflation: Int
     ) {
         data class GoalData(
+                @SerializedName("goal_summary")
+                val goalSummary: String,
                 @SerializedName("description")
                 val description: String,
                 @SerializedName("goal")
@@ -150,6 +152,8 @@ data class Goal(
                 json.addProperty("goal_id", this@GoalData.id)
                 return AES.encrypt(json.toString())
             }
+
+            fun goalSummary() = "$goalSummary".split(" ") as ArrayList<String>
         }
     }
 }

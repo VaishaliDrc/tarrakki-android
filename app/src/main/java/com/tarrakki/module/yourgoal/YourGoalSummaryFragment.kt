@@ -17,13 +17,17 @@ import android.text.style.UnderlineSpan
 import com.google.android.flexbox.FlexboxLayout
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
+import com.tarrakki.databinding.RowGoalSummaryTxtBinding
 import com.tarrakki.module.recommended.RecommendedFragment
 import com.tarrakki.module.yourgoal.WidgetSpace.*
+import com.xiaofeng.flowlayoutmanager.Alignment
+import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.convertToPx
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toCurrency
@@ -155,6 +159,17 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         setGoalSummary(investAmount, durations, pmtResponse.pmt)
                     }
                 })
+
+                val flowLayoutManager = FlowLayoutManager()
+                flowLayoutManager.isAutoMeasureEnabled = true
+                flowLayoutManager.setAlignment(Alignment.LEFT)
+                //flowLayoutManager.maxItemsPerLine(3)
+                rvGoalSummary?.layoutManager = flowLayoutManager
+                rvGoalSummary?.setUpRecyclerView(R.layout.row_goal_summary_txt, goal.goalSummary()) { item: String, binder: RowGoalSummaryTxtBinding, position ->
+                    binder.item = item
+                    binder.executePendingBindings()
+                }
+
             }
         })
 

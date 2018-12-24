@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="String" />
+    </data>
+
+    <TextView
+        android:id="@+id/tvFundType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{item}"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/dark"
+        tools:text="@string/dummy1"
+        tools:textColor="@color/dark" />
+
+</layout>
