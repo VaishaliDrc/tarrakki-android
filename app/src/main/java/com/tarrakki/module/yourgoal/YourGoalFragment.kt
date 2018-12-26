@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setPageAdapter
+import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.inflate
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -59,20 +59,19 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     q.ansBoolean = true
                 }
                 val dataList = goal.questions.chunked(2)
-                mPageGoal?.setPageAdapter(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { binder: PagetYourGoalStepBinding, item: List<Goal.Data.GoalData.Question> ->
-                    binder.yourGoal = getViewModel().yourGoalSteps[mPageGoal.currentItem]
+
+                rvPage?.setUpRecyclerView(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { item: List<Goal.Data.GoalData.Question>, binder: PagetYourGoalStepBinding, position: Int ->
+                    binder.yourGoal = getViewModel().yourGoalSteps[position]
                     binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
-                    binder.btnNext.setOnClickListener { onNext() }
-                    //binder.btnNext.alpha = if (mPageGoal.currentItem == (dataList.size - 1)) 0.6f else 1f
-                    //binder.btnNext.isEnabled = mPageGoal.currentItem != (dataList.size - 1)
-                    binder.btnPrevious.alpha = if (mPageGoal.currentItem == 0) 0.6f else 1f
-                    binder.btnPrevious.isEnabled = mPageGoal.currentItem != 0
-                    binder.btnPrevious.setOnClickListener { onPrevious() }
+                    binder.btnNext.setOnClickListener { onNext(position) }
+                    binder.btnPrevious.alpha = if (position == 0) 0.6f else 1f
+                    binder.btnPrevious.isEnabled = position != 0
+                    binder.btnPrevious.setOnClickListener { onPrevious(position) }
                     binder.goal = goal
                     binder.llContainer.removeAllViews()
                     var mViewBoolean: QuestionBooleanBinding? = null
                     item.forEach { question ->
-                        val mView: ViewDataBinding = DataBindingUtil.bind(mPageGoal.inflate(question.layoutId()))!!
+                        val mView: ViewDataBinding = DataBindingUtil.bind(rvPage.inflate(question.layoutId()))!!
                         mView.setVariable(BR.question, question)
                         mView.executePendingBindings()
                         when {
@@ -94,9 +93,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
 
     }
 
-
-    private fun onNext() {
-        val index = mPageGoal.currentItem
+    private fun onNext(position: Int) {
+        val index = position
         getViewModel().goalVM.value?.let { goal ->
             val dataList = goal.questions.chunked(2)
             val questions = dataList[index]
@@ -113,6 +111,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         } else if (item1.ansBoolean && !TextUtils.isEmpty(item2.ans)) {
                             isValidate = isValid(item2)
                         } else {
+                            item2.ans = ""
                             isValidate = true
                         }
                     } else {
@@ -133,12 +132,11 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     }
                 }
             }
-            if (isValidate && (dataList.size - 1) == mPageGoal.currentItem) {
+            if (isValidate && (dataList.size - 1) == position) {
                 startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             } else if (isValidate) {
-                mPageGoal.setCurrentItem(mPageGoal.currentItem + 1, true)
-                mPageGoal?.adapter?.notifyDataSetChanged()
+                rvPage.scrollToPosition(position + 1)
             }
         }
     }
@@ -183,9 +181,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         }
     }
 
-    private fun onPrevious() {
-        mPageGoal.setCurrentItem(mPageGoal.currentItem - 1, true)
-        mPageGoal?.adapter?.notifyDataSetChanged()
+    private fun onPrevious(position: Int) {
+        rvPage.scrollToPosition(position - 1)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -193,7 +190,6 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         if (getViewModel().goalVM.value == null) {
             getViewModel().goalVM.value = goal
         }
-        //EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

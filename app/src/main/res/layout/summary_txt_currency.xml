@@ -8,6 +8,10 @@
         <variable
             name="goalSummary"
             type="com.tarrakki.module.yourgoal.GoalSummary" />
+
+        <variable
+            name="onAction"
+            type="android.widget.TextView.OnEditorActionListener" />
     </data>
 
     <LinearLayout
@@ -30,16 +34,19 @@
 
         <EditText
             android:id="@+id/edtInvestAmount"
-            android:layout_width="match_parent"
+            onEditorAction="@{onAction}"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_4"
             android:background="@null"
+            android:imeOptions="actionDone"
             android:inputType="number"
-            android:text="@={goalSummary.txt}"
+            android:minWidth="@dimen/_72sdp"
+            android:text="@={goalSummary.value}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/semi_black"
             app:isPositiveCurrency="@{true}"
-            tools:hint="1,00,000" />
+            tools:hint="10,00,000" />
 
     </LinearLayout>
 </layout>

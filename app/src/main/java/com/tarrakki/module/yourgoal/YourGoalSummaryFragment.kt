@@ -10,16 +10,18 @@ import android.support.v4.app.Fragment
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
-import com.google.android.flexbox.FlexboxLayout
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
-import com.tarrakki.databinding.RowGoalSummaryTxtBinding
 import com.tarrakki.module.recommended.RecommendedFragment
-import com.tarrakki.module.yourgoal.WidgetSpace.*
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
@@ -27,10 +29,12 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.convertToPx
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toCurrency
+import org.supportcompact.ktx.toCurrencyWithSpace
 
 
 /**
@@ -58,6 +62,8 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         binding.vm = getViewModel()
         binding.executePendingBindings()
     }
+
+    lateinit var pmt: Observer<PMTResponse>
 
     override fun createReference() {
         /*getViewModel().goalVM.observe(this, Observer {
@@ -147,29 +153,102 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             }
             setGoalSummary(amount = investAmount, durations = durations)
         })*/
+
         getViewModel().goalVM.observe(this, Observer { it ->
             it?.let { goal ->
                 var investAmount = "${goal.getCVAmount()}"
                 var durations = "${goal.getNDuration()}"
                 getBinding().goal = goal
                 getBinding().executePendingBindings()
-                getViewModel().calculatePMT(goal).observe(this, Observer { it ->
-                    it?.let { pmtResponse ->
-                        tvPMT.text = pmtResponse.pmt.toCurrency()
-                        setGoalSummary(investAmount, durations, pmtResponse.pmt)
-                    }
-                })
 
                 val flowLayoutManager = FlowLayoutManager()
                 flowLayoutManager.isAutoMeasureEnabled = true
                 flowLayoutManager.setAlignment(Alignment.LEFT)
-                //flowLayoutManager.maxItemsPerLine(3)
                 rvGoalSummary?.layoutManager = flowLayoutManager
-                rvGoalSummary?.setUpRecyclerView(R.layout.row_goal_summary_txt, goal.goalSummary()) { item: String, binder: RowGoalSummaryTxtBinding, position ->
-                    binder.item = item
-                    binder.executePendingBindings()
+                var goalSummarys: ArrayList<WidgetsViewModel>
+                pmt = Observer {
+                    it?.let { pmtResponse ->
+                        tvPMT.text = pmtResponse.pmt.toCurrency()
+                        setGoalSummary(investAmount, durations, pmtResponse.pmt, goal.getPVAmount())
+                        goalSummarys = goal.goalSummary()
+                        rvGoalSummary?.setUpMultiViewRecyclerAdapter(goalSummarys) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                            val goalSummary = item as GoalSummary
+                            binder.setVariable(BR.onAction, TextView.OnEditorActionListener { v, actionId, _ ->
+                                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                    goalSummarys.forEach { item ->
+                                        val summary = item as GoalSummary
+                                        when (summary.txt) {
+                                            "#cv" -> {
+                                                goal.setCVAmount(summary.value)
+                                                investAmount = summary.value
+                                            }
+                                            "#fv" -> {
+                                                //goalSummary.value = "${pmtResponse.futureValue}"
+                                            }
+                                            "#pv" -> {
+                                                goal.setPVAmount(summary.value)
+                                            }
+                                            "\$n" -> {
+                                                goalSummary.value = durations
+                                            }
+                                            "\$fv" -> {
+                                                goalSummary.value = pmtResponse.futureValue.toCurrencyWithSpace()
+                                            }
+                                            "#i" -> {
+                                                //goalSummary.value = "${goal.inflation}"
+                                                if (goalSummary.txt == "#i")
+                                                    goal.inflation = v.text.toString().toIntOrNull()
+                                            }
+                                            "#dp" -> {
+                                                //goalSummary.value = "${goal.getDPAmount() ?: "0"}"
+                                                goal.setDPAmount(summary.value)
+                                            }
+                                            "#n" -> {
+                                                //goalSummary.value = durations
+                                                goal.setNDuration(summary.value)
+                                                durations = summary.value
+                                            }
+                                        }
+                                    }
+                                    v.dismissKeyboard()
+                                    v.clearFocus()
+                                    getViewModel().calculatePMT(goal).observe(this, pmt)
+                                    return@OnEditorActionListener true
+                                }
+                                false
+                            })
+                            when (goalSummary.txt) {
+                                "#cv" -> {
+                                    goalSummary.value = "${goal.getCVAmount() ?: "0"}"
+                                }
+                                "#fv" -> {
+                                    goalSummary.value = "${pmtResponse.futureValue}"
+                                }
+                                "#pv" -> {
+                                    goalSummary.value = "${goal.getPVAmount() ?: "0"}"
+                                }
+                                "\$n" -> {
+                                    goalSummary.value = durations
+                                }
+                                "\$fv" -> {
+                                    goalSummary.value = pmtResponse.futureValue.toCurrencyWithSpace()
+                                }
+                                "#i" -> {
+                                    goalSummary.value = "${goal.inflation ?: "0"}"
+                                }
+                                "#dp" -> {
+                                    goalSummary.value = "${goal.getDPAmount() ?: "0"}"
+                                }
+                                "#n" -> {
+                                    goalSummary.value = durations
+                                }
+                            }
+                            binder.setVariable(BR.goalSummary, item)
+                            binder.executePendingBindings()
+                        }
+                    }
                 }
-
+                getViewModel().calculatePMT(goal).observe(this, pmt)
             }
         })
 
@@ -184,7 +263,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         }
     }
 
-    private fun setGoalSummary(amount: String, durations: String, pmt: Double) {
+    private fun setGoalSummary(amount: String, durations: String, pmt: Double, lumpsum: String? = null) {
         /*getBinding().goal?.investmentAmount = amount
         getBinding().goal?.investmentDuration = durations*/
         val ssb = SpannableStringBuilder("To achieve your goal of saving ")
@@ -198,7 +277,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
         ssb.append(" years, you'll have to invest ")
-        ssb.append(SpannableString(pmt.toCurrency()/*getString(R.string.rs_symbol).plus(" 1,583")*/).apply {
+        ssb.append(SpannableString(pmt.toCurrencyWithSpace()/*getString(R.string.rs_symbol).plus(" 1,583")*/).apply {
             setSpan(RelativeSizeSpan(1.2f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(StyleSpan(Typeface.BOLD), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -215,33 +294,12 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         getViewModel().tmpFor.set(ssb1)
 
         val ssb2 = SpannableStringBuilder("A lumpsum of ")
-        ssb2.append(SpannableString(amount).apply {
+        ssb2.append(SpannableString(if (TextUtils.isEmpty(lumpsum)) "0" else lumpsum).apply {
             setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
         ssb2.append("  upfront, to achieve your goal")
         getViewModel().lumpsumpFor.set(ssb2)
-    }
-
-    private fun addSpace(item: GoalSummary, binder: ViewDataBinding, lParam: FlexboxLayout.LayoutParams) {
-        when (item.widgetSpace) {
-            RIGHT_SPACE -> {
-                lParam.setMargins(0, 16f.convertToPx().toInt(), 8f.convertToPx().toInt(), 0)
-                binder.root.layoutParams = lParam
-            }
-            LEFT_SPACE -> {
-                lParam.setMargins(8.0f.convertToPx().toInt(), 16f.convertToPx().toInt(), 0, 0)
-                binder.root.layoutParams = lParam
-            }
-            BOTH_SIDE_SPACE -> {
-                lParam.setMargins(8.0f.convertToPx().toInt(), 16f.convertToPx().toInt(), 8.0f.convertToPx().toInt(), 0)
-                binder.root.layoutParams = lParam
-            }
-            else -> {
-                lParam.setMargins(0, 16f.convertToPx().toInt(), 0, 0)
-                binder.root.layoutParams = lParam
-            }
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

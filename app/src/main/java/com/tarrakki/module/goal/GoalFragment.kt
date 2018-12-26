@@ -61,7 +61,8 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
                 rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data.goalData) { item: Goal.Data.GoalData, binder: RowGoalListItemBinding, position ->
                     binder.goal = item
                     binder.executePendingBindings()
-                    binder.root.setOnClickListener {
+                    binder.root.setOnClickListener { v ->
+                        item.inflation = it.data.inflation
                         startFragment(InitiateYourGoalFragment.newInstance(), R.id.frmContainer)
                         postSticky(item)
                     }

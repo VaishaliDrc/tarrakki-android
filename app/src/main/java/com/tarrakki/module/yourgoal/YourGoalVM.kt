@@ -31,7 +31,6 @@ class YourGoalVM : FragmentViewModel() {
     val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
-    //val goalSummary = arrayListOf<GoalSummary>()
     val tmpFor = ObservableField<SpannableStringBuilder>()
     val lumpsumpFor = ObservableField<SpannableStringBuilder>()
     val gSummary = ObservableField<SpannableStringBuilder>()
@@ -65,25 +64,6 @@ class YourGoalVM : FragmentViewModel() {
                 drawable2 = R.drawable.icon_status_green_middle,
                 drawable3 = R.drawable.icon_status_purple_left)
         )
-
-        /*goalSummary.add(GoalSummary("You'd like to purchase a house currently costing", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("", SummaryWidget.TXT_CURRENCY, WidgetSpace.RIGHT_SPACE, "investment"))
-        goalSummary.add(GoalSummary("in", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("", SummaryWidget.TXT, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
-        goalSummary.add(GoalSummary("years.", SummaryWidget.LABEL, WidgetSpace.RIGHT_SPACE))
-        goalSummary.add(GoalSummary("Since you plan to pay", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("30", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("down payment", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("during your purchase, you need to build a corpus", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("3,82,884", SummaryWidget.TXT_CURRENCY, WidgetSpace.BOTH_SIDE_SPACE))
-        goalSummary.add(GoalSummary("by the end of", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("", SummaryWidget.LABEL, WidgetSpace.BOTH_SIDE_SPACE, "durations"))
-        goalSummary.add(GoalSummary("year", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("(inflation adjusted at", SummaryWidget.LABEL, WidgetSpace.NOTHING))
-        goalSummary.add(GoalSummary("6", SummaryWidget.TXT_PERCENTAGE, WidgetSpace.LEFT_SPACE))
-        goalSummary.add(GoalSummary(")", SummaryWidget.LABEL, WidgetSpace.NOTHING))*/
-
     }
 
     fun calculatePMT(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<PMTResponse> {
@@ -119,17 +99,13 @@ class YourGoalVM : FragmentViewModel() {
 
 data class GoalSummary(
         var txt: String,
-        var widgetType: SummaryWidget,
-        var widgetSpace: WidgetSpace,
-        var type: String = ""
-) : BaseObservable()
-
-enum class SummaryWidget {
-    LABEL, TXT, TXT_CURRENCY, TXT_PERCENTAGE
-}
-
-enum class WidgetSpace {
-    LEFT_SPACE, RIGHT_SPACE, BOTH_SIDE_SPACE, NOTHING
+        @LayoutRes
+        var layout: Int = R.layout.summary_label
+) : WidgetsViewModel {
+    var value: String = ""
+    override fun layoutId(): Int {
+        return layout
+    }
 }
 
 data class YourGoalSteps(@LayoutRes

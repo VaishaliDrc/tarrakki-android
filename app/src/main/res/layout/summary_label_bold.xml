@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,28 +7,19 @@
         <variable
             name="goalSummary"
             type="com.tarrakki.module.yourgoal.GoalSummary" />
-
-        <variable
-            name="onAction"
-            type="android.widget.TextView.OnEditorActionListener" />
     </data>
 
-    <EditText
+    <TextView
         android:id="@+id/edtDurations"
-        onEditorAction="@{onAction}"
-        android:layout_width="56dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rectangle_gray"
-        android:gravity="center"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:maxLength="2"
+        android:fontFamily="@font/lato_semibold"
+        android:gravity="center_vertical"
         android:paddingTop="@dimen/space_4"
         android:paddingBottom="@dimen/space_4"
         android:text="@={goalSummary.value}"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/semi_black"
-        app:isPositiveCurrency="@{true}"
-        tools:text="99" />
+        android:textColor="@color/black"
+        tools:text="@string/dummy" />
 
 </layout>

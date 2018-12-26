@@ -187,6 +187,12 @@ fun setHtml(txt: TextView, txtHtml: String) {
         Html.fromHtml(html)
     }
 }
+
+@BindingAdapter("onEditorAction")
+fun setAction(txt: EditText, listener: TextView.OnEditorActionListener) {
+    txt.setOnEditorActionListener(listener)
+}
+
 /*fun TextView.decimalFormat(amount: Double) {
     this.text = String.format(Locale.US, "%,.2f", amount)
 }

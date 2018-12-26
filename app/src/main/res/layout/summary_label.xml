@@ -14,6 +14,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@={goalSummary.txt}"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="@dimen/space_4"
+        android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         tools:text="You'd like to purchase a house currently costing" />
 

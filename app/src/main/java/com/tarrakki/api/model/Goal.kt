@@ -8,7 +8,9 @@ import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.AES
+import com.tarrakki.module.yourgoal.GoalSummary
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.e
 
 data class Goal(
         @SerializedName("data")
@@ -38,6 +40,8 @@ data class Goal(
                 @SerializedName("questions")
                 val questions: List<Question>
         ) {
+            var inflation: Int? = null
+
             data class Question(
                     @SerializedName("dependent_question")
                     val dependentQuestion: Any,
@@ -138,22 +142,104 @@ data class Goal(
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "cv" }?.ans
             }
 
+            fun setCVAmount(ans: String) {
+                questions.firstOrNull { q -> q.parameter == "cv" }?.ans = ans
+            }
+
+            fun getPVAmount(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "pv" }?.ans
+            }
+
+            fun setPVAmount(ans: String) {
+                questions.firstOrNull { q -> q.parameter == "pv" }?.ans = ans
+            }
+
+            fun getDPAmount(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "dp" }?.ans
+            }
+
+            fun setDPAmount(ans: String) {
+                questions.firstOrNull { q -> q.parameter == "dp" }?.ans = ans
+            }
+
+            fun getInvestmentAmount(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q ->
+                    when ("${q.parameter}") {
+                        "cv", "pv" -> true
+                        else -> false
+                    }
+                }?.ans
+            }
+
             fun getNDuration(): String? {
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "n" }?.ans
             }
 
+            fun setNDuration(ans: String) {
+                questions.firstOrNull { q -> q.parameter == "n" }?.ans = ans
+            }
+
             fun getPMTJSON(): String {
                 val json = JsonObject()
-                questions.forEach { q ->
-                    if ("${q.questionType}" != "boolean") {
-                        json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                val dataList = questions.chunked(2)
+                dataList.forEach { questions ->
+                    var isBoolean: Boolean
+                    when (questions.size) {
+                        2 -> {
+                            val item1 = questions[0]
+                            val item2 = questions[1]
+                            isBoolean = item1.questionType == "boolean"
+                            if (isBoolean && item1.ansBoolean) {
+                                json.addProperty("${item2.parameter}", "${item2.ans}".replace(",", ""))
+                            } else if (!isBoolean) {
+                                questions.forEach { q ->
+                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                }
+                            }
+                        }
+                        else -> {
+                            val item1 = questions[0]
+                            isBoolean = item1.questionType == "boolean"
+                            if (!isBoolean) {
+                                questions.forEach { q ->
+                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                }
+                            }
+                        }
                     }
                 }
+                if (inflation != null) {
+                    json.addProperty("i", inflation)
+                }
                 json.addProperty("goal_id", this@GoalData.id)
+                e("request->", json)
                 return AES.encrypt(json.toString())
             }
 
-            fun goalSummary() = "$goalSummary".split(" ") as ArrayList<String>
+            fun goalSummary(): ArrayList<WidgetsViewModel> {
+                val rawData = "$goalSummary".split(" ")
+                val data = ArrayList<WidgetsViewModel>()
+                rawData.forEach { item ->
+                    when (item) {
+                        "#cv", "#fv", "#pv" -> {
+                            data.add(GoalSummary(item, R.layout.summary_txt_currency))
+                        }
+                        "\$n", "\$fv" -> {
+                            data.add(GoalSummary(item, R.layout.summary_label_bold))
+                        }
+                        "#i", "#dp" -> {
+                            data.add(GoalSummary(item, R.layout.summary_txt_percetage))
+                        }
+                        "#n" -> {
+                            data.add(GoalSummary(item, R.layout.summary_txt))
+                        }
+                        else -> {
+                            data.add(GoalSummary(item))
+                        }
+                    }
+                }
+                return data
+            }
         }
     }
 }
