@@ -32,6 +32,7 @@
                 android:adjustViewBounds="true"
                 android:background="@color/colorPrimary"
                 android:src="@drawable/home_top_bg"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,6 +42,7 @@
                 android:id="@+id/cpPortfolio"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:cpb_background_progressbar_color="#2E1D3E"
                 app:cpb_background_progressbar_width="8dp"
                 app:cpb_progressbar_color="@color/colorAccent"
@@ -60,6 +62,7 @@
                 android:text="@string/portfolio_value"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/home_title_color"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.135"
@@ -76,6 +79,7 @@
                 android:minWidth="140dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:anim="@{true}"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +87,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.45"
-                app:price="@{3246.00}"
+                app:price="@{0}"
                 tools:text="@string/dummy" />
 
             <TextView
@@ -96,6 +100,7 @@
                 android:text="@string/view_portfolio"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorAccent"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"
                 app:layout_constraintEnd_toEndOf="@+id/tvPortfolioValue"
                 app:layout_constraintStart_toStartOf="@+id/tvPortfolioValue"
@@ -117,6 +122,7 @@
                 android:text="@string/total_investment_value"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/home_title_color"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"
                 app:layout_constraintStart_toEndOf="@id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
@@ -124,12 +130,13 @@
 
             <TextView
                 android:id="@+id/tvTotalInvestmentValue"
-                price="@{500000}"
+                price="@{0}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/white"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintStart_toEndOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalInvestment"
                 tools:text="@string/dummy1" />
@@ -142,6 +149,7 @@
                 android:text="@string/total_return"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/home_title_color"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintBottom_toBottomOf="@+id/homeView"
                 app:layout_constraintStart_toEndOf="@id/guideline"
                 app:layout_constraintTop_toTopOf="parent"
@@ -155,10 +163,11 @@
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorAccent"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:anim="@{true}"
                 app:layout_constraintStart_toEndOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalReturn"
-                app:returns="@{36.17}"
+                app:returns="@{0}"
                 tools:text="@string/dummy2" />
 
             <TextView
@@ -167,9 +176,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:gravity="center"
-                android:text="(+1.05%)"
+                android:text="(+0%)"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorAccent"
+                android:visibility="@{vm.portfolioVisibility}"
                 app:layout_constraintStart_toEndOf="@id/guideline"
                 app:layout_constraintTop_toBottomOf="@+id/tvTotalReturnValue" />
 
@@ -223,6 +233,7 @@
                 android:layout_marginStart="@dimen/default_space"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
+                android:visibility="invisible"
                 app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"

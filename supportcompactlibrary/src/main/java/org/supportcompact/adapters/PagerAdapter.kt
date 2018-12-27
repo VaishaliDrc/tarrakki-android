@@ -11,9 +11,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
-import android.support.v4.view.PagerAdapter.POSITION_NONE
-
-
+import org.supportcompact.widgets.CustomViewPager
 
 
 /**
@@ -87,6 +85,43 @@ fun <T, U : ViewDataBinding> ViewPager.setPageAdapter(@LayoutRes layout: Int, it
     }
     return adapter
 }
+
+/**
+ * This is extension function setup the of ViewPager's PagerAdapter.
+ * @param layout layout to be bound to adapter.
+ * @param items data to be bound with layout.
+ * @param onBind Is Unit function to override the  instantiateItem of PagerAdapter.
+ * */
+fun <T, U : ViewDataBinding> CustomViewPager.setPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): PagerAdapter? {
+    adapter = object : PagerAdapter() {
+
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val item: T = items[position]
+            val binder: U = DataBindingUtil.bind(container.inflate(layout))!!
+            container.addView(binder.root)
+            onBind.invoke(binder, item)
+            return binder.root
+        }
+
+        override fun isViewFromObject(view: View, `object`: Any) = view == `object`
+
+        override fun getCount() = items.size
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container.removeView(`object` as View)
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return items[position].toString()
+        }
+
+        override fun getItemPosition(`object`: Any): Int {
+            return POSITION_NONE
+        }
+    }
+    return adapter
+}
+
 
 /**
  * This is extension function setup the of ViewPager's FragmentPagerAdapter.

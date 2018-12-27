@@ -9,12 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
+import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentInitiateYourGoalBinding
 import kotlinx.android.synthetic.main.fragment_initiate_your_goal.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -43,6 +44,10 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
     }
 
     override fun createReference() {
+        arguments?.let {
+            val goalId = it.getString(KEY_GOAL_ID)
+            getViewModel().getGoalById("$goalId")
+        }
         val data = arrayListOf<String>()//resources.getStringArray(R.array.automobile)
         getViewModel().goalVM.observe(this, Observer {
             it?.let { goal ->
@@ -70,27 +75,6 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                     goal.setAnsQ1(edtQ2Answer.text.toString())
                 startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
-                /*if (goal.introQuestions.size == 2) {
-                    goal.setAnsQ2(edtQ2Answer.text.toString())
-                    when {
-                        TextUtils.isEmpty(goal.getAnsQ1()) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
-                        TextUtils.isEmpty(goal.getAnsQ2()) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
-                        else -> {
-                            startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
-                            postSticky(goal)
-                        }
-                    }
-                } else {
-                    if (goal.introQuestions[0].questionType == "Text")
-                        goal.setAnsQ1(edtQ2Answer.text.toString())
-                    when {
-                        TextUtils.isEmpty(goal.getAnsQ1()) -> context?.simpleAlert("All the fields are mandatory so please enter the required fields first.")
-                        else -> {
-                            startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
-                            postSticky(goal)
-                        }
-                    }
-                }*/
             }
         }
         spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

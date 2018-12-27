@@ -7,7 +7,7 @@
 
         <variable
             name="widget"
-            type="com.tarrakki.module.goal.Goal" />
+            type="com.tarrakki.api.model.HomeData.Data.Goal" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -19,11 +19,11 @@
 
         <ImageView
             android:id="@+id/ivItem"
+            imgUrl="@{widget.goalImage}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:paddingBottom="@dimen/space_20"
-            app:imgUrl="@{widget.imgUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:src="@drawable/wealth_creation" />
@@ -35,15 +35,15 @@
             android:gravity="center_horizontal|top"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{widget.title}"
+            android:text="@{widget.goal}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
-            app:layout_constraintVertical_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1"
             tools:text="Wealth creation" />
 
     </android.support.constraint.ConstraintLayout>

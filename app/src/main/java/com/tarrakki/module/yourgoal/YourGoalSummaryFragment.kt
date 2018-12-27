@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
 import com.tarrakki.module.recommended.RecommendedFragment
@@ -31,10 +32,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrency
-import org.supportcompact.ktx.toCurrencyWithSpace
+import org.supportcompact.ktx.*
 
 
 /**
@@ -210,9 +208,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                                             }
                                         }
                                     }
-                                    v.dismissKeyboard()
-                                    v.clearFocus()
-                                    getViewModel().calculatePMT(goal).observe(this, pmt)
+                                    if (isValid(goal)) {
+                                        v.dismissKeyboard()
+                                        v.clearFocus()
+                                        getViewModel().calculatePMT(goal).observe(this, pmt)
+                                    }
                                     return@OnEditorActionListener true
                                 }
                                 false
@@ -262,6 +262,37 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
         }
     }
+
+    private fun isValid(goal: Goal.Data.GoalData): Boolean {
+        try {
+            val cv = goal.getCV()
+            val n = goal.getN()
+            return if (cv != null && n != null) {
+                val amount = "${cv.ans}".replace(",", "")
+                return if (TextUtils.isEmpty(amount) || amount.toInt() < cv.minValue) {
+                    var msg = "Please enter a valid number above".plus(" ".plus(cv.minValue))
+                    context?.simpleAlert(msg)
+                    false
+                } else if (TextUtils.isEmpty(n.ans) || n.ans.toInt() !in n.minValue..n.maxValue.toInt()) {
+                    var msg = "Please enter a valid number of years between"
+                            .plus(" ".plus(n.minValue))
+                            .plus(" to ".plus(n.maxValue.toIntOrNull()))
+                    context?.simpleAlert(msg)
+                    false
+                } else if (goal.inflation == null || "${goal.inflation}" == "0") {
+                    context?.simpleAlert("Please enter inflation")
+                    false
+                } else
+                    true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return false
+        }
+    }
+
 
     private fun setGoalSummary(amount: String, durations: String, pmt: Double, lumpsum: String? = null) {
         /*getBinding().goal?.investmentAmount = amount

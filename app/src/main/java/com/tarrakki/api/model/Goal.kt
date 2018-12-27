@@ -142,6 +142,10 @@ data class Goal(
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "cv" }?.ans
             }
 
+            fun getCV(): Question? {
+                return if (questions.isEmpty()) null else questions.firstOrNull { q -> q.parameter == "cv" }
+            }
+
             fun setCVAmount(ans: String) {
                 questions.firstOrNull { q -> q.parameter == "cv" }?.ans = ans
             }
@@ -177,6 +181,10 @@ data class Goal(
 
             fun setNDuration(ans: String) {
                 questions.firstOrNull { q -> q.parameter == "n" }?.ans = ans
+            }
+
+            fun getN(): Question? {
+                return if (questions.isEmpty()) null else questions.firstOrNull { q -> q.parameter == "n" }
             }
 
             fun getPMTJSON(): String {

@@ -12,7 +12,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/tvGoalDurationL"
@@ -29,7 +30,7 @@
 
         <RelativeLayout
             android:id="@+id/llContainer2"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/_140sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:background="@drawable/shape_rounded_gray"
@@ -55,7 +56,8 @@
                 android:text="@={question.ans}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/semi_black"
-                app:isPositiveCurrency="@{true}" />
+                isPositiveCurrency="@{true}"
+                tools:text="2" />
 
             <TextView
                 android:id="@+id/tvDurations"

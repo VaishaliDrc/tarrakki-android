@@ -190,7 +190,6 @@ public class SnappyRecyclerView extends RecyclerView {
         return ret;
     }
 
-
     public interface SnapListener {
         void onSnap(int position);
 

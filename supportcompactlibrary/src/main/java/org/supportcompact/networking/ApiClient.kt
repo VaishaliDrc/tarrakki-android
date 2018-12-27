@@ -25,8 +25,10 @@ object ApiClient {
     private lateinit var retrofitHeader: Retrofit
     private lateinit var okHttpClient: OkHttpClient
     const val BUILD_TYPE_DEBUG = true
-    private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url
+    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url*/
+    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone

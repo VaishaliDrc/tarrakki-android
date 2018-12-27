@@ -14,23 +14,25 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogInvestBinding
-import com.tarrakki.module.goal.Goal
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
-import com.tarrakki.module.yourgoal.KEY_GOAL
+import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
+import org.supportcompact.widgets.InputFilterMinMax
 import java.util.*
 
 const val IS_FROM_ACCOUNT = "is_from_account"
@@ -46,8 +48,8 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
             binder.executePendingBindings()
             binder.root.setOnClickListener { it ->
                 val mContext = it.context
-                if (mContext is AppCompatActivity && item is Goal) {
-                    mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
+                if (mContext is AppCompatActivity && item is HomeData.Data.Goal) {
+                    mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
                     //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                 } else if (mContext is AppCompatActivity) {
                     mContext.startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
@@ -160,6 +162,14 @@ fun inputTypePositive(edt: EditText, isPositiveCurrency: Boolean) = if (isPositi
     edt.applyCurrencyFormat()
 }
 
+@BindingAdapter(value = ["minValue", "maxValue"])
+fun setDecimalDigits(edt: EditText, minValue: Int, maxValue: Int) {
+    try {
+        edt.filters = arrayOf<InputFilter>(InputFilterMinMax(minValue, maxValue))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
 
 @BindingAdapter("onEditorAction")
 fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEditorActionListener) {
@@ -222,7 +232,7 @@ fun handleTextView(initialValue: Double, finalValue: Double, textview: TextView)
 fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
     valueAnimator.duration = 1500
-    val returnType = if (finalValue > 0) "+" else "-"
+    val returnType = if (finalValue >= 0) "+" else "-"
     valueAnimator.addUpdateListener { it ->
         textview.text = returnType.plus(it.animatedValue.toString().toDouble().toDecimalCurrency())
     }

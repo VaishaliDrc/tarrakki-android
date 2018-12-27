@@ -6,9 +6,9 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.View
-import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentYourGoalBinding
@@ -17,12 +17,14 @@ import com.tarrakki.databinding.QuestionBooleanBinding
 import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.supportcompact.BR
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.adapters.setPageAdapter
 import org.supportcompact.ktx.inflate
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -31,6 +33,7 @@ import java.util.*
  *
  */
 const val KEY_GOAL = "key_goal"
+const val KEY_GOAL_ID = "key_goal_id"
 
 class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
 
@@ -60,6 +63,52 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 }
                 val dataList = goal.questions.chunked(2)
 
+                //rvPage.layoutManager = CustomLinearLayoutManager(rvPage.context, 1)
+                /*rvPage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                val snapHelper = PagerSnapHelper()
+                snapHelper.attachToRecyclerView(rvPage)*/
+                mPager.offscreenPageLimit = 0
+                /*mPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                    override fun onPageScrollStateChanged(p0: Int) {
+                    }
+
+                    override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+                    }
+
+                    override fun onPageSelected(p0: Int) {
+                        mPager.adapter?.notifyDataSetChanged()
+                    }
+                })*/
+                mPager.setPageAdapter(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { binder: PagetYourGoalStepBinding, item: List<Goal.Data.GoalData.Question> ->
+                    binder.yourGoal = getViewModel().yourGoalSteps[dataList.indexOf(item)]
+                    binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
+                    binder.btnNext.setOnClickListener { onNext(dataList.indexOf(item)) }
+                    binder.btnPrevious.alpha = if (dataList.indexOf(item) == 0) 0.6f else 1f
+                    binder.btnPrevious.isEnabled = dataList.indexOf(item) != 0
+                    binder.btnPrevious.setOnClickListener { onPrevious(dataList.indexOf(item)) }
+                    binder.goal = goal
+                    binder.llContainer.removeAllViews()
+                    var mViewBoolean: QuestionBooleanBinding? = null
+                    item.forEach { question ->
+                        val mView: ViewDataBinding = DataBindingUtil.bind(mPager.inflate(question.layoutId()))!!
+                        mView.setVariable(BR.question, question)
+                        mView.executePendingBindings()
+                        when {
+                            mView is QuestionBooleanBinding -> {
+                                if (mViewBoolean == null)
+                                    mViewBoolean = mView
+                                binder.llContainer.addView(mView.root)
+                            }
+                            mViewBoolean != null -> {
+                                mViewBoolean?.expandableLayout?.addView(mView.root)
+                            }
+                            else -> binder.llContainer.addView(mView.root)
+                        }
+                    }
+                    binder.executePendingBindings()
+                }
+
+                /*
                 rvPage?.setUpRecyclerView(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { item: List<Goal.Data.GoalData.Question>, binder: PagetYourGoalStepBinding, position: Int ->
                     binder.yourGoal = getViewModel().yourGoalSteps[position]
                     binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
@@ -87,10 +136,15 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         }
                     }
                     binder.executePendingBindings()
-                }
+                }*/
             }
         })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //mPager.adapter?.notifyDataSetChanged()
     }
 
     private fun onNext(position: Int) {
@@ -136,7 +190,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             } else if (isValidate) {
-                rvPage.scrollToPosition(position + 1)
+                //rvPage.scrollToPosition(position + 1)
+                mPager.setCurrentItem(position + 1, true)
             }
         }
     }
@@ -182,7 +237,8 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     }
 
     private fun onPrevious(position: Int) {
-        rvPage.scrollToPosition(position - 1)
+        //rvPage.scrollToPosition(position - 1)
+        mPager.setCurrentItem(position - 1, true)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

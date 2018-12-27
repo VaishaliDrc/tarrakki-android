@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
@@ -19,6 +20,7 @@ import com.tarrakki.module.portfolio.PortfolioFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 
@@ -60,21 +62,31 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
-        rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
-            binder.setVariable(BR.section, item)
-            binder.setVariable(BR.onViewAll, View.OnClickListener {
-                when (position) {
-                    1 -> {
-                        startFragment(GoalFragment.newInstance(), R.id.frmContainer)
-                    }
-                    0 -> {
-                        startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
-                    }
+        getViewModel().getHomeData().observe(this, Observer {
+            it?.let { apiResponse ->
+                rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
+                    binder.setVariable(BR.section, item)
+                    binder.setVariable(BR.onViewAll, View.OnClickListener {
+                        when (position) {
+                            1 -> {
+                                startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                            }
+                            0 -> {
+                                startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
+                            }
+                        }
+                    })
+                    binder.executePendingBindings()
                 }
-            })
-            binder.executePendingBindings()
-        }
+                rvHomeItem.visibility = View.VISIBLE
+            }
+        })
         cpPortfolio.setProgressWithAnimation(78f)
+        App.INSTANCE.isLoggedIn.observe(this, Observer {
+            it?.let { isLogin ->
+                getViewModel().portfolioVisibility.set(if (isLogin) View.VISIBLE else View.GONE)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -8,6 +8,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.text.SpannableStringBuilder
 import android.view.View
+import com.google.gson.Gson
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
@@ -15,8 +16,10 @@ import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.module.goal.Goal
 import org.greenrobot.eventbus.EventBus
+import org.json.JSONObject
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
@@ -63,6 +66,40 @@ class YourGoalVM : FragmentViewModel() {
                 drawable1 = R.drawable.icon_status_green_right,
                 drawable2 = R.drawable.icon_status_green_middle,
                 drawable3 = R.drawable.icon_status_purple_left)
+        )
+    }
+
+    fun getGoalById(goalId: String) {
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getGoalsById(goalId),
+                apiNames = WebserviceBuilder.ApiNames.getGoalById,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            if (o.status.code == 1) {
+                                try {
+                                    val json = JSONObject(o.data?.toDecrypt())
+                                    val goal = Gson().fromJson(json.optString("data"), com.tarrakki.api.model.Goal.Data.GoalData::class.java)
+                                    goalVM.value = goal
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                                }
+                            } else {
+                                EventBus.getDefault().post(ShowError(o.status.message))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
         )
     }
 

@@ -24,13 +24,19 @@ interface WebserviceBuilder {
     @GET("goals/")
     fun getGoals(): Observable<ApiResponse>
 
+    @GET("goals/{id}/")
+    fun getGoalsById(@Path("id") id: String): Observable<ApiResponse>
+
     @GET("goals/cal_pmt/")
     fun calculatePMT(@Query("data") data: String): Observable<ApiResponse>
+
+    @GET("category/homepage/")
+    fun getHomeData(): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
-        onLogin, onSignUp, getGoals, calculatePMT
+        onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById
     }
 }
