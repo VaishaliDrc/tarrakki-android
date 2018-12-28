@@ -8,6 +8,11 @@
         <variable
             name="question"
             type="com.tarrakki.api.model.Goal.Data.GoalData.Question" />
+
+        <variable
+            name="onAction"
+            type="android.widget.TextView.OnEditorActionListener" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -43,6 +48,9 @@
 
             <EditText
                 android:id="@+id/edtDurations"
+                maxValue="@{99}"
+                minValue="@{1}"
+                onEditorAction="@{onAction}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -50,13 +58,11 @@
                 android:layout_marginEnd="@dimen/space_8"
                 android:layout_toStartOf="@+id/tvDurations"
                 android:background="@null"
-                android:imeOptions="actionNext"
-                android:inputType="number"
-                android:maxLength="2"
+                android:gravity="center"
+                android:inputType="numberDecimal"
                 android:text="@={question.ans}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/semi_black"
-                isPositiveCurrency="@{true}"
                 tools:text="2" />
 
             <TextView

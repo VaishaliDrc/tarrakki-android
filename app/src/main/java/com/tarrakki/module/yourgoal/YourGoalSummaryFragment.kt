@@ -23,6 +23,7 @@ import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
 import com.tarrakki.module.recommended.RecommendedFragment
+import com.tarrakki.toYearWord
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
@@ -64,93 +65,6 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     lateinit var pmt: Observer<PMTResponse>
 
     override fun createReference() {
-        /*getViewModel().goalVM.observe(this, Observer {
-            getBinding().goal = it
-            getBinding().executePendingBindings()
-            getViewModel().goalSummary.forEach { item ->
-                when (item.type) {
-                    "investment" -> {
-                        item.txt = it?.investmentAmount!!
-                    }
-                    "durations" -> {
-                        item.txt = it?.investmentDuration!!
-                    }
-                }
-            }
-            var investAmount = ""
-            var durations = ""
-            var txtDuration: TextView? = null
-            getViewModel().goalSummary.forEach { item ->
-                val lParam: FlexboxLayout.LayoutParams
-                when (item.widgetType) {
-                    LABEL -> {
-                        lParam = FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                        val label = DataBindingUtil.inflate<SummaryLabelBinding>(layoutInflater, R.layout.summary_label, mFlax, true)
-                        label.goalSummary = item
-                        label.executePendingBindings()
-                        addSpace(item, label, lParam)
-                        if ("durations" == item.type) {
-                            txtDuration = label.edtDurations
-                        }
-                    }
-                    TXT -> {
-                        lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                        val txt = DataBindingUtil.inflate<SummaryTxtBinding>(layoutInflater, R.layout.summary_txt, mFlax, true)
-                        txt.goalSummary = item
-                        txt.executePendingBindings()
-                        addSpace(item, txt, lParam)
-                        if ("durations" == item.type) {
-                            durations = item.txt
-                            txt.edtDurations.addTextChangedListener(object : TextWatcher {
-                                override fun afterTextChanged(p0: Editable?) {
-                                    durations = p0.toString()
-                                    setGoalSummary(amount = investAmount, durations = durations)
-                                    txtDuration?.text = durations
-                                }
-
-                                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                }
-
-                                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                }
-                            })
-                        }
-                    }
-                    TXT_CURRENCY -> {
-                        lParam = FlexboxLayout.LayoutParams(120f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                        val txtCurrency = DataBindingUtil.inflate<SummaryTxtCurrencyBinding>(layoutInflater, R.layout.summary_txt_currency, mFlax, true)
-                        txtCurrency.goalSummary = item
-                        txtCurrency.executePendingBindings()
-                        addSpace(item, txtCurrency, lParam)
-                        if ("investment" == item.type) {
-                            investAmount = item.txt
-                            txtCurrency.edtInvestAmount.addTextChangedListener(object : TextWatcher {
-                                override fun afterTextChanged(p0: Editable?) {
-
-                                }
-
-                                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                                }
-
-                                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                    investAmount = p0.toString()
-                                    setGoalSummary(amount = investAmount, durations = durations)
-                                }
-                            })
-                        }
-                    }
-                    TXT_PERCENTAGE -> {
-                        lParam = FlexboxLayout.LayoutParams(56f.convertToPx().toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-                        val tatPercentage = DataBindingUtil.inflate<SummaryTxtPercetageBinding>(layoutInflater, R.layout.summary_txt_percetage, mFlax, true)
-                        tatPercentage.goalSummary = item
-                        tatPercentage.executePendingBindings()
-                        addSpace(item, tatPercentage, lParam)
-                    }
-                }
-            }
-            setGoalSummary(amount = investAmount, durations = durations)
-        })*/
 
         getViewModel().goalVM.observe(this, Observer { it ->
             it?.let { goal ->
@@ -167,7 +81,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 pmt = Observer {
                     it?.let { pmtResponse ->
                         tvPMT.text = pmtResponse.pmt.toCurrency()
-                        setGoalSummary(investAmount, durations, pmtResponse.pmt, goal.getPVAmount())
+                        setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt, goal.getPVAmount())
                         goalSummarys = goal.goalSummary()
                         rvGoalSummary?.setUpMultiViewRecyclerAdapter(goalSummarys) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                             val goalSummary = item as GoalSummary
@@ -195,7 +109,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                                             "#i" -> {
                                                 //goalSummary.value = "${goal.inflation}"
                                                 if (goalSummary.txt == "#i")
-                                                    goal.inflation = v.text.toString().toIntOrNull()
+                                                    goal.inflation = v.text.toString().toDoubleOrNull()
                                             }
                                             "#dp" -> {
                                                 //goalSummary.value = "${goal.getDPAmount() ?: "0"}"
@@ -273,7 +187,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                     var msg = "Please enter a valid number above".plus(" ".plus(cv.minValue))
                     context?.simpleAlert(msg)
                     false
-                } else if (TextUtils.isEmpty(n.ans) || n.ans.toInt() !in n.minValue..n.maxValue.toInt()) {
+                } else if (TextUtils.isEmpty(n.ans) || n.ans.toInt() !in n.minValue..n.maxValue.toDouble()) {
                     var msg = "Please enter a valid number of years between"
                             .plus(" ".plus(n.minValue))
                             .plus(" to ".plus(n.maxValue.toIntOrNull()))
@@ -298,7 +212,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         /*getBinding().goal?.investmentAmount = amount
         getBinding().goal?.investmentDuration = durations*/
         val ssb = SpannableStringBuilder("To achieve your goal of saving ")
-        ssb.append(SpannableString(getString(R.string.rs_symbol).plus(" ").plus(amount)).apply {
+        ssb.append(SpannableString(amount/*getString(R.string.rs_symbol).plus(" ").plus(amount)*/).apply {
             setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
@@ -307,7 +221,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
-        ssb.append(" years, you'll have to invest ")
+        ssb.append(" ${durations.toYearWord()}, you'll have to invest ")
         ssb.append(SpannableString(pmt.toCurrencyWithSpace()/*getString(R.string.rs_symbol).plus(" 1,583")*/).apply {
             setSpan(RelativeSizeSpan(1.2f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(StyleSpan(Typeface.BOLD), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -321,7 +235,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
-        ssb1.append(" years")
+        ssb1.append(" ".plus(durations.toYearWord())/*" years"*/)
         getViewModel().tmpFor.set(ssb1)
 
         val ssb2 = SpannableStringBuilder("A lumpsum of ")
@@ -332,6 +246,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         ssb2.append("  upfront, to achieve your goal")
         getViewModel().lumpsumpFor.set(ssb2)
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: com.tarrakki.api.model.Goal.Data.GoalData) {

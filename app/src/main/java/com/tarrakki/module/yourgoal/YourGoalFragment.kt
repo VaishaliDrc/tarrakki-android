@@ -6,9 +6,10 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.text.TextUtils
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentYourGoalBinding
@@ -20,6 +21,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.BR
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setPageAdapter
+import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.inflate
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -32,7 +34,6 @@ import java.util.*
  * create an instance of this fragment.
  *
  */
-const val KEY_GOAL = "key_goal"
 const val KEY_GOAL_ID = "key_goal_id"
 
 class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
@@ -60,25 +61,9 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             it?.let { goal ->
                 goal.questions.forEach { q ->
                     q.ansBoolean = true
+                    q.ans = ""
                 }
                 val dataList = goal.questions.chunked(2)
-
-                //rvPage.layoutManager = CustomLinearLayoutManager(rvPage.context, 1)
-                /*rvPage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                val snapHelper = PagerSnapHelper()
-                snapHelper.attachToRecyclerView(rvPage)*/
-                mPager.offscreenPageLimit = 0
-                /*mPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                    override fun onPageScrollStateChanged(p0: Int) {
-                    }
-
-                    override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-                    }
-
-                    override fun onPageSelected(p0: Int) {
-                        mPager.adapter?.notifyDataSetChanged()
-                    }
-                })*/
                 mPager.setPageAdapter(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { binder: PagetYourGoalStepBinding, item: List<Goal.Data.GoalData.Question> ->
                     binder.yourGoal = getViewModel().yourGoalSteps[dataList.indexOf(item)]
                     binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
@@ -92,6 +77,15 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     item.forEach { question ->
                         val mView: ViewDataBinding = DataBindingUtil.bind(mPager.inflate(question.layoutId()))!!
                         mView.setVariable(BR.question, question)
+                        if (item.size == 2 && item.indexOf(question) % 2 == 0)
+                            mView.setVariable(BR.onAction, TextView.OnEditorActionListener { v, actionId, _ ->
+                                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                    v.dismissKeyboard()
+                                    v.clearFocus()
+                                    return@OnEditorActionListener true
+                                }
+                                return@OnEditorActionListener false
+                            })
                         mView.executePendingBindings()
                         when {
                             mView is QuestionBooleanBinding -> {
@@ -107,44 +101,9 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     }
                     binder.executePendingBindings()
                 }
-
-                /*
-                rvPage?.setUpRecyclerView(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { item: List<Goal.Data.GoalData.Question>, binder: PagetYourGoalStepBinding, position: Int ->
-                    binder.yourGoal = getViewModel().yourGoalSteps[position]
-                    binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
-                    binder.btnNext.setOnClickListener { onNext(position) }
-                    binder.btnPrevious.alpha = if (position == 0) 0.6f else 1f
-                    binder.btnPrevious.isEnabled = position != 0
-                    binder.btnPrevious.setOnClickListener { onPrevious(position) }
-                    binder.goal = goal
-                    binder.llContainer.removeAllViews()
-                    var mViewBoolean: QuestionBooleanBinding? = null
-                    item.forEach { question ->
-                        val mView: ViewDataBinding = DataBindingUtil.bind(rvPage.inflate(question.layoutId()))!!
-                        mView.setVariable(BR.question, question)
-                        mView.executePendingBindings()
-                        when {
-                            mView is QuestionBooleanBinding -> {
-                                if (mViewBoolean == null)
-                                    mViewBoolean = mView
-                                binder.llContainer.addView(mView.root)
-                            }
-                            mViewBoolean != null -> {
-                                mViewBoolean?.expandableLayout?.addView(mView.root)
-                            }
-                            else -> binder.llContainer.addView(mView.root)
-                        }
-                    }
-                    binder.executePendingBindings()
-                }*/
             }
         })
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //mPager.adapter?.notifyDataSetChanged()
     }
 
     private fun onNext(position: Int) {
@@ -190,7 +149,6 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             } else if (isValidate) {
-                //rvPage.scrollToPosition(position + 1)
                 mPager.setCurrentItem(position + 1, true)
             }
         }
@@ -209,7 +167,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         true
                 }
                 "n" -> {
-                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toInt()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid number of years between"
                                 .plus(" ".plus(question.minValue))
                                 .plus(" to ".plus(question.maxValue.toIntOrNull()))
@@ -219,7 +177,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         true
                 }
                 "dp" -> {
-                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toInt()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid percentage between"
                                 .plus(" ".plus(question.minValue))
                                 .plus(" to ".plus(question.maxValue.toInt()))
@@ -237,7 +195,6 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     }
 
     private fun onPrevious(position: Int) {
-        //rvPage.scrollToPosition(position - 1)
         mPager.setCurrentItem(position - 1, true)
     }
 

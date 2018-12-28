@@ -11,7 +11,8 @@ import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startActivity
+
+const val SIGNUP_DATA = "signup_data"
 
 class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
 
@@ -56,20 +57,17 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 simpleAlert("Please enter confirm password") {
                     edtPassword?.requestFocus()
                 }
-            } else if (getViewModel().confirmPassword.get() == getViewModel().password.get()) {
+            } else if (getViewModel().confirmPassword.get() != getViewModel().password.get()) {
                 simpleAlert("Password and confirm password miss match") {
                     edtConfirmPassword?.requestFocus()
                 }
             } else {
-                getViewModel().onSignUp().observe(this, Observer { response ->
-                    if (intent.hasExtra(IS_FROM_ACCOUNT)) {
-                        startActivity(Intent(this, OtpVerificationActivity::class.java).apply {
-                            putExtra(IS_FROM_ACCOUNT, true)
-                        })
-                    } else {
-                        startActivity<OtpVerificationActivity>()
-                    }
-                })
+                val intent = Intent(this, OtpVerificationActivity::class.java)
+                intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
+                if (getIntent().hasExtra(IS_FROM_ACCOUNT)) {
+                    intent.putExtra(IS_FROM_ACCOUNT, true)
+                }
+                startActivity(intent)
             }
         }
         App.INSTANCE.isLoggedIn.observe(this, Observer {

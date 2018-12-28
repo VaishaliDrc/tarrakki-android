@@ -199,8 +199,8 @@ fun setHtml(txt: TextView, txtHtml: String) {
 }
 
 @BindingAdapter("onEditorAction")
-fun setAction(txt: EditText, listener: TextView.OnEditorActionListener) {
-    txt.setOnEditorActionListener(listener)
+fun setAction(txt: EditText?, listener: TextView.OnEditorActionListener?) {
+    txt?.setOnEditorActionListener(listener)
 }
 
 /*fun TextView.decimalFormat(amount: Double) {
@@ -254,4 +254,13 @@ fun Context.investDialog(onInvest: ((amountLumpsum: String, amountSIP: String) -
     val v: View? = mDialog?.window?.decorView
     v?.setBackgroundResource(android.R.color.transparent)
     mDialog.show()
+}
+
+fun String.toYearWord(): String {
+    return try {
+        val n = this.toDoubleOrNull()
+        if (n != null && n <= 1) "year" else "years"
+    } catch (e: Exception) {
+        "years"
+    }
 }

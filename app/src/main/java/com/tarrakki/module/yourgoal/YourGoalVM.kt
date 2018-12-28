@@ -80,8 +80,13 @@ class YourGoalVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status.code == 1) {
                                 try {
+                                    /*
+                                    * {"data":{"inflation":5,"goal_data":{"id":1,"goal_summary":"You'd like to purchase a house currently costing #cv in #n years. Since you plan to pay #dp downpayment during your purchase, you need to build a corpus of $fv by the end of $n years adjusted for inflation adjusted at #i","goal":"OWN A HOME","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","questions":[{"dependent_question":null,"parameter":"cv","question_order":1,"min_value":1000,"question":"How much does your dream home cost today?","max_value":5000000000,"question_type":"float"},{"dependent_question":null,"parameter":"n","question_order":2,"min_value":0,"question":"In how many years do you want to buy this home?","max_value":15,"question_type":"float"},{"dependent_question":null,"parameter":null,"question_order":3,"min_value":null,"question":"Do you plan to take a home loan?","max_value":null,"question_type":"boolean"},{"dependent_question":null,"parameter":"dp","question_order":4,"min_value":1,"question":"How much down payment do you intend to pay?","max_value":99,"question_type":"float"},{"dependent_question":null,"parameter":null,"question_order":5,"min_value":null,"question":"Do you want to make a lump sum investment?","max_value":null,"question_type":"boolean"},{"dependent_question":null,"parameter":"pv","question_order":6,"min_value":1000,"question":"How much?","max_value":null,"question_type":"float"}],"order_sequence":1,"goal_image":"\/media\/goals\/Own-a-home.png","intro_questions":[]}}}
+                                    * */
                                     val json = JSONObject(o.data?.toDecrypt())
-                                    val goal = Gson().fromJson(json.optString("data"), com.tarrakki.api.model.Goal.Data.GoalData::class.java)
+                                    val data = json.optJSONObject("data")
+                                    val goal = Gson().fromJson(data.optString("goal_data"), com.tarrakki.api.model.Goal.Data.GoalData::class.java)
+                                    goal?.inflation = data.optDouble("inflation")
                                     goalVM.value = goal
                                 } catch (e: Exception) {
                                     e.printStackTrace()

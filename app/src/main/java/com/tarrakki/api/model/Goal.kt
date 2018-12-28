@@ -9,6 +9,7 @@ import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.module.yourgoal.GoalSummary
+import com.tarrakki.toYearWord
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.e
 
@@ -20,7 +21,7 @@ data class Goal(
             @SerializedName("goal_data")
             val goalData: ArrayList<GoalData>,
             @SerializedName("inflation")
-            val inflation: Int
+            val inflation: Double
     ) {
         data class GoalData(
                 @SerializedName("goal_summary")
@@ -40,7 +41,7 @@ data class Goal(
                 @SerializedName("questions")
                 val questions: List<Question>
         ) {
-            var inflation: Int? = null
+            var inflation: Double? = null
 
             data class Question(
                     @SerializedName("dependent_question")
@@ -48,7 +49,7 @@ data class Goal(
                     @SerializedName("max_value")
                     val maxValue: String,
                     @SerializedName("min_value")
-                    val minValue: Int,
+                    val minValue: Double,
                     @SerializedName("parameter")
                     val parameter: String,
                     @SerializedName("question")
@@ -241,6 +242,12 @@ data class Goal(
                         "#n" -> {
                             data.add(GoalSummary(item, R.layout.summary_txt))
                         }
+                        "years", "years." -> {
+                            if (getNDuration() != null)
+                                data.add(GoalSummary(getNDuration()?.toYearWord().plus(".")))
+                            else
+                                data.add(GoalSummary(item))
+                        }
                         else -> {
                             data.add(GoalSummary(item))
                         }
@@ -251,93 +258,3 @@ data class Goal(
         }
     }
 }
-/*
-data class Goal(
-        @SerializedName("data")
-        val `data`: ArrayList<Data>
-) {
-    data class Data(
-            @SerializedName("description")
-            val description: String,
-            @SerializedName("goal")
-            val goal: String,
-            @SerializedName("goal_image")
-            val goalImage: String,
-            @SerializedName("id")
-            val id: Int,
-            @SerializedName("intro_questions")
-            val introQuestions: List<IntroQuestion>,
-            @SerializedName("questions")
-            val questions: List<Question>
-    ) {
-        data class Question(
-                @SerializedName("dependent_question")
-                val dependentQuestion: Int,
-                @SerializedName("max_value")
-                val maxValue: Any,
-                @SerializedName("min_value")
-                val minValue: Any,
-                @SerializedName("parameter")
-                val parameter: Any,
-                @SerializedName("question")
-                val question: String,
-                @SerializedName("question_order")
-                val questionOrder: Int,
-                @SerializedName("question_type")
-                val questionType: String
-        )
-
-        data class IntroQuestion(
-                @SerializedName("options")
-                val options: String,
-                @SerializedName("question")
-                val question: String,
-                @SerializedName("question_type")
-                val questionType: String,
-                var ans1: String,
-                var ans2: String
-        )
-
-        fun getInitQ1(): String {
-            return if (introQuestions.isEmpty()) "" else introQuestions[0].question
-        }
-
-        fun getInitQ2(): String {
-            return if (!introQuestions.isEmpty() && introQuestions.size == 2) introQuestions[1].question else ""
-        }
-
-        fun setAnsQ1(ans: String) {
-            if (introQuestions.isNotEmpty()) {
-                introQuestions[0].ans1 = ans
-            }
-        }
-
-        fun getAnsQ1() = if (introQuestions.isNotEmpty()) introQuestions[0].ans1 else ""
-
-        fun setAnsQ2(ans: String) {
-            if (introQuestions.isNotEmpty() && introQuestions.size > 1) {
-                introQuestions[1].ans1 = ans
-            }
-        }
-
-        fun getAnsQ2() = if (introQuestions.isNotEmpty() && introQuestions.size > 1) introQuestions[1].ans1 else ""
-
-        fun initQ1Visibility(): Int {
-            return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Select")
-                View.VISIBLE
-            else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
-                View.GONE
-            else
-                View.VISIBLE
-        }
-
-        fun initQ2Visibility(): Int {
-            return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Text")
-                View.VISIBLE
-            else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
-                View.GONE
-            else
-                View.VISIBLE
-        }
-    }
-}*/

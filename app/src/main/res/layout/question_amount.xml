@@ -55,10 +55,12 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="1,00,000"
+                android:imeOptions="actionNext"
                 android:inputType="number"
                 android:text="@={question.ans}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/semi_black"
+                android:nextFocusForward="@+id/edtDurations"
                 app:isPositiveCurrency="@{true}" />
 
         </LinearLayout>

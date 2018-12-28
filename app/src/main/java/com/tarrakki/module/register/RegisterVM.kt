@@ -1,21 +1,8 @@
 package com.tarrakki.module.register
 
-import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.google.gson.JsonObject
-import com.tarrakki.App
-import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.SignUpresponse
-import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
-import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
 
 class RegisterVM : ActivityViewModel() {
 
@@ -24,7 +11,15 @@ class RegisterVM : ActivityViewModel() {
     val password = ObservableField("")
     val confirmPassword = ObservableField("")
 
-    fun onSignUp(): MutableLiveData<SignUpresponse> {
+    fun getSignUpData(): JsonObject {
+        val json = JsonObject()
+        json.addProperty("email", "${email.get()}")
+        json.addProperty("mobile", "${mobile.get()}")
+        json.addProperty("password", "${password.get()}")
+        return json
+    }
+
+    /*fun onSignUp(): MutableLiveData<SignUpresponse> {
         val onSignUp = MutableLiveData<SignUpresponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
@@ -56,6 +51,6 @@ class RegisterVM : ActivityViewModel() {
                 }
         )
         return onSignUp
-    }
+    }*/
 
 }

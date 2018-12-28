@@ -33,10 +33,17 @@ interface WebserviceBuilder {
     @GET("category/homepage/")
     fun getHomeData(): Observable<ApiResponse>
 
+    @GET("users/get_otp/")
+    fun getOTP(@Query("data") data: String): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("users/get_otp/")
+    fun verifyOTP(@Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
-        onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById
+        onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP
     }
 }
