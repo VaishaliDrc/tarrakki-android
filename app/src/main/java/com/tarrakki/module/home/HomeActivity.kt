@@ -3,6 +3,7 @@ package com.tarrakki.module.home
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
+import com.tarrakki.ACTION_FINISH_ALL_TASK
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import org.supportcompact.ktx.confirmationDialog

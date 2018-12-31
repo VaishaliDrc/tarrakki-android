@@ -43,7 +43,11 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         if (o is LoginResponse) {
-            onLogin.value = o
+            if (o.status?.code == 0) {
+                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+            } else {
+                onLogin.value = o
+            }
         } else {
             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
         }

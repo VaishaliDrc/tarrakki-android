@@ -12,6 +12,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.supportcompact.CoreApp
+import org.supportcompact.ktx.getLoginToken
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,13 +30,13 @@ object ApiClient {
     /***
      * Test Url
      * */
-    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url*/
+    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
     /**
      * Live Url
      * */
-    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+    /*  private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+      const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
 
     /**
      * @return [Retrofit] object its single-tone
@@ -106,7 +108,7 @@ object ApiClient {
     }
 
 
-    fun getHeaderClient(header: String): Retrofit {
+    fun getHeaderClient(header: String? = CoreApp.getInstance().getLoginToken()): Retrofit {
 
         if (::retrofitHeader.isInitialized)
             return retrofitHeader
@@ -140,7 +142,7 @@ object ApiClient {
         return retrofitHeader
     }
 
-    private class HeaderInterceptor internal constructor(private val headerString: String) : Interceptor {
+    private class HeaderInterceptor internal constructor(private val headerString: String?) : Interceptor {
 
         override fun intercept(chain: Interceptor.Chain): Response {
             Log.v("Service", "Request")
@@ -148,7 +150,8 @@ object ApiClient {
             val request = chain.request().newBuilder()
                     .addHeader("Content-Type", "application/json")
                     .addHeader("Accept", "application/json")
-                    .addHeader("token", headerString)
+                    .addHeader("api-key", "gduy$&#(@0jdfid")
+                    .addHeader("Authorization", "Bearer $headerString")
                     .build()
 
             return chain.proceed(request)

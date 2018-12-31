@@ -34,7 +34,7 @@ class RegisterVM : ActivityViewModel() {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is SignUpresponse) {
-                            if (o.status.code == 1) {
+                            if ((o.status?.code == 1)) {
                                 onSignUp.value = o
                             } else {
                                 EventBus.getDefault().post(ShowError(o.status.message))

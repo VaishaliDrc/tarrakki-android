@@ -23,9 +23,11 @@ import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.hasAppLock
 import org.supportcompact.ktx.startActivity
 
+const val ACTION_FINISH_ALL_TASK = "ACTION_FINISH_ALL_TASK"
+
+
 abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBinding>() {
 
-    protected val ACTION_FINISH_ALL_TASK = "ACTION_FINISH_ALL_TASK"
 
     override fun getLayout(): Int {
         return R.layout.activity_base

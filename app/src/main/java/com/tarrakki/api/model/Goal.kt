@@ -39,9 +39,10 @@ data class Goal(
                 @SerializedName("order_sequence")
                 val orderSequence: Int,
                 @SerializedName("questions")
-                val questions: List<Question>
+                var questions: List<Question>
         ) {
             var inflation: Double? = null
+            var pmt: Double? = null
 
             data class Question(
                     @SerializedName("dependent_question")
@@ -222,6 +223,52 @@ data class Goal(
                 }
                 json.addProperty("goal_id", this@GoalData.id)
                 e("request->", json)
+                return AES.encrypt(json.toString())
+            }
+
+            fun addGoalData(): String {
+                val json = JsonObject()
+                val dataList = questions.chunked(2)
+                dataList.forEach { questions ->
+                    var isBoolean: Boolean
+                    when (questions.size) {
+                        2 -> {
+                            val item1 = questions[0]
+                            val item2 = questions[1]
+                            isBoolean = item1.questionType == "boolean"
+                            if (isBoolean && item1.ansBoolean) {
+                                json.addProperty("${item2.parameter}", "${item2.ans}".replace(",", ""))
+                            } else if (!isBoolean) {
+                                questions.forEach { q ->
+                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                }
+                            }
+                        }
+                        else -> {
+                            val item1 = questions[0]
+                            isBoolean = item1.questionType == "boolean"
+                            if (!isBoolean) {
+                                questions.forEach { q ->
+                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                }
+                            }
+                        }
+                    }
+                }
+                if (inflation != null) {
+                    json.addProperty("i", inflation)
+                }
+                json.addProperty("goal_id", this@GoalData.id)
+                json.addProperty("pmt", this@GoalData.pmt)
+                json.addProperty("i", this@GoalData.inflation)
+                if (introQuestions.isNotEmpty() && introQuestions.size > 1) {
+                    json.addProperty("saving_for", getAnsQ1())
+                    json.addProperty("user_purchase", getAnsQ2())
+                } else if (introQuestions.isNotEmpty()) {
+                    json.addProperty("saving_for", getAnsQ1())
+                }
+                e("addGoalData->", json)
+                e("addGoalData->", AES.encrypt(json.toString()))
                 return AES.encrypt(json.toString())
             }
 

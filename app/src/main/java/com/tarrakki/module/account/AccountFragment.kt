@@ -5,7 +5,9 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.LocalBroadcastManager
 import android.view.View
+import com.tarrakki.ACTION_FINISH_ALL_TASK
 import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
@@ -92,7 +94,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
-                App.INSTANCE.isLoggedIn.value = false
+                //App.INSTANCE.isLoggedIn.value = false
+                startActivity(Intent(it.context, LoginActivity::class.java))
+                LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
             })
         }
         App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->

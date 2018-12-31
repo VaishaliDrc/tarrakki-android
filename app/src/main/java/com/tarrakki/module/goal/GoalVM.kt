@@ -46,11 +46,11 @@ class GoalVM : FragmentViewModel() {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
-                            if (o.status.code == 1) {
+                            if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<com.tarrakki.api.model.Goal>()
                                 goalList.value = data
                             } else {
-                                EventBus.getDefault().post(ShowError(o.status.message))
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

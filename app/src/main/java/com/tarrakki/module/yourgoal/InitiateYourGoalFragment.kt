@@ -9,13 +9,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
-import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentInitiateYourGoalBinding
 import kotlinx.android.synthetic.main.fragment_initiate_your_goal.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -51,6 +49,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         val data = arrayListOf<String>()//resources.getStringArray(R.array.automobile)
         getViewModel().goalVM.observe(this, Observer {
             it?.let { goal ->
+                goal.questions = goal.questions.sortedBy { q -> q.questionOrder }
                 getViewModel().hasQuestions.set(goal.introQuestions.isNotEmpty())
                 getBinding().goal = goal
                 getBinding().executePendingBindings()
@@ -73,6 +72,8 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
             getViewModel().goalVM.value?.let { goal ->
                 if (goal.introQuestions[0].questionType == "Text")
                     goal.setAnsQ1(edtQ2Answer.text.toString())
+                else
+                    goal.setAnsQ2(edtQ2Answer.text.toString())
                 startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             }

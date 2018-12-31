@@ -80,6 +80,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 var goalSummarys: ArrayList<WidgetsViewModel>
                 pmt = Observer {
                     it?.let { pmtResponse ->
+                        goal.pmt = pmtResponse.pmt
                         tvPMT.text = pmtResponse.pmt.toCurrency()
                         setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt, goal.getPVAmount())
                         goalSummarys = goal.goalSummary()
@@ -162,6 +163,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         }
                     }
                 }
+                btnAddThisGoal?.setOnClickListener {
+                    getViewModel().addGoal(goal).observe(this, Observer { apiResponse ->
+                        startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+                    })
+                }
                 getViewModel().calculatePMT(goal).observe(this, pmt)
             }
         })
@@ -170,10 +176,6 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             getViewModel().whyInflationMatter.get()?.let {
                 getViewModel().whyInflationMatter.set(!it)
             }
-        }
-
-        btnAddThisGoal?.setOnClickListener {
-            startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
         }
     }
 

@@ -67,6 +67,12 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 mPager.setPageAdapter(R.layout.paget_your_goal_step, dataList as ArrayList<List<Goal.Data.GoalData.Question>>) { binder: PagetYourGoalStepBinding, item: List<Goal.Data.GoalData.Question> ->
                     binder.yourGoal = getViewModel().yourGoalSteps[dataList.indexOf(item)]
                     binder.ivStep2.visibility = if (dataList.size == 3) View.VISIBLE else View.INVISIBLE
+                    if (dataList.size == 1) {
+                        binder.mStepLine.visibility = View.INVISIBLE
+                        binder.ivStep1.visibility = View.INVISIBLE
+                        binder.ivStep2.visibility = View.INVISIBLE
+                        binder.ivStep3.visibility = View.INVISIBLE
+                    }
                     binder.btnNext.setOnClickListener { onNext(dataList.indexOf(item)) }
                     binder.btnPrevious.alpha = if (dataList.indexOf(item) == 0) 0.6f else 1f
                     binder.btnPrevious.isEnabled = dataList.indexOf(item) != 0

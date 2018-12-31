@@ -65,7 +65,11 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is SignUpresponse) {
-                            onSignUp.value = o
+                            if (o.status?.code == 0) {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            } else {
+                                onSignUp.value = o
+                            }
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                         }
@@ -83,7 +87,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         if (o is ApiResponse) {
-            if (o.status.code == 1) {
+            if ((o.status?.code == 1)) {
                 when (apiNames) {
                     WebserviceBuilder.ApiNames.getOTP -> {
                         getOTP.value = o
@@ -93,7 +97,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
                     }
                 }
             } else {
-                EventBus.getDefault().post(ShowError(o.status.message))
+                EventBus.getDefault().post(ShowError("${o.status?.message}"))
             }
         } else {
             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

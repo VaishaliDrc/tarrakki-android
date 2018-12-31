@@ -71,7 +71,7 @@ class HomeVM : FragmentViewModel() {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
-                            if (o.status.code == 1) {
+                            if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
                                 data?.let { it ->
                                     it.data.category.forEach { item ->
@@ -89,7 +89,7 @@ class HomeVM : FragmentViewModel() {
                                     homeData.value = it
                                 }
                             } else {
-                                EventBus.getDefault().post(ShowError(o.status.message))
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

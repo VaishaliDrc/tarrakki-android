@@ -10,7 +10,7 @@ data class ApiResponse(
         @SerializedName("data")
         val `data`: String?,
         @SerializedName("status")
-        val status: Status
+        val status: Status?
 ) {
     data class Status(
             @SerializedName("code")
