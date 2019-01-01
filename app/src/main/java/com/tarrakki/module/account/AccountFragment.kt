@@ -24,6 +24,7 @@ import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.clearUserData
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.setIsLogin
 import org.supportcompact.ktx.startFragment
@@ -95,6 +96,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
                 //App.INSTANCE.isLoggedIn.value = false
+                it.context.clearUserData()
                 startActivity(Intent(it.context, LoginActivity::class.java))
                 LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
             })

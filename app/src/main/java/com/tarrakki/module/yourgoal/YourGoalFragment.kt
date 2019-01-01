@@ -165,7 +165,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
             return when ("${question.parameter}") {
                 "cv", "pv" -> {
                     val amount = "${question.ans}".replace(",", "")
-                    if (TextUtils.isEmpty(amount) || amount.toInt() < question.minValue) {
+                    if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
                         var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
                         context?.simpleAlert(msg)
                         false
@@ -173,7 +173,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         true
                 }
                 "n" -> {
-                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toDouble()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid number of years between"
                                 .plus(" ".plus(question.minValue))
                                 .plus(" to ".plus(question.maxValue.toIntOrNull()))
@@ -183,10 +183,10 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         true
                 }
                 "dp" -> {
-                    if (TextUtils.isEmpty(question.ans) || question.ans.toInt() !in question.minValue..question.maxValue.toDouble()) {
+                    if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid percentage between"
                                 .plus(" ".plus(question.minValue))
-                                .plus(" to ".plus(question.maxValue.toInt()))
+                                .plus(" to ".plus(question.maxValue.toIntOrNull()))
                         context?.simpleAlert(msg)
                         false
                     } else

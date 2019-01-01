@@ -27,7 +27,6 @@ import com.tarrakki.toYearWord
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
@@ -81,6 +80,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 pmt = Observer {
                     it?.let { pmtResponse ->
                         goal.pmt = pmtResponse.pmt
+                        goal.futureValue = pmtResponse.futureValue
                         tvPMT.text = pmtResponse.pmt.toCurrency()
                         setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt, goal.getPVAmount())
                         goalSummarys = goal.goalSummary()
@@ -165,7 +165,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 }
                 btnAddThisGoal?.setOnClickListener {
                     getViewModel().addGoal(goal).observe(this, Observer { apiResponse ->
-                        startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+                        apiResponse?.let { funds ->
+                            startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
+                            postSticky(funds)
+                            postSticky(goal)
+                        }
                     })
                 }
                 getViewModel().calculatePMT(goal).observe(this, pmt)
@@ -185,11 +189,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             val n = goal.getN()
             return if (cv != null && n != null) {
                 val amount = "${cv.ans}".replace(",", "")
-                return if (TextUtils.isEmpty(amount) || amount.toInt() < cv.minValue) {
+                return if (TextUtils.isEmpty(amount) || amount.toDouble() < cv.minValue) {
                     var msg = "Please enter a valid number above".plus(" ".plus(cv.minValue))
                     context?.simpleAlert(msg)
                     false
-                } else if (TextUtils.isEmpty(n.ans) || n.ans.toInt() !in n.minValue..n.maxValue.toDouble()) {
+                } else if (TextUtils.isEmpty(n.ans) || n.ans.toDouble() !in n.minValue..n.maxValue.toDouble()) {
                     var msg = "Please enter a valid number of years between"
                             .plus(" ".plus(n.minValue))
                             .plus(" to ".plus(n.maxValue.toIntOrNull()))
@@ -255,7 +259,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         if (getViewModel().goalVM.value == null) {
             getViewModel().goalVM.value = goal
         }
-        EventBus.getDefault().removeStickyEvent(goal)
+        //EventBus.getDefault().removeStickyEvent(goal)
     }
 
     companion object {

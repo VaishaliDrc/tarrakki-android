@@ -121,21 +121,36 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
-fun applyCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
-    if (anim != null && anim) {
-        handleTextView((amount % 10).toInt(), amount.toInt(), txt)
-        return
+fun applyCurrencyFormat(txt: TextView, amount: Double?, anim: Boolean?) {
+    amount?.let {
+        if (anim != null && anim) {
+            handleTextView((amount % 10).toInt(), amount.toInt(), txt)
+            return
+        }
+        txt.text = amount.toCurrency()
     }
-    txt.text = amount.toCurrency()
+}
+
+@BindingAdapter(value = ["price", "anim"], requireAll = false)
+fun applyCurrencyFormat(txt: TextView, amount: Int?, anim: Boolean?) {
+    amount?.let {
+        if (anim != null && anim) {
+            handleTextView((amount % 10), amount.toInt(), txt)
+            return
+        }
+        txt.text = amount.toDouble().toCurrency()
+    }
 }
 
 @BindingAdapter(value = ["dprice", "anim"], requireAll = false)
-fun applyDCurrencyFormat(txt: TextView, amount: Double, anim: Boolean?) {
-    if (anim != null && anim) {
-        handleTextView((amount % 10), amount, txt)
-        return
+fun applyDCurrencyFormat(txt: TextView, amount: Double?, anim: Boolean?) {
+    amount?.let {
+        if (anim != null && anim) {
+            handleTextView((amount % 10), amount, txt)
+            return
+        }
+        txt.text = amount.toDecimalCurrency()
     }
-    txt.text = amount.toDecimalCurrency()
 }
 
 @BindingAdapter(value = ["returns", "anim"], requireAll = false)

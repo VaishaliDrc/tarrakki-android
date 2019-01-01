@@ -9,10 +9,7 @@ import com.google.gson.Gson
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.PMTResponse
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.FragmentViewModel
@@ -20,7 +17,7 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.getLoginToken
+import org.supportcompact.ktx.e
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -123,8 +120,8 @@ class YourGoalVM : FragmentViewModel() {
         return pmtResponse
     }
 
-    fun addGoal(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<ApiResponse> {
-        val apiResponse = MutableLiveData<ApiResponse>()
+    fun addGoal(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<RecommendedFunds> {
+        val apiResponse = MutableLiveData<RecommendedFunds>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).addGoal(goal.addGoalData()),
@@ -133,8 +130,10 @@ class YourGoalVM : FragmentViewModel() {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
+                            e("Api Response=>${o.data?.toDecrypt()}")
                             if (o.status?.code == 1) {
-                                apiResponse.value = o
+                                val fund = o.data?.parseTo<RecommendedFunds>()
+                                apiResponse.value = fund
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

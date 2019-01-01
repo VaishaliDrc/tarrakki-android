@@ -8,6 +8,11 @@
         <variable
             name="vm"
             type="com.tarrakki.module.recommended.RecommendedVM" />
+
+        <variable
+            name="goal"
+            type="com.tarrakki.api.model.Goal.Data.GoalData" />
+
     </data>
 
     <ScrollView
@@ -70,29 +75,31 @@
 
             <TextView
                 android:id="@+id/tvInvestmentMonthly"
+                price="@{goal.pmt}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
-                android:text="@string/dummy"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
                 app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mViewCircle" />
+                app:layout_constraintTop_toTopOf="@+id/mViewCircle"
+                tools:text="@string/dummy" />
 
             <TextView
                 android:id="@+id/tvInvestmentDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="For 5 Years"
+                android:text="@{`For `+goal.NDuration +` `+ goal.NDurationInWord}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/mViewCircle"
                 app:layout_constraintEnd_toStartOf="@id/guidelineVCenter"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.8" />
+                app:layout_constraintVertical_bias="0.8"
+                tools:text="For 5 Years" />
 
 
             <android.support.constraint.Guideline
@@ -118,15 +125,16 @@
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
-                android:lineSpacingExtra="@dimen/space_4"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
+                android:lineSpacingExtra="@dimen/space_4"
                 android:padding="@dimen/space_8"
-                android:text="@string/our_recommended_info"
+                android:text="@{vm.lumpsumpFor}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/homeView" />
+                app:layout_constraintTop_toBottomOf="@+id/homeView"
+                tools:text="@string/our_recommended_info" />
 
 
             <LinearLayout
@@ -170,9 +178,9 @@
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/default_space"
-                    android:fontFamily="@font/lato_semibold"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:elevation="@dimen/space_2"
+                    android:fontFamily="@font/lato_semibold"
                     android:text="@string/get_this_goal"
                     android:textColor="@android:color/white" />
 

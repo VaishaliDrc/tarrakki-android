@@ -57,9 +57,9 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                             data?.let {
                                 getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
                                     signUpResponse?.token?.let { it1 -> setLoginToken(it1) }
+                                    setIsLogin(true)
+                                    App.INSTANCE.isLoggedIn.value = true
                                     if (intent.hasExtra(IS_FROM_ACCOUNT)) {
-                                        setIsLogin(true)
-                                        App.INSTANCE.isLoggedIn.value = true
                                         finish()
                                     } else {
                                         startActivity<HomeActivity>()

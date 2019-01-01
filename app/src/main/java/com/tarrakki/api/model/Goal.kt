@@ -43,6 +43,8 @@ data class Goal(
         ) {
             var inflation: Double? = null
             var pmt: Double? = null
+            var futureValue: Double? = null
+
 
             data class Question(
                     @SerializedName("dependent_question")
@@ -179,6 +181,10 @@ data class Goal(
 
             fun getNDuration(): String? {
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "n" }?.ans
+            }
+
+            fun getNDurationInWord(): String? {
+                return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "n" }?.ans?.toYearWord()
             }
 
             fun setNDuration(ans: String) {

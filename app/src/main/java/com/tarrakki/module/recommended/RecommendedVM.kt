@@ -1,8 +1,11 @@
 package com.tarrakki.module.recommended
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import android.support.annotation.ColorRes
+import android.text.SpannableStringBuilder
 import com.tarrakki.R
+import com.tarrakki.api.model.RecommendedFunds
 import com.tarrakki.module.investmentstrategies.InvestmentOption
 import org.supportcompact.FragmentViewModel
 
@@ -10,6 +13,11 @@ class RecommendedVM : FragmentViewModel() {
 
     val AMCList = arrayListOf<AMC>()
     val investment = MutableLiveData<InvestmentOption>()
+    /****Api***/
+    val funds = MutableLiveData<RecommendedFunds>()
+    val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
+    val lumpsumpFor = ObservableField<SpannableStringBuilder>()
+
 
     init {
         AMCList.add(AMC(
@@ -42,6 +50,8 @@ class RecommendedVM : FragmentViewModel() {
                 R.color.debt_fund_color
         ))
     }
+
+
 }
 
 data class AMC(
