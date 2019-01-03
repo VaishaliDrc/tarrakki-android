@@ -22,6 +22,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
+import com.tarrakki.investDialog
 import com.tarrakki.module.recommended.RecommendedFragment
 import com.tarrakki.toYearWord
 import com.xiaofeng.flowlayoutmanager.Alignment
@@ -82,7 +83,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         goal.pmt = pmtResponse.pmt
                         goal.futureValue = pmtResponse.futureValue
                         tvPMT.text = pmtResponse.pmt.toCurrency()
-                        setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt, goal.getPVAmount())
+                        setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt/*if (goal.customPMT == null) pmtResponse.pmt else goal.customPMT*/, goal.getPVAmount())
                         goalSummarys = goal.goalSummary()
                         rvGoalSummary?.setUpMultiViewRecyclerAdapter(goalSummarys) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                             val goalSummary = item as GoalSummary
@@ -172,6 +173,18 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         }
                     })
                 }
+                tvSetCustom?.setOnClickListener { v ->
+                    if (goal.customPMT == null) {
+                        goal.customPMT = goal.pmt
+                    }
+                    v.context.investDialog(goal = goal) { amountLumpsum: String, amountSIP: String, duration: String ->
+                        goal.customPMT = amountSIP.replace(",", "").toDoubleOrNull()
+                        goal.setPVAmount(amountLumpsum)
+                        goal.setNDuration(duration)
+                        durations = duration
+                        getViewModel().calculatePMT(goal).observe(this, pmt)
+                    }
+                }
                 getViewModel().calculatePMT(goal).observe(this, pmt)
             }
         })
@@ -257,6 +270,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: com.tarrakki.api.model.Goal.Data.GoalData) {
         if (getViewModel().goalVM.value == null) {
+            goal.customPMT = null
             getViewModel().goalVM.value = goal
         }
         //EventBus.getDefault().removeStickyEvent(goal)

@@ -95,3 +95,7 @@ fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.
 fun Double.toCurrency() = "\u20B9".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
 
 fun Double.toCurrencyWithSpace() = "\u20B9 ".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
+
+fun Double.toReturn() = dFormatter.format(this)
+
+fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")

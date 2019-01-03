@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
 import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
@@ -49,8 +50,9 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
     }
 
     override fun createReference() {
+
         setHasOptionsMenu(true)
-        ivExClp?.setOnClickListener { _ ->
+        ivExClp?.setOnClickListener {
             getViewModel().filter.set(!getViewModel().filter.get()!!)
         }
         var riskLevel = 0
@@ -84,20 +86,23 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         }
         rvFunds?.isFocusable = false
         rvFunds?.isNestedScrollingEnabled = false
-        rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, getViewModel().funds) { item: Fund, binder: RowFundListItemBinding, position ->
-            binder.fund = item
-            binder.executePendingBindings()
-            binder.btnInvest.setOnClickListener {
-                context?.investDialog { amountLumpsum, amountSIP ->
-                    /**onInvest called*/
+        val observerFundsData = Observer<InvestmentFunds> { response ->
+            response?.let {
+                rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, response.funds) { item: InvestmentFunds.Fund, binder: RowFundListItemBinding, position ->
+                    binder.fund = item
+                    binder.executePendingBindings()
+                    binder.btnInvest.setOnClickListener {
+                        context?.investDialog { amountLumpsum, amountSIP, duration ->
+                            /**onInvest called*/
+                        }
+                        //startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                    }
+                    binder.root.setOnClickListener {
+                        //startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
+                    }
                 }
-                //startFragment(CartFragment.newInstance(), R.id.frmContainer)
-            }
-            binder.root.setOnClickListener {
-                startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
             }
         }
-
         val adapter = ArrayAdapter.createFromResource(
                 activity,
                 R.array.category,
@@ -147,6 +152,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 //adapterSub.notifyDataSetChanged()
             }
         }
+        getViewModel().getFunds().observe(this, observerFundsData)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -1,13 +1,25 @@
 package com.tarrakki.module.invest
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
 import android.graphics.Color
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.e
+import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.SingleCallback
+import org.supportcompact.networking.subscribeToSingle
 import java.io.Serializable
 
 class InvestVM : FragmentViewModel() {
@@ -68,6 +80,40 @@ class InvestVM : FragmentViewModel() {
         riskLevel.forEachIndexed { index, value ->
             arrRiskLevel.add(RiskLevel(value, Color.parseColor(riskLevelColor[index]), index == 0))
         }
+    }
+
+    fun getFunds(): MutableLiveData<InvestmentFunds> {
+        val response = MutableLiveData<InvestmentFunds>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JsonObject()
+        json.addProperty("filters", "{\"category\": 13}")
+        val data = json.toString().toEncrypt()
+        e("Request Data=>$data")
+        e("Request Encrypted Data=>$data")
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getFunds(data),
+                apiNames = WebserviceBuilder.ApiNames.getFunds,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                response.value = o.data?.parseTo<InvestmentFunds>()
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
     }
 
 }

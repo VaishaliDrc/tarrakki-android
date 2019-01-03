@@ -125,6 +125,7 @@
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
+                android:visibility="gone"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:lineSpacingExtra="@dimen/space_4"

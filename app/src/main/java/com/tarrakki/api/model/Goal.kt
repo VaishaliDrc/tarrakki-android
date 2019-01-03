@@ -44,7 +44,7 @@ data class Goal(
             var inflation: Double? = null
             var pmt: Double? = null
             var futureValue: Double? = null
-
+            var customPMT: Double? = null
 
             data class Question(
                     @SerializedName("dependent_question")
@@ -226,6 +226,9 @@ data class Goal(
                 }
                 if (inflation != null) {
                     json.addProperty("i", inflation)
+                }
+                if (customPMT != null) {
+                    json.addProperty("custom_pmt", customPMT)
                 }
                 json.addProperty("goal_id", this@GoalData.id)
                 e("request->", json)

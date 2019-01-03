@@ -15,20 +15,24 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.InputFilter
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogInvestBinding
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import net.cachapa.expandablelayout.ExpandableLayout
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
@@ -186,6 +190,15 @@ fun setDecimalDigits(edt: EditText, minValue: Int, maxValue: Int) {
     }
 }
 
+fun EditText.setMinMax(minValue: Int, maxValue: Int) {
+    try {
+        filters = arrayOf<InputFilter>(InputFilterMinMax(minValue, maxValue))
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+
 @BindingAdapter("onEditorAction")
 fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEditorActionListener) {
     editText.setOnEditorActionListener(onEditorActionListener)
@@ -254,14 +267,59 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     valueAnimator.start()
 }
 
-fun Context.investDialog(onInvest: ((amountLumpsum: String, amountSIP: String) -> Unit)? = null) {
+fun Context.investDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLumpsum: String, amountSIP: String, duration: String) -> Unit)? = null) {
     val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.investment = goal?.customPMT?.toString()
+    mBinder.lumpsum = goal?.getPVAmount()
+    mBinder.durations = goal?.getNDuration()
     mBinder.btnInvest.setOnClickListener {
-        mDialog.dismiss()
-        onInvest?.invoke(mBinder.edtLumpsum.text.toString(), mBinder.edtSIPAmount.text.toString())
+        if (goal != null) {
+            //val cv = goal.getCV()
+            val n = goal.getN()
+            if (/*cv != null && */n != null) {
+                try {
+                    /*
+                    * "pv" -> {
+                    var amount = ""
+                    getViewModel().goalVM.value?.let { goal ->
+                        amount = "${goal.getCVAmount()}".replace(",", "")
+                    }
+                    val pvAmount = "${question.ans}".replace(",", "")
+                    //amount = "${question.ans}".replace(",", "")
+                    if ((TextUtils.isEmpty(amount) && TextUtils.isEmpty(pvAmount)) || pvAmount.toDouble() > amount.toDouble()) {
+                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        context?.simpleAlert("Your lumpsum investment cannot be equal to or more than your total investment goal.")
+                        false
+                    } else
+                        true
+                }
+                    * */
+                    val pvAmount = "${mBinder.lumpsum}".replace(",", "")
+                    val amount = "${goal.getCVAmount()}".replace(",", "")
+                    if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
+                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        EventBus.getDefault().post(ShowError("Your lumpsum investment cannot be equal to or more than your total investment goal."))
+                    } else if (TextUtils.isEmpty(mBinder.durations) || "${mBinder.durations}".toDouble() !in n.minValue..n.maxValue.toDouble()) {
+                        val msg = "Please enter a valid number of years between"
+                                .plus(" ".plus(n.minValue))
+                                .plus(" to ".plus(n.maxValue.toIntOrNull()))
+                        EventBus.getDefault().post(ShowError(msg))
+                    } else {
+                        mDialog.dismiss()
+                        onInvest?.invoke(mBinder.edtLumpsum.text.toString(), mBinder.edtSIPAmount.text.toString(), mBinder.edtDurations.text.toString())
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            mDialog.dismiss()
+            onInvest?.invoke(mBinder.edtLumpsum.text.toString(), mBinder.edtSIPAmount.text.toString(), mBinder.edtDurations.text.toString())
+        }
+        it.dismissKeyboard()
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()

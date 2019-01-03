@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.UnderlineSpan
+import android.view.View
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -28,7 +29,6 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.toCurrency
-import org.supportcompact.ktx.toCurrencyWithSpace
 
 
 /**
@@ -74,40 +74,42 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
             getBinding().goal = goal
             getBinding().executePendingBindings()
             /***
-             * To own your dream home, your goal is to reach about
-             * <font color='#4EB95D'><u>\u20B93.95 Lakh.</u></font>
-             * This means investing
-             * <font color='#4EB95D'><u>\u20B92.85 Lakh</u></font>
-             * over the next
-             * <font color='#4EB95D'><u>5</u></font>
-             * years, including a one-time lumpsum of
-             * <font color='#4EB95D'><u>\u20B910,000</u></font>
-             * up front.
+             * Your goal is to reach about (strFVAmt). This means investing (strInvestmentAmt) over the next (strNoOfYears) (strYearText), including a one-time lumpsum of (strLumpsumAmt) up front.
+             *
+             *  Your goal is to reach about (strFVAmt). This means investing (strInvestmentAmt) over the next (strNoOfYears) (strYearText).
+             *
              * */
-            val ssb2 = SpannableStringBuilder("To own your dream home, your goal is to reach about ")
-            ssb2.append(SpannableString("${goal?.futureValue?.toCurrency()}.").apply {
-                setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            })
-            ssb2.append("  This means investing ")
-            ssb2.append(SpannableString("${goal?.getInvestmentAmount()}").apply {
-                setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            })
-            ssb2.append("  over the next ")
-            ssb2.append(SpannableString("${goal?.getNDuration()}").apply {
-                setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            })
-
-            ssb2.append(" ".plus("${goal?.getNDurationInWord()}, including a one-time lumpsum of "))
-            ssb2.append(SpannableString(if (TextUtils.isEmpty("${goal?.getPVAmount()}")) "0" else "${goal?.getPVAmount()}").apply {
-                setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            })
-            ssb2.append("   up front.")
-            //", including a one-time lumpsum of <font color='#4EB95D'><u>\\u20B910,000</u></font> up front."
-            getViewModel().lumpsumpFor.set(ssb2)
+            try {
+                val ssb2 = SpannableStringBuilder("Your goal is to reach about ")
+                ssb2.append(SpannableString("${goal?.futureValue?.toCurrency()}.").apply {
+                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                })
+                ssb2.append(" This means investing ")
+                ssb2.append(SpannableString("${goal?.getInvestmentAmount()?.replace(",", "")?.toDoubleOrNull()?.toCurrency()}").apply {
+                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                })
+                ssb2.append("  over the next ")
+                ssb2.append(SpannableString("${goal?.getNDuration()}").apply {
+                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                })
+                if (!TextUtils.isEmpty(goal?.getPVAmount())) {
+                    ssb2.append(" ".plus("${goal?.getNDurationInWord()}, including a one-time lumpsum of "))
+                    ssb2.append(SpannableString(if (TextUtils.isEmpty("${goal?.getPVAmount()?.replace(",", "")?.toDoubleOrNull()?.toCurrency()}")) "0" else "${goal?.getPVAmount()}").apply {
+                        setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    })
+                    ssb2.append(" up front.")
+                } else {
+                    ssb2.append(" ${goal?.getNDurationInWord()}.")
+                }
+                getViewModel().lumpsumpFor.set(ssb2)
+                tvRecommendedInfo?.visibility = View.VISIBLE
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         })
     }
 

@@ -35,7 +35,7 @@ object ApiClient {
     /**
      * Live Url
      * */
-    /*  private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+      /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
       const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
 
     /**

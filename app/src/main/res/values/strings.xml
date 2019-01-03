@@ -39,7 +39,7 @@
     <string name="since_launch_sl">Since Launch (SL)</string>
     <string name="_1y_return">1Y Return</string>
     <string name="three_y_fund">3Y Fund:</string>
-    <string name="three_y_fd">3Y Fixed Deposit:</string>
+    <string name="three_y_fd">Fixed Deposit:</string>
     <string name="find_your_mutual_fund">Find Your Mutual Fund</string>
     <string name="risk_level">Risk Level</string>
     <string name="sort_by_returns">Sort by returns</string>
@@ -153,6 +153,7 @@
     <string name="verify_your_pan">Verify Your PAN</string>
     <string name="read_more">Read More</string>
     <string name="volatility_">Volatility (Vol)</string>
+    <string name="standard_deviation">Standard Deviation</string>
     <string name="share">Share</string>
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
 
@@ -398,5 +399,9 @@
     <string name="check_mandate_status">Check mandate status</string>
 
     <string name="try_again_to">Something went wrong, Please try again later</string>
+    <string name="enter_number_of_years">Enter number of years</string>
+    <string name="sip_duration">SIP Duration</string>
+    <string name="enter_sip_duration">Enter SIP duration</string>
+    <string name="apply_pmt">Apply PMT</string>
 
 </resources>

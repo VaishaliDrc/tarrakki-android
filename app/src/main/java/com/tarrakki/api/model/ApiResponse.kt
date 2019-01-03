@@ -22,6 +22,8 @@ data class ApiResponse(
 
 fun String.toDecrypt() = AES.decrypt(this)
 
+fun String.toEncrypt() = AES.encrypt(this)
+
 inline fun <reified T> String.parseTo(): T? {
     return try {
         val data = JSONObject(this.toDecrypt())

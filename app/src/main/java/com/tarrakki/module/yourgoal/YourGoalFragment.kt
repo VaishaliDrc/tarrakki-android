@@ -14,6 +14,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentYourGoalBinding
 import com.tarrakki.databinding.PagetYourGoalStepBinding
+import com.tarrakki.databinding.QuestionAmountBinding
 import com.tarrakki.databinding.QuestionBooleanBinding
 import kotlinx.android.synthetic.main.fragment_your_goal.*
 import org.greenrobot.eventbus.Subscribe
@@ -92,6 +93,19 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                                 }
                                 return@OnEditorActionListener false
                             })
+                        if (question.parameter == "pv" && !TextUtils.isEmpty(goal.getCVAmount())) {
+                            try {
+                                if (mView is QuestionAmountBinding) {
+                                    mView.edtInvestAmount.imeOptions = EditorInfo.IME_ACTION_NEXT
+                                    /*val max = goal.getCVAmount()?.replace(",", "")?.toIntOrNull()
+                                    max?.let { maxValue ->
+                                        mView.edtInvestAmount.setMinMax(1, maxValue - 1)
+                                    }*/
+                                }
+                            } catch (e: java.lang.Exception) {
+                                e.printStackTrace()
+                            }
+                        }
                         mView.executePendingBindings()
                         when {
                             mView is QuestionBooleanBinding -> {
@@ -163,11 +177,25 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
     private fun isValid(question: Goal.Data.GoalData.Question): Boolean {
         try {
             return when ("${question.parameter}") {
-                "cv", "pv" -> {
+                "cv" -> {
                     val amount = "${question.ans}".replace(",", "")
                     if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
                         var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
                         context?.simpleAlert(msg)
+                        false
+                    } else
+                        true
+                }
+                "pv" -> {
+                    var amount = ""
+                    getViewModel().goalVM.value?.let { goal ->
+                        amount = "${goal.getCVAmount()}".replace(",", "")
+                    }
+                    val pvAmount = "${question.ans}".replace(",", "")
+                    //amount = "${question.ans}".replace(",", "")
+                    if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
+                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        context?.simpleAlert("Your lumpsum investment cannot be equal to or more than your total investment goal.")
                         false
                     } else
                         true

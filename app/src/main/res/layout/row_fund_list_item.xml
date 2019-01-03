@@ -7,7 +7,7 @@
 
         <variable
             name="fund"
-            type="com.tarrakki.module.invest.Fund" />
+            type="com.tarrakki.api.model.InvestmentFunds.Fund" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:drawableEnd="@{fund.hasNegativeReturn? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
             android:drawablePadding="@dimen/space_2"
-            android:text="@{fund.currentReturn +`%`}"
+            android:text="@{fund.currentReturn}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
-            android:text="@{fund.returnSinceLaunch+`%`}"
+            android:text="@{fund.returnSinceLaunch}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
-            android:text="@{fund.returnInYear+`%`}"
+            android:text="@{fund.returnInYear}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="@id/guideline2"
@@ -131,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
-            android:text="@{fund.volatility +`%`}"
+            android:text="@{fund.volatility}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="@id/guideline3"
@@ -142,11 +142,11 @@
             android:id="@+id/tvVolatilityL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/volatility_"
+            android:text="@string/standard_deviation"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="@id/guideline3"
             app:layout_constraintTop_toBottomOf="@+id/tvReturnSinceLaunch"
-            tools:text="Volatility (Vol)" />
+            tools:text="Standard Deviation" />
 
         <View
             android:id="@+id/mDivider"
@@ -176,7 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
-            android:text="@{fund.threeYearOfFundReturn+`%`}"
+            android:text="@{fund.threeYearOfFundReturn}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -197,7 +197,7 @@
             app:layout_constraintHorizontal_bias="0.41"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
-            tools:text="3Y Fixed Deposit:" />
+            tools:text="Fixed Deposit:" />
 
         <TextView
             android:id="@+id/tv3YFD"
@@ -205,7 +205,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
-            android:text="@{fund.threeYearOfFDReturn+`%`}"
+            android:text="@{fund.FDReturn}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toBottomOf="parent"

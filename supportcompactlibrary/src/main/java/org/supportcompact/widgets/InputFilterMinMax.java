@@ -25,9 +25,10 @@ public class InputFilterMinMax implements InputFilter {
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         try {
-            Float input = Float.parseFloat(dest.toString() + source.toString());
+            String data = String.valueOf(dest.toString() + source.toString()).replace(",", "");
+            Float input = Float.parseFloat(data/*dest.toString() + source.toString()*/);
             //input = Float.parseFloat(String.format(Locale.getDefault(), "%.2f", input));
-            String[] point = String.valueOf(dest.toString() + source.toString()).split("\\.");
+            String[] point = String.valueOf(data/*dest.toString() + source.toString()*/).split("\\.");
             boolean isTwoDigits = false;
             if (point.length == 1) {
                 isTwoDigits = true;

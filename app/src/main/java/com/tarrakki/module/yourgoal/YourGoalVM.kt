@@ -132,8 +132,8 @@ class YourGoalVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             e("Api Response=>${o.data?.toDecrypt()}")
                             if (o.status?.code == 1) {
-                                val fund = o.data?.parseTo<RecommendedFunds>()
-                                apiResponse.value = fund
+                                val fund = o.data?.parseTo<RecommendedFundsData>()
+                                apiResponse.value = fund?.data
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

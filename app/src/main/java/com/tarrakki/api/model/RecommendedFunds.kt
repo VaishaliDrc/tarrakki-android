@@ -5,9 +5,23 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 
-data class RecommendedFunds(
+data class RecommendedFundsData(
         @SerializedName("data")
-        val `data`: ArrayList<Fund>
+        val `data`: RecommendedFunds
+)
+
+/*data class RecommendedFunds(
+        @SerializedName("funds")
+        val funds: List<Fund>,
+        @SerializedName("user_goal_id")
+        val userGoalId: Int
+)*/
+
+data class RecommendedFunds(
+        @SerializedName("funds")
+        val `data`: ArrayList<Fund>,
+        @SerializedName("user_goal_id")
+        val userGoalId: Int
 )
 
 data class Fund(
