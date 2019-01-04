@@ -1,8 +1,7 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
-import org.supportcompact.ktx.toReturnAsPercentage
-
+import org.supportcompact.ktx.parseToPercentageOrNA
 
 data class InvestmentFunds(
         @SerializedName("fixed_deposit_return")
@@ -13,12 +12,14 @@ data class InvestmentFunds(
         val fscbiCategoryList: List<FscbiCategory>,
         @SerializedName("funds")
         val funds: ArrayList<Fund>,
+        @SerializedName("risk_levels")
+        val riskLevels: List<RiskLevel>,
         @SerializedName("limit")
         val limit: Int,
         @SerializedName("offset")
         val offset: Int
 ) {
-    inner class Fund(
+    data class Fund(
             @SerializedName("3y_funds")
             val yFunds: String?,
             @SerializedName("3y_returns")
@@ -40,11 +41,15 @@ data class InvestmentFunds(
             @SerializedName("ttr_return_since_inception")
             val ttrReturnSinceInception: Double?
     ) {
-        var FDReturn: String? = fixedDepositReturn?.toDoubleOrNull()?.toReturnAsPercentage()
-        var threeYearOfFundReturn: String? = yReturns?.toDoubleOrNull()?.toReturnAsPercentage()
-        var volatility: String? = standardDeviation5Yr?.toReturnAsPercentage()
-        var returnInYear: String? = ttrReturn1Yr?.toReturnAsPercentage()
-        var description: String = ""
+        var FDReturn: String? = null
+        //get() = parseToPercentageOrNA(fixedDepositReturn)
+        var threeYearOfFundReturn: String? = null
+            get() = parseToPercentageOrNA(yReturns)
+        var volatility: String? = null
+            get() = parseToPercentageOrNA("$standardDeviation5Yr")
+        var returnInYear: String? = null
+            get() = parseToPercentageOrNA("$ttrReturn1Yr")
+        var description: String? = null
             get() = "$schemeType-$fscbiCategoryName"
         var currentReturn: String = ""
         /*get() = if (!TextUtils.isEmpty("$fundReturn")) {
@@ -60,7 +65,7 @@ data class InvestmentFunds(
         var hasNegativeReturn: Boolean = false
         //get() = fundReturn < 0
         var returnSinceLaunch: String? = ""
-            get() = ttrReturnSinceInception?.toReturnAsPercentage()
+            get() = parseToPercentageOrNA("$ttrReturnSinceInception")
     }
 
     data class FscbiCategory(
@@ -76,61 +81,16 @@ data class InvestmentFunds(
             @SerializedName("name")
             val name: String
     )
-}
 
-/*
-data class InvestmentFunds(
-        @SerializedName("funds")
-        val funds: ArrayList<Fund>,
-        @SerializedName("limit")
-        val limit: Int,
-        @SerializedName("offset")
-        val offset: Int
-) {
-    var fundReturn = 0.0
-    var FDReturns: Double? = 0.0
-    inner class Fund(
-            @SerializedName("3y_funds")
-            val yFunds: Double?,
-            @SerializedName("3y_returns")
-            val yReturns: String,
-            @SerializedName("fscbi_broad_category_name")
-            val fscbiBroadCategoryName: String,
-            @SerializedName("fscbi_category_name")
-            val fscbiCategoryName: String,
+    data class RiskLevel(
             @SerializedName("id")
             val id: Int,
             @SerializedName("name")
-            val name: String,
-            @SerializedName("scheme_type")
-            val schemeType: String,
-            @SerializedName("standard_deviation_5_yr")
-            val standardDeviation5Yr: Double?,
-            @SerializedName("ttr_return_1_yr")
-            val ttrReturn1Yr: Double?,
-            @SerializedName("ttr_return_since_inception")
-            val ttrReturnSinceInception: Double?
-    ) {
-        var FDReturn: String? = FDReturns?.toReturnAsPercentage()
-        var threeYearOfFundReturn: String? = yFunds?.toReturnAsPercentage()
-        var volatility: String? = standardDeviation5Yr?.toReturnAsPercentage()
-        var returnInYear: String? = ttrReturn1Yr?.toReturnAsPercentage()
-        var description: String = ""
-            get() = "$schemeType-$fscbiCategoryName"
-        var currentReturn: String = ""
-            get() = if (!TextUtils.isEmpty("$fundReturn")) {
-                try {
-                    fundReturn.toReturnAsPercentage()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    "NA"
-                }
-            } else {
-                "NA"
-            }
-        var hasNegativeReturn: Boolean = false
-            get() = fundReturn < 0
-        var returnSinceLaunch: String? = ""
-            get() = ttrReturnSinceInception?.toReturnAsPercentage()
+            val name: String
+    )
+
+    fun getRiskLevelId(riskLevel: String): Int? {
+        return riskLevels.firstOrNull { r -> riskLevel.equals(r.name, true) }?.id
     }
-}*/
+
+}

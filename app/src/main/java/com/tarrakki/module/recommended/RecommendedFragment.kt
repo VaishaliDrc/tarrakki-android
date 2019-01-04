@@ -123,12 +123,12 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
             action.value.forEach { f ->
                 sum += f.weightage
             }
-            when (action.key) {
-                "EQUITY" -> {
+            when {
+                "EQUITY".equals(action.key, true) -> {
                     entries.add(PieEntry(sum, "EQUITY"))
                     getColor(R.color.equity_fund_color)?.let { colors.add(it) }
                 }
-                "DEBT" -> {
+                "DEBT".equals(action.key, true) -> {
                     entries.add(PieEntry(sum, "DEBT"))
                     getColor(R.color.debt_fund_color)?.let { colors.add(it) }
                 }

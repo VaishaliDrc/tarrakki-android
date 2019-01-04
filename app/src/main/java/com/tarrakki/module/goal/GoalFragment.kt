@@ -52,12 +52,13 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
     }
 
     override fun createReference() {
-        getViewModel().getGoals().observe(this, Observer { response ->
+        rvGoals.visibility = View.VISIBLE
+        rvGoals.isFocusable = false
+        rvGoals.isNestedScrollingEnabled = false
+        rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
+        val observerGoals = Observer<Goal> { response ->
             response?.let {
-                rvGoals.visibility = View.VISIBLE
-                rvGoals.isFocusable = false
-                rvGoals.isNestedScrollingEnabled = false
-                rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
+                mRefresh?.isRefreshing = false
                 rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data.goalData) { item: Goal.Data.GoalData, binder: RowGoalListItemBinding, position ->
                     binder.goal = item
                     binder.executePendingBindings()
@@ -68,7 +69,11 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
                     }
                 }
             }
-        })
+        }
+        getViewModel().getGoals().observe(this, observerGoals)
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getGoals(true).observe(this, observerGoals)
+        }
     }
 
     override fun onStart() {

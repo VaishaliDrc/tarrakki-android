@@ -58,7 +58,7 @@ class FundDetailsVM : FragmentViewModel() {
         durations.add(FundType("1Y"))
         durations.add(FundType("5Y"))
         durations.add(FundType("10Y"))
-        durations.add(FundType("Since Inception", true))
+        durations.add(FundType("Since Inception", _isSelected = true))
     }
 }
 

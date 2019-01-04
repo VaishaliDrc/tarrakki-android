@@ -16,11 +16,10 @@ import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
 import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
-import com.tarrakki.module.funddetails.FundDetailsFragment
-import com.tarrakki.module.funddetails.ITEM
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
 
 
@@ -55,40 +54,13 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         ivExClp?.setOnClickListener {
             getViewModel().filter.set(!getViewModel().filter.get()!!)
         }
-        var riskLevel = 0
-        rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
-            binder.riskLevel = item
-            binder.executePendingBindings()
-            binder.root.setOnClickListener {
-                getViewModel().arrRiskLevel[riskLevel].isSelected = false
-                item.isSelected = !item.isSelected
-                riskLevel = position
-            }
-        }
-        rvFundType?.setUpRecyclerView(R.layout.row_fund_type_list_item, getViewModel().fundTypes) { item: FundType, binder: RowFundTypeListItemBinding, position ->
-            binder.fundType = item
-            binder.executePendingBindings()
-            binder.tvFundType.setOnClickListener {
-                item.isSelected = !item.isSelected
-            }
-        }
-        var selectedAt = 1
-        rvFundReturns?.setUpRecyclerView(R.layout.row_fund_returns_list_item, getViewModel().fundReturns) { item: FundType, binder: RowFundReturnsListItemBinding, position ->
-            binder.fundType = item
-            binder.executePendingBindings()
-            binder.tvFundType.setOnClickListener {
-                if (selectedAt != -1) {
-                    getViewModel().fundReturns[selectedAt].isSelected = false
-                }
-                item.isSelected = !item.isSelected
-                selectedAt = position
-            }
-        }
+
         rvFunds?.isFocusable = false
         rvFunds?.isNestedScrollingEnabled = false
         val observerFundsData = Observer<InvestmentFunds> { response ->
             response?.let {
                 rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, response.funds) { item: InvestmentFunds.Fund, binder: RowFundListItemBinding, position ->
+                    item.FDReturn = parseToPercentageOrNA(response.fixedDepositReturn)
                     binder.fund = item
                     binder.executePendingBindings()
                     binder.btnInvest.setOnClickListener {
@@ -103,6 +75,56 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 }
             }
         }
+
+        var riskLevel = 0
+        rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
+            binder.riskLevel = item
+            binder.executePendingBindings()
+            binder.root.setOnClickListener {
+                getViewModel().arrRiskLevel[riskLevel].isSelected = false
+                item.isSelected = !item.isSelected
+                riskLevel = position
+                if (cbLevel.isChecked) {
+                    getViewModel().riskLevel.value = getViewModel().response.value?.getRiskLevelId(item.name)
+                }
+            }
+        }
+        cbLevel?.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                getViewModel().riskLevel.value = getViewModel().response.value?.getRiskLevelId(getViewModel().arrRiskLevel[riskLevel].name)
+            } else {
+                getViewModel().riskLevel.value = null
+            }
+        }
+        rvFundType?.setUpRecyclerView(R.layout.row_fund_type_list_item, getViewModel().fundTypes) { item: FundType, binder: RowFundTypeListItemBinding, position ->
+            binder.fundType = item
+            binder.executePendingBindings()
+            binder.tvFundType.setOnClickListener {
+                item.isSelected = !item.isSelected
+                getViewModel().ourRecommended.value = true
+            }
+        }
+        var selectedAt = 1
+        rvFundReturns?.setUpRecyclerView(R.layout.row_fund_returns_list_item, getViewModel().fundReturns) { item: FundType, binder: RowFundReturnsListItemBinding, position ->
+            binder.fundType = item
+            binder.executePendingBindings()
+            binder.tvFundType.setOnClickListener {
+                if (selectedAt != -1) {
+                    getViewModel().fundReturns[selectedAt].isSelected = false
+                }
+                item.isSelected = !item.isSelected
+                selectedAt = position
+                getViewModel().sortByReturn.value = Pair(item.key, item.value)
+            }
+        }
+        cbGrowth?.setOnCheckedChangeListener { buttonView, isChecked ->
+            getViewModel().investmentType.value = Pair(isChecked, cbDividend.isChecked)
+        }
+
+        cbDividend?.setOnCheckedChangeListener { buttonView, isChecked ->
+            getViewModel().investmentType.value = Pair(cbDividend.isChecked, isChecked)
+        }
+
         val adapter = ArrayAdapter.createFromResource(
                 activity,
                 R.array.category,
@@ -153,6 +175,20 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             }
         }
         getViewModel().getFunds().observe(this, observerFundsData)
+
+        /**Filter Observation**/
+        getViewModel().ourRecommended.observe(this, Observer {
+            getViewModel().getFunds().observe(this, observerFundsData)
+        })
+        getViewModel().riskLevel.observe(this, Observer {
+            getViewModel().getFunds().observe(this, observerFundsData)
+        })
+        getViewModel().sortByReturn.observe(this, Observer {
+            getViewModel().getFunds().observe(this, observerFundsData)
+        })
+        getViewModel().investmentType.observe(this, Observer {
+            getViewModel().getFunds().observe(this, observerFundsData)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

@@ -11,7 +11,7 @@ import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
-import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
@@ -20,7 +20,6 @@ import com.tarrakki.module.portfolio.PortfolioFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 
@@ -52,18 +51,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override fun createReference() {
         setHasOptionsMenu(true)
-        tvWhyTarrakkii?.setOnClickListener { _ ->
-            getViewModel().whayTarrakki.get()?.let {
-                getViewModel().whayTarrakki.set(!it)
-            }
-        }
-        tvViewPortfolio?.setOnClickListener {
-            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
-        }
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
-        getViewModel().getHomeData().observe(this, Observer {
+        val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
+                mRefresh?.isRefreshing = false
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
                     binder.setVariable(BR.onViewAll, View.OnClickListener {
@@ -80,13 +72,26 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 }
                 rvHomeItem.visibility = View.VISIBLE
             }
-        })
+        }
+        tvWhyTarrakkii?.setOnClickListener { _ ->
+            getViewModel().whayTarrakki.get()?.let {
+                getViewModel().whayTarrakki.set(!it)
+            }
+        }
+        tvViewPortfolio?.setOnClickListener {
+            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+        }
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getHomeData(true).observe(this, observerHomeData)
+        }
+
         cpPortfolio.setProgressWithAnimation(78f)
         App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 getViewModel().portfolioVisibility.set(if (isLogin) View.VISIBLE else View.GONE)
             }
         })
+        getViewModel().getHomeData().observe(this, observerHomeData)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

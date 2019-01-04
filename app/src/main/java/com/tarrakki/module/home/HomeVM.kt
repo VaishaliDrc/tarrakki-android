@@ -25,45 +25,10 @@ class HomeVM : FragmentViewModel() {
     var homeSections = ArrayList<WidgetsViewModel>()
     var portfolioVisibility = ObservableField(View.GONE)
 
-    /*init {
-        homeSections.add(
-                HomeSection(
-                        "Investment Strategies",
-                        arrayListOf(
-                                HomeItem(
-                                        "Very Long Term Investments",
-                                        "Diversified equity founds, 10+ years or longer"
-                                ),
-                                HomeItem(
-                                        "Long Term Investments",
-                                        "Diversified equity founds, 5+ years or longer"
-                                ),
-                                HomeItem(
-                                        "Short Long Term Investments",
-                                        "Diversified equity founds, 3+ years or longer"
-                                ),
-                                HomeItem(
-                                        "Very Long Term Investments",
-                                        "Diversified equity founds, 2+ years or longer"
-                                )
-                        ))
-        )
-        homeSections.add(
-                HomeSection(
-                        "Set a Goal",
-                        arrayListOf(
-                                Goal("Wealth creation", R.drawable.wealth_creation),
-                                Goal("Holiday", R.drawable.holiday),
-                                Goal("Electronic Gadget", R.drawable.electronic_gadget),
-                                Goal("Automobile", R.drawable.automobile),
-                                Goal("Own a Home", R.drawable.own_a_home)
-                        )
-                ))
-    }*/
-
-    fun getHomeData(): MutableLiveData<HomeData> {
+    fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()
-        EventBus.getDefault().post(SHOW_PROGRESS)
+        if (!isRefreshing)
+            EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getHomeData(),
                 apiNames = WebserviceBuilder.ApiNames.getHomeData,
@@ -74,6 +39,7 @@ class HomeVM : FragmentViewModel() {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
                                 data?.let { it ->
+                                    homeSections.clear()
                                     it.data.category.forEach { item ->
                                         homeSections.add(
                                                 HomeSection(

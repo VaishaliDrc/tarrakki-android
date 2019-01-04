@@ -83,7 +83,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/space_8"
                             android:button="@drawable/selector_check_box"
-                            android:checked="true"
                             android:paddingStart="@dimen/space_8"
                             android:paddingEnd="@dimen/space_8"
                             android:text="@string/risk_level"

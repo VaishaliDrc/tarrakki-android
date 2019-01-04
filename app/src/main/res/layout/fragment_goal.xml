@@ -10,53 +10,59 @@
             type="com.tarrakki.module.goal.GoalVM" />
     </data>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        tools:context=".module.goal.GoalFragment">
+        android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/default_space"
-            android:paddingEnd="@dimen/default_space">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:context=".module.goal.GoalFragment">
 
-            <TextView
-                android:id="@+id/tvGoal"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:background="@drawable/shape_cart_view"
-                android:elevation="2dp"
-                android:lineSpacingExtra="4dp"
-                android:padding="8dp"
-                android:text="@string/financial_goals_assist"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:paddingStart="@dimen/default_space"
+                android:paddingEnd="@dimen/default_space">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvGoals"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:layout_marginBottom="@dimen/default_space"
-                android:background="@drawable/shape_cart_view"
-                android:elevation="2dp"
-                android:padding="@dimen/space_4"
-                android:visibility="gone"
-                app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGoal"
-                app:layout_constraintVertical_bias="0"
-                app:spanCount="2"
-                tools:itemCount="6"
-                tools:listitem="@layout/row_goal_list_item"
-                tools:visibility="visible" />
+                <TextView
+                    android:id="@+id/tvGoal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="2dp"
+                    android:lineSpacingExtra="4dp"
+                    android:padding="8dp"
+                    android:text="@string/financial_goals_assist"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvGoals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="2dp"
+                    android:padding="@dimen/space_4"
+                    android:visibility="gone"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGoal"
+                    app:layout_constraintVertical_bias="0"
+                    app:spanCount="2"
+                    tools:itemCount="12"
+                    tools:listitem="@layout/row_goal_list_item"
+                    tools:visibility="visible" />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

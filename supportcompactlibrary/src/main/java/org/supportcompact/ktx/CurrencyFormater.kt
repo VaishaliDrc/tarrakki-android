@@ -99,3 +99,12 @@ fun Double.toCurrencyWithSpace() = "\u20B9 ".plus(formatter.format(Math.round(th
 fun Double.toReturn() = dFormatter.format(this)
 
 fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")
+
+fun parseToPercentageOrNA(num: String?): String {
+    return try {
+        val temp: Double? = num?.toDoubleOrNull()
+        temp?.toReturnAsPercentage() ?: "NA"
+    } catch (e: java.lang.Exception) {
+        "NA"
+    }
+}

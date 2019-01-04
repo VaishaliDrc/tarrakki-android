@@ -10,13 +10,17 @@ import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.InvestmentFunds
+import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.toEncrypt
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
+import org.supportcompact.ktx.toInt
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -24,56 +28,32 @@ import java.io.Serializable
 
 class InvestVM : FragmentViewModel() {
 
-    val funds = arrayListOf<Fund>()
     var fundTypes = arrayListOf<FundType>()
     var fundReturns = arrayListOf<FundType>()
     var arrRiskLevel = arrayListOf<RiskLevel>()
     val filter = ObservableField<Boolean>(true)
 
+    val response = MutableLiveData<InvestmentFunds>()
+
+    /**Filter**/
+    val ourRecommended = MutableLiveData<Boolean>()
+    val riskLevel = MutableLiveData<Int?>()
+    val sortByReturn = MutableLiveData<Pair<String, String>>()
+    val investmentType = MutableLiveData<Pair<Boolean, Boolean>>()
+    val category = MutableLiveData<String>()
+    val subcategory = MutableLiveData<String>()
+
     init {
 
-        fundTypes.add(FundType("Tarrakki Recommended", true))
-        fundTypes.add(FundType("All"))
-        fundTypes.add(FundType("NFO"))
+        fundTypes.add(FundType(name = "Tarrakki Recommended", key = "is_tarrakki_recommended", _isSelected = true))
+        //fundTypes.add(FundType("All"))
+        fundTypes.add(FundType(name = "", key = ""))
 
-        fundReturns.add(FundType("1Y"))
-        fundReturns.add(FundType("3Y", true))
-        fundReturns.add(FundType("5Y"))
-        fundReturns.add(FundType("AUM"))
 
-        funds.add(Fund(
-                "SBI Banking and Financial Services Growth Direct Plan",
-                "Sectoral/Thematic",
-                0.93f,
-                18.2f,
-                19.4f,
-                13.7f,
-                5.2f,
-                5.2f)
-        )
-
-        funds.add(Fund(
-                "DSP Blackrock Natural Resources and New Energy Growth Direct Plan",
-                "Sectoral/Thematic",
-                0.26f,
-                18.5f,
-                4.6f,
-                14.8f,
-                25.7f,
-                6.5f,
-                true)
-        )
-
-        funds.add(Fund(
-                "SBI Banking and Financial Services Growth Direct Plan",
-                "Sectoral/Thematic",
-                0.93f,
-                18.2f,
-                19.4f,
-                13.7f,
-                5.2f,
-                5.2f)
-        )
+        fundReturns.add(FundType("1Y", "sort_by", "ttr_return_1_yr"))
+        fundReturns.add(FundType("3Y", "sort_by", "ttr_return_3_yr", true))
+        fundReturns.add(FundType("5Y", "sort_by", "ttr_return_5_yr"))
+        fundReturns.add(FundType("AUM", "sort_by", ""))
 
         val riskLevel = App.INSTANCE.resources.getStringArray(R.array.risk_level)
         val riskLevelColor = App.INSTANCE.resources.getStringArray(R.array.risk_level_color)
@@ -83,12 +63,36 @@ class InvestVM : FragmentViewModel() {
     }
 
     fun getFunds(): MutableLiveData<InvestmentFunds> {
-        val response = MutableLiveData<InvestmentFunds>()
+        /****
+         * sortByReturn.value = Pair("sort_by", "ttr_return_3_yr")
+        investmentType.value = Pair(true, false)
+         * */
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
-        json.addProperty("filters", "{\"category\": 13}")
+        val filter = JsonObject()
+        fundTypes.forEach { item ->
+            filter.addProperty(item.key, item.isSelected.toInt())
+        }
+        filter.addProperty("risk_level_id", riskLevel.value ?: 0)
+        if (investmentType.value == null) {
+            filter.addProperty("growth", 1)
+            filter.addProperty("dividend_payout", 0)
+        } else {
+            investmentType.value?.let {
+                filter.addProperty("growth", it.first.toInt())
+                filter.addProperty("dividend_payout", it.second.toInt())
+            }
+        }
+        json.add("filters", filter)
+        if (sortByReturn.value == null) {
+            json.addProperty("sort_by", "ttr_return_3_yr")
+        } else {
+            sortByReturn.value?.let {
+                json.addProperty(it.first, it.second)
+            }
+        }
         val data = json.toString().toEncrypt()
-        e("Request Data=>$data")
+        e("Request Data=>$json")
         e("Request Encrypted Data=>$data")
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getFunds(data),
@@ -148,6 +152,8 @@ data class Fund(
 
 data class FundType(
         var name: String,
+        val key: String = "",
+        val value: String = "",
         var _isSelected: Boolean = false
 ) : BaseObservable() {
     @get:Bindable
