@@ -157,7 +157,6 @@
     <string name="share">Share</string>
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
 
-
     <string-array name="automobile">
         <item>Car</item>
         <item>Bike</item>

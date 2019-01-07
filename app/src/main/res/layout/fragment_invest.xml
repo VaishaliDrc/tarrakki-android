@@ -38,6 +38,7 @@
                     android:background="@drawable/shape_edt_white_round"
                     android:drawableEnd="@drawable/ic_search_white_24dp"
                     android:hint="@string/find_your_mutual_fund"
+                    android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingStart="@dimen/space_16"
                     android:paddingTop="@dimen/space_6"
@@ -288,6 +289,13 @@
                 tools:paddingEnd="0dp"
                 tools:paddingStart="0dp"
                 tools:paddingTop="0dp" />
+
+            <ProgressBar
+                android:id="@+id/pbLoadMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:visibility="@{vm.loadMore?View.VISIBLE:View.GONE}" />
 
         </LinearLayout>
 

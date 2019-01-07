@@ -2,14 +2,20 @@ package com.tarrakki.module.invest
 
 
 import android.arch.lifecycle.Observer
+import android.databinding.Observable
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.InvestmentFunds
@@ -19,8 +25,10 @@ import com.tarrakki.module.cart.CartFragment
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toast
 
 
 /**
@@ -49,8 +57,26 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
     }
 
     override fun createReference() {
-
         setHasOptionsMenu(true)
+
+        val categories = arrayListOf(getString(R.string.all))
+        val subcategories = arrayListOf(getString(R.string.all))
+        val adapter = ArrayAdapter(
+                activity,
+                R.layout.simple_spinner_item,
+                categories
+        )
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnCategory.adapter = adapter
+        val adapterSub = ArrayAdapter(
+                activity,
+                R.layout.simple_spinner_item,
+                subcategories
+        )
+        adapterSub.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        spnSubCategory.adapter = adapterSub
+
+
         ivExClp?.setOnClickListener {
             getViewModel().filter.set(!getViewModel().filter.get()!!)
         }
@@ -72,10 +98,39 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.root.setOnClickListener {
                         //startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
                     }
+                    if (position == response.funds.size - 1 && !getViewModel().loadMore.get()!!) {
+                        getViewModel().loadMore.set(true)
+                    }
+                }
+                categories.clear()
+                categories.add(getString(R.string.all))
+                response.fscbiCategoryList?.forEach { item ->
+                    categories.add(item.name)
+                }
+                subcategories.clear()
+                subcategories.add(getString(R.string.all))
+                response.fscbiBroadCategoryList?.forEach { item ->
+                    subcategories.add(item.name)
+                }
+                adapter.notifyDataSetChanged()
+                adapterSub.notifyDataSetChanged()
+                if (getViewModel().isInit) {
+                    Handler().postDelayed({ getViewModel().isInit = false }, 2500)
                 }
             }
         }
-
+        rvFunds?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val lm = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = lm.childCount
+                val totalItemCount = lm.itemCount
+                val firstVisibleItemPosition = lm.findFirstVisibleItemPosition()
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                    toast("Load more")
+                }
+            }
+        })
         var riskLevel = 0
         rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
             binder.riskLevel = item
@@ -125,55 +180,31 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             getViewModel().investmentType.value = Pair(cbDividend.isChecked, isChecked)
         }
 
-        val adapter = ArrayAdapter.createFromResource(
-                activity,
-                R.array.category,
-                R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        spnCategory.adapter = adapter
-        val adapterSub = ArrayAdapter(
-                activity,
-                R.layout.simple_spinner_item,
-                resources.getStringArray(R.array.all).toMutableList()
-        )
-        adapterSub.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        spnSubCategory.adapter = adapterSub
         spnCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when (position) {
-                    0 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.all))
-                    }
-                    1 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.equity))
-                    }
-                    2 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.fixed_income))
-                    }
-                    3 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.allocation))
-                    }
-                    4 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.alternative))
-                    }
-                    5 -> {
-                        adapterSub.clear()
-                        adapterSub.addAll(*resources.getStringArray(R.array.money_market))
-                    }
+                getViewModel().category.value = if (position == 0) 0 else getViewModel().response.value?.fscbiCategoryList?.firstOrNull { c -> c.name == categories[position] }?.id
+                if (!getViewModel().isInit) {
+                    getViewModel().getFunds().observe(this@InvestFragment, observerFundsData)
                 }
-                //adapterSub.notifyDataSetChanged()
             }
         }
+        spnSubCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                getViewModel().subcategory.value = if (position == 0) 0 else getViewModel().response.value?.fscbiBroadCategoryList?.firstOrNull { c -> c.name == categories[position] }?.id
+                if (!getViewModel().isInit) {
+                    getViewModel().getFunds().observe(this@InvestFragment, observerFundsData)
+                }
+            }
+        }
+
         getViewModel().getFunds().observe(this, observerFundsData)
 
         /**Filter Observation**/
@@ -188,6 +219,27 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         })
         getViewModel().investmentType.observe(this, Observer {
             getViewModel().getFunds().observe(this, observerFundsData)
+        })
+        getViewModel().searchBy.observe(this, Observer {
+            getViewModel().getFunds().observe(this, observerFundsData)
+        })
+        edtSearch?.setOnEditorActionListener { v, actionId, event ->
+            if (EditorInfo.IME_ACTION_SEARCH == actionId) {
+                v.dismissKeyboard()
+                v.clearFocus()
+                getViewModel().searchBy.value = edtSearch?.text.toString()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+        getViewModel().loadMore.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (getViewModel().loadMore.get()!!) {
+                    Handler().postDelayed({
+                        getViewModel().getFunds(10).observe(this@InvestFragment, observerFundsData)
+                    }, 2500)
+                }
+            }
         })
     }
 

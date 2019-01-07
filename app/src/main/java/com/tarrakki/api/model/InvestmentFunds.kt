@@ -1,5 +1,6 @@
 package com.tarrakki.api.model
 
+import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.parseToPercentageOrNA
 
@@ -7,9 +8,9 @@ data class InvestmentFunds(
         @SerializedName("fixed_deposit_return")
         val fixedDepositReturn: String?,
         @SerializedName("fscbi_broad_category_list")
-        val fscbiBroadCategoryList: List<FscbiBroadCategory>,
+        val fscbiBroadCategoryList: List<FscbiBroadCategory>?,
         @SerializedName("fscbi_category_list")
-        val fscbiCategoryList: List<FscbiCategory>,
+        val fscbiCategoryList: List<FscbiCategory>?,
         @SerializedName("funds")
         val funds: ArrayList<Fund>,
         @SerializedName("risk_levels")
@@ -39,7 +40,11 @@ data class InvestmentFunds(
             @SerializedName("ttr_return_1_yr")
             val ttrReturn1Yr: Double?,
             @SerializedName("ttr_return_since_inception")
-            val ttrReturnSinceInception: Double?
+            val ttrReturnSinceInception: Double?,
+            @SerializedName("dp_day_end_nav")
+            val todayNAV: String,
+            @SerializedName("pre_dp_day_end_nav")
+            val preDayNAV: String
     ) {
         var FDReturn: String? = null
         //get() = parseToPercentageOrNA(fixedDepositReturn)
@@ -52,18 +57,28 @@ data class InvestmentFunds(
         var description: String? = null
             get() = "$schemeType-$fscbiCategoryName"
         var currentReturn: String = ""
-        /*get() = if (!TextUtils.isEmpty("$fundReturn")) {
-            try {
-                fundReturn.toReturnAsPercentage()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
+                try {
+                    val result: String? = "${(todayNAV.toDouble() - preDayNAV.toDouble()) * 100}"
+                    parseToPercentageOrNA(result)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    "NA"
+                }
+            } else {
                 "NA"
             }
-        } else {
-            "NA"
-        }*/
         var hasNegativeReturn: Boolean = false
-        //get() = fundReturn < 0
+            get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
+                try {
+                    val result = (todayNAV.toDouble() - preDayNAV.toDouble()) * 100
+                    result < 0
+                } catch (e: Exception) {
+                    false
+                }
+            } else {
+                false
+            }
         var returnSinceLaunch: String? = ""
             get() = parseToPercentageOrNA("$ttrReturnSinceInception")
     }

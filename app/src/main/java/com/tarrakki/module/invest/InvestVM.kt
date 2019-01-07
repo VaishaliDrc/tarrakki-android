@@ -31,29 +31,31 @@ class InvestVM : FragmentViewModel() {
     var fundTypes = arrayListOf<FundType>()
     var fundReturns = arrayListOf<FundType>()
     var arrRiskLevel = arrayListOf<RiskLevel>()
+    val loadMore = ObservableField(false)
     val filter = ObservableField<Boolean>(true)
 
     val response = MutableLiveData<InvestmentFunds>()
+    var isInit = true
 
     /**Filter**/
     val ourRecommended = MutableLiveData<Boolean>()
     val riskLevel = MutableLiveData<Int?>()
     val sortByReturn = MutableLiveData<Pair<String, String>>()
     val investmentType = MutableLiveData<Pair<Boolean, Boolean>>()
-    val category = MutableLiveData<String>()
-    val subcategory = MutableLiveData<String>()
+    val category = MutableLiveData<Int?>()
+    val subcategory = MutableLiveData<Int?>()
+    val searchBy = MutableLiveData<String>()
 
     init {
 
-        fundTypes.add(FundType(name = "Tarrakki Recommended", key = "is_tarrakki_recommended", _isSelected = true))
-        //fundTypes.add(FundType("All"))
-        fundTypes.add(FundType(name = "", key = ""))
+        fundTypes.add(FundType(name = "Tarrakki Recommended", key = "is_tarrakki_recommended"))
+        fundTypes.add(FundType(name = "NFO", key = "nfo"))
 
 
         fundReturns.add(FundType("1Y", "sort_by", "ttr_return_1_yr"))
         fundReturns.add(FundType("3Y", "sort_by", "ttr_return_3_yr", true))
         fundReturns.add(FundType("5Y", "sort_by", "ttr_return_5_yr"))
-        fundReturns.add(FundType("AUM", "sort_by", ""))
+        fundReturns.add(FundType("AUM", "sort_by", "fna_aum"))
 
         val riskLevel = App.INSTANCE.resources.getStringArray(R.array.risk_level)
         val riskLevelColor = App.INSTANCE.resources.getStringArray(R.array.risk_level_color)
@@ -62,11 +64,8 @@ class InvestVM : FragmentViewModel() {
         }
     }
 
-    fun getFunds(): MutableLiveData<InvestmentFunds> {
-        /****
-         * sortByReturn.value = Pair("sort_by", "ttr_return_3_yr")
-        investmentType.value = Pair(true, false)
-         * */
+    fun getFunds(offset: Int = 0): MutableLiveData<InvestmentFunds> {
+
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         val filter = JsonObject()
@@ -75,6 +74,7 @@ class InvestVM : FragmentViewModel() {
         }
         filter.addProperty("risk_level_id", riskLevel.value ?: 0)
         if (investmentType.value == null) {
+            /**Default value **/
             filter.addProperty("growth", 1)
             filter.addProperty("dividend_payout", 0)
         } else {
@@ -83,14 +83,20 @@ class InvestVM : FragmentViewModel() {
                 filter.addProperty("dividend_payout", it.second.toInt())
             }
         }
+        filter.addProperty("category", category.value ?: 0)
+        filter.addProperty("sub_category", subcategory.value ?: 0)
         json.add("filters", filter)
         if (sortByReturn.value == null) {
+            /**Default value **/
             json.addProperty("sort_by", "ttr_return_3_yr")
         } else {
             sortByReturn.value?.let {
                 json.addProperty(it.first, it.second)
             }
         }
+        json.addProperty("search_by_name", searchBy.value)
+        json.addProperty("limit", 10)
+        json.addProperty("offset", offset)
         val data = json.toString().toEncrypt()
         e("Request Data=>$json")
         e("Request Encrypted Data=>$data")
