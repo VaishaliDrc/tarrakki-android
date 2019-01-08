@@ -18,7 +18,10 @@ data class InvestmentFunds(
         @SerializedName("limit")
         val limit: Int,
         @SerializedName("offset")
-        val offset: Int
+        var offset: Int,
+        @SerializedName("total_funds")
+        var totalFunds: Int
+
 ) {
     data class Fund(
             @SerializedName("3y_funds")

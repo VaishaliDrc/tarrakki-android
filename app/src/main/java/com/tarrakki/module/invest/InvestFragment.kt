@@ -6,8 +6,6 @@ import android.databinding.Observable
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -96,10 +94,8 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                         //startFragment(CartFragment.newInstance(), R.id.frmContainer)
                     }
                     binder.root.setOnClickListener {
+                        toast("Fund Details is still under development so you will be able to test it in the next build.", Toast.LENGTH_LONG)
                         //startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
-                    }
-                    if (position == response.funds.size - 1 && !getViewModel().loadMore.get()!!) {
-                        getViewModel().loadMore.set(true)
                     }
                 }
                 categories.clear()
@@ -119,27 +115,26 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 }
             }
         }
-        rvFunds?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val lm = recyclerView.layoutManager as LinearLayoutManager
-                val visibleItemCount = lm.childCount
-                val totalItemCount = lm.itemCount
-                val firstVisibleItemPosition = lm.findFirstVisibleItemPosition()
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-                    toast("Load more")
+        mScrollView.viewTreeObserver.addOnScrollChangedListener {
+            val view = mScrollView.getChildAt(mScrollView.childCount - 1) as View
+            val diff = view.bottom - (mScrollView.height + mScrollView.scrollY)
+            getViewModel().response.value?.let {
+                //e("Diff=>$diff")
+                if (it.funds.size >= 10 && it.funds.size < it.totalFunds && diff <= 100 && !getViewModel().loadMore.get()!!) {
+                    getViewModel().loadMore.set(true)
                 }
             }
-        })
+
+        }
         var riskLevel = 0
         rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
             binder.riskLevel = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
-                getViewModel().arrRiskLevel[riskLevel].isSelected = false
-                item.isSelected = !item.isSelected
-                riskLevel = position
                 if (cbLevel.isChecked) {
+                    getViewModel().arrRiskLevel[riskLevel].isSelected = false
+                    item.isSelected = !item.isSelected
+                    riskLevel = position
                     getViewModel().riskLevel.value = getViewModel().response.value?.getRiskLevelId(item.name)
                 }
             }
@@ -149,6 +144,10 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 getViewModel().riskLevel.value = getViewModel().response.value?.getRiskLevelId(getViewModel().arrRiskLevel[riskLevel].name)
             } else {
                 getViewModel().riskLevel.value = null
+                getViewModel().arrRiskLevel[riskLevel].isSelected = false
+                riskLevel = 0
+                getViewModel().arrRiskLevel[riskLevel].isSelected = true
+                rvRiskLevel?.adapter?.notifyDataSetChanged()
             }
         }
         rvFundType?.setUpRecyclerView(R.layout.row_fund_type_list_item, getViewModel().fundTypes) { item: FundType, binder: RowFundTypeListItemBinding, position ->
@@ -234,10 +233,17 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         }
         getViewModel().loadMore.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (getViewModel().loadMore.get()!!) {
-                    Handler().postDelayed({
-                        getViewModel().getFunds(10).observe(this@InvestFragment, observerFundsData)
-                    }, 2500)
+                getViewModel().response.value?.let { investmentFunds ->
+                    if (getViewModel().loadMore.get()!!) {
+                        mScrollView.post {
+                            mScrollView.scrollTo(0, pbLoadMore.bottom)
+                        }
+                        Handler().postDelayed({
+                            getViewModel().getFunds(investmentFunds.offset).observe(this@InvestFragment, observerFundsData)
+                        }, 2500)
+                    } else {
+                        rvFunds.adapter?.notifyDataSetChanged()
+                    }
                 }
             }
         })

@@ -20,8 +20,8 @@ import org.supportcompact.networking.subscribeToSingle
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    val userName = ObservableField("abc@gmail.com")
-    val password = ObservableField("Drc@1234")
+    val userName = ObservableField("")
+    val password = ObservableField("")
     val onLogin = MutableLiveData<LoginResponse>()
 
     fun doLogin(): MutableLiveData<LoginResponse> {

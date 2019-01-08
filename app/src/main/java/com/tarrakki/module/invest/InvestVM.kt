@@ -65,8 +65,9 @@ class InvestVM : FragmentViewModel() {
     }
 
     fun getFunds(offset: Int = 0): MutableLiveData<InvestmentFunds> {
-
-        EventBus.getDefault().post(SHOW_PROGRESS)
+        if (!loadMore.get()!!) {
+            EventBus.getDefault().post(SHOW_PROGRESS)
+        }
         val json = JsonObject()
         val filter = JsonObject()
         fundTypes.forEach { item ->
@@ -108,7 +109,16 @@ class InvestVM : FragmentViewModel() {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
-                                response.value = o.data?.parseTo<InvestmentFunds>()
+                                val investmentFunds = o.data?.parseTo<InvestmentFunds>()
+                                if (loadMore.get()!!) {
+                                    if (investmentFunds != null && response.value != null) {
+                                        response.value?.funds?.addAll(investmentFunds.funds)
+                                        response.value?.offset = investmentFunds.offset
+                                    }
+                                    loadMore.set(false)
+                                } else {
+                                    response.value = investmentFunds
+                                }
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
