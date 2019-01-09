@@ -47,11 +47,14 @@ interface WebserviceBuilder {
     @GET("fund-details/get_fund/")
     fun getFunds(@Query("data") data: String): Observable<ApiResponse>
 
+    @GET("fund-details/{id}/")
+    fun getFundDetails(@Path("id") id: String): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
-        onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds
+        onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
+        getFundDetails
     }
 }

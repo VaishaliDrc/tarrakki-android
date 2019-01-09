@@ -34,3 +34,7 @@ inline fun <reified T> String.parseTo(): T? {
         null
     }
 }
+
+fun ApiResponse.printResponse() {
+    e("Response=>", "${data?.toDecrypt()}")
+}

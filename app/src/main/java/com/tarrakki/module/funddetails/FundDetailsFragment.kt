@@ -7,7 +7,6 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentFundDetailsBinding
 import com.tarrakki.module.funddetails.fragments.OverviewFragment
 import com.tarrakki.module.funddetails.fragments.PerformanceFragment
-import com.tarrakki.module.invest.Fund
 import kotlinx.android.synthetic.main.fragment_fund_details.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -20,7 +19,7 @@ import org.supportcompact.adapters.setFragmentPagerAdapter
  *
  */
 
-const val ITEM = "item"
+const val ITEM_ID = "item_id"
 
 class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBinding>() {
 
@@ -44,7 +43,10 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
 
     override fun createReference() {
         arguments?.let {
-            getViewModel().fund = it.getSerializable(ITEM) as Fund
+            val id = it.getString(ITEM_ID)
+            id?.let {
+                getViewModel().getFundDetails(it)
+            }
         }
         val pages = arrayListOf(
                 Page("Overview", OverviewFragment.newInstance()),

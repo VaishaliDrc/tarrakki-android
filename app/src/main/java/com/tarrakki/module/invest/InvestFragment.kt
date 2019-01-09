@@ -13,20 +13,20 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
 import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toast
 
 
 /**
@@ -94,8 +94,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                         //startFragment(CartFragment.newInstance(), R.id.frmContainer)
                     }
                     binder.root.setOnClickListener {
-                        toast("Fund Details is still under development so you will be able to test it in the next build.", Toast.LENGTH_LONG)
-                        //startFragment(FundDetailsFragment.newInstance(Bundle().apply { putSerializable(ITEM, item) }), R.id.frmContainer)
+                        startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
                     }
                 }
                 categories.clear()
@@ -115,16 +114,17 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 }
             }
         }
-        mScrollView.viewTreeObserver.addOnScrollChangedListener {
-            val view = mScrollView.getChildAt(mScrollView.childCount - 1) as View
-            val diff = view.bottom - (mScrollView.height + mScrollView.scrollY)
-            getViewModel().response.value?.let {
-                //e("Diff=>$diff")
-                if (it.funds.size >= 10 && it.funds.size < it.totalFunds && diff <= 100 && !getViewModel().loadMore.get()!!) {
-                    getViewModel().loadMore.set(true)
+        mScrollView?.viewTreeObserver?.addOnScrollChangedListener {
+            val view: View? = mScrollView?.getChildAt(mScrollView.childCount - 1)
+            if (view != null && mScrollView != null) {
+                val diff = view.bottom - (mScrollView.height + mScrollView.scrollY)
+                getViewModel().response.value?.let {
+                    //e("Diff=>$diff")
+                    if (it.funds.size >= 10 && it.funds.size < it.totalFunds && diff <= 100 && !getViewModel().loadMore.get()!!) {
+                        getViewModel().loadMore.set(true)
+                    }
                 }
             }
-
         }
         var riskLevel = 0
         rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
