@@ -41,6 +41,17 @@ data class Goal(
                 @SerializedName("questions")
                 var questions: List<Question>
         ) {
+            @SerializedName("year_summary")
+            var yearSummary: String? = null
+            @SerializedName("lumpsum_summary")
+            var lumpsumSummary: String? = null
+            @SerializedName("future_value_summary")
+            var futureValueSummary: String? = null
+            @SerializedName("recommendation_summary")
+            var recommendationSummary: String? = null
+            @SerializedName("no_inflation")
+            var noInflation: Boolean = false
+
             var inflation: Double? = null
             var pmt: Double? = null
             var futureValue: Double? = null

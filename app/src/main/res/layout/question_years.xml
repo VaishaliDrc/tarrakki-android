@@ -49,7 +49,7 @@
             <EditText
                 android:id="@+id/edtDurations"
                 maxValue="@{99}"
-                minValue="@{1}"
+                minValue="@{0}"
                 onEditorAction="@{onAction}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

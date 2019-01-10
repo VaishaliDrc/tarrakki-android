@@ -6,7 +6,7 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun String.toDate(withFormat: String = "yyyy/MM/dd hh:mm"): Date {
+fun String.toDate(withFormat: String = "yyyy-MM-dd"): Date {
     val dateFormat = SimpleDateFormat(withFormat, Locale.US)
     var convertedDate = Date()
     try {
@@ -18,8 +18,8 @@ fun String.toDate(withFormat: String = "yyyy/MM/dd hh:mm"): Date {
 }
 
 // Converts current date to proper provided format
-fun Date.convertTo(format: String): String? {
-    var dateStr: String? = null
+fun Date.convertTo(format: String = "dd MMM yyyy"): String? {
+    var dateStr: String? = ""
     val df = SimpleDateFormat(format, Locale.US)
     try {
         dateStr = df.format(this)

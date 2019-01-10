@@ -4,7 +4,9 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
+import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.Spanned
 import com.google.gson.Gson
 import com.tarrakki.App
 import com.tarrakki.R
@@ -27,9 +29,9 @@ class YourGoalVM : FragmentViewModel() {
     val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
-    val tmpFor = ObservableField<SpannableStringBuilder>()
-    val lumpsumpFor = ObservableField<SpannableStringBuilder>()
-    val gSummary = ObservableField<SpannableStringBuilder>()
+    val tmpFor = ObservableField<Spanned>()
+    val lumpsumpFor = ObservableField<Spanned>()
+    val gSummary = ObservableField<Spanned>()
     val hasQuestions = ObservableField<Boolean>(true)
 
     init {

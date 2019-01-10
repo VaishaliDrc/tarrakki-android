@@ -42,7 +42,7 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
     }
 
     override fun createReference() {
-        arguments?.let {
+        arguments?.let { it ->
             val id = it.getString(ITEM_ID)
             id?.let {
                 getViewModel().getFundDetails(it)

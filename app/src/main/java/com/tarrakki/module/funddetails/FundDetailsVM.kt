@@ -109,7 +109,7 @@ class FundDetailsVM : FragmentViewModel() {
 
 }
 
-data class KeyInfo(var key: String, var value: String)
+data class KeyInfo(var key: String, var value: String?)
 
 data class TopHolding(
         var name: String,

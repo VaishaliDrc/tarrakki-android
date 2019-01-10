@@ -402,5 +402,6 @@
     <string name="sip_duration">SIP Duration</string>
     <string name="enter_sip_duration">Enter SIP duration</string>
     <string name="apply_pmt">Apply PMT</string>
+    <string name="nav_on">NAV on</string>
 
 </resources>

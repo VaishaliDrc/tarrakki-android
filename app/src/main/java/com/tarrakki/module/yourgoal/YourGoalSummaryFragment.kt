@@ -3,18 +3,9 @@ package com.tarrakki.module.yourgoal
 
 import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
-import android.text.style.UnderlineSpan
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.tarrakki.BR
@@ -83,7 +74,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         goal.pmt = pmtResponse.pmt
                         goal.futureValue = pmtResponse.futureValue
                         tvPMT.text = pmtResponse.pmt.toCurrency()
-                        setGoalSummary(pmtResponse.futureValue.toCurrencyWithSpace(), durations, pmtResponse.pmt/*if (goal.customPMT == null) pmtResponse.pmt else goal.customPMT*/, goal.getPVAmount())
+                        setGoalSummary(pmtResponse.futureValue.toCurrency(), durations, pmtResponse.pmt, goal)
                         goalSummarys = goal.goalSummary()
                         rvGoalSummary?.setUpMultiViewRecyclerAdapter(goalSummarys) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                             val goalSummary = item as GoalSummary
@@ -227,11 +218,19 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     }
 
 
-    private fun setGoalSummary(amount: String, durations: String, pmt: Double, lumpsum: String? = null) {
-        /*getBinding().goal?.investmentAmount = amount
-        getBinding().goal?.investmentDuration = durations*/
-        val ssb = SpannableStringBuilder("To achieve your goal of saving ")
-        ssb.append(SpannableString(amount/*getString(R.string.rs_symbol).plus(" ").plus(amount)*/).apply {
+    private fun setGoalSummary(amount: String, durations: String, pmt: Double, goal: Goal.Data.GoalData) {
+
+        var futureValueSummary = "${goal.futureValueSummary}"
+        if (futureValueSummary.contains("\$n")) {
+            futureValueSummary = futureValueSummary.replace("\$n", durations.toColorFromHTML())
+        }
+        if (futureValueSummary.contains("\$fv")) {
+            futureValueSummary = futureValueSummary.replace("\$fv", amount.toColorFromHTML())
+        }
+        futureValueSummary = if (futureValueSummary.contentEquals("year")) futureValueSummary.replace("year", durations.toYearWord()) else futureValueSummary.replace("years", durations.toYearWord())
+
+        /*val ssb = SpannableStringBuilder("To achieve your goal of saving ")
+        ssb.append(SpannableString(amount*//*getString(R.string.rs_symbol).plus(" ").plus(amount)*//*).apply {
             setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
@@ -241,29 +240,22 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
         ssb.append(" ${durations.toYearWord()}, you'll have to invest ")
-        ssb.append(SpannableString(pmt.toCurrencyWithSpace()/*getString(R.string.rs_symbol).plus(" 1,583")*/).apply {
+        ssb.append(SpannableString(pmt.toCurrencyWithSpace()*//*getString(R.string.rs_symbol).plus(" 1,583")*//*).apply {
             setSpan(RelativeSizeSpan(1.2f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(StyleSpan(Typeface.BOLD), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         })
-        ssb.append(" every month.")
-        getViewModel().gSummary.set(ssb)
+        ssb.append(" every month.")*/
+        getViewModel().gSummary.set(futureValueSummary.toHTMl())
 
-        val ssb1 = SpannableStringBuilder("every month, for the next ")
-        ssb1.append(SpannableString(durations).apply {
-            setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-        ssb1.append(" ".plus(durations.toYearWord())/*" years"*/)
-        getViewModel().tmpFor.set(ssb1)
 
-        val ssb2 = SpannableStringBuilder("A lumpsum of ")
-        ssb2.append(SpannableString(if (TextUtils.isEmpty(lumpsum)) "0" else lumpsum).apply {
-            setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-        ssb2.append("  upfront, to achieve your goal")
-        getViewModel().lumpsumpFor.set(ssb2)
+        var yearSummary = "${goal.yearSummary}".replace("\$n", durations.toColorAndUnderlineFromHTML())
+        yearSummary = if (yearSummary.contentEquals("year")) yearSummary.replace("year", durations.toYearWord()) else yearSummary.replace("years", durations.toYearWord())
+        getViewModel().tmpFor.set(yearSummary.toHTMl())
+
+
+        val lumpsumSummary = "${goal.lumpsumSummary}".replace("\$pv", "${if (TextUtils.isEmpty(goal.getPVAmount())) "0" else goal.getPVAmount()}".toColorAndUnderlineFromHTML())
+        getViewModel().lumpsumpFor.set(lumpsumSummary.toHTMl())
     }
 
 

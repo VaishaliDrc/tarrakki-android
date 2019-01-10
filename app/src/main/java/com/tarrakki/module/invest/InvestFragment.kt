@@ -242,7 +242,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                             getViewModel().getFunds(investmentFunds.offset).observe(this@InvestFragment, observerFundsData)
                         }, 2500)
                     } else {
-                        rvFunds.adapter?.notifyDataSetChanged()
+                        rvFunds?.adapter?.notifyDataSetChanged()
                     }
                 }
             }
