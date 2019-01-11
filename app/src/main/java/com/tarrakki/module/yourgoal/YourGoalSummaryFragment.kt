@@ -83,32 +83,37 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                                     goalSummarys.forEach { item ->
                                         val summary = item as GoalSummary
                                         when (summary.txt) {
-                                            "#cv" -> {
+                                            "#cv", "#cv." -> {
                                                 goal.setCVAmount(summary.value)
                                                 investAmount = summary.value
                                             }
-                                            "#fv" -> {
+                                            "#fv", "#fv." -> {
                                                 //goalSummary.value = "${pmtResponse.futureValue}"
                                             }
-                                            "#pv" -> {
+                                            "#pv", "#pv." -> {
                                                 goal.setPVAmount(summary.value)
                                             }
-                                            "\$n" -> {
+                                            "\$n", "\$n." -> {
                                                 goalSummary.value = durations
                                             }
-                                            "\$fv" -> {
+                                            "\$fv", "\$fv." -> {
                                                 goalSummary.value = pmtResponse.futureValue.toCurrencyWithSpace()
                                             }
-                                            "#i" -> {
+                                            "#i", "#i." -> {
                                                 //goalSummary.value = "${goal.inflation}"
                                                 if (goalSummary.txt == "#i")
-                                                    goal.inflation = v.text.toString().toDoubleOrNull()
+                                                    goal.inflation = v.text.toString().replace(",", "").toDoubleOrNull()
                                             }
-                                            "#dp" -> {
+                                            "#pmt", "#pmt." -> {
+                                                if (goalSummary.txt.contains("#pmt")) {
+                                                    goal.customPMT = v.text.toString().replace(",", "").toDoubleOrNull()
+                                                }
+                                            }
+                                            "#dp", "#dp." -> {
                                                 //goalSummary.value = "${goal.getDPAmount() ?: "0"}"
                                                 goal.setDPAmount(summary.value)
                                             }
-                                            "#n" -> {
+                                            "#n", "#n." -> {
                                                 //goalSummary.value = durations
                                                 goal.setNDuration(summary.value)
                                                 durations = summary.value
@@ -125,28 +130,31 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                                 false
                             })
                             when (goalSummary.txt) {
-                                "#cv" -> {
-                                    goalSummary.value = "${goal.getCVAmount() ?: "0"}"
+                                "#cv", "#cv." -> {
+                                    goalSummary.value = goal.getCVAmount() ?: "0"
                                 }
-                                "#fv" -> {
+                                "#fv", "#fv." -> {
                                     goalSummary.value = "${pmtResponse.futureValue}"
                                 }
-                                "#pv" -> {
-                                    goalSummary.value = "${goal.getPVAmount() ?: "0"}"
+                                "#pv", "#pv." -> {
+                                    goalSummary.value = goal.getPVAmount() ?: "0"
                                 }
-                                "\$n" -> {
+                                "#pmt", "#pmt." -> {
+                                    goalSummary.value = goal.pmt?.format() ?: "0"
+                                }
+                                "\$n", "\$n." -> {
                                     goalSummary.value = durations
                                 }
-                                "\$fv" -> {
+                                "\$fv.", "\$fv" -> {
                                     goalSummary.value = pmtResponse.futureValue.toCurrencyWithSpace()
                                 }
-                                "#i" -> {
+                                "#i", "#i." -> {
                                     goalSummary.value = "${goal.inflation ?: "0"}"
                                 }
-                                "#dp" -> {
-                                    goalSummary.value = "${goal.getDPAmount() ?: "0"}"
+                                "#dp", "#dp." -> {
+                                    goalSummary.value = goal.getDPAmount() ?: "0"
                                 }
-                                "#n" -> {
+                                "#n", "#n." -> {
                                     goalSummary.value = durations
                                 }
                             }
@@ -227,25 +235,10 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         if (futureValueSummary.contains("\$fv")) {
             futureValueSummary = futureValueSummary.replace("\$fv", amount.toColorFromHTML())
         }
+        if (futureValueSummary.contains("\$pmt")) {
+            futureValueSummary = futureValueSummary.replace("\$pmt", pmt.toCurrency().toColorFromHTML())
+        }
         futureValueSummary = if (futureValueSummary.contentEquals("year")) futureValueSummary.replace("year", durations.toYearWord()) else futureValueSummary.replace("years", durations.toYearWord())
-
-        /*val ssb = SpannableStringBuilder("To achieve your goal of saving ")
-        ssb.append(SpannableString(amount*//*getString(R.string.rs_symbol).plus(" ").plus(amount)*//*).apply {
-            setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-        ssb.append(" in ")
-        ssb.append(SpannableString(durations).apply {
-            setSpan(RelativeSizeSpan(1.1f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-        ssb.append(" ${durations.toYearWord()}, you'll have to invest ")
-        ssb.append(SpannableString(pmt.toCurrencyWithSpace()*//*getString(R.string.rs_symbol).plus(" 1,583")*//*).apply {
-            setSpan(RelativeSizeSpan(1.2f), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(StyleSpan(Typeface.BOLD), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            setSpan(ForegroundColorSpan(Color.WHITE), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        })
-        ssb.append(" every month.")*/
         getViewModel().gSummary.set(futureValueSummary.toHTMl())
 
 

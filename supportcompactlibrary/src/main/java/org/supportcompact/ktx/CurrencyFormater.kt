@@ -90,6 +90,10 @@ fun TextView.format(amount: Double) {
     this.text = formatter.format(Math.round(amount))//String.format(locale, "%,d", Math.round(amount))
 }
 
+fun Double.format() = formatter.format(Math.round(this))
+
+fun Double.decimalFormat() = dFormatter.format(Math.round(this))
+
 fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.format(locale, "\u20B9%,.2f", this)
 
 fun Double.toCurrency() = "\u20B9".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))

@@ -115,7 +115,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     tools:text="@string/a_lumpsum_of_10_000_upfront_to_achieve_your_goal" />
 
-                <Button
+                <!--<Button
                     android:id="@+id/btnAddThisGoal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                     android:paddingStart="@dimen/space_32"
                     android:paddingEnd="@dimen/space_32"
                     android:text="@string/add_this_goal"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white" />-->
 
                 <TextView
                     android:id="@+id/tvSetCustom"
@@ -207,6 +207,7 @@
                 android:elevation="2dp"
                 android:orientation="vertical"
                 android:padding="8dp"
+                android:visibility="@{goal.inflationVisibility()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/homeView">
@@ -239,6 +240,19 @@
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAddThisGoal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingStart="@dimen/space_32"
+                android:paddingEnd="@dimen/space_32"
+                android:text="@string/add_this_goal"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 

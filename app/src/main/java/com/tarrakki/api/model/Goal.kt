@@ -119,6 +119,10 @@ data class Goal(
                 return if (!introQuestions.isEmpty() && introQuestions.size == 2) introQuestions[1].question else ""
             }
 
+            fun getInitHint(): String? {
+                return introQuestions.firstOrNull { q -> q.questionType == "Text" }?.options
+            }
+
             fun setAnsQ1(ans: String) {
                 if (introQuestions.isNotEmpty()) {
                     introQuestions[0].ans1 = ans
@@ -205,6 +209,8 @@ data class Goal(
             fun getN(): Question? {
                 return if (questions.isEmpty()) null else questions.firstOrNull { q -> q.parameter == "n" }
             }
+
+            fun inflationVisibility() = if (noInflation) View.GONE else View.VISIBLE
 
             fun getPMTJSON(): String {
                 val json = JsonObject()
@@ -297,10 +303,10 @@ data class Goal(
                 val data = ArrayList<WidgetsViewModel>()
                 rawData.forEach { item ->
                     when (item) {
-                        "#cv", "#fv", "#pv" -> {
+                        "#cv", "#cv.", "#fv", "#fv.", "#pv", "#pv.", "#pmt", "#pmt." -> {
                             data.add(GoalSummary(item, R.layout.summary_txt_currency))
                         }
-                        "\$n", "\$fv" -> {
+                        "\$n", "\$n.", "\$fv", "\$fv." -> {
                             data.add(GoalSummary(item, R.layout.summary_label_bold))
                         }
                         "#i", "#dp" -> {

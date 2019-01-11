@@ -173,7 +173,7 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_32"
                     android:background="@drawable/shape_edt_gray_round"
-                    android:hint="@string/l_e_honda_city"
+                    android:hint="@{goal.initHint}"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
@@ -186,7 +186,8 @@
                     android:visibility="@{goal.initQ2Visibility()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />
+                    app:layout_constraintTop_toBottomOf="@id/tvFPDetails"
+                    tools:hint="@string/l_e_honda_city" />
 
                 <Button
                     android:id="@+id/btnContinue"

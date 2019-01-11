@@ -190,6 +190,17 @@ fun setDecimalDigits(edt: EditText, minValue: Int, maxValue: Int) {
     }
 }
 
+@BindingAdapter(value = ["qRange"])
+fun setQRange(edt: EditText, q: Goal.Data.GoalData.Question) {
+    try {
+        if (!TextUtils.isEmpty("${q.minValue}") && !TextUtils.isEmpty(q.maxValue)) {
+            edt.filters = arrayOf<InputFilter>(InputFilterMinMax(q.minValue.toFloat(), q.maxValue.toFloat()))
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
 fun EditText.setMinMax(minValue: Int, maxValue: Int) {
     try {
         filters = arrayOf<InputFilter>(InputFilterMinMax(minValue, maxValue))

@@ -17,7 +17,7 @@
     <EditText
         android:id="@+id/edtDurations"
         maxValue="@{99}"
-        minValue="@{1}"
+        minValue="@{0}"
         onEditorAction="@{onAction}"
         android:layout_width="80dp"
         android:layout_height="wrap_content"

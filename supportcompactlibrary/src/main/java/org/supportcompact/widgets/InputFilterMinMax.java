@@ -23,12 +23,16 @@ public class InputFilterMinMax implements InputFilter {
     }
 
     @Override
-    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dStart, int dEnd) {
         try {
-            String data = String.valueOf(dest.toString() + source.toString()).replace(",", "");
-            Float input = Float.parseFloat(data/*dest.toString() + source.toString()*/);
+            //String data = String.valueOf(dest.toString() + source.toString()).replace(",", "");
+
+            String newVal = dest.toString().substring(0, dStart) + dest.toString().substring(dEnd, dest.toString().length());
+            newVal = newVal.substring(0, dStart) + source.toString() + newVal.substring(dStart, newVal.length());
+
+            Float input = Float.parseFloat(newVal/*dest.toString() + source.toString()*/);
             //input = Float.parseFloat(String.format(Locale.getDefault(), "%.2f", input));
-            String[] point = String.valueOf(data/*dest.toString() + source.toString()*/).split("\\.");
+            String[] point = String.valueOf(newVal/*dest.toString() + source.toString()*/).split("\\.");
             boolean isTwoDigits = false;
             if (point.length == 1) {
                 isTwoDigits = true;

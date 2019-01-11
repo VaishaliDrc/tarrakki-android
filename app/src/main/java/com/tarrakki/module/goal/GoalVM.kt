@@ -10,6 +10,7 @@ import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.printResponse
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -36,6 +37,7 @@ class GoalVM : FragmentViewModel() {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
+                                o.printResponse()
                                 val data = o.data?.parseTo<com.tarrakki.api.model.Goal>()
                                 goalList.value = data
                             } else {
