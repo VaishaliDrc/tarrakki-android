@@ -31,6 +31,9 @@ interface WebserviceBuilder {
     @POST("goals/cal_pmt/")
     fun addGoal(@Field("data") data: String): Observable<ApiResponse>
 
+    @PUT("goals/add_goal_to_cart/{id}/")
+    fun addGoalToCart(@Path("id") id: String): Observable<ApiResponse>
+
     @GET("goals/cal_pmt/")
     fun calculatePMT(@Query("data") data: String): Observable<ApiResponse>
 
@@ -50,11 +53,14 @@ interface WebserviceBuilder {
     @GET("fund-details/{id}/")
     fun getFundDetails(@Path("id") id: String): Observable<ApiResponse>
 
+    @GET("cart/")
+    fun getCartItem(): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
-        getFundDetails
+        getFundDetails, addGoalToCart, getCartItem
     }
 }

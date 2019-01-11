@@ -9,7 +9,7 @@
 
         <variable
             name="fund"
-            type="com.tarrakki.module.invest.Fund" />
+            type="com.tarrakki.api.model.CartData.Data.OrderLine" />
 
     </data>
 
@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/space_8"
             android:fontFamily="@font/lato_semibold"
             android:maxLines="2"
-            android:text="@{fund.name}"
+            android:text="@{fund.fundIdFscbiLegalName}"
             android:textColor="@color/white"
             app:layout_constraintEnd_toStartOf="@id/ivDelete"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/lato_semibold"
-            android:text="@{fund.fundType}"
+            android:text="@{fund.fundIdSchemeType}"
             android:textColor="#2C87EC"
             app:layout_constraintEnd_toStartOf="@+id/tvNewLbl"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/default_space"
             android:fontFamily="@font/lato_semibold"
-            android:text="@{fund.whatNew}"
+            android:text="Folio"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvNewLbl"
@@ -130,7 +130,7 @@
                 android:fontFamily="@font/lato_semibold"
                 android:inputType="number"
                 android:maxLines="1"
-                android:text="5,000"
+                android:text="@{fund.sipAmount+``}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"
@@ -152,7 +152,7 @@
             android:drawableEnd="@drawable/ic_drop_down_white_24dp"
             android:fontFamily="@font/lato_semibold"
             android:padding="@dimen/space_8"
-            android:text="@{fund.date}"
+            android:text="@{fund.startDate}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/llSIP"
@@ -169,7 +169,6 @@
             android:text="@string/add_one_time_amount"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="#F6C469"
-            android:visibility="@{fund.hasOneTimeAmount ? View.GONE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSIP"
             tools:visibility="invisible" />
@@ -190,7 +189,6 @@
             android:text="@string/lumpsum_amount"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
-            android:visibility="@{fund.hasOneTimeAmount ? View.VISIBLE: View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvSIP"
             tools:visibility="visible" />
@@ -202,7 +200,6 @@
             android:layout_marginStart="@dimen/space_8"
             android:background="@drawable/shape_edt_white_round"
             android:gravity="center"
-            android:visibility="@{fund.hasOneTimeAmount ? View.VISIBLE: View.INVISIBLE}"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/tvLumpsum"
             app:layout_constraintStart_toEndOf="@id/tvLumpsum"
@@ -227,9 +224,9 @@
                 android:background="@null"
                 android:fontFamily="@font/lato_semibold"
                 android:inputType="number"
-                android:minWidth="100dp"
                 android:maxLines="1"
-                android:text="20,000"
+                android:minWidth="100dp"
+                android:text="@{fund.lumpsumAmount+``}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"

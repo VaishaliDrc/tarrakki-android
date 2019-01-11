@@ -21,6 +21,7 @@ import com.tarrakki.api.model.Fund
 import com.tarrakki.api.model.RecommendedFunds
 import com.tarrakki.databinding.FragmentRecommendedBinding
 import com.tarrakki.databinding.RowRecommendedFundsListItemBinding
+import com.tarrakki.module.cart.CartFragment
 import kotlinx.android.synthetic.main.fragment_recommended.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -28,6 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getColor
+import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toCurrency
 
 
@@ -63,6 +65,7 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
         rvAMCList?.isNestedScrollingEnabled = false
         getViewModel().funds.observe(this, Observer { funds ->
             funds?.let {
+                getViewModel().userGoalId = funds.userGoalId.toString()
                 rvAMCList?.setUpRecyclerView(R.layout.row_recommended_funds_list_item, funds.data) { item: Fund, binder: RowRecommendedFundsListItemBinding, position ->
                     binder.fund = item
                     binder.executePendingBindings()
@@ -85,7 +88,7 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                     setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                 })
-                ssb2.append(" This means investing ")
+                ssb2.append(" This meanse investing ")
                 ssb2.append(SpannableString("${goal?.getInvestmentAmount()?.replace(",", "")?.toDoubleOrNull()?.toCurrency()}").apply {
                     setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -111,6 +114,15 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 e.printStackTrace()
             }
         })
+
+
+        btnGetThisGoal?.setOnClickListener {
+
+            getViewModel().addGoalToCart("24").observe(this, Observer { apiResponce ->
+                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            })
+
+        }
     }
 
     private fun setPieChartData(funds: RecommendedFunds) {
