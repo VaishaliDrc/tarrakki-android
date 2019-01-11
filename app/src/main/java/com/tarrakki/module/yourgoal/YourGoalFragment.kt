@@ -84,7 +84,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     item.forEach { question ->
                         val mView: ViewDataBinding = DataBindingUtil.bind(mPager.inflate(question.layoutId()))!!
                         mView.setVariable(BR.question, question)
-                        if (item.size == 2 && item.indexOf(question) % 2 == 0)
+                        if (item.size == 2 && (item.indexOf(question) + 1) % 2 == 0)
                             mView.setVariable(BR.onAction, TextView.OnEditorActionListener { v, actionId, _ ->
                                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                                     v.dismissKeyboard()
@@ -93,10 +93,22 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                                 }
                                 return@OnEditorActionListener false
                             })
-                        if (question.parameter == "pv" && !TextUtils.isEmpty(goal.getCVAmount())) {
+                        if (item.size == 2 && question.questionType != "boolean" && (item.indexOf(question) + 1) % 2 == 0) {
                             try {
                                 if (mView is QuestionAmountBinding) {
-                                    mView.edtInvestAmount.imeOptions = EditorInfo.IME_ACTION_NEXT
+                                    mView.edtInvestAmount.imeOptions = EditorInfo.IME_ACTION_DONE
+                                    /*val max = goal.getCVAmount()?.replace(",", "")?.toIntOrNull()
+                                    max?.let { maxValue ->
+                                        mView.edtInvestAmount.setMinMax(1, maxValue - 1)
+                                    }*/
+                                }
+                            } catch (e: java.lang.Exception) {
+                                e.printStackTrace()
+                            }
+                        } else if (item.size == 1 && question.questionType != "boolean") {
+                            try {
+                                if (mView is QuestionAmountBinding) {
+                                    mView.edtInvestAmount.imeOptions = EditorInfo.IME_ACTION_DONE
                                     /*val max = goal.getCVAmount()?.replace(",", "")?.toIntOrNull()
                                     max?.let { maxValue ->
                                         mView.edtInvestAmount.setMinMax(1, maxValue - 1)
@@ -178,6 +190,15 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
         try {
             return when ("${question.parameter}") {
                 "cv" -> {
+                    val amount = "${question.ans}".replace(",", "")
+                    if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
+                        var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        context?.simpleAlert(msg)
+                        false
+                    } else
+                        true
+                }
+                "tax_pmt" -> {
                     val amount = "${question.ans}".replace(",", "")
                     if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
                         var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))

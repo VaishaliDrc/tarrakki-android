@@ -106,7 +106,12 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                                             }
                                             "#pmt", "#pmt." -> {
                                                 if (goalSummary.txt.contains("#pmt")) {
-                                                    goal.customPMT = v.text.toString().replace(",", "").toDoubleOrNull()
+                                                    if (goal.isCustomInvestment())
+                                                        goal.customPMT = v.text.toString().replace(",", "").toDoubleOrNull()
+                                                    else {
+                                                        goal.setPMT(summary.value)
+                                                        investAmount = summary.value
+                                                    }
                                                 }
                                             }
                                             "#dp", "#dp." -> {
@@ -173,11 +178,16 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                     })
                 }
                 tvSetCustom?.setOnClickListener { v ->
-                    if (goal.customPMT == null) {
+                    /*if (goal.customPMT == null && goal.isCustomInvestment()) {
                         goal.customPMT = goal.pmt
-                    }
+                    }*/
                     v.context.investDialog(goal = goal) { amountLumpsum: String, amountSIP: String, duration: String ->
-                        goal.customPMT = amountSIP.replace(",", "").toDoubleOrNull()
+                        if (goal.isCustomInvestment()) {
+                            if (goal.pmt != amountSIP.replace(",", "").toDoubleOrNull())
+                                goal.customPMT = amountSIP.replace(",", "").toDoubleOrNull()
+                        } else {
+                            goal.setPMT(amountSIP)
+                        }
                         goal.setPVAmount(amountLumpsum)
                         goal.setNDuration(duration)
                         durations = duration
@@ -197,7 +207,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
 
     private fun isValid(goal: Goal.Data.GoalData): Boolean {
         try {
-            val cv = goal.getCV()
+            val cv: Goal.Data.GoalData.Question? = if (goal.isCustomInvestment()) goal.getCV() else goal.getPMT()
             val n = goal.getN()
             return if (cv != null && n != null) {
                 val amount = "${cv.ans}".replace(",", "")

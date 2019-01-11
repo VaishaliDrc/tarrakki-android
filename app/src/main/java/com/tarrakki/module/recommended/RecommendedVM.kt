@@ -3,7 +3,7 @@ package com.tarrakki.module.recommended
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.support.annotation.ColorRes
-import android.text.SpannableStringBuilder
+import android.text.Spanned
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
@@ -29,7 +29,7 @@ class RecommendedVM : FragmentViewModel() {
     /****Api***/
     val funds = MutableLiveData<RecommendedFunds>()
     val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
-    val lumpsumpFor = ObservableField<SpannableStringBuilder>()
+    val lumpsumpFor = ObservableField<Spanned>()
     var userGoalId: String = ""
 
 

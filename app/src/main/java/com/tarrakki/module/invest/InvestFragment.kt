@@ -27,6 +27,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toast
 
 
 /**
@@ -94,7 +95,8 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                         //startFragment(CartFragment.newInstance(), R.id.frmContainer)
                     }
                     binder.root.setOnClickListener {
-                        startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
+                        //startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
+                        toast("Fund Details is still under development so you will be able to test it in the next build.")
                     }
                 }
                 categories.clear()
@@ -256,7 +258,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             tvCartCount?.text = it.toString()
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
-            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            //startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
     }
 

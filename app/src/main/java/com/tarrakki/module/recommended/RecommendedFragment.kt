@@ -5,12 +5,7 @@ import android.arch.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.style.ForegroundColorSpan
-import android.text.style.UnderlineSpan
 import android.view.View
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -22,15 +17,14 @@ import com.tarrakki.api.model.RecommendedFunds
 import com.tarrakki.databinding.FragmentRecommendedBinding
 import com.tarrakki.databinding.RowRecommendedFundsListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.toYearWord
 import kotlinx.android.synthetic.main.fragment_recommended.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.getColor
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrency
+import org.supportcompact.ktx.*
 
 
 /**
@@ -73,54 +67,39 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 setPieChartData(funds)
             }
         })
-        getViewModel().goalVM.observe(this, Observer { goal ->
-            getBinding().goal = goal
-            getBinding().executePendingBindings()
-            /***
-             * Your goal is to reach about (strFVAmt). This means investing (strInvestmentAmt) over the next (strNoOfYears) (strYearText), including a one-time lumpsum of (strLumpsumAmt) up front.
-             *
-             *  Your goal is to reach about (strFVAmt). This means investing (strInvestmentAmt) over the next (strNoOfYears) (strYearText).
-             *
-             * */
-            try {
-                val ssb2 = SpannableStringBuilder("Your goal is to reach about ")
-                ssb2.append(SpannableString("${goal?.futureValue?.toCurrency()}.").apply {
-                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                })
-                ssb2.append(" This meanse investing ")
-                ssb2.append(SpannableString("${goal?.getInvestmentAmount()?.replace(",", "")?.toDoubleOrNull()?.toCurrency()}").apply {
-                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                })
-                ssb2.append("  over the next ")
-                ssb2.append(SpannableString("${goal?.getNDuration()}").apply {
-                    setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                })
-                if (!TextUtils.isEmpty(goal?.getPVAmount())) {
-                    ssb2.append(" ".plus("${goal?.getNDurationInWord()}, including a one-time lumpsum of "))
-                    ssb2.append(SpannableString(if (TextUtils.isEmpty("${goal?.getPVAmount()?.replace(",", "")?.toDoubleOrNull()?.toCurrency()}")) "0" else "${goal?.getPVAmount()}").apply {
-                        setSpan(ForegroundColorSpan(Color.parseColor("#00CB00")), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        setSpan(UnderlineSpan(), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    ssb2.append(" up front.")
-                } else {
-                    ssb2.append(" ${goal?.getNDurationInWord()}.")
+        getViewModel().goalVM.observe(this, Observer { it ->
+            it?.let { goal ->
+                getBinding().goal = goal
+                getBinding().executePendingBindings()
+                try {
+                    var recommendationSummary = "${goal.recommendationSummary}"
+                    if (recommendationSummary.contains("\$n")) {
+                        recommendationSummary = recommendationSummary.replace("\$n", "${goal.getNDuration()?.toColorAndUnderlineFromHTML()}")
+                    }
+                    if (recommendationSummary.contains("\$fv")) {
+                        recommendationSummary = recommendationSummary.replace("\$fv", "${goal.futureValue?.toCurrency()?.toColorAndUnderlineFromHTML()}")
+                    }
+                    if (recommendationSummary.contains("\$pmt")) {
+                        recommendationSummary = recommendationSummary.replace("\$pmt", "${goal.pmt?.toCurrency()?.toColorAndUnderlineFromHTML()}")
+                    }
+                    if (recommendationSummary.contains("\$pv")) {
+                        recommendationSummary = recommendationSummary.replace("\$pv", "${if (TextUtils.isEmpty(goal.getPVAmount())) "0" else goal.getPVAmount()}".toColorAndUnderlineFromHTML())
+                    }
+                    recommendationSummary = if (recommendationSummary.contentEquals("year")) recommendationSummary.replace("year", "${goal.getNDuration()?.toYearWord()}") else recommendationSummary.replace("years", "${goal.getNDuration()?.toYearWord()}")
+                    getViewModel().lumpsumpFor.set(recommendationSummary.toHTMl())
+                    tvRecommendedInfo?.visibility = View.VISIBLE
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-                getViewModel().lumpsumpFor.set(ssb2)
-                tvRecommendedInfo?.visibility = View.VISIBLE
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         })
 
 
         btnGetThisGoal?.setOnClickListener {
 
-            getViewModel().addGoalToCart("24").observe(this, Observer { apiResponce ->
+            /*getViewModel().addGoalToCart("24").observe(this, Observer { apiResponce ->
                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
-            })
+            })*/
 
         }
     }

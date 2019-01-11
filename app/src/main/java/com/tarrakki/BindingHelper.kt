@@ -283,7 +283,10 @@ fun Context.investDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLum
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
-    mBinder.investment = goal?.customPMT?.toString()
+    if (goal != null && goal.isCustomInvestment())
+        mBinder.investment = goal.pmt?.toString()
+    else
+        mBinder.investment = goal?.getPMT()?.ans
     mBinder.lumpsum = goal?.getPVAmount()
     mBinder.durations = goal?.getNDuration()
     mBinder.btnInvest.setOnClickListener {
@@ -309,7 +312,7 @@ fun Context.investDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLum
                 }
                     * */
                     val pvAmount = "${mBinder.lumpsum}".replace(",", "")
-                    val amount = "${goal.getCVAmount()}".replace(",", "")
+                    val amount = "${if (goal.isCustomInvestment()) goal.getCVAmount() else goal.getPMT()?.ans}".replace(",", "")
                     if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
                         //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
                         EventBus.getDefault().post(ShowError("Your lumpsum investment cannot be equal to or more than your total investment goal."))

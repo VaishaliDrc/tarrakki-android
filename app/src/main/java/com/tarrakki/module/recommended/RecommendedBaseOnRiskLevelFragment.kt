@@ -58,7 +58,7 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
             binder.executePendingBindings()
         }
         btnInvest?.setOnClickListener {
-            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            ///startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
         EventBus.getDefault().register(this)
     }

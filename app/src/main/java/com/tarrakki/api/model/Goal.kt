@@ -90,7 +90,7 @@ data class Goal(
                 override fun layoutId(): Int {
                     return when ("$questionType") {
                         "float" -> when ("$parameter") {
-                            "cv", "pv" -> R.layout.question_amount
+                            "cv", "tax_pmt", "pv" -> R.layout.question_amount
                             "n" -> R.layout.question_years
                             "dp" -> R.layout.question_percetage
                             else -> R.layout.question_amount
@@ -165,6 +165,14 @@ data class Goal(
                 return if (questions.isEmpty()) null else questions.firstOrNull { q -> q.parameter == "cv" }
             }
 
+            fun getPMT(): Question? {
+                return if (questions.isEmpty()) null else questions.firstOrNull { q -> q.parameter == "tax_pmt" }
+            }
+
+            fun setPMT(ans: String) {
+                questions.firstOrNull { q -> q.parameter == "tax_pmt" }?.ans = ans
+            }
+
             fun setCVAmount(ans: String) {
                 questions.firstOrNull { q -> q.parameter == "cv" }?.ans = ans
             }
@@ -211,6 +219,10 @@ data class Goal(
             }
 
             fun inflationVisibility() = if (noInflation) View.GONE else View.VISIBLE
+
+            fun isCustomInvestment(): Boolean {
+                return questions.firstOrNull { q -> q.parameter == "tax_pmt" } == null
+            }
 
             fun getPMTJSON(): String {
                 val json = JsonObject()
