@@ -3,6 +3,8 @@ package com.tarrakki.module.cart
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
+import android.view.View
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.model.CartData
@@ -18,6 +20,7 @@ import org.supportcompact.ktx.toCalendar
 import org.supportcompact.ktx.toDate
 import java.text.DateFormatSymbols
 import java.util.*
+
 
 /**
  * A simple [Fragment] subclass.
@@ -70,9 +73,29 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
                         getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
                             getViewModel().funds.removeAt(position)
-                            getViewModel().cartAdapter?.notifyItemChanged(position)
+                            getViewModel().cartAdapter?.notifyDataSetChanged()
                         })
                     }
+                    binder.edtLumpsum.setOnKeyListener(object : View.OnKeyListener {
+                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                            if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                return true
+                            }
+                            return false
+                        }
+                    })
+
+                    binder.edtSIPAmount.setOnKeyListener(object : View.OnKeyListener {
+                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                            if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                return true
+                            }
+                            return false
+                        }
+                    })
+
                     binder.tvDate.setOnClickListener {
                         lateinit var now: Calendar
                         item.startDate.toDate("dd MMM yyyy").let { date ->
@@ -81,7 +104,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         SpinnerDatePickerDialogBuilder()
                                 .context(context)
                                 .callback { view, year, monthOfYear, dayOfMonth ->
-                                    item.startDate = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                                    item.date = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+
                                 }
                                 .showTitle(true)
                                 .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))

@@ -97,9 +97,9 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
 
         btnGetThisGoal?.setOnClickListener {
 
-            /*getViewModel().addGoalToCart("24").observe(this, Observer { apiResponce ->
+            getViewModel().addGoalToCart(getViewModel().userGoalId).observe(this, Observer { apiResponce ->
                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
-            })*/
+            })
 
         }
     }
