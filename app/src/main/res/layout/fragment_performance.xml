@@ -11,7 +11,7 @@
 
         <variable
             name="fund"
-            type="com.tarrakki.module.invest.Fund" />
+            type="com.tarrakki.api.model.FundsDetails" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@{fund.name}"
+                    android:text="@{fund.fscbiLegalName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/item_selected_color"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentL"
@@ -53,7 +53,7 @@
                     android:id="@+id/tvCurrentL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0.43 (1.10%)"
+                    android:text="@{fund.currentReturn}"
                     android:textSize="@dimen/sp9"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -67,7 +67,7 @@
                     android:drawableEnd="@{fund.hasNegativeReturn? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
                     android:drawablePadding="@dimen/space_2"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@{fund.temp}"
+                    android:text="@{fund.nav}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@android:color/black"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvCurrentL"
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_8"
-                    android:text="NAV on 16 Aug, 2018"
+                    android:text="@{@string/nav_on + ` ` + fund.NAVDate}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -1,6 +1,7 @@
 package com.tarrakki.module.funddetails.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.graphics.Color
@@ -67,18 +68,25 @@ class PerformanceFragment : Fragment() {
         parentFragment?.let {
             fundVM = ViewModelProviders.of(it).get(FundDetailsVM::class.java)
         }
+        rvReturns?.isFocusable = false
+        rvReturns?.isNestedScrollingEnabled = false
+
+        rvEarned?.isFocusable = false
+        rvEarned?.isNestedScrollingEnabled = false
 
         fundVM?.let { itVM ->
-            binder?.fund = itVM.fund
-            binder?.executePendingBindings()
-            rvReturns?.isFocusable = false
-            rvReturns?.isNestedScrollingEnabled = false
+            itVM.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
+                fundDetailsResponse?.let { fund ->
+                    binder?.fund = fund.fundsDetails
+                    binder?.executePendingBindings()
+                }
+            })
+
             rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, itVM.returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                 binder.keyInfo = item
                 binder.executePendingBindings()
             }
-            rvEarned?.isFocusable = false
-            rvEarned?.isNestedScrollingEnabled = false
+
             rvEarned?.setUpRecyclerView(R.layout.row_earning_base_returns_list_item, itVM.earningBase) { item: TopHolding, binder: RowEarningBaseReturnsListItemBinding, position ->
                 binder.topFund = item
                 binder.executePendingBindings()

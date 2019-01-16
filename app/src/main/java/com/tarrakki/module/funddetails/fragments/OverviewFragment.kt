@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TopTenHolding
 import com.tarrakki.databinding.FragmentOverviewBinding
@@ -65,13 +64,13 @@ class OverviewFragment : Fragment() {
                     keysInfo.add(KeyInfo("Launch Date", it.fundsDetails?.inceptionDate?.toDate()?.convertTo()
                             ?: "NA"))
                     keysInfo.add(KeyInfo("Benchmark", it.fundsDetails?.benchmark))
-                    //keysInfo.add(KeyInfo("Assets Size (\u20B9cr)", App.INSTANCE.getString(R.string.rs_symbol).plus("80.09 cr(31 Mar, 2018)")))
+                    keysInfo.add(KeyInfo("Assets Size", it.fundsDetails?.netAssets))
                     keysInfo.add(KeyInfo("Asset Date", it.fundsDetails?.assetsDate))
                     keysInfo.add(KeyInfo("Minimum Investment SIP", it.fundsDetails?.minSIPAmount))
-                    keysInfo.add(KeyInfo("Minimum Investment Lump sum", App.INSTANCE.getString(R.string.rs_symbol).plus("5000")))
-                    keysInfo.add(KeyInfo("Fund Manger", "Shreyash Develkar"))
-                    keysInfo.add(KeyInfo("Exit Load", "1.0%"))
-                    keysInfo.add(KeyInfo("Volatility (VOL)", "12.05%"))
+                    keysInfo.add(KeyInfo("Minimum Investment Lump sum", it.fundsDetails?.lumpsumAmount))
+                    keysInfo.add(KeyInfo("Fund Manger", it.fundsDetails?.fundManagers))
+                    keysInfo.add(KeyInfo("Exit Load", it.fundsDetails?.exitLoad))
+                    keysInfo.add(KeyInfo("Volatility (VOL)", it.fundsDetails?.vol))
                     rvKeyInfo?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, keysInfo) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
                         binder.executePendingBindings()

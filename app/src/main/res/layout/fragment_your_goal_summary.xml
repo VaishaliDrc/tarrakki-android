@@ -12,6 +12,10 @@
         <variable
             name="goal"
             type="com.tarrakki.api.model.Goal.Data.GoalData" />
+
+        <variable
+            name="addThisGoal"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -115,17 +119,18 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     tools:text="@string/a_lumpsum_of_10_000_upfront_to_achieve_your_goal" />
 
-                <!--<Button
-                    android:id="@+id/btnAddThisGoal"
+                <Button
+                    android:id="@+id/btnAddThisGoal1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:fontFamily="@font/lato_semibold"
+                    android:onClick="@{addThisGoal}"
                     android:paddingStart="@dimen/space_32"
                     android:paddingEnd="@dimen/space_32"
                     android:text="@string/add_this_goal"
-                    android:textColor="@color/white" />-->
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/tvSetCustom"
@@ -249,6 +254,7 @@
                 android:layout_marginBottom="@dimen/_4sdp"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
+                android:onClick="@{addThisGoal}"
                 android:paddingStart="@dimen/space_32"
                 android:paddingEnd="@dimen/space_32"
                 android:text="@string/add_this_goal"

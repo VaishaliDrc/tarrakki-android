@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.tarrakki.BR
@@ -168,7 +169,8 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         }
                     }
                 }
-                btnAddThisGoal?.setOnClickListener {
+
+                getBinding().addThisGoal = View.OnClickListener {
                     getViewModel().addGoal(goal).observe(this, Observer { apiResponse ->
                         apiResponse?.let { funds ->
                             startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
@@ -177,6 +179,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         }
                     })
                 }
+
                 tvSetCustom?.setOnClickListener { v ->
                     /*if (goal.customPMT == null && goal.isCustomInvestment()) {
                         goal.customPMT = goal.pmt

@@ -29,13 +29,13 @@ data class FundsDetails(
         @SerializedName("channel_partner_code")
         val channelPartnerCode: String,
         @SerializedName("defer_loads")
-        val deferLoads: List<Any>,
+        val deferLoads: List<ExitLoad>?,
         @SerializedName("dp_day_end_nav")
         val dpDayEndNav: String,
         @SerializedName("fna_aum")
         val fnaAum: Double,
         @SerializedName("fna_surveyed_fund_net_assets")
-        val fnaSurveyedFundNetAssets: Any,
+        val fnaSurveyedFundNetAssets: String?,
         @SerializedName("fna_surveyed_fund_net_assets_date")
         val fnaSurveyedFundNetAssetsDate: String?,
         @SerializedName("fscbi_broad_category_name")
@@ -71,13 +71,13 @@ data class FundsDetails(
         @SerializedName("ls_minimum_redemption_amount")
         val lsMinimumRedemptionAmount: Any,
         @SerializedName("managers")
-        val managers: List<Any>,
+        val managers: List<FundManager>?,
         @SerializedName("mstar_id")
         val mstarId: Any,
         @SerializedName("offer_price")
         val offerPrice: Int,
         @SerializedName("pi_minimum_initial")
-        val piMinimumInitial: Any,
+        val piMinimumInitial: String?,
         @SerializedName("pi_minimum_subsequent")
         val piMinimumSubsequent: Any,
         @SerializedName("pre_dp_day_end_nav")
@@ -93,7 +93,7 @@ data class FundsDetails(
         @SerializedName("scheme_type")
         val schemeType: String,
         @SerializedName("standard_deviation_5_yr")
-        val standardDeviation5Yr: Double,
+        val standardDeviation5Yr: String?,
         @SerializedName("subscription_start_date")
         val subscriptionStartDate: Any,
         @SerializedName("total_return_index")
@@ -141,10 +141,28 @@ data class FundsDetails(
                 if (name.isEmpty()) {
                     name = it.indexName
                 }
-                name += ",${it.indexName}"
+                name += ", ${it.indexName}"
             }
             name
         } else ""
+
+    var netAssets: String? = ""
+        get() = fnaSurveyedFundNetAssets?.toDoubleOrNull()?.toCurrency()?.plus(" (${fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo()})")
+
+    var fundManagers = ""
+        get() = if (managers != null && managers.isNotEmpty()) {
+            var name = ""
+            managers.forEach {
+                if (name.isEmpty()) {
+                    name = it.name
+                }
+                name += ", ${it.name}"
+            }
+            name
+        } else ""
+
+    var exitLoad: String = ""
+        get() = if (deferLoads != null && deferLoads.isNotEmpty()) parseToPercentageOrNA(deferLoads[0].value) else ""
 
     var minSIPAmount = ""
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -152,10 +170,16 @@ data class FundsDetails(
                     ?: "NA"
         } else ""
 
+    var lumpsumAmount: String = ""
+        get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "NA"
+
+    var vol = ""
+        get() = parseToPercentageOrNA(standardDeviation5Yr)
+
     var hasNegativeReturn: Boolean = false
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
             try {
-                val result = (dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100
+                val result = ((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()
                 result < 0
             } catch (e: Exception) {
                 false
@@ -163,6 +187,23 @@ data class FundsDetails(
         } else {
             false
         }
+
+    var nav: String? = ""
+        get() = dpDayEndNav?.toDoubleOrNull()?.toReturn()
+
+    var currentReturn: String = ""
+        get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
+            try {
+                val result: String? = "${(dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()).toReturn()} (${(((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()).toReturnAsPercentage()})"
+                result ?: "NA"
+            } catch (e: Exception) {
+                e.printStackTrace()
+                "NA"
+            }
+        } else {
+            "NA"
+        }
+
 }
 
 data class IaipAip(
@@ -187,6 +228,34 @@ data class Benchmark(
         val indexName: String,
         @SerializedName("weighting")
         val weighting: Int
+)
+
+data class FundManager(
+        @SerializedName("display")
+        val display: String,
+        @SerializedName("manager_id")
+        val managerId: String,
+        @SerializedName("name")
+        val name: String,
+        @SerializedName("role")
+        val role: String,
+        @SerializedName("start_date")
+        val startDate: String,
+        @SerializedName("tenure")
+        val tenure: Double
+)
+
+data class ExitLoad(
+        @SerializedName("breakpoint_unit")
+        val breakpointUnit: String,
+        @SerializedName("high_breakpoint")
+        val highBreakpoint: Int,
+        @SerializedName("low_breakpoint")
+        val lowBreakpoint: Int,
+        @SerializedName("unit")
+        val unit: String,
+        @SerializedName("value")
+        val value: String?
 )
 
 data class TopTenHolding(

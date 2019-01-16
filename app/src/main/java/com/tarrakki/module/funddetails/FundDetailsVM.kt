@@ -23,7 +23,6 @@ import kotlin.concurrent.thread
 
 class FundDetailsVM : FragmentViewModel() {
 
-    var fund: Fund? = null
     val keysInfo = arrayListOf<KeyInfo>()
     val returns = arrayListOf<KeyInfo>()
     val topsHolding = arrayListOf<TopHolding>()

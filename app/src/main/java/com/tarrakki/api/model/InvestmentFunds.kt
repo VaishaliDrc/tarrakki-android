@@ -26,7 +26,7 @@ data class InvestmentFunds(
     data class Fund(
             @SerializedName("3y_funds")
             val yFunds: String?,
-            @SerializedName("3y_returns")
+            @SerializedName("ttr_return_3_yr")
             val yReturns: String?,
             @SerializedName("fscbi_broad_category_name")
             val fscbiBroadCategoryName: String,
@@ -59,10 +59,11 @@ data class InvestmentFunds(
             get() = parseToPercentageOrNA("$ttrReturn1Yr")
         var description: String? = null
             get() = "$schemeType-$fscbiCategoryName"
+
         var currentReturn: String = ""
             get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
                 try {
-                    val result: String? = "${(todayNAV.toDouble() - preDayNAV.toDouble()) * 100}"
+                    val result: String? = "${((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / todayNAV.toDouble()}"
                     parseToPercentageOrNA(result)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -71,10 +72,11 @@ data class InvestmentFunds(
             } else {
                 "NA"
             }
+
         var hasNegativeReturn: Boolean = false
             get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
                 try {
-                    val result = (todayNAV.toDouble() - preDayNAV.toDouble()) * 100
+                    val result = ((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / todayNAV.toDouble()
                     result < 0
                 } catch (e: Exception) {
                     false
