@@ -3,8 +3,7 @@ package com.tarrakki.module.cart
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.KeyEvent
-import android.view.View
+import android.view.inputmethod.EditorInfo
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.model.CartData
@@ -16,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.toCalendar
 import org.supportcompact.ktx.toDate
 import java.text.DateFormatSymbols
@@ -76,29 +76,35 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             getViewModel().cartAdapter?.notifyDataSetChanged()
                         })
                     }
-                    binder.edtLumpsum.setOnKeyListener(object : View.OnKeyListener {
-                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                            if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                return true
-                            }
-                            return false
+                    binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            v.dismissKeyboard()
+                            v.clearFocus()
+                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            return@setOnEditorActionListener true
                         }
-                    })
-
-                    binder.edtSIPAmount.setOnKeyListener(object : View.OnKeyListener {
-                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                            if (event.getAction() === KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                return true
-                            }
-                            return false
+                        return@setOnEditorActionListener false
+                    }
+                    binder.edtSIPAmount.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            v.dismissKeyboard()
+                            v.clearFocus()
+                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            return@setOnEditorActionListener true
                         }
-                    })
+                        return@setOnEditorActionListener false
+                    }
+                    /*binder.edtSIPAmount.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+                        if (event.action ===) {
+                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            return@OnKeyListener true
+                        }
+                        false
+                    })*/
 
                     binder.tvDate.setOnClickListener {
-                        lateinit var now: Calendar
-                        item.startDate.toDate("dd MMM yyyy").let { date ->
+                        var now: Calendar = Calendar.getInstance()
+                        item.date?.toDate("dd MMM yyyy")?.let { date ->
                             now = date.toCalendar()
                         }
                         SpinnerDatePickerDialogBuilder()

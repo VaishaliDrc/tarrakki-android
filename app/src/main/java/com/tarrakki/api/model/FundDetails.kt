@@ -2,10 +2,7 @@ package com.tarrakki.api.model
 
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
-import org.supportcompact.ktx.convertTo
-import org.supportcompact.ktx.parseToPercentageOrNA
-import org.supportcompact.ktx.toDate
-import org.supportcompact.ktx.toReturn
+import org.supportcompact.ktx.*
 
 data class FundDetails(
         @SerializedName("bank_savings_return")
@@ -26,7 +23,7 @@ data class FundsDetails(
         @SerializedName("amc_ind")
         val amcInd: String,
         @SerializedName("benchmarks")
-        val benchmarks: List<Benchmark>,
+        val benchmarks: List<Benchmark>?,
         @SerializedName("bse_amc_code")
         val bseAmcCode: String,
         @SerializedName("channel_partner_code")
@@ -40,7 +37,7 @@ data class FundsDetails(
         @SerializedName("fna_surveyed_fund_net_assets")
         val fnaSurveyedFundNetAssets: Any,
         @SerializedName("fna_surveyed_fund_net_assets_date")
-        val fnaSurveyedFundNetAssetsDate: Any,
+        val fnaSurveyedFundNetAssetsDate: String?,
         @SerializedName("fscbi_broad_category_name")
         val fscbiBroadCategoryName: String,
         @SerializedName("fscbi_category_id")
@@ -60,7 +57,7 @@ data class FundsDetails(
         @SerializedName("fscbi_rta_code")
         val fscbiRtaCode: Any,
         @SerializedName("iaip_aip")
-        val iaipAip: List<IaipAip>,
+        val iaipAip: List<IaipAip>?,
         @SerializedName("id")
         val id: Int,
         @SerializedName("inception_date")
@@ -125,6 +122,9 @@ data class FundsDetails(
     var NAVDate: String = ""
         get() = tsDayEndNavDate?.toDate()?.convertTo() ?: "NA"
 
+    var assetsDate: String = ""
+        get() = fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo() ?: "NA"
+
     var riskProgress = 20
         get() = when {
             "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 40
@@ -133,6 +133,24 @@ data class FundsDetails(
             "High Risk".equals(fscbiIndianRiskLevel, true) -> 90
             else -> 20
         }
+
+    var benchmark = ""
+        get() = if (benchmarks != null && benchmarks.isNotEmpty()) {
+            var name = ""
+            benchmarks.forEach {
+                if (name.isEmpty()) {
+                    name = it.indexName
+                }
+                name += ",${it.indexName}"
+            }
+            name
+        } else ""
+
+    var minSIPAmount = ""
+        get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
+            iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount?.toCurrency()
+                    ?: "NA"
+        } else ""
 
     var hasNegativeReturn: Boolean = false
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
@@ -153,7 +171,7 @@ data class IaipAip(
         @SerializedName("frequency_date")
         val frequencyDate: String,
         @SerializedName("min_amount")
-        val minAmount: Int,
+        val minAmount: Double?,
         @SerializedName("min_tenure")
         val minTenure: Int,
         @SerializedName("si_type")

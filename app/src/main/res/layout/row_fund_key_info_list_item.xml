@@ -19,24 +19,26 @@
 
         <TextView
             android:id="@+id/tvKey"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{keyInfo.key}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
-            app:layout_constraintEnd_toStartOf="@id/tvValue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="AMC Name" />
 
         <TextView
             android:id="@+id/tvValue"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
             android:text="@{keyInfo.value}"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvKey"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Axis Mutual Fund" />
 
