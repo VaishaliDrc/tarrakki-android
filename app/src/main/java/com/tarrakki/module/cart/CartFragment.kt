@@ -58,11 +58,20 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 else
                     getViewModel().totalSip.set(it.data.totalSip.toString())
 
-                rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, it.data.orderLines as ArrayList<CartData.Data.OrderLine>) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
+                getViewModel().funds = it.data.orderLines as ArrayList<CartData.Data.OrderLine>
+
+                getViewModel().cartAdapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
                     binder.fund = item
                     binder.executePendingBindings()
                     binder.tvAddOneTimeAmount.setOnClickListener {
-                        //                        item.hasOneTimeAmount = true
+                        item.hasOneTimeAmount = true
+                    }
+                    binder.ivDelete.setOnClickListener {
+
+                        getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
+                            getViewModel().funds.removeAt(position)
+                            getViewModel().cartAdapter?.notifyItemChanged(position)
+                        })
                     }
                     binder.tvDate.setOnClickListener {
                         lateinit var now: Calendar

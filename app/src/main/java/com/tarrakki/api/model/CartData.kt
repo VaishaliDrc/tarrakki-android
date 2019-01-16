@@ -1,6 +1,12 @@
 package com.tarrakki.api.model
 
+import android.databinding.BaseObservable
+import android.databinding.Bindable
 import com.google.gson.annotations.SerializedName
+import com.tarrakki.BR
+import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.toDate
+import java.io.Serializable
 
 data class CartData(
         @SerializedName("data")
@@ -33,6 +39,23 @@ data class CartData(
                 val sipAmount: Int,
                 @SerializedName("start_date")
                 var startDate: String
-        )
+        ) : BaseObservable(), Serializable {
+            @get:Bindable
+            var hasOneTimeAmount: Boolean = false
+                get() = lumpsumAmount > 0
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.hasOneTimeAmount)
+                }
+
+            @get:Bindable
+            var date: String? = startDate
+                get() = startDate.toDate().convertTo()
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.date)
+                }
+        }
+
     }
 }

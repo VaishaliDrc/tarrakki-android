@@ -56,11 +56,14 @@ interface WebserviceBuilder {
     @GET("cart/")
     fun getCartItem(): Observable<ApiResponse>
 
+    @DELETE("add_to_cart/{id}/")
+    fun deleteCartItem(@Path("id") id: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
-        getFundDetails, addGoalToCart, getCartItem
+        getFundDetails, addGoalToCart, getCartItem, deleteCartItem
     }
 }
