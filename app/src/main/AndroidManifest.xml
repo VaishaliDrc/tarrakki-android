@@ -69,7 +69,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"

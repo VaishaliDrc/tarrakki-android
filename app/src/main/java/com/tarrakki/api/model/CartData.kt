@@ -32,17 +32,17 @@ data class CartData(
                 @SerializedName("id")
                 val id: Int,
                 @SerializedName("lumpsum_amount")
-                val lumpsumAmount: Int,
+                var lumpsumAmount: String,
                 @SerializedName("order_id_id")
                 val orderIdId: Int,
                 @SerializedName("sip_amount")
-                val sipAmount: Int,
+                var sipAmount: String,
                 @SerializedName("start_date")
-                var startDate: String
+                var startDate: String?
         ) : BaseObservable(), Serializable {
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
-                get() = lumpsumAmount > 0
+                get() = lumpsumAmount > "0".toInt().toString()
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.hasOneTimeAmount)
@@ -50,7 +50,7 @@ data class CartData(
 
             @get:Bindable
             var date: String? = startDate
-                get() = startDate.toDate().convertTo()
+                get() = startDate?.toDate()?.convertTo()
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.date)
