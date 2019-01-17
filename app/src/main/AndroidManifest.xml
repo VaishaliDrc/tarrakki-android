@@ -14,8 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:name">
+        tools:replace="android:allowBackup,android:name"
+        tools:targetApi="m">
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait">

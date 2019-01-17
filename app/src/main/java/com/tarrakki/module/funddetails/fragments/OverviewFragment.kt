@@ -51,16 +51,19 @@ class OverviewFragment : Fragment() {
         fundVM?.let {
             it.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
                 fundDetailsResponse?.let { it ->
-                    rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, it.topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->
-                        binder.topFund = item
-                        binder.executePendingBindings()
+                    it.topTenHoldings?.let { topTenHoldings ->
+                        rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->
+                            binder.topFund = item
+                            binder.executePendingBindings()
+                        }
                     }
                     binder?.fund = it.fundsDetails
                     binder?.executePendingBindings()
+                    binder?.root?.visibility = View.VISIBLE
                     val keysInfo = arrayListOf<KeyInfo>()
-                    keysInfo.add(KeyInfo("AMC Name", it.fundsDetails?.fscbiProviderCompanyName))
+                    keysInfo.add(KeyInfo("AMC Name", it.fundsDetails?.amcName))
                     keysInfo.add(KeyInfo("Fund Type", it.fundsDetails?.fscbiLegalStructure))
-                    keysInfo.add(KeyInfo("Investment Plan", it.fundsDetails?.fscbiDistributionStatus))
+                    keysInfo.add(KeyInfo("Investment Plan", it.fundsDetails?.schemePlan))
                     keysInfo.add(KeyInfo("Launch Date", it.fundsDetails?.inceptionDate?.toDate()?.convertTo()
                             ?: "NA"))
                     keysInfo.add(KeyInfo("Benchmark", it.fundsDetails?.benchmark))

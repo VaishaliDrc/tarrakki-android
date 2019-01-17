@@ -65,6 +65,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                             }
                             0 -> {
                                 startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
+                                postSticky(item)
                             }
                         }
                     })

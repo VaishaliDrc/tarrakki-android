@@ -18,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="false"
-        tools:context=".module.funddetails.fragments.OverviewFragment">
+        android:visibility="gone"
+        tools:context=".module.funddetails.fragments.OverviewFragment"
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_8"
-                    android:text="@{@string/nav_on + ` ` + fund.NAVDate}"
+                    android:text="@{@string/nav_on + ` ` + fund.NAVDate ?? ``}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

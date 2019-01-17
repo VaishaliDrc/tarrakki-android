@@ -9,7 +9,6 @@ import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.FundDetails
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.model.printResponse
-import com.tarrakki.module.invest.Fund
 import com.tarrakki.module.invest.FundType
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -88,6 +87,7 @@ class FundDetailsVM : FragmentViewModel() {
                                 thread {
                                     o.printResponse()
                                     val fundDetails = o.data?.parseTo<FundDetails>()
+                                    fundDetails?.topTenHoldings
                                     fundDetailsResponse.postValue(fundDetails)
                                 }
                             } else {

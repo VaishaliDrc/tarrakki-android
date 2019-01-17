@@ -2,9 +2,12 @@ package com.tarrakki.api.model
 
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import com.tarrakki.api.AES
+import org.json.JSONArray
 import org.json.JSONObject
 import org.supportcompact.ktx.e
+
 
 data class ApiResponse(
         @SerializedName("data")
@@ -29,6 +32,18 @@ inline fun <reified T> String.parseTo(): T? {
         val data = JSONObject(this.toDecrypt())
         e("Response=>$data")
         Gson().fromJson(data.toString(), T::class.java)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+inline fun <reified T> String.parseArray(): T? {
+    return try {
+        val data = JSONArray(this)
+        e("Response Array=>$data")
+        val listType = object : TypeToken<T>() {}.type
+        Gson().fromJson(data.toString(), listType)
     } catch (e: Exception) {
         e.printStackTrace()
         null

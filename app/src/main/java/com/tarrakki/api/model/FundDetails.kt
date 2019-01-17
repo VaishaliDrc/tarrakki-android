@@ -1,8 +1,10 @@
 package com.tarrakki.api.model
 
 import android.text.TextUtils
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.*
+
 
 data class FundDetails(
         @SerializedName("bank_savings_return")
@@ -12,10 +14,41 @@ data class FundDetails(
         @SerializedName("funds_details")
         val fundsDetails: FundsDetails?,
         @SerializedName("top_ten_holdings")
-        val topTenHoldings: ArrayList<TopTenHolding>
-)
+        val topTenHolding: Any
+) {
+
+    var topTenHoldings: ArrayList<TopTenHolding>? = null
+        get() = if (field == null) {
+            field = arrayListOf()
+            if (topTenHolding is List<*>) {
+                try {
+                    val gson = Gson()
+                    topTenHolding.forEach { item ->
+                        val jsonObject = gson.toJsonTree(item).asJsonObject
+                        val data = gson.fromJson(jsonObject, TopTenHolding::class.java)
+                        data?.let {
+                            field?.add(it)
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                e("is ArrayList=>", true)
+            } else {
+                val data = topTenHolding.toString().parseArray<ArrayList<TopTenHolding>>()
+                data?.let {
+                    field?.addAll(it)
+                }
+            }
+            field
+        } else {
+            field
+        }
+}
 
 data class FundsDetails(
+        @SerializedName("amc_name")
+        val amcName: String,
         @SerializedName("active")
         val active: Boolean,
         @SerializedName("amc_active_flag")
@@ -189,7 +222,7 @@ data class FundsDetails(
         }
 
     var nav: String? = ""
-        get() = dpDayEndNav?.toDoubleOrNull()?.toReturn()
+        get() = dpDayEndNav.toDoubleOrNull()?.toReturn()
 
     var currentReturn: String = ""
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
@@ -259,8 +292,46 @@ data class ExitLoad(
 )
 
 data class TopTenHolding(
+        @SerializedName("Country")
+        val country: String,
+        @SerializedName("CountryId")
+        val countryId: String,
+        @SerializedName("Coupon")
+        val coupon: String,
+        @SerializedName("Currency")
+        val currency: String,
+        @SerializedName("CurrencyId")
+        val currencyId: String,
+        @SerializedName("GlobalSector")
+        val globalSector: String,
+        @SerializedName("GlobalSectorId")
+        val globalSectorId: String,
+        @SerializedName("HoldingType")
+        val holdingType: String,
+        @SerializedName("ISIN")
+        val iSIN: String,
+        @SerializedName("IndianCreditQualityClassification")
+        val indianCreditQualityClassification: String,
+        @SerializedName("MarketValue")
+        val marketValue: String,
+        @SerializedName("MaturityDate")
+        val maturityDate: String,
         @SerializedName("Name")
         val name: String,
+        @SerializedName("NumberOfShare")
+        val numberOfShare: String,
+        @SerializedName("RegionId")
+        val regionId: String,
+        @SerializedName("Sector")
+        val sector: String,
+        @SerializedName("SectorId")
+        val sectorId: String,
+        @SerializedName("ShareChange")
+        val shareChange: String,
+        @SerializedName("Stylebox")
+        val stylebox: String,
+        @SerializedName("Ticker")
+        val ticker: String,
         @SerializedName("Weighting")
         val weighting: String
 ) {
@@ -273,3 +344,4 @@ data class TopTenHolding(
             0
         }
 }
+
