@@ -1,5 +1,6 @@
 package com.tarrakki.module.forgotpassword
 
+import android.arch.lifecycle.Observer
 import android.util.Patterns
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityForgotPasswordBinding
@@ -37,10 +38,16 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
                     edtEmail?.selectAll()
                 }
             } else {
-                simpleAlert("Reset password link has been sent to your email address") {
-                    edtEmail?.text?.clear()
-                    finish()
-                }
+
+                getViewModel().forgotPassword().observe(this, Observer { apiResponse ->
+                    simpleAlert("Reset password link has been sent to your email address") {
+                        edtEmail?.text?.clear()
+                        finish()
+                    }
+
+                })
+
+
             }
         }
     }

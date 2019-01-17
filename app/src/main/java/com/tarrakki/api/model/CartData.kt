@@ -42,7 +42,7 @@ data class CartData(
         ) : BaseObservable(), Serializable {
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
-                get() = if (lumpsumAmount > "0".toInt().toString()) true else false
+                get() = lumpsumAmount > "0".toInt().toString()
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.hasOneTimeAmount)

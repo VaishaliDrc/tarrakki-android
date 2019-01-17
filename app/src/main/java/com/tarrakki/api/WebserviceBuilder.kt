@@ -68,11 +68,16 @@ interface WebserviceBuilder {
                        @Field("sip_amount") sip_amount: Double
     ): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("users/forgot-password/")
+    fun forgotPassword(@Field("email") email: String,
+                       @Field("type") type: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
-        getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem
+        getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword
     }
 }
