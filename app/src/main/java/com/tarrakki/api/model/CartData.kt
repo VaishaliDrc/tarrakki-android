@@ -42,19 +42,20 @@ data class CartData(
         ) : BaseObservable(), Serializable {
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
-                get() = lumpsumAmount > "0".toInt().toString()
+                get() = if (lumpsumAmount > "0".toInt().toString()) true else false
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.hasOneTimeAmount)
                 }
 
             @get:Bindable
-            var date: String? = startDate
-                get() = startDate?.toDate()?.convertTo()
+            var date: String? = startDate?.toDate()?.convertTo()
+                get() = if (field == null) startDate?.toDate()?.convertTo() else field
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.date)
                 }
+
         }
 
     }

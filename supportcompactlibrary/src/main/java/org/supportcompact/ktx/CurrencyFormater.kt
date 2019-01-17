@@ -112,3 +112,9 @@ fun parseToPercentageOrNA(num: String?): String {
         "NA"
     }
 }
+
+fun String.toCurrency(): Double = try {
+    this.replace(",", "").toDoubleOrNull() ?: 0.0
+} catch (e: java.lang.Exception) {
+    0.0
+}

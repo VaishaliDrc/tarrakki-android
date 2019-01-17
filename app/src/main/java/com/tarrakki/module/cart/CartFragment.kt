@@ -26,7 +26,7 @@ import java.util.*
  * A simple [Fragment] subclass.
  * Use the [CartFragment.newInstance] factory method to
  * create an instance of this fragment.
- */
+ **/
 class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     override val isBackEnabled: Boolean
@@ -111,7 +111,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                                 .context(context)
                                 .callback { view, year, monthOfYear, dayOfMonth ->
                                     item.date = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
-
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
                                 }
                                 .showTitle(true)
                                 .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
