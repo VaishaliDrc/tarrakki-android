@@ -62,9 +62,10 @@ data class Fund(
 
     @ColorRes
     var fundColor: Int = R.color.balanced_fund_color
-        get() = when ("$schemeType") {
-            "EQUITY" -> R.color.equity_fund_color
-            "DEBT" -> R.color.debt_fund_color
+        get() = when {
+            "EQUITY".equals("$schemeType", true) -> R.color.equity_fund_color
+            "DEBT".equals("$schemeType", true) -> R.color.debt_fund_color
+            "FOF".equals("$schemeType", true) -> R.color.fof_fund_color
             else -> R.color.balanced_fund_color
         }
 }

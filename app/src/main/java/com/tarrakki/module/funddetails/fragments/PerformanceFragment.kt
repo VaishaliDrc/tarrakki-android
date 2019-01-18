@@ -40,6 +40,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.inputclasses.InputFilterMinMax
 import org.supportcompact.ktx.format
 import org.supportcompact.ktx.getColor
+import org.supportcompact.ktx.parseAsReturnOrNA
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -73,24 +74,194 @@ class PerformanceFragment : Fragment() {
 
         rvEarned?.isFocusable = false
         rvEarned?.isNestedScrollingEnabled = false
-
+        var amount = 100000
+        var durations = 1.0
         fundVM?.let { itVM ->
             itVM.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
                 fundDetailsResponse?.let { fund ->
                     binder?.fund = fund.fundsDetails
                     binder?.executePendingBindings()
+
+                    val returns = arrayListOf<KeyInfo>()
+                    returns.add(KeyInfo("1 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn1Mth)))
+                    returns.add(KeyInfo("3 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn3Mth)))
+                    returns.add(KeyInfo("6 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn6Mth)))
+                    returns.add(KeyInfo("1 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn1Yr)))
+                    returns.add(KeyInfo("3 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn3Yr)))
+                    returns.add(KeyInfo("5 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn5Yr)))
+                    returns.add(KeyInfo("Since Inception", parseAsReturnOrNA(fund.fundsDetails?.ttrReturnSinceInception)))
+                    rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
+                        binder.keyInfo = item
+                        binder.executePendingBindings()
+                    }
+                    //sdjksd
+                    itVM.earningBase.clear()
+                    itVM.earningBase.add(TopHolding("Tarrakki Direct Plan", 100, fund.tarrakkiReturn))
+                    //earningBase.add(TopHolding("Regular Plan", 65, 8.5, 109300.00))
+                    itVM.earningBase.add(TopHolding("Fixed Deposit", 45, fund.fixedDepositReturn?.toDoubleOrNull()
+                            ?: 0.0))
+                    itVM.earningBase.add(TopHolding("Bank Savings Account", 40, fund.bankSavingsReturn?.toDoubleOrNull()
+                            ?: 0.0))
+                    itVM.earningBase.forEach { item ->
+                        item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                            durations * 12
+                        } else {
+                            durations
+                        }, item.percentageHolding)
+                        if (itVM.earningBase.indexOf(item) == 0) {
+                            item.process = 100
+                        } else {
+                            item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                        }
+                    }
+                    rvEarned?.setUpRecyclerView(R.layout.row_earning_base_returns_list_item, itVM.earningBase) { item: TopHolding, binder: RowEarningBaseReturnsListItemBinding, position ->
+                        binder.topFund = item
+                        binder.executePendingBindings()
+                    }
+
+                    edtInvestAmount?.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p: Editable?) {
+                            if (p != null && p.isNotEmpty()) {
+                                try {
+                                    amount = p.toString().replace(",", "").toInt()
+                                    itVM.earningBase.forEach { item ->
+                                        item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                            durations * 12
+                                        } else {
+                                            durations
+                                        }, item.percentageHolding)
+                                        if (itVM.earningBase.indexOf(item) == 0) {
+                                            item.process = 100
+                                        } else {
+                                            item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                                        }
+                                    }
+                                    rvEarned?.adapter?.notifyDataSetChanged()
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            } else {
+                                itVM.earningBase.forEach { item ->
+                                    item.amount = 00.00
+                                    item.process = 0
+                                }
+                                rvEarned?.adapter?.notifyDataSetChanged()
+                            }
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        }
+
+                        private var current = ""
+
+                        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            if (s == null || s.isEmpty()) {
+                                current = ""
+                                return
+                            }
+                            if (s.toString() != current) {
+                                try {
+                                    edtInvestAmount?.removeTextChangedListener(this)
+                                    val cleanString = s.toString().replace(",", "")
+                                    val price = cleanString.toDouble()
+                                    if (price > 0) {
+                                        edtInvestAmount?.format(price)
+                                    } else {
+                                        edtInvestAmount?.text?.clear()
+                                    }
+                                    current = edtInvestAmount?.text.toString()
+                                    edtInvestAmount?.setSelection(current.length)
+                                    edtInvestAmount?.addTextChangedListener(this)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
+                        }
+                    })
+                    edtYears?.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p: Editable?) {
+                            if (p != null && p.isNotEmpty()) {
+                                durations = p.toString().toDouble()
+                                itVM.earningBase.forEach { item ->
+                                    if (itVM.earningBase.indexOf(item) == 0) {
+                                        item.percentageHolding = fund.getReturn(durations.toInt(), spnDuration?.selectedItemPosition
+                                                ?: 0)
+                                    }
+                                    item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                        durations * 12
+                                    } else {
+                                        durations
+                                    }, item.percentageHolding)
+                                    if (itVM.earningBase.indexOf(item) == 0) {
+                                        if (item.percentageHolding <= 0) {
+                                            item.process = 0
+                                            item.amount = 0.0
+                                        } else {
+                                            item.process = 100
+                                        }
+                                    } else {
+                                        item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                                    }
+                                }
+                                rvEarned?.adapter?.notifyDataSetChanged()
+                            } else {
+                                itVM.earningBase.forEach { item ->
+                                    item.amount = 00.00
+                                    item.process = 0
+                                }
+                                rvEarned?.adapter?.notifyDataSetChanged()
+                            }
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        }
+                    })
+                    spnDuration?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                        }
+
+                        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                            if (spnDuration?.selectedItemPosition == 0) {
+                                edtYears?.setText("1")
+                                edtYears?.filters = arrayOf(InputFilterMinMax(1, 99))
+                            } else {
+                                edtYears?.setText("12")
+                                edtYears?.filters = arrayOf(InputFilterMinMax(1, 1188))
+                            }
+                            itVM.earningBase.forEach { item ->
+                                if (itVM.earningBase.indexOf(item) == 0) {
+                                    item.percentageHolding = fund.getReturn(durations.toInt(), spnDuration?.selectedItemPosition
+                                            ?: 0)
+                                }
+                                item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
+                                    durations * 12
+                                } else {
+                                    durations
+                                }, item.percentageHolding)
+                                if (itVM.earningBase.indexOf(item) == 0) {
+                                    if (item.percentageHolding <= 0) {
+                                        item.process = 0
+                                        item.amount = 0.0
+                                    } else {
+                                        item.process = 100
+                                    }
+                                } else {
+                                    item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
+                                }
+                            }
+                            rvEarned?.adapter?.notifyDataSetChanged()
+                        }
+                    }
+
                 }
             })
-
-            rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, itVM.returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
-                binder.keyInfo = item
-                binder.executePendingBindings()
-            }
-
-            rvEarned?.setUpRecyclerView(R.layout.row_earning_base_returns_list_item, itVM.earningBase) { item: TopHolding, binder: RowEarningBaseReturnsListItemBinding, position ->
-                binder.topFund = item
-                binder.executePendingBindings()
-            }
 
             var selectedAt = 3
             rvDurations?.setUpRecyclerView(R.layout.row_duration_list_item, itVM.durations) { item: FundType, binder: RowDurationListItemBinding, position ->
@@ -105,131 +276,6 @@ class PerformanceFragment : Fragment() {
                     // add data
                     setUpChart(15)
                     mChart.invalidate()
-                }
-            }
-            var amount = 100000
-            var durations = 1.0
-            edtInvestAmount?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p: Editable?) {
-                    if (p != null && p.isNotEmpty()) {
-                        try {
-                            amount = p.toString().replace(",", "").toInt()
-                            itVM.earningBase.forEach { item ->
-                                item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                    durations * 12
-                                } else {
-                                    durations
-                                }, item.percentageHolding)
-                                if (itVM.earningBase.indexOf(item) == 0) {
-                                    item.process = 100
-                                } else {
-                                    item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                                }
-                            }
-                            rvEarned?.adapter?.notifyDataSetChanged()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    } else {
-                        itVM.earningBase.forEach { item ->
-                            item.amount = 00.00
-                            item.process = 0
-                        }
-                        rvEarned?.adapter?.notifyDataSetChanged()
-                    }
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                private var current = ""
-
-                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (s == null || s.isEmpty()) {
-                        current = ""
-                        return
-                    }
-                    if (s.toString() != current) {
-                        try {
-                            edtInvestAmount?.removeTextChangedListener(this)
-                            val cleanString = s.toString().replace(",", "")
-                            val price = cleanString.toDouble()
-                            if (price > 0) {
-                                edtInvestAmount?.format(price)
-                            } else {
-                                edtInvestAmount?.text?.clear()
-                            }
-                            current = edtInvestAmount?.text.toString()
-                            edtInvestAmount?.setSelection(current.length)
-                            edtInvestAmount?.addTextChangedListener(this)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            })
-
-            edtYears?.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p: Editable?) {
-                    if (p != null && p.isNotEmpty()) {
-                        durations = p.toString().toDouble()
-                        itVM.earningBase.forEach { item ->
-                            item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                durations * 12
-                            } else {
-                                durations
-                            }, item.percentageHolding)
-                            if (itVM.earningBase.indexOf(item) == 0) {
-                                item.process = 100
-                            } else {
-                                item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                            }
-                        }
-                        rvEarned?.adapter?.notifyDataSetChanged()
-                    } else {
-                        itVM.earningBase.forEach { item ->
-                            item.amount = 00.00
-                            item.process = 0
-                        }
-                        rvEarned?.adapter?.notifyDataSetChanged()
-                    }
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-            })
-            spnDuration?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-
-                }
-
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    if (spnDuration?.selectedItemPosition == 0) {
-                        edtYears?.setText("1")
-                        edtYears?.filters = arrayOf(InputFilterMinMax(1, 99))
-                    } else {
-                        edtYears?.setText("12")
-                        edtYears?.filters = arrayOf(InputFilterMinMax(1, 1188))
-                    }
-                    itVM.earningBase.forEach { item ->
-                        item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                            durations * 12
-                        } else {
-                            durations
-                        }, item.percentageHolding)
-                        if (itVM.earningBase.indexOf(item) == 0) {
-                            item.process = 100
-                        } else {
-                            item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                        }
-                    }
-                    rvEarned?.adapter?.notifyDataSetChanged()
                 }
             }
         }

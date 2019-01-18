@@ -113,4 +113,7 @@ data class InvestmentFunds(
         return riskLevels.firstOrNull { r -> riskLevel.equals(r.name, true) }?.id
     }
 
+    fun getRiskLevelName(riskLevelId: String?): String? {
+        return riskLevels.firstOrNull { r -> "$riskLevelId".equals("${r.id}", true) }?.name
+    }
 }

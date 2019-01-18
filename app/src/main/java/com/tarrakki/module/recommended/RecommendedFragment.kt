@@ -123,6 +123,10 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                     entries.add(PieEntry(sum, "DEBT"))
                     getColor(R.color.debt_fund_color)?.let { colors.add(it) }
                 }
+                "FOF".equals(action.key, true) -> {
+                    entries.add(PieEntry(sum, "FOF"))
+                    getColor(R.color.fof_fund_color)?.let { colors.add(it) }
+                }
                 else -> {
                     entries.add(PieEntry(sum, "BALANCED"))
                     getColor(R.color.balanced_fund_color)?.let { colors.add(it) }

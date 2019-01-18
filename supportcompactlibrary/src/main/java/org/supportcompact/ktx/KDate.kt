@@ -17,6 +17,17 @@ fun String.toDate(withFormat: String = "yyyy-MM-dd"): Date {
     return convertedDate
 }
 
+fun Date.toDate(withFormat: String = "yyyy-MM-dd"): Date {
+    val dateFormat = SimpleDateFormat(withFormat, Locale.US)
+    var convertedDate = Date()
+    try {
+        convertedDate = dateFormat.format(this).toDate()
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    return convertedDate
+}
+
 fun String.toAPIDateFormate(withFormat: String = "dd MMM yyyy"): String {
     val dateFormat = SimpleDateFormat(withFormat, Locale.US)
     val apiateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -29,7 +40,6 @@ fun String.toAPIDateFormate(withFormat: String = "dd MMM yyyy"): String {
     }
     return date
 }
-
 
 // Converts current date to proper provided format
 fun Date.convertTo(format: String = "dd MMM yyyy"): String? {

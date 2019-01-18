@@ -1,16 +1,21 @@
 package com.tarrakki.api.model
 
 import android.text.TextUtils
-import com.google.gson.Gson
+import com.google.gson.*
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 import org.supportcompact.ktx.*
+import java.lang.reflect.Type
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 data class FundDetails(
         @SerializedName("bank_savings_return")
-        val bankSavingsReturn: String,
+        val bankSavingsReturn: String?,
         @SerializedName("fixed_deposit_return")
-        val fixedDepositReturn: String,
+        val fixedDepositReturn: String?,
         @SerializedName("funds_details")
         val fundsDetails: FundsDetails?,
         @SerializedName("top_ten_holdings")
@@ -44,6 +49,49 @@ data class FundDetails(
         } else {
             field
         }
+
+    var returnsHistory: ArrayList<ReturnsHistory>? = null
+        get() = if (field == null) {
+            field = arrayListOf()
+            fundsDetails?.totalReturnIndex?.let {
+                val listType = object : TypeToken<ArrayList<ReturnsHistory>>() {}.type
+                val gsonBuilder = GsonBuilder()
+                gsonBuilder.registerTypeAdapter(Date::class.java, object : JsonDeserializer<Date> {
+                    var df: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+                    @Throws(JsonParseException::class)
+                    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Date? {
+                        return try {
+                            df.parse(json.asString)
+                        } catch (ex: java.lang.Exception) {
+                            Date()
+                        }
+                    }
+                })
+                val dateGson = gsonBuilder.create()
+                val data = dateGson.fromJson<ArrayList<ReturnsHistory>>(it, listType)
+                data?.let { all ->
+                    field?.addAll(all)
+                }
+            }
+            field
+        } else {
+            field
+        }
+
+    var tarrakkiReturn: Double = 0.0
+        get() = if (field == 0.0) getReturn() else field
+
+    fun getReturn(x: Int = 1, y: Int = 0): Double {
+        var mReturn = 0.0
+        val now = Calendar.getInstance()
+        now.add(if (y == 0) Calendar.YEAR else Calendar.MONTH, -x)
+        val date = now.time.toDate()
+        val data = returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 }
+        data?.let {
+            mReturn = data.value?.toDoubleOrNull() ?: 0.0
+        }
+        return mReturn.decimalFormat().toCurrency()
+    }
 }
 
 data class FundsDetails(
@@ -78,7 +126,7 @@ data class FundsDetails(
         @SerializedName("fscbi_distribution_status")
         val fscbiDistributionStatus: String,
         @SerializedName("fscbi_indian_risk_level")
-        val fscbiIndianRiskLevel: String?,
+        var fscbiIndianRiskLevel: String?,
         @SerializedName("fscbi_isin")
         val fscbiIsin: String,
         @SerializedName("fscbi_legal_name")
@@ -136,22 +184,26 @@ data class FundsDetails(
         @SerializedName("ttr_return_10_yr")
         val ttrReturn10Yr: Int,
         @SerializedName("ttr_return_1_mth")
-        val ttrReturn1Mth: Int,
+        val ttrReturn1Mth: String?,
         @SerializedName("ttr_return_1_yr")
-        val ttrReturn1Yr: Double,
+        val ttrReturn1Yr: String?,
         @SerializedName("ttr_return_3_mth")
-        val ttrReturn3Mth: Double,
+        val ttrReturn3Mth: String?,
         @SerializedName("ttr_return_3_yr")
-        val ttrReturn3Yr: Double,
+        val ttrReturn3Yr: String?,
         @SerializedName("ttr_return_5_yr")
-        val ttrReturn5Yr: Double,
+        val ttrReturn5Yr: String?,
         @SerializedName("ttr_return_6_mth")
-        val ttrReturn6Mth: Double,
+        val ttrReturn6Mth: String?,
         @SerializedName("ttr_return_since_inception")
-        val ttrReturnSinceInception: Double,
+        val ttrReturnSinceInception: String?,
         @SerializedName("investment_strategy")
         val investmentStrategy: String?
 ) {
+
+    var fundObjective = ""
+        get() = "$investmentStrategy".replace("\n", " ")
+
     var NAVDate: String = ""
         get() = tsDayEndNavDate?.toDate()?.convertTo() ?: "NA"
 
@@ -195,7 +247,23 @@ data class FundsDetails(
         } else ""
 
     var exitLoad: String = ""
-        get() = if (deferLoads != null && deferLoads.isNotEmpty()) parseToPercentageOrNA(deferLoads[0].value) else ""
+        get() = if (deferLoads != null && deferLoads.isNotEmpty()) {
+            val data = deferLoads.firstOrNull { it -> it.value > 0 }
+            if (data != null) {
+                val intNoOfDays: Int
+                val intBreatPointToConsider: Int = if (data.highBreakpoint == 0) data.lowBreakpoint else data.highBreakpoint
+                intNoOfDays = when {
+                    "YEARS".equals(data.breakpointUnit, true) -> intBreatPointToConsider * 365
+                    "MONTHS".equals(data.breakpointUnit, true) -> intBreatPointToConsider * 12
+                    else -> intBreatPointToConsider
+                }
+                "${data.value.toReturnAsPercentage()} if redeemed within $intNoOfDays days"
+            } else {
+                0.0.toReturnAsPercentage()
+            }
+        } else {
+            0.0.toReturnAsPercentage()
+        }
 
     var minSIPAmount = ""
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -288,7 +356,7 @@ data class ExitLoad(
         @SerializedName("unit")
         val unit: String,
         @SerializedName("value")
-        val value: String?
+        val value: Double
 )
 
 data class TopTenHolding(
@@ -345,3 +413,9 @@ data class TopTenHolding(
         }
 }
 
+data class ReturnsHistory(
+        @SerializedName("d")
+        val date: Date,
+        @SerializedName("v")
+        val value: String?
+)

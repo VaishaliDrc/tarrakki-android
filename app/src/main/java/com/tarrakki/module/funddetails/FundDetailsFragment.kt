@@ -4,10 +4,12 @@ package com.tarrakki.module.funddetails
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.FragmentFundDetailsBinding
 import com.tarrakki.module.funddetails.fragments.OverviewFragment
 import com.tarrakki.module.funddetails.fragments.PerformanceFragment
 import kotlinx.android.synthetic.main.fragment_fund_details.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
 import org.supportcompact.adapters.setFragmentPagerAdapter
@@ -55,6 +57,12 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
         mTab?.setupWithViewPager(mPager, true)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceiveFund(fund: InvestmentFunds) {
+        getViewModel().fund = fund
+        removeStickyEvent(fund)
     }
 
     companion object {

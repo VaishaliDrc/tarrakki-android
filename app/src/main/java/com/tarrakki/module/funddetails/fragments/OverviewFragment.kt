@@ -48,32 +48,35 @@ class OverviewFragment : Fragment() {
         parentFragment?.let {
             fundVM = ViewModelProviders.of(it).get(FundDetailsVM::class.java)
         }
-        fundVM?.let {
-            it.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
-                fundDetailsResponse?.let { it ->
-                    it.topTenHoldings?.let { topTenHoldings ->
+        fundVM?.let { vm ->
+            vm.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
+                fundDetailsResponse?.let { fundDetails ->
+                    fundDetails.topTenHoldings?.let { topTenHoldings ->
                         rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->
                             binder.topFund = item
                             binder.executePendingBindings()
                         }
                     }
-                    binder?.fund = it.fundsDetails
+                    vm.fund?.let { f ->
+                        fundDetails.fundsDetails?.fscbiIndianRiskLevel = f.getRiskLevelName("${fundDetails.fundsDetails?.riskLevelId}")
+                    }
+                    binder?.fund = fundDetails.fundsDetails
                     binder?.executePendingBindings()
                     binder?.root?.visibility = View.VISIBLE
                     val keysInfo = arrayListOf<KeyInfo>()
-                    keysInfo.add(KeyInfo("AMC Name", it.fundsDetails?.amcName))
-                    keysInfo.add(KeyInfo("Fund Type", it.fundsDetails?.fscbiLegalStructure))
-                    keysInfo.add(KeyInfo("Investment Plan", it.fundsDetails?.schemePlan))
-                    keysInfo.add(KeyInfo("Launch Date", it.fundsDetails?.inceptionDate?.toDate()?.convertTo()
+                    keysInfo.add(KeyInfo("AMC Name", fundDetails.fundsDetails?.amcName))
+                    keysInfo.add(KeyInfo("Fund Type", fundDetails.fundsDetails?.fscbiLegalStructure))
+                    keysInfo.add(KeyInfo("Investment Plan", fundDetails.fundsDetails?.schemePlan))
+                    keysInfo.add(KeyInfo("Launch Date", fundDetails.fundsDetails?.inceptionDate?.toDate()?.convertTo()
                             ?: "NA"))
-                    keysInfo.add(KeyInfo("Benchmark", it.fundsDetails?.benchmark))
-                    keysInfo.add(KeyInfo("Assets Size", it.fundsDetails?.netAssets))
-                    keysInfo.add(KeyInfo("Asset Date", it.fundsDetails?.assetsDate))
-                    keysInfo.add(KeyInfo("Minimum Investment SIP", it.fundsDetails?.minSIPAmount))
-                    keysInfo.add(KeyInfo("Minimum Investment Lump sum", it.fundsDetails?.lumpsumAmount))
-                    keysInfo.add(KeyInfo("Fund Manger", it.fundsDetails?.fundManagers))
-                    keysInfo.add(KeyInfo("Exit Load", it.fundsDetails?.exitLoad))
-                    keysInfo.add(KeyInfo("Volatility (VOL)", it.fundsDetails?.vol))
+                    keysInfo.add(KeyInfo("Benchmark", fundDetails.fundsDetails?.benchmark))
+                    keysInfo.add(KeyInfo("Assets Size", fundDetails.fundsDetails?.netAssets))
+                    keysInfo.add(KeyInfo("Asset Date", fundDetails.fundsDetails?.assetsDate))
+                    keysInfo.add(KeyInfo("Minimum Investment SIP", fundDetails.fundsDetails?.minSIPAmount))
+                    keysInfo.add(KeyInfo("Minimum Investment Lump sum", fundDetails.fundsDetails?.lumpsumAmount))
+                    keysInfo.add(KeyInfo("Fund Manger", fundDetails.fundsDetails?.fundManagers))
+                    keysInfo.add(KeyInfo("Exit Load", fundDetails.fundsDetails?.exitLoad))
+                    keysInfo.add(KeyInfo("Volatility (VOL)", fundDetails.fundsDetails?.vol))
                     rvKeyInfo?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, keysInfo) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
                         binder.executePendingBindings()

@@ -110,6 +110,10 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
         EventBus.getDefault().postSticky(data)
     }
 
+    fun removeStickyEvent(data: Any) {
+        EventBus.getDefault().removeStickyEvent(data)
+    }
+
     @Subscribe
     open fun onEvent(event: Event) {
     }

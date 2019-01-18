@@ -92,7 +92,7 @@ fun TextView.format(amount: Double) {
 
 fun Double.format() = formatter.format(Math.round(this))
 
-fun Double.decimalFormat() = dFormatter.format(Math.round(this))
+fun Double.decimalFormat() = dFormatter.format(this)
 
 fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.format(locale, "\u20B9%,.2f", this)
 
@@ -100,7 +100,7 @@ fun Double.toCurrency() = "\u20B9".plus(formatter.format(Math.round(this)))//Str
 
 fun Double.toCurrencyWithSpace() = "\u20B9 ".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
 
-fun Double.toReturn() = dFormatter.format(this)
+fun Double.toReturn(): String = dFormatter.format(this)
 
 fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")
 
@@ -108,6 +108,15 @@ fun parseToPercentageOrNA(num: String?): String {
     return try {
         val temp: Double? = num?.toDoubleOrNull()
         temp?.toReturnAsPercentage() ?: "NA"
+    } catch (e: java.lang.Exception) {
+        "NA"
+    }
+}
+
+fun parseAsReturnOrNA(num: String?): String {
+    return try {
+        val temp: Double? = num?.toDoubleOrNull()
+        temp?.toReturn() ?: "NA"
     } catch (e: java.lang.Exception) {
         "NA"
     }

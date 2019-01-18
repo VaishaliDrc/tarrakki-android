@@ -12,6 +12,7 @@
     <color name="equity_fund_color">#A32CC3</color>
     <color name="debt_fund_color">#C762E3</color>
     <color name="balanced_fund_color">#510666</color>
+    <color name="fof_fund_color">#4D204A</color>
     <color name="item_selected_color">#A14E9E</color>
     <color name="semi_black">#323232</color>
     <color name="semi_white">#EADDEA</color>
