@@ -70,17 +70,40 @@ data class CartData(
                         }
                         if (aipData!=null){
                             val dates = aipData.frequencyDate.split("|")
-                            try {
-                                for (date in dates){
-                                    dateList.add(getOrdinalFormat(date.toInt()))
-                                }
-                            }catch (e : Exception){
+                            val isDay = dates.find { it.contains("day",false) }
+                            if (isDay!=null){
+                                dateList.addAll(getDummyDates())
+                            }else{
+                                try {
+                                    for (date in dates){
+                                        dateList.add(getOrdinalFormat(date.toInt()))
+                                    }
+                                }catch (e : Exception){
 
+                                }
                             }
+                        }else{
+                            dateList.addAll(getDummyDates())
                         }
                     }
                     return dateList
                 }
+
+            fun getDummyDates() :ArrayList<String> {
+                val dateList = arrayListOf<String>()
+                val dates = arrayListOf<String>()
+                for (date in 1..31){
+                    dates.add(date.toString())
+                }
+                try {
+                    for (date in dates){
+                        dateList.add(getOrdinalFormat(date.toInt()))
+                    }
+                }catch (e : Exception){
+
+                }
+                return dateList
+            }
 
             /*fun getDateFormat(date : String) : String{
                 val hunRem = date.toInt() % 100

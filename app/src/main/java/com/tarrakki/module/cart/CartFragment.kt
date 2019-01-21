@@ -2,7 +2,6 @@ package com.tarrakki.module.cart
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.tarrakki.App
@@ -16,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.showListDialog
 import java.util.*
@@ -74,13 +74,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         item.hasOneTimeAmount = true
                     }
                     binder.ivDelete.setOnClickListener {
+                        context?.confirmationDialog(getString(R.string.cart_delete),btnPositiveClick = {
+                            getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
+                                getViewModel().funds.removeAt(position)
+                                App.INSTANCE.cartCount.value = getViewModel().funds.size
+                                getViewModel().cartAdapter?.notifyDataSetChanged()
 
-                        getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
-                            getViewModel().funds.removeAt(position)
-                            App.INSTANCE.cartCount.value = getViewModel().funds.size
-                            getViewModel().cartAdapter?.notifyDataSetChanged()
-
-                            updateCartUI()
+                                updateCartUI()
+                            })
                         })
                     }
                     binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->

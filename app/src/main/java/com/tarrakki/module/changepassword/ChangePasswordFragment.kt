@@ -57,9 +57,8 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
 
         btnSave?.setOnClickListener {
             if (isResetPassword) {
-                if (validation()) {
+                if (resetPassValidation()) {
                     getViewModel().resetPassword().observe(this, Observer { apiResponse ->
-
                         context?.simpleAlert(apiResponse?.status?.message.toString()) {
                             val intent = Intent(activity, LoginActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -68,25 +67,12 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
                     })
                 }
             } else {
-
-                when {
-                    TextUtils.isEmpty(getViewModel().currentPassword.get()) ->
-                        context?.simpleAlert("Please enter current password") {
-                            edtCPassword.requestFocus()
+                if (changePassValidation()) {
+                    getViewModel().changePassword().observe(this, Observer { apiResponse ->
+                        context?.simpleAlert(apiResponse?.status?.message.toString()) {
+                            activity?.onBackPressed()
                         }
-                    TextUtils.isEmpty(getViewModel().newPassword.get()) ->
-                        context?.simpleAlert("Please enter new password") {
-                            edtNPassword.requestFocus()
-                        }
-                    TextUtils.isEmpty(getViewModel().confirmPassword.get()) ->
-                        context?.simpleAlert("Please enter confirm new password") {
-                            edtCNPassword.requestFocus()
-                        }
-                    getViewModel().newPassword.get() != getViewModel().confirmPassword.get() ->
-                        context?.simpleAlert("New Password and confirm new password miss match")
-                    else -> context?.simpleAlert("Password has been changed successfully") {
-                        activity?.onBackPressed()
-                    }
+                    })
                 }
             }
         }
@@ -94,33 +80,58 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment ChangePasswordFragment.
-         */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = ChangePasswordFragment().apply { arguments = basket }
     }
 
-    private fun validation(): Boolean {
+    private fun resetPassValidation(): Boolean {
         when {
             getViewModel().newPassword.get()?.length == 0 -> {
-                context?.simpleAlert("Please enter password") {
+                context?.simpleAlert(getString(R.string.req_reset_password)) {
                     edtNPassword?.requestFocus()
                 }
                 return false
             }
             getViewModel().confirmPassword.get()?.length == 0 -> {
-                context?.simpleAlert("Please enter confirm password") {
+                context?.simpleAlert(getString(R.string.req_reset_password)) {
                     edtCNPassword?.requestFocus()
                 }
                 return false
             }
             !getViewModel().newPassword.get().equals(getViewModel().confirmPassword.get()) -> {
-                context?.simpleAlert("New Password & Confirm Password doesn't match.") {
+                context?.simpleAlert(getString(R.string.req_match_confirm_password)) {
+                    edtCNPassword?.requestFocus()
+                }
+                return false
+            }
+            else -> {
+                return true
+            }
+        }
+    }
+
+    private fun changePassValidation(): Boolean {
+        when {
+            getViewModel().currentPassword.get()?.length == 0 -> {
+                context?.simpleAlert(getString(R.string.req_change_password)) {
+                    edtNPassword?.requestFocus()
+                }
+                return false
+            }
+            getViewModel().newPassword.get()?.length == 0 -> {
+                context?.simpleAlert(getString(R.string.req_change_password)) {
+                    edtNPassword?.requestFocus()
+                }
+                return false
+            }
+            getViewModel().confirmPassword.get()?.length == 0 -> {
+                context?.simpleAlert(getString(R.string.req_change_password)) {
+                    edtCNPassword?.requestFocus()
+                }
+                return false
+            }
+            !getViewModel().newPassword.get().equals(getViewModel().confirmPassword.get()) -> {
+                context?.simpleAlert(getString(R.string.req_match_confirm_password)) {
                     edtCNPassword?.requestFocus()
                 }
                 return false

@@ -403,5 +403,13 @@
     <string name="enter_sip_duration">Enter SIP duration</string>
     <string name="apply_pmt">Apply PMT</string>
     <string name="nav_on">NAV on</string>
+    
+    
+    <string name="req_change_password">All the fields are mandatory so please enter the required fields first to change the password.</string>
+    <string name="req_reset_password">All the fields are mandatory so please enter the required fields first to reset the password.</string>
+    <string name="req_match_confirm_password">The confirm password doesn\'t match the new password.</string>
 
+    <string name="cart_delete">Are you sure to delete this fund from your cart?</string>
+    <string name="cart_fund_added">The fund has been added into your cart successfully.</string>
+    <string name="cart_goal_added">The goal has been added into your cart successfully.</string>
 </resources>

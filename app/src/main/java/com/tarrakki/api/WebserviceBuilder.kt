@@ -64,7 +64,7 @@ interface WebserviceBuilder {
     fun updateCartItem(@Path("id") id: String,
                        @Field("fund_id_id") fund_id_id: String,
                        @Field("lumpsum_amount") lumpsum_amount: Double,
-                       @Field("start_date") start_date: String,
+                       /*@Field("start_date") start_date: String,*/
                        @Field("sip_amount") sip_amount: Double
     ): Observable<ApiResponse>
 
@@ -88,6 +88,12 @@ interface WebserviceBuilder {
     @POST("users/forgot-password/confirm/")
     fun resetPassword(@Field("token") token: String?,
                         @Field("password") password: String?): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("users/change-password/")
+    fun changePassword(@Field("current_password") token: String?,
+                      @Field("new_password") newPassword: String?,
+                      @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

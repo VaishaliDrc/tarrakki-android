@@ -96,11 +96,11 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
 
 
         btnGetThisGoal?.setOnClickListener {
-
             getViewModel().addGoalToCart(getViewModel().userGoalId).observe(this, Observer { apiResponce ->
-                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                context?.simpleAlert(getString(R.string.cart_goal_added)){
+                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                }
             })
-
         }
     }
 

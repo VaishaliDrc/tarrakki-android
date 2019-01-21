@@ -22,6 +22,7 @@ import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toDate
 
@@ -95,7 +96,9 @@ class OverviewFragment : Fragment() {
                             context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
                                 addToCart(fundId, amountSIP, amountLumpsum).observe(this,
                                         android.arch.lifecycle.Observer { response ->
-                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)){
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
                                         })
                             }
                         }

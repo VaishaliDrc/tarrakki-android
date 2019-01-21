@@ -28,6 +28,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 
 
 /**
@@ -93,9 +94,12 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.btnInvest.setOnClickListener {
                         context?.investDialog(item.id, item.validminSIPAmount,
                                 item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
-                            addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                    android.arch.lifecycle.Observer { response ->
-                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                            addToCart(fundId,amountSIP,amountLumpsum).observe(this,
+                                    android.arch.lifecycle.Observer {
+                                response ->
+                                        context?.simpleAlert(getString(R.string.cart_fund_added)){
+                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                        }
                                     })
                         }
                     }

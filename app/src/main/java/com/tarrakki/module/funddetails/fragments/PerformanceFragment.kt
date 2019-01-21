@@ -45,6 +45,8 @@ import org.supportcompact.ktx.format
 import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.parseAsReturnOrNA
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 
@@ -295,7 +297,9 @@ class PerformanceFragment : Fragment() {
                     context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
                         addToCart(fundId, amountSIP, amountLumpsum).observe(this,
                                 android.arch.lifecycle.Observer { response ->
-                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                    context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                    }
                                 })
                     }
                 }
