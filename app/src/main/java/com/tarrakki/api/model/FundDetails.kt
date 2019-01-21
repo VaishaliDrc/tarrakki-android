@@ -274,6 +274,15 @@ data class FundsDetails(
     var lumpsumAmount: String = ""
         get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "NA"
 
+    var validminSIPAmount = 0.00
+        get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
+            iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount
+                    ?: 0.00
+        } else 0.00
+
+    var validminlumpsumAmount = 0.00
+        get() = piMinimumInitial?.toDouble() ?: 0.00
+
     var vol = ""
         get() = parseToPercentageOrNA(standardDeviation5Yr)
 

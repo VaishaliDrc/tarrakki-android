@@ -15,15 +15,18 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.addToCart
 import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
 import com.tarrakki.investDialog
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
 
@@ -87,10 +90,13 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.fund = item
                     binder.executePendingBindings()
                     binder.btnInvest.setOnClickListener {
-                        context?.investDialog { amountLumpsum, amountSIP, duration ->
-                            /**onInvest called*/
+                        context?.investDialog(item.id,item.validminSIPAmount,
+                                item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
+                            addToCart(fundId,amountSIP,amountLumpsum).observe(this,
+                                    android.arch.lifecycle.Observer {
+                                response -> startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                            })
                         }
-                        //startFragment(CartFragment.newInstance(), R.id.frmContainer)
                     }
                     binder.root.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
@@ -257,7 +263,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             tvCartCount?.text = it.toString()
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
-            //startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
     }
 

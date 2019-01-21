@@ -25,12 +25,15 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tarrakki.R
+import com.tarrakki.addToCart
 import com.tarrakki.chartformaters.MyMarkerView
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
 import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowDurationListItemBinding
 import com.tarrakki.databinding.RowEarningBaseReturnsListItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
+import com.tarrakki.investDialog
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import com.tarrakki.module.funddetails.TopHolding
@@ -41,6 +44,7 @@ import org.supportcompact.inputclasses.InputFilterMinMax
 import org.supportcompact.ktx.format
 import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.parseAsReturnOrNA
+import org.supportcompact.ktx.startFragment
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -276,6 +280,22 @@ class PerformanceFragment : Fragment() {
                     // add data
                     setUpChart(15)
                     mChart.invalidate()
+                }
+            }
+
+            btn_invest_now?.setOnClickListener {
+                val fund_id = itVM.fundDetailsResponse.value?.fundsDetails?.id
+                val minSIPAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminSIPAmount
+                val minLumpSumAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminlumpsumAmount
+
+                if (fund_id!=null && minSIPAmount!=null && minLumpSumAmount!=null){
+                    context?.investDialog(fund_id,minSIPAmount, minLumpSumAmount) {
+                        amountLumpsum, amountSIP, fundId ->
+                        addToCart(fundId,amountSIP,amountLumpsum).observe(this,
+                                android.arch.lifecycle.Observer {
+                                    response -> startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                })
+                    }
                 }
             }
         }

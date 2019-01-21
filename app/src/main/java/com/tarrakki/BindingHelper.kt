@@ -25,6 +25,7 @@ import com.bumptech.glide.Glide
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogInvestBinding
+import com.tarrakki.databinding.DialogInvestGoalBinding
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
@@ -278,8 +279,8 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     valueAnimator.start()
 }
 
-fun Context.investDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLumpsum: String, amountSIP: String, duration: String) -> Unit)? = null) {
-    val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
+fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLumpsum: String, amountSIP: String, duration: String) -> Unit)? = null) {
+    val mBinder = DialogInvestGoalBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
@@ -343,6 +344,35 @@ fun Context.investDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLum
     mDialog.show()
 }
 
+fun Context.investDialog(fundId: Int, minSIPAmount: Double,
+                         minLumsumpAmount: Double,
+                         onInvest: ((amountLumpsum: String, amountSIP: String, fundId: Int) -> Unit)? = null) {
+    val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+    mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.btnInvest.setOnClickListener {
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrency()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrency()
+
+        if (this.isInvestDialogValid(minSIPAmount,minLumsumpAmount,sipAmount,lumpsumAmount)) {
+            mDialog.dismiss()
+            onInvest?.invoke(lumpsumAmount.toString(),
+                    sipAmount.toString(),
+                    fundId)
+        }
+
+        it.dismissKeyboard()
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
 fun String.toYearWord(): String {
     return try {
         val n = this.toDoubleOrNull()
@@ -350,4 +380,33 @@ fun String.toYearWord(): String {
     } catch (e: Exception) {
         "years"
     }
+}
+
+fun Context.isInvestDialogValid(minSIPAmount: Double,
+                                minLumsumpAmount: Double,
+                                sipAmount: Double,
+                                lumpsumAmount: Double) : Boolean{
+    if (lumpsumAmount==0.0 && sipAmount==0.0) {
+        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        return false
+    }
+    if (lumpsumAmount!=0.0) {
+        if (lumpsumAmount < minLumsumpAmount) {
+            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            return false
+        }
+    }
+    if (sipAmount!=0.0) {
+        if (sipAmount < minSIPAmount) {
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            return false
+        }
+    }
+    return true
+}
+
+fun getOrdinalFormat(num: Int): String {
+    val suffix = arrayOf("th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th")
+    val m = num % 100
+    return num.toString() + suffix[if (m > 3 && m < 21) 0 else m % 10]
 }

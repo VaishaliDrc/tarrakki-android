@@ -10,15 +10,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tarrakki.R
+import com.tarrakki.addToCart
 import com.tarrakki.api.model.TopTenHolding
 import com.tarrakki.databinding.FragmentOverviewBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
 import com.tarrakki.databinding.RowTopTenHoldingsListItemBinding
+import com.tarrakki.investDialog
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toDate
 
 /**
@@ -80,6 +84,21 @@ class OverviewFragment : Fragment() {
                     rvKeyInfo?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, keysInfo) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
                         binder.executePendingBindings()
+                    }
+
+                    btn_invest_now?.setOnClickListener { it1 ->
+                        val fund_id = fundDetailsResponse.fundsDetails?.id
+                        val minSIPAmount = fundDetailsResponse.fundsDetails?.validminSIPAmount
+                        val minLumpSumAmount = fundDetailsResponse.fundsDetails?.validminlumpsumAmount
+
+                        if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
+                            context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                                addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                        android.arch.lifecycle.Observer { response ->
+                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                        })
+                            }
+                        }
                     }
                 }
             })

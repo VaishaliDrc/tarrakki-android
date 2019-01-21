@@ -9,14 +9,11 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.tarrakki.BR
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
-import com.tarrakki.investDialog
 import com.tarrakki.module.recommended.RecommendedFragment
-import com.tarrakki.toYearWord
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
@@ -184,7 +181,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                     /*if (goal.customPMT == null && goal.isCustomInvestment()) {
                         goal.customPMT = goal.pmt
                     }*/
-                    v.context.investDialog(goal = goal) { amountLumpsum: String, amountSIP: String, duration: String ->
+                    v.context.investGoalDialog(goal = goal) { amountLumpsum: String, amountSIP: String, duration: String ->
                         if (goal.isCustomInvestment()) {
                             if (goal.pmt != amountSIP.replace(",", "").toDoubleOrNull())
                                 goal.customPMT = amountSIP.replace(",", "").toDoubleOrNull()

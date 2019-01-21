@@ -3,22 +3,21 @@ package com.tarrakki.module.cart
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import com.tarrakki.App
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
 import com.tarrakki.module.invest.InvestActivity
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.toCalendar
-import org.supportcompact.ktx.toDate
-import java.text.DateFormatSymbols
+import org.supportcompact.ktx.showListDialog
 import java.util.*
 
 
@@ -52,6 +51,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         getViewModel().getCartItem().observe(this, android.arch.lifecycle.Observer { apiResponse ->
 
             apiResponse?.let {
+
                 if (it.data.totalLumpsum == null)
                     getViewModel().totalLumpsum.set("NA")
                 else
@@ -63,9 +63,19 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
                 getViewModel().funds = it.data.orderLines as ArrayList<CartData.Data.OrderLine>
 
+                updateCartUI()
+
+                App.INSTANCE.cartCount.value = getViewModel().funds.size
+
                 getViewModel().cartAdapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
                     binder.fund = item
                     binder.executePendingBindings()
+
+                    if (item.date.isNullOrEmpty()) {
+                        binder.date = "Select Start Date"
+                    } else {
+                        binder.date = item.date
+                    }
                     binder.tvAddOneTimeAmount.setOnClickListener {
                         item.hasOneTimeAmount = true
                     }
@@ -73,7 +83,10 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
                         getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
                             getViewModel().funds.removeAt(position)
+                            App.INSTANCE.cartCount.value = getViewModel().funds.size
                             getViewModel().cartAdapter?.notifyDataSetChanged()
+
+                            updateCartUI()
                         })
                     }
                     binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
@@ -94,16 +107,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                         return@setOnEditorActionListener false
                     }
-                    /*binder.edtSIPAmount.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
-                        if (event.action ===) {
-                            getViewModel().updateGoalFromCart(item.id.toString(), item)
-                            return@OnKeyListener true
-                        }
-                        false
-                    })*/
-
                     binder.tvDate.setOnClickListener {
-                        var now: Calendar = Calendar.getInstance()
+                        /*var now: Calendar = Calendar.getInstance()
                         item.date?.toDate("dd MMM yyyy")?.let { date ->
                             now = date.toCalendar()
                         }
@@ -117,10 +122,16 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                                 .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
                                 //.minDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
                                 .build()
-                                .show()
+                                .show()*/
+                        if (item.frequencyDate.isNotEmpty()) {
+                            context?.showListDialog("Select Start Date", item.frequencyDate) {
+                                binder.date = it
+                                item.date = it
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            }
+                        }
                     }
                 }
-
             }
 
         })
@@ -135,6 +146,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    private fun updateCartUI() {
+        if (getViewModel().funds.isEmpty()) {
+            lyt_orders?.visibility = View.GONE
+        } else {
+            lyt_orders?.visibility = View.VISIBLE
         }
     }
 

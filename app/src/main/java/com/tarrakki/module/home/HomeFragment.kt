@@ -64,6 +64,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                 startFragment(GoalFragment.newInstance(), R.id.frmContainer)
                             }
                             0 -> {
+                                val category = item as HomeSection
+
                                 startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
                                 postSticky(item)
                             }

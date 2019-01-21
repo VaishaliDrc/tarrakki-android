@@ -147,3 +147,14 @@ fun Context.showStates(onItemSelected: ((item: String) -> Unit)? = null) {
             }
             .create().show()
 }
+
+fun Context.showListDialog(title: String?,list : ArrayList<String>, onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data = list.toTypedArray()
+    mDialog.setTitle(title)
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which])
+            }
+            .create().show()
+}

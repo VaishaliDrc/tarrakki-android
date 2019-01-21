@@ -47,7 +47,11 @@ data class InvestmentFunds(
             @SerializedName("dp_day_end_nav")
             val todayNAV: String,
             @SerializedName("pre_dp_day_end_nav")
-            val preDayNAV: String
+            val preDayNAV: String,
+            @SerializedName("iaip_aip")
+            val iaipAip: List<IaipAip>?,
+            @SerializedName("pi_minimum_initial")
+            val piMinimumInitial: String?
     ) {
         var FDReturn: String? = null
         //get() = parseToPercentageOrNA(fixedDepositReturn)
@@ -86,6 +90,15 @@ data class InvestmentFunds(
             }
         var returnSinceLaunch: String? = ""
             get() = parseToPercentageOrNA("$ttrReturnSinceInception")
+
+        var validminSIPAmount = 0.00
+            get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
+                iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount
+                        ?: 0.00
+            } else 0.00
+
+        var validminlumpsumAmount = 0.00
+            get() = piMinimumInitial?.toDouble() ?: 0.00
     }
 
     data class FscbiCategory(

@@ -227,7 +227,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnIdle"
+                android:id="@+id/btn_invest_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"

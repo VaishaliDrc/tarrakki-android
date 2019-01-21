@@ -120,7 +120,7 @@ class CartVM : FragmentViewModel() {
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).updateCartItem(id,
-                        fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(), fund.date?.toAPIDateFormate()!!, fund.sipAmount.toCurrency()),
+                        fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(), fund.date.toString(), fund.sipAmount.toCurrency()),
                 apiNames = WebserviceBuilder.ApiNames.updateCartItem,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

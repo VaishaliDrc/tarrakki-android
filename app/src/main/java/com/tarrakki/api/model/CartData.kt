@@ -4,6 +4,7 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
+import com.tarrakki.getOrdinalFormat
 import org.supportcompact.ktx.convertTo
 import org.supportcompact.ktx.toDate
 import java.io.Serializable
@@ -38,7 +39,9 @@ data class CartData(
                 @SerializedName("sip_amount")
                 var sipAmount: String,
                 @SerializedName("start_date")
-                var startDate: String?
+                var startDate: String?,
+                @SerializedName("iaip_aip")
+                val iaipAip: List<IaipAip>?
         ) : BaseObservable(), Serializable {
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
@@ -56,7 +59,47 @@ data class CartData(
                     notifyPropertyChanged(BR.date)
                 }
 
+            var frequencyDate = arrayListOf<String>()
+                get() {
+                    val dateList = arrayListOf<String>()
+                    if (iaipAip != null && iaipAip.isNotEmpty()) {
+                        val aipData = iaipAip.firstOrNull {
+                            "SIP".equals(it.siType, true)
+                                    && "Monthly".equals(it.frequency, true)
+                                    && it.minTenure == 12
+                        }
+                        if (aipData!=null){
+                            val dates = aipData.frequencyDate.split("|")
+                            try {
+                                for (date in dates){
+                                    dateList.add(getOrdinalFormat(date.toInt()))
+                                }
+                            }catch (e : Exception){
+
+                            }
+                        }
+                    }
+                    return dateList
+                }
+
+            /*fun getDateFormat(date : String) : String{
+                val hunRem = date.toInt() % 100
+                val tenRem = date.toInt() % 10
+
+                if (hunRem - tenRem == 10) {
+                    return date+"th"
+                }
+                when (tenRem) {
+                    1 -> return date+"st"
+                    2 -> return date+"nd"
+                    3 -> return date+"rd"
+                    else -> return date+"th"
+                }
+            }*/
+
         }
 
     }
+
+
 }
