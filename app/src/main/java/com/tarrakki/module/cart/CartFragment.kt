@@ -20,12 +20,6 @@ import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.showListDialog
 import java.util.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CartFragment.newInstance] factory method to
- * create an instance of this fragment.
- **/
 class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     override val isBackEnabled: Boolean
@@ -72,7 +66,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.executePendingBindings()
 
                     if (item.date.isNullOrEmpty()) {
-                        binder.date = "Select Start Date"
+                        binder.date = "Start Date"
                     } else {
                         binder.date = item.date
                     }
@@ -124,7 +118,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                                 .build()
                                 .show()*/
                         if (item.frequencyDate.isNotEmpty()) {
-                            context?.showListDialog("Select Start Date", item.frequencyDate) {
+                            context?.showListDialog("Start Date", item.frequencyDate) {
                                 binder.date = it
                                 item.date = it
                                 getViewModel().updateGoalFromCart(item.id.toString(), item)
@@ -152,19 +146,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
             lyt_orders?.visibility = View.GONE
+            coreActivityVM?.emptyView(true)
         } else {
+            coreActivityVM?.emptyView(false)
             lyt_orders?.visibility = View.VISIBLE
         }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle argument.
-         * @return A new instance of fragment CartFragment.
-         */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = CartFragment().apply { arguments = basket }
     }

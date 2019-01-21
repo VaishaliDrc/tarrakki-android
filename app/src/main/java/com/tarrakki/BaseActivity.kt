@@ -49,6 +49,15 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                 mToolBar?.setNavigationIcon(if (it) getDrawable(R.drawable.ic_arrow_back_white_24dp) else null/*R.drawable.ic_menu_white_24dp*/)
             }
         })
+
+        getViewModel().isEmpty.observe(this, Observer {
+            if (it!!){
+                txt_empty.visibility = View.VISIBLE
+            }else{
+                txt_empty.visibility = View.GONE
+            }
+        })
+
         setToolBar()
         //BottomNavigationViewHelper.disableShiftMode(mBottomNav)
         mBottomNav.setOnNavigationItemSelectedListener { item: MenuItem ->
@@ -108,7 +117,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                     if (it) {
                         onBackPressed()
                     } else {
-                        //TODO("Open Drawer")
+
                     }
                 }
                 return true

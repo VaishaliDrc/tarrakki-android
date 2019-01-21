@@ -49,6 +49,9 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
             createReference()
             reference = true
         }
+
+        coreActivityVM?.isEmpty?.value = false
+
         coreActivityVM?.isBackEnabled?.value = isBackEnabled
         coreActivityVM?.title?.set(title)
     }

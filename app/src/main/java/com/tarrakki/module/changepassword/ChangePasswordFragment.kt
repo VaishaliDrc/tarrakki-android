@@ -52,6 +52,7 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
             getViewModel().token.set(arguments?.getString("token")!!)
             edtCPassword?.visibility = View.GONE
             btnSave?.text = getString(R.string.submit)
+            coreActivityVM?.footerVisibility?.set(View.GONE)
         }
 
         btnSave?.setOnClickListener {
