@@ -165,8 +165,8 @@
     </string-array>
 
     <string-array name="durations">
-        <item>Year(s)</item>
         <item>Month(s)</item>
+        <item>Year(s)</item>
     </string-array>
 
     <string-array name="risk_level">
@@ -412,4 +412,7 @@
     <string name="cart_delete">Are you sure to delete this fund from your cart?</string>
     <string name="cart_fund_added">The fund has been added into your cart successfully.</string>
     <string name="cart_goal_added">The goal has been added into your cart successfully.</string>
+
+    <string name="alert_profile_reset">Your password has been reset successfully.</string>
+    <string name="alert_profile_change">Your password has been changed successfully.</string>
 </resources>

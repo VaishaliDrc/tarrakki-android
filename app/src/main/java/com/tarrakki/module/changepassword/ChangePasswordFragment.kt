@@ -59,7 +59,7 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
             if (isResetPassword) {
                 if (resetPassValidation()) {
                     getViewModel().resetPassword().observe(this, Observer { apiResponse ->
-                        context?.simpleAlert(apiResponse?.status?.message.toString()) {
+                        context?.simpleAlert(getString(R.string.alert_profile_reset)) {
                             val intent = Intent(activity, LoginActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
@@ -69,7 +69,7 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
             } else {
                 if (changePassValidation()) {
                     getViewModel().changePassword().observe(this, Observer { apiResponse ->
-                        context?.simpleAlert(apiResponse?.status?.message.toString()) {
+                        context?.simpleAlert(getString(R.string.alert_profile_change)) {
                             activity?.onBackPressed()
                         }
                     })

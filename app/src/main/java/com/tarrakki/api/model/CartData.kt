@@ -43,11 +43,18 @@ data class CartData(
                 @SerializedName("iaip_aip")
                 val iaipAip: List<IaipAip>?
         ) : BaseObservable(), Serializable {
+
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
                 //get() = lumpsumAmount > "0".toInt().toString()
                 set(value) {
                     field = value
+                    /*field = try {
+                        val num = lumpsumAmount.toDoubleOrNull() ?: 0.0
+                        num > 0
+                    } catch (e: java.lang.Exception) {
+                        value
+                    }*/
                     notifyPropertyChanged(BR.hasOneTimeAmount)
                 }
 
@@ -66,40 +73,40 @@ data class CartData(
                         val aipData = iaipAip.firstOrNull {
                             "SIP".equals(it.siType, true)
                                     && "Monthly".equals(it.frequency, true)
-                                    && it.minTenure == 12
+                                    && it.minTenure == 6
                         }
-                        if (aipData!=null){
+                        if (aipData != null) {
                             val dates = aipData.frequencyDate.split("|")
-                            val isDay = dates.find { it.contains("day",false) }
-                            if (isDay!=null){
+                            val isDay = dates.find { it.contains("day", false) }
+                            if (isDay != null) {
                                 dateList.addAll(getDummyDates())
-                            }else{
+                            } else {
                                 try {
-                                    for (date in dates){
+                                    for (date in dates) {
                                         dateList.add(getOrdinalFormat(date.toInt()))
                                     }
-                                }catch (e : Exception){
+                                } catch (e: Exception) {
 
                                 }
                             }
-                        }else{
+                        } else {
                             dateList.addAll(getDummyDates())
                         }
                     }
                     return dateList
                 }
 
-            fun getDummyDates() :ArrayList<String> {
+            fun getDummyDates(): ArrayList<String> {
                 val dateList = arrayListOf<String>()
                 val dates = arrayListOf<String>()
-                for (date in 1..31){
+                for (date in 1..31) {
                     dates.add(date.toString())
                 }
                 try {
-                    for (date in dates){
+                    for (date in dates) {
                         dateList.add(getOrdinalFormat(date.toInt()))
                     }
-                }catch (e : Exception){
+                } catch (e: Exception) {
 
                 }
                 return dateList

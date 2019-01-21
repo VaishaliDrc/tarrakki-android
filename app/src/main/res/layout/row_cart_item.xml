@@ -13,7 +13,7 @@
 
         <variable
             name="date"
-            type="String"/>
+            type="String" />
 
     </data>
 
@@ -137,7 +137,6 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLines="1"
-                android:text="@={fund.sipAmount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"
@@ -237,7 +236,6 @@
                 android:inputType="number"
                 android:maxLines="1"
                 android:minWidth="100dp"
-                android:text="@={fund.lumpsumAmount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"

@@ -6,6 +6,8 @@ import android.databinding.Observable
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -221,6 +223,25 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         mRefresh?.setOnRefreshListener {
             getViewModel().getFunds(mRefresh = true).observe(this, observerFundsData)
         }
+
+        edtSearch?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (edtSearch?.length() == 0 && rvFunds?.childCount == 0) {
+                    edtSearch?.dismissKeyboard()
+                    edtSearch?.clearFocus()
+                    getViewModel().searchBy.value = edtSearch?.text.toString()
+                    getViewModel().getFunds().observe(this@InvestFragment, observerFundsData)
+                }
+            }
+        })
 
         /**Filter Observation**/
         getViewModel().ourRecommended.observe(this, Observer {

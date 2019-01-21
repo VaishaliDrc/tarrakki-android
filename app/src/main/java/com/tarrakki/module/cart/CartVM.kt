@@ -6,12 +6,13 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
-import com.tarrakki.databinding.RowCartItemBinding
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.e
+import org.supportcompact.ktx.toCurrency
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -22,8 +23,7 @@ class CartVM : FragmentViewModel() {
     val userGoalList = MutableLiveData<CartData>()
     var totalSip: ObservableField<String> = ObservableField("")
     var totalLumpsum: ObservableField<String> = ObservableField("")
-    var cartAdapter: BaseAdapter<CartData.Data.OrderLine, RowCartItemBinding>? = null
-
+    val cartUpdate = MutableLiveData<ApiResponse>()
 
     init {
 /*
@@ -117,7 +117,6 @@ class CartVM : FragmentViewModel() {
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
         fund.date = ""
-        val apiResponse = MutableLiveData<ApiResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).updateCartItem(id,
@@ -130,7 +129,7 @@ class CartVM : FragmentViewModel() {
                             e("Api Response=>${o.data?.toDecrypt()}")
                             o.printResponse()
                             if (o.status?.code == 1) {
-                                apiResponse.value = o
+                                cartUpdate.value = o
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
@@ -146,7 +145,7 @@ class CartVM : FragmentViewModel() {
                     }
                 }
         )
-        return apiResponse
+        return cartUpdate
     }
 
 }

@@ -25,7 +25,7 @@ data class RecommendedFunds(
 )
 
 data class Fund(
-        @SerializedName("amount")
+        @SerializedName("sip_amount")
         val amount: Int,
         @SerializedName("fscbi_broad_category_name")
         val fscbiBroadCategoryName: String,

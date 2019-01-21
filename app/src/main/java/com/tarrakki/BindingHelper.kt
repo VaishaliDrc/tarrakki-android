@@ -355,15 +355,13 @@ fun Context.investDialog(fundId: Int, minSIPAmount: Double,
     mBinder.btnInvest.setOnClickListener {
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrency()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrency()
-
+        it.dismissKeyboard()
         if (this.isInvestDialogValid(minSIPAmount,minLumsumpAmount,sipAmount,lumpsumAmount)) {
             mDialog.dismiss()
             onInvest?.invoke(lumpsumAmount.toString(),
                     sipAmount.toString(),
                     fundId)
         }
-
-        it.dismissKeyboard()
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
