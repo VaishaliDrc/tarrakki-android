@@ -64,8 +64,8 @@ class InvestVM : FragmentViewModel() {
         }
     }
 
-    fun getFunds(offset: Int = 0): MutableLiveData<InvestmentFunds> {
-        if (!loadMore.get()!!) {
+    fun getFunds(offset: Int = 0, mRefresh: Boolean = false): MutableLiveData<InvestmentFunds> {
+        if (!loadMore.get()!! && !mRefresh) {
             EventBus.getDefault().post(SHOW_PROGRESS)
         }
         val json = JsonObject()

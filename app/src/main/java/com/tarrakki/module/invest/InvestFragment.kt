@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.e
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
 
@@ -84,18 +83,20 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         rvFunds?.isFocusable = false
         rvFunds?.isNestedScrollingEnabled = false
         val observerFundsData = Observer<InvestmentFunds> { response ->
+            mRefresh?.isRefreshing = false
             response?.let {
+                coreActivityVM?.emptyView(response.funds.isEmpty())
                 rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, response.funds) { item: InvestmentFunds.Fund, binder: RowFundListItemBinding, position ->
                     item.FDReturn = parseToPercentageOrNA(response.fixedDepositReturn)
                     binder.fund = item
                     binder.executePendingBindings()
                     binder.btnInvest.setOnClickListener {
-                        context?.investDialog(item.id,item.validminSIPAmount,
+                        context?.investDialog(item.id, item.validminSIPAmount,
                                 item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
-                            addToCart(fundId,amountSIP,amountLumpsum).observe(this,
-                                    android.arch.lifecycle.Observer {
-                                response -> startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                            })
+                            addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                    android.arch.lifecycle.Observer { response ->
+                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                    })
                         }
                     }
                     binder.root.setOnClickListener {
@@ -212,6 +213,10 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         }
 
         getViewModel().getFunds().observe(this, observerFundsData)
+
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getFunds(mRefresh = true).observe(this, observerFundsData)
+        }
 
         /**Filter Observation**/
         getViewModel().ourRecommended.observe(this, Observer {

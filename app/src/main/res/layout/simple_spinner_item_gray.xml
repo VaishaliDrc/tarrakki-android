@@ -10,6 +10,6 @@
     android:paddingEnd="@dimen/space_8"
     android:paddingBottom="@dimen/space_8"
     android:text="@string/all"
-    android:textAllCaps="true"
+    android:textAllCaps="false"
     android:textColor="@color/semi_black"
     android:textSize="10sp" />

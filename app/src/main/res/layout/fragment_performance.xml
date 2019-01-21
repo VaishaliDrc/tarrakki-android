@@ -95,9 +95,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
-                android:visibility="gone"
                 android:elevation="@dimen/space_2"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvLastPriceL"

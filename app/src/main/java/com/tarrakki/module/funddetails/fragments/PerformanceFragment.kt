@@ -45,7 +45,6 @@ import org.supportcompact.ktx.format
 import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.parseAsReturnOrNA
 import org.supportcompact.ktx.startFragment
-import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 
@@ -98,7 +97,7 @@ class PerformanceFragment : Fragment() {
                         binder.keyInfo = item
                         binder.executePendingBindings()
                     }
-                    //sdjksd
+
                     itVM.earningBase.clear()
                     itVM.earningBase.add(TopHolding("Tarrakki Direct Plan", 100, fund.tarrakkiReturn))
                     //earningBase.add(TopHolding("Regular Plan", 65, 8.5, 109300.00))
@@ -112,12 +111,13 @@ class PerformanceFragment : Fragment() {
                         } else {
                             durations
                         }, item.percentageHolding)
-                        if (itVM.earningBase.indexOf(item) == 0) {
+                        /*if (itVM.earningBase.indexOf(item) == 0) {
                             item.process = 100
                         } else {
                             item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                        }
+                        }*/
                     }
+                    resetProgress(itVM.earningBase)
                     rvEarned?.setUpRecyclerView(R.layout.row_earning_base_returns_list_item, itVM.earningBase) { item: TopHolding, binder: RowEarningBaseReturnsListItemBinding, position ->
                         binder.topFund = item
                         binder.executePendingBindings()
@@ -134,12 +134,13 @@ class PerformanceFragment : Fragment() {
                                         } else {
                                             durations
                                         }, item.percentageHolding)
-                                        if (itVM.earningBase.indexOf(item) == 0) {
+                                        /*if (itVM.earningBase.indexOf(item) == 0) {
                                             item.process = 100
                                         } else {
                                             item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                                        }
+                                        }*/
                                     }
+                                    resetProgress(itVM.earningBase)
                                     rvEarned?.adapter?.notifyDataSetChanged()
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -197,7 +198,7 @@ class PerformanceFragment : Fragment() {
                                     } else {
                                         durations
                                     }, item.percentageHolding)
-                                    if (itVM.earningBase.indexOf(item) == 0) {
+                                    /*if (itVM.earningBase.indexOf(item) == 0) {
                                         if (item.percentageHolding <= 0) {
                                             item.process = 0
                                             item.amount = 0.0
@@ -206,8 +207,9 @@ class PerformanceFragment : Fragment() {
                                         }
                                     } else {
                                         item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                                    }
+                                    }*/
                                 }
+                                resetProgress(itVM.earningBase)
                                 rvEarned?.adapter?.notifyDataSetChanged()
                             } else {
                                 itVM.earningBase.forEach { item ->
@@ -233,10 +235,10 @@ class PerformanceFragment : Fragment() {
 
                         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                             if (spnDuration?.selectedItemPosition == 0) {
-                                edtYears?.setText("1")
+                                //edtYears?.setText("1")
                                 edtYears?.filters = arrayOf(InputFilterMinMax(1, 99))
                             } else {
-                                edtYears?.setText("12")
+                                //edtYears?.setText("12")
                                 edtYears?.filters = arrayOf(InputFilterMinMax(1, 1188))
                             }
                             itVM.earningBase.forEach { item ->
@@ -249,7 +251,7 @@ class PerformanceFragment : Fragment() {
                                 } else {
                                     durations
                                 }, item.percentageHolding)
-                                if (itVM.earningBase.indexOf(item) == 0) {
+                                /*if (itVM.earningBase.indexOf(item) == 0) {
                                     if (item.percentageHolding <= 0) {
                                         item.process = 0
                                         item.amount = 0.0
@@ -258,8 +260,9 @@ class PerformanceFragment : Fragment() {
                                     }
                                 } else {
                                     item.process = (item.amount * 100 / itVM.earningBase[0].amount).toInt()
-                                }
+                                }*/
                             }
+                            resetProgress(itVM.earningBase)
                             rvEarned?.adapter?.notifyDataSetChanged()
                         }
                     }
@@ -288,12 +291,11 @@ class PerformanceFragment : Fragment() {
                 val minSIPAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminSIPAmount
                 val minLumpSumAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminlumpsumAmount
 
-                if (fund_id!=null && minSIPAmount!=null && minLumpSumAmount!=null){
-                    context?.investDialog(fund_id,minSIPAmount, minLumpSumAmount) {
-                        amountLumpsum, amountSIP, fundId ->
-                        addToCart(fundId,amountSIP,amountLumpsum).observe(this,
-                                android.arch.lifecycle.Observer {
-                                    response -> startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
+                    context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                        addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                android.arch.lifecycle.Observer { response ->
+                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                 })
                     }
                 }
@@ -317,6 +319,15 @@ class PerformanceFragment : Fragment() {
         val floatFirstValueOfPower = (1 + floatRateOfInterest / 12)
         val tn = durations / 12 * 12
         return amount * Math.pow(floatFirstValueOfPower, tn)
+    }
+
+    private fun resetProgress(items: ArrayList<TopHolding>) {
+        val num = items.maxBy { it -> it.amount }
+        num?.let { max ->
+            items.forEach { item ->
+                item.process = if (max.amount > 0.0) (item.amount * 100 / max.amount).toInt() else 0
+            }
+        }
     }
 
     private fun setUpChart() {

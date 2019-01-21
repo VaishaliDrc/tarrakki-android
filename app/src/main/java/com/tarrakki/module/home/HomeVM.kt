@@ -30,7 +30,7 @@ class HomeVM : FragmentViewModel() {
         if (!isRefreshing)
             EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getHomeData(),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getHomeData(),
                 apiNames = WebserviceBuilder.ApiNames.getHomeData,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -39,6 +39,9 @@ class HomeVM : FragmentViewModel() {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
                                 data?.let { it ->
+                                    data.data.cartCount?.let {
+                                        App.INSTANCE.cartCount.value = it
+                                    }
                                     homeSections.clear()
                                     it.data.category.forEach { item ->
                                         homeSections.add(

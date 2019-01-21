@@ -3,8 +3,9 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/space_8"
-    android:paddingTop="@dimen/space_8"
     android:paddingStart="28dp"
+    android:paddingTop="@dimen/space_8"
     android:paddingEnd="@dimen/space_8"
+    android:paddingBottom="@dimen/space_8"
+    android:textAllCaps="false"
     android:textColor="@android:color/black" />

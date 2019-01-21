@@ -12,7 +12,9 @@ data class HomeData(
             @SerializedName("category")
             val category: List<Category>,
             @SerializedName("goals")
-            val goals: List<Goal>
+            val goals: List<Goal>,
+            @SerializedName("cart_count")
+            val cartCount: Int?
     ) {
         data class Goal(
                 @SerializedName("goal")

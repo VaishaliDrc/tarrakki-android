@@ -88,7 +88,14 @@ data class FundDetails(
         val date = now.time.toDate()
         val data = returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 }
         data?.let {
-            mReturn = data.value?.toDoubleOrNull() ?: 0.0
+            try {
+                val todayReturn = fundsDetails?.dpDayEndNav?.toDoubleOrNull()
+                if (todayReturn != null) {
+                    val pReturn = data.value?.toDoubleOrNull() ?: 0.0
+                    mReturn = ((todayReturn - pReturn) * 100) / todayReturn
+                }
+            } catch (e: java.lang.Exception) {
+            }
         }
         return mReturn.decimalFormat().toCurrency()
     }
