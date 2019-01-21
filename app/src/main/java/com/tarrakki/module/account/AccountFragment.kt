@@ -62,7 +62,10 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             binder.root.setOnClickListener {
                 when (item.imgRes) {
                     R.drawable.ic_change_password -> {
-                        startFragment(ChangePasswordFragment.newInstance(), R.id.frmContainer)
+                        val bundle = Bundle().apply {
+                            putBoolean("isResetPassword",false)
+                        }
+                        startFragment(ChangePasswordFragment.newInstance(bundle), R.id.frmContainer)
                     }
                     R.drawable.ic_my_profile -> {
                         if (App.INSTANCE.isLoggedIn.value!!) {

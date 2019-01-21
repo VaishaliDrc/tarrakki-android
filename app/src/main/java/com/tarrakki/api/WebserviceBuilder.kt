@@ -79,12 +79,22 @@ interface WebserviceBuilder {
                   @Field("sip_amount") sipAmount: String,
                   @Field("lumpsum_amount") lumpsumAmount: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("users/get_otp/")
+    fun verifyForgotOTP(@Field("otp_id") otp_id: String?,
+                        @Field("otp") otp: String?): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("users/forgot-password/confirm/")
+    fun resetPassword(@Field("token") token: String?,
+                        @Field("password") password: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
-        addtocart
+        addtocart, forgotPasswordVerifyOTP, resetPassword
     }
 }

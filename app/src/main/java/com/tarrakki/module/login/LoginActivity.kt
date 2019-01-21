@@ -33,7 +33,6 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
     }
 
     override fun createReference() {
-
         tvForgotPassword?.setOnClickListener {
             startActivity<ForgotPasswordActivity>()
         }

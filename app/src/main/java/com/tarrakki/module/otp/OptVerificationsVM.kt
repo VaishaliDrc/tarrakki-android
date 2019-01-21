@@ -7,8 +7,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.SignUpresponse
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.ActivityViewModel
@@ -19,15 +18,17 @@ import org.supportcompact.ktx.e
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
+import kotlin.concurrent.thread
 
 class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
+    val email = ObservableField("")
     val otp = ObservableField("")
+    val otpId = ObservableField("")
     val getOTP = MutableLiveData<ApiResponse>()
     private val verifyOTP = MutableLiveData<Boolean>()
 
-
-    fun getOTP(mobile: String, email: String, type: String = "signup"): MutableLiveData<ApiResponse> {
+    fun getOTP(mobile: String?, email: String?, type: String = "signup"): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         json.addProperty("mobile", mobile)
@@ -107,6 +108,75 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         EventBus.getDefault().post(ShowError("${throwable.message}"))
+    }
+
+    fun forgotPasswordSendOTP(): MutableLiveData<ForgotPasswordEmailResponse> {
+        val apiResponse = MutableLiveData<ForgotPasswordEmailResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).forgotPassword(email.get().toString(), "forgot_password"),
+                apiNames = WebserviceBuilder.ApiNames.forgotPassword,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            e("Api Response=>${o.data?.toDecrypt()}")
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                thread {
+                                    val data = o.data?.parseTo<ForgotPasswordEmailResponse>()
+                                    apiResponse.postValue(data)
+                                }
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
+    }
+
+    fun forgotPasswordVerifyOTP(otp: String?,otpId : String?): MutableLiveData<ForgotPasswordVerifyOtpResponse> {
+        val apiResponse = MutableLiveData<ForgotPasswordVerifyOtpResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java)
+                        .verifyForgotOTP(otpId,otp),
+                apiNames = WebserviceBuilder.ApiNames.forgotPassword,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            e("Api Response=>${o.data?.toDecrypt()}")
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                thread {
+                                    val forgotPasswordVerifyOTP = o.data?.parseTo<ForgotPasswordVerifyOtpResponse>()
+                                    apiResponse.postValue(forgotPasswordVerifyOTP)
+                                }
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
     }
 
 }

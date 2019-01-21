@@ -1,12 +1,18 @@
 package com.tarrakki.module.forgotpassword
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.util.Patterns
+import com.google.gson.JsonObject
+import com.tarrakki.IS_FROM_FORGOT_PASSWORD
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityForgotPasswordBinding
+import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.simpleAlert
+
+const val FORGOTPASSWORD_DATA = "forgotpassword_data"
 
 class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPasswordBinding>() {
 
@@ -38,17 +44,28 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
                     edtEmail?.selectAll()
                 }
             } else {
-
                 getViewModel().forgotPassword().observe(this, Observer { apiResponse ->
-                    simpleAlert("Reset password link has been sent to your email address") {
+                    /*simpleAlert(apiResponse?.otp.toString()) {
                         edtEmail?.text?.clear()
                         finish()
+                    }*/
+                    val intent = Intent(this, OtpVerificationActivity::class.java)
+                    intent.putExtra(FORGOTPASSWORD_DATA, getOtpData(apiResponse?.otp,apiResponse?.otpId).toString())
+                    if (getIntent().hasExtra(IS_FROM_FORGOT_PASSWORD)) {
+                        intent.putExtra(IS_FROM_FORGOT_PASSWORD, true)
                     }
-
+                    startActivity(intent)
+                    finish()
                 })
-
-
             }
         }
+    }
+
+    fun getOtpData(otp : Int?,otp_id : Int?): JsonObject {
+        val json = JsonObject()
+        json.addProperty("otp", otp)
+        json.addProperty("otp_id", otp_id)
+        json.addProperty("email", getViewModel().email.get())
+        return json
     }
 }

@@ -102,8 +102,6 @@ class OverviewFragment : Fragment() {
                     }
                 }
             })
-
-
         }
     }
 

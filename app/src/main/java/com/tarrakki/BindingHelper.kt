@@ -40,6 +40,7 @@ import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
 import java.util.*
 
+const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 
