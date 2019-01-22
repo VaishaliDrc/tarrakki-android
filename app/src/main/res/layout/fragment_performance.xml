@@ -97,7 +97,7 @@
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:padding="8dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tvLastPriceL"
@@ -113,11 +113,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="\u20B939.55"
+                    android:text="@{fund.lastPrice}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLastPriceL" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastPriceL"
+                    tools:text="\u20B939.55" />
 
                 <TextView
                     android:id="@+id/tvDayChangeL"
@@ -134,11 +135,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="0.09%"
+                    android:text="@{fund.oneDayChange}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="@id/tvDayChangeL"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDayChangeL" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDayChangeL"
+                    tools:text="0.09%" />
 
                 <TextView
                     android:id="@+id/tvYDRLabel"
@@ -154,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="17.85%"
+                    tools:text="17.85%"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="@id/tvYDRLabel"

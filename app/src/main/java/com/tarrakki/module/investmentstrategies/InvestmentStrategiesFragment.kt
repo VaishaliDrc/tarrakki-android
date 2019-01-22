@@ -41,13 +41,13 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
 
     override fun createReference() {
         rvInvestmentStrategies.addItemDecoration(ItemOffsetDecoration(rvInvestmentStrategies.context, R.dimen.space_4))
-        rvInvestmentStrategies?.setUpRecyclerView(R.layout.row_investment_strategies_item, getViewModel().investmentStrategies) { item: InvestmentStrategy, binder: RowInvestmentStrategiesItemBinding, position: Int ->
+        /*rvInvestmentStrategies?.setUpRecyclerView(R.layout.row_investment_strategies_item, getViewModel().investmentStrategies) { item: InvestmentStrategy, binder: RowInvestmentStrategiesItemBinding, position: Int ->
             binder.widget = item
             binder.root.setOnClickListener {
                 startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
             }
             binder.executePendingBindings()
-        }
+        }*/
     }
 
     @Subscribe(sticky = true)

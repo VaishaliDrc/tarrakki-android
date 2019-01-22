@@ -81,17 +81,20 @@ data class FundDetails(
     var tarrakkiReturn: Double = 0.0
         get() = if (field == 0.0) getReturn() else field
 
+    var YTDReturn = ""
+        get() = if (TextUtils.isEmpty(field)) getReturn(y = 1).toReturnAsPercentage() else field
+
     fun getReturn(x: Int = 1, y: Int = 0): Double {
         var mReturn = 0.0
         val now = Calendar.getInstance()
-        now.add(if (y == 0) Calendar.YEAR else Calendar.MONTH, -x)
+        now.add(if (y == 1) Calendar.YEAR else Calendar.MONTH, -x)
         val date = now.time.toDate()
         val data = returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 }
         data?.let {
             try {
                 val todayReturn = fundsDetails?.dpDayEndNav?.toDoubleOrNull()
                 if (todayReturn != null) {
-                    val pReturn = data.value?.toDoubleOrNull() ?: 0.0
+                    val pReturn = data.value ?: 0.0
                     mReturn = ((todayReturn - pReturn) * 100) / todayReturn
                 }
             } catch (e: java.lang.Exception) {
@@ -308,6 +311,16 @@ data class FundsDetails(
     var nav: String? = ""
         get() = dpDayEndNav.toDoubleOrNull()?.toReturn()
 
+    var lastPrice = ""
+        get() = dpDayEndNav?.toDoubleOrNull()?.toDecimalCurrency() ?: "NA"
+
+    var oneDayChange = ""
+        get() = try {
+            (((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()).toReturnAsPercentage()
+        } catch (e: java.lang.Exception) {
+            "NA"
+        }
+
     var currentReturn: String = ""
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
             try {
@@ -433,5 +446,5 @@ data class ReturnsHistory(
         @SerializedName("d")
         val date: Date,
         @SerializedName("v")
-        val value: String?
+        val value: Double?
 )
