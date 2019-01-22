@@ -48,7 +48,7 @@ class HomeVM : FragmentViewModel() {
                                                 HomeSection(
                                                         item.categoryName,
                                                         it.data.toWadgesArray(item.secondLevelCategory)
-                                                ))
+                                                ).apply { category = item })
                                     }
                                     homeSections.add(
                                             HomeSection(
@@ -76,6 +76,9 @@ class HomeVM : FragmentViewModel() {
 }
 
 data class HomeSection(var title: String, var homeItems: ArrayList<WidgetsViewModel>?) : WidgetsViewModel {
+
+    var category: HomeData.Data.Category? = null
+
     override fun layoutId(): Int {
         return R.layout.row_section_investment_item
     }

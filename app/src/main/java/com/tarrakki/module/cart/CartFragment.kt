@@ -73,8 +73,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
                     binder.fund = item
                     binder.executePendingBindings()
-                    /*binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
-                    binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()*/
 
                     if (item.date.isNullOrEmpty()) {
                         binder.date = "Start Day"
@@ -117,26 +115,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         return@setOnEditorActionListener false
                     }
                     binder.tvDate.setOnClickListener {
-                        /*var now: Calendar = Calendar.getInstance()
-                        item.date?.toDate("dd MMM yyyy")?.let { date ->
-                            now = date.toCalendar()
-                        }
-                        SpinnerDatePickerDialogBuilder()
-                                .context(context)
-                                .callback { view, year, monthOfYear, dayOfMonth ->
-                                    item.date = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
-                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                }
-                                .showTitle(true)
-                                .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-                                //.minDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-                                .build()
-                                .show()*/
                         if (item.frequencyDate.isNotEmpty()) {
                             context?.showListDialog("Start Day", item.frequencyDate) {
                                 binder.date = it
                                 item.date = it
-                                //getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
                             }
                         }
                     }
@@ -148,108 +131,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         getViewModel().cartUpdate.observe(this, Observer {
             getViewModel().getCartItem().observe(this, cartApi)
         })
-        /*getViewModel().getCartItem().observe(this, android.arch.lifecycle.Observer { apiResponse ->
-
-            apiResponse?.let {
-
-                if (it.data.totalLumpsum == null)
-                    getViewModel().totalLumpsum.set("NA")
-                else
-                    getViewModel().totalLumpsum.set(it.data.totalLumpsum.toCurrency())
-                if (it.data.totalSip == null)
-                    getViewModel().totalSip.set("NA")
-                else
-                    getViewModel().totalSip.set(it.data.totalSip.toCurrency())
-
-                getViewModel().funds = it.data.orderLines as ArrayList<CartData.Data.OrderLine>
-
-                updateCartUI()
-
-                App.INSTANCE.cartCount.value = getViewModel().funds.size
-
-                rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
-                    item.hasOneTimeAmount = try {
-                        val num = item.lumpsumAmount.toCurrency()
-                        num > 0
-                    } catch (e: java.lang.Exception) {
-                        false
-                    }
-                    binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
-                    binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
-                    binder.fund = item
-                    binder.executePendingBindings()
-                    *//*binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
-                    binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()*//*
-
-                    if (item.date.isNullOrEmpty()) {
-                        binder.date = "Start Day"
-                    } else {
-                        binder.date = item.date
-                    }
-                    binder.tvAddOneTimeAmount.setOnClickListener {
-                        item.hasOneTimeAmount = true
-                    }
-                    binder.ivDelete.setOnClickListener {
-                        context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
-                            getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, android.arch.lifecycle.Observer { apiResponse ->
-                                getViewModel().funds.removeAt(position)
-                                App.INSTANCE.cartCount.value = getViewModel().funds.size
-                                //rvCartItems?.adapter?.notifyDataSetChanged()
-                                createReference()
-                                updateCartUI()
-                            })
-                        })
-                    }
-                    binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            v.dismissKeyboard()
-                            v.clearFocus()
-                            item.lumpsumAmount = binder.edtLumpsum.text.toString()
-                            getViewModel().updateGoalFromCart(item.id.toString(), item)
-                            //rvCartItems?.adapter?.notifyDataSetChanged()
-                            createReference()
-                            return@setOnEditorActionListener true
-                        }
-                        return@setOnEditorActionListener false
-                    }
-                    binder.edtSIPAmount.setOnEditorActionListener { v, actionId, event ->
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            v.dismissKeyboard()
-                            v.clearFocus()
-                            item.sipAmount = binder.edtSIPAmount.text.toString()
-                            getViewModel().updateGoalFromCart(item.id.toString(), item)
-                            createReference()
-                            return@setOnEditorActionListener true
-                        }
-                        return@setOnEditorActionListener false
-                    }
-                    binder.tvDate.setOnClickListener {
-                        *//*var now: Calendar = Calendar.getInstance()
-                        item.date?.toDate("dd MMM yyyy")?.let { date ->
-                            now = date.toCalendar()
-                        }
-                        SpinnerDatePickerDialogBuilder()
-                                .context(context)
-                                .callback { view, year, monthOfYear, dayOfMonth ->
-                                    item.date = String.format("%02d %s %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
-                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                }
-                                .showTitle(true)
-                                .defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-                                //.minDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-                                .build()
-                                .show()*//*
-                        if (item.frequencyDate.isNotEmpty()) {
-                            context?.showListDialog("Start Day", item.frequencyDate) {
-                                binder.date = it
-                                item.date = it
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
-                            }
-                        }
-                    }
-                }
-            }
-        })*/
 
         btnAddFund?.setOnClickListener { _ ->
             activity?.let {

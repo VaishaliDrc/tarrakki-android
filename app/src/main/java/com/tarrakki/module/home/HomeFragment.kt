@@ -59,17 +59,17 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
                     binder.setVariable(BR.onViewAll, View.OnClickListener {
-                        when (position) {
-                            1 -> {
-                                startFragment(GoalFragment.newInstance(), R.id.frmContainer)
-                            }
-                            0 -> {
-                                val category = item as HomeSection
+                        if (item is HomeSection)
+                            when ("${item.title}") {
+                                "Set a Goal" -> {
+                                    startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                                }
+                                else -> {
+                                    startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
+                                    item.category?.let { postSticky(it) }
 
-                                startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
-                                postSticky(item)
+                                }
                             }
-                        }
                     })
                     binder.executePendingBindings()
                 }

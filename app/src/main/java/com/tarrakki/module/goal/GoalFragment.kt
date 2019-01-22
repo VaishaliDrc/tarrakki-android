@@ -93,7 +93,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
             tvCartCount?.text = it.toString()
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
-            //startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
     }
 

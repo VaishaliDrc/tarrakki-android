@@ -1,11 +1,7 @@
 package com.tarrakki.module.goal
 
 import android.arch.lifecycle.MutableLiveData
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.support.annotation.DrawableRes
 import com.tarrakki.App
-import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
@@ -13,14 +9,12 @@ import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.model.printResponse
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
-import java.io.Serializable
 
 class GoalVM : FragmentViewModel() {
 
@@ -55,27 +49,5 @@ class GoalVM : FragmentViewModel() {
                 }
         )
         return goalList
-    }
-}
-
-
-data class Goal(var title: String, @DrawableRes var imgUrl: Int) : BaseObservable(), WidgetsViewModel, Serializable {
-
-    @Bindable
-    var investmentAmount: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.investmentAmount)
-        }
-
-    @Bindable
-    var investmentDuration: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.investmentDuration)
-        }
-
-    override fun layoutId(): Int {
-        return R.layout.row_goal_home_list_item
     }
 }

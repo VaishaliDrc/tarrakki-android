@@ -4,9 +4,11 @@ package com.tarrakki.module.investmentstrategies
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentInvestmentStrategiesBinding
 import com.tarrakki.databinding.RowInvestmentStrategiesItemBinding
 import kotlinx.android.synthetic.main.fragment_investment_strategies.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.startFragment
@@ -46,6 +48,11 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
             }
             binder.executePendingBindings()
         }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceive(category: HomeData.Data.Category) {
+        removeStickyEvent(category)
     }
 
     companion object {
