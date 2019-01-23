@@ -87,13 +87,23 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("users/forgot-password/confirm/")
     fun resetPassword(@Field("token") token: String?,
-                      @Field("password") password: String?): Observable<ApiResponse>
+                        @Field("password") password: String?): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/change-password/")
     fun changePassword(@Field("current_password") token: String?,
-                       @Field("new_password") newPassword: String?,
-                       @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
+                      @Field("new_password") newPassword: String?,
+                      @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
+
+    @GET("banks/")
+    fun getAllBanks(): Observable<ApiResponse>
+
+    @GET("banks/user-banks/1")
+    fun getUserBanks(): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("banks/user-banks/")
+    fun addBankDetails(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("category/recommendations/")
@@ -110,6 +120,6 @@ interface WebserviceBuilder {
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
-        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation
+        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation,getAllBanks, addBankDetails
     }
 }

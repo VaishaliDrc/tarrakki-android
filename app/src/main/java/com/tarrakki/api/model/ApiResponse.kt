@@ -1,6 +1,7 @@
 package com.tarrakki.api.model
 
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import com.tarrakki.api.AES
@@ -26,6 +27,10 @@ data class ApiResponse(
 fun String.toDecrypt() = AES.decrypt(this)
 
 fun String.toEncrypt() = AES.encrypt(this)
+
+fun String.printRequest() = e("Request Data=>${this}")
+
+fun JsonObject.printRequest() = e("Request Data=>${this}")
 
 inline fun <reified T> String.parseTo(): T? {
     return try {

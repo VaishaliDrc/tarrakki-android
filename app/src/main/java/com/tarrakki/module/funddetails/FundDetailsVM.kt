@@ -26,11 +26,6 @@ class FundDetailsVM : FragmentViewModel() {
 
     init {
 
-        /* earningBase.add(TopHolding("Tarrakki Direct Plan", 100, 25.24, 125237.00))
-         //earningBase.add(TopHolding("Regular Plan", 65, 8.5, 109300.00))
-         earningBase.add(TopHolding("Fixed Deposit", 45, 6.5, 106500.00))
-         earningBase.add(TopHolding("Bank Savings Account", 40, 3.5, 103500.00))*/
-
         durations.add(FundType("1Y"))
         durations.add(FundType("5Y"))
         durations.add(FundType("10Y"))

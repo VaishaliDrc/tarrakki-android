@@ -24,7 +24,6 @@ import org.supportcompact.ktx.toInt
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
-import java.io.Serializable
 
 class InvestVM : FragmentViewModel() {
 
@@ -136,34 +135,6 @@ class InvestVM : FragmentViewModel() {
         return response
     }
 
-}
-
-data class Fund(
-        var name: String,
-        var description: String,
-        var currentReturn: Float,
-        var returnSinceLaunch: Float,
-        var returnInYear: Float,
-        var volatility: Float,
-        var threeYearOfFundReturn: Float,
-        var threeYearOfFDReturn: Float,
-        var hasNegativeReturn: Boolean = false,
-        var temp: String = "39.550",
-        var fundType: String = "Equity",
-        var whatNew: String = "Folio"
-) : BaseObservable(), Serializable {
-    @get:Bindable
-    var hasOneTimeAmount: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.hasOneTimeAmount)
-        }
-    @get:Bindable
-    var date: String = "07 Sep 2018"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.date)
-        }
 }
 
 data class FundType(

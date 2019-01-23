@@ -1,6 +1,7 @@
 package com.tarrakki.module.bankaccount
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
@@ -9,7 +10,6 @@ import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
-import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
 import org.supportcompact.ktx.simpleAlert
@@ -48,14 +48,19 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 getString(R.string.bank_accounts)
             })
         }
-        context?.let {
-            // Get the string array
-            val countries: Array<out String> = it.resources.getStringArray(R.array.list_of_bank)
-            // Create the adapter and set it to the AutoCompleteTextView
-            ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, countries).also { adapter ->
-                edtName.setAdapter(adapter)
+        getViewModel().getAllBanks().observe(this, Observer { r ->
+            r?.let { bankResponse ->
+                bankResponse.banks?.let { banks ->
+                    context?.let {
+                        // Get the string array
+                        // Create the adapter and set it to the AutoCompleteTextView
+                        ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, banks).also { adapter ->
+                            edtName?.setAdapter(adapter)
+                        }
+                    }
+                }
             }
-        }
+        })
         btnAdd?.setOnClickListener {
             if (TextUtils.isEmpty(getViewModel().name.get())) {
                 context?.simpleAlert("Please enter bank name")
@@ -72,14 +77,13 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
             } else if (TextUtils.isEmpty(getViewModel().IFSCCode.get())) {
                 context?.simpleAlert("Please enter IFSC code")
             } else {
-                EventBus.getDefault().post(Bank(
-                        "ICICI Bank",
-                        "1210000091052",
-                        "Ahmedabad",
-                        "IC1C00000457",
-                        true))
-                context?.simpleAlert("New Bank Account has been added successfully") {
-                    activity?.onBackPressed()
+                val bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
+                bankId?.let {
+                    getViewModel().addBankDetails(it).observe(this, Observer {
+                        context?.simpleAlert("New Bank Account has been added successfully") {
+                            onBack()
+                        }
+                    })
                 }
             }
         }

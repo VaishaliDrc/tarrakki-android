@@ -1,6 +1,7 @@
 package com.tarrakki.module.bankaccount
 
 
+import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -8,11 +9,9 @@ import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
+import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -45,29 +44,30 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     }
 
     override fun createReference() {
-        rvBanks?.setUpMultiViewRecyclerAdapter(getViewModel().banks) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
-            binder.setVariable(BR.widget, item)
-            binder.setVariable(BR.onAdd, View.OnClickListener {
-                startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
-            })
-            binder.executePendingBindings()
+        val bankObserver = Observer<UserBanksResponse> { r ->
+            r?.let { userBanksResponse ->
+                val banks = arrayListOf<WidgetsViewModel>()
+                if (userBanksResponse.data.bankDetails.isEmpty()) {
+                    banks.add(NoBankAccount())
+                } else {
+                    banks.addAll(userBanksResponse.data.bankDetails)
+                }
+                banks.add(SingleButton(R.string.add_new_bank_account))
+                rvBanks?.setUpMultiViewRecyclerAdapter(banks) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                    binder.setVariable(BR.widget, item)
+                    binder.setVariable(BR.onAdd, View.OnClickListener {
+                        startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
+                    })
+                    binder.executePendingBindings()
+                }
+            }
         }
-        EventBus.getDefault().register(this)
+        coreActivityVM?.onNewBank?.observe(this, Observer {
+            getViewModel().getAllBanks().observe(this, bankObserver)
+        })
+        getViewModel().getAllBanks().observe(this, bankObserver)
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onAdd(bank: Bank) {
-        if (getViewModel().banks[0] !is Bank) {
-            getViewModel().banks.removeAt(0)
-        }
-        getViewModel().banks.add(0, bank)
-        rvBanks?.adapter?.notifyDataSetChanged()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
-    }
 
     companion object {
         /**
