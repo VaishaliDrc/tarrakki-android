@@ -44,6 +44,9 @@ class HomeVM : FragmentViewModel() {
                                     }
                                     homeSections.clear()
                                     it.data.category.forEach { item ->
+                                        for (secondlevel in item.secondLevelCategory){
+                                            secondlevel.sectionName = item.categoryName
+                                        }
                                         homeSections.add(
                                                 HomeSection(
                                                         item.categoryName,

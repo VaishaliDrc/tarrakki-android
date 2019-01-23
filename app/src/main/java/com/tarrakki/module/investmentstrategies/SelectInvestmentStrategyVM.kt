@@ -1,5 +1,6 @@
 package com.tarrakki.module.investmentstrategies
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
@@ -13,13 +14,17 @@ import android.text.style.BulletSpan
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.HomeData
 import org.supportcompact.FragmentViewModel
 import java.io.Serializable
 
 class SelectInvestmentStrategyVM : FragmentViewModel() {
 
+    val txtnoteToInvestors = ObservableField("")
     val noteToInvestors = ObservableField(true)
     val investmentOptions = arrayListOf<InvestmentOption>()
+
+    val category = MutableLiveData<HomeData.Data.Category.SecondLevelCategory>()
 
     init {
         investmentOptions.add(InvestmentOption(

@@ -7,15 +7,11 @@ import android.databinding.BindingAdapter
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.Html
-import android.text.InputFilter
-import android.text.TextUtils
+import android.text.*
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -26,9 +22,7 @@ import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogInvestBinding
 import com.tarrakki.databinding.DialogInvestGoalBinding
-import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
-import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
-import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.databinding.DialogInvestStratergyBinding
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -44,6 +38,7 @@ const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 
+
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
 fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
     view.isFocusable = false
@@ -53,13 +48,13 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
             binder.setVariable(BR.widget, item)
             binder.executePendingBindings()
             binder.root.setOnClickListener { it ->
-                val mContext = it.context
+                App.INSTANCE.widgetsViewModel.value = item
+                /*val mContext = it.context
                 if (mContext is AppCompatActivity && item is HomeData.Data.Goal) {
                     mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
-                    //mContext.startFragment(RecommendedFragment.newInstance(Bundle().apply { putSerializable(KEY_GOAL, item) }), R.id.frmContainer)
                 } else if (mContext is AppCompatActivity) {
                     mContext.startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
-                }
+                }*/
             }
         }
     }
@@ -230,8 +225,9 @@ fun watchYoutubeVideo(view: View, videoUrl: String) {
 }
 
 @BindingAdapter("HTML")
-fun setHtml(txt: TextView, txtHtml: String) {
-    val html = "<!DOCTYPE html><html><body>$txtHtml</body></html>"
+fun setHtml(txt: TextView, txtHtml: String?) {
+    val txtHtmlNotNull = txtHtml ?: ""
+    val html = "<!DOCTYPE html><html><body>$txtHtmlNotNull</body></html>"
     txt.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
     } else {
@@ -356,11 +352,95 @@ fun Context.investDialog(fundId: Int, minSIPAmount: Double,
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrency()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrency()
         it.dismissKeyboard()
-        if (this.isInvestDialogValid(minSIPAmount,minLumsumpAmount,sipAmount,lumpsumAmount)) {
+        if (this.isInvestDialogValid(minSIPAmount, minLumsumpAmount, sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
             onInvest?.invoke(lumpsumAmount.toString(),
                     sipAmount.toString(),
                     fundId)
+        }
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
+fun Context.investmentStragiesDialog(
+        thirdLevelCategory: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory,
+        onInvest: ((thirdLevelCategory: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory,
+                    amountLumpsum: Int, amountSIP: Int) -> Unit)? = null) {
+    val mBinder = DialogInvestStratergyBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+    mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+
+    /*mBinder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            val sipAmount = p0.toString()
+            val lumpsumAmount = mBinder.edtLumpsum.text.toString()
+
+            if (sipAmount.isNotEmpty() || lumpsumAmount.isNotEmpty()) {
+                mBinder.edtDurations.isFocusable = true
+                mBinder.edtDurations.isFocusableInTouchMode = true
+                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_gray_round)
+            } else {
+                mBinder.edtDurations.isFocusable = false
+                mBinder.edtDurations.isFocusableInTouchMode = false
+                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_disable_gray_round)
+            }
+        }
+
+    })
+
+    mBinder.edtLumpsum.addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            val lumpsumAmount = p0.toString()
+            val sipAmount = mBinder.edtSIPAmount.text.toString()
+
+            if (sipAmount.isNotEmpty() || lumpsumAmount.isNotEmpty()) {
+                mBinder.edtDurations.isFocusable = true
+                mBinder.edtDurations.isFocusableInTouchMode = true
+                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_gray_round)
+            } else {
+                mBinder.edtDurations.isFocusable = false
+                mBinder.edtDurations.isFocusableInTouchMode = false
+                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_disable_gray_round)
+            }
+        }
+
+    })*/
+
+    mBinder.btnInvest.setOnClickListener {
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyInt()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyInt()
+       // val duration = mBinder.edtDurations.text.toString()
+        it.dismissKeyboard()
+
+        if (lumpsumAmount == 0 && sipAmount == 0) {
+            this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        } else {
+            mDialog.dismiss()
+            onInvest?.invoke(thirdLevelCategory, lumpsumAmount,
+                    sipAmount)
         }
     }
     mBinder.tvClose.setOnClickListener {
@@ -384,18 +464,18 @@ fun String.toYearWord(): String {
 fun Context.isInvestDialogValid(minSIPAmount: Double,
                                 minLumsumpAmount: Double,
                                 sipAmount: Double,
-                                lumpsumAmount: Double) : Boolean{
-    if (lumpsumAmount==0.0 && sipAmount==0.0) {
+                                lumpsumAmount: Double): Boolean {
+    if (lumpsumAmount == 0.0 && sipAmount == 0.0) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false
     }
-    if (lumpsumAmount!=0.0) {
+    if (lumpsumAmount != 0.0) {
         if (lumpsumAmount < minLumsumpAmount) {
             this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
             return false
         }
     }
-    if (sipAmount!=0.0) {
+    if (sipAmount != 0.0) {
         if (sipAmount < minSIPAmount) {
             this.simpleAlert("The SIP amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
             return false

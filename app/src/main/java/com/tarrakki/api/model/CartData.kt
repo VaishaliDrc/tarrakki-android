@@ -70,13 +70,18 @@ data class CartData(
                 get() {
                     val dateList = arrayListOf<String>()
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
-                        val aipData = iaipAip.firstOrNull {
+                        val aipData12M = iaipAip.firstOrNull {
+                            "SIP".equals(it.siType, true)
+                                    && "Monthly".equals(it.frequency, true)
+                                    && it.minTenure == 12
+                        }
+                        val aipData6M = iaipAip.firstOrNull {
                             "SIP".equals(it.siType, true)
                                     && "Monthly".equals(it.frequency, true)
                                     && it.minTenure == 6
                         }
-                        if (aipData != null) {
-                            val dates = aipData.frequencyDate.split("|")
+                        if (aipData12M != null) {
+                            val dates = aipData12M.frequencyDate.split("|")
                             val isDay = dates.find { it.contains("day", false) }
                             if (isDay != null) {
                                 dateList.addAll(getDummyDates())
@@ -89,14 +94,30 @@ data class CartData(
 
                                 }
                             }
-                        } else {
+                        } else if (aipData6M != null) {
+                            val dates = aipData6M.frequencyDate.split("|")
+                            val isDay = dates.find { it.contains("day", false) }
+                            if (isDay != null) {
+                                dateList.addAll(getDummyDates())
+                            } else {
+                                try {
+                                    for (date in dates) {
+                                        dateList.add(getOrdinalFormat(date.toInt()))
+                                    }
+                                } catch (e: Exception) {
+
+                                }
+                            }
+                        }else{
                             dateList.addAll(getDummyDates())
                         }
+                    } else {
+                        dateList.addAll(getDummyDates())
                     }
                     return dateList
                 }
 
-            fun getDummyDates(): ArrayList<String> {
+            private fun getDummyDates(): ArrayList<String> {
                 val dateList = arrayListOf<String>()
                 val dates = arrayListOf<String>()
                 for (date in 1..31) {
@@ -111,21 +132,6 @@ data class CartData(
                 }
                 return dateList
             }
-
-            /*fun getDateFormat(date : String) : String{
-                val hunRem = date.toInt() % 100
-                val tenRem = date.toInt() % 10
-
-                if (hunRem - tenRem == 10) {
-                    return date+"th"
-                }
-                when (tenRem) {
-                    1 -> return date+"st"
-                    2 -> return date+"nd"
-                    3 -> return date+"rd"
-                    else -> return date+"th"
-                }
-            }*/
 
         }
 

@@ -7,10 +7,7 @@ import android.text.Spanned
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.RecommendedFunds
-import com.tarrakki.api.model.printResponse
-import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.api.model.*
 import com.tarrakki.module.investmentstrategies.InvestmentOption
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -32,6 +29,19 @@ class RecommendedVM : FragmentViewModel() {
     val lumpsumpFor = ObservableField<Spanned>()
     var userGoalId: String = ""
 
+    val thirdLevelCategory = MutableLiveData<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>()
+    val recommendedFunds = MutableLiveData<List<InvestmentRecommendFundResponse.Data>>()
+
+    val categoryImg = ObservableField<String>("")
+    val categoryName = ObservableField<String>("")
+    val categoryshortDes = ObservableField<String>("")
+    val categoryDes = ObservableField<String>("")
+
+    val secondaryCategoryName = ObservableField<String>("")
+    val secondaryCategoryImage = ObservableField<String>("")
+    val secondaryCategoryDes = ObservableField<String>("")
+
+    val isFrom = ObservableField<Int>()
 
     init {
         AMCList.add(AMC(

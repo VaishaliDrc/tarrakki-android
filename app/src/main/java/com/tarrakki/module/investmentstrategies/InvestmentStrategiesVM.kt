@@ -1,12 +1,16 @@
 package com.tarrakki.module.investmentstrategies
 
+import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.DrawableRes
 import com.tarrakki.R
+import com.tarrakki.api.model.HomeData
 import org.supportcompact.FragmentViewModel
 
 class InvestmentStrategiesVM : FragmentViewModel() {
 
     val investmentStrategies = arrayListOf<InvestmentStrategy>()
+
+    val secondaryCategoriesList = MutableLiveData<List<HomeData.Data.Category.SecondLevelCategory>>()
 
     init {
         investmentStrategies.add(InvestmentStrategy(

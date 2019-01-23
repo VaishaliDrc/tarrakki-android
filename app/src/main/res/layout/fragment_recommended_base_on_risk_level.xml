@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="invest"
             type="com.tarrakki.module.investmentstrategies.InvestmentOption" />
@@ -25,6 +27,7 @@
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
+                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"
@@ -41,6 +44,7 @@
                     android:adjustViewBounds="true"
                     android:background="@drawable/shape_section_item_bg"
                     android:paddingBottom="@dimen/space_32"
+                    imgUrl="@{vm.secondaryCategoryImage}"
                     android:src="@drawable/very_long_investments"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +59,7 @@
                     android:lineSpacingExtra="@dimen/space_4"
                     android:maxLines="2"
                     android:minLines="2"
-                    android:text="Very Long Term Investments"
+                    android:text="@{vm.secondaryCategoryName}"
                     android:textColor="@color/semi_black"
                     android:textSize="@dimen/sp10"
                     app:layout_constraintBottom_toBottomOf="@id/ivItem"
@@ -71,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@{invest.title}"
+                    android:text="@{vm.categoryName}"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
@@ -83,7 +87,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
-                    android:text="@{invest.sortDescription}"
+                    android:text="@{vm.categoryshortDes}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivItem"
@@ -98,7 +102,6 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:layout_marginEnd="@dimen/space_8"
                     android:background="@drawable/shape_risk_level_bg"
-                    android:drawableStart="@{invest.riskLevelIMGRes}"
                     android:drawablePadding="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center_vertical"
@@ -107,7 +110,6 @@
                     android:paddingTop="@dimen/_4sdp"
                     android:paddingEnd="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_4sdp"
-                    android:text="@{invest.riskLevel}"
                     android:textColor="@color/name_aggressive"
                     android:textSize="@dimen/_8ssp"
                     app:layout_constraintStart_toEndOf="@id/ivItem"
@@ -122,7 +124,6 @@
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginTop="@dimen/space_8"
                     android:background="@drawable/shape_risk_to_revord_level_bg"
-                    android:drawableStart="@{invest.returnOnRiskLevelIMGRes}"
                     android:drawablePadding="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center_vertical"
@@ -131,7 +132,6 @@
                     android:paddingTop="@dimen/_4sdp"
                     android:paddingEnd="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_4sdp"
-                    android:text="@{invest.returnOnRiskLevel}"
                     android:textColor="@color/pdlg_color_green"
                     android:textSize="@dimen/_8ssp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +143,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <TextView
+                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}"
                 android:id="@+id/tvRecommendedInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,9 +154,74 @@
                 android:elevation="@dimen/space_2"
                 android:lineSpacingExtra="@dimen/space_4"
                 android:padding="@dimen/space_8"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting indus-try. Lorem Ipsum has been the industry's standard dummy text ever since the an unof type and scrambled it to make a type specimen book."
+                android:text="@{vm.categoryDes}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
+            <android.support.constraint.ConstraintLayout
+                android:visibility="@{vm.isFrom==2?View.VISIBLE:View.GONE}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:padding="@dimen/space_8">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/view2"
+                    android:layout_width="144dp"
+                    android:layout_height="144dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:elevation="12dp"
+                    app:cardBackgroundColor="@color/circular_bg"
+                    app:cardCornerRadius="72dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        imgUrl="@{vm.secondaryCategoryImage}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_40"
+                        tools:src="@drawable/own_a_home" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/space_30"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingStart="@dimen/space_5"
+                        android:paddingEnd="@dimen/space_5"
+                        android:text="@{vm.secondaryCategoryName}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/semi_black"
+                        android:textSize="@dimen/sp10"
+                        tools:text="Children's Education" />
+
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvGoalValueL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:fontFamily="@font/lato_semibold"
+                    android:lineSpacingExtra="@dimen/space_4"
+                    HTML="@{vm.secondaryCategoryDes}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:layout_constraintTop_toBottomOf="@+id/view2"
+                    tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting in-dustry. Lorem Ipsum has been the industry's standard dummy text ever since the an unof type and scrambled it to a type specimen book electronic typesetting, remaining essentially unchanged." />
+
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

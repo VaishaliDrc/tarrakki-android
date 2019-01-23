@@ -8,16 +8,19 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.TextView
-import com.tarrakki.App
-import com.tarrakki.BR
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
+import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
+import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
+import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.startFragment
@@ -29,6 +32,9 @@ import org.supportcompact.ktx.startFragment
  * create an instance of this fragment.
  *
  */
+
+const val CATEGORYNAME = "category_name"
+
 class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override val isBackEnabled: Boolean
@@ -65,9 +71,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     startFragment(GoalFragment.newInstance(), R.id.frmContainer)
                                 }
                                 else -> {
-                                    startFragment(InvestmentStrategiesFragment.newInstance(), R.id.frmContainer)
+                                    val bundle = Bundle().apply {
+                                        putString(CATEGORYNAME, item.title)
+                                    }
+                                    startFragment(InvestmentStrategiesFragment.newInstance(bundle)
+                                            , R.id.frmContainer)
                                     item.category?.let { postSticky(it) }
-
                                 }
                             }
                     })
@@ -76,6 +85,44 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 rvHomeItem.visibility = View.VISIBLE
             }
         }
+
+        App.INSTANCE.widgetsViewModel.observe(this, Observer { item ->
+            if (item is HomeData.Data.Goal) {
+                startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
+            } else if (item is HomeData.Data.Category.SecondLevelCategory) {
+                if (!item.isGoal) {
+                    val thirdLevelCategory = item.thirdLevelCategory
+                    if (thirdLevelCategory.isNotEmpty()) {
+                        if (thirdLevelCategory[0].categoryName != null) {
+                            val bundle = Bundle().apply {
+                                putString(CATEGORYNAME, item.sectionName)
+                            }
+                            startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
+                            postSticky(item)
+                        } else {
+                            context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
+                                investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                                        android.arch.lifecycle.Observer { response ->
+                                            val bundle = Bundle().apply {
+                                                putString("categoryName", item.categoryName)
+                                                putString("categoryImage", item.categoryImage)
+                                                putString("categoryDes", item.categoryDesctiption)
+                                                putInt("isFrom", 2)
+                                            }
+                                            startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                            EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
+                                            EventBus.getDefault().postSticky(response?.data)
+                                        })
+                            }
+                        }
+                    }
+                } else {
+                    startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
+                }
+                //startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
+            }
+        })
+
         tvWhyTarrakkii?.setOnClickListener { _ ->
             getViewModel().whayTarrakki.get()?.let {
                 getViewModel().whayTarrakki.set(!it)

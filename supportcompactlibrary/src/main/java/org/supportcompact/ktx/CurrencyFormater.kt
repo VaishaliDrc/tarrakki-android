@@ -127,3 +127,9 @@ fun String.toCurrency(): Double = try {
 } catch (e: java.lang.Exception) {
     0.0
 }
+
+fun String.toCurrencyInt(): Int = try {
+    this.replace(",", "").toIntOrNull() ?: 0
+} catch (e: java.lang.Exception) {
+    0
+}

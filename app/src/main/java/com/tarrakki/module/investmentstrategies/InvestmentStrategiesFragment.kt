@@ -1,30 +1,34 @@
 package com.tarrakki.module.investmentstrategies
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentInvestmentStrategiesBinding
 import com.tarrakki.databinding.RowInvestmentStrategiesItemBinding
+import com.tarrakki.investmentRecommendation
+import com.tarrakki.investmentStragiesDialog
+import com.tarrakki.module.home.CATEGORYNAME
+import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
+import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
+import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import kotlinx.android.synthetic.main.fragment_investment_strategies.*
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
+import java.util.ArrayList
 
-/**
- * A simple [Fragment] subclass.
- * Use the [InvestmentStrategiesFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, FragmentInvestmentStrategiesBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.investment_strategies)
+        get() = arguments?.getString(CATEGORYNAME).toString()
 
     override fun getLayout(): Int {
         return R.layout.fragment_investment_strategies
@@ -40,30 +44,56 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
     }
 
     override fun createReference() {
+
         rvInvestmentStrategies.addItemDecoration(ItemOffsetDecoration(rvInvestmentStrategies.context, R.dimen.space_4))
-        /*rvInvestmentStrategies?.setUpRecyclerView(R.layout.row_investment_strategies_item, getViewModel().investmentStrategies) { item: InvestmentStrategy, binder: RowInvestmentStrategiesItemBinding, position: Int ->
-            binder.widget = item
-            binder.root.setOnClickListener {
-                startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
+
+        getViewModel().secondaryCategoriesList.observe(this, Observer {
+            rvInvestmentStrategies?.setUpRecyclerView(R.layout.row_investment_strategies_item,
+                    it as ArrayList<HomeData.Data.Category.SecondLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory, binder: RowInvestmentStrategiesItemBinding, position: Int ->
+                binder.widget = item
+                binder.root.setOnClickListener {view ->
+                    if (!item.isGoal){
+                        val thirdLevelCategory = item.thirdLevelCategory
+                        if (thirdLevelCategory.isNotEmpty()){
+                            if (thirdLevelCategory[0].categoryName!=null){
+                                val bundle = Bundle().apply {
+                                    putString(CATEGORYNAME, title)
+                                }
+                                startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
+                                postSticky(item)
+                            }else{
+                                context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
+                                    investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                                            android.arch.lifecycle.Observer { response ->
+                                                val bundle = Bundle().apply {
+                                                    putString("categoryName",item.categoryName)
+                                                    putString("categoryImage",item.categoryImage)
+                                                    putString("categoryDes",item.categoryDesctiption)
+                                                    putInt("isFrom",2)
+                                                }
+                                                startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                                EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
+                                                EventBus.getDefault().postSticky(response?.data)
+                                            })
+                                }
+                            }
+                        }
+                    }else{
+                        startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
+                    }
+                }
+                binder.executePendingBindings()
             }
-            binder.executePendingBindings()
-        }*/
+        })
     }
 
     @Subscribe(sticky = true)
     fun onReceive(category: HomeData.Data.Category) {
         removeStickyEvent(category)
+        getViewModel().secondaryCategoriesList.value = category.secondLevelCategory
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket Bundle.
-         * @return A new instance of fragment SelectInvestmentStrategyFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = InvestmentStrategiesFragment().apply { arguments = basket }
     }

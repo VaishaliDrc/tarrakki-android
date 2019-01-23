@@ -68,7 +68,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:lineSpacingExtra="@dimen/space_4"
-                        android:text="@string/note_to_investors_details" />
+                        HTML="@{vm.txtnoteToInvestors}"
+                        tools:text="@string/note_to_investors_details" />
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
 
