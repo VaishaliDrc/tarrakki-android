@@ -15,11 +15,11 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("api-token-auth/")
-    fun onLogin(@Field("auth_data") authData: String): Observable<LoginResponse>
+    fun onLogin(@Field("auth_data") authData: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/signup/")
-    fun onSignUp(@Field("data") data: String): Observable<SignUpresponse>
+    fun onSignUp(@Field("data") data: String): Observable<ApiResponse>
 
     @GET("goals/")
     fun getGoals(): Observable<ApiResponse>
@@ -107,8 +107,8 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("category/recommendations/")
-    fun investmentStragey(@Field("third_level_category_id") thirdLevelCategoryId: Int,
-                          @Field("years") years: String,
+    fun investmentStrageyRecommeded(@Field("third_level_category_id") thirdLevelCategoryId: Int,
+                          /*@Field("years") years: String,*/
                           @Field("lumpsum_amount") lumpsum_amount: Int,
                           @Field("add_to_cart") addToCart: Int,
                           @Field("sip_amount") sip_amount: Int

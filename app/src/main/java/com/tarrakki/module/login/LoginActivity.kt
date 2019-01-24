@@ -12,10 +12,7 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.supportcompact.CoreActivity
-import org.supportcompact.ktx.setIsLogin
-import org.supportcompact.ktx.setLoginToken
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startActivity
+import org.supportcompact.ktx.*
 
 class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
 
@@ -66,13 +63,16 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                 }
                 else -> {
                     getViewModel().doLogin().observe(this, Observer { loginResponse ->
-                        loginResponse?.token?.let { it1 -> setLoginToken(it1) }
-                        if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
-                            startActivity<HomeActivity>()
+                        loginResponse?.let {
+                            loginResponse.token?.let { it1 -> setLoginToken(it1) }
+                            loginResponse.userId?.let { it1 -> setUserId(it1) }
+                            if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
+                                startActivity<HomeActivity>()
+                            }
+                            setIsLogin(cbKeepMeSignIn.isChecked)
+                            App.INSTANCE.isLoggedIn.value = true
+                            finish()
                         }
-                        setIsLogin(cbKeepMeSignIn.isChecked)
-                        App.INSTANCE.isLoggedIn.value = true
-                        finish()
                     })
                     /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                         startActivity<HomeActivity>()

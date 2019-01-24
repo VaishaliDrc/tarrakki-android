@@ -7,7 +7,10 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.LoginResponse
+import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.printResponse
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
@@ -42,11 +45,13 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
 
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
-        if (o is LoginResponse) {
-            if (o.status?.code == 0) {
-                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+        if (o is ApiResponse) {
+            o.printResponse()
+            if (o.status?.code == 1) {
+                val data = o.data?.parseTo<LoginResponse>()
+                onLogin.value = data
             } else {
-                onLogin.value = o
+                EventBus.getDefault().post(ShowError("${o.status?.message}"))
             }
         } else {
             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

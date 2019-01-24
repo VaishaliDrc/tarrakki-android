@@ -84,7 +84,7 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
 
         btnInvest?.setOnClickListener {
             context?.investmentStragiesDialog(getViewModel().thirdLevelCategory.value as HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                investmentRecommendationToCart(thirdLevelCategory.id, amountSIP, amountLumpsum,"4", 1, false
+                investmentRecommendationToCart(thirdLevelCategory.id, amountSIP, amountLumpsum, 1, false
                 ).observe(this,
                         android.arch.lifecycle.Observer { response ->
                             startFragment(CartFragment.newInstance(), R.id.frmContainer)

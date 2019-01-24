@@ -91,7 +91,7 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumA
     }
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .investmentStragey(thirdLevelCategoryId, "", lumpsumAmount, addToCart, sipAmount),
+                    .investmentStrageyRecommeded(thirdLevelCategoryId, lumpsumAmount, addToCart, sipAmount),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -121,7 +121,7 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumA
 }
 
 fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumAmount: Int,
-                             years: String, addToCart: Int, isShowProgress: Boolean = true)
+                             addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()
     if (isShowProgress) {
@@ -129,7 +129,7 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: Int, lu
     }
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .investmentStragey(thirdLevelCategoryId, years, lumpsumAmount, addToCart, sipAmount),
+                    .investmentStrageyRecommeded(thirdLevelCategoryId, lumpsumAmount, addToCart, sipAmount),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

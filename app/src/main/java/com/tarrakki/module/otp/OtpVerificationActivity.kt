@@ -15,10 +15,7 @@ import com.tarrakki.module.resetPassword.ResetPasswordActivity
 import kotlinx.android.synthetic.main.activity_otp_verification.*
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
-import org.supportcompact.ktx.setIsLogin
-import org.supportcompact.ktx.setLoginToken
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startActivity
+import org.supportcompact.ktx.*
 
 class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVerificationBinding>() {
 
@@ -67,14 +64,17 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                 data?.let {
                                     if (intent.hasExtra(SIGNUP_DATA)) {
                                         getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
-                                            signUpResponse?.token?.let { it1 -> setLoginToken(it1) }
-                                            setIsLogin(true)
-                                            App.INSTANCE.isLoggedIn.value = true
-                                            if (intent.hasExtra(IS_FROM_ACCOUNT)) {
-                                                finish()
-                                            } else {
-                                                startActivity<HomeActivity>()
-                                                finishAffinity()
+                                            signUpResponse?.let {
+                                                signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                                signUpResponse.userId?.let { it1 -> setUserId(it1) }
+                                                setIsLogin(true)
+                                                App.INSTANCE.isLoggedIn.value = true
+                                                if (intent.hasExtra(IS_FROM_ACCOUNT)) {
+                                                    finish()
+                                                } else {
+                                                    startActivity<HomeActivity>()
+                                                    finishAffinity()
+                                                }
                                             }
                                         })
                                     }

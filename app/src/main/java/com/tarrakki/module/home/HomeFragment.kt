@@ -91,28 +91,36 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
             } else if (item is HomeData.Data.Category.SecondLevelCategory) {
                 if (!item.isGoal) {
-                    val thirdLevelCategory = item.thirdLevelCategory
-                    if (thirdLevelCategory.isNotEmpty()) {
-                        if (thirdLevelCategory[0].categoryName != null) {
-                            val bundle = Bundle().apply {
-                                putString(CATEGORYNAME, item.sectionName)
-                            }
-                            startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
-                            postSticky(item)
-                        } else {
-                            context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
-                                investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
-                                        android.arch.lifecycle.Observer { response ->
-                                            val bundle = Bundle().apply {
-                                                putString("categoryName", item.categoryName)
-                                                putString("categoryImage", item.categoryImage)
-                                                putString("categoryDes", item.categoryDesctiption)
-                                                putInt("isFrom", 2)
-                                            }
-                                            startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
-                                            EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
-                                            EventBus.getDefault().postSticky(response?.data)
-                                        })
+                    if (item.isThematic){
+                        val bundle = Bundle().apply {
+                            putString(CATEGORYNAME, item.categoryName)
+                        }
+                        startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
+                        postSticky(item)
+                    }else{
+                        val thirdLevelCategory = item.thirdLevelCategory
+                        if (thirdLevelCategory.isNotEmpty()) {
+                            if (thirdLevelCategory[0].categoryName != null) {
+                                val bundle = Bundle().apply {
+                                    putString(CATEGORYNAME, item.sectionName)
+                                }
+                                startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
+                                postSticky(item)
+                            } else {
+                                context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
+                                    investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                                            android.arch.lifecycle.Observer { response ->
+                                                val bundle = Bundle().apply {
+                                                    putString("categoryName", item.categoryName)
+                                                    putString("categoryImage", item.categoryImage)
+                                                    putString("categoryDes", item.categoryDesctiption)
+                                                    putInt("isFrom", 2)
+                                                }
+                                                startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                                EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
+                                                EventBus.getDefault().postSticky(response?.data)
+                                            })
+                                }
                             }
                         }
                     }
