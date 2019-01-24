@@ -277,7 +277,7 @@ data class FundsDetails(
 
     var minSIPAmount = ""
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
-            iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount?.toCurrency()
+            iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount?.toCurrency()
                     ?: "NA"
         } else ""
 
@@ -286,7 +286,7 @@ data class FundsDetails(
 
     var validminSIPAmount = 0.00
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
-            iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount
+            iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount
                     ?: 0.00
         } else 0.00
 

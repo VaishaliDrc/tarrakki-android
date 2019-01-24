@@ -83,12 +83,15 @@
 
         <TextView
             android:id="@+id/tvAccountNo"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/lato_semibold"
+            android:maxLines="2"
             android:text="@{widget.accountNumber}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAccountNoL"
             tools:text="1210000091052" />
@@ -105,16 +108,18 @@
 
         <TextView
             android:id="@+id/tvBreachName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:fontFamily="@font/lato_semibold"
+            android:maxLines="2"
             android:text="@{widget.branchBranchName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
-            android:maxLength="15"
+            app:layout_constraintEnd_toStartOf="@+id/tvIFSCCode"
             app:layout_constraintStart_toStartOf="@id/tvBreachNameL"
             app:layout_constraintTop_toBottomOf="@+id/tvBreachNameL"
-            tools:text="Ahmedabad" />
+            tools:text="Ahmedabadab" />
 
         <TextView
             android:id="@+id/tvIFSCCodeLabel"
@@ -133,13 +138,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
+            android:maxLines="2"
             android:minWidth="80dp"
             android:text="@{widget.branchIfscCode}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvIFSCCodeLabel"
-            tools:text="IC1C00000457" />
+            tools:text="ICIC00000457" />
 
         <android.support.constraint.Guideline
             android:id="@+id/gdlCenter"

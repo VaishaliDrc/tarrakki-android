@@ -1,8 +1,6 @@
 package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.LoginResponse
-import com.tarrakki.api.model.SignUpresponse
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -87,19 +85,19 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("users/forgot-password/confirm/")
     fun resetPassword(@Field("token") token: String?,
-                        @Field("password") password: String?): Observable<ApiResponse>
+                      @Field("password") password: String?): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/change-password/")
     fun changePassword(@Field("current_password") token: String?,
-                      @Field("new_password") newPassword: String?,
-                      @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
+                       @Field("new_password") newPassword: String?,
+                       @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
 
     @GET("banks/")
     fun getAllBanks(): Observable<ApiResponse>
 
-    @GET("banks/user-banks/1")
-    fun getUserBanks(): Observable<ApiResponse>
+    @GET("banks/user-banks/{userId}")
+    fun getUserBanks(@Path("userId") userId: String?): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("banks/user-banks/")
@@ -108,10 +106,10 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("category/recommendations/")
     fun investmentStrageyRecommeded(@Field("third_level_category_id") thirdLevelCategoryId: Int,
-                          /*@Field("years") years: String,*/
-                          @Field("lumpsum_amount") lumpsum_amount: Int,
-                          @Field("add_to_cart") addToCart: Int,
-                          @Field("sip_amount") sip_amount: Int
+            /*@Field("years") years: String,*/
+                                    @Field("lumpsum_amount") lumpsum_amount: Int,
+                                    @Field("add_to_cart") addToCart: Int,
+                                    @Field("sip_amount") sip_amount: Int
     ): Observable<ApiResponse>
 
     /**
@@ -120,6 +118,6 @@ interface WebserviceBuilder {
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
-        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation,getAllBanks, addBankDetails
+        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails
     }
 }

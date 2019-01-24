@@ -13,7 +13,9 @@ import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.showProgress
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -22,14 +24,13 @@ import kotlin.concurrent.thread
 class BankAccountsVM : FragmentViewModel() {
 
     fun getAllBanks(): MutableLiveData<UserBanksResponse> {
-        EventBus.getDefault().post(SHOW_PROGRESS)
+        showProgress()
         val response = MutableLiveData<UserBanksResponse>()
         subscribeToSingle(
-                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getUserBanks(),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getUserBanks(App.INSTANCE.getUserId()),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
                             thread {
                                 if (o.status?.code == 1) {
@@ -38,8 +39,10 @@ class BankAccountsVM : FragmentViewModel() {
                                 } else {
                                     EventBus.getDefault().post(ShowError("${o.status?.message}"))
                                 }
+                                dismissProgress()
                             }
                         } else {
+                            dismissProgress()
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                         }
                     }
@@ -63,17 +66,5 @@ class NoBankAccount : WidgetsViewModel {
 data class SingleButton(@StringRes var title: Int) : WidgetsViewModel {
     override fun layoutId(): Int {
         return R.layout.btn_add_bank_account
-    }
-}
-
-data class Bank(
-        var name: String,
-        var accountNumber: String,
-        var breachName: String,
-        var IFSCCode: String,
-        var isDefault: Boolean = false
-) : WidgetsViewModel {
-    override fun layoutId(): Int {
-        return R.layout.row_bank_account_list_item
     }
 }

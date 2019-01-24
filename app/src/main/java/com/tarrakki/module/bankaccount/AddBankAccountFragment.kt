@@ -82,6 +82,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                     getViewModel().addBankDetails(it).observe(this, Observer {
                         context?.simpleAlert("New Bank Account has been added successfully") {
                             onBack()
+                            coreActivityVM?.onNewBank?.value = true
                         }
                     })
                 }

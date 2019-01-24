@@ -110,7 +110,7 @@ fun Context.setUserId(userid: String) {
 }
 
 fun Context.getUserId(): String? {
-    return getPreferences.getString(USERID, "")
+    return getPreferences.getString(USERID, "`")
 }
 
 fun Context.setAppIsLock(has: Boolean) {

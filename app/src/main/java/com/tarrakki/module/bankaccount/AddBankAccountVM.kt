@@ -11,7 +11,9 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.showProgress
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -23,18 +25,17 @@ class AddBankAccountVM : FragmentViewModel() {
     val accountNo = ObservableField<String>("")
     val reenterAccountNo = ObservableField<String>("")
     val breachName = ObservableField<String>("")
-    val accountType = ObservableField<String>("")
+    val accountType = ObservableField<String>("Saving Account")
     val IFSCCode = ObservableField<String>("")
     val response = MutableLiveData<BankResponse>()
 
     fun getAllBanks(): MutableLiveData<BankResponse> {
-        EventBus.getDefault().post(SHOW_PROGRESS)
+        showProgress()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getAllBanks(),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
                         if (o is ApiResponse) {
                             thread {
                                 if (o.status?.code == 1) {
@@ -44,8 +45,10 @@ class AddBankAccountVM : FragmentViewModel() {
                                 } else {
                                     EventBus.getDefault().post(ShowError("${o.status?.message}"))
                                 }
+                                dismissProgress()
                             }
                         } else {
+                            dismissProgress()
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                         }
                     }
@@ -61,14 +64,15 @@ class AddBankAccountVM : FragmentViewModel() {
 
     fun addBankDetails(bankId: String): MutableLiveData<ApiResponse> {
         val response = MutableLiveData<ApiResponse>()
-        EventBus.getDefault().post(SHOW_PROGRESS)
+        showProgress()
         val json = JsonObject()
         json.addProperty("account_number", accountNo.get())
         json.addProperty("ifsc_code", IFSCCode.get())
         json.addProperty("micr_code", "380240005")
         json.addProperty("account_type", if (accountType.get() == "Saving Account") "SB" else "CB")
         json.addProperty("bank_id", bankId)
-        json.addProperty("holding_mode", "Single")
+        json.addProperty("user_id", App.INSTANCE.getUserId())
+        //json.addProperty("holding_mode", "Single")
         val data = json.toString().toEncrypt()
         json.printRequest()
         data.printRequest()
@@ -77,7 +81,7 @@ class AddBankAccountVM : FragmentViewModel() {
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        dismissProgress()
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
