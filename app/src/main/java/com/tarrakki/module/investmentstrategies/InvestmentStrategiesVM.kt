@@ -9,5 +9,5 @@ import org.supportcompact.FragmentViewModel
 class InvestmentStrategiesVM : FragmentViewModel() {
 
     val secondaryCategoriesList = MutableLiveData<List<HomeData.Data.Category.SecondLevelCategory>>()
-    val thirdLevelCategoriesList = MutableLiveData<List<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>>()
+    val secondaryCategories = MutableLiveData<HomeData.Data.Category.SecondLevelCategory>()
 }

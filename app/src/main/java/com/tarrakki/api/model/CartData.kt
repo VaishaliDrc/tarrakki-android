@@ -41,8 +41,18 @@ data class CartData(
                 @SerializedName("start_date")
                 var startDate: String?,
                 @SerializedName("iaip_aip")
-                val iaipAip: List<IaipAip>?
+                val iaipAip: List<IaipAip>?,
+                @SerializedName("pi_minimum_initial")
+                val piMinimumInitial: String?
         ) : BaseObservable(), Serializable {
+            var validminSIPAmount = 0
+                get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
+                    iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount
+                            ?: 0
+                } else 0
+
+            var validminlumpsumAmount = 0
+                get() = piMinimumInitial?.toInt() ?: 0
 
             @get:Bindable
             var hasOneTimeAmount: Boolean = false
@@ -137,5 +147,18 @@ data class CartData(
 
     }
 
-
+    data class IaipAip(
+            @SerializedName("frequency")
+            val frequency: String,
+            @SerializedName("frequency_date")
+            val frequencyDate: String,
+            @SerializedName("min_amount")
+            val minAmount: Int?,
+            @SerializedName("min_tenure")
+            val minTenure: Int,
+            @SerializedName("si_type")
+            val siType: String,
+            @SerializedName("subsquent_amount")
+            val subsquentAmount: Int
+    )
 }

@@ -477,7 +477,29 @@ fun Context.isInvestDialogValid(minSIPAmount: Double,
     }
     if (sipAmount != 0.0) {
         if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toCurrency()}.")
+            return false
+        }
+    }
+    return true
+}
+
+fun Context.isLumpsumAmountValid(minLumsumpAmount: Int,
+                                lumpsumAmount: Int): Boolean {
+    if (lumpsumAmount != 0) {
+        if (lumpsumAmount < minLumsumpAmount) {
+            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            return false
+        }
+    }
+    return true
+}
+
+fun Context.isSIPAmountValid(minSIPAmount: Int,
+                                       sipAmount: Int): Boolean {
+    if (sipAmount != 0) {
+        if (sipAmount < minSIPAmount) {
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toCurrency()}.")
             return false
         }
     }

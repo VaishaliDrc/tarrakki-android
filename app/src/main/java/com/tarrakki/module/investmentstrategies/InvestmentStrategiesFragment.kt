@@ -96,16 +96,23 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
             }
         })
 
-        getViewModel().thirdLevelCategoriesList.observe(this, Observer {
+        getViewModel().secondaryCategories.observe(this, Observer {
             rvInvestmentStrategies?.setUpRecyclerView(R.layout.row_third_level_investment,
-                    it as ArrayList<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory, binder: RowThirdLevelInvestmentBinding, position: Int ->
+                    it?.thirdLevelCategory as ArrayList<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory, binder: RowThirdLevelInvestmentBinding, position: Int ->
                 binder.widget = item
                 binder.root.setOnClickListener { view ->
                     context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendationToCart(thirdLevelCategory.id, amountSIP, amountLumpsum, 1, false
-                        ).observe(this,
+                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                 android.arch.lifecycle.Observer { response ->
-                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                    val bundle = Bundle().apply {
+                                        putString("categoryName",it.categoryName)
+                                        putString("categoryImage",it.categoryImage)
+                                        putString("categoryDes",it.categoryDesctiption)
+                                        putInt("isFrom",2)
+                                    }
+                                    startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                    EventBus.getDefault().postSticky(item)
+                                    EventBus.getDefault().postSticky(response?.data)
                                 })
                     }
                 }
@@ -123,7 +130,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
     @Subscribe(sticky = true)
     fun onThemeticReceive(category: HomeData.Data.Category.SecondLevelCategory) {
         if (getViewModel().secondaryCategoriesList.value == null) {
-            getViewModel().thirdLevelCategoriesList.value = category.thirdLevelCategory
+            getViewModel().secondaryCategories.value = category
             removeStickyEvent(category)
         }
     }

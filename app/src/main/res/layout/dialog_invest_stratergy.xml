@@ -124,6 +124,7 @@
             android:paddingStart="@dimen/_24sdp"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
+            android:imeOptions="actionDone"
             android:paddingBottom="@dimen/space_8"
             android:text="@={investment}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"

@@ -133,3 +133,5 @@ fun String.toCurrencyInt(): Int = try {
 } catch (e: java.lang.Exception) {
     0
 }
+
+fun Int.toCurrency() = "\u20B9".plus(formatter.format(this))

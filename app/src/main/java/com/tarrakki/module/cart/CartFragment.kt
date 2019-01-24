@@ -5,9 +5,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import com.tarrakki.App
-import com.tarrakki.BaseActivity
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
@@ -97,9 +95,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             v.dismissKeyboard()
                             v.clearFocus()
-                            item.lumpsumAmount = binder.edtLumpsum.text.toString()
-                            getViewModel().updateGoalFromCart(item.id.toString(), item)
-                            //rvCartItems?.adapter?.notifyDataSetChanged()
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+                            if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyInt())!!) {
+                                item.lumpsumAmount = binder.edtLumpsum.text.toString()
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            }
                             return@setOnEditorActionListener true
                         }
                         return@setOnEditorActionListener false
@@ -108,8 +108,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             v.dismissKeyboard()
                             v.clearFocus()
-                            item.sipAmount = binder.edtSIPAmount.text.toString()
-                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            val sipAmount = binder.edtSIPAmount.text.toString()
+                            if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyInt())!!) {
+                                item.sipAmount = binder.edtSIPAmount.text.toString()
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            }
                             return@setOnEditorActionListener true
                         }
                         return@setOnEditorActionListener false
