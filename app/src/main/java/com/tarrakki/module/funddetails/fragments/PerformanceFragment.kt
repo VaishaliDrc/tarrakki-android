@@ -86,13 +86,13 @@ class PerformanceFragment : Fragment() {
                     binder?.executePendingBindings()
 
                     val returns = arrayListOf<KeyInfo>()
-                    returns.add(KeyInfo("1 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn1Mth)))
-                    returns.add(KeyInfo("3 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn3Mth)))
-                    returns.add(KeyInfo("6 Month", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn6Mth)))
-                    returns.add(KeyInfo("1 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn1Yr)))
-                    returns.add(KeyInfo("3 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn3Yr)))
-                    returns.add(KeyInfo("5 Years", parseAsReturnOrNA(fund.fundsDetails?.ttrReturn5Yr)))
-                    returns.add(KeyInfo("Since Inception", parseAsReturnOrNA(fund.fundsDetails?.ttrReturnSinceInception)))
+                    returns.add(KeyInfo("1 Month", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn1Mth)))
+                    returns.add(KeyInfo("3 Month", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn3Mth)))
+                    returns.add(KeyInfo("6 Month", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn6Mth)))
+                    returns.add(KeyInfo("1 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn1Yr)))
+                    returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn3Yr)))
+                    returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn5Yr)))
+                    returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturnSinceInception)))
                     rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
                         binder.executePendingBindings()

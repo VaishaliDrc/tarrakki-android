@@ -112,6 +112,10 @@ interface WebserviceBuilder {
                                     @Field("sip_amount") sip_amount: String
     ): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @PUT("banks/set-default-account/{userId}")
+    fun setDefault(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

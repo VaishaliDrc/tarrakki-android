@@ -122,6 +122,15 @@ fun parseAsReturnOrNA(num: String?): String {
     }
 }
 
+fun parseAsNoZiroReturnOrNA(num: String?): String {
+    return try {
+        val temp: Double? = num?.toDoubleOrNull()
+        if (temp == null || temp == 0.0) "NA" else temp.toReturn()
+    } catch (e: java.lang.Exception) {
+        "NA"
+    }
+}
+
 fun String.toCurrency(): Double = try {
     this.replace(",", "").toDoubleOrNull() ?: 0.0
 } catch (e: java.lang.Exception) {

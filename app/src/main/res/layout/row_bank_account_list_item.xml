@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="setDefault"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="widget"
             type="com.tarrakki.api.model.BankDetail" />
     </data>
@@ -17,6 +21,7 @@
         android:layout_marginEnd="@dimen/default_space"
         android:background="@drawable/shape_cart_view"
         android:elevation="@dimen/space_2"
+        android:onClick="@{setDefault}"
         android:padding="@dimen/space_8"
         tools:layout_marginBottom="@dimen/space_16">
 

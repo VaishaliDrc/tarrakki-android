@@ -9,6 +9,7 @@ import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
+import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
@@ -57,6 +58,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     binder.setVariable(BR.widget, item)
                     binder.setVariable(BR.onAdd, View.OnClickListener {
                         startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
+                    })
+                    binder.setVariable(BR.setDefault, View.OnClickListener {
+                        if (item is BankDetail) {
+                            getViewModel().setDefault("${item.id}").observe(this@BankAccountsFragment, Observer {
+                                coreActivityVM?.onNewBank?.value = true
+                            })
+                        }
                     })
                     binder.executePendingBindings()
                 }

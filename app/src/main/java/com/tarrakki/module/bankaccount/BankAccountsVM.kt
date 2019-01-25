@@ -2,12 +2,11 @@ package com.tarrakki.module.bankaccount
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.StringRes
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.UserBanksResponse
-import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -55,6 +54,43 @@ class BankAccountsVM : FragmentViewModel() {
         )
         return response
     }
+
+    fun setDefault(bankId: String): MutableLiveData<ApiResponse> {
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("bank_detail_id", bankId)
+        json.addProperty("is_default", true)
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        data.printRequest()
+        val response = MutableLiveData<ApiResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).setDefault(App.INSTANCE.getUserId(), data),
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                response.postValue(o)
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                            dismissProgress()
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
+    }
+
 }
 
 class NoBankAccount : WidgetsViewModel {

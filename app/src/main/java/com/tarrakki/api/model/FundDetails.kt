@@ -86,7 +86,7 @@ data class FundDetails(
 
     fun getReturn(x: Int = 1, y: Int = 0): Double {
         var mReturn = 0.0
-        val now = Calendar.getInstance()
+        val now = fundsDetails?.tsDayEndNavDate?.toDate()?.toCalendar() ?: Calendar.getInstance()
         now.add(if (y == 1) Calendar.YEAR else Calendar.MONTH, -x)
         val date = now.time.toDate()
         val data = returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 }
@@ -97,13 +97,13 @@ data class FundDetails(
                     val pReturn = data.value ?: 0.0
                     mReturn = if (y == 1 && x > 1 || y == 0 && x > 12) {
                         // The below calculation is done using CAGR Formula. e.g CAGR is [(F/S) ^ (1/n)]-1, where F = Final value, S = Initial Value and n = holding period.
-                        //floatPercentageReturn = (powf((floatLatestNAV / floatDirectPlanFoundNAV), (1 / floatNoOfYears!))-1)  100
-                        (Math.pow((todayReturn / pReturn), ((1 / x).toDouble())) - 1) * 100
+                        (Math.pow((todayReturn / pReturn), ((1 / if (y == 1) x.toDouble() else (x.toDouble() / 12)))) - 1) * 100
                     } else {
                         ((todayReturn - pReturn) * 100) / pReturn
                     }
                 }
             } catch (e: java.lang.Exception) {
+                e.printStackTrace()
             }
         }
         return mReturn.decimalFormat().toCurrency()
@@ -248,7 +248,7 @@ data class FundsDetails(
         } else ""
 
     var netAssets: String? = ""
-        get() = fnaSurveyedFundNetAssets?.toDoubleOrNull()?.toCurrency()?.plus(" (${fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo()})")
+        get() = fnaSurveyedFundNetAssets?.toDoubleOrNull()?.toCurrency()//?.plus(" (${fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo()})")
 
     var fundManagers = ""
         get() = if (managers != null && managers.isNotEmpty()) {

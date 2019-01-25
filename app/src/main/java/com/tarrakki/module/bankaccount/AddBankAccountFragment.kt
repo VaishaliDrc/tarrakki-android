@@ -5,13 +5,13 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
-import android.widget.ArrayAdapter
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
+import org.supportcompact.ktx.showListDialog
 import org.supportcompact.ktx.simpleAlert
 
 /**
@@ -51,11 +51,16 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
         getViewModel().getAllBanks().observe(this, Observer { r ->
             r?.let { bankResponse ->
                 bankResponse.banks?.let { banks ->
-                    context?.let {
+                    /*context?.let {
                         // Get the string array
                         // Create the adapter and set it to the AutoCompleteTextView
-                        ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, banks).also { adapter ->
+                        *//*ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, banks).also { adapter ->
                             edtName?.setAdapter(adapter)
+                        }*//*
+                    }*/
+                    edtName?.setOnClickListener {
+                        context?.showListDialog("Select Bank", banks) { item ->
+                            getViewModel().name.set(item)
                         }
                     }
                 }
@@ -70,9 +75,9 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 context?.simpleAlert("Please enter re-enter account number")
             } else if (getViewModel().accountNo.get() != getViewModel().reenterAccountNo.get()) {
                 context?.simpleAlert("Account number and re-enter account number should be same")
-            } else if (TextUtils.isEmpty(getViewModel().breachName.get())) {
+            } /*else if (TextUtils.isEmpty(getViewModel().breachName.get())) {
                 context?.simpleAlert("Please enter breach name")
-            } else if (TextUtils.isEmpty(getViewModel().accountType.get())) {
+            }*/ else if (TextUtils.isEmpty(getViewModel().accountType.get())) {
                 context?.simpleAlert("Please select account type")
             } else if (TextUtils.isEmpty(getViewModel().IFSCCode.get())) {
                 context?.simpleAlert("Please enter IFSC code")
@@ -93,6 +98,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 getViewModel().accountType.set(item)
             }
         }
+
     }
 
 

@@ -45,18 +45,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvAddl" />
 
-            <AutoCompleteTextView
+            <TextView
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="36dp"
                 android:layout_marginTop="@dimen/space_4"
                 android:layout_marginEnd="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
                 android:completionThreshold="1"
-                android:drawableEnd="@drawable/ic_search_gray_24dp"
+                android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
                 android:entries="@array/list_of_bank"
                 android:hint="@string/icici_bank"
-                android:inputType="textCapSentences"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
@@ -136,7 +135,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvReAccountNo" />
 
 
-            <TextView
+           <!-- <TextView
                 android:id="@+id/tvBreach"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,7 +168,7 @@
                 app:layout_constraintEnd_toStartOf="@id/edtLName"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvBreach" />
+                app:layout_constraintTop_toBottomOf="@id/tvBreach" />-->
 
 
             <TextView
@@ -184,7 +183,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tvIFSCLabel"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtBreach" />
+                app:layout_constraintTop_toBottomOf="@id/edtReAccountNo" />
 
             <TextView
                 android:id="@+id/tvAccountType"
@@ -221,7 +220,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/tvAccountTypeL"
-                app:layout_constraintTop_toBottomOf="@id/edtBreach" />
+                app:layout_constraintTop_toBottomOf="@id/edtReAccountNo" />
 
             <EditText
                 android:id="@+id/edtLName"
@@ -231,7 +230,7 @@
                 android:layout_marginTop="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
                 android:hint="@string/ifsc_code"
-                android:inputType="textCapSentences"
+                android:inputType="textCapCharacters"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"

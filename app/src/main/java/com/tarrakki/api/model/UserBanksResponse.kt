@@ -35,6 +35,7 @@ data class BankDetail(
         @SerializedName("user__email")
         val userEmail: String
 ) : WidgetsViewModel {
+
     override fun layoutId(): Int {
         return R.layout.row_bank_account_list_item
     }
