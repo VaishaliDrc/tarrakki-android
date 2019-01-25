@@ -210,7 +210,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 "pv" -> {
                     var amount = ""
                     getViewModel().goalVM.value?.let { goal ->
-                        amount = "${goal.getPVAmount()}".replace(",", "")
+                        amount = "${goal.getInvestmentAmount()}".replace(",", "")
                     }
                     val pvAmount = "${question.ans}".replace(",", "")
                     //amount = "${question.ans}".replace(",", "")

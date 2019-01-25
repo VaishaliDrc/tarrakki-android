@@ -98,6 +98,8 @@ fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.
 
 fun Double.toCurrency() = "\u20B9".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
 
+fun Double.toCr() = "\u20B9".plus(dFormatter.format(this / 10000000))//String.format(locale, "\u20B9%,d", Math.round(this))
+
 fun Double.toCurrencyWithSpace() = "\u20B9 ".plus(formatter.format(Math.round(this)))//String.format(locale, "\u20B9%,d", Math.round(this))
 
 fun Double.toReturn(): String = dFormatter.format(this)

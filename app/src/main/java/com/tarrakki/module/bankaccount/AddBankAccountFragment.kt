@@ -13,6 +13,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
 import org.supportcompact.ktx.showListDialog
 import org.supportcompact.ktx.simpleAlert
+import java.util.regex.Pattern
 
 /**
  * A simple [Fragment] subclass.
@@ -81,6 +82,8 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 context?.simpleAlert("Please select account type")
             } else if (TextUtils.isEmpty(getViewModel().IFSCCode.get())) {
                 context?.simpleAlert("Please enter IFSC code")
+            } else if (!isIFSCCode("${getViewModel().IFSCCode.get()}")) {
+                context?.simpleAlert("Please enter the valid IFSC Code")
             } else {
                 val bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
                 bankId?.let {
@@ -99,8 +102,12 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
             }
         }
 
+        Pattern.compile("^[A-Za-z]{4}[a-zA-Z0-9]{7}$")
+
+
     }
 
+    private fun isIFSCCode(IFSCCode: String) = Pattern.compile("[A-Z|a-z]{4}[0][\\d]{6}\$").matcher(IFSCCode).matches()
 
     companion object {
         /**

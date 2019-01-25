@@ -75,7 +75,7 @@ class OverviewFragment : Fragment() {
                     keysInfo.add(KeyInfo("Launch Date", fundDetails.fundsDetails?.inceptionDate?.toDate()?.convertTo()
                             ?: "NA"))
                     keysInfo.add(KeyInfo("Benchmark", fundDetails.fundsDetails?.benchmark))
-                    keysInfo.add(KeyInfo("Assets Size", fundDetails.fundsDetails?.netAssets))
+                    keysInfo.add(KeyInfo("Assets Size (\u20B9cr)", fundDetails.fundsDetails?.netAssets))
                     keysInfo.add(KeyInfo("Asset Date", fundDetails.fundsDetails?.assetsDate))
                     keysInfo.add(KeyInfo("Minimum Investment SIP", fundDetails.fundsDetails?.minSIPAmount))
                     keysInfo.add(KeyInfo("Minimum Investment Lump sum", fundDetails.fundsDetails?.lumpsumAmount))
@@ -96,7 +96,7 @@ class OverviewFragment : Fragment() {
                             context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
                                 addToCart(fundId, amountSIP, amountLumpsum).observe(this,
                                         android.arch.lifecycle.Observer { response ->
-                                            context?.simpleAlert(getString(R.string.cart_fund_added)){
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                             }
                                         })

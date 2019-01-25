@@ -3,11 +3,9 @@ package com.tarrakki.module.cart
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
@@ -74,14 +72,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
                     binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
 
-                    if (item.goal!=null){
-                        if (item.goal.goal.isNotEmpty()){
+                    if (item.goal != null) {
+                        if (item.goal.goal.isNotEmpty()) {
                             binder.tvGoal.visibility = View.VISIBLE
-                            binder.goal = "Goal: "+ item.goal.goal
-                        }else{
+                            binder.goal = "Goal: " + item.goal.goal
+                        } else {
                             binder.tvGoal.visibility = View.GONE
                         }
-                    }else{
+                    } else {
                         binder.tvGoal.visibility = View.GONE
                     }
 
@@ -160,12 +158,25 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 }
             }
         }
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (arguments?.getBoolean(ISFROMGOALRECOMMEDED, false) == true) {
+                    onBack(2)
+                } else {
+                    onBack()
+                }
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
     }
 
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
             lyt_orders?.visibility = View.GONE
-            coreActivityVM?.emptyView(true,"No funds in your cart.")
+            coreActivityVM?.emptyView(true, "No funds in your cart.")
         } else {
             coreActivityVM?.emptyView(false)
             lyt_orders?.visibility = View.VISIBLE
@@ -187,7 +198,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             android.R.id.home -> {
                 if (arguments?.getBoolean(ISFROMGOALRECOMMEDED, false) == true) {
                     onBack(2)
-                }else{
+                } else {
                     onBack()
                 }
                 return true

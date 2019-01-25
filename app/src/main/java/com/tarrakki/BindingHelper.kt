@@ -310,7 +310,7 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
                 }
                     * */
                     val pvAmount = "${mBinder.lumpsum}".replace(",", "")
-                    val amount = "${if (goal.isCustomInvestment()) goal.getCVAmount() else goal.getPMT()?.ans}".replace(",", "")
+                    val amount = "${if (goal.isCustomInvestment()) goal.getInvestmentAmount() else goal.getPMT()?.ans}".replace(",", "")
                     if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
                         //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
                         EventBus.getDefault().post(ShowError("Your lumpsum investment cannot be equal to or more than your total investment goal."))

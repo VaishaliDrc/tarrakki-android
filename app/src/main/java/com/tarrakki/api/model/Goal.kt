@@ -196,7 +196,7 @@ data class Goal(
             fun getInvestmentAmount(): String? {
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q ->
                     when ("${q.parameter}") {
-                        "cv", "pv" -> true
+                        "cv", "tax_pmt" -> true
                         else -> false
                     }
                 }?.ans

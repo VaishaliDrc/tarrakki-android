@@ -130,7 +130,7 @@ data class FundsDetails(
         @SerializedName("dp_day_end_nav")
         val dpDayEndNav: String,
         @SerializedName("fna_aum")
-        val fnaAum: Double,
+        val fnaAum: String?,
         @SerializedName("fna_surveyed_fund_net_assets")
         val fnaSurveyedFundNetAssets: String?,
         @SerializedName("fna_surveyed_fund_net_assets_date")
@@ -248,7 +248,7 @@ data class FundsDetails(
         } else ""
 
     var netAssets: String? = ""
-        get() = fnaSurveyedFundNetAssets?.toDoubleOrNull()?.toCurrency()//?.plus(" (${fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo()})")
+        get() = fnaAum?.toDoubleOrNull()?.toCr()//?.plus(" (${fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo()})")
 
     var fundManagers = ""
         get() = if (managers != null && managers.isNotEmpty()) {
