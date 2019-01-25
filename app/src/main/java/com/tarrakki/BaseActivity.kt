@@ -183,4 +183,6 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
     companion object {
         private const val INTENT_AUTHENTICATE: Int = 111
     }
+
+
 }

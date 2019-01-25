@@ -33,8 +33,10 @@ import org.supportcompact.ktx.*
  * create an instance of this fragment.
  *
  */
-class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBinding>() {
 
+const val ISFROMGOALRECOMMEDED = "is_from_goal_recommended"
+
+class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
@@ -98,7 +100,10 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
         btnGetThisGoal?.setOnClickListener {
             getViewModel().addGoalToCart(getViewModel().userGoalId).observe(this, Observer { apiResponce ->
                 context?.simpleAlert(getString(R.string.cart_goal_added)){
-                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                    val bundle = Bundle().apply {
+                        putBoolean(ISFROMGOALRECOMMEDED,true)
+                    }
+                    startFragment(CartFragment.newInstance(bundle), R.id.frmContainer)
                 }
             })
         }

@@ -34,6 +34,7 @@ fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container:
     val fm = activity?.supportFragmentManager
     fm?.beginTransaction()
             ?.replace(container, fragment)
+            ?.addToBackStack(null)
             ?.commit()
 }
 

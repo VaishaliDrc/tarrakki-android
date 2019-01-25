@@ -107,9 +107,9 @@ interface WebserviceBuilder {
     @POST("category/recommendations/")
     fun investmentStrageyRecommeded(@Field("third_level_category_id") thirdLevelCategoryId: Int,
             /*@Field("years") years: String,*/
-                                    @Field("lumpsum_amount") lumpsum_amount: Int,
+                                    @Field("lumpsum_amount") lumpsum_amount: String,
                                     @Field("add_to_cart") addToCart: Int,
-                                    @Field("sip_amount") sip_amount: Int
+                                    @Field("sip_amount") sip_amount: String
     ): Observable<ApiResponse>
 
     /**

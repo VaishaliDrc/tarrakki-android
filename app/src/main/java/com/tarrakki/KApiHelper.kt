@@ -89,9 +89,21 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumA
     if (isShowProgress) {
         EventBus.getDefault().post(SHOW_PROGRESS)
     }
+    val sip = if (sipAmount == 0) {
+        ""
+    }else{
+        sipAmount.toString()
+    }
+    val lumpsum = if (lumpsumAmount == 0) {
+        ""
+    }else{
+        lumpsumAmount.toString()
+    }
+
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .investmentStrageyRecommeded(thirdLevelCategoryId, lumpsumAmount, addToCart, sipAmount),
+                    .investmentStrageyRecommeded(thirdLevelCategoryId,
+                            lumpsum, addToCart, sip),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -123,13 +135,23 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumA
 fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumAmount: Int,
                              addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<ApiResponse> {
+    val sip = if (sipAmount == 0) {
+        ""
+    }else{
+        sipAmount.toString()
+    }
+    val lumpsum = if (lumpsumAmount == 0) {
+        ""
+    }else{
+        lumpsumAmount.toString()
+    }
     val apiResponse = MutableLiveData<ApiResponse>()
     if (isShowProgress) {
         EventBus.getDefault().post(SHOW_PROGRESS)
     }
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .investmentStrageyRecommeded(thirdLevelCategoryId, lumpsumAmount, addToCart, sipAmount),
+                    .investmentStrageyRecommeded(thirdLevelCategoryId, lumpsum, addToCart, sip),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

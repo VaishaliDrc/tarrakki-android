@@ -3,12 +3,17 @@ package com.tarrakki.module.cart
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -39,7 +44,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
 
     override fun createReference() {
-
+        setHasOptionsMenu(true)
 
         val cartApi = Observer<CartData> { apiResponse ->
 
@@ -162,4 +167,20 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = CartFragment().apply { arguments = basket }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.cart_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId==R.id.item_home){
+            activity?.startActivity<HomeActivity>()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+
+
 }
