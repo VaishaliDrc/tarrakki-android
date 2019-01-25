@@ -80,6 +80,8 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                                                         putString("categoryImage", item.categoryImage)
                                                         putString("categoryDes", item.categoryDesctiption)
                                                         putInt("isFrom", 2)
+                                                        putInt("sip", amountSIP)
+                                                        putInt("lumpsump", amountLumpsum)
                                                     }
                                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                                     EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
@@ -112,6 +114,8 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                                         putString("categoryImage",it.categoryImage)
                                         putString("categoryDes",it.categoryDesctiption)
                                         putInt("isFrom",2)
+                                        putInt("sip", amountSIP)
+                                        putInt("lumpsump", amountLumpsum)
                                     }
                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                     EventBus.getDefault().postSticky(item)

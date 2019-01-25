@@ -41,6 +41,8 @@ class RecommendedVM : FragmentViewModel() {
     val secondaryCategoryImage = ObservableField<String>("")
     val secondaryCategoryDes = ObservableField<String>("")
 
+    val sipAmount = ObservableField<Int>()
+    val lumpsumAmount = ObservableField<Int>()
     val isFrom = ObservableField<Int>()
 
     init {

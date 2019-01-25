@@ -115,6 +115,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                                     putString("categoryName", item.categoryName)
                                                     putString("categoryImage", item.categoryImage)
                                                     putString("categoryDes", item.categoryDesctiption)
+                                                    putInt("sip", amountSIP)
+                                                    putInt("lumpsump", amountLumpsum)
                                                     putInt("isFrom", 2)
                                                 }
                                                 startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)

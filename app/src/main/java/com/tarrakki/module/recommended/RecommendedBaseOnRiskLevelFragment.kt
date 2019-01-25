@@ -23,13 +23,6 @@ import org.supportcompact.ktx.startFragment
 import java.util.*
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [RecommendedBaseOnRiskLevelFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-
 class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentRecommendedBaseOnRiskLevelBinding>() {
 
 
@@ -52,11 +45,12 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
     }
 
     override fun createReference() {
-
         getViewModel().secondaryCategoryName.set(arguments?.getString("categoryName"))
         getViewModel().secondaryCategoryImage.set(arguments?.getString("categoryImage"))
         getViewModel().secondaryCategoryDes.set(arguments?.getString("categoryDes"))
         getViewModel().isFrom.set(arguments?.getInt("isFrom"))
+        getViewModel().sipAmount.set(arguments?.getInt("sip"))
+        getViewModel().lumpsumAmount.set(arguments?.getInt("lumpsump"))
 
         EventBus.getDefault().register(this)
 
@@ -84,8 +78,10 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
 
 
         btnInvest?.setOnClickListener {
-            context?.investmentStragiesDialog(getViewModel().thirdLevelCategory.value as HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                investmentRecommendationToCart(thirdLevelCategory.id, amountSIP, amountLumpsum, 1, false
+            //context?.investmentStragiesDialog(getViewModel().thirdLevelCategory.value as HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory) { thirdLevelCategory, amountLumpsum, amountSIP ->
+            getViewModel().thirdLevelCategory.value?.id?.let { it1 ->
+                investmentRecommendationToCart(it1, getViewModel().sipAmount.get()!!,
+                        getViewModel().lumpsumAmount.get()!!, 1, false
                 ).observe(this,
                         android.arch.lifecycle.Observer { response ->
                             context?.simpleAlert(getString(R.string.cart_fund_added)){
@@ -93,6 +89,7 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
                             }
                         })
             }
+            //}
         }
 
     }

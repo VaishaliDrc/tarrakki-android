@@ -112,6 +112,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                                         putString("categoryImage",category.categoryImage)
                                         putString("categoryDes",item.categoryDesctiption)
                                         putInt("isFrom",1)
+                                        putInt("sip", amountSIP)
+                                        putInt("lumpsump", amountLumpsum)
                                     }
                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                     EventBus.getDefault().postSticky(item)
