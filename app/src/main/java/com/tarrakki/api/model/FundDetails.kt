@@ -95,7 +95,13 @@ data class FundDetails(
                 val todayReturn = fundsDetails?.dpDayEndNav?.toDoubleOrNull()
                 if (todayReturn != null) {
                     val pReturn = data.value ?: 0.0
-                    mReturn = ((todayReturn - pReturn) * 100) / todayReturn
+                    mReturn = if (y == 1 && x > 1 || y == 0 && x > 12) {
+                        // The below calculation is done using CAGR Formula. e.g CAGR is [(F/S) ^ (1/n)]-1, where F = Final value, S = Initial Value and n = holding period.
+                        //floatPercentageReturn = (powf((floatLatestNAV / floatDirectPlanFoundNAV), (1 / floatNoOfYears!))-1)  100
+                        (Math.pow((todayReturn / pReturn), ((1 / x).toDouble())) - 1) * 100
+                    } else {
+                        ((todayReturn - pReturn) * 100) / pReturn
+                    }
                 }
             } catch (e: java.lang.Exception) {
             }
@@ -299,7 +305,7 @@ data class FundsDetails(
     var hasNegativeReturn: Boolean = false
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
             try {
-                val result = ((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()
+                val result = ((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()
                 result < 0
             } catch (e: Exception) {
                 false
@@ -316,7 +322,7 @@ data class FundsDetails(
 
     var oneDayChange = ""
         get() = try {
-            (((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()).toReturnAsPercentage()
+            (((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()).toReturnAsPercentage()
         } catch (e: java.lang.Exception) {
             "NA"
         }
@@ -324,7 +330,7 @@ data class FundsDetails(
     var currentReturn: String = ""
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
             try {
-                val result: String? = "${(dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()).toReturn()} (${(((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / dpDayEndNav.toDouble()).toReturnAsPercentage()})"
+                val result: String? = "${(dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()).toReturn()} (${(((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()).toReturnAsPercentage()})"
                 result ?: "NA"
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 fun AppCompatActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = supportFragmentManager
     fm.beginTransaction()
-            .replace(container, fragment)
+            .replace(container, fragment, fragment::class.java.name)
             .addToBackStack(fragment::class.java.name)
             .commit()
 }
@@ -17,7 +17,7 @@ fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment
     fragment.setTargetFragment(targetFragment, requestCode)
     val fm = supportFragmentManager
     fm.beginTransaction()
-            .replace(container, fragment)
+            .replace(container, fragment, fragment::class.java.name)
             .addToBackStack(fragment::class.java.name)
             .commit()
 }
@@ -25,7 +25,7 @@ fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment
 fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
     fm?.beginTransaction()
-            ?.replace(container, fragment)
+            ?.replace(container, fragment, fragment::class.java.name)
             ?.addToBackStack(fragment::class.java.name)
             ?.commit()
 }
@@ -33,7 +33,7 @@ fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
 fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
     fm?.beginTransaction()
-            ?.replace(container, fragment)
+            ?.replace(container, fragment, fragment::class.java.name)
             ?.addToBackStack(null)
             ?.commit()
 }
@@ -50,12 +50,12 @@ fun AppCompatActivity.startFragment(fragment: Fragment, backStrackFlag: Boolean,
     val fm = supportFragmentManager
     if (backStrackFlag) {
         fm.beginTransaction()
-                .replace(container, fragment)
+                .replace(container, fragment, fragment::class.java.name)
                 .addToBackStack(fragment::class.java.name)
                 .commit()
     } else {
         fm.beginTransaction()
-                .replace(container, fragment)
+                .replace(container, fragment, fragment::class.java.name)
                 .commit()
     }
 }

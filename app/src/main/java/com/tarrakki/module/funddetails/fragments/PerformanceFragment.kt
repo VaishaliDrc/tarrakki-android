@@ -381,10 +381,10 @@ class PerformanceFragment : Fragment() {
                 leftAxis.labelCount = 4
                 leftAxis.axisMaximum = data.maxBy { it ->
                     it.value ?: 0.0
-                }?.value?.toReturn()?.toFloatOrNull() ?: 0.0f
+                }?.value?.toFloat() ?: 0.0f
                 leftAxis.axisMinimum = data.minBy { it ->
                     it.value ?: 0.0
-                }?.value?.toReturn()?.toFloatOrNull() ?: 0.0f
+                }?.value?.toFloat() ?: 0.0f
                 leftAxis.setDrawAxisLine(true)
                 leftAxis.setDrawZeroLine(true)
                 leftAxis.setDrawGridLines(true)

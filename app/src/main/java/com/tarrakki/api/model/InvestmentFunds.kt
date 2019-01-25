@@ -67,7 +67,7 @@ data class InvestmentFunds(
         var currentReturn: String = ""
             get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
                 try {
-                    val result: String? = "${((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / todayNAV.toDouble()}"
+                    val result: String? = "${((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / preDayNAV.toDouble()}"
                     parseToPercentageOrNA(result)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -80,7 +80,7 @@ data class InvestmentFunds(
         var hasNegativeReturn: Boolean = false
             get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
                 try {
-                    val result = ((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / todayNAV.toDouble()
+                    val result = ((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / preDayNAV.toDouble()
                     result < 0
                 } catch (e: Exception) {
                     false

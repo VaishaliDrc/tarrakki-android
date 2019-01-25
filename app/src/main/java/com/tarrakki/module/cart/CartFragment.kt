@@ -8,12 +8,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
-import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -174,13 +172,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId==R.id.item_home){
-            activity?.startActivity<HomeActivity>()
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBack()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
-
-
 
 
 }

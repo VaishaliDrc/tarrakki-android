@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.learn.LearnActivity
@@ -19,6 +20,7 @@ import com.tarrakki.module.plan.PlanActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
+import org.supportcompact.events.Event
 import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.hasAppLock
 import org.supportcompact.ktx.startActivity
@@ -51,9 +53,9 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         })
 
         getViewModel().isEmpty.observe(this, Observer {
-            if (it!!){
+            if (it!!) {
                 txt_empty.visibility = View.VISIBLE
-            }else{
+            } else {
                 txt_empty.visibility = View.GONE
             }
         })
@@ -114,11 +116,11 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         when (item?.itemId) {
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
-                    if (it) {
+                    val f = supportFragmentManager.findFragmentByTag(CartFragment::class.java.name)
+                    if (f !is CartFragment)
                         onBackPressed()
-                    } else {
-
-                    }
+                    else
+                        return super.onOptionsItemSelected(item)
                 }
                 return true
             }
