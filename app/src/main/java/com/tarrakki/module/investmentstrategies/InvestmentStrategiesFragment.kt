@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
 import java.util.*
@@ -86,6 +87,8 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                                                 })
                                     }
                                 }
+                            }else{
+                                context?.simpleAlert(getString(R.string.alert_third_level_category))
                             }
                         }
                     } else {

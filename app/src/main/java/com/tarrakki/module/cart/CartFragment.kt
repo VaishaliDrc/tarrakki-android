@@ -12,7 +12,9 @@ import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
+import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
@@ -40,12 +42,10 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         binding.executePendingBindings()
     }
 
-
     override fun createReference() {
         setHasOptionsMenu(true)
 
         val cartApi = Observer<CartData> { apiResponse ->
-
             apiResponse?.let {
 
                 if (it.data.totalLumpsum == null)
@@ -64,6 +64,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 App.INSTANCE.cartCount.value = getViewModel().funds.size
 
                 rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
+                    binder.fund = item
                     item.hasOneTimeAmount = try {
                         val num = item.lumpsumAmount.toCurrency()
                         num > 0
@@ -72,13 +73,24 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     }
                     binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
                     binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
-                    binder.fund = item
+
+                    if (item.goal!=null){
+                        if (item.goal.goal.isNotEmpty()){
+                            binder.tvGoal.visibility = View.VISIBLE
+                            binder.goal = "Goal: "+ item.goal.goal
+                        }else{
+                            binder.tvGoal.visibility = View.GONE
+                        }
+                    }else{
+                        binder.tvGoal.visibility = View.GONE
+                    }
+
                     binder.executePendingBindings()
 
-                    if (item.date.isNullOrEmpty()) {
+                    if (item.day.isNullOrEmpty()) {
                         binder.date = "Start Day"
                     } else {
-                        binder.date = item.date
+                        binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
                     }
                     binder.tvAddOneTimeAmount.setOnClickListener {
                         item.hasOneTimeAmount = true
@@ -124,14 +136,13 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         if (item.frequencyDate.isNotEmpty()) {
                             context?.showListDialog("Start Day", item.frequencyDate) {
                                 binder.date = it
-                                item.date = it
+                                item.day = it.dropLast(2)
                                 getViewModel().updateGoalFromCart(item.id.toString(), item)
                             }
                         }
                     }
                 }
             }
-
         }
         getViewModel().getCartItem().observe(this, cartApi)
         getViewModel().cartUpdate.observe(this, Observer {
@@ -154,7 +165,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
             lyt_orders?.visibility = View.GONE
-            coreActivityVM?.emptyView(true)
+            coreActivityVM?.emptyView(true,"No funds in your cart.")
         } else {
             coreActivityVM?.emptyView(false)
             lyt_orders?.visibility = View.VISIBLE
@@ -174,7 +185,18 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                onBack()
+                if (arguments?.getBoolean(ISFROMGOALRECOMMEDED, false) == true) {
+                    onBack(2)
+                }else{
+                    onBack()
+                }
+                return true
+            }
+            R.id.item_home -> {
+                activity?.startActivity<HomeActivity>()
+                if (activity !is HomeActivity) {
+                    activity?.finishAffinity()
+                }
                 return true
             }
         }

@@ -215,7 +215,7 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:fontFamily="@font/lato_semibold"
                     android:lineSpacingExtra="@dimen/space_4"
-                    HTML="@{vm.secondaryCategoryDes}"
+                    android:text="@{vm.secondaryCategoryDes}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintTop_toBottomOf="@+id/view2"
@@ -239,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
                     android:padding="@dimen/space_8"
-                    android:text="@string/our_recommended"
+                    android:text="@string/our_recommended_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/black" />
 

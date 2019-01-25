@@ -101,7 +101,7 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
         }
     }
 
-    /*override fun onBackPressed() {
+  /*  override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {

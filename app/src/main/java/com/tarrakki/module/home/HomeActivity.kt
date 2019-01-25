@@ -26,4 +26,14 @@ class HomeActivity : BaseActivity() {
                 })
         }
     }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        supportFragmentManager?.let {
+            for (i in 1 until it.backStackEntryCount) {
+                it.popBackStack()
+            }
+        }
+
+    }
 }

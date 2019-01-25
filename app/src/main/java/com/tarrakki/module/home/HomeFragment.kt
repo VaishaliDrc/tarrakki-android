@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
 
@@ -122,12 +123,13 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                             })
                                 }
                             }
+                        }else{
+                            context?.simpleAlert(getString(R.string.alert_third_level_category))
                         }
                     }
                 } else {
                     startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
                 }
-                //startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
             }
         })
 

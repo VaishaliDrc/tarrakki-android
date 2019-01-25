@@ -15,11 +15,21 @@ import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
         : MutableLiveData<ApiResponse> {
+    val sip = if (sipAmount == "0.0") {
+        null
+    }else{
+        sipAmount
+    }
+    val lumpsum = if (lumpsumAmount == "0.0") {
+        null
+    }else{
+        lumpsumAmount
+    }
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .addtocart(fundId, sipAmount, lumpsumAmount),
+                    .addtocart(fundId, sip, lumpsum),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

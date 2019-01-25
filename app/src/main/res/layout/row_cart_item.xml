@@ -15,6 +15,10 @@
             name="date"
             type="String" />
 
+        <variable
+            name="goal"
+            type="String"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -48,18 +52,38 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/lato_semibold"
-            android:text="@{fund.fundIdSchemeType}"
-            android:textColor="#2C87EC"
-            app:layout_constraintEnd_toStartOf="@+id/tvNewLbl"
+            android:layout_width="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName"
-            tools:text="Equity" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_16"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@{fund.fundIdSchemeType}"
+                android:textColor="#2C87EC"
+                tools:text="Equity" />
+
+            <TextView
+                android:id="@+id/tvGoal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginStart="@dimen/space_16"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@{goal}"
+                android:textColor="@color/white"
+                tools:text="Goal" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvNewLbl"

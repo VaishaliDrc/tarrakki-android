@@ -30,6 +30,7 @@
     </string>
     <string name="set_a_goal">Set a Goal</string>
     <string name="our_recommended">Our Recommended</string>
+    <string name="our_recommended_title">Our Recommended Fund for this Strategy</string>
     <string name="your_investment_plan">Your Investment Plan</string>
     <string name="monthly_investment">Monthly Investment</string>
     <string name="our_recommended_info">To own your dream home, your goal is to reach about <font color='#4EB95D'><u>\u20B93.95 Lakh.</u></font> This means investing <font color='#4EB95D'><u>\u20B92.85 Lakh</u></font> over the next <font color='#4EB95D'><u>5</u></font> years, including a one-time lumpsum of <font color='#4EB95D'><u>\u20B910,000</u></font> up front.</string>
@@ -415,4 +416,5 @@
 
     <string name="alert_profile_reset">Your password has been reset successfully.</string>
     <string name="alert_profile_change">Your password has been changed successfully.</string>
+    <string name="alert_third_level_category">Please add third level category data from the admin panel first.</string>
 </resources>

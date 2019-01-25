@@ -16,7 +16,7 @@ data class InvestmentRecommendFundResponse(
             val fscbiCategoryName: String,
             @SerializedName("id")
             val id: Int,
-            @SerializedName("lumpsum")
+            @SerializedName("lumpsum_amount")
             val lumpsum: Int,
             @SerializedName("name")
             val name: String,

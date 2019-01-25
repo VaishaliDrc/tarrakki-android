@@ -62,7 +62,7 @@ interface WebserviceBuilder {
     fun updateCartItem(@Path("id") id: String,
                        @Field("fund_id_id") fund_id_id: String,
                        @Field("lumpsum_amount") lumpsum_amount: Double,
-            /*@Field("start_date") start_date: String,*/
+                       @Field("day") day: String?,
                        @Field("sip_amount") sip_amount: Double
     ): Observable<ApiResponse>
 
@@ -74,8 +74,8 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("cart/add_to_cart/")
     fun addtocart(@Field("fund_id") fundId: Int,
-                  @Field("sip_amount") sipAmount: String,
-                  @Field("lumpsum_amount") lumpsumAmount: String): Observable<ApiResponse>
+                  @Field("sip_amount") sipAmount: String?,
+                  @Field("lumpsum_amount") lumpsumAmount: String?): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/get_otp/")

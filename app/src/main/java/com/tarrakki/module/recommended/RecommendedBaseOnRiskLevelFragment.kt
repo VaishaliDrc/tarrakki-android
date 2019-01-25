@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import java.util.*
 
@@ -87,7 +88,9 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
                 investmentRecommendationToCart(thirdLevelCategory.id, amountSIP, amountLumpsum, 1, false
                 ).observe(this,
                         android.arch.lifecycle.Observer { response ->
-                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                            context?.simpleAlert(getString(R.string.cart_fund_added)){
+                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                            }
                         })
             }
         }

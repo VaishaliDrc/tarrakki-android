@@ -87,11 +87,11 @@ class CartVM : FragmentViewModel() {
     }
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
-        fund.date = ""
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
-                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).updateCartItem(id,
-                        fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(), fund.sipAmount.toCurrency()),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .updateCartItem(id, fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(),
+                                fund.day,fund.sipAmount.toCurrency()),
                 apiNames = WebserviceBuilder.ApiNames.updateCartItem,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

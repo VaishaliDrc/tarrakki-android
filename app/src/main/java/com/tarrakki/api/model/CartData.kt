@@ -5,8 +5,6 @@ import android.databinding.Bindable
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.getOrdinalFormat
-import org.supportcompact.ktx.convertTo
-import org.supportcompact.ktx.toDate
 import java.io.Serializable
 
 data class CartData(
@@ -38,12 +36,14 @@ data class CartData(
                 val orderIdId: Int,
                 @SerializedName("sip_amount")
                 var sipAmount: String,
-                @SerializedName("start_date")
-                var startDate: String?,
+                @SerializedName("day")
+                var day: String?,
                 @SerializedName("iaip_aip")
                 val iaipAip: List<IaipAip>?,
                 @SerializedName("pi_minimum_initial")
-                val piMinimumInitial: String?
+                val piMinimumInitial: String?,
+                @SerializedName("goal")
+                val goal: Goal
         ) : BaseObservable(), Serializable {
             var validminSIPAmount = 0
                 get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -66,14 +66,6 @@ data class CartData(
                         value
                     }*/
                     notifyPropertyChanged(BR.hasOneTimeAmount)
-                }
-
-            @get:Bindable
-            var date: String? = startDate?.toDate()?.convertTo()
-                get() = if (field == null) startDate?.toDate()?.convertTo() else field
-                set(value) {
-                    field = value
-                    notifyPropertyChanged(BR.date)
                 }
 
             var frequencyDate = arrayListOf<String>()
@@ -118,7 +110,7 @@ data class CartData(
 
                                 }
                             }
-                        }else{
+                        } else {
                             dateList.addAll(getDummyDates())
                         }
                     } else {
@@ -160,5 +152,12 @@ data class CartData(
             val siType: String,
             @SerializedName("subsquent_amount")
             val subsquentAmount: Int
+    )
+
+    data class Goal(
+            @SerializedName("id")
+            val id: Int?,
+            @SerializedName("goal")
+            val goal: String
     )
 }
