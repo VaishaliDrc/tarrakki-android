@@ -117,6 +117,8 @@ data class FundsDetails(
         val active: Boolean,
         @SerializedName("amc_active_flag")
         val amcActiveFlag: String,
+        @SerializedName("amc_link")
+        val amcLink: String,
         @SerializedName("amc_ind")
         val amcInd: String,
         @SerializedName("benchmarks")

@@ -11,7 +11,9 @@ import android.support.annotation.DrawableRes
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.*
+import android.text.Html
+import android.text.InputFilter
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -119,6 +121,11 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
     } else {
         view.collapse(true)
     }
+}
+
+@BindingAdapter(value = ["price", "anim"], requireAll = false)
+fun applyCurrencyFormat(txt: TextView, amount: String?, anim: Boolean?) {
+    applyCurrencyFormat(txt,amount?.toDouble(),anim)
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
@@ -432,7 +439,7 @@ fun Context.investmentStragiesDialog(
     mBinder.btnInvest.setOnClickListener {
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyInt()
-       // val duration = mBinder.edtDurations.text.toString()
+        // val duration = mBinder.edtDurations.text.toString()
         it.dismissKeyboard()
 
         if (lumpsumAmount == 0 && sipAmount == 0) {
@@ -485,7 +492,7 @@ fun Context.isInvestDialogValid(minSIPAmount: Double,
 }
 
 fun Context.isLumpsumAmountValid(minLumsumpAmount: Int,
-                                lumpsumAmount: Int): Boolean {
+                                 lumpsumAmount: Int): Boolean {
     if (lumpsumAmount != 0) {
         if (lumpsumAmount < minLumsumpAmount) {
             this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
@@ -496,7 +503,7 @@ fun Context.isLumpsumAmountValid(minLumsumpAmount: Int,
 }
 
 fun Context.isSIPAmountValid(minSIPAmount: Int,
-                                       sipAmount: Int): Boolean {
+                             sipAmount: Int): Boolean {
     if (sipAmount != 0) {
         if (sipAmount < minSIPAmount) {
             this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toCurrency()}.")

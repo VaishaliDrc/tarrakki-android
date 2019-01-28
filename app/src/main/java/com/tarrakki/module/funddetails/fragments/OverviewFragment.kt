@@ -21,10 +21,7 @@ import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.convertTo
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toDate
+import org.supportcompact.ktx.*
 
 /**
  * A simple [Fragment] subclass.
@@ -55,6 +52,11 @@ class OverviewFragment : Fragment() {
         }
         fundVM?.let { vm ->
             vm.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
+
+                txt_fund_offer?.setOnClickListener {
+                    context?.openUrl(fundDetailsResponse?.fundsDetails?.amcLink.toString())
+                }
+
                 fundDetailsResponse?.let { fundDetails ->
                     fundDetails.topTenHoldings?.let { topTenHoldings ->
                         rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->

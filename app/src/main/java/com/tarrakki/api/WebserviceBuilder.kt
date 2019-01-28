@@ -116,12 +116,19 @@ interface WebserviceBuilder {
     @PUT("banks/set-default-account/{userId}")
     fun setDefault(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @GET("goals/saved_goals/{id}")
+    fun getSavedGoals(@Path("id") id: String?): Observable<ApiResponse>
+
+    @DELETE("goals/saved_goals/{id}")
+    fun deleteSavedGoals(@Path("id") id: Int?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
-        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails
+        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation,
+        getAllBanks, addBankDetails, deleteSavedGoals
     }
 }
