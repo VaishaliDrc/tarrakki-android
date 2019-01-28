@@ -17,6 +17,7 @@ import org.supportcompact.ktx.getLoginToken
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 
@@ -38,9 +39,9 @@ object ApiClient {
      * Live Url
      **/
 
-   /* private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
-
+    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+*/
     /**
      * @return [Retrofit] object its single-tone
      */
@@ -68,13 +69,34 @@ object ApiClient {
      */
 
     fun getApiClient(baseUrl: String): Retrofit {
-        val gson = GsonBuilder()
+        /*val gson = GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create()
+                .create()*/
+        val builder = OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .connectTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+                .writeTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+                .readTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+
+        if (BUILD_TYPE_DEBUG) {
+            val loggingInterceptor = HttpLoggingInterceptor()
+            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            builder.addInterceptor(loggingInterceptor)
+        }
+
+        builder.addInterceptor { chain ->
+            val requestBuilder = chain.request().newBuilder()
+            //requestBuilder.header("Content-Type", "application/json")
+            //requestBuilder.header("Accept", "application/json")
+            //requestBuilder.header("api-key", "gduy$&#(@0jdfid")
+            chain.proceed(requestBuilder.build())
+        }
+
         return Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .client(getOKHttpClient())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(builder.build())
+                //.addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }

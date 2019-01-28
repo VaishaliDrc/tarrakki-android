@@ -82,7 +82,25 @@ data class FundDetails(
         get() = if (field == 0.0) getReturn() else field
 
     var YTDReturn = ""
-        get() = if (TextUtils.isEmpty(field)) getReturn(y = 1).toReturnAsPercentage() else field
+        get() = if (TextUtils.isEmpty(field)) {
+            var mReturn = 0.0
+            val now = Calendar.getInstance()
+            now.set(Calendar.DAY_OF_YEAR, 1)
+            val date = now.time.toDate()
+            val data = returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 }
+            data?.let {
+                try {
+                    val todayReturn = fundsDetails?.dpDayEndNav?.toDoubleOrNull()
+                    if (todayReturn != null) {
+                        val pReturn = data.value ?: 0.0
+                        mReturn = ((todayReturn - pReturn) * 100) / pReturn
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            }
+            mReturn.toReturnAsPercentage()
+        } else field
 
     fun getReturn(x: Int = 1, y: Int = 0): Double {
         var mReturn = 0.0

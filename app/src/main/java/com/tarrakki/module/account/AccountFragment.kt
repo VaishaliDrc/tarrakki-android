@@ -21,6 +21,7 @@ import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -86,6 +87,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_transactions -> {
                         startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
+                    }
+                    R.drawable.ic_privacy_policy -> {
+                        startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             }

@@ -116,6 +116,15 @@ interface WebserviceBuilder {
     @PUT("banks/set-default-account/{userId}")
     fun setDefault(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("PLKYC/Home/home/")
+    fun eKYC(@Field("url") userId: String,
+             @Field("session_id") sessionId: String,
+             @Field("ekyctype") eKYCType: String,
+             @Field("plkyc_type") plkycType: String,
+             @Field("kyc_data") KYCdata: String): Observable<String>
+
+
     @GET("goals/saved_goals/{id}")
     fun getSavedGoals(@Path("id") id: String?): Observable<ApiResponse>
 
@@ -128,7 +137,6 @@ interface WebserviceBuilder {
     enum class ApiNames {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
-        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation,
-        getAllBanks, addBankDetails, deleteSavedGoals
+        addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails, deleteSavedGoals
     }
 }
