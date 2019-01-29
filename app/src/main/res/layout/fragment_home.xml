@@ -198,6 +198,7 @@
                     android:elevation="2dp"
                     android:orientation="horizontal"
                     android:padding="@dimen/space_16"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/homeView">
@@ -212,10 +213,10 @@
                         app:layout_constraintStart_toStartOf="parent">
 
                         <ImageView
-                            android:padding="@dimen/space_12"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
+                            android:padding="@dimen/space_12"
                             android:src="@drawable/ic_pan_verification"
                             tools:src="@drawable/ic_pan_verification" />
 
@@ -241,7 +242,7 @@
                             android:layout_marginTop="@dimen/space_4"
                             android:fontFamily="@font/lato_semibold"
                             android:text="If You Are Ready to Invest?"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/white" />
 
                         <TextView
@@ -253,44 +254,44 @@
                             android:textColor="@color/white" />
 
                         <LinearLayout
-                            android:layout_marginTop="@dimen/space_12"
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_12"
+                            android:orientation="horizontal">
 
                             <EditText
-                                android:layout_weight="0.7"
                                 android:id="@+id/edtPanNo"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.6"
                                 android:background="@drawable/shape_edt_verifcation"
+                                android:gravity="center_vertical"
                                 android:hint="Enter your PAN"
+                                android:imeOptions="actionDone"
                                 android:inputType="textCapCharacters"
                                 android:maxLines="1"
-                                android:imeOptions="actionDone"
                                 android:paddingStart="@dimen/space_8"
-                                android:gravity="center_vertical"
-                                android:layout_gravity="center_vertical"
                                 android:paddingTop="@dimen/space_8"
                                 android:paddingEnd="@dimen/space_8"
                                 android:paddingBottom="@dimen/space_8"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                                android:textColor="@color/black"/>
+                                android:textColor="@color/black" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.3"
-                                android:text="Check Now"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.4"
+                                android:background="@drawable/shape_btn_verification"
+                                android:gravity="center"
+                                android:paddingStart="@dimen/space_8"
                                 android:paddingTop="@dimen/space_8"
                                 android:paddingEnd="@dimen/space_8"
                                 android:paddingBottom="@dimen/space_8"
-                                android:paddingStart="@dimen/space_8"
-                                android:gravity="center"
-                                android:layout_gravity="center"
-                                android:textColor="@color/white"
+                                android:text="Check Now"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                                android:background="@drawable/shape_btn_verification" />
+                                android:textColor="@color/white" />
 
                         </LinearLayout>
 

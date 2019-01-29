@@ -164,7 +164,8 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         btnPositive = getString(R.string.allow),
                         btnNegative = getString(R.string.dont_allow),
                         btnPositiveClick = {
-                            ImageChooserUtil.startCameraIntent(this@MyProfileFragment, getViewModel().cvPhotoName, getViewModel().ICAMERA_RQ_CODE)
+                            openCamera()
+                            //ImageChooserUtil.startCameraIntent(this@MyProfileFragment, getViewModel().cvPhotoName, getViewModel().ICAMERA_RQ_CODE)
                         }
                 )
             }
@@ -194,7 +195,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         uCrop.withAspectRatio(1f, 1f)
         uCrop.start(context!!, this)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -33,8 +33,8 @@ object ApiClient {
      * Test Url
      **/
 
-     private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-     const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
+    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
     /**
      * Live Url
      **/
@@ -86,9 +86,7 @@ object ApiClient {
 
         builder.addInterceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
-            //requestBuilder.header("Content-Type", "application/json")
-            //requestBuilder.header("Accept", "application/json")
-            //requestBuilder.header("api-key", "gduy$&#(@0jdfid")
+            requestBuilder.header("Content-Type", "application/x-www-form-urlencoded")
             chain.proceed(requestBuilder.build())
         }
 
