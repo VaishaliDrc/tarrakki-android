@@ -9,11 +9,17 @@ import com.tarrakki.R
 import com.tarrakki.api.model.GoalSavedResponse
 import com.tarrakki.databinding.FragmentSavedGoalsBinding
 import com.tarrakki.databinding.RowSavedGoalListItemBinding
+import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
+import com.tarrakki.module.yourgoal.YourGoalSummaryFragment
 import kotlinx.android.synthetic.main.fragment_saved_goals.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 import java.util.*
 
 /**
@@ -23,6 +29,8 @@ import java.util.*
  *
  */
 class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>() {
+
+    var adapter: BaseAdapter<GoalSavedResponse.Data, RowSavedGoalListItemBinding>? = null
 
     override val isBackEnabled: Boolean
         get() = true
@@ -43,31 +51,25 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
     }
 
     override fun createReference() {
+        getViewModel().getSavedGoals(context?.getUserId())
+
         getViewModel().saveGoalResponse.observe(this, Observer {
-            it?.data?.let { it1 ->
-                {
-                    coreActivityVM?.emptyView(false)
-                    //getBinding().root.visibility = View.VISIBLE
-                    setAdapter(it1)
-                }
-            }
+            setAdapter(it)
         })
 
         getViewModel().isEmpty.observe(this, Observer {
-            it?.let { it1 ->
-                if (it1) {
-                    //getBinding().root.visibility = View.GONE
-                    coreActivityVM?.emptyView(true)
-                }
+            if (it==true) {
+                getBinding().root.visibility = View.GONE
+                coreActivityVM?.emptyView(true)
+            } else {
+                coreActivityVM?.emptyView(false)
+                getBinding().root.visibility = View.VISIBLE
             }
         })
-
-        getViewModel().getSavedGoals(context?.getUserId())
-
     }
 
     private fun setAdapter(list: List<GoalSavedResponse.Data>?) {
-        rvSavedGoals?.setUpRecyclerView(R.layout.row_saved_goal_list_item,
+        adapter = rvSavedGoals?.setUpRecyclerView(R.layout.row_saved_goal_list_item,
                 list as ArrayList<GoalSavedResponse.Data>
         ) { item: GoalSavedResponse.Data, binder: RowSavedGoalListItemBinding, position: Int ->
             binder.goal = item
@@ -80,11 +82,27 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
                     })
                 })
             }
+
+            binder.ivEdit.setOnClickListener {
+                startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
+                postSticky(item)
+            }
+
+            binder.tvAddGoal.setOnClickListener {
+                getViewModel().addGoalToCart(item.userGoalId.toString()).observe(this, Observer { apiResponce ->
+                    context?.simpleAlert(getString(R.string.cart_goal_added)){
+                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                    }
+                })
+            }
         }
+        rvSavedGoals?.adapter = adapter
+        getViewModel().isEmpty.value = false
+        //updateUI()
     }
 
-    fun updateUI(list: List<GoalSavedResponse.Data>) {
-        if (list.isEmpty()) {
+    fun updateUI() {
+        if (adapter?.itemCount == 0) {
             getBinding().root.visibility = View.GONE
             coreActivityVM?.emptyView(true)
         } else {

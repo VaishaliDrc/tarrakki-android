@@ -27,5 +27,16 @@ data class GoalSavedResponse(
             val pv: String,
             @SerializedName("user_goal_id")
             val userGoalId: Int
-    )
+    ){
+            fun getGoal() : Goal.Data.GoalData{
+                    goalDetails.setCVAmount(cv)
+                    goalDetails.setDPAmount(dp)
+                    goalDetails.futureValue = fv.toDoubleOrNull()
+                    goalDetails.inflation = inflation.toDoubleOrNull()
+                    goalDetails.setNDuration(n)
+                    goalDetails.setPMT(pmt)
+                    goalDetails.setPVAmount(pv)
+                    return goalDetails
+            }
+    }
 }

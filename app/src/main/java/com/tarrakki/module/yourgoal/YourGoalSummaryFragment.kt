@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.tarrakki.*
 import com.tarrakki.api.model.Goal
+import com.tarrakki.api.model.GoalSavedResponse
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
 import com.tarrakki.module.recommended.RecommendedFragment
@@ -235,7 +236,6 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         }
     }
 
-
     private fun setGoalSummary(amount: String, durations: String, pmt: Double, goal: Goal.Data.GoalData) {
 
         var futureValueSummary = "${goal.futureValueSummary}"
@@ -261,7 +261,6 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
         getViewModel().lumpsumpFor.set(lumpsumSummary.toHTMl())
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: com.tarrakki.api.model.Goal.Data.GoalData) {
         if (getViewModel().goalVM.value == null) {
@@ -269,6 +268,14 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             getViewModel().goalVM.value = goal
         }
         //EventBus.getDefault().removeStickyEvent(goal)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(goal: GoalSavedResponse.Data) {
+        if (getViewModel().goalVM.value == null) {
+            getViewModel().goalVM.value = goal.getGoal()
+        }
+        removeStickyEvent(goal)
     }
 
     companion object {
