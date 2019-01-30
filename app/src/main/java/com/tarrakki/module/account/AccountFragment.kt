@@ -16,6 +16,10 @@ import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
+import com.tarrakki.module.ekyc.EKYCFragment
+import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.checkKYCStatus
+import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -23,12 +27,11 @@ import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
+import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.clearUserData
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.setIsLogin
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.*
 
 /**
  * A simple [Fragment] subclass.
@@ -64,7 +67,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 when (item.imgRes) {
                     R.drawable.ic_change_password -> {
                         val bundle = Bundle().apply {
-                            putBoolean("isResetPassword",false)
+                            putBoolean("isResetPassword", false)
                         }
                         startFragment(ChangePasswordFragment.newInstance(bundle), R.id.frmContainer)
                     }
@@ -107,6 +110,34 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 startActivity(Intent(it.context, LoginActivity::class.java))
                 LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
             })
+        }
+        tvNext?.setOnClickListener {
+            if (edtPanNo.length() == 0) {
+                context?.simpleAlert("Please enter PAN card number")
+            } else if (!isPANCard(edtPanNo.text.toString())) {
+                context?.simpleAlert("Please enter valid PAN card number")
+            } else {
+                it.dismissKeyboard()
+                val kyc = KYCData(edtPanNo.text.toString(), "8460421008", "abc@gmail.com")
+                checkKYCStatus(kyc).observe(this, Observer {
+                    it?.let { html ->
+                        //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />
+                        try {
+                            val doc = Jsoup.parse(html)
+                            val values = doc.select("input[name=result]").attr("value").split("|")
+                            if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
+                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
+                                postSticky(kyc)
+                            } else {
+                                post(ShowError(values[3]))
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                        edtPanNo?.text?.clear()
+                    }
+                })
+            }
         }
         App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->
             isLogin?.let {
