@@ -1,6 +1,7 @@
 package com.tarrakki.module.webview
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import android.net.Uri
 import android.webkit.ValueCallback
 import com.tarrakki.api.WebserviceBuilder
@@ -18,6 +19,7 @@ class WebViewVM : FragmentViewModel() {
     val cvPhotoName = "profilePick"
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
+    val btnContinua = ObservableField(true)
 
     fun getEKYCPage(): MutableLiveData<String> {
         val apiResponse = MutableLiveData<String>()
@@ -28,7 +30,7 @@ class WebViewVM : FragmentViewModel() {
                         "",
                         "I",
                         "INVESTOR",
-                        "ABCDE1234F|abc@gmail.com|8460421008|com.tarrakki.app|PLUTONOMIC_INVESTOR|AU82#bx|PA|MFKYC3|SESS_ID"),
+                        "AJNPV8599B|abc@gmail.com|8460421008|com.tarrakki.app|PLUTONOMIC_INVESTOR|AU82#bx|PA|MFKYC3|SESS_ID"),
                 WebserviceBuilder.ApiNames.getEKYCPage,
                 object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

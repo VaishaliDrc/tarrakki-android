@@ -68,6 +68,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
         mWebView.settings.domStorageEnabled = true
 
         //mWebView.settings.setAppCacheMaxSize(10 * 1024 * 1024) // 10MB
+        mWebView.settings.loadsImagesAutomatically = true
         mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
         mWebView.settings.allowFileAccess = true
         mWebView.settings.setAppCacheEnabled(true)
@@ -179,6 +180,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                 })
             }
         })
+
+        btnContinue?.setOnClickListener {
+            getViewModel().btnContinua.set(false)
+        }
     }
 
 
@@ -229,45 +234,6 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         btnNegative = getString(R.string.dont_allow),
                         btnPositiveClick = {
                             openGallery()
-                        }
-                )
-            }
-
-            override fun onPermissionDisabled() {
-                context?.confirmationDialog(
-                        title = getString(R.string.permission),
-                        msg = getString(R.string.write_external_storage_title),
-                        btnPositive = getString(R.string.settings),
-                        btnNegative = getString(R.string.cancel),
-                        btnPositiveClick = {
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            val uri = Uri.fromParts("package", context?.packageName, null)
-                            intent.data = uri
-                            startActivity(intent)
-                        }
-                )
-            }
-        })
-    }
-
-
-    private fun openCamera() {
-        val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-        requestPermissionsIfRequired(permissions, object : PermissionCallBack {
-            override fun permissionGranted() {
-                ImageChooserUtil.startCameraIntent(this@WebViewFragment, getViewModel().cvPhotoName, getViewModel().ICAMERA_RQ_CODE)
-            }
-
-            override fun permissionDenied() {
-                context?.confirmationDialog(
-                        title = getString(R.string.permission),
-                        msg = getString(R.string.write_external_storage_title),
-                        btnPositive = getString(R.string.allow),
-                        btnNegative = getString(R.string.dont_allow),
-                        btnPositiveClick = {
-                            openCamera()
-                            //mageChooserUtil.startCameraIntent(this@WebViewFragment, getViewModel().cvPhotoName, getViewModel().ICAMERA_RQ_CODE)
                         }
                 )
             }

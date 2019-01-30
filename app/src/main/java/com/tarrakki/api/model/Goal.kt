@@ -2,6 +2,7 @@ package com.tarrakki.api.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.text.TextUtils
 import android.view.View
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
@@ -202,6 +203,15 @@ data class Goal(
                 }?.ans
             }
 
+            fun setInvestmentAmount(ans: String) {
+                questions.firstOrNull { q ->
+                    when ("${q.parameter}") {
+                        "cv", "tax_pmt" -> true
+                        else -> false
+                    }
+                }?.ans = ans
+            }
+
             fun getNDuration(): String? {
                 return if (questions.isEmpty()) "" else questions.firstOrNull { q -> q.parameter == "n" }?.ans
             }
@@ -235,10 +245,12 @@ data class Goal(
                             val item2 = questions[1]
                             isBoolean = item1.questionType == "boolean"
                             if (isBoolean && item1.ansBoolean) {
+                                if (!TextUtils.isEmpty(item2.ans))
                                 json.addProperty("${item2.parameter}", "${item2.ans}".replace(",", ""))
                             } else if (!isBoolean) {
                                 questions.forEach { q ->
-                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                    if (!TextUtils.isEmpty(q.ans))
+                                        json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
                                 }
                             }
                         }
@@ -247,7 +259,8 @@ data class Goal(
                             isBoolean = item1.questionType == "boolean"
                             if (!isBoolean) {
                                 questions.forEach { q ->
-                                    json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
+                                    if (!TextUtils.isEmpty(q.ans))
+                                        json.addProperty("${q.parameter}", "${q.ans}".replace(",", ""))
                                 }
                             }
                         }

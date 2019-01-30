@@ -9,12 +9,15 @@ import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import com.tarrakki.*
+import com.tarrakki.BR
+import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.GoalSavedResponse
 import com.tarrakki.api.model.PMTResponse
 import com.tarrakki.databinding.FragmentYourGoalSummaryBinding
+import com.tarrakki.investGoalDialog
 import com.tarrakki.module.recommended.RecommendedFragment
+import com.tarrakki.toYearWord
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_your_goal_summary.*
@@ -33,6 +36,8 @@ import org.supportcompact.ktx.*
  *
  */
 class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummaryBinding>() {
+
+    var needToCalculatePMT = true
 
     override val isBackEnabled: Boolean
         get() = true
@@ -195,7 +200,11 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         getViewModel().calculatePMT(goal).observe(this, pmt)
                     }
                 }
-                getViewModel().calculatePMT(goal).observe(this, pmt)
+                if (needToCalculatePMT) {
+                    getViewModel().calculatePMT(goal).observe(this, pmt)
+                } else {
+                    pmt.onChanged(PMTResponse(goal.futureValue ?: 0.0, goal.pmt ?: 0.0))
+                }
             }
         })
 
@@ -273,6 +282,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: GoalSavedResponse.Data) {
         if (getViewModel().goalVM.value == null) {
+            needToCalculatePMT = false
             getViewModel().goalVM.value = goal.getGoal()
         }
         removeStickyEvent(goal)
