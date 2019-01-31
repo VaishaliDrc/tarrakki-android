@@ -12,6 +12,7 @@ const val IS_LOGIN = "is_login"
 const val LOGIN_TOKEN = "login_token"
 const val APP_LOCK = "app_lock"
 const val USERID = "user_id"
+const val ISFIRSTTIME = "first_time_installed"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -121,8 +122,17 @@ fun Context.hasAppLock(): Boolean {
     return getPreferences.getBoolean(APP_LOCK, false)
 }
 
+fun Context.setFirsttimeInstalled(isFirstTime: Boolean) {
+    return getPreferences.putBoolean(ISFIRSTTIME, isFirstTime)
+}
+
+fun Context.isFirsttimeInstalled(): Boolean {
+    return getPreferences.getBoolean(ISFIRSTTIME, true)
+}
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(LOGIN_TOKEN)
     getPreferences.remove(APP_LOCK)
+    getPreferences.remove(USERID)
 }

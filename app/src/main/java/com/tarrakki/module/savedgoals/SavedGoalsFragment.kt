@@ -51,21 +51,21 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
     }
 
     override fun createReference() {
-        getViewModel().getSavedGoals(context?.getUserId())
-
         getViewModel().saveGoalResponse.observe(this, Observer {
             setAdapter(it)
         })
 
-        getViewModel().isEmpty.observe(this, Observer {
-            if (it==true) {
-                getBinding().root.visibility = View.GONE
-                coreActivityVM?.emptyView(true)
-            } else {
-                coreActivityVM?.emptyView(false)
-                getBinding().root.visibility = View.VISIBLE
+        getViewModel().refresh.observe(this, Observer {
+            if (it!!){
+                mRefresh?.isRefreshing = false
             }
         })
+
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getSavedGoals(context?.getUserId(),true)
+        }
+
+        getViewModel().getSavedGoals(context?.getUserId(),false)
     }
 
     private fun setAdapter(list: List<GoalSavedResponse.Data>?) {
@@ -78,7 +78,7 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
             binder.ivDelete.setOnClickListener {
                 context?.confirmationDialog(getString(R.string.saved_goal_delete), btnPositiveClick = {
                     getViewModel().deleteSavedGoals(item.userGoalId).observe(this, Observer { apiResponse ->
-                        getViewModel().getSavedGoals(context?.getUserId())
+                        getViewModel().getSavedGoals(context?.getUserId(),false)
                     })
                 })
             }
@@ -97,17 +97,16 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
             }
         }
         rvSavedGoals?.adapter = adapter
-        getViewModel().isEmpty.value = false
-        //updateUI()
+        updateUI()
     }
 
     fun updateUI() {
         if (adapter?.itemCount == 0) {
-            getBinding().root.visibility = View.GONE
+            rvSavedGoals.visibility = View.GONE
             coreActivityVM?.emptyView(true)
         } else {
             coreActivityVM?.emptyView(false)
-            getBinding().root.visibility = View.VISIBLE
+            rvSavedGoals.visibility = View.VISIBLE
         }
     }
 

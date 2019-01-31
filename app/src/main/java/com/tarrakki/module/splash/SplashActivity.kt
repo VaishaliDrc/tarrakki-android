@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.intro.IntroductionActivity
 import com.tarrakki.module.login.LoginActivity
+import org.supportcompact.ktx.isFirsttimeInstalled
 import org.supportcompact.ktx.isLogin
 import org.supportcompact.ktx.startActivity
 
@@ -17,12 +19,16 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
         Handler().postDelayed({
-            if (isLogin()) {
-                App.INSTANCE.isAuthorise.value = false
-                App.INSTANCE.isLoggedIn.value = isLogin()
-                startActivity<HomeActivity>()
-            } else {
-                startActivity<LoginActivity>()
+            if (isFirsttimeInstalled()) {
+                startActivity<IntroductionActivity>()
+            }else{
+                if (isLogin()) {
+                    App.INSTANCE.isAuthorise.value = false
+                    App.INSTANCE.isLoggedIn.value = isLogin()
+                    startActivity<HomeActivity>()
+                } else {
+                    startActivity<LoginActivity>()
+                }
             }
             finish()
         }, 2500)

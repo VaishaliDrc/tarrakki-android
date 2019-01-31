@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.intro.IntroducationVM" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.login.LoginActivity">
+
+        <ImageView
+            android:id="@+id/img_intro_logo"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/space_32"
+            android:layout_marginBottom="@dimen/space_16"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_login" />
+
+        <RelativeLayout
+            android:layout_above="@id/lyt_bottom_intro"
+            android:layout_below="@id/img_intro_logo"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/space_16"
+            android:layout_height="match_parent">
+
+            <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+                android:id="@+id/pager_intro"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/pageIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                app:ci_drawable="@drawable/intro_page_selected"
+                app:ci_drawable_unselected="@drawable/intro_page_unselected" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/lyt_bottom_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/space_40"
+            android:layout_marginEnd="@dimen/space_40"
+            android:layout_marginBottom="@dimen/space_20"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_new_user"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_8"
+                android:layout_weight="1"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/new_user"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_existing_user"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_weight="1"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/existing_user"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white" />
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+</layout>
