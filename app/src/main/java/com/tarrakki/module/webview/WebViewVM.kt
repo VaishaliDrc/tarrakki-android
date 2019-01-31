@@ -20,13 +20,14 @@ class WebViewVM : FragmentViewModel() {
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
     val kycData = MutableLiveData<KYCData>()
+    val redirectUrl = "https://cdc.camsonline.com/GETMethod/GetMethod.aspx"
 
     fun getEKYCPage(kycData: KYCData): MutableLiveData<String> {
         val apiResponse = MutableLiveData<String>()
         showProgress()
         subscribeToSingle(ApiClient.getApiClient("https://eiscuat1.camsonline.com/")
                 .create(WebserviceBuilder::class.java)
-                .eKYC("https://cdc.camsonline.com/GETMethod/GetMethod.aspx",
+                .eKYC(redirectUrl,
                         "",
                         "I",
                         "INVESTOR",

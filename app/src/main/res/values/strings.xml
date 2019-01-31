@@ -424,4 +424,17 @@
 
     <string name="new_user">New User</string>
     <string name="existing_user">Existing User</string>
+    <string name="complete_registration">Complete Registration</string>
+    <string name="guardian_pan">Guardian PAN</string>
+    <string name="address_type">Address Type</string>
+    <string name="nominee_details">Nominee Details</string>
+    <string name="occupation_type">Occupation Type</string>
+    <string name="pan_name">PAN Name</string>
+    <string name="country_of_birth">Country of Birth</string>
+    <string name="enter_pan_name">Enter PAN Name</string>
+    <string name="enter_country_of_birth">Enter Country of Birth</string>
+    <string name="place_of_birth">Place of Birth</string>
+    <string name="enter_place_of_birth">Enter Place of Birth</string>
+    <string name="source_of_income">Source of Income</string>
+    <string name="income_slab">Income Slab</string>
 </resources>

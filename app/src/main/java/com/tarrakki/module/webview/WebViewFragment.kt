@@ -22,11 +22,11 @@ import com.tarrakki.module.ekyc.KYCData
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import org.greenrobot.eventbus.Subscribe
+import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.e
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
@@ -62,6 +62,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
 
+        var needToRedirect = false
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
         mWebView.settings.useWideViewPort = true
@@ -110,16 +111,21 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
             }
 
             fun onPageRequest(mWebView: WebView, url: String): Boolean {
-                e("Request Url=>$url")
-                if (url.startsWith("tel:")) {
-                    initiateCall(url)
-                    return true
+                return when {
+                    url.startsWith("tel:") -> {
+                        initiateCall(url)
+                        true
+                    }
+                    url.startsWith("mailto:") -> {
+                        sendEmail(url.substring(7))
+                        true
+                    }
+                    url.startsWith(getViewModel().redirectUrl) -> {
+                        needToRedirect = true
+                        true
+                    }
+                    else -> false
                 }
-                if (url.startsWith("mailto:")) {
-                    sendEmail(url.substring(7))
-                    return true
-                }
-                return false
             }
 
             override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -130,7 +136,6 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
                 progressBar?.visibility = View.GONE
-
             }
 
             override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -138,6 +143,24 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                 progressBar?.visibility = View.GONE
             }
         }
+
+        mWebView.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { html ->
+            // code here
+            if (needToRedirect) {
+                try {
+                    val doc = Jsoup.parse(html)
+                    val values = doc.select("input[name=result]").attr("value").split("|")
+                    if (values.isNotEmpty() && values.contains("Y")) {
+
+                    } else {
+                        post(ShowError(values[3]))
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
         getViewModel().kycData.observe(this, Observer { it ->
             it?.let {
                 getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->

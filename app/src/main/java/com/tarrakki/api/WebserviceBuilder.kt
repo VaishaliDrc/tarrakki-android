@@ -118,7 +118,7 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("PLKYC/Home/home/")
-    fun eKYC(@Field("url") userId: String,
+    fun eKYC(@Field("url") url: String,
              @Field("session_id") sessionId: String,
              @Field("ekyctype") eKYCType: String,
              @Field("plkyc_type") plkycType: String,
