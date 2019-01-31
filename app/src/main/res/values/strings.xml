@@ -420,6 +420,7 @@
     <string name="tap_here_to_see_the_fund_offer_document"><u>See the fund offer document</u></string>
 
     <string name="saved_goal_delete">Are you sure to delete this goal?</string>
+    <string name="e_kyc">E-KYC</string>
 
     <string name="new_user">New User</string>
     <string name="existing_user">Existing User</string>

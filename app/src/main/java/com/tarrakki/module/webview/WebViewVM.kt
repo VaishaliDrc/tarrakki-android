@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
 import android.webkit.ValueCallback
 import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.module.ekyc.KYCData
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.postError
@@ -18,8 +19,9 @@ class WebViewVM : FragmentViewModel() {
     val cvPhotoName = "profilePick"
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
+    val kycData = MutableLiveData<KYCData>()
 
-    fun getEKYCPage(): MutableLiveData<String> {
+    fun getEKYCPage(kycData: KYCData): MutableLiveData<String> {
         val apiResponse = MutableLiveData<String>()
         showProgress()
         subscribeToSingle(ApiClient.getApiClient("https://eiscuat1.camsonline.com/")
@@ -28,7 +30,7 @@ class WebViewVM : FragmentViewModel() {
                         "",
                         "I",
                         "INVESTOR",
-                        "ABCDE1234F|abc@gmail.com|8460421008|com.tarrakki.app|PLUTONOMIC_INVESTOR|AU82#bx|PA|MFKYC3|SESS_ID"),
+                        "${kycData.pan}|${kycData.email}|${kycData.mobile}|com.tarrakki.app|PLUTONOMIC_INVESTOR|AU82#bx|PA|MFKYC3|SESS_ID"),
                 WebserviceBuilder.ApiNames.getEKYCPage,
                 object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
