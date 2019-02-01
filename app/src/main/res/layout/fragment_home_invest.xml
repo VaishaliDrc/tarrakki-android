@@ -12,176 +12,181 @@
             type="com.tarrakki.module.homeInvest.HomeInvestVM" />
     </data>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:fillViewport="true"
         tools:context=".module.homeInvest.HomeInvestFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_space"
-            android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/default_space"
-            android:background="@drawable/shape_cart_view"
-            android:elevation="2dp"
-            android:orientation="vertical"
-            android:padding="@dimen/space_16">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_semibold"
-                android:text="At Tarrakki, We Offers"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black" />
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/space_16">
 
-            <TextView
-                android:layout_marginTop="@dimen/space_3"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="At Tarrakki, We Offers"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:text="At Tarrakki, we offer insightful wealth management services to investors in the form of astute equity advisory and mutual fund investment guidance."/>
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/lyt_equality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_regular"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:text="At Tarrakki, we offer insightful wealth management services to investors in the form of astute equity advisory and mutual fund investment guidance."/>
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_16">
+
+                <android.support.v7.widget.CardView
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/img_logo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="12dp"
+                    app:cardBackgroundColor="@color/circular_bg"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/space_12"
+                        android:src="@drawable/ic_mutual_funds"
+                        tools:src="@drawable/ic_mutual_funds" />
+
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_toEndOf="@id/img_logo"
+                    android:layout_toStartOf="@id/img_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="Mutual Funds"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="Find the best mutual funds for your investment goals, based on your risk profile. With our free Direct Plans, you can start an SIP today, at 0 additional cost, without the hassle of paperwork and middlemen."
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_marginTop="@dimen/space_8"
+                    android:id="@+id/img_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_right_arrow"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lyt_advisory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_16">
+
+                <android.support.v7.widget.CardView
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/img_logo1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:elevation="12dp"
+                    app:cardBackgroundColor="@color/circular_bg"
+                    app:cardCornerRadius="30dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:padding="@dimen/space_12"
+                        android:src="@drawable/ic_equity_advisory"
+                        tools:src="@drawable/ic_equity_advisory" />
+
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_toEndOf="@id/img_logo1"
+                    android:layout_toStartOf="@id/img_arrow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="Equity Advisory"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_4"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="With our equity advisory services, you can become a discerning investor in no time. Expert equity advisors build a model portfolio for you based on your risk profile and investment goals, so you can watch your wealth grow."
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_marginTop="@dimen/space_8"
+                    android:id="@+id/img_arrow1"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_right_arrow"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/lyt_equality"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_space"
-            android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/default_space"
-            android:background="@drawable/shape_cart_view"
-            android:elevation="2dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/space_16">
-
-            <android.support.v7.widget.CardView
-                android:layout_alignParentStart="true"
-                android:id="@+id/img_logo"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:elevation="12dp"
-                app:cardBackgroundColor="@color/circular_bg"
-                app:cardCornerRadius="30dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:padding="@dimen/space_12"
-                    android:src="@drawable/ic_mutual_funds"
-                    tools:src="@drawable/ic_mutual_funds" />
-
-            </android.support.v7.widget.CardView>
-
-            <LinearLayout
-                android:layout_toEndOf="@id/img_logo"
-                android:layout_toStartOf="@id/img_arrow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_16"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="Mutual Funds"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="Find the best mutual funds for your investment goals, based on your risk profile. With our free Direct Plans, you can start an SIP today, at 0 additional cost, without the hassle of paperwork and middlemen."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_marginTop="@dimen/space_8"
-                android:id="@+id/img_arrow"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_right_arrow"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/lyt_advisory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_space"
-            android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/default_space"
-            android:background="@drawable/shape_cart_view"
-            android:elevation="2dp"
-            android:orientation="horizontal"
-            android:padding="@dimen/space_16">
-
-            <android.support.v7.widget.CardView
-                android:layout_alignParentStart="true"
-                android:id="@+id/img_logo1"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:elevation="12dp"
-                app:cardBackgroundColor="@color/circular_bg"
-                app:cardCornerRadius="30dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:padding="@dimen/space_12"
-                    android:src="@drawable/ic_equity_advisory"
-                    tools:src="@drawable/ic_equity_advisory" />
-
-            </android.support.v7.widget.CardView>
-
-            <LinearLayout
-                android:layout_toEndOf="@id/img_logo1"
-                android:layout_toStartOf="@id/img_arrow1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_16"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="Equity Advisory"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="With our equity advisory services, you can become a discerning investor in no time. Expert equity advisors build a model portfolio for you based on your risk profile and investment goals, so you can watch your wealth grow."
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_marginTop="@dimen/space_8"
-                android:id="@+id/img_arrow1"
-                android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_right_arrow"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
 </layout>

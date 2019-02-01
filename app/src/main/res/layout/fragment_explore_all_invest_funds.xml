@@ -46,6 +46,7 @@
                     tools:padding="8dp" />
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btnIdle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,6 +62,7 @@
                     tools:layout_marginTop="@dimen/default_space" />
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btnExploreFunds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

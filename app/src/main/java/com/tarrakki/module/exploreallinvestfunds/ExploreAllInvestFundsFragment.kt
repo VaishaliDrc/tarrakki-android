@@ -47,6 +47,10 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
     override fun createReference() {
         setHasOptionsMenu(true)
 
+        btnIdle?.setOnClickListener {
+            context?.simpleAlert(getString(R.string.coming_soon))
+        }
+
         btnExploreFunds?.setOnClickListener {
             startFragment(InvestFragment.newInstance(), R.id.frmContainer)
         }
@@ -55,6 +59,8 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
         rvMutualFunds.isNestedScrollingEnabled = false
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
+                btnIdle?.visibility = View.VISIBLE
+                btnExploreFunds?.visibility = View.VISIBLE
                 mRefresh?.isRefreshing = false
                 rvMutualFunds.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)

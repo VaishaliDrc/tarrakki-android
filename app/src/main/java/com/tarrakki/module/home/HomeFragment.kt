@@ -171,6 +171,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 getViewModel().whayTarrakki.set(!it)
             }
         }
+
+        btnIdle?.setOnClickListener {
+            context?.simpleAlert(getString(R.string.coming_soon))
+        }
+
         tvViewPortfolio?.setOnClickListener {
             startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }

@@ -1,12 +1,19 @@
 package com.tarrakki.module.homeInvest
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.widget.TextView
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentHomeInvestBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestFundsFragment
 import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
 class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>() {
@@ -37,9 +44,20 @@ class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>
         }
 
         lyt_advisory?.setOnClickListener {
-
+            context?.simpleAlert(getString(R.string.coming_soon))
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.home_menu, menu)
+        val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
+        App.INSTANCE.cartCount.observe(this, Observer {
+            tvCartCount?.text = it.toString()
+        })
+        menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+        }
     }
 
     companion object {
