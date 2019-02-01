@@ -2,13 +2,8 @@ package com.tarrakki.api.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
-import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.view.View
 import com.google.gson.annotations.SerializedName
-import com.tarrakki.App
-import com.tarrakki.BR
-import com.tarrakki.R
+import com.tarrakki.*
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.Serializable
 
@@ -48,10 +43,16 @@ data class HomeData(
                 val secondLevelCategory: List<SecondLevelCategory>
         ) {
             data class SecondLevelCategory(
+                    @SerializedName("short_descroption")
+                    val categoryshortDesctiption: String?,
                     @SerializedName("category_desctiption")
                     val categoryDesctiption: String?,
                     @SerializedName("category_image")
                     val categoryImage: String,
+                    @SerializedName("return_type")
+                    val returnType: String?,
+                    @SerializedName("risk_type")
+                    val riskType: String?,
                     @SerializedName("category_name")
                     val categoryName: String,
                     @SerializedName("id")
@@ -71,6 +72,24 @@ data class HomeData(
                     return R.layout.row_investment_list_item
                 }
 
+                var returnRiskDrawable: Int = R.drawable.ic_red_up
+                    get() = getReturnLevelDrawable(returnType)
+
+                var riskLevelDrawable: Int = R.drawable.ic_green_up
+                    get() = getRiskLevelDrawable(riskType)
+
+                var returnRiskVisible: Int = 0
+                    get() = getReturnLevelVisibility(returnType)
+
+                var riskLevelVisible: Int = 0
+                    get() = getRiskLevelVisibility(riskType)
+
+                var returnLevel: String = ""
+                    get() = getReturnLevel(returnType)
+
+                var riskLevel: String = ""
+                    get() = getRiskLevel(riskType)
+
                 var sectionName: String = ""
 
                 data class ThirdLevelCategory(
@@ -83,7 +102,11 @@ data class HomeData(
                         @SerializedName("id")
                         val id: Int,
                         @SerializedName("short_descroption")
-                        val shortDescroption: String?
+                        val shortDescroption: String?,
+                        @SerializedName("return_type")
+                        val returnType: String,
+                        @SerializedName("risk_type")
+                        val riskType: String
                 ) : BaseObservable(), Serializable {
                     @get:Bindable
                     var hasNext: Boolean = true
@@ -98,58 +121,23 @@ data class HomeData(
                             notifyPropertyChanged(BR.hasPrevious)
                         }
 
-                    var returnRisk: String = ""
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> "High Return"
-                                categoryName.equals("Moderate", false) -> "Medium Return"
-                                categoryName.equals("Conservative", false) -> "Low Return"
-                                else -> ""
-                            }
+                    var returnRiskDrawable: Int = R.drawable.ic_red_up
+                        get() = getReturnLevelDrawable(returnType)
+
+                    var riskLevelDrawable: Int = R.drawable.ic_green_up
+                        get() = getRiskLevelDrawable(riskType)
+
+                    var returnRiskVisible: Int = 0
+                        get() = getReturnLevelVisibility(returnType)
+
+                    var riskLevelVisible: Int = 0
+                        get() = getRiskLevelVisibility(riskType)
+
+                    var returnLevel: String = ""
+                        get() = getReturnLevel(returnType)
 
                     var riskLevel: String = ""
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> "High Risk"
-                                categoryName.equals("Moderate", false) -> "Medium Risk"
-                                categoryName.equals("Conservative", false) -> "Low Risk"
-                                else -> ""
-                            }
-
-                    @DrawableRes var returnRiskDrawable: Int = R.drawable.ic_green_up
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> R.drawable.ic_green_up
-                                categoryName.equals("Moderate", false) -> R.drawable.ic_green_equal
-                                categoryName.equals("Conservative", false) -> R.drawable.ic_green_down
-                                else -> R.drawable.ic_green_up
-                            }
-
-                    @DrawableRes var riskLevelDrawable: Int = R.drawable.ic_red_up
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> R.drawable.ic_red_up
-                                categoryName.equals("Moderate", false) -> R.drawable.ic_red_equal
-                                categoryName.equals("Conservative", false) -> R.drawable.ic_red_down
-                                else -> R.drawable.ic_red_up
-                            }
-                    var returnRiskVisible: Int = View.GONE
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> View.VISIBLE
-                                categoryName.equals("Moderate", false) -> View.VISIBLE
-                                categoryName.equals("Conservative", false) -> View.VISIBLE
-                                else -> View.GONE
-                            }
-
-                    var riskLevelVisible: Int = View.GONE
-                        get() =
-                            when {
-                                categoryName.equals("Aggressive", false) -> View.VISIBLE
-                                categoryName.equals("Moderate", false) -> View.VISIBLE
-                                categoryName.equals("Conservative", false) -> View.VISIBLE
-                                else -> View.GONE
-                            }
+                        get() = getRiskLevel(riskType)
 
                 }
             }
@@ -167,4 +155,5 @@ data class HomeData(
             return data
         }
     }
+
 }

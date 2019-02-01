@@ -4,6 +4,7 @@ import android.support.annotation.ColorRes
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
+import com.tarrakki.module.recommended.*
 
 data class RecommendedFundsData(
         @SerializedName("data")
@@ -63,9 +64,25 @@ data class Fund(
     @ColorRes
     var fundColor: Int = R.color.balanced_fund_color
         get() = when {
-            "EQUITY".equals("$schemeType", true) -> R.color.equity_fund_color
-            "DEBT".equals("$schemeType", true) -> R.color.debt_fund_color
-            "FOF".equals("$schemeType", true) -> R.color.fof_fund_color
-            else -> R.color.balanced_fund_color
+            KEY_FUND_DIST_EQUITY.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_ELSS.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_HYBRID.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_EQUITY.equals("$schemeType", true) -> {
+                R.color.equity_fund_color
+            }
+            KEY_FUND_DIST_BALANCED.equals("$schemeType", true) -> {
+                R.color.balanced_fund_color
+            }
+            KEY_FUND_DIST_MIP.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_BOND.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_GUILT.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_LIQUID.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_STP.equals("$schemeType", true) ||
+                    KEY_FUND_DIST_DEBT.equals("$schemeType", true) -> {
+                R.color.debt_fund_color
+            }
+            else -> {
+                R.color.fof_fund_color
+            }
         }
 }

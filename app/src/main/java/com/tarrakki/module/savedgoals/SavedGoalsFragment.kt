@@ -64,40 +64,49 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
         mRefresh?.setOnRefreshListener {
             getViewModel().getSavedGoals(context?.getUserId(),true)
         }
+    }
 
+    override fun onResume() {
         getViewModel().getSavedGoals(context?.getUserId(),false)
+        super.onResume()
     }
 
     private fun setAdapter(list: List<GoalSavedResponse.Data>?) {
-        adapter = rvSavedGoals?.setUpRecyclerView(R.layout.row_saved_goal_list_item,
-                list as ArrayList<GoalSavedResponse.Data>
-        ) { item: GoalSavedResponse.Data, binder: RowSavedGoalListItemBinding, position: Int ->
-            binder.goal = item
-            binder.executePendingBindings()
+        if (list!=null) {
 
-            binder.ivDelete.setOnClickListener {
-                context?.confirmationDialog(getString(R.string.saved_goal_delete), btnPositiveClick = {
-                    getViewModel().deleteSavedGoals(item.userGoalId).observe(this, Observer { apiResponse ->
-                        getViewModel().getSavedGoals(context?.getUserId(),false)
+            adapter = rvSavedGoals?.setUpRecyclerView(R.layout.row_saved_goal_list_item,
+                    list as ArrayList<GoalSavedResponse.Data>
+            ) { item: GoalSavedResponse.Data, binder: RowSavedGoalListItemBinding, position: Int ->
+                binder.goal = item
+                binder.executePendingBindings()
+
+                binder.ivDelete.setOnClickListener {
+                    context?.confirmationDialog(getString(R.string.saved_goal_delete), btnPositiveClick = {
+                        getViewModel().deleteSavedGoals(item.userGoalId).observe(this, Observer { apiResponse ->
+                            getViewModel().getSavedGoals(context?.getUserId(), false)
+                        })
                     })
-                })
-            }
+                }
 
-            binder.ivEdit.setOnClickListener {
-                startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
-                postSticky(item)
-            }
+                binder.ivEdit.setOnClickListener {
+                    startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
+                    postSticky(item)
+                }
 
-            binder.tvAddGoal.setOnClickListener {
-                getViewModel().addGoalToCart(item.userGoalId.toString()).observe(this, Observer { apiResponce ->
-                    context?.simpleAlert(getString(R.string.cart_goal_added)){
-                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                    }
-                })
+                binder.tvAddGoal.setOnClickListener {
+                    getViewModel().addGoalToCart(item.userGoalId.toString()).observe(this, Observer { apiResponce ->
+                        context?.simpleAlert(getString(R.string.cart_goal_added)) {
+                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                        }
+                    })
+                }
             }
+            rvSavedGoals?.adapter = adapter
+            updateUI()
+        }else{
+            rvSavedGoals.visibility = View.GONE
+            coreActivityVM?.emptyView(true)
         }
-        rvSavedGoals?.adapter = adapter
-        updateUI()
     }
 
     fun updateUI() {

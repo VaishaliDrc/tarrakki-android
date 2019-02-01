@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="8dp"
-            app:price="@{vm.sipAmount}"
+            app:price="@{vm.lumpsum}"
             android:fontFamily="@font/lato_semibold"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
@@ -114,7 +114,7 @@
             app:layout_constraintEnd_toStartOf="@+id/gdlEnd"
             app:layout_constraintStart_toStartOf="@+id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
-            app:price="@{vm.lumpsum}"
+            app:price="@{vm.sipAmount}"
             tools:text="@string/dummy1" />
 
         <TextView

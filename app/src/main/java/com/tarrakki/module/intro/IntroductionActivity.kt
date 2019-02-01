@@ -37,7 +37,6 @@ class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBi
         btn_new_user?.setOnClickListener {
             setFirsttimeInstalled(false)
             startActivity<RegisterActivity>()
-
             finish()
         }
     }

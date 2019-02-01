@@ -33,7 +33,17 @@ import org.supportcompact.ktx.*
  * create an instance of this fragment.
  *
  */
-
+const val KEY_FUND_DIST_EQUITY = "EQUITY"
+const val KEY_FUND_DIST_DEBT = "DEBT"
+const val KEY_FUND_DIST_BALANCED = "BALANCED"
+const val KEY_FUND_DIST_BOND = "Bond"
+const val KEY_FUND_DIST_ELSS = "ELSS"
+const val KEY_FUND_DIST_FOF = "FOF"
+const val KEY_FUND_DIST_GUILT = "Guilt"
+const val KEY_FUND_DIST_HYBRID = "Hybrid"
+const val KEY_FUND_DIST_LIQUID = "Liquid"
+const val KEY_FUND_DIST_MIP = "MIP"
+const val KEY_FUND_DIST_STP = "STP"
 const val ISFROMGOALRECOMMEDED = "is_from_goal_recommended"
 
 class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBinding>() {
@@ -99,9 +109,9 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
 
         btnGetThisGoal?.setOnClickListener {
             getViewModel().addGoalToCart(getViewModel().userGoalId).observe(this, Observer { apiResponce ->
-                context?.simpleAlert(getString(R.string.cart_goal_added)){
+                context?.simpleAlert(getString(R.string.cart_goal_added)) {
                     val bundle = Bundle().apply {
-                        putBoolean(ISFROMGOALRECOMMEDED,true)
+                        putBoolean(ISFROMGOALRECOMMEDED, true)
                     }
                     startFragment(CartFragment.newInstance(bundle), R.id.frmContainer)
                 }
@@ -120,21 +130,29 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 sum += f.weightage
             }
             when {
-                "EQUITY".equals(action.key, true) -> {
+                KEY_FUND_DIST_EQUITY.equals(action.key, true) ||
+                        KEY_FUND_DIST_ELSS.equals(action.key, true) ||
+                        KEY_FUND_DIST_HYBRID.equals(action.key, true) ||
+                        KEY_FUND_DIST_EQUITY.equals(action.key, true) -> {
                     entries.add(PieEntry(sum, "EQUITY"))
                     getColor(R.color.equity_fund_color)?.let { colors.add(it) }
                 }
-                "DEBT".equals(action.key, true) -> {
+                KEY_FUND_DIST_BALANCED.equals(action.key, true) -> {
+                    entries.add(PieEntry(sum, "BALANCED"))
+                    getColor(R.color.balanced_fund_color)?.let { colors.add(it) }
+                }
+                KEY_FUND_DIST_MIP.equals(action.key, true) ||
+                        KEY_FUND_DIST_BOND.equals(action.key, true) ||
+                        KEY_FUND_DIST_GUILT.equals(action.key, true) ||
+                        KEY_FUND_DIST_LIQUID.equals(action.key, true) ||
+                        KEY_FUND_DIST_STP.equals(action.key, true) ||
+                        KEY_FUND_DIST_DEBT.equals(action.key, true) -> {
                     entries.add(PieEntry(sum, "DEBT"))
                     getColor(R.color.debt_fund_color)?.let { colors.add(it) }
                 }
-                "FOF".equals(action.key, true) -> {
+                else -> {
                     entries.add(PieEntry(sum, "FOF"))
                     getColor(R.color.fof_fund_color)?.let { colors.add(it) }
-                }
-                else -> {
-                    entries.add(PieEntry(sum, "BALANCED"))
-                    getColor(R.color.balanced_fund_color)?.let { colors.add(it) }
                 }
             }
         }

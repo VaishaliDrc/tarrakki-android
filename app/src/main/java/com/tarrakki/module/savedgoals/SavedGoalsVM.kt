@@ -18,22 +18,8 @@ import org.supportcompact.networking.subscribeToSingle
 
 class SavedGoalsVM : FragmentViewModel() {
 
-    val savedGoals = arrayListOf<SavedGoal>()
     val saveGoalResponse = MutableLiveData<List<GoalSavedResponse.Data>>()
     val refresh = MutableLiveData<Boolean>()
-
-    init {
-        savedGoals.add(SavedGoal(
-                "HOME GOAL",
-                382884.00,
-                "5 Years",
-                R.drawable.own_a_home))
-        savedGoals.add(SavedGoal(
-                "AUTO GOAL",
-                382884.00,
-                "5 Years",
-                R.drawable.own_a_home))
-    }
 
     fun getSavedGoals(userId: String?,isRefreshing: Boolean = false): MutableLiveData<List<GoalSavedResponse.Data>> {
         val apiResponse = MutableLiveData<GoalSavedResponse>()
@@ -133,11 +119,3 @@ class SavedGoalsVM : FragmentViewModel() {
         return apiResponse
     }
 }
-
-data class SavedGoal(
-        var name: String,
-        var amount: Double,
-        var duration: String,
-        @DrawableRes
-        var imgRes: Int
-)

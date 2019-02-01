@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{widget.categoryDesctiption}"
+            android:text="@{widget.categoryshortDesctiption}"
             android:textSize="@dimen/sp9"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"

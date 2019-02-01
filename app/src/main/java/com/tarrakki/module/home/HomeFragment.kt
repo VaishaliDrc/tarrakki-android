@@ -35,6 +35,7 @@ import org.supportcompact.ktx.startFragment
  */
 
 const val CATEGORYNAME = "category_name"
+const val ISSINGLEINVESTMENT = "category_single_investment"
 
 class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
@@ -101,14 +102,43 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                     }else{
                         val thirdLevelCategory = item.thirdLevelCategory
                         if (thirdLevelCategory.isNotEmpty()) {
-                            if (thirdLevelCategory[0].categoryName != null) {
+                            if (thirdLevelCategory[0].categoryName.isNullOrEmpty()) {
+                                if (!item.categoryDesctiption.isNullOrEmpty()){
+                                    val bundle = Bundle().apply {
+                                        putString(CATEGORYNAME, item.sectionName)
+                                        putBoolean(ISSINGLEINVESTMENT,true)
+                                    }
+                                    startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
+                                    postSticky(item)
+                                }else{
+                                    context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
+                                        investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                                                android.arch.lifecycle.Observer { response ->
+                                                    val bundle = Bundle().apply {
+                                                        putString("categoryName", item.categoryName)
+                                                        putString("categoryImage", item.categoryImage)
+                                                        putString("categoryDes", item.categoryDesctiption)
+                                                        putString("categoryshortDes", item.categoryshortDesctiption)
+                                                        putString("returnLevel", item.returnType)
+                                                        putString("riskLevel", item.riskType)
+                                                        putInt("sip", amountSIP)
+                                                        putInt("lumpsump", amountLumpsum)
+                                                        putInt("isFrom", 2)
+                                                    }
+                                                    startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                                    EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
+                                                    EventBus.getDefault().postSticky(response?.data)
+                                                })
+                                    }
+                                }
+                            } else {
                                 val bundle = Bundle().apply {
                                     putString(CATEGORYNAME, item.sectionName)
+                                    putBoolean(ISSINGLEINVESTMENT,false)
                                 }
                                 startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                 postSticky(item)
-                            } else {
-                                context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
+                                /*context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
                                     investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                             android.arch.lifecycle.Observer { response ->
                                                 val bundle = Bundle().apply {
@@ -123,7 +153,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                                 EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
                                                 EventBus.getDefault().postSticky(response?.data)
                                             })
-                                }
+                                }*/
                             }
                         }else{
                             context?.simpleAlert(getString(R.string.alert_third_level_category))
@@ -166,7 +196,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
     }
-
 
     companion object {
         /**

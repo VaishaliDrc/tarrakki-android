@@ -22,56 +22,219 @@
             android:orientation="vertical"
             android:padding="@dimen/default_space">
 
-            <org.supportcompact.widgets.WrapContentViewPager
-                android:id="@+id/mPager"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/lyt_single_investment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
-                android:elevation="@dimen/space_2" />
+                android:padding="@dimen/space_8"
+                android:visibility="gone">
 
-            <me.relex.circleindicator.CircleIndicator
-                android:id="@+id/pageIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                app:ci_drawable="@drawable/page_selected"
-                app:ci_drawable_unselected="@drawable/page_unselected" />
+                <android.support.v7.widget.CardView
+                    android:id="@+id/view2"
+                    android:layout_width="144dp"
+                    android:layout_height="144dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:elevation="12dp"
+                    app:cardBackgroundColor="@color/circular_bg"
+                    app:cardCornerRadius="72dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/llNoteToInvestors"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_cart_view"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/tvNoteToInvestorsi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableEnd="@{vm.noteToInvestors ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="@string/note_to_investors_"
-                    android:textColor="@android:color/black"
-                    tools:drawableEnd="@drawable/ic_arrow_up" />
-
-                <net.cachapa.expandablelayout.ExpandableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:el_duration="500"
-                    app:el_expanded="true"
-                    app:expanded="@{vm.noteToInvestors}">
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        imgUrl="@{vm.secondlevel.categoryImage}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_40"
+                        tools:src="@drawable/own_a_home" />
 
                     <TextView
-                        android:id="@+id/tvNoteToInvestorsiReason"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:lineSpacingExtra="@dimen/space_4"
-                        HTML="@{vm.txtnoteToInvestors}"
-                        tools:text="@string/note_to_investors_details" />
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/space_30"
+                        android:gravity="center"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_8"
+                        android:text="@{vm.secondlevel.categoryName}"
+                        android:textAllCaps="true"
+                        android:textColor="@color/semi_black"
+                        android:textSize="@dimen/sp10"
+                        tools:text="Children's Education" />
 
-                </net.cachapa.expandablelayout.ExpandableLayout>
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tvRiskLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:background="@drawable/shape_risk_level_bg"
+                    android:drawablePadding="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center_vertical"
+                    android:minWidth="120dp"
+                    android:padding="@dimen/space_8"
+                    android:text="@{vm.secondlevel.riskType}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/name_aggressive"
+                    android:visibility="@{vm.secondlevel.riskLevelVisible}"
+                    app:layout_constraintEnd_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/view2"
+                    tools:text="High Risk" />
+
+                <TextView
+                    android:id="@+id/tvReturnLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:background="@drawable/shape_risk_to_revord_level_bg"
+                    android:drawablePadding="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center_vertical"
+                    android:minWidth="120dp"
+                    android:padding="@dimen/space_8"
+                    android:text="@{vm.secondlevel.returnType}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/pdlg_color_green"
+                    android:visibility="@{vm.secondlevel.returnRiskVisible}"
+                    app:layout_constraintStart_toStartOf="@id/glCenter"
+                    app:layout_constraintTop_toBottomOf="@id/view2"
+                    tools:text="High Return" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/glCenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <View
+                    android:id="@+id/mDivider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:background="@color/lighter_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvRiskLevel" />
+
+                <TextView
+                    android:id="@+id/tvSortDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:lineSpacingExtra="@dimen/space_4"
+                    android:text="@{vm.secondlevel.categoryshortDesctiption}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintTop_toBottomOf="@id/mDivider"
+                    tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
+
+                <TextView
+                    android:id="@+id/tvDescriptionTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:lineSpacingExtra="@dimen/space_4"
+                    android:text="@string/opt_for_this_if"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/tvSortDescription" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:lineSpacingExtra="@dimen/space_4"
+                    android:text="@{vm.secondlevel.categoryDesctiption}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle"
+                    tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
+
+                <Button
+                    android:id="@+id/btnContinue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/txtcontinue"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/lyt_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <org.supportcompact.widgets.WrapContentViewPager
+                    android:id="@+id/mPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="@dimen/space_2" />
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/pageIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:ci_drawable="@drawable/page_selected"
+                    app:ci_drawable_unselected="@drawable/page_unselected" />
+
+                <LinearLayout
+                    android:id="@+id/llNoteToInvestors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="2dp"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvNoteToInvestorsi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@{vm.noteToInvestors ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@string/note_to_investors_"
+                        android:textColor="@android:color/black"
+                        tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                    <net.cachapa.expandablelayout.ExpandableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:el_duration="500"
+                        app:el_expanded="true"
+                        app:expanded="@{vm.noteToInvestors}">
+
+                        <TextView
+                            android:id="@+id/tvNoteToInvestorsiReason"
+                            HTML="@{vm.txtnoteToInvestors}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:lineSpacingExtra="@dimen/space_4"
+                            tools:text="@string/note_to_investors_details" />
+
+                    </net.cachapa.expandablelayout.ExpandableLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 

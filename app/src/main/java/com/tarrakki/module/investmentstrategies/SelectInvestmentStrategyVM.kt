@@ -22,84 +22,10 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
 
     val txtnoteToInvestors = ObservableField("")
     val noteToInvestors = ObservableField(true)
-    val investmentOptions = arrayListOf<InvestmentOption>()
 
     val category = MutableLiveData<HomeData.Data.Category.SecondLevelCategory>()
+    val secondlevel = ObservableField<HomeData.Data.Category.SecondLevelCategory>()
 
-    init {
-        investmentOptions.add(InvestmentOption(
-                title = "Aggressive",
-                imgRes = R.drawable.ic_aggressive,
-                riskLevel = "High Risk",
-                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_up),
-                returnOnRiskLevel = "High Return",
-                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_up),
-                sortDescription = "An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds.",
-                descriptions = SpannableStringBuilder().apply {
-                    append(SpannableString("You have a high risk tolerance").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You are willing to accept significant ups and downs or fluctuations in the value of your portfolio").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You want relatively higher returns that outpace inflation by a huge margin").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                }
-        ).apply {
-            hasNext = true
-            hasPrevious = false
-        })
-        investmentOptions.add(InvestmentOption(
-                title = "Moderate",
-                imgRes = R.drawable.ic_moderate,
-                riskLevel = "Medium Risk",
-                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_equal),
-                returnOnRiskLevel = "Medium Return",
-                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_equal),
-                sortDescription = "An aggressive investment strategy involves allocating equal money to equity and bonds.",
-                descriptions = SpannableStringBuilder().apply {
-                    append(SpannableString("You have medium risk tolerance").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You are willing to accept some ups and downs or moderate fluctuations in the value of your portfolio").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You want returns on investment that are likely to outpace inflation by a notable margin").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                }
-        ))
-        investmentOptions.add(InvestmentOption(
-                title = "Conservative",
-                imgRes = R.drawable.ic_conservative,
-                riskLevel = "Low Risk",
-                riskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_red_down),
-                returnOnRiskLevel = "Low Return",
-                returnOnRiskLevelIMGRes = App.INSTANCE.getDrawable(R.drawable.ic_green_down),
-                sortDescription = "This investment strategy involves allocating most of the money to bonds and liquid assets. This strategy works well if you are a risk averse investor.",
-                descriptions = SpannableStringBuilder().apply {
-                    append(SpannableString("You have a low risk tolerance").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You are unwilling to accept extreme ups and downs or fluctuations in the value of your portfolio").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                    append("\n\n")
-                    append(SpannableString("You want returns that match the rate of inflation or marginally outpace it").apply {
-                        setSpan(BulletSpan(20, Color.GREEN), 0, length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                    })
-                }
-        ).apply {
-            hasNext = false
-            hasPrevious = true
-        })
-    }
 }
 
 data class InvestmentOption(

@@ -19,12 +19,12 @@ data class BankResponse(
             val paymentMode: String
     )
 
-    val banks: ArrayList<String>? = null
+    var banks: ArrayList<String>? = null
         get() = if (field == null) {
             field = arrayListOf()
             data?.let {
                 it.forEach {
-                    field.add(it.bankName)
+                    field?.add(it.bankName)
                 }
             }
             field
