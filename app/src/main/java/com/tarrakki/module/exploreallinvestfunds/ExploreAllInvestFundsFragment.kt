@@ -1,72 +1,63 @@
-package com.tarrakki.module.home
-
+package com.tarrakki.module.exploreallinvestfunds
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import android.widget.TextView
 import com.tarrakki.*
+
 import com.tarrakki.api.model.HomeData
-import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.databinding.FragmentExploreAllInvestFundsBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
+import com.tarrakki.module.home.*
+import com.tarrakki.module.invest.InvestFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
-import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-
-const val CATEGORYNAME = "category_name"
-const val ISSINGLEINVESTMENT = "category_single_investment"
-
-class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
+class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, FragmentExploreAllInvestFundsBinding>() {
 
     override val isBackEnabled: Boolean
-        get() = false
+        get() = true
     override val title: String
-        get() = getString(R.string.home)
+        get() = getString(R.string.mutual_funds)
 
     override fun getLayout(): Int {
-        return R.layout.fragment_home
+        return R.layout.fragment_explore_all_invest_funds
     }
 
-    override fun createViewModel(): Class<out HomeVM> {
-        return HomeVM::class.java
+    override fun createViewModel(): Class<out ExploreAllInvestmentFundsVM> {
+        return ExploreAllInvestmentFundsVM::class.java
     }
 
-    override fun setVM(binding: FragmentHomeBinding) {
+    override fun setVM(binding: FragmentExploreAllInvestFundsBinding) {
         binding.vm = getViewModel()
         binding.executePendingBindings()
     }
 
     override fun createReference() {
         setHasOptionsMenu(true)
-        rvHomeItem.isFocusable = false
-        rvHomeItem.isNestedScrollingEnabled = false
+
+        btnExploreFunds?.setOnClickListener {
+            startFragment(InvestFragment.newInstance(), R.id.frmContainer)
+        }
+
+        rvMutualFunds.isFocusable = false
+        rvMutualFunds.isNestedScrollingEnabled = false
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
                 mRefresh?.isRefreshing = false
-                rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
+                rvMutualFunds.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
-                    binder.setVariable(BR.isHome, true)
                     binder.setVariable(BR.onViewAll, View.OnClickListener {
                         if (item is HomeSection)
                             when ("${item.title}") {
@@ -77,41 +68,41 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     val bundle = Bundle().apply {
                                         putString(CATEGORYNAME, item.title)
                                     }
-                                    startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
+                                    startFragment(InvestmentStrategiesFragment.newInstance(bundle)
+                                            , R.id.frmContainer)
                                     item.category?.let { postSticky(it) }
                                 }
                             }
                     })
                     binder.executePendingBindings()
                 }
-                rvHomeItem.visibility = View.VISIBLE
+                rvMutualFunds.visibility = View.VISIBLE
             }
         }
 
-        App.INSTANCE.widgetsViewModel.observe(this, Observer { item ->
-
+        App.INSTANCE.widgetsViewModelB.observe(this, Observer { item ->
             if (item is HomeData.Data.Goal) {
                 startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
             } else if (item is HomeData.Data.Category.SecondLevelCategory) {
                 if (!item.isGoal) {
-                    if (item.isThematic) {
+                    if (item.isThematic){
                         val bundle = Bundle().apply {
                             putString(CATEGORYNAME, item.categoryName)
                         }
                         startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
                         postSticky(item)
-                    } else {
+                    }else{
                         val thirdLevelCategory = item.thirdLevelCategory
                         if (thirdLevelCategory.isNotEmpty()) {
                             if (thirdLevelCategory[0].categoryName.isNullOrEmpty()) {
-                                if (!item.categoryDesctiption.isNullOrEmpty()) {
+                                if (!item.categoryDesctiption.isNullOrEmpty()){
                                     val bundle = Bundle().apply {
                                         putString(CATEGORYNAME, item.sectionName)
-                                        putBoolean(ISSINGLEINVESTMENT, true)
+                                        putBoolean(ISSINGLEINVESTMENT,true)
                                     }
                                     startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                     postSticky(item)
-                                } else {
+                                }else{
                                     context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
                                         investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                                 android.arch.lifecycle.Observer { response ->
@@ -135,28 +126,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                             } else {
                                 val bundle = Bundle().apply {
                                     putString(CATEGORYNAME, item.sectionName)
-                                    putBoolean(ISSINGLEINVESTMENT, false)
+                                    putBoolean(ISSINGLEINVESTMENT,false)
                                 }
                                 startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                 postSticky(item)
-                                /*context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
-                                    investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
-                                            android.arch.lifecycle.Observer { response ->
-                                                val bundle = Bundle().apply {
-                                                    putString("categoryName", item.categoryName)
-                                                    putString("categoryImage", item.categoryImage)
-                                                    putString("categoryDes", item.categoryDesctiption)
-                                                    putInt("sip", amountSIP)
-                                                    putInt("lumpsump", amountLumpsum)
-                                                    putInt("isFrom", 2)
-                                                }
-                                                startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
-                                                EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
-                                                EventBus.getDefault().postSticky(response?.data)
-                                            })
-                                }*/
                             }
-                        } else {
+                        }else{
                             context?.simpleAlert(getString(R.string.alert_third_level_category))
                         }
                     }
@@ -166,24 +141,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             }
         })
 
-        tvWhyTarrakkii?.setOnClickListener { _ ->
-            getViewModel().whayTarrakki.get()?.let {
-                getViewModel().whayTarrakki.set(!it)
-            }
-        }
-        tvViewPortfolio?.setOnClickListener {
-            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
-        }
         mRefresh?.setOnRefreshListener {
             getViewModel().getHomeData(true).observe(this, observerHomeData)
         }
 
-        cpPortfolio.setProgressWithAnimation(78f)
-        App.INSTANCE.isLoggedIn.observe(this, Observer {
-            it?.let { isLogin ->
-                getViewModel().portfolioVisibility.set(if (isLogin) View.VISIBLE else View.GONE)
-            }
-        })
         getViewModel().getHomeData().observe(this, observerHomeData)
     }
 
@@ -199,15 +160,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket .
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(basket: Bundle? = null) = HomeFragment().apply { arguments = basket }
+        fun newInstance(basket: Bundle? = null) = ExploreAllInvestFundsFragment().apply { arguments = basket }
     }
 }

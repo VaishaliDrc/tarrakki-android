@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Tarrakki</string>
+    <string name="mutual_funds">Mutual Funds</string>
     <string name="home">Home</string>
     <string name="plan">Plan</string>
     <string name="invest">Invest</string>
@@ -437,4 +438,7 @@
     <string name="enter_place_of_birth">Enter Place of Birth</string>
     <string name="source_of_income">Source of Income</string>
     <string name="income_slab">Income Slab</string>
+
+    <string name="explore_all_funds">Explore All Funds</string>
+
 </resources>

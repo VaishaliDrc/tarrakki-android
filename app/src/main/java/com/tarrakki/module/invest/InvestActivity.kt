@@ -3,13 +3,14 @@ package com.tarrakki.module.invest
 import android.os.Bundle
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
+import com.tarrakki.module.homeInvest.HomeInvestFragment
 import org.supportcompact.ktx.startFragment
 
 class InvestActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startFragment(InvestFragment.newInstance(), R.id.frmContainer)
+        startFragment(HomeInvestFragment.newInstance(), R.id.frmContainer)
     }
 
     override fun onBackPressed() {

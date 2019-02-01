@@ -18,6 +18,7 @@
         android:enabled="true"
         android:icon="@drawable/plan"
         android:title="@string/plan"
+        android:visible="false"
         app:showAsAction="always|withText" />
 
     <item

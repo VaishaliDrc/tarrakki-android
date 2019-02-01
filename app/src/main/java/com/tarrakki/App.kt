@@ -10,6 +10,8 @@ class App : CoreApp() {
     val isAuthorise = MutableLiveData<Boolean>().apply { value = false }
     val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
     val widgetsViewModel = MutableLiveData<WidgetsViewModel>()
+    val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
+
 
     init {
         App.INSTANCE = this

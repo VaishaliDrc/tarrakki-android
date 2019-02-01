@@ -1,4 +1,4 @@
-package com.tarrakki.module.home
+package com.tarrakki.module.exploreallinvestfunds
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
@@ -9,6 +9,7 @@ import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.api.model.parseTo
+import com.tarrakki.module.home.HomeSection
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -19,11 +20,8 @@ import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
 
-class HomeVM : FragmentViewModel() {
-
-    val whayTarrakki = ObservableField(true)
+class ExploreAllInvestmentFundsVM : FragmentViewModel() {
     var homeSections = ArrayList<WidgetsViewModel>()
-    var portfolioVisibility = ObservableField(View.GONE)
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()
@@ -75,14 +73,5 @@ class HomeVM : FragmentViewModel() {
                 }
         )
         return homeData
-    }
-}
-
-data class HomeSection(var title: String, var homeItems: ArrayList<WidgetsViewModel>?) : WidgetsViewModel {
-
-    var category: HomeData.Data.Category? = null
-
-    override fun layoutId(): Int {
-        return R.layout.row_section_investment_item
     }
 }

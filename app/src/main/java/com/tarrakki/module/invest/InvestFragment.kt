@@ -41,9 +41,9 @@ import org.supportcompact.ktx.*
 class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
 
     override val isBackEnabled: Boolean
-        get() = false
+        get() = true
     override val title: String
-        get() = getString(R.string.invest)
+        get() = getString(R.string.explore_all_funds)
 
     override fun getLayout(): Int {
         return R.layout.fragment_invest

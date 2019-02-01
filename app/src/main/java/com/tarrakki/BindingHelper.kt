@@ -41,8 +41,8 @@ const val IS_FROM_ACCOUNT = "is_from_account"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 
 
-@BindingAdapter(value = ["setAdapterH"], requireAll = false)
-fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
+@BindingAdapter(value = ["setAdapterH", "isHome"], requireAll = false)
+fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isHome: Boolean) {
     view.isFocusable = false
     view.isNestedScrollingEnabled = false
     homeItems?.let {
@@ -50,13 +50,10 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?) {
             binder.setVariable(BR.widget, item)
             binder.executePendingBindings()
             binder.root.setOnClickListener { it ->
-                App.INSTANCE.widgetsViewModel.value = item
-                /*val mContext = it.context
-                if (mContext is AppCompatActivity && item is HomeData.Data.Goal) {
-                    mContext.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
-                } else if (mContext is AppCompatActivity) {
-                    mContext.startFragment(SelectInvestmentStrategyFragment.newInstance(), R.id.frmContainer)
-                }*/
+                if (isHome)
+                    App.INSTANCE.widgetsViewModel.value = item
+                else
+                    App.INSTANCE.widgetsViewModelB.value = item
             }
         }
     }
@@ -125,7 +122,7 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
 fun applyCurrencyFormat(txt: TextView, amount: String?, anim: Boolean?) {
-    applyCurrencyFormat(txt,amount?.toDouble(),anim)
+    applyCurrencyFormat(txt, amount?.toDouble(), anim)
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)

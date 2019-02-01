@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestmentFundsVM" />
+
+    </data>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            tools:context=".module.home.HomeFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvMutualFunds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:visibility="invisible"
+                    app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:background="@drawable/shape_cart_view"
+                    tools:elevation="2dp"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/row_section_investment_item"
+                    tools:padding="8dp" />
+
+                <Button
+                    android:id="@+id/btnIdle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/move_idle_money_from_your_bank_a_c"
+                    android:textColor="@android:color/white"
+                    tools:layout_marginTop="@dimen/default_space" />
+
+                <Button
+                    android:id="@+id/btnExploreFunds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/explore_all_funds"
+                    android:textColor="@android:color/white"
+                    tools:layout_marginTop="@dimen/default_space" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>
