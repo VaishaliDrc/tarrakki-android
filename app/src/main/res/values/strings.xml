@@ -441,4 +441,12 @@
 
     <string name="explore_all_funds">Explore All Funds</string>
     <string name="coming_soon">Coming Soon.</string>
+
+    <string name="fatca_details">FATCA Details</string>
+    <string name="i_certify_that_i_am_a_person_resident_of_india">I certify that I am a person/resident of India</string>
+    <string name="taxpayer_identification_number_tin_details">Taxpayer Identification Number(TIN) Details</string>
+    <string name="tin_number">TIN Number</string>
+    <string name="enter_tin_number">Enter TIN Number</string>
+    <string name="country_of_issue">Country of Issue</string>
+    <string name="select_country">Select Country</string>
 </resources>

@@ -5,12 +5,15 @@ import android.content.Intent
 import android.util.Patterns
 import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
+import com.tarrakki.IS_FROM_INTRO
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityRegisterBinding
+import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startActivity
 
 const val SIGNUP_DATA = "signup_data"
 
@@ -32,7 +35,12 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
     override fun createReference() {
 
         tvAlreadyHasAccount?.setOnClickListener {
-            onBackPressed()
+            if (intent.hasExtra(IS_FROM_INTRO)) {
+                startActivity<LoginActivity>()
+                finish()
+            } else {
+                onBackPressed()
+            }
         }
 
         btnSignUp?.setOnClickListener {

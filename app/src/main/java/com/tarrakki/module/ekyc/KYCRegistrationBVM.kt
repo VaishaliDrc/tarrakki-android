@@ -1,24 +1,36 @@
 package com.tarrakki.module.ekyc
 
+import android.databinding.Observable
 import android.databinding.ObservableField
+import android.view.View
 import org.supportcompact.FragmentViewModel
 
 class KYCRegistrationBVM : FragmentViewModel() {
 
-    val fName = ObservableField("Himanshu Pratap")
-    val dob = ObservableField("25 Nov, 1985")
-    val guardian = ObservableField("Ravi Pratap")
-    val guardianPANNumber = ObservableField("1ABCDE1234F")
-    val address = ObservableField("Gift City, Gandhinagar")
-    val city = ObservableField("Gandhinagar")
-    val pincode = ObservableField("110001")
-    val state = ObservableField("Gujarat")
-    val country = ObservableField("India")
-    val email = ObservableField("hinnanshu.pratap@gnnail.com")
-    val mobile = ObservableField("9253493800")
     val PANNumber = ObservableField("1ABCDE1234F")
-    val nominiName = ObservableField("Himanshu Pratap")
-    val nominiRelationship = ObservableField("Father")
+    val occupationType = ObservableField("")
+    val countryOfBirth = ObservableField("")
+    val placeOfBirth = ObservableField("")
+    val sourceOfIncome = ObservableField("")
+    val iCertify = ObservableField(true)
+    val TAXSlab = ObservableField("")
+    val TINVisibility = ObservableField(View.GONE)
+    val TINNumberA = ObservableField("")
+    val issueByA = ObservableField("")
+    val TINNumberB = ObservableField("")
+    val issueByB = ObservableField("")
+    val TINNumberC = ObservableField("")
+    val issueByC = ObservableField("")
     val isEdit = ObservableField(true)
     val alpha = ObservableField<Float>(1f)
+
+    init {
+
+        iCertify.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                TINVisibility.set(if (iCertify.get()!!) View.GONE else View.VISIBLE)
+            }
+        })
+
+    }
 }

@@ -93,7 +93,6 @@
                             android:inputType="textCapCharacters"
                             android:maxLength="10"
                             android:maxLines="1"
-                            android:text="AJTPG6148B"
                             android:paddingStart="@dimen/space_8"
                             android:paddingTop="@dimen/space_8"
                             android:paddingEnd="@dimen/space_8"

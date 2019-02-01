@@ -1,5 +1,7 @@
 package com.tarrakki.module.intro
 
+import android.content.Intent
+import com.tarrakki.IS_FROM_INTRO
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityInroductionBinding
 import com.tarrakki.databinding.LayoutIntroducationItemBinding
@@ -36,15 +38,17 @@ class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBi
         }
         btn_new_user?.setOnClickListener {
             setFirsttimeInstalled(false)
-            startActivity<RegisterActivity>()
+            val i = Intent(this, RegisterActivity::class.java)
+            i.putExtra(IS_FROM_INTRO, true)
+            startActivity(i)
             finish()
         }
     }
 
-    private fun setAdapter(){
+    private fun setAdapter() {
         pager_intro?.setPageAdapter(R.layout.layout_introducation_item,
                 getViewModel().getIntroductionList()) { binder: LayoutIntroducationItemBinding,
-          item: IntroducationVM.Introduction ->
+                                                        item: IntroducationVM.Introduction ->
             binder.vm = item
             binder.executePendingBindings()
         }

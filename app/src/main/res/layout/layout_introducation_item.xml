@@ -10,16 +10,11 @@
             type="com.tarrakki.module.intro.IntroducationVM.Introduction" />
     </data>
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardCornerRadius="@dimen/space_5"
-        app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/space_25">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="@dimen/space_25"
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatImageView
@@ -74,7 +69,5 @@
                 app:layout_constraintGuide_percent="0.5" />
 
         </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
 
 </layout>

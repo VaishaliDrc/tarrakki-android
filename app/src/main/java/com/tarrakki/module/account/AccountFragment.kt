@@ -118,7 +118,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 context?.simpleAlert("Please enter valid PAN card number")
             } else {
                 it.dismissKeyboard()
-                val kyc = KYCData(edtPanNo.text.toString(), "8460421008", "abc@gmail.com")
+                val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
                 checkKYCStatus(kyc).observe(this, Observer {
                     it?.let { html ->
                         //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />

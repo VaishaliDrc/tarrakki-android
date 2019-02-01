@@ -12,6 +12,8 @@ const val IS_LOGIN = "is_login"
 const val LOGIN_TOKEN = "login_token"
 const val APP_LOCK = "app_lock"
 const val USERID = "user_id"
+const val EMAIL = "email"
+const val MOBILE = "mobile"
 const val ISFIRSTTIME = "first_time_installed"
 
 public val Context.getPreferences: SharedPreferences
@@ -112,6 +114,22 @@ fun Context.setUserId(userid: String) {
 
 fun Context.getUserId(): String? {
     return getPreferences.getString(USERID, "`")
+}
+
+fun Context.setEmail(emai: String) {
+    return getPreferences.putString(EMAIL, emai)
+}
+
+fun Context.getEmail(): String? {
+    return getPreferences.getString(EMAIL, "`")
+}
+
+fun Context.setMobile(mobile: String) {
+    return getPreferences.putString(MOBILE, mobile)
+}
+
+fun Context.getMobile(): String? {
+    return getPreferences.getString(MOBILE, "`")
 }
 
 fun Context.setAppIsLock(has: Boolean) {

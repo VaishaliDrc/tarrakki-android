@@ -66,6 +66,8 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                         loginResponse?.let {
                             loginResponse.token?.let { it1 -> setLoginToken(it1) }
                             loginResponse.userId?.let { it1 -> setUserId(it1) }
+                            loginResponse.email?.let { it1 -> setEmail(it1) }
+                            loginResponse.mobile?.let { it1 -> setMobile(it1) }
                             if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
                                 startActivity<HomeActivity>()
                             }

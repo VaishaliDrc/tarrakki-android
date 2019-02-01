@@ -270,6 +270,7 @@
                                 android:hint="Enter your PAN"
                                 android:imeOptions="actionDone"
                                 android:inputType="textCapCharacters"
+                                android:maxLength="10"
                                 android:maxLines="1"
                                 android:paddingStart="@dimen/space_8"
                                 android:paddingTop="@dimen/space_8"
@@ -279,6 +280,7 @@
                                 android:textColor="@color/black" />
 
                             <TextView
+                                android:id="@+id/btnCheck"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"

@@ -3,6 +3,7 @@ package com.tarrakki.module.ekyc
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.ScaleGestureDetector
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycBinding
 import com.tarrakki.module.webview.WebViewFragment
@@ -11,6 +12,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.startFragment
 
+
 /**
  * A simple [Fragment] subclass.
  * Use the [EKYCFragment.newInstance] factory method to
@@ -18,6 +20,7 @@ import org.supportcompact.ktx.startFragment
  *
  */
 class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
+
 
     override val isBackEnabled: Boolean
         get() = true
@@ -44,7 +47,9 @@ class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
                 postSticky(kycData)
             }
         }
+        ivEKYC?.setImageDrawable(context?.getDrawable(R.drawable.ekyc))
     }
+
 
     @Subscribe(sticky = true)
     fun onReceive(kycData: KYCData) {

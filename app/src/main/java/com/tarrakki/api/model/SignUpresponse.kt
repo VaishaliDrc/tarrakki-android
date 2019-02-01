@@ -6,6 +6,10 @@ data class SignUpresponse(
         @SerializedName("token")
         val token: String,
         @SerializedName("user_id")
-        val userId: String?
+        val userId: String?,
+        @SerializedName("email")
+        val email: String?,
+        @SerializedName("mobile_number")
+        val mobile: String?
 )
 

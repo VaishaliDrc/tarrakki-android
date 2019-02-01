@@ -67,6 +67,8 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                             signUpResponse?.let {
                                                 signUpResponse.token?.let { it1 -> setLoginToken(it1) }
                                                 signUpResponse.userId?.let { it1 -> setUserId(it1) }
+                                                signUpResponse.email?.let { it1 -> setEmail(it1) }
+                                                signUpResponse.mobile?.let { it1 -> setMobile(it1) }
                                                 setIsLogin(true)
                                                 App.INSTANCE.isLoggedIn.value = true
                                                 if (intent.hasExtra(IS_FROM_ACCOUNT)) {

@@ -12,6 +12,10 @@ import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.ekyc.EKYCFragment
+import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.checkKYCStatus
+import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
@@ -21,10 +25,11 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.EventBus
+import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.*
 
 
 /**
@@ -165,6 +170,35 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 }
             }
         })
+
+        btnCheck?.setOnClickListener {
+            if (edtPanNo.length() == 0) {
+                context?.simpleAlert("Please enter PAN card number")
+            } else if (!isPANCard(edtPanNo.text.toString())) {
+                context?.simpleAlert("Please enter valid PAN card number")
+            } else {
+                it.dismissKeyboard()
+                val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
+                checkKYCStatus(kyc).observe(this, Observer {
+                    it?.let { html ->
+                        //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />
+                        try {
+                            val doc = Jsoup.parse(html)
+                            val values = doc.select("input[name=result]").attr("value").split("|")
+                            if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
+                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
+                                postSticky(kyc)
+                            } else {
+                                post(ShowError(values[3]))
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                        edtPanNo?.text?.clear()
+                    }
+                })
+            }
+        }
 
         tvWhyTarrakkii?.setOnClickListener { _ ->
             getViewModel().whayTarrakki.get()?.let {

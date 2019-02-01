@@ -183,7 +183,17 @@ data class Goal(
             }
 
             fun setPVAmount(ans: String) {
-                questions.firstOrNull { q -> q.parameter == "pv" }?.ans = ans
+                val p = questions.firstOrNull { q -> q.parameter == "pv" }
+                p?.let {
+                    it.ans = ans
+                    val index = questions.indexOf(it) - 1
+                    if (!TextUtils.isEmpty(ans) && index >= 0) {
+                        val isBoolean = questions[index].questionType == "boolean"
+                        if (isBoolean) {
+                            questions[index].ansBoolean = true
+                        }
+                    }
+                }
             }
 
             fun getDPAmount(): String? {
@@ -246,7 +256,7 @@ data class Goal(
                             isBoolean = item1.questionType == "boolean"
                             if (isBoolean && item1.ansBoolean) {
                                 if (!TextUtils.isEmpty(item2.ans))
-                                json.addProperty("${item2.parameter}", "${item2.ans}".replace(",", ""))
+                                    json.addProperty("${item2.parameter}", "${item2.ans}".replace(",", ""))
                             } else if (!isBoolean) {
                                 questions.forEach { q ->
                                     if (!TextUtils.isEmpty(q.ans))

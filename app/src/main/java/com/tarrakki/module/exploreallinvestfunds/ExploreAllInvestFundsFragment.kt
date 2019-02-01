@@ -85,30 +85,30 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
                 rvMutualFunds.visibility = View.VISIBLE
             }
         }
-
+        App.INSTANCE.widgetsViewModelB.value = null
         App.INSTANCE.widgetsViewModelB.observe(this, Observer { item ->
             if (item is HomeData.Data.Goal) {
                 startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
             } else if (item is HomeData.Data.Category.SecondLevelCategory) {
                 if (!item.isGoal) {
-                    if (item.isThematic){
+                    if (item.isThematic) {
                         val bundle = Bundle().apply {
                             putString(CATEGORYNAME, item.categoryName)
                         }
                         startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
                         postSticky(item)
-                    }else{
+                    } else {
                         val thirdLevelCategory = item.thirdLevelCategory
                         if (thirdLevelCategory.isNotEmpty()) {
                             if (thirdLevelCategory[0].categoryName.isNullOrEmpty()) {
-                                if (!item.categoryDesctiption.isNullOrEmpty()){
+                                if (!item.categoryDesctiption.isNullOrEmpty()) {
                                     val bundle = Bundle().apply {
                                         putString(CATEGORYNAME, item.sectionName)
-                                        putBoolean(ISSINGLEINVESTMENT,true)
+                                        putBoolean(ISSINGLEINVESTMENT, true)
                                     }
                                     startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                     postSticky(item)
-                                }else{
+                                } else {
                                     context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
                                         investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                                 android.arch.lifecycle.Observer { response ->
@@ -132,12 +132,12 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
                             } else {
                                 val bundle = Bundle().apply {
                                     putString(CATEGORYNAME, item.sectionName)
-                                    putBoolean(ISSINGLEINVESTMENT,false)
+                                    putBoolean(ISSINGLEINVESTMENT, false)
                                 }
                                 startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                 postSticky(item)
                             }
-                        }else{
+                        } else {
                             context?.simpleAlert(getString(R.string.alert_third_level_category))
                         }
                     }

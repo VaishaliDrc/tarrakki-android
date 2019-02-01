@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -26,26 +26,34 @@
             android:adjustViewBounds="true"
             android:src="@drawable/ic_login" />
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="@dimen/space_5"
             android:layout_above="@id/lyt_bottom_intro"
             android:layout_below="@id/img_intro_logo"
-            android:layout_width="match_parent"
             android:layout_margin="@dimen/space_16"
-            android:layout_height="match_parent">
+            app:cardUseCompatPadding="true">
 
-            <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
-                android:id="@+id/pager_intro"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
 
-            <me.relex.circleindicator.CircleIndicator
-                android:id="@+id/pageIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
-                app:ci_drawable="@drawable/intro_page_selected"
-                app:ci_drawable_unselected="@drawable/intro_page_unselected" />
-        </RelativeLayout>
+                <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+                    android:id="@+id/pager_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/pageIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_alignParentBottom="true"
+                    app:ci_drawable="@drawable/intro_page_selected"
+                    app:ci_drawable_unselected="@drawable/intro_page_unselected" />
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.LinearLayoutCompat
             android:id="@+id/lyt_bottom_intro"
@@ -66,7 +74,7 @@
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/new_user"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white" />
 
             <Button
@@ -78,7 +86,7 @@
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/existing_user"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white" />
 
         </android.support.v7.widget.LinearLayoutCompat>
