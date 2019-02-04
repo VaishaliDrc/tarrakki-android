@@ -3,13 +3,20 @@ package org.supportcompact.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.databinding.ObservableField
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.support.annotation.*
+import android.support.annotation.ColorRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.FontRes
+import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
+import android.text.TextUtils
 import android.util.DisplayMetrics
+import android.util.Patterns
+import java.util.regex.Pattern
 
 fun Context.color(@ColorRes clr: Int): Int {
     return ContextCompat.getColor(this, clr)
@@ -83,3 +90,9 @@ fun Float.convertToPx(): Float {
     val px = this * (metrics.densityDpi / 160f)
     return Math.round(px).toFloat()
 }
+
+fun ObservableField<String>.isEmpty() = TextUtils.isEmpty(get())
+
+fun ObservableField<String>.isEmail() = Patterns.EMAIL_ADDRESS.matcher(get()).matches()
+
+fun ObservableField<String>.isPAN() = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(get()).matches()

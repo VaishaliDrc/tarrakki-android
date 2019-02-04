@@ -147,7 +147,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 activity?.onInvestmentStrategies(item)
             }
         })
-
+        edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
             if (edtPanNo.length() == 0) {
                 context?.simpleAlert("Please enter PAN card number")

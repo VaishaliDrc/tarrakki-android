@@ -3,10 +3,8 @@ package com.tarrakki.module.ekyc
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.ScaleGestureDetector
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycBinding
-import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_ekyc.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
@@ -43,7 +41,7 @@ class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
     override fun createReference() {
         btnContinue?.setOnClickListener {
             getViewModel().kycData?.let { kycData ->
-                startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
                 postSticky(kycData)
             }
         }

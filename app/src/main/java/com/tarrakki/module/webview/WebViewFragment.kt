@@ -1,34 +1,24 @@
 package com.tarrakki.module.webview
 
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
 import android.webkit.*
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentWebViewBinding
-import com.tarrakki.module.ekyc.KYCData
-import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import org.greenrobot.eventbus.Subscribe
-import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.utilise.ImageChooserUtil
-import java.io.File
 
 
 /**
@@ -38,8 +28,6 @@ import java.io.File
  *
  */
 class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
-
-    private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
 
     override val isBackEnabled: Boolean
         get() = true
@@ -62,40 +50,21 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
 
-        var needToRedirect = false
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
         mWebView.settings.useWideViewPort = true
-        mWebView.settings.allowContentAccess = true
-        mWebView.settings.allowUniversalAccessFromFileURLs = true
         mWebView.settings.domStorageEnabled = true
-
-        //mWebView.settings.setAppCacheMaxSize(10 * 1024 * 1024) // 10MB
         mWebView.settings.loadsImagesAutomatically = true
         mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
-        mWebView.settings.allowFileAccess = true
         mWebView.settings.setAppCacheEnabled(true)
         mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        mWebView.settings.setSupportMultipleWindows(false)
 
         mWebView.webChromeClient = object : WebChromeClient() {
 
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 progressBar?.progress = newProgress
-            }
-
-            override fun onPermissionRequest(request: PermissionRequest?) {
-                activity?.runOnUiThread {
-                    request?.grant(request.resources)
-                }
-            }
-
-            override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: FileChooserParams?): Boolean {
-                getViewModel().filePathCallback?.onReceiveValue(null)
-                getViewModel().filePathCallback = null
-                getViewModel().filePathCallback = filePathCallback
-                openGallery()
-                return true
             }
         }
 
@@ -110,7 +79,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                 return onPageRequest(view, request.url.toString())
             }
 
-            fun onPageRequest(mWebView: WebView, url: String): Boolean {
+            fun onPageRequest(view: WebView, url: String): Boolean {
                 return when {
                     url.startsWith("tel:") -> {
                         initiateCall(url)
@@ -120,11 +89,17 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         sendEmail(url.substring(7))
                         true
                     }
-                    url.startsWith(getViewModel().redirectUrl) -> {
-                        needToRedirect = true
+                    url.startsWith("http://115.160.244.10:8084") -> {
+                        view.loadUrl(url)
                         true
                     }
-                    else -> false
+                    else -> {
+                        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                            startActivity(this)
+                        }
+                        return true
+                    }
                 }
             }
 
@@ -144,68 +119,20 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
             }
         }
 
-        mWebView.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { html ->
-            // code here
-            if (needToRedirect) {
-                try {
-                    val doc = Jsoup.parse(html)
-                    val values = doc.select("input[name=result]").attr("value").split("|")
-                    if (values.isNotEmpty() && values.contains("Y")) {
-
-                    } else {
-                        post(ShowError(values[3]))
+        getViewModel().onPage.observe(this, Observer { it ->
+            it?.let { page ->
+                when (page) {
+                    Event.PRIVACY_PAGE -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.privacy_policy))
+                        mWebView?.loadUrl("http://115.160.244.10:8084/zalak/odoo-projects/tarraki/mobile-tarraki/privacy-pliocy.html")
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    Event.TERMS_AND_CONDITIONS_PAGE -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.terms_and_condditions))
+                        mWebView?.loadUrl("http://115.160.244.10:8084/zalak/odoo-projects/tarraki/mobile-tarraki/termofservice.html")
+                    }
+                    else -> {
+                    }
                 }
-            }
-        }
-
-        getViewModel().kycData.observe(this, Observer { it ->
-            it?.let {
-                getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
-                    apiResponse?.let { eKYCPage ->
-                        val permissions = arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA)
-                        requestPermissionsIfRequired(permissions, object : PermissionCallBack {
-                            override fun permissionGranted() {
-                                mWebView?.loadDataWithBaseURL(
-                                        "https://eiscuat1.camsonline.com/PLKYC/Home/home",
-                                        eKYCPage,
-                                        "text/html",
-                                        "UTF-8",
-                                        null)
-                            }
-
-                            override fun permissionDenied() {
-                                context?.confirmationDialog(
-                                        title = getString(R.string.permission),
-                                        msg = getString(R.string.write_external_storage_title),
-                                        btnPositive = getString(R.string.allow),
-                                        btnNegative = getString(R.string.dont_allow),
-                                        btnPositiveClick = {
-                                            getViewModel().getEKYCPage(it).value = eKYCPage
-                                        }
-                                )
-                            }
-
-                            override fun onPermissionDisabled() {
-                                context?.confirmationDialog(
-                                        title = getString(R.string.permission),
-                                        msg = getString(R.string.write_external_storage_title),
-                                        btnPositive = getString(R.string.settings),
-                                        btnNegative = getString(R.string.cancel),
-                                        btnPositiveClick = {
-                                            val intent = Intent()
-                                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                            val uri = Uri.fromParts("package", context?.packageName, null)
-                                            intent.data = uri
-                                            startActivity(intent)
-                                        }
-                                )
-                            }
-                        })
-                    }
-                })
             }
         })
     }
@@ -234,93 +161,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
 
     }
 
-    private fun openGallery() {
-        val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        requestPermissionsIfRequired(permissions, object : PermissionCallBack {
-            override fun permissionGranted() {
-                val intent = Intent(Intent.ACTION_GET_CONTENT)
-                        .setType("image/*")
-                        .addCategory(Intent.CATEGORY_OPENABLE)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    val mimeTypes = arrayOf("image/jpeg", "image/png")
-                    intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-                }
-                startActivityForResult(Intent.createChooser(intent, "Select File"), getViewModel().IMAGE_RQ_CODE)
-                /*val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(Intent.createChooser(pickPhoto, "Select File"), getViewModel().IMAGE_RQ_CODE)*/
-            }
-
-            override fun permissionDenied() {
-                context?.confirmationDialog(
-                        title = getString(R.string.permission),
-                        msg = getString(R.string.write_external_storage_title),
-                        btnPositive = getString(R.string.allow),
-                        btnNegative = getString(R.string.dont_allow),
-                        btnPositiveClick = {
-                            openGallery()
-                        }
-                )
-            }
-
-            override fun onPermissionDisabled() {
-                context?.confirmationDialog(
-                        title = getString(R.string.permission),
-                        msg = getString(R.string.write_external_storage_title),
-                        btnPositive = getString(R.string.settings),
-                        btnNegative = getString(R.string.cancel),
-                        btnPositiveClick = {
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            val uri = Uri.fromParts("package", context?.packageName, null)
-                            intent.data = uri
-                            startActivity(intent)
-                        }
-                )
-            }
-        })
-    }
-
-    private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
-        destinationFileName += ".png"
-        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
-        uCrop.withAspectRatio(16f, 9f)
-        uCrop.start(context!!, this)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                getViewModel().ICAMERA_RQ_CODE -> {
-                    val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
-                    startCrop(Uri.fromFile(file))
-                }
-                getViewModel().IMAGE_RQ_CODE -> {
-                    val selectedUri = data?.data
-                    if (selectedUri != null) {
-                        startCrop(selectedUri)
-                    }
-                }
-                UCrop.REQUEST_CROP -> {
-                    if (data != null) {
-                        val imageUri = UCrop.getOutput(data)
-                        imageUri?.let {
-                            //getViewModel().filePathCallback?.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
-                            getViewModel().filePathCallback?.onReceiveValue(arrayOf(imageUri))
-                            getViewModel().filePathCallback = null
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @Subscribe(sticky = true)
-    fun onReceive(kycData: KYCData) {
-        if (getViewModel().kycData.value == null) {
-            getViewModel().kycData.value = kycData
-        }
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        getViewModel().onPage.value = event
     }
 
     companion object {

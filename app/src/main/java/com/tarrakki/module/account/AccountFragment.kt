@@ -7,19 +7,13 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
 import android.view.View
-import com.tarrakki.ACTION_FINISH_ALL_TASK
-import com.tarrakki.App
-import com.tarrakki.IS_FROM_ACCOUNT
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.EKYCFragment
-import com.tarrakki.module.ekyc.KYCData
-import com.tarrakki.module.ekyc.checkKYCStatus
-import com.tarrakki.module.ekyc.isPANCard
+import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -30,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_account.*
 import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 
@@ -93,6 +88,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_privacy_policy -> {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                        postSticky(Event.PRIVACY_PAGE)
+                    }
+                    R.drawable.ic_terms_conditions -> {
+                        startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                        postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
                     }
                 }
             }
@@ -111,6 +111,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
             })
         }
+        edtPanNo?.applyPAN()
         tvNext?.setOnClickListener {
             if (edtPanNo.length() == 0) {
                 context?.simpleAlert("Please enter PAN card number")
@@ -126,7 +127,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                             val doc = Jsoup.parse(html)
                             val values = doc.select("input[name=result]").attr("value").split("|")
                             if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
-                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
+                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                                 postSticky(kyc)
                             } else {
                                 post(ShowError(values[3]))

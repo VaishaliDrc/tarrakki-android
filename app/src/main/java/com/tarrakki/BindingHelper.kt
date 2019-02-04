@@ -11,9 +11,7 @@ import android.support.annotation.DrawableRes
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.text.Html
-import android.text.InputFilter
-import android.text.TextUtils
+import android.text.*
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -209,6 +207,38 @@ fun EditText.setMinMax(minValue: Int, maxValue: Int) {
     } catch (e: Exception) {
         e.printStackTrace()
     }
+}
+
+
+@BindingAdapter(value = ["isPANCard"])
+fun setPANCard(edt: EditText, isPANCard: Boolean) {
+    if (isPANCard) {
+        edt.applyPAN()
+    }
+}
+
+fun EditText.applyPAN() {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            inputType = when (s?.length) {
+                in 5..8 -> {
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
+                }
+                else -> {
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+                }
+            }
+            setSelection(text.length)
+        }
+    })
 }
 
 

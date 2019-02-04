@@ -1,6 +1,8 @@
 package org.supportcompact.ktx
 
 import android.content.Context
+import android.support.annotation.ArrayRes
+import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
 import libs.mjn.prettydialog.PrettyDialog
 import org.supportcompact.R
@@ -155,6 +157,17 @@ fun Context.showListDialog(title: String?, list: ArrayList<String>, onItemSelect
             .setItems(data) { dialogInterface, which ->
                 dialogInterface.dismiss()
                 onItemSelected?.invoke(data[which])
+            }
+            .create().show()
+}
+
+fun Context.showListDialog(@StringRes title: Int, @ArrayRes list: Int, onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data = resources.getTextArray(list)
+    mDialog.setTitle(title)
+            .setItems(list) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which] as String)
             }
             .create().show()
 }

@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.tarrakki.module.webview.WebViewVM" />
+            type="com.tarrakki.module.ekyc.EKYCWebViewVM" />
     </data>
 
     <android.support.constraint.ConstraintLayout

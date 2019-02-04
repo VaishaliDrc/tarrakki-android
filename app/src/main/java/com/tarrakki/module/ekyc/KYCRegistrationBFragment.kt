@@ -44,6 +44,6 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(basket: Bundle) = KYCRegistrationBFragment().apply { arguments = basket }
+        fun newInstance(basket: Bundle? = null) = KYCRegistrationBFragment().apply { arguments = basket }
     }
 }

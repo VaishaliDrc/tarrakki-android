@@ -159,13 +159,6 @@
     <string name="share">Share</string>
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
 
-    <string-array name="automobile">
-        <item>Car</item>
-        <item>Bike</item>
-        <item>Auto-Rickshaw</item>
-        <item>Other</item>
-    </string-array>
-
     <string-array name="durations">
         <item>Month(s)</item>
         <item>Year(s)</item>
@@ -179,119 +172,47 @@
         <item>HIGH</item>
     </string-array>
 
-    <string-array name="category">
-        <item>All</item>
-        <item>Equity</item>
-        <item>Fixed Income</item>
-        <item>Allocation</item>
-        <item>Alternative</item>
-        <item>Money Market</item>
+    <string-array name="address_type">
+        <item>Residential</item>
+        <item>Business</item>
+        <item>Registered Office</item>
     </string-array>
 
-    <string-array name="all">
-        <item>All</item>
-        <item>Large-Cap</item>
-        <item>Mid-Cap</item>
-        <item>Small-Cap</item>
-        <item>Multi-Cap</item>
-        <item>Large &amp; Mid-Cap</item>
-        <item>Global-Other</item>
-        <item>ELSS</item>
-        <item>Value Funds</item>
-        <item>Contra Funds</item>
-        <item>Dividend Yield Funds</item>
-        <item>Focused Funds</item>
-        <item>Sector - Energy</item>
-        <item>Sector - Financial Services</item>
-        <item>Sector - FMCG</item>
-        <item>Sector - Healthcare</item>
-        <item>Sector - Precious Metals</item>
-        <item>Sector - Technology</item>
-        <item>Ultra Short Duration</item>
-        <item>Low Duration</item>
-        <item>Money Market</item>
-        <item>Short Duration</item>
-        <item>Medium Duration</item>
-        <item>Medium to Long Duration</item>
-        <item>Long Duration</item>
-        <item>Dynamic Bond</item>
-        <item>Corporate Bond Funds</item>
-        <item>Credit Risk</item>
-        <item>Baning &amp; PSU</item>
-        <item>Government Bond</item>
-        <item>Floating Rate</item>
-        <item>Conservative</item>
-        <item>Balanced</item>
-        <item>Aggressive</item>
-        <item>Dynamic Asset</item>
-        <item>Multi Asset</item>
-        <item>Equity Savings</item>
-        <item>Retirement</item>
-        <item>Children\'s</item>
-        <item>Fund of Funds</item>
-        <item>Arbitrage Fund</item>
-        <item>Liquid</item>
-        <item>Overnight</item>
+    <string-array name="indian_states">
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chhattisgarh</item>
+        <item>Chandigarh</item>
+        <item>Dadra and Nagar Haveli</item>
+        <item>Daman and Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Orissa</item>
+        <item>Punjab</item>
+        <item>Pondicherry</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Tripura</item>
+        <item>Uttar Pradesh</item>
+        <item>Uttarakhand</item>
+        <item>West Bengal</item>
     </string-array>
-
-    <string-array name="equity">
-        <item>Large-Cap</item>
-        <item>Mid-Cap</item>
-        <item>Small-Cap</item>
-        <item>Multi-Cap</item>
-        <item>Large &amp; Mid-Cap</item>
-        <item>Global-Other</item>
-        <item>ELSS</item>
-        <item>Value Funds</item>
-        <item>Contra Funds</item>
-        <item>Dividend Yield Funds</item>
-        <item>Focused Funds</item>
-        <item>Sector - Energy</item>
-        <item>Sector - Financial Services</item>
-        <item>Sector - FMCG</item>
-        <item>Sector - Healthcare</item>
-        <item>Sector - Precious Metals</item>
-        <item>Sector - Technology</item>
-
-    </string-array>
-
-    <string-array name="fixed_income">
-        <item>Ultra Short Duration</item>
-        <item>Low Duration</item>
-        <item>Money Market</item>
-        <item>Short Duration</item>
-        <item>Medium Duration</item>
-        <item>Medium to Long Duration</item>
-        <item>Long Duration</item>
-        <item>Dynamic Bond</item>
-        <item>Corporate Bond Funds</item>
-        <item>Credit Risk</item>
-        <item>Baning &amp; PSU</item>
-        <item>Government Bond</item>
-        <item>Floating Rate</item>
-    </string-array>
-
-    <string-array name="allocation">
-        <item>Conservative</item>
-        <item>Balanced</item>
-        <item>Aggressive</item>
-        <item>Dynamic Asset</item>
-        <item>Multi Asset</item>
-        <item>Equity Savings</item>
-        <item>Retirement</item>
-        <item>Children\'s</item>
-        <item>Fund of Funds</item>
-    </string-array>
-
-    <string-array name="alternative">
-        <item>Arbitrage Fund</item>
-    </string-array>
-
-    <string-array name="money_market">
-        <item>Liquid</item>
-        <item>Overnight</item>
-    </string-array>
-
 
     <string name="temp_description">
         Are you looking for Best Performing Tax Saving Mutual Funds for Investment? As the financial year, 2018-19 is about to end, you must have started tax saving and tax planning exercise of 2019. ELSS – Tax saving mutual funds play a vital role during tax planning exercise. ELSS (Equity Linked Saving Scheme) is one of the best ways to save tax and generate wealth.\nELSS offers tax benefits under section 80 C of the Income Tax Act. ELSS comes with a lock-in period of 3 years. However, ELSS offers multiple benefits to the investor.\n\n<p><strong>Key Features of ELSS funds</strong></p><ul><li>ELSS is equity linked saving scheme. ELSS is a type of mutual fund that invests the major corpus in the equity market.</li><li>ELSS comes with both dividend and growth options.</li><li>ELSS funds come with Lock-in period of 3 years from the date of purchase.</li><li>Long-term capital gain tax is applicable to ELSS.</li><li>Investment in ELSS can be started with a minimum amount of Rs.500.</li></ul>\n\n<p><strong>Benefits of Investing in ELSS Mutual Funds</strong></p><ul><li>ELSS is dual purpose investment. You can save tax as well as generate wealth by making the investment in ELSS.</li><li>An investor can claim a tax deduction up to 1.5 Lakh by making the investment in ELSS.</li><li>The lock-in period of ELSS is lowest compared to all other tax saving options such as tax saving FD or PPF.</li><li>ELSS provides higher returns compared to other tax saving instruments.</li><li>ELSS fund offers SIP investment option, which brings discipline in regular investing.</li><li>ELSS has no fixed maturity date or period. You can continue to hold ELSS as long as you can.</li><li>ELSS is the best tax saving instrument in terms of expected return, lock-in period and periodicity of investment.</li></ul>
@@ -449,4 +370,6 @@
     <string name="enter_tin_number">Enter TIN Number</string>
     <string name="country_of_issue">Country of Issue</string>
     <string name="select_country">Select Country</string>
+    <string name="select_address_type">Select Address Type</string>
+    <string name="select_state">Select State</string>
 </resources>
