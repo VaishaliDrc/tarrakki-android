@@ -90,7 +90,7 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
             if (item is HomeData.Data.Goal) {
                 startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
             } else if (item is HomeData.Data.Category.SecondLevelCategory) {
-                if (!item.isGoal) {
+                /*if (!item.isGoal) {
                     if (item.isThematic) {
                         val bundle = Bundle().apply {
                             putString(CATEGORYNAME, item.categoryName)
@@ -113,17 +113,12 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
                                         investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                                 android.arch.lifecycle.Observer { response ->
                                                     val bundle = Bundle().apply {
-                                                        putString("categoryName", item.categoryName)
-                                                        putString("categoryImage", item.categoryImage)
-                                                        putString("categoryDes", item.categoryDesctiption)
-                                                        putString("categoryshortDes", item.categoryshortDesctiption)
-                                                        putString("returnLevel", item.returnType)
-                                                        putString("riskLevel", item.riskType)
                                                         putInt("sip", amountSIP)
                                                         putInt("lumpsump", amountLumpsum)
                                                         putInt("isFrom", 2)
                                                     }
                                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                                    EventBus.getDefault().postSticky(item)
                                                     EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
                                                     EventBus.getDefault().postSticky(response?.data)
                                                 })
@@ -138,12 +133,14 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
                                 postSticky(item)
                             }
                         } else {
+
                             context?.simpleAlert(getString(R.string.alert_third_level_category))
                         }
                     }
                 } else {
                     startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
-                }
+                }*/
+                activity?.onInvestmentStrategies(item)
             }
         })
 

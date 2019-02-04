@@ -302,22 +302,51 @@ data class FundsDetails(
         }
 
     var minSIPAmount = ""
-        get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
-            iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount?.toCurrency()
-                    ?: "NA"
-        } else ""
+        get() {
+            var sipAmount = "NA"
+            if (iaipAip != null && iaipAip.isNotEmpty()) {
+                val aipAip = iaipAip.firstOrNull { it ->
+                    "SIP".equals(it.siType, true)
+                            && "Monthly".equals(it.frequency, true)
+                }
+                if (aipAip != null) {
+                    val maxTenure = iaipAip.maxBy { it.minTenure }
+                    if (maxTenure != null) {
+                        sipAmount = maxTenure.minAmount?.toCurrency() ?: "NA"
+                    }
+                }
+            }
+            return sipAmount
+        }
 
     var lumpsumAmount: String = ""
         get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "NA"
 
-    var validminSIPAmount = 0.00
+    /*var validminSIPAmount = 0.00
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
             iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount
                     ?: 0.00
-        } else 0.00
+        } else 0.00*/
+    var validminSIPAmount = 0.0
+        get() {
+            var sipAmount = 100.0
+            if (iaipAip != null && iaipAip.isNotEmpty()) {
+                val aipAip = iaipAip.firstOrNull { it ->
+                    "SIP".equals(it.siType, true)
+                            && "Monthly".equals(it.frequency, true)
+                }
+                if (aipAip != null) {
+                    val maxTenure = iaipAip.maxBy { it.minTenure }
+                    if (maxTenure != null) {
+                        sipAmount = maxTenure.minAmount ?: 0.0
+                    }
+                }
+            }
+            return sipAmount
+        }
 
-    var validminlumpsumAmount = 0.00
-        get() = piMinimumInitial?.toDouble() ?: 0.00
+    var validminlumpsumAmount = 0.0
+        get() = piMinimumInitial?.toDouble() ?: 0.0
 
     var vol = ""
         get() = parseToPercentageOrNA(standardDeviation5Yr)

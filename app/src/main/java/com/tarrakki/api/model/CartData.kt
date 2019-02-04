@@ -46,10 +46,22 @@ data class CartData(
                 val goal: Goal
         ) : BaseObservable(), Serializable {
             var validminSIPAmount = 0
-                get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
-                    iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount
-                            ?: 0
-                } else 0
+                get() {
+                    var sipAmount = 100
+                    if (iaipAip != null && iaipAip.isNotEmpty()) {
+                        val aipAip = iaipAip.firstOrNull { it ->
+                            "SIP".equals(it.siType, true)
+                                    && "Monthly".equals(it.frequency, true)
+                        }
+                        if (aipAip != null) {
+                            val maxTenure = iaipAip.maxBy { it.minTenure }
+                            if (maxTenure != null) {
+                                sipAmount = maxTenure.minAmount ?: 0
+                            }
+                        }
+                    }
+                    return sipAmount
+                }
 
             var validminlumpsumAmount = 0
                 get() = piMinimumInitial?.toInt() ?: 0

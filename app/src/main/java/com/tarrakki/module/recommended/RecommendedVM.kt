@@ -27,6 +27,7 @@ class RecommendedVM : FragmentViewModel() {
     val lumpsumpFor = ObservableField<Spanned>()
     var userGoalId: String = ""
 
+    val secondLevelCategory = MutableLiveData<HomeData.Data.Category.SecondLevelCategory>()
     val thirdLevelCategory = MutableLiveData<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>()
     val recommendedFunds = MutableLiveData<List<InvestmentRecommendFundResponse.Data>>()
 

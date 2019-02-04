@@ -2,6 +2,7 @@ package org.supportcompact.ktx
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 
 
@@ -24,6 +25,14 @@ fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment
 
 fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
+    fm?.beginTransaction()
+            ?.replace(container, fragment, fragment::class.java.name)
+            ?.addToBackStack(fragment::class.java.name)
+            ?.commit()
+}
+
+fun FragmentActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
+    val fm = this.supportFragmentManager
     fm?.beginTransaction()
             ?.replace(container, fragment, fragment::class.java.name)
             ?.addToBackStack(fragment::class.java.name)

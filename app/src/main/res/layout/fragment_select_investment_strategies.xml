@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyVM" />
@@ -23,12 +25,12 @@
             android:padding="@dimen/default_space">
 
             <android.support.constraint.ConstraintLayout
+                android:visibility="@{vm.isSingleInvestment==false?View.GONE:View.VISIBLE}"
                 android:id="@+id/lyt_single_investment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
-                android:padding="@dimen/space_8"
-                android:visibility="gone">
+                android:padding="@dimen/space_8">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/view2"
@@ -45,7 +47,7 @@
 
                     <ImageView
                         android:id="@+id/imageView1"
-                        imgUrl="@{vm.secondlevel.categoryImage}"
+                        imgUrl="@{vm.singleInvestmentImg}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingStart="@dimen/space_8"
@@ -54,6 +56,7 @@
                         tools:src="@drawable/own_a_home" />
 
                     <TextView
+                        android:id="@+id/tv_category_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
@@ -62,8 +65,8 @@
                         android:maxLines="2"
                         android:minLines="2"
                         android:paddingStart="@dimen/space_8"
+                        android:text="@{vm.singleInvestmentCategoryName}"
                         android:paddingEnd="@dimen/space_8"
-                        android:text="@{vm.secondlevel.categoryName}"
                         android:textAllCaps="true"
                         android:textColor="@color/semi_black"
                         android:textSize="@dimen/sp10"
@@ -81,13 +84,12 @@
                     android:background="@drawable/shape_risk_level_bg"
                     android:drawablePadding="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
+                    android:text="@{vm.singleInvestmentRiskType}"
                     android:gravity="center_vertical"
                     android:minWidth="120dp"
                     android:padding="@dimen/space_8"
-                    android:text="@{vm.secondlevel.riskType}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/name_aggressive"
-                    android:visibility="@{vm.secondlevel.riskLevelVisible}"
                     app:layout_constraintEnd_toStartOf="@id/glCenter"
                     app:layout_constraintTop_toBottomOf="@id/view2"
                     tools:text="High Risk" />
@@ -105,10 +107,9 @@
                     android:gravity="center_vertical"
                     android:minWidth="120dp"
                     android:padding="@dimen/space_8"
-                    android:text="@{vm.secondlevel.returnType}"
+                    android:text="@{vm.singleInvestmentReturntype}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/pdlg_color_green"
-                    android:visibility="@{vm.secondlevel.returnRiskVisible}"
                     app:layout_constraintStart_toStartOf="@id/glCenter"
                     app:layout_constraintTop_toBottomOf="@id/view2"
                     tools:text="High Return" />
@@ -134,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:lineSpacingExtra="@dimen/space_4"
-                    android:text="@{vm.secondlevel.categoryshortDesctiption}"
+                    android:text="@{vm.singleInvestmentCategoryShortDes}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintTop_toBottomOf="@id/mDivider"
                     tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
@@ -155,8 +156,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
+                    android:text="@{vm.singleInvestmentCategoryDesc}"
                     android:lineSpacingExtra="@dimen/space_4"
-                    android:text="@{vm.secondlevel.categoryDesctiption}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle"
                     tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
@@ -177,11 +178,11 @@
             </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
+                android:visibility="@{vm.isSingleInvestment==true?View.GONE:View.VISIBLE}"
                 android:id="@+id/lyt_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="vertical">
 
                 <org.supportcompact.widgets.WrapContentViewPager
                     android:id="@+id/mPager"

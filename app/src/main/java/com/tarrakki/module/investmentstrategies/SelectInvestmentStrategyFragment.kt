@@ -1,7 +1,6 @@
 package com.tarrakki.module.investmentstrategies
 
 import android.os.Bundle
-import android.view.View
 import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentSelectInvestmentStrategiesBinding
@@ -10,9 +9,9 @@ import com.tarrakki.investmentRecommendation
 import com.tarrakki.investmentStragiesDialog
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
+import com.tarrakki.module.home.ISTHEMATICINVESTMENT
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import kotlinx.android.synthetic.main.fragment_select_investment_strategies.*
-import kotlinx.android.synthetic.main.fragment_select_investment_strategies.view.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
@@ -26,8 +25,6 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
         get() = true
     override val title: String
         get() = arguments?.getString(CATEGORYNAME).toString()
-
-    var isSingleInvestment: Boolean? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_select_investment_strategies
@@ -43,29 +40,45 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
     }
 
     override fun createReference() {
-        isSingleInvestment = arguments?.getBoolean(ISSINGLEINVESTMENT)
+        getViewModel().isSingleInvestment.set(arguments?.getBoolean(ISSINGLEINVESTMENT))
+        getViewModel().isThematicInvestment.set(arguments?.getBoolean(ISTHEMATICINVESTMENT))
 
         btnContinue?.setOnClickListener {
-            val category = getViewModel().secondlevel.get()
-            category?.thirdLevelCategory?.get(0)?.let { it1 ->
-                context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                    investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                            android.arch.lifecycle.Observer { response ->
-                                val bundle = Bundle().apply {
-                                    putString("categoryName", category.categoryName)
-                                    putString("categoryImage", category.categoryImage)
-                                    putString("categoryDes", category.categoryDesctiption)
-                                    putString("categoryshortDes", category.categoryshortDesctiption)
-                                    putString("returnLevel", category.returnType)
-                                    putString("riskLevel", category.riskType)
-                                    putInt("isFrom", 2)
-                                    putInt("sip", amountSIP)
-                                    putInt("lumpsump", amountLumpsum)
-                                }
-                                startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
-                                EventBus.getDefault().postSticky(category.thirdLevelCategory?.get(0))
-                                EventBus.getDefault().postSticky(response?.data)
-                            })
+            if (getViewModel().isThematicInvestment.get()==true){
+                getViewModel().thirdlevel.get()?.let { it1 ->
+                    context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
+                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                                android.arch.lifecycle.Observer { response ->
+                                    val bundle = Bundle().apply {
+                                        putInt("isFrom", 1)
+                                        putInt("sip", amountSIP)
+                                        putInt("lumpsump", amountLumpsum)
+                                    }
+                                    startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                    EventBus.getDefault().postSticky(getViewModel().secondlevel.get())
+                                    EventBus.getDefault().postSticky(it1)
+                                    EventBus.getDefault().postSticky(response?.data)
+                                })
+                    }
+                }
+            }else{
+                val category = getViewModel().secondlevel.get()
+                category?.thirdLevelCategory?.get(0)?.let { it1 ->
+                    context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
+                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                                android.arch.lifecycle.Observer { response ->
+                                    val bundle = Bundle().apply {
+                                        putInt("isFrom", 2)
+                                        putInt("sip", amountSIP)
+                                        putInt("lumpsump", amountLumpsum)
+                                        putBoolean("isThematic", false)
+                                    }
+                                    startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                    EventBus.getDefault().postSticky(category.thirdLevelCategory.get(0))
+                                    EventBus.getDefault().postSticky(category)
+                                    EventBus.getDefault().postSticky(response?.data)
+                                })
+                    }
                 }
             }
         }
@@ -77,14 +90,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
         }
         mPager?.setPagingEnabled(true)
 
-        if (isSingleInvestment == true) {
-            tvNoteToInvestorsi?.visibility = View.GONE
-            lyt_pager?.visibility = View.GONE
-            lyt_single_investment?.visibility = View.VISIBLE
-        } else {
-            tvNoteToInvestorsi?.visibility = View.VISIBLE
-            lyt_pager.visibility = View.VISIBLE
-            lyt_single_investment?.visibility = View.GONE
+        if (getViewModel().isSingleInvestment.get() == true) {
+            // singleInvestmentUIFromSecondLevel()
         }
     }
 
@@ -98,10 +105,17 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
         getViewModel().txtnoteToInvestors.set(category.noteToInvestor)
         getViewModel().secondlevel.set(category)
         setAdapter(category)
-        removeStickyEvent(category)
+        //removeStickyEvent(category)
 
-        getViewModel().secondlevel.get()?.riskLevelDrawable?.let { tvRiskLevel?.setCompoundDrawablesWithIntrinsicBounds(it, 0, 0, 0) }
-        getViewModel().secondlevel.get()?.returnRiskDrawable?.let { tvReturnLevel?.setCompoundDrawablesWithIntrinsicBounds(it, 0, 0, 0) }
+        singleInvestmentUIFromSecondLevel()
+    }
+
+    @Subscribe(sticky = true)
+    fun onThematicReceive(category: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory) {
+        getViewModel().thirdlevel.set(category)
+        //removeStickyEvent(category)
+
+        singleInvestmentUIFromThirdLevel()
     }
 
     private fun setAdapter(category: HomeData.Data.Category.SecondLevelCategory) {
@@ -135,17 +149,12 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                     investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                             android.arch.lifecycle.Observer { response ->
                                 val bundle = Bundle().apply {
-                                    putString("categoryName", category.categoryName)
-                                    putString("categoryImage", category.categoryImage)
-                                    putString("categoryDes", item.categoryDesctiption)
-                                    putString("categoryshortDes", item.shortDescroption)
-                                    putString("returnLevel", item.returnType)
-                                    putString("riskLevel", item.riskType)
                                     putInt("isFrom", 1)
                                     putInt("sip", amountSIP)
                                     putInt("lumpsump", amountLumpsum)
                                 }
                                 startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                EventBus.getDefault().postSticky(category)
                                 EventBus.getDefault().postSticky(item)
                                 EventBus.getDefault().postSticky(response?.data)
                             })
@@ -154,5 +163,35 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             binder.executePendingBindings()
         }
         pageIndicator?.setViewPager(mPager)
+    }
+
+    private fun singleInvestmentUIFromSecondLevel() {
+        getViewModel().secondlevel.get()?.let {
+            tvRiskLevel?.setCompoundDrawablesWithIntrinsicBounds(it.riskLevelDrawable, 0, 0, 0)
+            tvReturnLevel?.setCompoundDrawablesWithIntrinsicBounds(it.returnRiskDrawable, 0, 0, 0)
+            tvReturnLevel?.text = it.returnLevel
+            tvRiskLevel?.text = it.riskLevel
+
+            getViewModel().singleInvestmentReturntype.set(it.returnLevel)
+            getViewModel().singleInvestmentRiskType.set(it.riskLevel)
+            getViewModel().singleInvestmentImg.set(it.categoryImage)
+            getViewModel().singleInvestmentCategoryName.set(it.categoryName)
+            getViewModel().singleInvestmentCategoryShortDes.set(it.categoryshortDesctiption)
+            getViewModel().singleInvestmentCategoryDesc.set(it.categoryDesctiption)
+        }
+    }
+
+    private fun singleInvestmentUIFromThirdLevel() {
+        getViewModel().thirdlevel.get()?.let {
+            tvRiskLevel?.setCompoundDrawablesWithIntrinsicBounds(it.riskLevelDrawable, 0, 0, 0)
+            tvReturnLevel?.setCompoundDrawablesWithIntrinsicBounds(it.returnRiskDrawable, 0, 0, 0)
+
+            getViewModel().singleInvestmentReturntype.set(it.returnLevel)
+            getViewModel().singleInvestmentRiskType.set(it.riskLevel)
+            getViewModel().singleInvestmentImg.set(it.categoryImage)
+            getViewModel().singleInvestmentCategoryName.set(it.categoryName)
+            getViewModel().singleInvestmentCategoryShortDes.set(it.shortDescroption)
+            getViewModel().singleInvestmentCategoryDesc.set(it.categoryDesctiption)
+        }
     }
 }

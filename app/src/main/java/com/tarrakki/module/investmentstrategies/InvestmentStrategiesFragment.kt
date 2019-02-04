@@ -9,14 +9,14 @@ import com.tarrakki.databinding.FragmentInvestmentStrategiesBinding
 import com.tarrakki.databinding.RowInvestmentStrategiesItemBinding
 import com.tarrakki.databinding.RowThirdLevelInvestmentBinding
 import com.tarrakki.investmentRecommendation
-import com.tarrakki.investmentRecommendationToCart
 import com.tarrakki.investmentStragiesDialog
-import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
+import com.tarrakki.module.home.ISTHEMATICINVESTMENT
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_investment_strategies.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -56,7 +56,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                     it as ArrayList<HomeData.Data.Category.SecondLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory, binder: RowInvestmentStrategiesItemBinding, position: Int ->
                 binder.widget = item
                 binder.root.setOnClickListener { view ->
-                    if (!item.isGoal) {
+                    /*if (!item.isGoal) {
                         if (item.isThematic) {
                             val bundle = Bundle().apply {
                                 putString(CATEGORYNAME, item.categoryName)
@@ -67,29 +67,24 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                             val thirdLevelCategory = item.thirdLevelCategory
                             if (thirdLevelCategory.isNotEmpty()) {
                                 if (thirdLevelCategory[0].categoryName.isNullOrEmpty()) {
-                                    if (!item.categoryDesctiption.isNullOrEmpty()){
+                                    if (!item.categoryDesctiption.isNullOrEmpty()) {
                                         val bundle = Bundle().apply {
                                             putString(CATEGORYNAME, item.sectionName)
-                                            putBoolean(ISSINGLEINVESTMENT,true)
+                                            putBoolean(ISSINGLEINVESTMENT, true)
                                         }
                                         startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                         postSticky(item)
-                                    }else{
+                                    } else {
                                         context?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
                                             investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                                     android.arch.lifecycle.Observer { response ->
                                                         val bundle = Bundle().apply {
-                                                            putString("categoryName", item.categoryName)
-                                                            putString("categoryImage", item.categoryImage)
-                                                            putString("categoryDes", item.categoryDesctiption)
-                                                            putString("categoryshortDes", item.categoryshortDesctiption)
-                                                            putString("returnLevel", item.returnType)
-                                                            putString("riskLevel", item.riskType)
                                                             putInt("sip", amountSIP)
                                                             putInt("lumpsump", amountLumpsum)
                                                             putInt("isFrom", 2)
                                                         }
                                                         startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                                        EventBus.getDefault().postSticky(item)
                                                         EventBus.getDefault().postSticky(item.thirdLevelCategory[0])
                                                         EventBus.getDefault().postSticky(response?.data)
                                                     })
@@ -98,19 +93,20 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                                 } else {
                                     val bundle = Bundle().apply {
                                         putString(CATEGORYNAME, item.sectionName)
-                                        putBoolean(ISSINGLEINVESTMENT,false)
+                                        putBoolean(ISSINGLEINVESTMENT, false)
                                     }
                                     startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
                                     postSticky(item)
                                 }
-                            }else{
+                            } else {
 
                                 context?.simpleAlert(getString(R.string.alert_third_level_category))
                             }
                         }
                     } else {
                         startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
-                    }
+                    }*/
+                    activity?.onInvestmentStrategies(item)
                 }
                 binder.executePendingBindings()
             }
@@ -121,24 +117,30 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                     it?.thirdLevelCategory as ArrayList<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory, binder: RowThirdLevelInvestmentBinding, position: Int ->
                 binder.widget = item
                 binder.root.setOnClickListener { view ->
-                    context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                                android.arch.lifecycle.Observer { response ->
-                                    val bundle = Bundle().apply {
-                                        putString("categoryName",it.categoryName)
-                                        putString("categoryImage",it.categoryImage)
-                                        putString("categoryDes",it.categoryDesctiption)
-                                        putString("categoryshortDes", item.shortDescroption)
-                                        putString("returnLevel", item.returnType)
-                                        putString("riskLevel", item.riskType)
-                                        putInt("isFrom",2)
-                                        putInt("sip", amountSIP)
-                                        putInt("lumpsump", amountLumpsum)
-                                    }
-                                    startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
-                                    EventBus.getDefault().postSticky(item)
-                                    EventBus.getDefault().postSticky(response?.data)
-                                })
+                    if (!item.categoryDesctiption.isNullOrEmpty()) {
+                        val bundle = Bundle().apply {
+                            putString(CATEGORYNAME, title)
+                            putBoolean(ISSINGLEINVESTMENT, true)
+                            putBoolean(ISTHEMATICINVESTMENT, true)
+                        }
+                        startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
+                        EventBus.getDefault().postSticky(it)
+                        EventBus.getDefault().postSticky(item)
+                    } else {
+                        context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
+                            investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                                    android.arch.lifecycle.Observer { response ->
+                                        val bundle = Bundle().apply {
+                                            putInt("isFrom", 2)
+                                            putInt("sip", amountSIP)
+                                            putInt("lumpsump", amountLumpsum)
+                                        }
+                                        startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
+                                        EventBus.getDefault().postSticky(it)
+                                        EventBus.getDefault().postSticky(item)
+                                        EventBus.getDefault().postSticky(response?.data)
+                                    })
+                        }
                     }
                 }
                 binder.executePendingBindings()
@@ -156,7 +158,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
     fun onThemeticReceive(category: HomeData.Data.Category.SecondLevelCategory) {
         if (getViewModel().secondaryCategoriesList.value == null) {
             getViewModel().secondaryCategories.value = category
-            removeStickyEvent(category)
+            //removeStickyEvent(category)
         }
     }
 

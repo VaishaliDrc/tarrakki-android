@@ -33,14 +33,14 @@ object ApiClient {
      * Test Url
      **/
 
-   /* private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url*/
+    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
     /**
      * Live Url
      **/
 
-    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
     /**
      * @return [Retrofit] object its single-tone
      */

@@ -23,9 +23,17 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
     val txtnoteToInvestors = ObservableField("")
     val noteToInvestors = ObservableField(true)
 
-    val category = MutableLiveData<HomeData.Data.Category.SecondLevelCategory>()
     val secondlevel = ObservableField<HomeData.Data.Category.SecondLevelCategory>()
+    val thirdlevel = ObservableField<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>()
 
+    val isSingleInvestment = ObservableField(true)
+    val isThematicInvestment = ObservableField(false)
+    val singleInvestmentImg = ObservableField("")
+    val singleInvestmentCategoryName = ObservableField("")
+    val singleInvestmentCategoryShortDes = ObservableField("")
+    val singleInvestmentCategoryDesc = ObservableField("")
+    val singleInvestmentReturntype = ObservableField("")
+    val singleInvestmentRiskType = ObservableField("")
 }
 
 data class InvestmentOption(
