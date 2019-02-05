@@ -136,6 +136,8 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
                 funds as ArrayList<InvestmentRecommendFundResponse.Data>) { item: InvestmentRecommendFundResponse.Data, binder: RowAmcListItemBinding, position ->
             binder.vm = item
             binder.executePendingBindings()
+
+
         }
     }
 

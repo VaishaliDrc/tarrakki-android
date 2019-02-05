@@ -151,6 +151,7 @@
                     tools:listitem="@layout/row_cart_item" />
 
                 <Button
+                    android:id="@+id/btn_check_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/space_8"
@@ -158,7 +159,7 @@
                     android:fontFamily="@font/lato_bold"
                     android:paddingStart="@dimen/space_32"
                     android:paddingEnd="@dimen/space_32"
-                    android:text="@string/place_order"
+                    android:text="@string/checkout"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rvCartItems" />
