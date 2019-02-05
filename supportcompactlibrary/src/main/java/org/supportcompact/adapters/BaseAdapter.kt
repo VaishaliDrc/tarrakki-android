@@ -23,7 +23,8 @@ fun <T, U : ViewDataBinding> RecyclerView.setUpRecyclerView(@LayoutRes layoutRes
 /***
  * This generic class to implement recycler-view's adapter.
  * */
-class BaseAdapter<in T, U : ViewDataBinding>(recyclerView: RecyclerView, @LayoutRes private val layoutRes: Int, arrList: ArrayList<T>, private val onBind: (item: T, binder: U, position: Int) -> Unit) : RecyclerView.Adapter<BaseAdapter.ViewHolder<U>>() {
+class BaseAdapter<in T, U : ViewDataBinding>(recyclerView: RecyclerView,
+                                             @LayoutRes private val layoutRes: Int, arrList: ArrayList<T>, private val onBind: (item: T, binder: U, position: Int) -> Unit) : RecyclerView.Adapter<BaseAdapter.ViewHolder<U>>() {
 
     private var listItem = arrList
 
@@ -33,6 +34,10 @@ class BaseAdapter<in T, U : ViewDataBinding>(recyclerView: RecyclerView, @Layout
 
     override fun getItemCount(): Int {
         return listItem.size
+    }
+
+    fun getItems(): ArrayList<in T> {
+        return listItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<U> {

@@ -5,7 +5,6 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
@@ -16,11 +15,14 @@ import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
 import java.util.*
 
 class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
+
+    var adapter: BaseAdapter<CartData.Data.OrderLine, RowCartItemBinding>? = null
 
     override val isBackEnabled: Boolean
         get() = true
@@ -45,7 +47,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         val cartApi = Observer<CartData> { apiResponse ->
             apiResponse?.let {
-
                 if (it.data.totalLumpsum == null)
                     getViewModel().totalLumpsum.set("NA")
                 else
@@ -61,7 +62,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
                 App.INSTANCE.cartCount.value = getViewModel().funds.size
 
-                rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
+                adapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
                     binder.fund = item
                     item.hasOneTimeAmount = try {
                         val num = item.lumpsumAmount.toCurrency()
@@ -142,7 +143,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 }
             }
         }
-        getViewModel().getCartItem().observe(this, cartApi)
+
         getViewModel().cartUpdate.observe(this, Observer {
             getViewModel().getCartItem().observe(this, cartApi)
         })
@@ -171,6 +172,12 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             }
             return@setOnKeyListener false
         }
+
+        btn_check_out?.setOnClickListener {
+            validateCart()
+        }
+
+        getViewModel().getCartItem().observe(this, cartApi)
     }
 
     private fun updateCartUI() {
@@ -214,5 +221,47 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun validateCart() {
+        val cartItems = adapter?.getItems()
+        loop@ for (i in 0 until (cartItems?.size?.toInt() ?: 0)){
+            val item = cartItems?.get(i) as CartData.Data.OrderLine
+            if (item.day?.isNullOrEmpty()==false){
+                val sipAmount = item.sipAmount.toInt()
+                val lumpsumpAmount = item.lumpsumAmount.toInt()
+                val minlumpsumpAmount = item.validminlumpsumAmount
+                val minsipAmount = item.validminSIPAmount
+
+                if (lumpsumpAmount == 0 && sipAmount == 0) {
+                    context?.simpleAlert("Please enter either the lumpsum or the SIP amount first."){
+                        rvCartItems?.smoothScrollToPosition(i)
+                    }
+                    break@loop
+                }
+                if (lumpsumpAmount != 0) {
+                    if (lumpsumpAmount < minlumpsumpAmount) {
+                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount.toCurrency()}."){
+                            rvCartItems?.smoothScrollToPosition(i)
+                        }
+                        break@loop
+                    }
+                }
+                if (sipAmount != 0) {
+                    if (sipAmount < minsipAmount) {
+                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount.toCurrency()}."){
+                            rvCartItems?.smoothScrollToPosition(i)
+                        }
+                        break@loop
+                    }
+                }
+
+            }else{
+                //rvCartItems?.smoothScrollToPosition(i)
+                context?.simpleAlert("Please enter Start Day."){
+                    rvCartItems?.smoothScrollToPosition(i)
+                }
+                break@loop
+            }
+        }
+    }
 
 }

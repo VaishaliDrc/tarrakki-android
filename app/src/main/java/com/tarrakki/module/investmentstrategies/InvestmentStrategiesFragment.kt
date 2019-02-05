@@ -48,7 +48,6 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
     }
 
     override fun createReference() {
-
         rvInvestmentStrategies.addItemDecoration(ItemOffsetDecoration(rvInvestmentStrategies.context, R.dimen.space_4))
 
         getViewModel().secondaryCategoriesList.observe(this, Observer {

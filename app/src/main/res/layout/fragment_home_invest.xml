@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="At Tarrakki, We Offers"
+                    android:text="At Tarrakki, We Offer"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@android:color/black" />
 
