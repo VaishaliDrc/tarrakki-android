@@ -1,8 +1,23 @@
 package com.tarrakki.module.register
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.google.gson.JsonObject
+import com.tarrakki.App
+import com.tarrakki.R
+import com.tarrakki.api.AES
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.printResponse
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.e
+import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.SingleCallback
+import org.supportcompact.networking.subscribeToSingle
 
 class RegisterVM : ActivityViewModel() {
 
@@ -19,25 +34,28 @@ class RegisterVM : ActivityViewModel() {
         return json
     }
 
-    /*fun onSignUp(): MutableLiveData<SignUpresponse> {
-        val onSignUp = MutableLiveData<SignUpresponse>()
+    fun getOTP(mobile: String?, email: String?, type: String = "signup"): MutableLiveData<ApiResponse> {
+        val getOTP = MutableLiveData<ApiResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
-        json.addProperty("email", "${email.get()}")
-        json.addProperty("mobile", "${mobile.get()}")
-        json.addProperty("password", "${password.get()}")
-        val authData = AES.encrypt(json.toString())
+        json.addProperty("mobile", mobile)
+        json.addProperty("email", email)
+        json.addProperty("type", type)
+        e("Plain Data=>", json.toString())
+        val data = AES.encrypt(json.toString())
+        e("Encrypted Data=>", data)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).onSignUp(authData),
-                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
+                apiNames = WebserviceBuilder.ApiNames.getOTP,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
-                        if (o is SignUpresponse) {
-                            if ((o.status?.code == 1)) {
-                                onSignUp.value = o
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                getOTP.value = o
                             } else {
-                                EventBus.getDefault().post(ShowError(o.status.message))
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
@@ -50,7 +68,6 @@ class RegisterVM : ActivityViewModel() {
                     }
                 }
         )
-        return onSignUp
-    }*/
-
+        return getOTP
+    }
 }

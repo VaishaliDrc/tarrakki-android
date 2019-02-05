@@ -11,11 +11,15 @@ import com.tarrakki.databinding.ActivityRegisterBinding
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_register.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreActivity
+import org.supportcompact.ktx.dismissKeyboard
+import org.supportcompact.ktx.isValidPassword
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startActivity
 
 const val SIGNUP_DATA = "signup_data"
+const val SIGNUP_OTP_DATA = "signup_otp_data"
 
 class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
 
@@ -57,9 +61,18 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 simpleAlert("Please enter mobile number") {
                     edtMobile?.requestFocus()
                 }
+            } else if (getViewModel().mobile.get()?.length != 10) {
+                simpleAlert("Please enter valid mobile number") {
+                    edtMobile?.requestFocus()
+                }
             } else if (getViewModel().password.get()?.length == 0) {
                 simpleAlert("Please enter password") {
                     edtPassword?.requestFocus()
+                }
+            } else if (!getViewModel().password.isValidPassword()) {
+                simpleAlert(getString(R.string.valid_password)) {
+                    edtPassword?.requestFocus()
+                    edtPassword?.setSelection(edtPassword.text.length)
                 }
             } else if (getViewModel().confirmPassword.get()?.length == 0) {
                 simpleAlert("Please enter confirm password") {
@@ -70,12 +83,18 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     edtConfirmPassword?.requestFocus()
                 }
             } else {
-                val intent = Intent(this, OtpVerificationActivity::class.java)
-                intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
-                if (getIntent().hasExtra(IS_FROM_ACCOUNT)) {
-                    intent.putExtra(IS_FROM_ACCOUNT, true)
-                }
-                startActivity(intent)
+                it.dismissKeyboard()
+                getViewModel().getOTP(getViewModel().mobile.get(), getViewModel().email.get()).observe(this, Observer {
+                    it?.let { it1 ->
+                        val intent = Intent(this, OtpVerificationActivity::class.java)
+                        intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
+                        if (getIntent().hasExtra(IS_FROM_ACCOUNT)) {
+                            intent.putExtra(IS_FROM_ACCOUNT, true)
+                        }
+                        startActivity(intent)
+                        EventBus.getDefault().postSticky(it1)
+                    }
+                })
             }
         }
         App.INSTANCE.isLoggedIn.observe(this, Observer {

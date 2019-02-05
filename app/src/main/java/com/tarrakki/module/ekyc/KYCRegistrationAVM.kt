@@ -1,12 +1,14 @@
 package com.tarrakki.module.ekyc
 
 import android.databinding.ObservableField
+import android.view.View
 import org.supportcompact.FragmentViewModel
 
 class KYCRegistrationAVM : FragmentViewModel() {
 
     val fName = ObservableField("Himanshu Pratap")
     val dob = ObservableField("25 Nov, 1985")
+    val guardianVisibility = ObservableField(View.GONE)
     val guardian = ObservableField("Ravi Pratap")
     val guardianPANNumber = ObservableField("1ABCDE1234F")
     val addressType = ObservableField("Gift City, Gandhinagar")

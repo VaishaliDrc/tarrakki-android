@@ -3,11 +3,15 @@ package com.tarrakki.module.ekyc
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_kycregistration_a.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
+import java.text.DateFormatSymbols
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -50,12 +54,50 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             }
         }
 
+        edtDOB?.setOnClickListener {
+            val now: Calendar = Calendar.getInstance()
+            var Cdob: Calendar? = null
+            var date: String? = getViewModel().dob.get()
+            date?.toDate("dd MMM, yyyy")?.let { dob ->
+                Cdob = dob.toCalendar()
+            }
+            val dPicker = SpinnerDatePickerDialogBuilder()
+                    .context(context)
+                    .callback { view, year, monthOfYear, dayOfMonth ->
+                        date = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                        getViewModel().dob.set(date)
+                        getViewModel().guardianVisibility.set(if (isAdult(year, monthOfYear, dayOfMonth)) View.GONE else View.VISIBLE)
+                    }
+                    .showTitle(true)
+                    .maxDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+            if (Cdob != null) {
+                Cdob?.let { it ->
+                    dPicker.defaultDate(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DAY_OF_MONTH))
+                }
+            } else {
+                dPicker.defaultDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
+            }
+            dPicker.build().show()
+        }
+
         btnContinue?.setOnClickListener {
             isValid()
         }
     }
 
-    fun isValid(): Boolean {
+    private fun isAdult(year: Int, month: Int, day: Int): Boolean {
+        //calculating age from dob
+        val dob = Calendar.getInstance()
+        val today = Calendar.getInstance()
+        dob.set(year, month, day)
+        var age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--
+        }
+        return age >= 18
+    }
+
+    private fun isValid(): Boolean {
         return when {
             getViewModel().fName.isEmpty() -> {
                 context?.simpleAlert("Please enter full name")

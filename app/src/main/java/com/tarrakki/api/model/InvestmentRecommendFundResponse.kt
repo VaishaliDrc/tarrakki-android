@@ -34,22 +34,21 @@ data class InvestmentRecommendFundResponse(
         var allWeightage = ""
             get() {
                 var weightage = ""
-                if (sipWeightage != 0) {
-                    weightage += "SIP: "+sipWeightage.toString() + "%"
+                weightage += if (sipWeightage != 0) {
+                    "SIP: " + sipWeightage.toString() + "%"
                 } else {
-                    weightage += "SIP: 00%"
+                    "SIP:  0%"
                 }
                 weightage += "\n"
-                if (lumpsumWeightage != 0) {
-                    weightage += "Lumpsum: "+lumpsumWeightage.toString() + "%"
+                weightage += if (lumpsumWeightage != 0) {
+                    "Lumpsum: " + lumpsumWeightage.toString() + "%"
                 } else {
-                    weightage += "Lumpsum: 00%"
+                    "Lumpsum:  0%"
                 }
                 return weightage
             }
 
         var SIPWeightage = ""
-
             get() {
                 var weightage = ""
                 if (sipWeightage != 0) {

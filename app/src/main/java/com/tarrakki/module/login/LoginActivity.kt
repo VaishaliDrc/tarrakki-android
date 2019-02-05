@@ -61,6 +61,12 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                         edtPassword?.requestFocus()
                     }
                 }
+                !getViewModel().password.isValidPassword() -> {
+                    simpleAlert(getString(R.string.valid_password)) {
+                        edtPassword?.requestFocus()
+                        edtPassword?.setSelection(edtPassword.text.length)
+                    }
+                }
                 else -> {
                     getViewModel().doLogin().observe(this, Observer { loginResponse ->
                         loginResponse?.let {

@@ -1,6 +1,5 @@
 package org.supportcompact
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
@@ -101,11 +100,4 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
         }
     }
 
-  /*  override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.popBackStack()
-        } else {
-            super.onBackPressed()
-        }
-    }*/
 }

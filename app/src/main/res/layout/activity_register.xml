@@ -76,6 +76,7 @@
                 android:background="@drawable/shape_edt_white_round"
                 android:hint="@string/mobile_number_star"
                 android:inputType="number"
+                android:maxLength="10"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
@@ -184,6 +185,14 @@
                 android:textColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@id/mDivider" />
 
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{vm.progressBar}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

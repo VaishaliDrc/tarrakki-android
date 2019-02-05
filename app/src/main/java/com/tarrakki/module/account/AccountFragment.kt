@@ -13,7 +13,10 @@ import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.*
+import com.tarrakki.module.ekyc.EKYCFragment
+import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.checkKYCStatus
+import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -127,7 +130,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                             val doc = Jsoup.parse(html)
                             val values = doc.select("input[name=result]").attr("value").split("|")
                             if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
-                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
                                 postSticky(kyc)
                             } else {
                                 post(ShowError(values[3]))

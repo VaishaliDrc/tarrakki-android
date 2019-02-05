@@ -5,13 +5,13 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.TextUtils
 import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentChangePasswordBinding
 import com.tarrakki.module.login.LoginActivity
 import kotlinx.android.synthetic.main.fragment_change_password.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.isValidPassword
 import org.supportcompact.ktx.simpleAlert
 
 /**
@@ -92,6 +92,13 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
                 }
                 return false
             }
+            !getViewModel().newPassword.isValidPassword() -> {
+                context?.simpleAlert(getString(R.string.valid_password)) {
+                    edtNPassword?.requestFocus()
+                    edtNPassword?.setSelection(edtNPassword.text.length)
+                }
+                return false
+            }
             getViewModel().confirmPassword.get()?.length == 0 -> {
                 context?.simpleAlert(getString(R.string.req_reset_password)) {
                     edtCNPassword?.requestFocus()
@@ -121,6 +128,13 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
             getViewModel().newPassword.get()?.length == 0 -> {
                 context?.simpleAlert(getString(R.string.req_change_password)) {
                     edtNPassword?.requestFocus()
+                }
+                return false
+            }
+            !getViewModel().newPassword.isValidPassword() -> {
+                context?.simpleAlert(getString(R.string.valid_password)) {
+                    edtNPassword?.requestFocus()
+                    edtNPassword?.setSelection(edtNPassword.text.length)
                 }
                 return false
             }

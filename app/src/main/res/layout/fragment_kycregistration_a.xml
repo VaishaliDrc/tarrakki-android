@@ -215,10 +215,12 @@
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/name_of_guardian"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility="@{vm.guardianVisibility}"
                     app:layout_constraintEnd_toStartOf="@id/tvGuardianPAN"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edtMobile" />
+                    app:layout_constraintTop_toBottomOf="@id/edtMobile"
+                    tools:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edtGuardian"
@@ -240,10 +242,12 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
+                    android:visibility="@{vm.guardianVisibility}"
                     app:layout_constraintEnd_toStartOf="@id/edtGuardianPAN"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvGuardian" />
+                    app:layout_constraintTop_toBottomOf="@id/tvGuardian"
+                    tools:visibility="gone" />
 
 
                 <TextView
@@ -254,10 +258,12 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/guardian_pan"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility="@{vm.guardianVisibility}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/tvGuardian"
-                    app:layout_constraintTop_toBottomOf="@id/edtMobile" />
+                    app:layout_constraintTop_toBottomOf="@id/edtMobile"
+                    tools:visibility="gone" />
 
                 <EditText
                     android:id="@+id/edtGuardianPAN"
@@ -275,6 +281,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
+                    android:visibility="@{vm.guardianVisibility}"
                     android:text="@={vm.guardianPANNumber}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
@@ -282,7 +289,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/edtGuardian"
-                    app:layout_constraintTop_toBottomOf="@id/tvGuardianPAN" />
+                    app:layout_constraintTop_toBottomOf="@id/tvGuardianPAN"
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tvAddressTypeL"

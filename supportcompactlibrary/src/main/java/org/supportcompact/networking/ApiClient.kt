@@ -13,11 +13,15 @@ import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import org.supportcompact.CoreApp
+import org.supportcompact.R
 import org.supportcompact.ktx.getLoginToken
+import org.supportcompact.ktx.postError
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.IOException
+import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 
@@ -33,14 +37,14 @@ object ApiClient {
      * Test Url
      **/
 
-    private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url
+    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8000" /// Latest url*/
     /**
      * Live Url
      **/
 
-    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
+    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
     /**
      * @return [Retrofit] object its single-tone
      */
@@ -211,7 +215,11 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                 }
 
                 override fun onError(e: Throwable) {
-                    singleCallback?.onFailure(e, apiNames)
+                    when (e) {
+                        is SocketTimeoutException -> e.postError(R.string.try_again_to)
+                        is IOException -> e.postError(R.string.internet_connection)
+                        else -> singleCallback?.onFailure(e, apiNames)
+                    }
                 }
             })
 }

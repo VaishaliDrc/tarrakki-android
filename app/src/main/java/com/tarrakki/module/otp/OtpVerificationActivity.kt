@@ -13,6 +13,8 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.resetPassword.ResetPasswordActivity
 import kotlinx.android.synthetic.main.activity_otp_verification.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.*
@@ -40,9 +42,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                 getViewModel().otp.set(json.optString("otp"))
             }
         }
+        getViewModel().getOTP.observe(this, getOtp)
         if (intent.hasExtra(SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SIGNUP_DATA))
-            getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+            //getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
         }
         if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
             data = JSONObject(intent.getStringExtra(FORGOTPASSWORD_DATA))
@@ -115,4 +118,11 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             }
         }
     }
+
+    @Subscribe(sticky = true)
+    fun onReceive(apiResponse: ApiResponse) {
+        getViewModel().getOTP.value = apiResponse
+        EventBus.getDefault().removeStickyEvent(apiResponse)
+    }
+
 }

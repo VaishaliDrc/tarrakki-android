@@ -12,6 +12,9 @@
     <string name="phone_state_permission_title">Phone State Permission is necessary</string>
     <string name="camera_title">Camera Permission is necessary</string>
     <string name="write_external_storage_title">Read, Write external storage Permissions are necessary</string>
+    <string name="try_again_to">Something went wrong, Please try again later</string>
+    <string name="internet_connection">Internet connection not available</string>
+
     <string-array name="select_image_from">
         <item>Gallery</item>
         <item>Camera</item>

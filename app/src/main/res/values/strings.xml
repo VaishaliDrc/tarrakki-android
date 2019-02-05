@@ -7,6 +7,7 @@
     <string name="learn">Learn</string>
     <string name="info">Info</string>
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
+    <string name="internet_connection">Internet connection not available</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -375,4 +376,5 @@
     <string name="select_country">Select Country</string>
     <string name="select_address_type">Select Address Type</string>
     <string name="select_state">Select State</string>
+    <string name="valid_password">The password should be between 6-20 characters and must contain at least one alphabet and one numeric value</string>
 </resources>

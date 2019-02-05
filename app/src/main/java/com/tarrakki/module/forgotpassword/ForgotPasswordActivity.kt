@@ -50,7 +50,7 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
                         finish()
                     }*/
                     val intent = Intent(this, OtpVerificationActivity::class.java)
-                    intent.putExtra(FORGOTPASSWORD_DATA, getOtpData(apiResponse?.otp,apiResponse?.otpId).toString())
+                    intent.putExtra(FORGOTPASSWORD_DATA, getOtpData(apiResponse?.otp, apiResponse?.otpId).toString())
                     if (getIntent().hasExtra(IS_FROM_FORGOT_PASSWORD)) {
                         intent.putExtra(IS_FROM_FORGOT_PASSWORD, true)
                     }
@@ -61,7 +61,7 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
         }
     }
 
-    fun getOtpData(otp : Int?,otp_id : Int?): JsonObject {
+    fun getOtpData(otp: Int?, otp_id: Int?): JsonObject {
         val json = JsonObject()
         json.addProperty("otp", otp)
         json.addProperty("otp_id", otp_id)
