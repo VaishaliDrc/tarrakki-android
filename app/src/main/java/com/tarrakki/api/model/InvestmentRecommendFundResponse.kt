@@ -25,9 +25,52 @@ data class InvestmentRecommendFundResponse(
             val sipAmount: Int,
             @SerializedName("ttr_return_5_yr")
             val ttrReturn5Yr: String,
-            @SerializedName("weightage")
-            val weightage: Int
+            @SerializedName("sip_weightage")
+            val sipWeightage: Int = 0,
+            @SerializedName("lumpsum_weightage")
+            val lumpsumWeightage: Int = 0
     ) {
+
+        var allWeightage = ""
+            get() {
+                var weightage = ""
+                if (sipWeightage != 0) {
+                    weightage += "SIP: "+sipWeightage.toString() + "%"
+                } else {
+                    weightage += "SIP: 00%"
+                }
+                weightage += "\n"
+                if (lumpsumWeightage != 0) {
+                    weightage += "Lumpsum: "+lumpsumWeightage.toString() + "%"
+                } else {
+                    weightage += "Lumpsum: 00%"
+                }
+                return weightage
+            }
+
+        var SIPWeightage = ""
+
+            get() {
+                var weightage = ""
+                if (sipWeightage != 0) {
+                    weightage = sipWeightage.toString() + " %"
+                } else {
+                    weightage = " - "
+                }
+                return weightage
+            }
+
+        var LumpSumWeightage = ""
+            get() {
+                var weightage = ""
+                if (lumpsumWeightage != 0) {
+                    weightage = lumpsumWeightage.toString() + " %"
+                } else {
+                    weightage = " - "
+                }
+                return weightage
+            }
+
         var returns: String = ""
             get() = if (!TextUtils.isEmpty(ttrReturn5Yr)) {
                 try {
