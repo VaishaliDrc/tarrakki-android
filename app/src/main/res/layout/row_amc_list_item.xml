@@ -45,23 +45,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
+            android:gravity="end"
             android:padding="@dimen/space_4"
-            android:text="@{vm.weightage + `%`}"
+            android:text="@{vm.allWeightage}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvWeightageLabel"
             app:layout_constraintTop_toBottomOf="@id/tvWeightageLabel"
-            tools:text="61%" />
+            tools:text="SIP: 60%\nLumpsome: 50%" />
 
         <TextView
             android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:gravity="start"
             android:maxLines="2"
             android:minLines="2"
             android:text="@{vm.fscbiCategoryName}"
             android:textColor="@{context.getColor(vm.fundColor)}"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWeightage"
             tools:text="Equity - India Multi Cap Equity"
@@ -73,13 +76,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="8dp"
-            app:price="@{vm.lumpsum}"
             android:fontFamily="@font/lato_semibold"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            app:price="@{vm.lumpsum}"
             tools:text="@string/dummy" />
 
         <TextView
@@ -155,11 +158,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/lato_semibold"
+            android:text="Returns (Last 5Y)"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="@+id/gdlEnd"
-            app:layout_constraintTop_toBottomOf="@id/tvOneTime"
-            android:text="Returns (Last 5Y)" />
+            app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

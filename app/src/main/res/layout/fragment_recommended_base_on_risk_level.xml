@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="invest"
@@ -27,7 +27,6 @@
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
-                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"
@@ -35,16 +34,17 @@
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}">
 
                 <ImageView
                     android:id="@+id/ivItem"
+                    imgUrl="@{vm.secondaryCategoryImage}"
                     android:layout_width="108dp"
                     android:layout_height="108dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/shape_section_item_bg"
                     android:paddingBottom="@dimen/space_32"
-                    imgUrl="@{vm.secondaryCategoryImage}"
                     android:src="@drawable/very_long_investments"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -94,56 +94,61 @@
                     app:layout_constraintTop_toBottomOf="@id/tvRiskName"
                     tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
 
-                <TextView
-                    android:id="@+id/tvRiskLevel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:layout_marginEnd="@dimen/space_8"
-                    android:background="@drawable/shape_risk_level_bg"
-                    android:drawablePadding="@dimen/space_8"
-                    android:fontFamily="@font/lato_semibold"
-                    android:gravity="center_vertical"
-                    android:minWidth="94dp"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:paddingEnd="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
-                    android:textColor="@color/name_aggressive"
-                    android:textSize="@dimen/_8ssp"
-                    app:layout_constraintStart_toEndOf="@id/ivItem"
-                    app:layout_constraintTop_toBottomOf="@id/tvRiskDetails"
-                    tools:drawableStart="@drawable/ic_red_up"
-                    tools:text="High Risk" />
-
-                <TextView
-                    android:id="@+id/tvReturnLevel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_8"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:background="@drawable/shape_risk_to_revord_level_bg"
-                    android:drawablePadding="@dimen/space_8"
-                    android:fontFamily="@font/lato_semibold"
-                    android:gravity="center_vertical"
-                    android:minWidth="94dp"
-                    android:paddingStart="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:paddingEnd="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_4sdp"
-                    android:textColor="@color/pdlg_color_green"
-                    android:textSize="@dimen/_8ssp"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvRiskDetails"
-                    tools:drawableStart="@drawable/ic_green_up"
-                    tools:text="High Return" />
+                    app:layout_constraintStart_toEndOf="@id/ivItem"
+                    app:layout_constraintTop_toBottomOf="@id/tvRiskDetails">
 
+                    <TextView
+                        android:id="@+id/tvRiskLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:background="@drawable/shape_risk_level_bg"
+                        android:drawablePadding="@dimen/space_8"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center_vertical"
+                        android:minWidth="94dp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        android:textColor="@color/name_aggressive"
+                        android:textSize="@dimen/_8ssp"
+                        tools:drawableStart="@drawable/ic_red_up"
+                        tools:text="High Risk" />
+
+                    <TextView
+                        android:id="@+id/tvReturnLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:background="@drawable/shape_risk_to_revord_level_bg"
+                        android:drawablePadding="@dimen/space_8"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center_vertical"
+                        android:minWidth="94dp"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_4sdp"
+                        android:textColor="@color/pdlg_color_green"
+                        android:textSize="@dimen/_8ssp"
+                        tools:drawableStart="@drawable/ic_green_up"
+                        tools:text="High Return" />
+
+                </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>
 
             <TextView
-                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}"
                 android:id="@+id/tvRecommendedInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,7 +160,8 @@
                 android:lineSpacingExtra="@dimen/space_4"
                 android:padding="@dimen/space_8"
                 android:text="@{vm.categoryDes}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -163,10 +169,10 @@
                 android:layout_marginStart="@dimen/default_space"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
-                android:visibility="@{vm.isFrom==2?View.VISIBLE:View.GONE}"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:padding="@dimen/space_8">
+                android:padding="@dimen/space_8"
+                android:visibility="@{vm.isFrom==2?View.VISIBLE:View.GONE}">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/view2"
@@ -178,8 +184,8 @@
                     app:cardBackgroundColor="@color/circular_bg"
                     app:cardCornerRadius="72dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/imageView1"
@@ -325,12 +331,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginTop="@dimen/space_16"
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/default_space"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:fontFamily="@font/lato_semibold"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:elevation="@dimen/space_2"
+                    android:fontFamily="@font/lato_semibold"
                     android:text="@string/invest_in_this_strategy"
                     android:textColor="@android:color/white" />
 

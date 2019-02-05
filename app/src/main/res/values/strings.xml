@@ -97,6 +97,8 @@
     </string>
     <string name="here_is_a_summary_of_your_goal">Here is a Summary of Your Goal:</string>
     <string name="weightage">Weightage</string>
+    <string name="sip_weightage">SIP:</string>
+    <string name="lumpsump_weightage">Lumpsum:</string>
     <string name="one_time">One-Time</string>
     <string name="monthly">Monthly</string>
     <string name="my_cart">My Cart</string>
