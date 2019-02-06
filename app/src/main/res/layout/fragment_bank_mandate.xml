@@ -5,21 +5,68 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.tarrakki.module.bankmandate.BankMandateVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvBankMandate"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/default_space"
-        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".module.bankmandate.BankMandateFragment"
-        tools:itemCount="2"
-        tools:listitem="@layout/row_bank_account_list_item" />
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvBankMandate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingTop="@dimen/default_space"
+                app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:context=".module.bankmandate.BankMandateFragment"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_bank_account_list_item" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/add_new_bank_account"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:visibility="@{vm.isNextVisible==true?View.VISIBLE:View.GONE}"
+                    android:id="@+id/btnNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/next"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </layout>

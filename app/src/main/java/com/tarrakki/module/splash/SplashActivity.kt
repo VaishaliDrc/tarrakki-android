@@ -19,17 +19,17 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
         Handler().postDelayed({
-            if (isFirsttimeInstalled()) {
+           /* if (isFirsttimeInstalled()) {
                 startActivity<IntroductionActivity>()
-            }else{
+            }else{*/
                 if (isLogin()) {
                     App.INSTANCE.isAuthorise.value = false
                     App.INSTANCE.isLoggedIn.value = isLogin()
                     startActivity<HomeActivity>()
                 } else {
-                    startActivity<LoginActivity>()
+                    startActivity<IntroductionActivity>()
                 }
-            }
+          //  }
             finish()
         }, 2500)
     }

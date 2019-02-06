@@ -275,6 +275,15 @@ fun setAction(txt: EditText?, listener: TextView.OnEditorActionListener?) {
     txt?.setOnEditorActionListener(listener)
 }
 
+@BindingAdapter("requestToEdit")
+fun requestToEdit(txt: EditText, requestToEdit: Boolean?) {
+    requestToEdit?.let {
+        txt.requestFocus()
+        txt.setSelection(txt.length())
+        txt.showKeyboard()
+    }
+}
+
 /*fun TextView.decimalFormat(amount: Double) {
     this.text = String.format(Locale.US, "%,.2f", amount)
 }

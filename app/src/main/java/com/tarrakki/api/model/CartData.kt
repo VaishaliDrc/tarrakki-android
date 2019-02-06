@@ -80,6 +80,13 @@ data class CartData(
                     notifyPropertyChanged(BR.hasOneTimeAmount)
                 }
 
+            @get:Bindable
+            var reuestToEdit: Boolean = false
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.reuestToEdit)
+                }
+
             var frequencyDate = arrayListOf<String>()
                 get() {
                     val dateList = arrayListOf<String>()

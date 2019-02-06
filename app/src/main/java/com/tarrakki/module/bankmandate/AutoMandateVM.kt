@@ -4,13 +4,14 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
 import com.tarrakki.BR
+import com.tarrakki.api.model.BankDetail
 import org.supportcompact.FragmentViewModel
 
 class AutoMandateVM : FragmentViewModel() {
 
     val ammounts = arrayListOf<AutoDebitAmount>()
     val amount = ObservableField("")
-    val bankMandate = ObservableField<BankMandate>()
+    val bankMandate = ObservableField<BankDetail>()
 
     init {
 

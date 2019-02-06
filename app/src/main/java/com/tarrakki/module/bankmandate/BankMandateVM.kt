@@ -1,15 +1,33 @@
 package com.tarrakki.module.bankmandate
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.databinding.ObservableField
+import android.view.View
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.showProgress
+import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.SingleCallback
+import org.supportcompact.networking.subscribeToSingle
+import kotlin.concurrent.thread
 
 class BankMandateVM : FragmentViewModel() {
 
     val bankMandate = arrayListOf<WidgetsViewModel>()
+    val isNextVisible = ObservableField<Boolean>(false)
+    val isMandateBankList = ObservableField<Boolean>(false)
 
     init {
         bankMandate.add(BankMandate(
@@ -25,6 +43,72 @@ class BankMandateVM : FragmentViewModel() {
         })
     }
 
+    fun getAllBanks(): MutableLiveData<UserBanksResponse> {
+        showProgress()
+        val response = MutableLiveData<UserBanksResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getUserBanks(App.INSTANCE.getUserId()),
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            thread {
+                                if (o.status?.code == 1) {
+                                    val data = o.data?.parseTo<UserBanksResponse>()
+                                    response.postValue(data)
+                                } else {
+                                    EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                                }
+                                dismissProgress()
+                            }
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
+    }
+
+    fun getAllMandateBanks(): MutableLiveData<UserBankMandateResponse> {
+        showProgress()
+        val response = MutableLiveData<UserBankMandateResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .getUserMandateBanks(),
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            thread {
+                                if (o.status?.code == 1) {
+                                    val data = o.data?.parseTo<UserBankMandateResponse>()
+                                    response.postValue(data)
+                                } else {
+                                    EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                                }
+                                dismissProgress()
+                            }
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
+    }
 }
 
 data class BankMandate(var name: String,

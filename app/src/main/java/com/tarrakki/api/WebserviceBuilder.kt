@@ -131,6 +131,9 @@ interface WebserviceBuilder {
     @DELETE("goals/saved_goals/{id}")
     fun deleteSavedGoals(@Path("id") id: Int?): Observable<ApiResponse>
 
+    @GET("banks/user-mandate")
+    fun getUserMandateBanks(): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

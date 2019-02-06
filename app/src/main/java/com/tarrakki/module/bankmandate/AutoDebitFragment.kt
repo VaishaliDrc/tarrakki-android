@@ -4,6 +4,7 @@ package com.tarrakki.module.bankmandate
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.BankDetail
 import com.tarrakki.databinding.FragmentAutoDebitBinding
 import com.tarrakki.databinding.RowAutoDebitAmountListItemBinding
 import com.xiaofeng.flowlayoutmanager.Alignment
@@ -64,7 +65,10 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
             binder.executePendingBindings()
         }
         btnContinue?.setOnClickListener {
-            startFragment(BankMandateWayFragment.newInstance(), R.id.frmContainer)
+            val bundle = Bundle().apply {
+                putString("amount",getViewModel().amount.get())
+            }
+            startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
         }
         edtInvestAmount?.applyCurrencyFormatPositiveOnly()
         getViewModel().amount.set(getViewModel().ammounts[2].amount.toString())
@@ -82,9 +86,9 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
     }
 */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(data: BankMandate) {
+    fun onReceive(data: BankDetail) {
         getViewModel().bankMandate.set(data)
-        EventBus.getDefault().removeStickyEvent(data)
+        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {

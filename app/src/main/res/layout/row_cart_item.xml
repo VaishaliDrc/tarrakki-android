@@ -17,7 +17,7 @@
 
         <variable
             name="goal"
-            type="String"/>
+            type="String" />
 
     </data>
 
@@ -53,13 +53,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_marginTop="@dimen/default_space"
             android:layout_width="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="@dimen/default_space"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvName">
 
             <TextView
                 android:id="@+id/tvType"
@@ -75,11 +75,11 @@
                 android:id="@+id/tvGoal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:layout_marginStart="@dimen/space_16"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/lato_semibold"
+                android:maxLines="1"
                 android:text="@{goal}"
                 android:textColor="@color/white"
                 tools:text="Goal" />
@@ -154,6 +154,7 @@
 
             <EditText
                 android:id="@+id/edtSIPAmount"
+                requestToEdit="@{fund.reuestToEdit}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@null"

@@ -149,6 +149,12 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         })
 
         btnAddFund?.setOnClickListener { _ ->
+            if (getString(R.string.edit_funds).equals(btnAddFund.text.toString())) {
+                if (getViewModel().funds.isNotEmpty()) {
+                    getViewModel().funds[0].reuestToEdit = true
+                }
+                return@setOnClickListener
+            }
             activity?.let {
                 if (it is BaseActivity) {
                     if (it is InvestActivity) {
@@ -183,10 +189,12 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
             lyt_orders?.visibility = View.GONE
+            btnAddFund?.setText(R.string.add_funds)
             coreActivityVM?.emptyView(true, "No funds in your cart.")
         } else {
             coreActivityVM?.emptyView(false)
             lyt_orders?.visibility = View.VISIBLE
+            btnAddFund?.setText(R.string.edit_funds)
         }
     }
 
@@ -223,23 +231,23 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     fun validateCart() {
         val cartItems = adapter?.getItems()
-        loop@ for (i in 0 until (cartItems?.size?.toInt() ?: 0)){
+        loop@ for (i in 0 until (cartItems?.size?.toInt() ?: 0)) {
             val item = cartItems?.get(i) as CartData.Data.OrderLine
-            if (item.day?.isNullOrEmpty()==false){
+            if (item.day?.isNullOrEmpty() == false) {
                 val sipAmount = item.sipAmount.toInt()
                 val lumpsumpAmount = item.lumpsumAmount.toInt()
                 val minlumpsumpAmount = item.validminlumpsumAmount
                 val minsipAmount = item.validminSIPAmount
 
                 if (lumpsumpAmount == 0 && sipAmount == 0) {
-                    context?.simpleAlert("Please enter either the lumpsum or the SIP amount first."){
+                    context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
                         rvCartItems?.smoothScrollToPosition(i)
                     }
                     break@loop
                 }
                 if (lumpsumpAmount != 0) {
                     if (lumpsumpAmount < minlumpsumpAmount) {
-                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount.toCurrency()}."){
+                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount.toCurrency()}.") {
                             rvCartItems?.smoothScrollToPosition(i)
                         }
                         break@loop
@@ -247,16 +255,16 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 }
                 if (sipAmount != 0) {
                     if (sipAmount < minsipAmount) {
-                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount.toCurrency()}."){
+                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount.toCurrency()}.") {
                             rvCartItems?.smoothScrollToPosition(i)
                         }
                         break@loop
                     }
                 }
 
-            }else{
+            } else {
                 //rvCartItems?.smoothScrollToPosition(i)
-                context?.simpleAlert("Please enter Start Day."){
+                context?.simpleAlert("Please enter Start Day.") {
                     rvCartItems?.smoothScrollToPosition(i)
                 }
                 break@loop
