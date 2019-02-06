@@ -12,7 +12,7 @@ data class UserBanksResponse(
 
 data class Data(
         @SerializedName("bank_details")
-        val bankDetails: List<BankDetail>
+        val bankDetails: ArrayList<BankDetail>
 )
 
 data class BankDetail(

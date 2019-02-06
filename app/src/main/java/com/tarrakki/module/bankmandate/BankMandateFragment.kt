@@ -90,12 +90,12 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 getViewModel().isNextVisible.set(true)
             }else{
                 getViewModel().getAllBanks().observe(this, Observer {it1->
-                    if (!it1?.data?.bankDetails.isNullOrEmpty()) {
+                /*    if (it1?.data?.bankDetails?.isNotEmpty()) {
                         getViewModel().isNextVisible.set(true)
                         it1?.data?.bankDetails?.let { it2 -> setUserBankAdapter(it2) }
                     }else{
                         getViewModel().isNextVisible.set(false)
-                    }
+                    }*/
                 })
             }
         })

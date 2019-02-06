@@ -7,7 +7,7 @@ import org.supportcompact.FragmentViewModel
 
 class KYCRegistrationBVM : FragmentViewModel() {
 
-    val PANNumber = ObservableField("1ABCDE1234F")
+    val PANName = ObservableField("1ABCDE1234F")
     val occupationType = ObservableField("")
     val countryOfBirth = ObservableField("")
     val placeOfBirth = ObservableField("")
@@ -21,8 +21,6 @@ class KYCRegistrationBVM : FragmentViewModel() {
     val issueByB = ObservableField("")
     val TINNumberC = ObservableField("")
     val issueByC = ObservableField("")
-    val isEdit = ObservableField(true)
-    val alpha = ObservableField<Float>(1f)
 
     init {
 

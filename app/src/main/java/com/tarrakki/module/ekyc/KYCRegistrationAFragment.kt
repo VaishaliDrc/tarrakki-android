@@ -45,7 +45,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         }
         edtAddressType?.setOnClickListener {
             context?.showListDialog(R.string.select_address_type, R.array.address_type) { item ->
-                getViewModel().address.set(item)
+                getViewModel().addressType.set(item)
             }
         }
         edtState?.setOnClickListener {
@@ -66,7 +66,9 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                     .callback { view, year, monthOfYear, dayOfMonth ->
                         date = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
                         getViewModel().dob.set(date)
-                        getViewModel().guardianVisibility.set(if (isAdult(year, monthOfYear, dayOfMonth)) View.GONE else View.VISIBLE)
+                        val isAdult = isAdult(year, monthOfYear, dayOfMonth)
+                        getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
+                        getViewModel().isEdit.set(isAdult)
                     }
                     .showTitle(true)
                     .maxDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
@@ -81,7 +83,9 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         }
 
         btnContinue?.setOnClickListener {
-            isValid()
+            if (isValid()) {
+                startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
+            }
         }
     }
 
@@ -107,7 +111,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter PAN number")
                 false
             }
-            !getViewModel().PANNumber.isPAN() -> {
+            getViewModel().isEdit.get()!! && !getViewModel().PANNumber.isPAN() -> {
                 context?.simpleAlert("Please enter valid PAN number")
                 false
             }
@@ -115,7 +119,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please select date of birth")
                 false
             }
-            getViewModel().email.isEmail() -> {
+            getViewModel().email.isEmpty() -> {
                 context?.simpleAlert("Please enter email id")
                 false
             }
@@ -127,8 +131,20 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter mobile number")
                 false
             }
-            getViewModel().mobile.isEmpty() -> {
-                context?.simpleAlert("Please enter mobile number")
+            getViewModel().mobile.get()?.length != 10 -> {
+                context?.simpleAlert("Please enter valid mobile number")
+                false
+            }
+            !getViewModel().isEdit.get()!! && getViewModel().guardian.isEmpty() -> {
+                context?.simpleAlert("Please enter guardian name")
+                false
+            }
+            !getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
+                context?.simpleAlert("Please enter guardian PAN number")
+                false
+            }
+            !getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isPAN() -> {
+                context?.simpleAlert("Please enter valid guardian PAN number")
                 false
             }
             getViewModel().addressType.isEmpty() -> {
@@ -145,6 +161,10 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             }
             getViewModel().pincode.isEmpty() -> {
                 context?.simpleAlert("Please enter pin-code")
+                false
+            }
+            getViewModel().pincode.get()?.length != 6 -> {
+                context?.simpleAlert("Please enter valid pin-code")
                 false
             }
             getViewModel().state.isEmpty() -> {

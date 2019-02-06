@@ -150,7 +150,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     val doc = Jsoup.parse(html)
                     val values = doc.select("input[name=result]").attr("value").split("|")
                     if (values.isNotEmpty() && values.contains("Y")) {
-
+                            
                     } else {
                         post(ShowError(values[3]))
                     }
