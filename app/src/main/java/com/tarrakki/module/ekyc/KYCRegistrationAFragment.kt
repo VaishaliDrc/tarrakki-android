@@ -43,16 +43,16 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         btnContinue?.setOnClickListener {
             startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
         }
-        edtAddressType?.setOnClickListener {
-            context?.showListDialog(R.string.select_address_type, R.array.address_type) { item ->
-                getViewModel().addressType.set(item)
-            }
-        }
-        edtState?.setOnClickListener {
-            context?.showListDialog(R.string.select_state, R.array.indian_states) { item ->
-                getViewModel().state.set(item)
-            }
-        }
+        /* edtAddressType?.setOnClickListener {
+             context?.showListDialog(R.string.select_address_type, R.array.address_type) { item ->
+                 getViewModel().addressType.set(item)
+             }
+         }
+         edtState?.setOnClickListener {
+             context?.showListDialog(R.string.select_state, R.array.indian_states) { item ->
+                 getViewModel().state.set(item)
+             }
+         }*/
 
         edtDOB?.setOnClickListener {
             val now: Calendar = Calendar.getInstance()
@@ -119,7 +119,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please select date of birth")
                 false
             }
-            getViewModel().email.isEmpty() -> {
+            /*getViewModel().email.isEmpty() -> {
                 context?.simpleAlert("Please enter email id")
                 false
             }
@@ -134,7 +134,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             getViewModel().mobile.get()?.length != 10 -> {
                 context?.simpleAlert("Please enter valid mobile number")
                 false
-            }
+            }*/
             !getViewModel().isEdit.get()!! && getViewModel().guardian.isEmpty() -> {
                 context?.simpleAlert("Please enter guardian name")
                 false
@@ -147,34 +147,34 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter valid guardian PAN number")
                 false
             }
-            getViewModel().addressType.isEmpty() -> {
-                context?.simpleAlert("Please select address type")
-                false
-            }
-            getViewModel().address.isEmpty() -> {
-                context?.simpleAlert("Please enter address")
-                false
-            }
-            getViewModel().city.isEmpty() -> {
-                context?.simpleAlert("Please enter city")
-                false
-            }
-            getViewModel().pincode.isEmpty() -> {
-                context?.simpleAlert("Please enter pin-code")
-                false
-            }
-            getViewModel().pincode.get()?.length != 6 -> {
-                context?.simpleAlert("Please enter valid pin-code")
-                false
-            }
-            getViewModel().state.isEmpty() -> {
-                context?.simpleAlert("Please select state")
-                false
-            }
-            getViewModel().country.isEmpty() -> {
-                context?.simpleAlert("Please enter country")
-                false
-            }
+            /* getViewModel().addressType.isEmpty() -> {
+                 context?.simpleAlert("Please select address type")
+                 false
+             }
+             getViewModel().address.isEmpty() -> {
+                 context?.simpleAlert("Please enter address")
+                 false
+             }
+             getViewModel().city.isEmpty() -> {
+                 context?.simpleAlert("Please enter city")
+                 false
+             }
+             getViewModel().pincode.isEmpty() -> {
+                 context?.simpleAlert("Please enter pin-code")
+                 false
+             }
+             getViewModel().pincode.get()?.length != 6 -> {
+                 context?.simpleAlert("Please enter valid pin-code")
+                 false
+             }
+             getViewModel().state.isEmpty() -> {
+                 context?.simpleAlert("Please select state")
+                 false
+             }
+             getViewModel().country.isEmpty() -> {
+                 context?.simpleAlert("Please enter country")
+                 false
+             }*/
             getViewModel().nominiName.isEmpty() -> {
                 context?.simpleAlert("Please enter nominee name")
                 false

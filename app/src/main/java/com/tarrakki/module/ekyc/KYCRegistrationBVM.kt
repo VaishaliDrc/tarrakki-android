@@ -21,6 +21,9 @@ class KYCRegistrationBVM : FragmentViewModel() {
     val issueByB = ObservableField("")
     val TINNumberC = ObservableField("")
     val issueByC = ObservableField("")
+    val cvPhotoName = "profilePick"
+    val IMAGE_RQ_CODE = 101
+    val ICAMERA_RQ_CODE = 181
 
     init {
 

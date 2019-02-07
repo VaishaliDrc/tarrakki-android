@@ -496,6 +496,23 @@ fun Context.investmentStragiesDialog(
     mDialog.show()
 }
 
+fun Context.signatureDialog(btnDigitally: (() -> Unit), btnPhysically: (() -> Unit)) {
+    val mBinder = com.tarrakki.databinding.SignatureDialogBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.llSignDigitally.setOnClickListener {
+        mDialog.dismiss()
+        btnDigitally.invoke()
+    }
+    mBinder.llSignPhysically.setOnClickListener {
+        mDialog.dismiss()
+        btnPhysically.invoke()
+    }
+    mBinder.ivClose.setOnClickListener { mDialog.dismiss() }
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
 fun String.toYearWord(): String {
     return try {
         val n = this.toDoubleOrNull()

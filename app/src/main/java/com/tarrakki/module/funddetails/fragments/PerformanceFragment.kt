@@ -78,7 +78,7 @@ class PerformanceFragment : Fragment() {
         rvEarned?.isFocusable = false
         rvEarned?.isNestedScrollingEnabled = false
         var amount = 100000
-        var durations = 1.0
+        var durations = 3.0
         fundVM?.let { itVM ->
             itVM.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
                 fundDetailsResponse?.let { fund ->
@@ -92,6 +92,7 @@ class PerformanceFragment : Fragment() {
                     returns.add(KeyInfo("1 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn1Yr)))
                     returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn3Yr)))
                     returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn5Yr)))
+                    returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn10Yr)))
                     returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturnSinceInception)))
                     rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
@@ -99,7 +100,13 @@ class PerformanceFragment : Fragment() {
                     }
                     tvYDR?.text = fund.YTDReturn
                     itVM.earningBase.clear()
-                    itVM.earningBase.add(TopHolding("Tarrakki Direct Plan", 100, fund.tarrakkiReturn))
+                    var r = fund.getReturn(x = durations.toInt())
+                    if (r == 0.0) {
+                        r = fund.getReturn()
+                        durations = 1.0
+                    }
+                    edtYears.setText("${durations.toInt()}")
+                    itVM.earningBase.add(TopHolding("Tarrakki Direct Plan", 100, r))
                     //earningBase.add(TopHolding("Regular Plan", 65, 8.5, 109300.00))
                     itVM.earningBase.add(TopHolding("Fixed Deposit", 45, fund.fixedDepositReturn?.toDoubleOrNull()
                             ?: 0.0))
@@ -180,8 +187,7 @@ class PerformanceFragment : Fragment() {
                                 durations = p.toString().toDouble()
                                 itVM.earningBase.forEach { item ->
                                     if (itVM.earningBase.indexOf(item) == 0) {
-                                        item.percentageHolding = fund.getReturn(durations.toInt(), spnDuration?.selectedItemPosition
-                                                ?: 0)
+                                        item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
                                     }
                                     item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                         durations * 12
@@ -223,8 +229,7 @@ class PerformanceFragment : Fragment() {
                             }
                             itVM.earningBase.forEach { item ->
                                 if (itVM.earningBase.indexOf(item) == 0) {
-                                    item.percentageHolding = fund.getReturn(durations.toInt(), spnDuration?.selectedItemPosition
-                                            ?: 0)
+                                    item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
                                 }
                                 item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                     durations * 12
@@ -315,6 +320,11 @@ class PerformanceFragment : Fragment() {
         spnDuration.adapter = adapter
         //edtInvestAmount?.filters = arrayOf(InputFilterMinMax(1))
         edtYears?.filters = arrayOf(InputFilterMinMax(1))
+    }
+
+    fun getDurations(): Int {
+        val d = spnDuration?.selectedItemPosition ?: 0
+        return if (d == 0) 1 else 0
     }
 
     // Calculating the compount interest using formula A = P  (1 + r/n)^nt

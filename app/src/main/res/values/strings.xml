@@ -165,8 +165,8 @@
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
 
     <string-array name="durations">
-        <item>Month(s)</item>
         <item>Year(s)</item>
+        <item>Month(s)</item>
     </string-array>
 
     <string-array name="risk_level">
@@ -638,5 +638,8 @@
     <string name="select_address_type">Select Address Type</string>
     <string name="select_state">Select State</string>
     <string name="valid_password">The password should be between 6-20 characters and must contain at least one alphabet and one numeric value</string>
+    <string name="select_signature_type">Select Signature Type</string>
+    <string name="sign_genitally">Sign Genitally</string>
+    <string name="sign_physically">Sign Physically</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

@@ -83,7 +83,7 @@ class OverviewFragment : Fragment() {
                     keysInfo.add(KeyInfo("Minimum Investment Lump sum", fundDetails.fundsDetails?.lumpsumAmount))
                     keysInfo.add(KeyInfo("Fund Manger", fundDetails.fundsDetails?.fundManagers))
                     keysInfo.add(KeyInfo("Exit Load", fundDetails.fundsDetails?.exitLoad))
-                    keysInfo.add(KeyInfo("Volatility (VOL)", fundDetails.fundsDetails?.vol))
+                    keysInfo.add(KeyInfo("Standard Deviation(5yr)", fundDetails.fundsDetails?.vol))
                     rvKeyInfo?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, keysInfo) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
                         binder.executePendingBindings()

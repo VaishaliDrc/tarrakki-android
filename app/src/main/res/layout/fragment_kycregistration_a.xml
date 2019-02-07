@@ -136,7 +136,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvPAN" />
 
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvEmailID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvMobile" />
-
+-->
                 <TextView
                     android:id="@+id/tvGuardian"
                     android:layout_width="0dp"
@@ -212,7 +212,7 @@
                     app:layout_constraintEnd_toStartOf="@id/tvGuardianPAN"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edtMobile"
+                    app:layout_constraintTop_toBottomOf="@id/edtDOB"
                     tools:visibility="gone" />
 
                 <EditText
@@ -253,7 +253,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/tvGuardian"
-                    app:layout_constraintTop_toBottomOf="@id/edtMobile"
+                    app:layout_constraintTop_toBottomOf="@id/edtPAN"
                     tools:visibility="gone" />
 
                 <EditText
@@ -283,7 +283,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvGuardianPAN"
                     tools:visibility="gone" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvAddressTypeL"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -492,7 +492,7 @@
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/edtState"
                     app:layout_constraintTop_toBottomOf="@id/tvCountryL" />
-
+-->
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:background="@drawable/shape_cart_view_16dp"
+        android:padding="@dimen/default_space">
+
+        <TextView
+            android:id="@+id/tvSignL"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/select_signature_type"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="@dimen/space_32"
+            android:layout_height="@dimen/space_32"
+            android:src="@drawable/ic_close_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llSignDigitally"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_25"
+            android:layout_marginEnd="@dimen/space_8"
+            android:background="@drawable/shape_signature_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/space_16"
+            app:layout_constraintEnd_toStartOf="@id/gdlCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSignL">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_sign_digitaly" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:text="@string/sign_genitally"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSignPhysically"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/space_8"
+            android:background="@drawable/shape_signature_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/space_16"
+            app:layout_constraintBottom_toBottomOf="@+id/llSignDigitally"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toTopOf="@+id/llSignDigitally">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:adjustViewBounds="true"
+                android:paddingStart="@dimen/space_20"
+                android:paddingTop="@dimen/space_12"
+                android:paddingEnd="@dimen/space_12"
+                android:paddingBottom="@dimen/space_4"
+                android:src="@drawable/ic_sign_physically" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:text="@string/sign_physically"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:gravity="center"
+            android:text="Lorem Ipsum has been the industry's standard dummy text scrambled it to make a type specimen book."
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llSignDigitally" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gdlCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -11,12 +11,8 @@ import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
-import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.EKYCFragment
-import com.tarrakki.module.ekyc.KYCData
-import com.tarrakki.module.ekyc.checkKYCStatus
-import com.tarrakki.module.ekyc.isPANCard
+import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -118,7 +114,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         edtPanNo?.applyPAN()
         tvNext?.setOnClickListener {
             if (edtPanNo.length() == 0) {
-                context?.simpleAlert("Please enter PAN card number")
+                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                //context?.simpleAlert("Please enter PAN card number")
             } else if (!isPANCard(edtPanNo.text.toString())) {
                 context?.simpleAlert("Please enter valid PAN card number")
             } else {

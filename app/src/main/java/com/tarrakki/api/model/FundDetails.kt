@@ -78,9 +78,6 @@ data class FundDetails(
             field
         }
 
-    var tarrakkiReturn: Double = 0.0
-        get() = if (field == 0.0) getReturn() else field
-
     var YTDReturn = ""
         get() = if (TextUtils.isEmpty(field)) {
             var mReturn = 0.0
@@ -102,7 +99,7 @@ data class FundDetails(
             mReturn.toReturnAsPercentage()
         } else field
 
-    fun getReturn(x: Int = 1, y: Int = 0): Double {
+    fun getReturn(x: Int = 1, y: Int = 1): Double {
         var mReturn = 0.0
         val now = fundsDetails?.tsDayEndNavDate?.toDate()?.toCalendar() ?: Calendar.getInstance()
         now.add(if (y == 1) Calendar.YEAR else Calendar.MONTH, -x)
@@ -218,7 +215,7 @@ data class FundsDetails(
         @SerializedName("ts_day_end_nav_date")
         val tsDayEndNavDate: String?,
         @SerializedName("ttr_return_10_yr")
-        val ttrReturn10Yr: Int,
+        val ttrReturn10Yr: String?,
         @SerializedName("ttr_return_1_mth")
         val ttrReturn1Mth: String?,
         @SerializedName("ttr_return_1_yr")
@@ -261,6 +258,7 @@ data class FundsDetails(
             benchmarks.forEach {
                 if (name.isEmpty()) {
                     name = it.indexName
+                    return@forEach
                 }
                 name += ", ${it.indexName}"
             }
@@ -276,6 +274,7 @@ data class FundsDetails(
             managers.forEach {
                 if (name.isEmpty()) {
                     name = it.name
+                    return@forEach
                 }
                 name += ", ${it.name}"
             }
