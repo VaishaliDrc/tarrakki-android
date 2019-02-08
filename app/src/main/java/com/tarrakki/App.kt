@@ -3,6 +3,7 @@ package com.tarrakki
 import android.arch.lifecycle.MutableLiveData
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
+import java.io.File
 
 class App : CoreApp() {
 
@@ -11,7 +12,7 @@ class App : CoreApp() {
     val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
     val widgetsViewModel = MutableLiveData<WidgetsViewModel>()
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
-
+    val signatureFile = MutableLiveData<File>()
 
     init {
         App.INSTANCE = this

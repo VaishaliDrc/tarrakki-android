@@ -2,6 +2,8 @@ package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 
@@ -134,6 +136,10 @@ interface WebserviceBuilder {
     @GET("banks/user-mandate")
     fun getUserMandateBanks(): Observable<ApiResponse>
 
+    @Multipart
+    @POST("profile/add/")
+    fun completeRegistration(@Part("data") data: RequestBody, @Part file: MultipartBody.Part): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -141,6 +147,6 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage
+        deleteSavedGoals, getEKYCPage, complateRegistration
     }
 }

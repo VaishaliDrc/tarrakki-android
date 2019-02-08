@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.ekyc.SignatureVM" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lighter_gray"
+        android:padding="@dimen/default_space"
+        tools:context=".module.ekyc.SignatureActivity">
+
+        <com.williamww.silkysignature.views.SignaturePad
+            android:id="@+id/signPad"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/space_8"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@id/btnClear"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="@dimen/space_32"
+            android:layout_height="@dimen/space_32"
+            android:alpha="0.6"
+            android:src="@drawable/ic_close_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_8"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:text="@string/clear_pad"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/space_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnContinue"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnContinue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:alpha="@{vm.alpha}"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:enabled="@{vm.isEdit()}"
+            android:text="@string/save_signature"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/space_2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/btnClear" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
