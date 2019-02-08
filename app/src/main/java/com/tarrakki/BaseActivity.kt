@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.bankmandate.BankMandateSuccessFragment
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
@@ -117,7 +118,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
                     val f = supportFragmentManager.findFragmentByTag(CartFragment::class.java.name)
-                    if (f !is CartFragment)
+                    if (f !is CartFragment || f !is BankMandateSuccessFragment)
                         onBackPressed()
                     else
                         return super.onOptionsItemSelected(item)

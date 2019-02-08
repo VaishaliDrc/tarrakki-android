@@ -553,6 +553,7 @@
     <string name="doenload_mandate_form">Download Mandate Form</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
     <string name="normally_take_">Normally takes 15-30 working days for approval</string>
+    <string name="normally_take_nach">Normally takes up to 7 working days for approval</string>
     <string name="investment_strategies">Investment Strategies</string>
     <string name="note_to_investors_">Note to Investors:</string>
     <string name="note_to_investors_details">

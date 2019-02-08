@@ -53,6 +53,7 @@
 
         <RadioButton
             android:clickable="false"
+            android:visibility="gone"
             android:id="@+id/cmDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,12 +107,13 @@
 
         <TextView
             android:id="@+id/tvBreachName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
             android:text="@{widget.bankDetails.branchName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toStartOf="@+id/tvIFSCCode"
             app:layout_constraintStart_toStartOf="@id/tvBreachNameL"
             app:layout_constraintTop_toBottomOf="@+id/tvBreachNameL"
             tools:text="Ahmedabad" />
@@ -154,21 +156,20 @@
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/space_8"
             android:background="@color/darker_gray"
-            android:visibility="@{widget.equals('2') ? View.VISIBLE : View.GONE}"
-            app:layout_constraintTop_toBottomOf="@+id/tvAccountNo" />
+            app:layout_constraintTop_toBottomOf="@+id/tvBreachName" />
 
         <TextView
             android:id="@+id/tvInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/normally_take_"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{widget.mandateType.equals('I')==true?@string/normally_take_:@string/normally_take_nach}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:visibility="@{widget.status.equals('2') ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/tvPending"
             app:layout_constraintEnd_toStartOf="@+id/tvPending"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvPending" />
+            app:layout_constraintTop_toTopOf="@id/mDivider2" />
 
         <TextView
             android:id="@+id/tvPending"
@@ -180,10 +181,10 @@
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/space_25"
             android:paddingBottom="@dimen/space_8"
+            android:maxLines="2"
             android:text="@string/pending"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
-            android:visibility="@{widget.equals('2') ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider2" />
 

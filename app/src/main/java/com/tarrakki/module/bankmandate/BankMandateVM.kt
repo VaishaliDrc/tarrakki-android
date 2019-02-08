@@ -28,6 +28,7 @@ class BankMandateVM : FragmentViewModel() {
     val bankMandate = arrayListOf<WidgetsViewModel>()
     val isNextVisible = ObservableField<Boolean>(false)
     val isMandateBankList = ObservableField<Boolean>(false)
+    val isNoBankAccount = ObservableField<Boolean>(false)
 
     init {
         bankMandate.add(BankMandate(
@@ -81,7 +82,7 @@ class BankMandateVM : FragmentViewModel() {
         val response = MutableLiveData<UserBankMandateResponse>()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .getUserMandateBanks(),
+                        .getUserMandateBanks(App.INSTANCE.getUserId()),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

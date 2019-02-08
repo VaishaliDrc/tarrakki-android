@@ -1,15 +1,21 @@
 package com.tarrakki.module.bankmandate
 
 
+import android.arch.lifecycle.Observer
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentUploadloadBankMandateFormBinding
 import kotlinx.android.synthetic.main.fragment_uploadload_bank_mandate_form.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.startFragment
+import java.io.File
 
 /**
  * A simple [Fragment] subclass.
@@ -38,23 +44,25 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
     }
 
     override fun createReference() {
+        getViewModel().uploadUri.set(arguments?.getString("upload_url"))
+        img_preview?.setImageURI(Uri.parse(getViewModel().uploadUri.get()))
         btnSubmit?.setOnClickListener {
-            onBack(4)
-            EventBus.getDefault().post(Event.BANK_MANDATE_SUBMITTED)
-            startFragment(BankMandateSuccessFragment.newInstance(), R.id.frmContainer)
+
+            getViewModel().uploadMandateForm().observe(this, Observer {
+                startFragment(BankMandateSuccessFragment.newInstance(), R.id.frmContainer)
+            })
+            //onBack(4)
+           // EventBus.getDefault().post(Event.BANK_MANDATE_SUBMITTED)
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(data: UserMandateDownloadResponse) {
+        getViewModel().mandateResponse.set(data)
+        EventBus.getDefault().removeStickyEvent(data)
+    }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment DownloadBankMandateFromFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = UploadBankMandateFormFragment().apply { arguments = basket }
     }

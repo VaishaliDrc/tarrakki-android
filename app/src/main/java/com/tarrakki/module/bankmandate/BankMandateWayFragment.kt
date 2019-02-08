@@ -1,27 +1,36 @@
 package com.tarrakki.module.bankmandate
 
 
+import android.Manifest
+import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.databinding.ViewDataBinding
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import android.provider.Settings
+import android.support.annotation.NonNull
 import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentBankMandateWayBinding
 import kotlinx.android.synthetic.main.fragment_bank_mandate_way.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.startFragment
 
+const val ISIPMANDATE = "isipmandate"
+const val IMANDATEDATA = "imandatedata"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BankMandateWayFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandateWayBinding>() {
+
+    var amount = ""
 
     override val isBackEnabled: Boolean
         get() = true
@@ -42,11 +51,46 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
     }
 
     override fun createReference() {
+        amount = arguments?.getString(AMOUNT).toString()
+
         var selectedAt = 0
         rvBankMandateWay?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandateWays) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.setVariable(BR.onAdd, View.OnClickListener {
-                startFragment(BankMandateFormFragment.newInstance(), R.id.frmContainer)
+                for (viewmodel in getViewModel().bankMandateWays) {
+                    if (viewmodel is BankMandateWay) {
+                        if (viewmodel.isSelected) {
+                            var type = ""
+                            type = if (viewmodel.title == R.string.sip_mandate) {
+                                "I"
+                            } else {
+                                "X"
+                            }
+                            getViewModel().addMandateBank(getViewModel().bankMandate.get()?.id, amount,
+                                    type).observe(this, Observer {
+                                if (viewmodel.title == R.string.sip_mandate) {
+                                    val data = it?.data?.parseTo<IMandateResponse>()
+                                    val html = data?.data_html
+                                    val bundle = Bundle().apply {
+                                        putString(AMOUNT, amount)
+                                        putBoolean(ISIPMANDATE, true)
+                                        putString(IMANDATEDATA, html)
+                                    }
+                                    startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                } else {
+                                    val data = it?.data?.parseTo<UserMandateDownloadResponse>()
+                                    val bundle = Bundle().apply {
+                                        putString(AMOUNT, amount)
+                                        putBoolean(ISIPMANDATE, false)
+                                    }
+                                    startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                    data?.let { it1 -> postSticky(it1) }
+                                }
+                            })
+                            break
+                        }
+                    }
+                }
             })
             binder.root.setOnClickListener {
                 if (item is BankMandateWay) {
@@ -60,6 +104,12 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
             }
             binder.executePendingBindings()
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(data: BankDetail) {
+        getViewModel().bankMandate.set(data)
+        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {

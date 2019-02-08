@@ -3,6 +3,13 @@ package com.tarrakki.api
 import com.tarrakki.api.model.ApiResponse
 import io.reactivex.Observable
 import retrofit2.http.*
+import okhttp3.RequestBody
+import okhttp3.MultipartBody
+import okhttp3.ResponseBody
+import retrofit2.http.POST
+import retrofit2.http.Multipart
+
+
 
 
 /**
@@ -131,8 +138,23 @@ interface WebserviceBuilder {
     @DELETE("goals/saved_goals/{id}")
     fun deleteSavedGoals(@Path("id") id: Int?): Observable<ApiResponse>
 
-    @GET("banks/user-mandate")
-    fun getUserMandateBanks(): Observable<ApiResponse>
+    @GET("banks/user-mandate/{userId}")
+    fun getUserMandateBanks(@Path("userId") userId: String?): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("banks/user-mandate-add/")
+    fun addMandateBank(@Field("bank") bank: Int?,
+             @Field("amount") amount: String,
+             @Field("mandate_type") mandateType: String,
+             @Field("user_id") userId: String): Observable<ApiResponse>
+
+    @GET("banks/user-mandate-download/{mandate_id}/")
+    fun downloadMandateForm(@Path("mandate_id") bank_mandate_id: Int?): Observable<ApiResponse>
+
+    @Multipart
+    @PUT("banks/user-mandate-download/{mandate_id}/")
+    fun uploadNachMandateForm(@Path("mandate_id") bank_mandate_id: Int?,
+                              @Part image: MultipartBody.Part): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs
@@ -141,6 +163,6 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage
+        deleteSavedGoals, getEKYCPage, uploadNACHMandate
     }
 }

@@ -35,7 +35,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
 
-
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -228,14 +227,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment MyProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = MyProfileFragment().apply { arguments = basket }
     }

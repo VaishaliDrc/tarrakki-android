@@ -11,6 +11,7 @@ import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
+import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
@@ -27,12 +28,6 @@ import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AccountFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
     override val isBackEnabled: Boolean
@@ -100,8 +95,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             startFragment(BankAccountsFragment.newInstance(), R.id.frmContainer)
         }
         tvBankMandateAccount?.setOnClickListener {
-           // startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
-            context?.simpleAlert("Under Construction.")
+            startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
+            //context?.simpleAlert("Under Construction.")
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
@@ -157,14 +152,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment AccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = AccountFragment().apply { arguments = basket }
     }

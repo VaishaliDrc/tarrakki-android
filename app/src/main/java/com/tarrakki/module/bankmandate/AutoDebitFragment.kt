@@ -10,13 +10,14 @@ import com.tarrakki.databinding.RowAutoDebitAmountListItemBinding
 import com.xiaofeng.flowlayoutmanager.Alignment
 import com.xiaofeng.flowlayoutmanager.FlowLayoutManager
 import kotlinx.android.synthetic.main.fragment_auto_debit.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toCurrency
+import org.supportcompact.ktx.toCurrencyInt
 
 
 /**
@@ -25,6 +26,8 @@ import org.supportcompact.ktx.startFragment
  * create an instance of this fragment.
  *
  */
+const val AMOUNT = "amount"
+
 class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>() {
 
     override val isBackEnabled: Boolean
@@ -64,14 +67,18 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
             }
             binder.executePendingBindings()
         }
+        val amountSelected = getViewModel().ammounts.find { it.isSelected }
+        if (amountSelected != null)
+            getViewModel().amount.set(amountSelected.amount.toString())
+
         btnContinue?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString("amount",getViewModel().amount.get())
+                putString(AMOUNT, getViewModel().amount.get()?.toCurrencyInt().toString())
             }
             startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
         }
         edtInvestAmount?.applyCurrencyFormatPositiveOnly()
-        getViewModel().amount.set(getViewModel().ammounts[2].amount.toString())
+        //getViewModel().amount.set(getViewModel().ammounts[2].amount.toString())
 
     }
 

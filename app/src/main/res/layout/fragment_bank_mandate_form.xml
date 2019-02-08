@@ -5,20 +5,54 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.tarrakki.module.bankmandate.BankMandateFormVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvBankMandateForm"
-        dividerV="@{@drawable/shape_transferant_divider_16dp}"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/default_space"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".module.bankmandate.BankMandateWayFragment"
-        tools:listitem="@layout/row_bank_mandate_way" />
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:visibility="@{vm.isIMandate==true?View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:layout_above="@id/btnContinue"
+                android:id="@+id/mWebView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:layout_alignParentBottom="true"
+                android:id="@+id/btnContinue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/txtcontinue"
+                android:textColor="@color/white"
+                tools:text="@string/add_new_bank_account" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:visibility="@{vm.isIMandate==false?View.VISIBLE:View.GONE}"
+            android:id="@+id/rvBankMandateForm"
+            dividerV="@{@drawable/shape_transferant_divider_16dp}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/default_space"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:context=".module.bankmandate.BankMandateWayFragment"
+            tools:listitem="@layout/row_bank_mandate_way" />
+    </LinearLayout>
 
 </layout>
