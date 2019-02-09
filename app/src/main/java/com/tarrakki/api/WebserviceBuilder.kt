@@ -156,6 +156,10 @@ interface WebserviceBuilder {
     fun uploadNachMandateForm(@Path("mandate_id") bank_mandate_id: Int?,
                               @Part image: MultipartBody.Part): Observable<ApiResponse>
 
+    @Multipart
+    @POST("profile/add/")
+    fun completeRegistration(@Part("data") data: RequestBody, @Part file: MultipartBody.Part): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -163,6 +167,6 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage, uploadNACHMandate
+        deleteSavedGoals, getEKYCPage, complateRegistration,uploadNACHMandate
     }
 }

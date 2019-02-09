@@ -642,5 +642,7 @@
     <string name="select_signature_type">Select Signature Type</string>
     <string name="sign_genitally">Sign Genitally</string>
     <string name="sign_physically">Sign Physically</string>
+    <string name="clear_pad">Clear Pad</string>
+    <string name="save_signature">Save Signature</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

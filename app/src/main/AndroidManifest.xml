@@ -17,13 +17,15 @@
     <application
         android:name=".App"
         android:allowBackup="false"
+        android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         android:testOnly="false"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning,HardcodedDebugMode"
         tools:replace="android:allowBackup,android:name"
         tools:targetApi="m">
@@ -93,7 +95,10 @@
             android:name=".module.intro.IntroductionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".module.ekyc.SignatureActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>
