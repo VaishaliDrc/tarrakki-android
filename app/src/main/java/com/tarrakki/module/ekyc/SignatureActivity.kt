@@ -7,8 +7,6 @@ import com.tarrakki.databinding.ActivitySignatureBinding
 import com.williamww.silkysignature.views.SignaturePad
 import kotlinx.android.synthetic.main.activity_signature.*
 import org.supportcompact.CoreActivity
-import org.supportcompact.ktx.dismissProgress
-import org.supportcompact.ktx.showProgress
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.concurrent.thread
@@ -46,21 +44,21 @@ class SignatureActivity : CoreActivity<SignatureVM, ActivitySignatureBinding>() 
         btnClear?.setOnClickListener { signPad?.clear() }
         ivClose?.setOnClickListener { finish() }
         btnContinue?.setOnClickListener {
-            val file = signPad?.transparentSignatureBitmap?.let { it1 -> saveAsFile(it1) }
-            App.INSTANCE.signatureFile.value = file
-            finish()
+            signPad?.transparentSignatureBitmap?.let { it1 -> saveAsFile(it1) }
         }
     }
 
-    private fun saveAsFile(myBitmap: Bitmap): File {
-        getViewModel().showProgress()
+    private fun saveAsFile(myBitmap: Bitmap) {
         val tempFile = File(cacheDir, "signedImg")
         thread {
             val outStream = FileOutputStream(tempFile)
             myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+            outStream.flush()
             outStream.close()
+            runOnUiThread {
+                App.INSTANCE.signatureFile.value = tempFile
+                finish()
+            }
         }
-        getViewModel().dismissProgress()
-        return tempFile
     }
 }

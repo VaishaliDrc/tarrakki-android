@@ -4,16 +4,24 @@ package com.tarrakki.module.account
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.content.LocalBroadcastManager
+import android.util.Xml
 import android.view.View
 import com.tarrakki.*
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.soapmodel.PasswordRequest
+import com.tarrakki.api.soapmodel.PasswordResponse
+import com.tarrakki.api.soapmodel.RequestBody
+import com.tarrakki.api.soapmodel.ResponseBody
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.*
+import com.tarrakki.module.ekyc.EKYCFragment
+import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.checkKYCStatus
+import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -27,6 +35,9 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
+import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.SingleCallback
+import org.supportcompact.networking.subscribeToSingle
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
@@ -109,7 +120,22 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         edtPanNo?.applyPAN()
         tvNext?.setOnClickListener {
             if (edtPanNo.length() == 0) {
-                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                //startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                getViewModel().showProgress()
+                val body = PasswordRequest(PasswordRequest.GetPassword("AU82#bx", "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"))
+                subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).requestPassword(RequestBody(body)),
+                        WebserviceBuilder.ApiNames.getEKYCPage,
+                        object : SingleCallback<WebserviceBuilder.ApiNames> {
+                            override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                                toast("${o}")
+                                getViewModel().dismissProgress()
+                            }
+
+                            override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                                throwable.printStackTrace()
+                                getViewModel().dismissProgress()
+                            }
+                        })
                 //context?.simpleAlert("Please enter PAN card number")
             } else if (!isPANCard(edtPanNo.text.toString())) {
                 context?.simpleAlert("Please enter valid PAN card number")

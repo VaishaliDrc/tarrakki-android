@@ -105,7 +105,7 @@ class BankAccountsVM : FragmentViewModel() {
         val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
         val multipartBody = MultipartBody.Part.createFormData("signature_image1", signatureFile.name, requestFile)
         val json = JsonObject()
-        json.addProperty("pan_number", "AABAA1111R")
+        json.addProperty("pan_number", "EZIPS7324M")
         json.addProperty("date_of_birth", "01/01/2000")
         json.addProperty("guardian_name", "")
         json.addProperty("guardian_pan", "")
@@ -146,11 +146,12 @@ class BankAccountsVM : FragmentViewModel() {
                         dismissProgress()
                         if (o is ApiResponse) {
                             o.printResponse()
-                            if (o.status?.code == 1) {
+                            apiResponse.value = o
+                            /*if (o.status?.code == 1) {
                                 apiResponse.value = o
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
-                            }
+                            }*/
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                         }

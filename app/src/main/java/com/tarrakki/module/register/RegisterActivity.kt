@@ -82,6 +82,10 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 simpleAlert("Password and confirm password miss match") {
                     edtConfirmPassword?.requestFocus()
                 }
+            } else if (cbTermsConditions?.isChecked == false) {
+                simpleAlert("Please agree our Terms & Conditions.") {
+                    edtConfirmPassword?.requestFocus()
+                }
             } else {
                 it.dismissKeyboard()
                 getViewModel().getOTP(getViewModel().mobile.get(), getViewModel().email.get()).observe(this, Observer {

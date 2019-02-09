@@ -55,16 +55,25 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         binding.executePendingBindings()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
+        if (isRegistration) {
+            coreActivityVM?.title?.set(getString(R.string.complete_registration))
+        }
+    }
+
     override fun createReference() {
+        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
         val bankObserver = Observer<UserBanksResponse> { r ->
             r?.let { userBanksResponse ->
                 val banks = arrayListOf<WidgetsViewModel>()
+                val noBanks = userBanksResponse.data.bankDetails.isEmpty()
                 if (userBanksResponse.data.bankDetails.isEmpty()) {
                     banks.add(NoBankAccount())
                 } else {
                     banks.addAll(userBanksResponse.data.bankDetails)
                 }
-                val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
                 if (isRegistration) {
                     banks.add(object : WidgetsViewModel {
                         override fun layoutId(): Int {
@@ -81,6 +90,10 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
                     })
                     binder.setVariable(BR.onNext, View.OnClickListener {
+                        if (noBanks) {
+                            context?.simpleAlert("Please add bank to continue complete registration")
+                            return@OnClickListener
+                        }
                         context?.signatureDialog(
                                 btnDigitally = {
                                     startActivity<SignatureActivity>()

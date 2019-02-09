@@ -12,6 +12,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.simpleframework.xml.convert.AnnotationStrategy
+import org.simpleframework.xml.core.Persister
 import org.supportcompact.CoreApp
 import org.supportcompact.R
 import org.supportcompact.ktx.getLoginToken
@@ -20,6 +22,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
@@ -61,6 +64,28 @@ object ApiClient {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
         }
+        return retrofit
+    }
+
+    fun getSOAPClient(baseUrl: String = "https://eiscuat1.camsonline.com/"): Retrofit {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val strategy = AnnotationStrategy()
+        val serializer = Persister(strategy)
+        val okHttpClient = OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .connectTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(2, TimeUnit.MINUTES)
+                .build()
+
+        val retrofit = Retrofit.Builder()
+                //.addConverterFactory(SimpleXmlConverterFactory.createNonStrict(serializer))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(StringConverterFactory.create(serializer))
+                .baseUrl(baseUrl)
+                .client(okHttpClient)
+                .build()
         return retrofit
     }
 

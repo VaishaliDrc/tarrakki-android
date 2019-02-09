@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_12"
                 android:button="@drawable/selector_check_box"
-                android:checked="true"
+                android:checked="false"
                 android:fontFamily="@font/lato_semibold"
                 android:gravity="center"
                 android:padding="@dimen/space_8"

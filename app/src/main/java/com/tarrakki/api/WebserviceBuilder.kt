@@ -1,15 +1,12 @@
 package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.soapmodel.PasswordResponse
+import com.tarrakki.api.soapmodel.ResponseBody
 import io.reactivex.Observable
-import retrofit2.http.*
-import okhttp3.RequestBody
 import okhttp3.MultipartBody
-import okhttp3.ResponseBody
-import retrofit2.http.POST
-import retrofit2.http.Multipart
-
-
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 
 /**
@@ -144,9 +141,9 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("banks/user-mandate-add/")
     fun addMandateBank(@Field("bank") bank: Int?,
-             @Field("amount") amount: String,
-             @Field("mandate_type") mandateType: String,
-             @Field("user_id") userId: String): Observable<ApiResponse>
+                       @Field("amount") amount: String,
+                       @Field("mandate_type") mandateType: String,
+                       @Field("user_id") userId: String): Observable<ApiResponse>
 
     @GET("banks/user-mandate-download/{mandate_id}/")
     fun downloadMandateForm(@Path("mandate_id") bank_mandate_id: Int?): Observable<ApiResponse>
@@ -160,6 +157,10 @@ interface WebserviceBuilder {
     @POST("profile/add/")
     fun completeRegistration(@Part("data") data: RequestBody, @Part file: MultipartBody.Part): Observable<ApiResponse>
 
+    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
+    @POST("/cispl/services_kycenquiry_uat.asmx")
+    fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<String>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -167,6 +168,6 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage, complateRegistration,uploadNACHMandate
+        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate
     }
 }
