@@ -32,13 +32,25 @@
                 android:text="@string/bank_mandate_preview"
                 android:textColor="@color/black" />
 
-            <WebView
-                android:id="@+id/mWebView"
+            <FrameLayout
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_below="@id/tvDownloadTitle"
                 android:layout_above="@id/lytDownloadContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/default_space"/>
+                android:layout_height="match_parent">
+
+                <WebView
+                    android:id="@+id/mWebView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </FrameLayout>
+
 
             <LinearLayout
                 android:id="@+id/lytDownloadContent"

@@ -19,6 +19,10 @@
             name="goal"
             type="String" />
 
+        <variable
+            name="startDayDisable"
+            type="Boolean"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -179,13 +183,13 @@
             android:layout_width="wrap_content"
             android:layout_height="33dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/shape_edt_white_round"
-            android:drawableEnd="@drawable/ic_drop_down_white_24dp"
+            android:background="@{startDayDisable?@drawable/shape_edt_white_round:@drawable/shape_edt_gray_round}"
+            android:drawableEnd="@{startDayDisable?@drawable/ic_drop_down_white_24dp:@drawable/ic_drop_down_dark_gray_24dp}"
             android:fontFamily="@font/lato_semibold"
             android:padding="@dimen/space_8"
             android:text="@{date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/white"
+            android:textColor="@{startDayDisable?@color/white:@color/darker_gray}"
             app:layout_constraintBottom_toBottomOf="@+id/llSIP"
             app:layout_constraintStart_toEndOf="@+id/llSIP"
             app:layout_constraintTop_toTopOf="@+id/llSIP"

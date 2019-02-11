@@ -3,17 +3,21 @@ package com.tarrakki.module.bankmandate
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.view.View
+import android.webkit.*
 import com.tarrakki.R
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentDownloadBankMandateFromBinding
@@ -21,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_download_bank_mandate_from.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.toast
@@ -97,7 +102,6 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
 
     var onComplete: BroadcastReceiver = object:BroadcastReceiver() {
         override fun onReceive(ctxt:Context, intent:Intent) {
-            // get the refid from the download manager
             val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if (refid == referenceId){
                 toast("Download Complete.")
@@ -107,8 +111,94 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun loadPdf(){
-        mWebView?.settings?.javaScriptEnabled = true
+        mWebView.settings.javaScriptEnabled = true // enable javascript
+        mWebView.settings.loadWithOverviewMode = true
+        mWebView.settings.useWideViewPort = true
+        mWebView.settings.domStorageEnabled = true
+        mWebView.settings.loadsImagesAutomatically = true
+        mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
+        mWebView.settings.setAppCacheEnabled(true)
+        mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        mWebView.settings.setSupportMultipleWindows(false)
+
+        mWebView.webChromeClient = object : WebChromeClient() {
+
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                progressBar?.progress = newProgress
+            }
+        }
+
+        mWebView.webViewClient = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                return onPageRequest(view, url)
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                return onPageRequest(view, request.url.toString())
+            }
+
+            fun onPageRequest(view: WebView, url: String): Boolean {
+                return when {
+                    url.startsWith("tel:") -> {
+                        initiateCall(url)
+                        true
+                    }
+                    url.startsWith("mailto:") -> {
+                        sendEmail(url.substring(7))
+                        true
+                    }
+                    else -> {
+                        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                            startActivity(this)
+                        }
+                        return true
+                    }
+                }
+            }
+
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                progressBar?.visibility = View.VISIBLE
+            }
+
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                progressBar?.visibility = View.GONE
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                progressBar?.visibility = View.GONE
+            }
+        }
         mWebView?.loadUrl("https://docs.google.com/viewer?embedded=true&url=$url")
+    }
+
+    private fun sendEmail(add: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(add))
+        try {
+            startActivity(Intent.createChooser(intent, "Send mail..."))
+        } catch (ex: android.content.ActivityNotFoundException) {
+            post(ShowError("There are no email clients installed."))
+        }
+
+    }
+
+    private fun initiateCall(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        } catch (e: android.content.ActivityNotFoundException) {
+            post(ShowError("Error Dialling"))
+        }
+
     }
 
     private fun downloadPdf(url : String?) {

@@ -19,6 +19,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
+import org.supportcompact.networking.ApiClient
 
 
 /**
@@ -124,6 +125,16 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                 when (page) {
                     Event.PRIVACY_PAGE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.privacy_policy))
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/tos/")
+                    }
+                    Event.TERMS_AND_CONDITIONS_PAGE -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.terms_and_condditions))
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/privacy/")
+                    }
+                    else -> {
+                    }
+                    /*Event.PRIVACY_PAGE -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.privacy_policy))
                         mWebView?.loadUrl("http://115.160.244.10:8084/zalak/odoo-projects/tarraki/mobile-tarraki/privacy-pliocy.html")
                     }
                     Event.TERMS_AND_CONDITIONS_PAGE -> {
@@ -131,7 +142,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         mWebView?.loadUrl("http://115.160.244.10:8084/zalak/odoo-projects/tarraki/mobile-tarraki/termofservice.html")
                     }
                     else -> {
-                    }
+                    }*/
                 }
             }
         })

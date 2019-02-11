@@ -73,7 +73,7 @@ fun getReturnLevel(returnType: String?) : String{
 }
 
 fun String.getBankMandateStatus() : String{
-    return when (this) {
+   /* return when (this) {
             "0" -> "REGISTERED BY MEMBER"
             "1" -> "APPROVED"
             "2" -> "REJECTED"
@@ -93,7 +93,12 @@ fun String.getBankMandateStatus() : String{
             "16" -> "WAITING FOR CLIENT AUTHENTICATION"
             "17" -> "NEW"
             else -> ""
-        }
+        }*/
+    return when (this) {
+        "2","11","12" -> "FAILED"
+        "1" -> "SUCCESS"
+        else -> "PENDING"
+    }
 }
 
 fun FragmentActivity?.onInvestmentStrategies(item : HomeData.Data.Category.SecondLevelCategory){

@@ -84,8 +84,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         binder.tvGoal.visibility = View.GONE
                     }
 
-                    binder.executePendingBindings()
-
                     if (item.day.isNullOrEmpty()) {
                         binder.date = "Start Day"
                     } else {
@@ -94,6 +92,9 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.tvAddOneTimeAmount.setOnClickListener {
                         item.hasOneTimeAmount = true
                     }
+
+                    binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
+
                     binder.ivDelete.setOnClickListener {
                         context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
                             getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, Observer { apiResponse ->
@@ -123,24 +124,36 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.dismissKeyboard()
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
-                            if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyInt())!!) {
-                                item.sipAmount = binder.edtSIPAmount.text.toString()
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+                            if (lumpsumAmount == "0" && lumpsumAmount == ""
+                                    && sipAmount == "" && sipAmount == "0") {
+                                context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+                            } else {
+                                if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyInt())!!) {
+                                    item.sipAmount = binder.edtSIPAmount.text.toString()
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
                             }
                             return@setOnEditorActionListener true
                         }
                         return@setOnEditorActionListener false
                     }
                     binder.tvDate.setOnClickListener {
-                        if (item.frequencyDate.isNotEmpty()) {
-                            context?.showListDialog("Start Day", item.frequencyDate) {
-                                binder.date = it
-                                item.day = it.dropLast(2)
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                        if (binder.startDayDisable == true) {
+                            if (item.frequencyDate.isNotEmpty()) {
+                                context?.showListDialog("Start Day", item.frequencyDate) {
+                                    binder.date = it
+                                    item.day = it.dropLast(2)
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
                             }
                         }
+
                     }
+                    binder.executePendingBindings()
                 }
+
+                //nested_scroll?.scrollTo(0, 0)
             }
         }
 

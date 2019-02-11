@@ -49,7 +49,10 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
         btnSubmit?.setOnClickListener {
 
             getViewModel().uploadMandateForm().observe(this, Observer {
-                startFragment(BankMandateSuccessFragment.newInstance(), R.id.frmContainer)
+                val bundle = Bundle().apply {
+                    arguments?.getBoolean(ISFROMBANKMANDATE)?.let { it1 -> putBoolean(ISFROMBANKMANDATE, it1) }
+                }
+                startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
             })
             //onBack(4)
            // EventBus.getDefault().post(Event.BANK_MANDATE_SUBMITTED)

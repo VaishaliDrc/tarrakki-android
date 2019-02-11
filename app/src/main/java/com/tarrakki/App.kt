@@ -20,7 +20,7 @@ class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
-        cartCount.value = 1
+        cartCount.value = 0
     }
 
     companion object {

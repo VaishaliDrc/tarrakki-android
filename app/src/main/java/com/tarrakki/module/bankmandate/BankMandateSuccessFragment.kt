@@ -3,6 +3,7 @@ package com.tarrakki.module.bankmandate
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
@@ -39,6 +40,8 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
+
         getViewModel().isIMandate.set(arguments?.getBoolean(ISIPMANDATE))
 
         if (getViewModel().isIMandate.get() == true) {
@@ -47,15 +50,29 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
         }
 
         btnInvest?.setOnClickListener {
-            back()
+            onCheckStatus()
+        }
+
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onCheckStatus()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
         }
     }
 
-    private fun back() {
+    private fun onCheckStatus() {
         if (getViewModel().isIMandate.get() == true) {
             onBack(4)
         } else {
-            onBack(5)
+            if (arguments?.getBoolean(ISFROMBANKMANDATE) == true) {
+                onBack(2)
+            } else {
+                onBack(5)
+            }
         }
     }
 
@@ -73,7 +90,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                back()
+                onCheckStatus()
                 return true
             }
         }

@@ -27,8 +27,12 @@ class BankMandateVM : FragmentViewModel() {
 
     val bankMandate = arrayListOf<WidgetsViewModel>()
     val isNextVisible = ObservableField<Boolean>(false)
+    val isAddVisible = ObservableField<Boolean>(false)
     val isMandateBankList = ObservableField<Boolean>(false)
     val isNoBankAccount = ObservableField<Boolean>(false)
+    val IMAGE_RQ_CODE = 101
+    val ICAMERA_RQ_CODE = 181
+    val cvPhotoName = "profilePick"
 
     init {
         bankMandate.add(BankMandate(

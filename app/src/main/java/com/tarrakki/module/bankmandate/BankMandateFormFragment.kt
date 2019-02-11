@@ -1,18 +1,22 @@
 package com.tarrakki.module.bankmandate
 
-
 import android.Manifest
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.databinding.ViewDataBinding
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.View
+import android.webkit.*
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.UserMandateDownloadResponse
@@ -24,19 +28,15 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.takePick
+import org.supportcompact.networking.ApiClient
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BankMandateFormFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMandateFormBinding>() {
     private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
     override val isBackEnabled: Boolean
@@ -99,7 +99,8 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 binder.executePendingBindings()
             }
         }else{
-            mWebView?.loadData(arguments?.getString(IMANDATEDATA), "text/html", null)
+            loadWebView(arguments?.getString(IMANDATEDATA).toString())
+            //mWebView?.loadData(arguments?.getString(IMANDATEDATA), "text/html", null)
         }
 
         btnContinue?.setOnClickListener {
@@ -108,6 +109,105 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 }
                 startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
         }
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun loadWebView(url : String){
+        mWebView.settings.javaScriptEnabled = true // enable javascript
+        mWebView.settings.loadWithOverviewMode = true
+        mWebView.settings.useWideViewPort = true
+        mWebView.settings.domStorageEnabled = true
+        mWebView.settings.loadsImagesAutomatically = true
+        mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
+        mWebView.settings.setAppCacheEnabled(true)
+        mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        mWebView.settings.setSupportMultipleWindows(false)
+
+        mWebView.webChromeClient = object : WebChromeClient() {
+
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                super.onProgressChanged(view, newProgress)
+                progressBar?.progress = newProgress
+            }
+        }
+
+        mWebView.webViewClient = object : WebViewClient() {
+
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                return onPageRequest(view, url)
+            }
+
+            @TargetApi(Build.VERSION_CODES.N)
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                return onPageRequest(view, request.url.toString())
+            }
+
+            fun onPageRequest(view: WebView, url: String): Boolean {
+                return when {
+                    url.startsWith("tel:") -> {
+                        initiateCall(url)
+                        true
+                    }
+                    url.startsWith("mailto:") -> {
+                        sendEmail(url.substring(7))
+                        true
+                    }
+                    else -> {
+                        // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                            startActivity(this)
+                        }
+                        return true
+                    }
+                }
+            }
+
+            override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                progressBar?.visibility = View.VISIBLE
+            }
+
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                progressBar?.visibility = View.GONE
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                progressBar?.visibility = View.GONE
+            }
+        }
+        mWebView?.loadDataWithBaseURL(
+                ApiClient.IMAGE_BASE_URL,
+                url,
+                "text/html",
+                "UTF-8",
+                null)
+
+       // mWebView?.loadUrl(url)
+    }
+
+    private fun sendEmail(add: String) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(add))
+        try {
+            startActivity(Intent.createChooser(intent, "Send mail..."))
+        } catch (ex: android.content.ActivityNotFoundException) {
+            post(ShowError("There are no email clients installed."))
+        }
+
+    }
+
+    private fun initiateCall(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        } catch (e: android.content.ActivityNotFoundException) {
+            post(ShowError("Error Dialling"))
+        }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -203,9 +303,15 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
 
     private fun startCrop(@NonNull uri: Uri) {
         var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
-        destinationFileName += ".png"
+        destinationFileName += ".jpg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
+        val options = UCrop.Options()
+        options.setMaxBitmapSize(2097152)
+        options.setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        options.setStatusBarColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+        options.setActiveWidgetColor(ContextCompat.getColor(context!!, R.color.colorAccent))
+        uCrop.withOptions(options)
         uCrop.start(context!!, this)
     }
 
@@ -229,6 +335,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                         imageUri?.let {
                             val bundle = Bundle().apply {
                                 putString("upload_url",imageUri.toString())
+                                putBoolean(ISFROMBANKMANDATE,false)
                             }
                             /* if (it.scheme == "file") {
                                  val myBitmap = BitmapFactory.decodeFile(it.path)

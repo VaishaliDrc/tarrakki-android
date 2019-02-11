@@ -164,7 +164,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="@dimen/space_8"
-            android:text="@{widget.mandateType.equals('I')==true?@string/normally_take_:@string/normally_take_nach}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintBottom_toBottomOf="@id/tvPending"
             app:layout_constraintEnd_toStartOf="@+id/tvPending"
@@ -187,6 +186,24 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider2" />
+
+        <TextView
+            android:padding="@dimen/space_8"
+            android:visibility="@{widget.isMandateUpload==false?View.VISIBLE:View.GONE}"
+            android:id="@+id/btnUploadSanned"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:fontFamily="@font/lato_bold"
+            android:text="@string/upload_scanned_form"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/space_8"
+            app:layout_constraintTop_toBottomOf="@id/tvPending"/>
 
     </android.support.constraint.ConstraintLayout>
 

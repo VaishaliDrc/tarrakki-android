@@ -36,7 +36,9 @@ data class UserBankMandateResponse(
             @SerializedName("umr_no")
             val umrNo: String,
             @SerializedName("user")
-            val user: Int
+            val user: Int,
+            @SerializedName("is_mandate_uploaded")
+            val isMandateUpload: Boolean
     ) {
         data class BankDetails(
                 @SerializedName("account_number")

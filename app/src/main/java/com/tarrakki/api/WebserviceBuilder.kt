@@ -67,7 +67,7 @@ interface WebserviceBuilder {
                        @Field("fund_id_id") fund_id_id: String,
                        @Field("lumpsum_amount") lumpsum_amount: Double,
                        @Field("day") day: String?,
-                       @Field("sip_amount") sip_amount: Double
+                       @Field("sip_amount") sip_amount: Int
     ): Observable<ApiResponse>
 
     @FormUrlEncoded

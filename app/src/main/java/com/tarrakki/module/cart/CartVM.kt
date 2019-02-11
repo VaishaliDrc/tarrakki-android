@@ -9,10 +9,7 @@ import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.e
-import org.supportcompact.ktx.toCurrency
+import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -87,11 +84,14 @@ class CartVM : FragmentViewModel() {
     }
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
+        if (fund.sipAmount=="0" && fund.sipAmount==""){
+            fund.day = ""
+        }
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                         .updateCartItem(id, fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(),
-                                fund.day,fund.sipAmount.toCurrency()),
+                                fund.day,fund.sipAmount.toCurrencyInt()),
                 apiNames = WebserviceBuilder.ApiNames.updateCartItem,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
