@@ -62,6 +62,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
     override fun createReference() {
 
         var needToRedirect = false
+        mWebView.clearCache(true)
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
         mWebView.settings.useWideViewPort = true
@@ -70,6 +71,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         mWebView.settings.domStorageEnabled = true
 
         //mWebView.settings.setAppCacheMaxSize(10 * 1024 * 1024) // 10MB
+
         mWebView.settings.loadsImagesAutomatically = true
         mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
         mWebView.settings.allowFileAccess = true
@@ -150,7 +152,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     val doc = Jsoup.parse(html)
                     val values = doc.select("input[name=result]").attr("value").split("|")
                     if (values.isNotEmpty() && values.contains("Y")) {
-                            
+
                     } else {
                         post(ShowError(values[3]))
                     }

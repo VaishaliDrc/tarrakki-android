@@ -96,5 +96,14 @@ fun ObservableField<String>.isEmpty() = TextUtils.isEmpty(get())
 fun ObservableField<String>.isEmail() = Patterns.EMAIL_ADDRESS.matcher(get()).matches()
 
 fun ObservableField<String>.isPAN() = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(get()).matches()
-//"^(?=.*\\d)(?=.*[a-z])[\\w~@#\$%^&*+=`|{}:;!.?\"()\\[\\]-]{6,8}\$
-fun ObservableField<String>.isValidPassword() = Pattern.compile( "^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,20}").matcher(get()).matches()
+
+fun ObservableField<String>.isValidPassword() = Pattern.compile("^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,20}").matcher(get()).matches()
+
+
+fun String.isEmpty() = TextUtils.isEmpty(this)
+
+fun String.isEmail() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
+fun String.isPAN() = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(this).matches()
+
+fun String.isValidPassword() = Pattern.compile("^(?=.*?[A-Za-z])(?=.*?[0-9]).{6,20}").matcher(this).matches()

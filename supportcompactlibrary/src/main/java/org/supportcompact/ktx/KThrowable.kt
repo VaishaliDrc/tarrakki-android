@@ -18,3 +18,5 @@ fun Throwable.postError(@StringRes error: Int) {
 }
 
 fun postError(error: String) = EventBus.getDefault().postSticky(ShowError(error))
+
+fun postError(@StringRes error: Int) = EventBus.getDefault().postSticky(ShowError(error = CoreApp.getInstance().getString(error)))

@@ -8,6 +8,7 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_kycregistration_a.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import java.text.DateFormatSymbols
@@ -40,6 +41,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     }
 
     override fun createReference() {
+
+        getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
+            it?.let { kycData ->
+                getBinding().kycData = kycData
+                edtPAN?.setText(kycData.pan)
+                getBinding().executePendingBindings()
+            }
+        })
+
         btnContinue?.setOnClickListener {
             startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
         }
@@ -57,7 +67,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         edtDOB?.setOnClickListener {
             val now: Calendar = Calendar.getInstance()
             var Cdob: Calendar? = null
-            var date: String? = getViewModel().dob.get()
+            var date: String? = getViewModel().kycData.value?.dob
             date?.toDate("dd MMM, yyyy")?.let { dob ->
                 Cdob = dob.toCalendar()
             }
@@ -65,15 +75,20 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                     .context(context)
                     .callback { view, year, monthOfYear, dayOfMonth ->
                         date = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
-                        getViewModel().dob.set(date)
+                        getViewModel().kycData.value?.dob = date as String
                         val isAdult = isAdult(year, monthOfYear, dayOfMonth)
                         getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
                         getViewModel().isEdit.set(isAdult)
+                        if (isAdult) {
+                            edtPAN?.setText(getViewModel().kycData.value?.pan)
+                        } else {
+                            edtPAN?.text?.clear()
+                        }
                     }
                     .showTitle(true)
                     .maxDate(now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
             if (Cdob != null) {
-                Cdob?.let { it ->
+                Cdob?.let {
                     dPicker.defaultDate(it.get(Calendar.YEAR), it.get(Calendar.MONTH), it.get(Calendar.DAY_OF_MONTH))
                 }
             } else {
@@ -83,8 +98,10 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         }
 
         btnContinue?.setOnClickListener {
-            if (isValid()) {
-                startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
+            getViewModel().kycData.value?.let { kycData ->
+                if (isValid(kycData)) {
+                    startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
+                }
             }
         }
     }
@@ -101,21 +118,21 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         return age >= 18
     }
 
-    private fun isValid(): Boolean {
+    private fun isValid(kycData: KYCData): Boolean {
         return when {
-            getViewModel().fName.isEmpty() -> {
+            kycData.fullName.isEmpty() -> {
                 context?.simpleAlert("Please enter full name")
                 false
             }
-            getViewModel().PANNumber.isEmpty() -> {
+            kycData.pan.isEmpty() -> {
                 context?.simpleAlert("Please enter PAN number")
                 false
             }
-            getViewModel().isEdit.get()!! && !getViewModel().PANNumber.isPAN() -> {
+            !kycData.pan.isPAN() -> {
                 context?.simpleAlert("Please enter valid PAN number")
                 false
             }
-            getViewModel().dob.isEmpty() -> {
+            kycData.dob.isEmpty() -> {
                 context?.simpleAlert("Please select date of birth")
                 false
             }
@@ -135,18 +152,18 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter valid mobile number")
                 false
             }*/
-            !getViewModel().isEdit.get()!! && getViewModel().guardian.isEmpty() -> {
+            !getViewModel().isEdit.get()!! && kycData.guardianName.isEmpty() -> {
                 context?.simpleAlert("Please enter guardian name")
                 false
             }
-            !getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
+            /*!getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
                 context?.simpleAlert("Please enter guardian PAN number")
                 false
             }
             !getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isPAN() -> {
                 context?.simpleAlert("Please enter valid guardian PAN number")
                 false
-            }
+            }*/
             /* getViewModel().addressType.isEmpty() -> {
                  context?.simpleAlert("Please select address type")
                  false
@@ -175,15 +192,22 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                  context?.simpleAlert("Please enter country")
                  false
              }*/
-            getViewModel().nominiName.isEmpty() -> {
+            kycData.nomineeName.isEmpty() -> {
                 context?.simpleAlert("Please enter nominee name")
                 false
             }
-            getViewModel().nominiRelationship.isEmpty() -> {
+            kycData.nomineeRelation.isEmpty() -> {
                 context?.simpleAlert("Please enter nominee relationship")
                 false
             }
             else -> true
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceive(kycData: KYCData) {
+        if (getViewModel().kycData.value == null) {
+            getViewModel().kycData.value = kycData
         }
     }
 

@@ -8,6 +8,7 @@ import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
+import com.tarrakki.module.ekyc.KYCData
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -27,6 +28,8 @@ class BankAccountsVM : FragmentViewModel() {
     val cvPhotoName = "profilePick"
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
+    var kycData = MutableLiveData<KYCData>()
+
 
     fun getAllBanks(): MutableLiveData<UserBanksResponse> {
         showProgress()

@@ -78,8 +78,7 @@ public final class StringConverterFactory extends Converter.Factory {
 
     @Override
     public @Nullable
-    Converter<?, RequestBody> requestBodyConverter(Type type,
-                                                   Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         if (!(type instanceof Class)) {
             return null;
         }
