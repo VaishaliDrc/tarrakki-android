@@ -70,11 +70,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         val bankObserver = Observer<UserBanksResponse> { r ->
             r?.let { userBanksResponse ->
                 val banks = arrayListOf<WidgetsViewModel>()
+                var count = 0
                 val noBanks = userBanksResponse.data.bankDetails.isEmpty()
                 if (userBanksResponse.data.bankDetails.isEmpty()) {
                     banks.add(NoBankAccount())
                 } else {
                     banks.addAll(userBanksResponse.data.bankDetails)
+                    count = userBanksResponse.data.bankDetails.size
                 }
                 if (isRegistration) {
                     banks.add(object : WidgetsViewModel {
@@ -89,6 +91,10 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                 rvBanks?.setUpMultiViewRecyclerAdapter(banks) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                     binder.setVariable(BR.widget, item)
                     binder.setVariable(BR.onAdd, View.OnClickListener {
+                        if (count >= 5) {
+                            context?.simpleAlert("You can't add more then 5 banks.")
+                            return@OnClickListener
+                        }
                         startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
                     })
                     binder.setVariable(BR.onNext, View.OnClickListener {

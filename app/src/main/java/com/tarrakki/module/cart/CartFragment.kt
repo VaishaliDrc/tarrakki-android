@@ -9,6 +9,7 @@ import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
@@ -180,7 +181,9 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         }
 
         btn_check_out?.setOnClickListener {
-            validateCart()
+            if (validateCart()) {
+                startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
+            }
         }
 
         getViewModel().getCartItem().observe(this, cartApi)
@@ -229,9 +232,10 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun validateCart() {
+    private fun validateCart(): Boolean {
+        var isValid = true
         val cartItems = adapter?.getItems()
-        loop@ for (i in 0 until (cartItems?.size?.toInt() ?: 0)) {
+        loop@ for (i in 0 until (cartItems?.size ?: 0)) {
             val item = cartItems?.get(i) as CartData.Data.OrderLine
             if (item.day?.isNullOrEmpty() == false) {
                 val sipAmount = item.sipAmount.toInt()
@@ -243,6 +247,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
                         rvCartItems?.smoothScrollToPosition(i)
                     }
+                    isValid = false
                     break@loop
                 }
                 if (lumpsumpAmount != 0) {
@@ -250,6 +255,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount.toCurrency()}.") {
                             rvCartItems?.smoothScrollToPosition(i)
                         }
+                        isValid = false
                         break@loop
                     }
                 }
@@ -258,18 +264,20 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount.toCurrency()}.") {
                             rvCartItems?.smoothScrollToPosition(i)
                         }
+                        isValid = false
                         break@loop
                     }
                 }
-
             } else {
                 //rvCartItems?.smoothScrollToPosition(i)
                 context?.simpleAlert("Please enter Start Day.") {
                     rvCartItems?.smoothScrollToPosition(i)
                 }
+                isValid = false
                 break@loop
             }
         }
+        return isValid
     }
 
 }

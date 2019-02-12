@@ -239,11 +239,12 @@ fun getEKYCData(password: String): MutableLiveData<String> {
     apppaninqBean.apppanno = "BAMPM9343K"
     apppaninqBean.appiopflg = "RS"
     apppaninqBean.appposcode = "infibeam\$10"
+    apppaninqBean.panDOB = "11-05-1975"
     input.apppaninq = apppaninqBean
     val appsummrec = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
     appsummrec.appothkracode = "PLUTOWS"
     appsummrec.appothkrabatch = "SAU_468"
-    appsummrec.appreqdate = "11-02-2019 12:25:00"
+    appsummrec.appreqdate = "12-02-2019 12:43:00"
     appsummrec.apptotalrec = "1"
     input.appsummrec = appsummrec
     reqData.input = input
