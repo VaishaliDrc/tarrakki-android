@@ -2,6 +2,7 @@ package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.soapmodel.PasswordResponse
+import com.tarrakki.api.soapmodel.RequestEnvelopeDownloadPANDetailsEKYC
 import com.tarrakki.api.soapmodel.ResponseBody
 import io.reactivex.Observable
 import okhttp3.MultipartBody
@@ -159,7 +160,11 @@ interface WebserviceBuilder {
 
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
     @POST("/cispl/services_kycenquiry_uat.asmx")
-    fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<String>
+    fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<ResponseBody>
+
+    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
+    @POST("/cispl/services_kycenquiry_uat.asmx")
+    fun getEKYCDetails(@Body body: RequestEnvelopeDownloadPANDetailsEKYC): Observable<ResponseBody>
 
     /**
      * ApiNames to differentiate APIs

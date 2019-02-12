@@ -5,12 +5,12 @@ import android.arch.lifecycle.Observer
 import android.databinding.ObservableField
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.tarrakki.App
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationBBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import kotlinx.android.synthetic.main.fragment_kycregistration_b.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.isEmpty
 import org.supportcompact.ktx.showListDialog
@@ -44,17 +44,25 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
     }
 
     override fun createReference() {
+        getViewModel().kycData.observe(this, Observer {
+            it?.let { kycData ->
+                getBinding().kycData = kycData
+                getBinding().executePendingBindings()
+            }
+        })
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
             getViewModel().iCertify.set(isChecked)
         }
         edtSourceIncome?.setOnClickListener {
             context?.showListDialog(R.string.source_of_income, R.array.income_source) { item ->
                 getViewModel().sourceOfIncome.set(item)
+                getViewModel().kycData.value?.sourceOfIncome = item
             }
         }
         edtIncomeSlab?.setOnClickListener {
             context?.showListDialog(R.string.income_slab, R.array.income_slab) { item ->
                 getViewModel().TAXSlab.set(item)
+                getViewModel().kycData.value?.taxSlab = item
             }
         }
         edtIssue?.setOnClickListener {
@@ -67,8 +75,11 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
             showCountry(getViewModel().issueByC)
         }
         btnLogout?.setOnClickListener {
-            if (isValid()) {
-                startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+            getViewModel().kycData.value?.let { kycData ->
+                if (isValid()) {
+                    startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+                    post(kycData)
+                }
             }
         }
     }
@@ -82,10 +93,10 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
 
     private fun isValid(): Boolean {
         return when {
-            getViewModel().PANName.isEmpty() -> {
+            /*getViewModel().PANName.isEmpty() -> {
                 context?.simpleAlert("Please enter PAN name")
                 false
-            }
+            }*/
             getViewModel().sourceOfIncome.isEmpty() -> {
                 context?.simpleAlert("Please select source of income")
                 false
@@ -107,6 +118,13 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 false
             }
             else -> true
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceive(kycData: KYCData) {
+        if (getViewModel().kycData.value == null) {
+            getViewModel().kycData.value = kycData
         }
     }
 

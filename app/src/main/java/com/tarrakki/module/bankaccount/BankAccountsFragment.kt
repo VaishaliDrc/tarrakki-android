@@ -17,9 +17,11 @@ import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
+import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -258,6 +260,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
     }
 
+    @Subscribe(sticky = true)
+    fun onReceive(kycData: KYCData) {
+        if (getViewModel().kycData.value == null) {
+            getViewModel().kycData.value = kycData
+        }
+        removeStickyEvent(kycData)
+    }
 
     companion object {
         /**

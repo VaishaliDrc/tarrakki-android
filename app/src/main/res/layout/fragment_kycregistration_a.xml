@@ -8,6 +8,11 @@
         <variable
             name="vm"
             type="com.tarrakki.module.ekyc.KYCRegistrationAVM" />
+
+        <variable
+            name="kycData"
+            type="com.tarrakki.module.ekyc.KYCData" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -53,7 +58,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.FName}"
+                    android:text="@={kycData.fullName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -86,7 +91,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.dob}"
+                    android:text="@={kycData.dob}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -126,7 +131,6 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.PANNumber}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -229,7 +233,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.guardian}"
+                    android:text="@={kycData.guardianName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -272,7 +276,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.guardianPANNumber}"
+                    android:text="@={kycData.pan}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -538,7 +542,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.nominiName}"
+                    android:text="@={kycData.nomineeName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -569,7 +573,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.nominiRelationship}"
+                    android:text="@={kycData.nomineeRelation}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"

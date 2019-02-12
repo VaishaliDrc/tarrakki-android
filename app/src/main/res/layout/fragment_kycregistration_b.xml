@@ -8,6 +8,11 @@
         <variable
             name="vm"
             type="com.tarrakki.module.ekyc.KYCRegistrationBVM" />
+
+        <variable
+            name="kycData"
+            type="com.tarrakki.module.ekyc.KYCData" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -53,11 +58,12 @@
 
                 <EditText
                     android:id="@+id/edtPAN"
-                    isPANCard="@{true}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
+                    android:alpha="@{vm.alpha}"
                     android:background="@drawable/shape_edt_gray_round"
+                    android:enabled="@{vm.isEdit()}"
                     android:hint="@string/enter_pan_name"
                     android:inputType="textCapCharacters"
                     android:maxLines="1"
@@ -65,7 +71,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.PANName}"
+                    android:text="@={kycData.nameOfPANHolder}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -325,7 +331,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.TINNumberA}"
+                    android:text="@={kycData.tinNumber1}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -403,7 +409,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.TINNumberB}"
+                    android:text="@={kycData.tinNumber2}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -481,7 +487,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.TINNumberC}"
+                    android:text="@={kycData.tinNumber3}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"

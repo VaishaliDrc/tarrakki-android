@@ -1,10 +1,7 @@
 package com.tarrakki
 
-import android.content.Context
 import android.os.Bundle
-import android.support.annotation.DrawableRes
 import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.module.home.CATEGORYNAME

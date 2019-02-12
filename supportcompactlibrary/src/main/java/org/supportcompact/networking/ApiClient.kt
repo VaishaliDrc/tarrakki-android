@@ -36,6 +36,11 @@ object ApiClient {
     private lateinit var okHttpClient: OkHttpClient
     const val BUILD_TYPE_DEBUG = true
 
+    /***
+     * CAMS api base url
+     * */
+    private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
+
     /**
      * Test Url
      **/
@@ -67,7 +72,7 @@ object ApiClient {
         return retrofit
     }
 
-    fun getSOAPClient(baseUrl: String = "https://eiscuat1.camsonline.com/"): Retrofit {
+    fun getSOAPClient(baseUrl: String = CAMS_API_BASE_URL): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val strategy = AnnotationStrategy()
@@ -80,9 +85,9 @@ object ApiClient {
                 .build()
 
         val retrofit = Retrofit.Builder()
-                //.addConverterFactory(SimpleXmlConverterFactory.createNonStrict(serializer))
+                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(serializer))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(StringConverterFactory.create(serializer))
+                //.addConverterFactory(StringConverterFactory.create(serializer))
                 .baseUrl(baseUrl)
                 .client(okHttpClient)
                 .build()
