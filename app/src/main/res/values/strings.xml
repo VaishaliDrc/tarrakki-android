@@ -644,5 +644,11 @@
     <string name="sign_physically">Sign Physically</string>
     <string name="clear_pad">Clear Pad</string>
     <string name="save_signature">Save Signature</string>
+    <string name="total_amount_payable">Total Amount Payable</string>
+    <string name="sip_bank_mandate">SIP Bank Mandate</string>
+    <string name="start_date_">Start Date:</string>
+    <string name="first_installment_of_sip_on_toady">First installment of SIP on toady</string>
+    <string name="lumpsum">Lumpsum</string>
+    <string name="order_confirm">Order Confirm</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

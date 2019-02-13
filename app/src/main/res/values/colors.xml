@@ -23,6 +23,7 @@
     <color name="pending">#FE860D</color>
     <color name="dark">#8C8C8C</color>
     <color name="name_aggressive">#B78B0A</color>
+    <color name="pdlg_color_green">#00CB00</color>
     <string-array name="risk_level_color">
         <item>#00CB00</item>
         <item>#5DFE5D</item>

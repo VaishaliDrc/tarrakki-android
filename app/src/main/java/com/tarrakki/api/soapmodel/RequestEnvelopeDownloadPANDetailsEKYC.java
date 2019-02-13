@@ -129,6 +129,9 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
                     private String APPIOPFLG;
                     @Element(name = "APP_POS_CODE")
                     private String APPPOSCODE;
+                    @Element(name = "APP_PAN_DOB")
+                    private String panDOB;
+
 
                     public String getAPPPANNO() {
                         return APPPANNO;
@@ -152,6 +155,15 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
 
                     public void setAPPPOSCODE(String APPPOSCODE) {
                         this.APPPOSCODE = APPPOSCODE;
+                    }
+
+                    public String getPanDOB() {
+                        return panDOB;
+                    }
+
+                    public APPPANINQBean setPanDOB(String panDOB) {
+                        this.panDOB = panDOB;
+                        return this;
                     }
                 }
 

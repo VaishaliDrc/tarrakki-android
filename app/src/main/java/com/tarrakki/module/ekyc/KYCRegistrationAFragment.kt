@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
+import com.tarrakki.getEKYCData
+import com.tarrakki.getEncryptedPasswordForCAMPSApi
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_kycregistration_a.*
 import org.greenrobot.eventbus.Subscribe
@@ -104,6 +106,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 }
             }
         }
+
+        getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
+            it?.let { password ->
+                getEKYCData(password).observe(this, android.arch.lifecycle.Observer {
+
+                })
+            }
+        })
+
     }
 
     private fun isAdult(year: Int, month: Int, day: Int): Boolean {
