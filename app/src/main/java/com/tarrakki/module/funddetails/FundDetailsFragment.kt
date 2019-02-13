@@ -59,21 +59,7 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
         mTab?.setupWithViewPager(mPager, true)
     }
 
-    @Subscribe(sticky = true)
-    fun onReceiveFund(fund: InvestmentFunds) {
-        getViewModel().fund = fund
-        removeStickyEvent(fund)
-    }
-
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment FundDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = FundDetailsFragment().apply { arguments = basket }
     }

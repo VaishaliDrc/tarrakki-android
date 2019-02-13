@@ -22,7 +22,6 @@ class FundDetailsVM : FragmentViewModel() {
     val earningBase = arrayListOf<TopHolding>()
     val durations = arrayListOf<FundType>()
     val fundDetailsResponse = MutableLiveData<FundDetails>()
-    var fund: InvestmentFunds? = null
 
     init {
 

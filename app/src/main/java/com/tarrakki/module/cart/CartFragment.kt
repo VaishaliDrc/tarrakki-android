@@ -9,6 +9,8 @@ import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
@@ -85,7 +87,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         binder.tvGoal.visibility = View.GONE
                     }
 
-                    if (item.day.isNullOrEmpty()) {
+                    if (item.day.isNullOrEmpty() || item.day == "0") {
                         binder.date = "Start Day"
                     } else {
                         binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
@@ -111,10 +113,13 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             v.dismissKeyboard()
                             v.clearFocus()
+                            val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-                            if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyInt())!!) {
-                                item.lumpsumAmount = binder.edtLumpsum.text.toString()
-                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyInt(),lumpsumAmount.toCurrencyInt())==true){
+                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyInt())!!) {
+                                    item.lumpsumAmount = binder.edtLumpsum.text.toString()
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
                             }
                             return@setOnEditorActionListener true
                         }
@@ -126,10 +131,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-                            if (lumpsumAmount == "0" && lumpsumAmount == ""
-                                    && sipAmount == "" && sipAmount == "0") {
-                                context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
-                            } else {
+
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyInt(),lumpsumAmount.toCurrencyInt())==true){
                                 if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyInt())!!) {
                                     item.sipAmount = binder.edtSIPAmount.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
@@ -151,6 +154,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
 
                     }
+
+                    binder.root.setOnClickListener {
+                        startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.fundIdId}") }), R.id.frmContainer)
+                    }
+
                     binder.executePendingBindings()
                 }
 
@@ -163,7 +171,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         })
 
         btnAddFund?.setOnClickListener { _ ->
-            if (getString(R.string.edit_funds).equals(btnAddFund.text.toString())) {
+            if (getString(R.string.edit_funds) == btnAddFund.text.toString()) {
                 if (getViewModel().funds.isNotEmpty()) {
                     getViewModel().funds[0].reuestToEdit = true
                 }

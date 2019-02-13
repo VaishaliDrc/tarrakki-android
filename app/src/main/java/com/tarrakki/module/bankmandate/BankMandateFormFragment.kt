@@ -21,6 +21,7 @@ import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentBankMandateFormBinding
+import com.tarrakki.getUCropOptions
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_mandate_form.*
 import org.greenrobot.eventbus.Subscribe
@@ -38,7 +39,7 @@ import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
 class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMandateFormBinding>() {
-    private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
+    private var mandateId = ""
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -213,7 +214,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: UserMandateDownloadResponse) {
         getViewModel().mandateResponse.set(data)
-        //EventBus.getDefault().removeStickyEvent(data)
+        mandateId = data.data.id.toString()
     }
 
     private fun openGallery() {
@@ -302,16 +303,11 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
+        var destinationFileName = mandateId
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
-        val options = UCrop.Options()
-        options.setMaxBitmapSize(2097152)
-        options.setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        options.setStatusBarColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-        options.setActiveWidgetColor(ContextCompat.getColor(context!!, R.color.colorAccent))
-        uCrop.withOptions(options)
+        context?.getUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
 
@@ -336,13 +332,8 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                             val bundle = Bundle().apply {
                                 putString("upload_url",imageUri.toString())
                                 putBoolean(ISFROMBANKMANDATE,false)
+                                putString(MANDATEID,mandateId)
                             }
-                            /* if (it.scheme == "file") {
-                                 val myBitmap = BitmapFactory.decodeFile(it.path)
-                                 ivProfile?.setImageBitmap(myBitmap)
-                             } else {
-                                 ivProfile?.setImageURI(it)
-                             }*/
                             startFragment(UploadBankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
                         }
                     }

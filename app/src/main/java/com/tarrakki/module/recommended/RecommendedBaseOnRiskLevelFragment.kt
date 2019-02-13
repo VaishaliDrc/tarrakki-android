@@ -9,6 +9,8 @@ import com.tarrakki.api.model.InvestmentRecommendFundResponse
 import com.tarrakki.databinding.FragmentRecommendedBaseOnRiskLevelBinding
 import com.tarrakki.databinding.RowAmcListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_recommended_base_on_risk_level.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -137,7 +139,10 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
             binder.vm = item
             binder.executePendingBindings()
 
-
+            /*binder.root.setOnClickListener {
+                startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
+            }
+*/
         }
     }
 

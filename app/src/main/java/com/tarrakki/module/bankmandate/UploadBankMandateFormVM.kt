@@ -28,10 +28,10 @@ class UploadBankMandateFormVM : FragmentViewModel(){
     val uploadUri = ObservableField<String>("")
     val mandateResponse = ObservableField<UserMandateDownloadResponse>()
 
-    fun uploadMandateForm() : MutableLiveData<ApiResponse> {
+    fun uploadMandateForm(id : Int?) : MutableLiveData<ApiResponse> {
         showProgress()
 
-        val id = mandateResponse.get()?.data?.id
+        //val id = mandateResponse.get()?.data?.id
         val file = File(URL(uploadUri.get()).toURI())
         val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
         val body = MultipartBody.Part.createFormData("mandate", file.name, requestFile)

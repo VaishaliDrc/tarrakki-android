@@ -10,9 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.view.KeyEvent
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
@@ -21,9 +18,9 @@ import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
 import com.tarrakki.getBankMandateStatus
+import com.tarrakki.getUCropOptions
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import com.tarrakki.module.bankaccount.SingleButton
-import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.supportcompact.CoreFragment
@@ -36,10 +33,13 @@ import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
 const val ISFROMBANKMANDATE = "isfrombankmandate"
+const val MANDATEID = "mandate_id"
 
 class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
+    private var mandateId = ""
+    private var selectedPosition = -1
+    private var isMandate : Boolean ? = null
 
     override val isBackEnabled: Boolean
         get() = true
@@ -63,52 +63,53 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     }
 
     override fun createReference() {
-        /* rvBankMandate?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandate) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
-             binder.setVariable(BR.widget, item)
-             binder.setVariable(BR.onNext, View.OnClickListener {
-                 startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
-                 EventBus.getDefault().postSticky(getViewModel().bankMandate[0])
-             })
-             binder.setVariable(BR.onAdd, View.OnClickListener {
-                 startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, false) }), R.id.frmContainer)
-             })
-             binder.executePendingBindings()
-         }*/
-
         btnNext?.setOnClickListener {
             if (getViewModel().isMandateBankList.get() != true) {
                 if (userBankAdapter?.selectedItemViewCount != 0) {
                     startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
                     postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
+                    postSticky(Event.ISFROMBANKMANDATE)
                 } else {
                     context?.simpleAlert("Please Select Bank.")
                 }
             }
         }
         btnAdd?.setOnClickListener {
-            startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, false) }), R.id.frmContainer)
+            if (isMandate == false) {
+                startFragment(AddBankAccountFragment.newInstance(Bundle().apply {
+                    putSerializable(IS_FROM_BANK_ACCOUNT, false)
+                }), R.id.frmContainer)
+            } else {
+                startFragment(AddBankMandateFragment.newInstance(), R.id.frmContainer)
+            }
         }
     }
 
     private fun getBanksData() {
         getViewModel().getAllMandateBanks().observe(this, Observer {
             if (it?.data?.isNotEmpty() == true) {
+                isMandate = true
                 getViewModel().isNoBankAccount.set(false)
-                setUserBankMandateAdapter(it.data)
                 getViewModel().isNextVisible.set(false)
                 getViewModel().isAddVisible.set(true)
+                setUserBankMandateAdapter(it.data)
             } else {
-                getViewModel().getAllBanks().observe(this, Observer { it1 ->
-                    getViewModel().isAddVisible.set(true)
-                    if (it1?.data?.bankDetails?.isNotEmpty() == true) {
-                        getViewModel().isNoBankAccount.set(false)
-                        getViewModel().isNextVisible.set(true)
-                        setUserBankAdapter(it1.data.bankDetails)
-                    } else {
-                        getViewModel().isNoBankAccount.set(true)
-                        getViewModel().isNextVisible.set(false)
-                    }
-                })
+                isMandate = false
+                getUserBankAPI()
+            }
+        })
+    }
+
+    fun getUserBankAPI() {
+        getViewModel().getAllBanks().observe(this, Observer { it1 ->
+            getViewModel().isAddVisible.set(true)
+            if (it1?.data?.bankDetails?.isNotEmpty() == true) {
+                getViewModel().isNoBankAccount.set(false)
+                getViewModel().isNextVisible.set(true)
+                setUserBankAdapter(it1.data.bankDetails)
+            } else {
+                getViewModel().isNoBankAccount.set(true)
+                getViewModel().isNextVisible.set(false)
             }
         })
     }
@@ -124,13 +125,15 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     binder?.isSelected = adapter.isItemViewToggled(position)
 
                     binder?.tvPending?.text = item.status.getBankMandateStatus()
-                    binder?.tvInfo?.text = if (item.mandateType=="I"){
+                    binder?.tvInfo?.text = if (item.mandateType.equals("I",true)) {
                         getString(R.string.normally_take_)
-                    }else{
+                    } else {
                         getString(R.string.normally_take_nach)
                     }
 
                     binder?.btnUploadSanned?.setOnClickListener {
+                        mandateId = item.id.toString()
+                        selectedPosition = position
                         context?.takePick(
                                 onGallery = {
                                     openGallery()
@@ -140,7 +143,6 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                                 }
                         )
                     }
-
                 }, { item, position, adapter ->
 
         })
@@ -191,6 +193,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
     override fun onResume() {
         getBanksData()
+        //getViewModel().onResume.value = true
         super.onResume()
     }
 
@@ -280,16 +283,11 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
+        var destinationFileName = mandateId
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
-        val options = UCrop.Options()
-        options.setMaxBitmapSize(2097152)
-        options.setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
-        options.setStatusBarColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-        options.setActiveWidgetColor(ContextCompat.getColor(context!!, R.color.colorAccent))
-        uCrop.withOptions(options)
+        context?.getUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
 
@@ -311,17 +309,16 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     if (data != null) {
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
+                            val bankData = mandateBankAdapter?.getAllItems()?.get(selectedPosition)?.bankDetails
                             val bundle = Bundle().apply {
-                                putString("upload_url",imageUri.toString())
-                                putBoolean(ISFROMBANKMANDATE,true)
+                                putString("upload_url", imageUri.toString())
+                                putBoolean(ISFROMBANKMANDATE, true)
+                                putString(MANDATEID, mandateId)
                             }
-                            /* if (it.scheme == "file") {
-                                 val myBitmap = BitmapFactory.decodeFile(it.path)
-                                 ivProfile?.setImageBitmap(myBitmap)
-                             } else {
-                                 ivProfile?.setImageURI(it)
-                             }*/
                             startFragment(UploadBankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                            bankData?.let { it1 ->
+                                postSticky(it1)
+                            }
                         }
                     }
                 }
@@ -333,6 +330,4 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = BankMandateFragment().apply { arguments = basket }
     }
-
-
 }

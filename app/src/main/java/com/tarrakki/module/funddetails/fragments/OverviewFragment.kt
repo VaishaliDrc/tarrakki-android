@@ -64,9 +64,10 @@ class OverviewFragment : Fragment() {
                             binder.executePendingBindings()
                         }
                     }
-                    vm.fund?.let { f ->
+                   /* vm.fund?.let { f ->
                         fundDetails.fundsDetails?.fscbiIndianRiskLevel = f.getRiskLevelName("${fundDetails.fundsDetails?.riskLevelId}")
-                    }
+                    }*/
+                    fundDetails.fundsDetails?.fscbiIndianRiskLevel = fundDetails.fundsDetails?.riskLevelId
                     binder?.fund = fundDetails.fundsDetails
                     binder?.executePendingBindings()
                     binder?.root?.visibility = View.VISIBLE

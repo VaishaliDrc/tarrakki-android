@@ -1,30 +1,27 @@
 package com.tarrakki.module.bankmandate
 
-
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
+import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.databinding.FragmentBankMandateSuccessBinding
 import kotlinx.android.synthetic.main.fragment_bank_mandate_success.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.supportcompact.CoreFragment
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BankMandateSuccessFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
+
 class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBankMandateSuccessBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
         get() = getString(R.string.bank_mandate)
+
+    var isFromNew : Boolean ? = null
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_mandate_success
@@ -66,12 +63,20 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
 
     private fun onCheckStatus() {
         if (getViewModel().isIMandate.get() == true) {
-            onBack(4)
+            if (isFromNew == true){
+                onBack(5)
+            }else{
+                onBack(4)
+            }
         } else {
             if (arguments?.getBoolean(ISFROMBANKMANDATE) == true) {
                 onBack(2)
             } else {
-                onBack(5)
+                if (isFromNew == true){
+                    onBack(6)
+                }else{
+                    onBack(5)
+                }
             }
         }
     }
@@ -79,6 +84,18 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: BankDetail) {
         getViewModel().bankMandate.set(data)
+        getViewModel().bankName.set(data.branchBankIdBankName)
+        getViewModel().accountNumber.set(data.accountNumber)
+        getViewModel().branchName.set(data.branchBranchName)
+        removeStickyEvent(data)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(data: UserBankMandateResponse.Data.BankDetails) {
+        //getViewModel().bankMandate.set(data)
+        getViewModel().bankName.set(data.bankName)
+        getViewModel().accountNumber.set(data.accountNumber)
+        getViewModel().branchName.set(data.branchName)
         removeStickyEvent(data)
     }
 
@@ -95,5 +112,18 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    @Subscribe(sticky = true)
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        when (event) {
+            Event.ISFROMNEWBANKMANDATE -> {
+                isFromNew = true
+            }
+            Event.ISFROMBANKMANDATE -> {
+                isFromNew = false
+            }
+        }
     }
 }

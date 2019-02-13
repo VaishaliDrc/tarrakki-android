@@ -568,6 +568,15 @@ fun Context.isSIPAmountValid(minSIPAmount: Int,
     return true
 }
 
+fun Context.isCartAmountValid(sipAmount: Int,
+                                lumpsumAmount: Int): Boolean {
+    if (lumpsumAmount == 0 && sipAmount == 0) {
+        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        return false
+    }
+    return true
+}
+
 fun getOrdinalFormat(num: Int): String {
     val suffix = arrayOf("th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th")
     val m = num % 100

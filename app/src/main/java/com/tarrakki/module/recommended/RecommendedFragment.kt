@@ -17,6 +17,8 @@ import com.tarrakki.api.model.RecommendedFunds
 import com.tarrakki.databinding.FragmentRecommendedBinding
 import com.tarrakki.databinding.RowRecommendedFundsListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.toYearWord
 import kotlinx.android.synthetic.main.fragment_recommended.*
 import org.greenrobot.eventbus.EventBus
@@ -75,6 +77,10 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 rvAMCList?.setUpRecyclerView(R.layout.row_recommended_funds_list_item, funds.data) { item: Fund, binder: RowRecommendedFundsListItemBinding, position ->
                     binder.fund = item
                     binder.executePendingBindings()
+
+                    binder.root.setOnClickListener {
+                        startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
+                    }
                 }
                 setPieChartData(funds)
             }

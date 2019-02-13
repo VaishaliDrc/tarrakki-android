@@ -17,6 +17,7 @@ import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
+import com.tarrakki.module.bankmandate.ISFROMBANKMANDATE
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.yalantis.ucrop.UCrop
@@ -29,12 +30,7 @@ import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
-/**
- * A simple [Fragment] subclass.
- * Use the [BankAccountsFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
+
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
@@ -43,6 +39,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         get() = true
     override val title: String
         get() = getString(R.string.bank_accounts)
+    var isFromBankMandate :Boolean ? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_accounts
@@ -60,6 +57,10 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
+        /*isFromBankMandate = arguments?.getBoolean(ISFROMBANKMANDATE)
+        if (isFromBankMandate==true){
+            coreActivityVM?.title?.set(getString(R.string.bank_mandate))
+        }*/
         if (isRegistration) {
             coreActivityVM?.title?.set(getString(R.string.complete_registration))
         }
@@ -275,14 +276,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment BankAccountsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = BankAccountsFragment().apply { arguments = basket }
     }

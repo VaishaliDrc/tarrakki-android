@@ -107,14 +107,6 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
     private fun isIFSCCode(IFSCCode: String) = Pattern.compile("[A-Z|a-z]{4}[0][\\d]{6}\$").matcher(IFSCCode).matches()
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment AddBankAccountFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = AddBankAccountFragment().apply { arguments = basket }
     }

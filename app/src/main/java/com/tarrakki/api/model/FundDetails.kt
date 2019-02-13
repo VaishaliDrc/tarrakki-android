@@ -197,7 +197,7 @@ data class FundsDetails(
         @SerializedName("pre_dp_day_end_nav")
         val preDpDayEndNav: String,
         @SerializedName("risk_level_id")
-        val riskLevelId: Int,
+        val riskLevelId: String,
         @SerializedName("rta_agent_code")
         val rtaAgentCode: String,
         @SerializedName("rta_code")

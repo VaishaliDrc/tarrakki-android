@@ -1,7 +1,9 @@
 package com.tarrakki
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.module.home.CATEGORYNAME
@@ -11,6 +13,7 @@ import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.yalantis.ucrop.UCrop
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -149,4 +152,12 @@ fun FragmentActivity?.onInvestmentStrategies(item : HomeData.Data.Category.Secon
     } else {
         this?.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
     }
+}
+
+fun Context.getUCropOptions() : UCrop.Options{
+    val options = UCrop.Options()
+    options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+    options.setActiveWidgetColor(ContextCompat.getColor(this, R.color.colorAccent))
+    return options
 }

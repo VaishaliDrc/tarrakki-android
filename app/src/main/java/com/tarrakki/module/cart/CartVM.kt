@@ -84,8 +84,11 @@ class CartVM : FragmentViewModel() {
     }
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
-        if (fund.sipAmount=="0" && fund.sipAmount==""){
+        if (fund.sipAmount.toCurrencyInt()==0){
             fund.day = ""
+        }
+        if (fund.day==null || fund.day==""){
+            fund.day = "0"
         }
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(

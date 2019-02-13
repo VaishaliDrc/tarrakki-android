@@ -47,15 +47,12 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
         getViewModel().uploadUri.set(arguments?.getString("upload_url"))
         img_preview?.setImageURI(Uri.parse(getViewModel().uploadUri.get()))
         btnSubmit?.setOnClickListener {
-
-            getViewModel().uploadMandateForm().observe(this, Observer {
+            getViewModel().uploadMandateForm(arguments?.getString(MANDATEID)?.toInt()).observe(this, Observer {
                 val bundle = Bundle().apply {
                     arguments?.getBoolean(ISFROMBANKMANDATE)?.let { it1 -> putBoolean(ISFROMBANKMANDATE, it1) }
                 }
                 startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
             })
-            //onBack(4)
-           // EventBus.getDefault().post(Event.BANK_MANDATE_SUBMITTED)
         }
     }
 

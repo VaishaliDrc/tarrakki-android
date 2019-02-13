@@ -527,6 +527,7 @@
     <string name="breach_name">Branch Name</string>
     <string name="ifsc_code">IFSC Code</string>
     <string name="add_new_bank_account">Add New Bank Account</string>
+    <string name="add_new_bank_mandate">Add New Bank Mandate</string>
     <string name="select_bank">Select Bank</string>
     <string name="icici_bank">ICICI Bank</string>
     <string name="re_enter_account_number">Re-enter Account Number</string>
