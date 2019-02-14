@@ -60,6 +60,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
 
     override fun createReference() {
         getViewModel().isIMandate.set(arguments?.getBoolean(ISIPMANDATE))
+        mandateId = arguments?.getString(MANDATEID,"").toString()
 
         if (getViewModel().isIMandate.get() == false) {
             var selectedAt = 0
@@ -67,7 +68,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 binder.setVariable(BR.widget, item)
                 binder.setVariable(BR.onAdd, View.OnClickListener {
                     if (selectedAt == 0){
-                        val mandateId = getViewModel().mandateResponse.get()?.data?.id
+                        //val mandateId = getViewModel().mandateResponse.get()?.data?.id
                         getViewModel().getMandateForm(mandateId).observe(this, Observer {
                             response->
                             val bundle = Bundle().apply {
@@ -84,7 +85,6 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                                     openCamera()
                                 }
                         )
-                        //
                     }
                 })
                 binder.root.setOnClickListener {
@@ -328,8 +328,9 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val bundle = Bundle().apply {
+                                val isFromUpload =  arguments?.getBoolean(ISFROMDIRECTBANKMANDATE,false)
                                 putString("upload_url",imageUri.toString())
-                                putBoolean(ISFROMBANKMANDATE,false)
+                                isFromUpload?.let { it1 -> putBoolean(ISFROMDIRECTBANKMANDATE, it1) }
                                 putString(MANDATEID,mandateId)
                             }
                             startFragment(UploadBankMandateFormFragment.newInstance(bundle), R.id.frmContainer)

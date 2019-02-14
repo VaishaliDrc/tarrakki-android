@@ -91,7 +91,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     }
 
                     if (item.day.isNullOrEmpty() || item.day == "0") {
-                        binder.date = "Start Day"
+                        binder.date = "Start Date"
                     } else {
                         binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
                     }
@@ -147,7 +147,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.tvDate.setOnClickListener {
                         if (binder.startDayDisable == true) {
                             if (item.frequencyDate.isNotEmpty()) {
-                                context?.showListDialog("Start Day", item.frequencyDate) {
+                                context?.showListDialog("Start Date", item.frequencyDate) {
                                     binder.date = it
                                     item.day = it.dropLast(2)
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
@@ -195,7 +195,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             getViewModel().getCartItem().observe(this, cartApi)
         })
 
-        btnAddFund?.setOnClickListener { _ ->
+        btnAddFund?.setOnClickListener {
             if (getString(R.string.edit_funds) == btnAddFund.text.toString()) {
                 if (getViewModel().funds.isNotEmpty()) {
                     getViewModel().funds[0].reuestToEdit = true
@@ -319,7 +319,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         break@loop
                     } else {
                         if (item.day?.isNullOrEmpty() == true || item.day == "0") {
-                            context?.simpleAlert("Please enter Start Day.") {
+                            context?.simpleAlert("Please Select Start Date.") {
                                 if (getViewModel().funds.isNotEmpty()) {
                                     getViewModel().funds[i].reuestToEdit = true
                                 }

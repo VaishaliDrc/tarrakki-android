@@ -387,16 +387,16 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
     mDialog.show()
 }
 
-fun Context.investDialog(fundId: Int, minSIPAmount: Double,
-                         minLumsumpAmount: Double,
+fun Context.investDialog(fundId: Int, minSIPAmount: BigInteger,
+                         minLumsumpAmount: BigInteger,
                          onInvest: ((amountLumpsum: String, amountSIP: String, fundId: Int) -> Unit)? = null) {
     val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
     mBinder.btnInvest.setOnClickListener {
-        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrency()
-        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrency()
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
         if (this.isInvestDialogValid(minSIPAmount, minLumsumpAmount, sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
@@ -471,23 +471,23 @@ fun String.toYearWord(): String {
     }
 }
 
-fun Context.isInvestDialogValid(minSIPAmount: Double,
-                                minLumsumpAmount: Double,
-                                sipAmount: Double,
-                                lumpsumAmount: Double): Boolean {
-    if (lumpsumAmount == 0.0 && sipAmount == 0.0) {
+fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
+                                minLumsumpAmount: BigInteger,
+                                sipAmount: BigInteger,
+                                lumpsumAmount: BigInteger): Boolean {
+    if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false
     }
-    if (lumpsumAmount != 0.0) {
+    if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount}.")
             return false
         }
     }
-    if (sipAmount != 0.0) {
+    if (sipAmount != BigInteger.ZERO) {
         if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toString().toCurrency()}.")
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount}.")
             return false
         }
     }

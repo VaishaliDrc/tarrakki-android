@@ -69,8 +69,8 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
                 onBack(4)
             }
         } else {
-            if (arguments?.getBoolean(ISFROMBANKMANDATE) == true) {
-                onBack(2)
+            if (arguments?.getBoolean(ISFROMDIRECTBANKMANDATE) == true) {
+                onBack(3)
             } else {
                 if (isFromNew == true){
                     onBack(6)

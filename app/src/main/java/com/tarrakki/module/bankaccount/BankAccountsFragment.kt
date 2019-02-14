@@ -17,7 +17,6 @@ import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
-import com.tarrakki.module.bankmandate.ISFROMBANKMANDATE
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.yalantis.ucrop.UCrop

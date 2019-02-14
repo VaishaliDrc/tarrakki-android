@@ -16,6 +16,8 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.isLogin
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -24,11 +26,16 @@ class ExploreAllInvestmentFundsVM : FragmentViewModel() {
     var homeSections = ArrayList<WidgetsViewModel>()
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
+        var userId : String? = null
+        if (App.INSTANCE.isLogin()){
+            userId = App.INSTANCE.getUserId()
+        }
         val homeData = MutableLiveData<HomeData>()
         if (!isRefreshing)
             EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
-                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getHomeData(),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .getHomeData(userId),
                 apiNames = WebserviceBuilder.ApiNames.getHomeData,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

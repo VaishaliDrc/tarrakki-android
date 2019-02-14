@@ -41,7 +41,7 @@ interface WebserviceBuilder {
     fun calculatePMT(@Query("data") data: String): Observable<ApiResponse>
 
     @GET("category/homepage/")
-    fun getHomeData(): Observable<ApiResponse>
+    fun getHomeData(@Query("user_id") userId : String?): Observable<ApiResponse>
 
     @GET("users/get_otp/")
     fun getOTP(@Query("data") data: String): Observable<ApiResponse>
@@ -147,7 +147,7 @@ interface WebserviceBuilder {
                        @Field("user_id") userId: String): Observable<ApiResponse>
 
     @GET("banks/user-mandate-download/{mandate_id}/")
-    fun downloadMandateForm(@Path("mandate_id") bank_mandate_id: Int?): Observable<ApiResponse>
+    fun downloadMandateForm(@Path("mandate_id") bank_mandate_id: String?): Observable<ApiResponse>
 
     @Multipart
     @PUT("banks/user-mandate-download/{mandate_id}/")

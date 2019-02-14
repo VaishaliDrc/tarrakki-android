@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import org.supportcompact.ktx.*
 import java.lang.reflect.Type
+import java.math.BigInteger
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -326,9 +327,9 @@ data class FundsDetails(
             iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount
                     ?: 0.00
         } else 0.00*/
-    var validminSIPAmount = 0.0
+    var validminSIPAmount = BigInteger.ZERO
         get() {
-            var sipAmount = 100.0
+            var sipAmount = BigInteger.valueOf(100)
             if (iaipAip != null && iaipAip.isNotEmpty()) {
                 val aipAip = iaipAip.firstOrNull { it ->
                     "SIP".equals(it.siType, true)
@@ -337,15 +338,15 @@ data class FundsDetails(
                 if (aipAip != null) {
                     val maxTenure = iaipAip.maxBy { it.minTenure }
                     if (maxTenure != null) {
-                        sipAmount = maxTenure.minAmount ?: 0.0
+                        sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
                     }
                 }
             }
             return sipAmount
         }
 
-    var validminlumpsumAmount = 0.0
-        get() = piMinimumInitial?.toDouble() ?: 0.0
+    var validminlumpsumAmount = BigInteger.ZERO
+        get() = piMinimumInitial?.toCurrencyBigInt()
 
     var vol = ""
         get() = parseToPercentageOrNA(standardDeviation5Yr)

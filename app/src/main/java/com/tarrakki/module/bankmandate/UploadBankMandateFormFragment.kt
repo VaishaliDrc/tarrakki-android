@@ -49,7 +49,7 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
         btnSubmit?.setOnClickListener {
             getViewModel().uploadMandateForm(arguments?.getString(MANDATEID)?.toInt()).observe(this, Observer {
                 val bundle = Bundle().apply {
-                    arguments?.getBoolean(ISFROMBANKMANDATE)?.let { it1 -> putBoolean(ISFROMBANKMANDATE, it1) }
+                    arguments?.getBoolean(ISFROMDIRECTBANKMANDATE)?.let { it1 -> putBoolean(ISFROMDIRECTBANKMANDATE, it1) }
                 }
                 startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
             })
@@ -59,7 +59,7 @@ class UploadBankMandateFormFragment : CoreFragment<UploadBankMandateFormVM, Frag
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: UserMandateDownloadResponse) {
         getViewModel().mandateResponse.set(data)
-        EventBus.getDefault().removeStickyEvent(data)
+        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {

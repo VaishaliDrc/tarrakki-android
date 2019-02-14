@@ -31,7 +31,7 @@
         Select a goal and get started.
     </string>
     <string name="set_a_goal">Set a Goal</string>
-    <string name="our_recommended">Our Recommended</string>
+    <string name="our_recommended">Our Recommendation</string>
     <string name="our_recommended_title">Our Recommended Fund for this Strategy</string>
     <string name="your_investment_plan">Your Investment Plan</string>
     <string name="monthly_investment">Monthly Investment</string>
@@ -651,5 +651,6 @@
     <string name="first_installment_of_sip_on_toady">First installment of SIP on toady</string>
     <string name="lumpsum">Lumpsum</string>
     <string name="order_confirm">Order Confirm</string>
+    <string name="complete_nach_mandate">Complete Nach Mandate</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

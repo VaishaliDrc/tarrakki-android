@@ -3,6 +3,8 @@ package com.tarrakki.api.model
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.parseToPercentageOrNA
+import org.supportcompact.ktx.toCurrencyBigInt
+import java.math.BigInteger
 
 data class InvestmentFunds(
         @SerializedName("fixed_deposit_return")
@@ -91,14 +93,26 @@ data class InvestmentFunds(
         var returnSinceLaunch: String? = ""
             get() = parseToPercentageOrNA("$ttrReturnSinceInception")
 
-        var validminSIPAmount = 0.00
-            get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
-                iaipAip.firstOrNull { it -> "STP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) }?.minAmount
-                        ?: 0.00
-            } else 0.00
+        var validminSIPAmount = BigInteger.ZERO
+            get() {
+                var sipAmount = BigInteger.valueOf(100)
+                if (iaipAip != null && iaipAip.isNotEmpty()) {
+                    val aipAip = iaipAip.firstOrNull { it ->
+                        "SIP".equals(it.siType, true)
+                                && "Monthly".equals(it.frequency, true)
+                    }
+                    if (aipAip != null) {
+                        val maxTenure = iaipAip.maxBy { it.minTenure }
+                        if (maxTenure != null) {
+                            sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
+                        }
+                    }
+                }
+                return sipAmount
+            }
 
-        var validminlumpsumAmount = 0.00
-            get() = piMinimumInitial?.toDouble() ?: 0.00
+        var validminlumpsumAmount = BigInteger.ZERO
+            get() = piMinimumInitial?.toCurrencyBigInt()
     }
 
     data class FscbiCategory(
