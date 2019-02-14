@@ -48,8 +48,8 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
         val viewModel = getViewModel()
 
         viewModel.isFrom.set(arguments?.getInt("isFrom"))
-        viewModel.sipAmount.set(arguments?.getInt("sip"))
-        viewModel.lumpsumAmount.set(arguments?.getInt("lumpsump"))
+        viewModel.sipAmount.set(arguments?.getString("sip"))
+        viewModel.lumpsumAmount.set(arguments?.getString("lumpsump"))
 
         viewModel.thirdLevelCategory.observe(this, Observer {
             if (arguments?.getBoolean("isThematic") == false) {

@@ -107,8 +107,6 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     }
                     binder.root.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
-                        //postSticky(response)
-                        //toast("Fund Details is still under development so you will be able to test it in the next build.")
                     }
                 }
                 categories.clear()

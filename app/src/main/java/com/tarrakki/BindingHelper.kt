@@ -32,6 +32,7 @@ import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
+import java.math.BigInteger
 import java.util.*
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
@@ -416,71 +417,18 @@ fun Context.investDialog(fundId: Int, minSIPAmount: Double,
 fun Context.investmentStragiesDialog(
         thirdLevelCategory: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory,
         onInvest: ((thirdLevelCategory: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory,
-                    amountLumpsum: Int, amountSIP: Int) -> Unit)? = null) {
+                    amountLumpsum: BigInteger, amountSIP: BigInteger) -> Unit)? = null) {
     val mBinder = DialogInvestStratergyBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
 
-    /*mBinder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) {
-
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            val sipAmount = p0.toString()
-            val lumpsumAmount = mBinder.edtLumpsum.text.toString()
-
-            if (sipAmount.isNotEmpty() || lumpsumAmount.isNotEmpty()) {
-                mBinder.edtDurations.isFocusable = true
-                mBinder.edtDurations.isFocusableInTouchMode = true
-                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_gray_round)
-            } else {
-                mBinder.edtDurations.isFocusable = false
-                mBinder.edtDurations.isFocusableInTouchMode = false
-                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_disable_gray_round)
-            }
-        }
-
-    })
-
-    mBinder.edtLumpsum.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(p0: Editable?) {
-
-        }
-
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
-
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            val lumpsumAmount = p0.toString()
-            val sipAmount = mBinder.edtSIPAmount.text.toString()
-
-            if (sipAmount.isNotEmpty() || lumpsumAmount.isNotEmpty()) {
-                mBinder.edtDurations.isFocusable = true
-                mBinder.edtDurations.isFocusableInTouchMode = true
-                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_gray_round)
-            } else {
-                mBinder.edtDurations.isFocusable = false
-                mBinder.edtDurations.isFocusableInTouchMode = false
-                mBinder.edtDurations.background = getDrawable(R.drawable.shape_edt_disable_gray_round)
-            }
-        }
-
-    })*/
-
     mBinder.btnInvest.setOnClickListener {
-        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyInt()
-        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyInt()
-        // val duration = mBinder.edtDurations.text.toString()
         it.dismissKeyboard()
 
-        if (lumpsumAmount == 0 && sipAmount == 0) {
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
+        if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
             this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         } else {
             mDialog.dismiss()
@@ -539,38 +487,38 @@ fun Context.isInvestDialogValid(minSIPAmount: Double,
     }
     if (sipAmount != 0.0) {
         if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toCurrency()}.")
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toString().toCurrency()}.")
             return false
         }
     }
     return true
 }
 
-fun Context.isLumpsumAmountValid(minLumsumpAmount: Int,
-                                 lumpsumAmount: Int): Boolean {
-    if (lumpsumAmount != 0) {
+fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
+                                 lumpsumAmount: BigInteger): Boolean {
+    if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toCurrency()}.")
+            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toString().toCurrency()}.")
             return false
         }
     }
     return true
 }
 
-fun Context.isSIPAmountValid(minSIPAmount: Int,
-                             sipAmount: Int): Boolean {
-    if (sipAmount != 0) {
+fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
+                             sipAmount: BigInteger): Boolean {
+    if (sipAmount != BigInteger.ZERO) {
         if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toCurrency()}.")
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toString().toCurrency()}.")
             return false
         }
     }
     return true
 }
 
-fun Context.isCartAmountValid(sipAmount: Int,
-                                lumpsumAmount: Int): Boolean {
-    if (lumpsumAmount == 0 && sipAmount == 0) {
+fun Context.isCartAmountValid(sipAmount: BigInteger,
+                                lumpsumAmount: BigInteger): Boolean {
+    if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false
     }

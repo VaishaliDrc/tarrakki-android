@@ -115,8 +115,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyInt(),lumpsumAmount.toCurrencyInt())==true){
-                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyInt())!!) {
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(),lumpsumAmount.toCurrencyBigInt())==true){
+                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount.toBigInteger(), lumpsumAmount.toCurrencyBigInt())!!) {
                                     item.lumpsumAmount = binder.edtLumpsum.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
                                 }
@@ -132,8 +132,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
 
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyInt(),lumpsumAmount.toCurrencyInt())==true){
-                                if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyInt())!!) {
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(),lumpsumAmount.toCurrencyBigInt())==true){
+                                if (context?.isSIPAmountValid(item.validminSIPAmount.toBigInteger(), sipAmount.toCurrencyBigInt())!!) {
                                     item.sipAmount = binder.edtSIPAmount.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
                                 }

@@ -43,8 +43,8 @@ class RecommendedVM : FragmentViewModel() {
     val returnLevel = ObservableField<String>("")
     val riskLevel = ObservableField<String>("")
 
-    val sipAmount = ObservableField<Int>()
-    val lumpsumAmount = ObservableField<Int>()
+    val sipAmount = ObservableField<String>()
+    val lumpsumAmount = ObservableField<String>()
     val isFrom = ObservableField<Int>()
 
     fun addGoalToCart(userGoalId: String): MutableLiveData<ApiResponse> {

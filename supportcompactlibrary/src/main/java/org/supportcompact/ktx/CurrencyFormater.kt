@@ -4,6 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
+import java.math.BigDecimal
+import java.math.BigInteger
 import java.text.DecimalFormat
 
 fun EditText.applyCurrencyFormat() {
@@ -139,10 +141,16 @@ fun String.toCurrency(): Double = try {
     0.0
 }
 
-fun String.toCurrencyInt(): Int = try {
-    this.replace(",", "").toIntOrNull() ?: 0
+fun String.toCurrencyBigInt(): BigInteger = try {
+    this.replace(",", "").toBigIntegerOrNull() ?: BigInteger.ZERO
 } catch (e: java.lang.Exception) {
-    0
+    BigInteger.ZERO
+}
+
+fun String.toCurrencyBigDecimal(): BigDecimal = try {
+    this.replace(",", "").toBigDecimalOrNull() ?: BigDecimal.ZERO
+} catch (e: java.lang.Exception) {
+    BigDecimal.ZERO
 }
 
 fun Int.toCurrency() = "\u20B9".plus(formatter.format(this))

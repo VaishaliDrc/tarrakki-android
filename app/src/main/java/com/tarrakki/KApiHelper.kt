@@ -16,6 +16,7 @@ import org.supportcompact.ktx.postError
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
+import java.math.BigInteger
 import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
@@ -60,56 +61,19 @@ fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
     return apiResponse
 }
 
-fun getCartItem(showProgress: Boolean): MutableLiveData<CartData> {
-    val apiResponse = MutableLiveData<CartData>()
-    if (showProgress) {
-        EventBus.getDefault().post(SHOW_PROGRESS)
-    }
-    subscribeToSingle(
-            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getCartItem(),
-            apiNames = WebserviceBuilder.ApiNames.getCartItem,
-            singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
-                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                    if (showProgress) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
-                    }
-                    if (o is ApiResponse) {
-                        if ((o.status?.code == 1)) {
-                            thread {
-                                val data = o.data?.parseTo<CartData>()
-                                apiResponse.postValue(data)
-                            }
-                        } else {
-                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
-                        }
-                    } else {
-                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                    if (showProgress) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
-                    }
-                    EventBus.getDefault().post(ShowError("${throwable.message}"))
-                }
-            }
-    )
-    return apiResponse
-}
-
-fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumAmount: Int, addToCart: Int, isShowProgress: Boolean = true)
+fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: BigInteger,
+                             lumpsumAmount: BigInteger, addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<InvestmentRecommendFundResponse> {
     val apiResponse = MutableLiveData<InvestmentRecommendFundResponse>()
     if (isShowProgress) {
         EventBus.getDefault().post(SHOW_PROGRESS)
     }
-    val sip = if (sipAmount == 0) {
+    val sip = if (sipAmount == BigInteger.ZERO) {
         ""
     } else {
         sipAmount.toString()
     }
-    val lumpsum = if (lumpsumAmount == 0) {
+    val lumpsum = if (lumpsumAmount == BigInteger.ZERO) {
         ""
     } else {
         lumpsumAmount.toString()
@@ -147,18 +111,18 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumA
     return apiResponse
 }
 
-fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: Int, lumpsumAmount: Int,
+fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String, lumpsumAmount: String,
                                    addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<ApiResponse> {
-    val sip = if (sipAmount == 0) {
+    val sip = if (sipAmount == "0") {
         ""
     } else {
-        sipAmount.toString()
+        sipAmount
     }
-    val lumpsum = if (lumpsumAmount == 0) {
+    val lumpsum = if (lumpsumAmount == "0") {
         ""
     } else {
-        lumpsumAmount.toString()
+        lumpsumAmount
     }
     val apiResponse = MutableLiveData<ApiResponse>()
     if (isShowProgress) {

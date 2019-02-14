@@ -125,7 +125,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     binder?.isSelected = adapter.isItemViewToggled(position)
 
                     binder?.tvPending?.text = item.status.getBankMandateStatus()
-                    binder?.tvInfo?.text = if (item.mandateType.equals("I",true)) {
+                    binder?.tvInfo?.text = if (item.mandateType.equals("X",true)) {
                         getString(R.string.normally_take_)
                     } else {
                         getString(R.string.normally_take_nach)
@@ -166,12 +166,13 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         }
         )
         rvBankMandate?.adapter = userBankAdapter
-        /*userBankAdapter?.toggleItemView(0)
-        userBankAdapter?.notifyItemChanged(0)*/
         val default_position = bankDetails.indexOfFirst { it.isDefault }
         if (default_position != -1) {
             userBankAdapter?.toggleItemView(default_position)
             userBankAdapter?.notifyItemChanged(default_position)
+        }else{
+            userBankAdapter?.toggleItemView(0)
+            userBankAdapter?.notifyItemChanged(0)
         }
     }
 
@@ -193,7 +194,6 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
     override fun onResume() {
         getBanksData()
-        //getViewModel().onResume.value = true
         super.onResume()
     }
 

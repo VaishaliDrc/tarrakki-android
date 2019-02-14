@@ -106,12 +106,13 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         }
         )
         rvBankMandate?.adapter = userBankAdapter
-        /*userBankAdapter?.toggleItemView(0)
-        userBankAdapter?.notifyItemChanged(0)*/
         val default_position = bankDetails.indexOfFirst { it.isDefault }
         if (default_position != -1) {
             userBankAdapter?.toggleItemView(default_position)
             userBankAdapter?.notifyItemChanged(default_position)
+        }else{
+            userBankAdapter?.toggleItemView(0)
+            userBankAdapter?.notifyItemChanged(0)
         }
     }
 

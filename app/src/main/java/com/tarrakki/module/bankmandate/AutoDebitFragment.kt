@@ -17,7 +17,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toCurrency
-import org.supportcompact.ktx.toCurrencyInt
+import org.supportcompact.ktx.toCurrencyBigInt
 
 
 /**
@@ -73,7 +73,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
 
         btnContinue?.setOnClickListener {
             val bundle = Bundle().apply {
-                putString(AMOUNT, getViewModel().amount.get()?.toCurrencyInt().toString())
+                putString(AMOUNT, getViewModel().amount.get()?.toCurrencyBigInt().toString())
             }
             startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
         }

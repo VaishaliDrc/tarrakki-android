@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import java.math.BigDecimal
 
 data class InvestmentRecommendFundResponse(
         @SerializedName("data")
@@ -18,11 +19,11 @@ data class InvestmentRecommendFundResponse(
             @SerializedName("id")
             val id: Int,
             @SerializedName("lumpsum_amount")
-            val lumpsum: Int,
+            val lumpsum: Double,
             @SerializedName("name")
             val name: String,
             @SerializedName("sip_amount")
-            val sipAmount: Int,
+            val sipAmount: Double,
             @SerializedName("ttr_return_5_yr")
             val ttrReturn5Yr: String,
             @SerializedName("sip_weightage")

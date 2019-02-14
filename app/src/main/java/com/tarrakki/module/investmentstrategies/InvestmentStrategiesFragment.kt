@@ -131,8 +131,8 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                                     android.arch.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putInt("isFrom", 2)
-                                            putInt("sip", amountSIP)
-                                            putInt("lumpsump", amountLumpsum)
+                                            putString("sip", amountSIP.toString())
+                                            putString("lumpsump", amountLumpsum.toString())
                                         }
                                         startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                         EventBus.getDefault().postSticky(it)

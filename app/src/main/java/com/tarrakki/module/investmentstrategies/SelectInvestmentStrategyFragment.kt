@@ -51,8 +51,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                                 android.arch.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 1)
-                                        putInt("sip", amountSIP)
-                                        putInt("lumpsump", amountLumpsum)
+                                        putString("sip", amountSIP.toString())
+                                        putString("lumpsump", amountLumpsum.toString())
                                     }
                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                     EventBus.getDefault().postSticky(getViewModel().secondlevel.get())
@@ -69,8 +69,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                                 android.arch.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 2)
-                                        putInt("sip", amountSIP)
-                                        putInt("lumpsump", amountLumpsum)
+                                        putString("sip", amountSIP.toString())
+                                        putString("lumpsump", amountLumpsum.toString())
                                         putBoolean("isThematic", false)
                                     }
                                     startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
@@ -150,8 +150,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                             android.arch.lifecycle.Observer { response ->
                                 val bundle = Bundle().apply {
                                     putInt("isFrom", 1)
-                                    putInt("sip", amountSIP)
-                                    putInt("lumpsump", amountLumpsum)
+                                    putString("sip", amountSIP.toString())
+                                    putString("lumpsump", amountLumpsum.toString())
                                 }
                                 startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
                                 EventBus.getDefault().postSticky(category)

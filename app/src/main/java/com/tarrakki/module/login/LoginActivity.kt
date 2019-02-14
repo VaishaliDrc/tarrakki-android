@@ -3,6 +3,9 @@ package com.tarrakki.module.login
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.util.Patterns
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.common.api.ApiException
 import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
@@ -10,11 +13,17 @@ import com.tarrakki.databinding.ActivityLoginBinding
 import com.tarrakki.module.forgotpassword.ForgotPasswordActivity
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.register.RegisterActivity
+import com.tarrakki.module.socialauthhelper.GoogleSignInHelper
+import com.tarrakki.module.socialauthhelper.GoogleSignInListener
 import kotlinx.android.synthetic.main.activity_login.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.*
 
-class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
+
+class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignInListener {
+
+    var mGoogleSignInHelper: GoogleSignInHelper? = null
 
     override fun getLayout(): Int {
         return R.layout.activity_login
@@ -30,6 +39,8 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
     }
 
     override fun createReference() {
+        mGoogleSignInHelper = GoogleSignInHelper(this, this)
+
         tvForgotPassword?.setOnClickListener {
             startActivity<ForgotPasswordActivity>()
         }
@@ -91,6 +102,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
                 }
             }
         }
+
         App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
@@ -98,5 +110,38 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>() {
             }
         })
 
+        llGpl?.setOnClickListener {
+          //  EventBus.getDefault().post(SHOW_PROGRESS)
+           // mGoogleSignInHelper?.signIn()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        mGoogleSignInHelper?.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount) {
+        EventBus.getDefault().post(DISMISS_PROGRESS)
+        getGoogleAccountData()
+    }
+
+    override fun onGoogleSignInFailed(e: ApiException) {
+        EventBus.getDefault().post(DISMISS_PROGRESS)
+        e(e.localizedMessage.toString())
+    }
+
+    fun getGoogleAccountData() {
+        val acct = GoogleSignIn.getLastSignedInAccount(this)
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto = acct.photoUrl
+
+            e(personName.toString())
+        }
     }
 }

@@ -13,6 +13,7 @@ import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
+import java.math.BigInteger
 
 class CartVM : FragmentViewModel() {
 
@@ -84,17 +85,19 @@ class CartVM : FragmentViewModel() {
     }
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
-        if (fund.sipAmount.toCurrencyInt()==0){
+        if (fund.sipAmount.toCurrencyBigInt()== BigInteger.ZERO){
             fund.day = ""
         }
         if (fund.day==null || fund.day==""){
             fund.day = "0"
         }
+        val lumpsump = fund.lumpsumAmount.toCurrencyBigInt().toString()
+        val sip = fund.sipAmount.toCurrencyBigInt().toString()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .updateCartItem(id, fund.fundIdId.toString(), fund.lumpsumAmount.toCurrency(),
-                                fund.day,fund.sipAmount.toCurrencyInt()),
+                        .updateCartItem(id, fund.fundIdId.toString(), lumpsump,
+                                fund.day,sip),
                 apiNames = WebserviceBuilder.ApiNames.updateCartItem,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

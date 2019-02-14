@@ -125,8 +125,8 @@ fun FragmentActivity?.onInvestmentStrategies(item : HomeData.Data.Category.Secon
                             investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                     android.arch.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
-                                            putInt("sip", amountSIP)
-                                            putInt("lumpsump", amountLumpsum)
+                                            putString("sip", amountSIP.toString())
+                                            putString("lumpsump", amountLumpsum.toString())
                                             putInt("isFrom", 2)
                                         }
                                         startFragment(RecommendedBaseOnRiskLevelFragment.newInstance(bundle), R.id.frmContainer)
