@@ -228,7 +228,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                 } else if (TextUtils.isEmpty(n.ans) || n.ans.toDouble() !in n.minValue..n.maxValue.toDouble()) {
                     var msg = "Please enter a valid number of years between"
                             .plus(" ".plus(n.minValue))
-                            .plus(" to ".plus(n.maxValue.toIntOrNull()))
+                            .plus(" to ".plus(n.maxValue))
                     context?.simpleAlert(msg)
                     false
                 } else if (goal.inflation == null || "${goal.inflation}" == "0") {

@@ -1,9 +1,9 @@
 package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.soapmodel.PasswordResponse
 import com.tarrakki.api.soapmodel.RequestEnvelopeDownloadPANDetailsEKYC
 import com.tarrakki.api.soapmodel.ResponseBody
+import com.tarrakki.api.soapmodel.VerifyPANDetails
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -159,12 +159,19 @@ interface WebserviceBuilder {
     fun completeRegistration(@Part("data") data: RequestBody, @Part file: MultipartBody.Part): Observable<ApiResponse>
 
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("/cispl/services_kycenquiry_uat.asmx")
+    @POST("cispl/services_kycenquiry_uat.asmx")
     fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<ResponseBody>
 
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("/cispl/services_kycenquiry_uat.asmx")
+    @POST("cispl/services_kycenquiry_uat.asmx")
     fun getEKYCDetails(@Body body: RequestEnvelopeDownloadPANDetailsEKYC): Observable<ResponseBody>
+
+    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
+    @POST("cispl/services_kycenquiry_uat.asmx")
+    fun getPANeKYCDetails(@Body body: VerifyPANDetails): Observable<ResponseBody>
+
+    @GET("cart/confirm/order/{userId}")
+    fun getConfirmOrder(@Path("userId") userId: String?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

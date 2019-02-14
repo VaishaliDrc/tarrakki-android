@@ -77,7 +77,7 @@ class PerformanceFragment : Fragment() {
 
         rvEarned?.isFocusable = false
         rvEarned?.isNestedScrollingEnabled = false
-        var amount = 100000
+        var amount = 100000.0
         var durations = 3.0
         fundVM?.let { itVM ->
             itVM.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
@@ -129,7 +129,7 @@ class PerformanceFragment : Fragment() {
                         override fun afterTextChanged(p: Editable?) {
                             if (p != null && p.isNotEmpty()) {
                                 try {
-                                    amount = p.toString().replace(",", "").toInt()
+                                    amount = p.toString().replace(",", "").toDouble()
                                     itVM.earningBase.forEach { item ->
                                         item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                             durations * 12
@@ -165,7 +165,10 @@ class PerformanceFragment : Fragment() {
                             if (s.toString() != current) {
                                 try {
                                     edtInvestAmount?.removeTextChangedListener(this)
-                                    val cleanString = s.toString().replace(",", "")
+                                    var cleanString = s.toString().replace(",", "")
+                                    if (cleanString.length > 16) {
+                                        cleanString = cleanString.dropLast(1)
+                                    }
                                     val price = cleanString.toDouble()
                                     if (price > 0) {
                                         edtInvestAmount?.format(price)
@@ -328,7 +331,7 @@ class PerformanceFragment : Fragment() {
     }
 
     // Calculating the compount interest using formula A = P  (1 + r/n)^nt
-    fun calculateReturns(amount: Int, durations: Double, rateOfInterest: Double = 5.0): Double {
+    fun calculateReturns(amount: Double, durations: Double, rateOfInterest: Double = 5.0): Double {
         val floatRateOfInterest = rateOfInterest / 100
         val floatFirstValueOfPower = (1 + floatRateOfInterest / 12)
         val tn = durations / 12 * 12
@@ -336,7 +339,7 @@ class PerformanceFragment : Fragment() {
     }
 
     private fun resetProgress(items: ArrayList<TopHolding>) {
-        val num = items.maxBy { it -> it.amount }
+        val num = items.maxBy { it.amount }
         num?.let { max ->
             items.forEach { item ->
                 item.process = if (max.amount > 0.0) (item.amount * 100 / max.amount).toInt() else 0

@@ -2,11 +2,11 @@ package com.tarrakki
 
 import android.arch.lifecycle.MutableLiveData
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.*
-import com.tarrakki.api.soapmodel.PasswordRequest
-import com.tarrakki.api.soapmodel.RequestBody
-import com.tarrakki.api.soapmodel.RequestEnvelopeDownloadPANDetailsEKYC
-import com.tarrakki.api.soapmodel.ResponseBody
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.InvestmentRecommendFundResponse
+import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.api.soapmodel.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
@@ -157,8 +157,9 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
 }
 
 const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
+//const val PASSKEY = "SajanGandhi"
 
-fun getEncryptedPasswordForCAMPSApi(password: String = "AU82#bx"): MutableLiveData<String> {
+fun getEncryptedPasswordForCAMPSApi(password: String = "kra\$36369"): MutableLiveData<String> {
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<String>()
     val body = PasswordRequest(PasswordRequest.GetPassword(password, PASSKEY))
@@ -220,6 +221,62 @@ fun getEKYCData(password: String): MutableLiveData<String> {
     reqBody.ekyc = reqData
     reqEnvelope.requestBody = reqBody
     subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getEKYCDetails(reqEnvelope),
+            WebserviceBuilder.ApiNames.getEKYCPage,
+            object : SingleCallback<WebserviceBuilder.ApiNames> {
+                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o is ResponseBody) {
+                        e("Data=>$o")
+                    }
+                    /*try {
+                        val data = o.toString()
+                        val xmlJSON = XmlToJson.Builder(data).build()
+                        val json = xmlJSON.toJson()
+                        e("ApiResponse=>$json")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        e.postError(R.string.try_again_to)
+                    }
+                    EventBus.getDefault().post(DISMISS_PROGRESS)*/
+                }
+
+                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                }
+            })
+    return apiResponse
+}
+
+fun getPANeKYCDetails(password: String): MutableLiveData<String> {
+
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<String>()
+    val reqEnvelope = VerifyPANDetails()
+    val reqData = VerifyPANDetails.RequestBody.PANDetailsEKYC()
+    val input = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean()
+    val apppaninqBean = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
+    apppaninqBean.apppanno = "DGUPP2792B"//"BAMPM9343K"
+    apppaninqBean.panDOB = ""
+    apppaninqBean.appiopflg = "IE"
+    apppaninqBean.appposcode = "infibeam\$10"
+
+    input.apppaninq = apppaninqBean
+    val appsummrec = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
+    appsummrec.appothkracode = "PLUTOWS"
+    appsummrec.appothkrabatch = "SAU_468"
+    appsummrec.appreqdate = "13-02-2019 15:24:23"
+    appsummrec.apptotalrec = "1"
+    input.appsummrec = appsummrec
+    reqData.input = VerifyPANDetails.RequestBody.PANDetailsEKYC.InputXML(input)
+    reqData.userName = "PLUTOWS"
+    reqData.passKey = PASSKEY
+    reqData.posCode = "PA"
+    reqData.password = password
+    val reqBody = VerifyPANDetails.RequestBody()
+    reqBody.ekyc = reqData
+    reqEnvelope.requestBody = reqBody
+    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getPANeKYCDetails(reqEnvelope),
             WebserviceBuilder.ApiNames.getEKYCPage,
             object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

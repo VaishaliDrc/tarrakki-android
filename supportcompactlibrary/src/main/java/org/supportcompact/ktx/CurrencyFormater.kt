@@ -61,7 +61,10 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
             if (s.toString() != current) {
                 try {
                     this@applyCurrencyFormatPositiveOnly.removeTextChangedListener(this)
-                    val cleanString = s.toString().replace(",", "")
+                    var cleanString = s.toString().replace(",", "")
+                    if (cleanString.length > 16) {
+                        cleanString = cleanString.dropLast(1)
+                    }
                     val amount = cleanString.toDouble()
                     if (amount > 0) {
                         this@applyCurrencyFormatPositiveOnly.format(amount)
@@ -81,8 +84,8 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
 
 
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
-val formatter = DecimalFormat("##,##,##0")
-val dFormatter = DecimalFormat("##,##,##.##")
+val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
+val dFormatter = DecimalFormat("##,##,##,##,##,##,##,##.##")
 
 fun TextView.decimalFormat(amount: Double) {
     this.text = dFormatter.format(amount)//String.format(locale, "%,.2f", amount)

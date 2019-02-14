@@ -328,7 +328,7 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
     if (goal != null && goal.isCustomInvestment())
-        mBinder.investment = goal.pmt?.toString()
+        mBinder.investment = goal.pmt?.format()
     else
         mBinder.investment = goal?.getPMT()?.ans
     mBinder.lumpsum = goal?.getPVAmount()
@@ -363,7 +363,7 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
                     } else if (TextUtils.isEmpty(mBinder.durations) || "${mBinder.durations}".toDouble() !in n.minValue..n.maxValue.toDouble()) {
                         val msg = "Please enter a valid number of years between"
                                 .plus(" ".plus(n.minValue))
-                                .plus(" to ".plus(n.maxValue.toIntOrNull()))
+                                .plus(" to ".plus(n.maxValue))
                         EventBus.getDefault().post(ShowError(msg))
                     } else {
                         mDialog.dismiss()

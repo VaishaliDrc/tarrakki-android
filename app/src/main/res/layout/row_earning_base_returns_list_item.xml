@@ -23,6 +23,7 @@
             android:text="@{topFund.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Gruh Finance Ltd." />
 

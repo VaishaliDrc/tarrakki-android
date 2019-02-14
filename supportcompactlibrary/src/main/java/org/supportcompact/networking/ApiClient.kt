@@ -39,7 +39,7 @@ object ApiClient {
     /***
      * CAMS api base url
      * */
-    private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
+    public const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
 
     /**
      * Test Url

@@ -225,7 +225,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid number of years between"
                                 .plus(" ".plus(question.minValue))
-                                .plus(" to ".plus(question.maxValue.toIntOrNull()))
+                                .plus(" to ".plus(question.maxValue))
                         context?.simpleAlert(msg)
                         false
                     } else
@@ -235,7 +235,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
                         var msg = "Please enter a valid percentage between"
                                 .plus(" ".plus(question.minValue))
-                                .plus(" to ".plus(question.maxValue.toIntOrNull()))
+                                .plus(" to ".plus(question.maxValue))
                         context?.simpleAlert(msg)
                         false
                     } else

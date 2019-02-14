@@ -39,6 +39,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         get() = true
     override val title: String
         get() = getString(R.string.bank_accounts)
+
     var isFromBankMandate :Boolean ? = false
 
     override fun getLayout(): Int {
