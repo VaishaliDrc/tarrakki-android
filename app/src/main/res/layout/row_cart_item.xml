@@ -264,6 +264,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLines="1"
+                android:text="@={fund.lumpsumAmount}"
                 android:minWidth="100dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"

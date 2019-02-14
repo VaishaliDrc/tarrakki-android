@@ -101,7 +101,6 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
             }
         }else{
             loadWebView(arguments?.getString(IMANDATEDATA).toString())
-            //mWebView?.loadData(arguments?.getString(IMANDATEDATA), "text/html", null)
         }
 
         btnContinue?.setOnClickListener {
@@ -178,14 +177,13 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 progressBar?.visibility = View.GONE
             }
         }
+
         mWebView?.loadDataWithBaseURL(
                 ApiClient.IMAGE_BASE_URL,
                 url,
                 "text/html",
                 "UTF-8",
                 null)
-
-       // mWebView?.loadUrl(url)
     }
 
     private fun sendEmail(add: String) {

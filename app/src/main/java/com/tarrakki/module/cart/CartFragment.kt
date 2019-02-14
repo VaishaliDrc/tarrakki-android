@@ -3,15 +3,17 @@ package com.tarrakki.module.cart
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
-import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
@@ -21,6 +23,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
+import java.math.BigInteger
 import java.util.*
 
 class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
@@ -68,8 +71,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 adapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
                     binder.fund = item
                     item.hasOneTimeAmount = try {
-                        val num = item.lumpsumAmount.toCurrency()
-                        num > 0
+                        val num = item.lumpsumAmount.toCurrencyBigInt()
+                        num > BigInteger.ZERO
                     } catch (e: Exception) {
                         false
                     }
@@ -92,19 +95,18 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     } else {
                         binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
                     }
-                    binder.tvAddOneTimeAmount.setOnClickListener {
-                        item.hasOneTimeAmount = true
-                    }
 
                     binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
 
+                    binder.tvAddOneTimeAmount.setOnClickListener {
+                        item.hasOneTimeAmount = true
+                    }
                     binder.ivDelete.setOnClickListener {
                         context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
                             getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, Observer { apiResponse ->
                                 getViewModel().funds.removeAt(position)
                                 App.INSTANCE.cartCount.value = getViewModel().funds.size
                                 getViewModel().cartUpdate.value = null
-                                //rvCartItems?.adapter?.notifyDataSetChanged()
                                 updateCartUI()
                             })
                         })
@@ -115,8 +117,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(),lumpsumAmount.toCurrencyBigInt())==true){
-                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount.toBigInteger(), lumpsumAmount.toCurrencyBigInt())!!) {
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!) {
                                     item.lumpsumAmount = binder.edtLumpsum.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
                                 }
@@ -132,8 +134,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
 
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(),lumpsumAmount.toCurrencyBigInt())==true){
-                                if (context?.isSIPAmountValid(item.validminSIPAmount.toBigInteger(), sipAmount.toCurrencyBigInt())!!) {
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!) {
                                     item.sipAmount = binder.edtSIPAmount.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
                                 }
@@ -155,14 +157,37 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
                     }
 
+                    binder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p0: Editable?) {
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                          item.sipAmount = binder.edtSIPAmount.text.toString().toCurrencyBigInt().toString()
+                        }
+                    })
+                    binder.edtLumpsum.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p0: Editable?) {
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            item.lumpsumAmount = binder.edtLumpsum.text.toString().toCurrencyBigInt().toString()
+                        }
+                    })
+
                     binder.root.setOnClickListener {
-                        startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.fundIdId}") }), R.id.frmContainer)
+                        startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                            putString(ITEM_ID, "${item.fundIdId}") }
+                        ), R.id.frmContainer)
                     }
 
                     binder.executePendingBindings()
                 }
-
-                //nested_scroll?.scrollTo(0, 0)
             }
         }
 
@@ -258,47 +283,56 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         val cartItems = adapter?.getItems()
         loop@ for (i in 0 until (cartItems?.size ?: 0)) {
             val item = cartItems?.get(i) as CartData.Data.OrderLine
-            if (item.day?.isNullOrEmpty() == false) {
-                val sipAmount = item.sipAmount.toInt()
-                val lumpsumpAmount = item.lumpsumAmount.toInt()
-                val minlumpsumpAmount = item.validminlumpsumAmount
-                val minsipAmount = item.validminSIPAmount
+            val sipAmount = item.sipAmount.toCurrencyBigInt()
+            val lumpsumpAmount = item.lumpsumAmount.toCurrencyBigInt()
+            val minlumpsumpAmount = item.validminlumpsumAmount
+            val minsipAmount = item.validminSIPAmount
 
-                if (lumpsumpAmount == 0 && sipAmount == 0) {
-                    context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
-                        rvCartItems?.smoothScrollToPosition(i)
+            if (lumpsumpAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
+                context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
+                    //rvCartItems?.smoothScrollToPosition(i)
+                    if (getViewModel().funds.isNotEmpty()) {
+                        getViewModel().funds[i].reuestToEdit = true
                     }
-                    isValid = false
-                    break@loop
-                }
-                if (lumpsumpAmount != 0) {
-                    if (lumpsumpAmount < minlumpsumpAmount) {
-                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount.toCurrency()}.") {
-                            rvCartItems?.smoothScrollToPosition(i)
-                        }
-                        isValid = false
-                        break@loop
-                    }
-                }
-                if (sipAmount != 0) {
-                    if (sipAmount < minsipAmount) {
-                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount.toCurrency()}.") {
-                            rvCartItems?.smoothScrollToPosition(i)
-                        }
-                        isValid = false
-                        break@loop
-                    }
-                }
-            } else {
-                //rvCartItems?.smoothScrollToPosition(i)
-                context?.simpleAlert("Please enter Start Day.") {
-                    rvCartItems?.smoothScrollToPosition(i)
                 }
                 isValid = false
                 break@loop
+            } else {
+                if (lumpsumpAmount != BigInteger.ZERO) {
+                    if (lumpsumpAmount < minlumpsumpAmount) {
+                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount}.") {
+                            if (getViewModel().funds.isNotEmpty()) {
+                                getViewModel().funds[i].reuestToEdit = true
+                            }
+                        }
+                        isValid = false
+                        break@loop
+                    }
+                } else if (sipAmount != BigInteger.ZERO) {
+                    if (sipAmount < minsipAmount) {
+                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount}.") {
+                            if (getViewModel().funds.isNotEmpty()) {
+                                getViewModel().funds[i].reuestToEdit = true
+                            }
+                        }
+                        isValid = false
+                        break@loop
+                    } else {
+                        if (item.day?.isNullOrEmpty() == true || item.day == "0") {
+                            context?.simpleAlert("Please enter Start Day.") {
+                                if (getViewModel().funds.isNotEmpty()) {
+                                    getViewModel().funds[i].reuestToEdit = true
+                                }
+                            }
+                            isValid = false
+                            break@loop
+                        }
+                    }
+                } else {
+                    isValid = true
+                }
             }
         }
         return isValid
     }
-
 }

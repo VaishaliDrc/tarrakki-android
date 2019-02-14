@@ -139,10 +139,9 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
             binder.vm = item
             binder.executePendingBindings()
 
-            /*binder.root.setOnClickListener {
+            binder.root.setOnClickListener {
                 startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)
             }
-*/
         }
     }
 

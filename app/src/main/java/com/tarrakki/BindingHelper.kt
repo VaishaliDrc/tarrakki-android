@@ -498,7 +498,7 @@ fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
                                  lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toString().toCurrency()}.")
+            this.simpleAlert("The lumpsum amount must be greater than or equal to $minLumsumpAmount.")
             return false
         }
     }
@@ -509,7 +509,7 @@ fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
                              sipAmount: BigInteger): Boolean {
     if (sipAmount != BigInteger.ZERO) {
         if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toString().toCurrency()}.")
+            this.simpleAlert("The SIP amount must be greater than or equal to $minSIPAmount.")
             return false
         }
     }

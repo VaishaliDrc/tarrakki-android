@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.getOrdinalFormat
 import java.io.Serializable
+import java.math.BigInteger
 
 data class CartData(
         @SerializedName("data")
@@ -45,9 +46,9 @@ data class CartData(
                 @SerializedName("goal")
                 val goal: Goal
         ) : BaseObservable(), Serializable {
-            var validminSIPAmount = 0
+            var validminSIPAmount = BigInteger.ZERO
                 get() {
-                    var sipAmount = 100
+                    var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
                         val aipAip = iaipAip.firstOrNull { it ->
                             "SIP".equals(it.siType, true)
@@ -56,15 +57,15 @@ data class CartData(
                         if (aipAip != null) {
                             val maxTenure = iaipAip.maxBy { it.minTenure }
                             if (maxTenure != null) {
-                                sipAmount = maxTenure.minAmount ?: 0
+                                sipAmount = maxTenure.minAmount?.toBigInteger() ?: BigInteger.ZERO
                             }
                         }
                     }
                     return sipAmount
                 }
 
-            var validminlumpsumAmount = 0
-                get() = piMinimumInitial?.toInt() ?: 0
+            var validminlumpsumAmount = BigInteger.ZERO
+                get() = piMinimumInitial?.toBigInteger() ?: BigInteger.ZERO
 
             @get:Bindable
             var hasOneTimeAmount: Boolean = false

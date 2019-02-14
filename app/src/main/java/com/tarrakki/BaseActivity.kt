@@ -117,7 +117,15 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         when (item?.itemId) {
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
-                    val mandateSuccessFragment = supportFragmentManager.findFragmentByTag(BankMandateSuccessFragment::class.java.name)
+                    val fragment = supportFragmentManager?.findFragmentById(R.id.frmContainer)
+
+                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment){
+                        return super.onOptionsItemSelected(item)
+                    }else{
+                        onBackPressed()
+                    }
+
+                    /*val mandateSuccessFragment = supportFragmentManager.findFragmentByTag(BankMandateSuccessFragment::class.java.name)
                     val cartFragment = supportFragmentManager.findFragmentByTag(CartFragment::class.java.name)
                     if (cartFragment!=null && cartFragment is CartFragment) {
                         return super.onOptionsItemSelected(item)
@@ -125,7 +133,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()
-                    }
+                    }*/
                 }
                 return true
             }
