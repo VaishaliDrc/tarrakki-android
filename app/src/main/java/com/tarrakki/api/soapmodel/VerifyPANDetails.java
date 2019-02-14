@@ -230,6 +230,7 @@ public class VerifyPANDetails {
             }
 
             public static class InputXML {
+
                 @Element(name = "APP_REQ_ROOT")
                 //@Element(name = "InputXML")
                 private APPREQROOTBean input;

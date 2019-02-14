@@ -12,7 +12,8 @@ import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.*
+import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -20,7 +21,6 @@ import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
-import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
@@ -114,7 +114,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             } else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                checkKYCStatus(kyc).observe(this, Observer {
+                getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
+                    it?.let { password ->
+                        getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
+                            getEKYCData(password, kyc.pan)
+                        })
+                    }
+                })
+                /*checkKYCStatus(kyc).observe(this, Observer {
                     it?.let { html ->
                         //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />
                         try {
@@ -133,7 +140,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         }
                         edtPanNo?.text?.clear()
                     }
-                })
+                })*/
                 /*kyc.mobile = "8460421008"
                 startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
                 postSticky(kyc)*/

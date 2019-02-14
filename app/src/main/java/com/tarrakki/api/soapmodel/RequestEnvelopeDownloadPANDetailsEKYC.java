@@ -34,7 +34,7 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
              */
 
             @Element(name = "InputXML")
-            private APPREQROOTBean input;
+            private InputXML input;
             @Element(name = "USERNAME")
             private String userName;
             @Element(name = "POSCODE")
@@ -44,11 +44,11 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
             @Element(name = "PASSKEY")
             private String passKey;
 
-            public APPREQROOTBean getInput() {
+            public InputXML getInput() {
                 return input;
             }
 
-            public DownloadPANDetailsEKYC setInput(APPREQROOTBean input) {
+            public DownloadPANDetailsEKYC setInput(InputXML input) {
                 this.input = input;
                 return this;
             }
@@ -217,6 +217,30 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
                     }
                 }
             }
+
+            public static class InputXML {
+
+                @Element(name = "APP_REQ_ROOT")
+                private APPREQROOTBean input;
+
+                public InputXML() {
+                }
+
+                public InputXML(APPREQROOTBean input) {
+                    this.input = input;
+                }
+
+                public APPREQROOTBean getInput() {
+                    return input;
+                }
+
+                public InputXML setInput(APPREQROOTBean input) {
+                    this.input = input;
+                    return this;
+                }
+            }
+
+
         }
 
         public DownloadPANDetailsEKYC getEkyc() {

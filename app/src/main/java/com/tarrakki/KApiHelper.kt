@@ -9,14 +9,12 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.api.soapmodel.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.e
-import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
 import java.math.BigInteger
+import java.util.*
 import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
@@ -157,12 +155,13 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
 }
 
 const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
+const val PASSWORD = "kra\$36369"
 //const val PASSKEY = "SajanGandhi"
 
-fun getEncryptedPasswordForCAMPSApi(password: String = "kra\$36369"): MutableLiveData<String> {
+fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<String>()
-    val body = PasswordRequest(PasswordRequest.GetPassword(password, PASSKEY))
+    val body = PasswordRequest(PasswordRequest.GetPassword(PASSWORD, PASSKEY))
     subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).requestPassword(RequestBody(body)),
             WebserviceBuilder.ApiNames.getEKYCPage,
             object : SingleCallback<WebserviceBuilder.ApiNames> {
@@ -173,16 +172,6 @@ fun getEncryptedPasswordForCAMPSApi(password: String = "kra\$36369"): MutableLiv
                     } else {
                         postError(R.string.try_again_to)
                     }
-                    /*try {
-                        val data = o.toString()
-                        val xmlJSON = XmlToJson.Builder(data).build()
-                        val json = xmlJSON.toJson()
-                        e("ApiResponse=>$json")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        e.postError(R.string.try_again_to)
-                    }
-                    EventBus.getDefault().post(DISMISS_PROGRESS)*/
                 }
 
                 override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
@@ -193,62 +182,7 @@ fun getEncryptedPasswordForCAMPSApi(password: String = "kra\$36369"): MutableLiv
     return apiResponse
 }
 
-fun getEKYCData(password: String): MutableLiveData<String> {
-
-    EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<String>()
-    val reqEnvelope = RequestEnvelopeDownloadPANDetailsEKYC()
-    val reqData = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC()
-    val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
-    val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
-    apppaninqBean.apppanno = "BAMPM9343K"
-    apppaninqBean.appiopflg = "RS"
-    apppaninqBean.appposcode = "infibeam\$10"
-    apppaninqBean.panDOB = "11-05-1975"
-    input.apppaninq = apppaninqBean
-    val appsummrec = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
-    appsummrec.appothkracode = "PLUTOWS"
-    appsummrec.appothkrabatch = "SAU_468"
-    appsummrec.appreqdate = "12-02-2019 12:43:00"
-    appsummrec.apptotalrec = "1"
-    input.appsummrec = appsummrec
-    reqData.input = input
-    reqData.userName = "PLUTOWS"
-    reqData.passKey = PASSKEY
-    reqData.posCode = "PA"
-    reqData.password = password
-    val reqBody = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody()
-    reqBody.ekyc = reqData
-    reqEnvelope.requestBody = reqBody
-    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getEKYCDetails(reqEnvelope),
-            WebserviceBuilder.ApiNames.getEKYCPage,
-            object : SingleCallback<WebserviceBuilder.ApiNames> {
-                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o is ResponseBody) {
-                        e("Data=>$o")
-                    }
-                    /*try {
-                        val data = o.toString()
-                        val xmlJSON = XmlToJson.Builder(data).build()
-                        val json = xmlJSON.toJson()
-                        e("ApiResponse=>$json")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        e.postError(R.string.try_again_to)
-                    }
-                    EventBus.getDefault().post(DISMISS_PROGRESS)*/
-                }
-
-                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    throwable.postError()
-                }
-            })
-    return apiResponse
-}
-
-fun getPANeKYCDetails(password: String): MutableLiveData<String> {
+fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<String> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<String>()
@@ -256,7 +190,7 @@ fun getPANeKYCDetails(password: String): MutableLiveData<String> {
     val reqData = VerifyPANDetails.RequestBody.PANDetailsEKYC()
     val input = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean()
     val apppaninqBean = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
-    apppaninqBean.apppanno = "DGUPP2792B"//"BAMPM9343K"
+    apppaninqBean.apppanno = pan//"BAMPM9343K"
     apppaninqBean.panDOB = ""
     apppaninqBean.appiopflg = "IE"
     apppaninqBean.appposcode = "infibeam\$10"
@@ -265,7 +199,7 @@ fun getPANeKYCDetails(password: String): MutableLiveData<String> {
     val appsummrec = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
     appsummrec.appothkracode = "PLUTOWS"
     appsummrec.appothkrabatch = "SAU_468"
-    appsummrec.appreqdate = "13-02-2019 15:24:23"
+    appsummrec.appreqdate = "${Date().convertTo("dd-MM-yyyy HH:mm:ss")}"
     appsummrec.apptotalrec = "1"
     input.appsummrec = appsummrec
     reqData.input = VerifyPANDetails.RequestBody.PANDetailsEKYC.InputXML(input)
@@ -276,24 +210,61 @@ fun getPANeKYCDetails(password: String): MutableLiveData<String> {
     val reqBody = VerifyPANDetails.RequestBody()
     reqBody.ekyc = reqData
     reqEnvelope.requestBody = reqBody
-    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getPANeKYCDetails(reqEnvelope),
+    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getPANeKYCStates(reqEnvelope),
             WebserviceBuilder.ApiNames.getEKYCPage,
             object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o is ResponseBody) {
+                    if (o is ResponseKYCStates) {
+                        apiResponse.value = "${o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq?.camskra}"
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                    throwable.printStackTrace()
+                }
+            })
+    return apiResponse
+}
+
+
+fun getEKYCData(password: String, pan: String): MutableLiveData<String> {
+
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<String>()
+    val reqEnvelope = RequestEnvelopeDownloadPANDetailsEKYC()
+    val reqData = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC()
+    val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
+    val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
+    apppaninqBean.apppanno = pan
+    apppaninqBean.appiopflg = "IE"
+    apppaninqBean.appposcode = "infibeam\$10"
+    apppaninqBean.panDOB = ""
+    input.apppaninq = apppaninqBean
+    val appsummrec = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
+    appsummrec.appothkracode = "PLUTOWS"
+    appsummrec.appothkrabatch = "SAU_468"
+    appsummrec.appreqdate = "${Date().convertTo("dd-MM-yyyy HH:mm:ss")}"
+    appsummrec.apptotalrec = "1"
+    input.appsummrec = appsummrec
+    reqData.input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.InputXML(input)
+    reqData.userName = "PLUTOWS"
+    reqData.passKey = PASSKEY
+    reqData.posCode = "PA"
+    reqData.password = password
+    val reqBody = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody()
+    reqBody.ekyc = reqData
+    reqEnvelope.requestBody = reqBody
+    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getEKYCData(reqEnvelope),
+            WebserviceBuilder.ApiNames.getEKYCPage,
+            object : SingleCallback<WebserviceBuilder.ApiNames> {
+                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o is ResponseKYCData) {
                         e("Data=>$o")
                     }
-                    /*try {
-                        val data = o.toString()
-                        val xmlJSON = XmlToJson.Builder(data).build()
-                        val json = xmlJSON.toJson()
-                        e("ApiResponse=>$json")
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        e.postError(R.string.try_again_to)
-                    }
-                    EventBus.getDefault().post(DISMISS_PROGRESS)*/
                 }
 
                 override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
