@@ -59,14 +59,17 @@ class OverviewFragment : Fragment() {
 
                 fundDetailsResponse?.let { fundDetails ->
                     fundDetails.topTenHoldings?.let { topTenHoldings ->
+                        if (topTenHoldings.isNotEmpty()) {
+                            llTo10?.visibility = View.VISIBLE
+                        }
                         rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->
                             binder.topFund = item
                             binder.executePendingBindings()
                         }
                     }
-                   /* vm.fund?.let { f ->
-                        fundDetails.fundsDetails?.fscbiIndianRiskLevel = f.getRiskLevelName("${fundDetails.fundsDetails?.riskLevelId}")
-                    }*/
+                    /* vm.fund?.let { f ->
+                         fundDetails.fundsDetails?.fscbiIndianRiskLevel = f.getRiskLevelName("${fundDetails.fundsDetails?.riskLevelId}")
+                     }*/
                     fundDetails.fundsDetails?.fscbiIndianRiskLevel = fundDetails.fundsDetails?.riskLevelId
                     binder?.fund = fundDetails.fundsDetails
                     binder?.executePendingBindings()

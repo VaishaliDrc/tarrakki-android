@@ -109,7 +109,8 @@
                     android:text="@string/risk_level"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/black"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvRiskLevel"
@@ -197,13 +198,16 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llTo10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -230,8 +234,8 @@
                 android:id="@+id/txt_fund_offer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tap_here_to_see_the_fund_offer_document"
                 android:layout_marginTop="@dimen/space_16"
+                android:text="@string/tap_here_to_see_the_fund_offer_document"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/item_selected_color"
                 app:layout_constraintStart_toStartOf="parent" />

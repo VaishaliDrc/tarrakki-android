@@ -19,7 +19,7 @@ data class FundDetails(
         @SerializedName("funds_details")
         val fundsDetails: FundsDetails?,
         @SerializedName("top_ten_holdings")
-        val topTenHolding: Any
+        val topTenHolding: Any?
 ) {
 
     var topTenHoldings: ArrayList<TopTenHolding>? = null
@@ -40,7 +40,7 @@ data class FundDetails(
                 }
                 e("is ArrayList=>", true)
             } else {
-                val data = topTenHolding.toString().parseArray<ArrayList<TopTenHolding>>()
+                val data = topTenHolding?.toString()?.parseArray<ArrayList<TopTenHolding>>()
                 data?.let {
                     field?.addAll(it)
                 }
