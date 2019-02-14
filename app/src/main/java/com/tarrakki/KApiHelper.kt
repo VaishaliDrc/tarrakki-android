@@ -19,12 +19,12 @@ import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
         : MutableLiveData<ApiResponse> {
-    val sip = if (sipAmount == "0.0") {
+    val sip = if (sipAmount == BigInteger.ZERO.toString()) {
         null
     } else {
         sipAmount
     }
-    val lumpsum = if (lumpsumAmount == "0.0") {
+    val lumpsum = if (lumpsumAmount == BigInteger.ZERO.toString()) {
         null
     } else {
         lumpsumAmount

@@ -76,10 +76,10 @@ data class InvestmentRecommendFundResponse(
                     String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    "NA"
+                    "0.0%"
                 }
             } else {
-                "NA"
+                "0.0%"
             }
 
         @ColorRes

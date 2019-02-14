@@ -30,7 +30,7 @@ class BankMandateFormVM : FragmentViewModel() {
     val ICAMERA_RQ_CODE = 181
     val cvPhotoName = "profilePick"
 
-    fun getMandateForm(mandateId: Int?) : MutableLiveData<UserMandateDownloadResponse>{
+    fun getMandateForm(mandateId: String?) : MutableLiveData<UserMandateDownloadResponse>{
         showProgress()
         val response = MutableLiveData<UserMandateDownloadResponse>()
         subscribeToSingle(

@@ -23,18 +23,12 @@ import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OverviewFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class OverviewFragment : Fragment() {
 
     var fundVM: FundDetailsVM? = null
     var binder: FragmentOverviewBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         if (binder == null) {
             binder = DataBindingUtil.inflate(inflater, R.layout.fragment_overview, container, false)
         }
@@ -67,9 +61,6 @@ class OverviewFragment : Fragment() {
                             binder.executePendingBindings()
                         }
                     }
-                    /* vm.fund?.let { f ->
-                         fundDetails.fundsDetails?.fscbiIndianRiskLevel = f.getRiskLevelName("${fundDetails.fundsDetails?.riskLevelId}")
-                     }*/
                     fundDetails.fundsDetails?.fscbiIndianRiskLevel = fundDetails.fundsDetails?.riskLevelId
                     binder?.fund = fundDetails.fundsDetails
                     binder?.executePendingBindings()
@@ -115,13 +106,6 @@ class OverviewFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @return A new instance of fragment OverviewFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = OverviewFragment().apply { arguments = basket }
     }

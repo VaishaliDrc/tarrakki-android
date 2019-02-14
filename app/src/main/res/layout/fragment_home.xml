@@ -241,7 +241,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/space_4"
                             android:fontFamily="@font/lato_semibold"
-                            android:text="If You Are Ready to Invest?"
+                            android:text="If You Are Ready to Invest."
                             android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/white" />
 
