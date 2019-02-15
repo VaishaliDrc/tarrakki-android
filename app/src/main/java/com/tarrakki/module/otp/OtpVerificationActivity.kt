@@ -2,8 +2,6 @@ package com.tarrakki.module.otp
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import com.tarrakki.App
-import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.toDecrypt
@@ -73,13 +71,15 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                                 signUpResponse.email?.let { it1 -> setEmail(it1) }
                                                 signUpResponse.mobile?.let { it1 -> setMobile(it1) }
                                                 setIsLogin(true)
-                                                App.INSTANCE.isLoggedIn.value = true
+                                                startActivity<HomeActivity>()
+                                                finishAffinity()
+                                                /*App.INSTANCE.isLoggedIn.value = true
                                                 if (intent.hasExtra(IS_FROM_ACCOUNT)) {
                                                     finish()
                                                 } else {
                                                     startActivity<HomeActivity>()
                                                     finishAffinity()
-                                                }
+                                                }*/
                                             }
                                         })
                                     }

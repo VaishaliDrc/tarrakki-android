@@ -81,11 +81,13 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         App.INSTANCE.widgetsViewModel.observe(this, Observer { item ->
-
-            if (item is HomeData.Data.Goal) {
-                startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
-            } else if (item is HomeData.Data.Category.SecondLevelCategory) {
-                activity?.onInvestmentStrategies(item)
+            item?.let {
+                if (item is HomeData.Data.Goal) {
+                    startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
+                } else if (item is HomeData.Data.Category.SecondLevelCategory) {
+                    activity?.onInvestmentStrategies(item)
+                }
+                App.INSTANCE.widgetsViewModel.value = null
             }
         })
         edtPanNo?.applyPAN()
@@ -138,11 +140,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         cpPortfolio.setProgressWithAnimation(78f)
-        App.INSTANCE.isLoggedIn.observe(this, Observer {
+        /*App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 getViewModel().portfolioVisibility.set(if (isLogin) View.VISIBLE else View.GONE)
             }
-        })
+        })*/
         getViewModel().getHomeData().observe(this, observerHomeData)
     }
 

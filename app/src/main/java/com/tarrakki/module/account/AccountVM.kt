@@ -14,7 +14,7 @@ class AccountVM : FragmentViewModel() {
 
     val appLock = ObservableField(App.INSTANCE.hasAppLock())
     val accountMenus = arrayListOf<AccountMenu>()
-    val logoutVisibility = ObservableField(if (App.INSTANCE.isLoggedIn.value != null && App.INSTANCE.isLoggedIn.value!!) View.VISIBLE else View.GONE)
+    val logoutVisibility = ObservableField(View.VISIBLE/*if (App.INSTANCE.isLoggedIn.value != null && App.INSTANCE.isLoggedIn.value!!) View.VISIBLE else View.GONE*/)
 
     init {
         appLock.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
@@ -27,9 +27,18 @@ class AccountVM : FragmentViewModel() {
         setAccountMenu()
     }
 
-    fun setAccountMenu() {
+    private fun setAccountMenu() {
         accountMenus.clear()
-        if (App.INSTANCE.isLoggedIn.value!!) {
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.saved_goal), R.drawable.ic_saved_goals))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.change_password), R.drawable.ic_change_password))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.support), R.drawable.ic_support))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.notifications), R.drawable.ic_notifications))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
+        accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
+        /*if (App.INSTANCE.isLoggedIn.value!!) {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
@@ -45,7 +54,7 @@ class AccountVM : FragmentViewModel() {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.notifications), R.drawable.ic_notifications))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
-        }
+        }*/
     }
 }
 

@@ -9,7 +9,7 @@ class App : CoreApp() {
 
     val cartCount = MutableLiveData<Int>()
     val isAuthorise = MutableLiveData<Boolean>().apply { value = false }
-    val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
+    //val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
     val widgetsViewModel = MutableLiveData<WidgetsViewModel>()
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
     val signatureFile = MutableLiveData<File>()

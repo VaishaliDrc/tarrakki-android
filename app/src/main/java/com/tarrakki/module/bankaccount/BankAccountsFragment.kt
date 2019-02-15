@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
@@ -39,7 +38,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     override val title: String
         get() = getString(R.string.bank_accounts)
 
-    var isFromBankMandate :Boolean ? = false
+    var isFromBankMandate: Boolean? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_accounts

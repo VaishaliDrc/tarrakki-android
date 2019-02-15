@@ -25,7 +25,7 @@ class HomeVM : FragmentViewModel() {
 
     val whayTarrakki = ObservableField(true)
     var homeSections = ArrayList<WidgetsViewModel>()
-    var portfolioVisibility = ObservableField(View.GONE)
+    var portfolioVisibility = ObservableField(View.VISIBLE)
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         var userId : String? = null

@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
             }else{*/
                 if (isLogin()) {
                     App.INSTANCE.isAuthorise.value = false
-                    App.INSTANCE.isLoggedIn.value = isLogin()
+                    //App.INSTANCE.isLoggedIn.value = isLogin()
                     startActivity<HomeActivity>()
                 } else {
                     startActivity<IntroductionActivity>()

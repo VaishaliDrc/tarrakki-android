@@ -1,11 +1,9 @@
 package com.tarrakki.module.account
 
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
-import android.view.View
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
@@ -59,7 +57,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(ChangePasswordFragment.newInstance(bundle), R.id.frmContainer)
                     }
                     R.drawable.ic_my_profile -> {
-                        if (App.INSTANCE.isLoggedIn.value!!) {
+                        startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
+                        /*if (App.INSTANCE.isLoggedIn.value!!) {
                             //Open My Profile
                             startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
                         } else {
@@ -67,7 +66,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                             startActivity(Intent(activity, LoginActivity::class.java).apply {
                                 putExtra(IS_FROM_ACCOUNT, true)
                             })
-                        }
+                        }*/
                     }
                     R.drawable.ic_my_portfolio -> {
                         startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
@@ -146,7 +145,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 postSticky(kyc)*/
             }
         }
-        App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->
+        /*App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->
             isLogin?.let {
                 if (it) {
                     getViewModel().logoutVisibility.set(View.VISIBLE)
@@ -158,7 +157,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 }
                 rvMenus?.adapter?.notifyDataSetChanged()
             }
-        })
+        })*/
     }
 
     companion object {

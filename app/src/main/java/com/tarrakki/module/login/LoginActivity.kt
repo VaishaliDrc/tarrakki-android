@@ -6,7 +6,6 @@ import android.util.Patterns
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
-import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityLoginBinding
@@ -85,11 +84,13 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                             loginResponse.userId?.let { it1 -> setUserId(it1) }
                             loginResponse.email?.let { it1 -> setEmail(it1) }
                             loginResponse.mobile?.let { it1 -> setMobile(it1) }
-                            if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
-                                startActivity<HomeActivity>()
-                            }
+                            startActivity<HomeActivity>()
                             setIsLogin(cbKeepMeSignIn.isChecked)
-                            App.INSTANCE.isLoggedIn.value = true
+                            /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
+                                startActivity<HomeActivity>()
+                            }*/
+
+                            //App.INSTANCE.isLoggedIn.value = true
                             finish()
                         }
                     })
@@ -103,16 +104,16 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
             }
         }
 
-        App.INSTANCE.isLoggedIn.observe(this, Observer {
+        /*App.INSTANCE.isLoggedIn.observe(this, Observer {
             it?.let { isLogin ->
                 if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
                     finish()
             }
-        })
+        })*/
 
         llGpl?.setOnClickListener {
-          //  EventBus.getDefault().post(SHOW_PROGRESS)
-           // mGoogleSignInHelper?.signIn()
+            //  EventBus.getDefault().post(SHOW_PROGRESS)
+            // mGoogleSignInHelper?.signIn()
         }
     }
 
