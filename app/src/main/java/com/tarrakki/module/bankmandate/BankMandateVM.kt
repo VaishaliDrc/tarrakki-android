@@ -33,6 +33,7 @@ class BankMandateVM : FragmentViewModel() {
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
     val cvPhotoName = "profilePick"
+    val isRefresh = MutableLiveData<Boolean>()
 
     init {
         bankMandate.add(BankMandate(
@@ -82,6 +83,7 @@ class BankMandateVM : FragmentViewModel() {
     }
 
     fun getAllMandateBanks(): MutableLiveData<UserBankMandateResponse> {
+        isRefresh.value = false
         showProgress()
         val response = MutableLiveData<UserBankMandateResponse>()
         subscribeToSingle(

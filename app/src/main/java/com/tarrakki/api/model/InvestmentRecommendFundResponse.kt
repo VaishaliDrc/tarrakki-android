@@ -35,13 +35,13 @@ data class InvestmentRecommendFundResponse(
             get() {
                 var weightage = ""
                 weightage += if (sipWeightage != 0) {
-                    "SIP: " + sipWeightage.toString() + "%"
+                    "SIP: $sipWeightage%"
                 } else {
                     "SIP:  0%"
                 }
                 weightage += "\n"
                 weightage += if (lumpsumWeightage != 0) {
-                    "Lumpsum: " + lumpsumWeightage.toString() + "%"
+                    "Lumpsum: $lumpsumWeightage%"
                 } else {
                     "Lumpsum:  0%"
                 }
@@ -52,7 +52,7 @@ data class InvestmentRecommendFundResponse(
             get() {
                 var weightage = ""
                 if (sipWeightage != 0) {
-                    weightage = sipWeightage.toString() + " %"
+                    weightage = "$sipWeightage %"
                 } else {
                     weightage = " - "
                 }
@@ -63,7 +63,7 @@ data class InvestmentRecommendFundResponse(
             get() {
                 var weightage = ""
                 if (lumpsumWeightage != 0) {
-                    weightage = lumpsumWeightage.toString() + " %"
+                    weightage = "$lumpsumWeightage %"
                 } else {
                     weightage = " - "
                 }
@@ -76,10 +76,10 @@ data class InvestmentRecommendFundResponse(
                     String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    "0.0%"
+                    "NA"
                 }
             } else {
-                "0.0%"
+                "NA"
             }
 
         @ColorRes

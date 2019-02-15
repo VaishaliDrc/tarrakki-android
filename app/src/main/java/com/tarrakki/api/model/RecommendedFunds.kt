@@ -55,10 +55,10 @@ data class Fund(
                 String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
             } catch (e: Exception) {
                 e.printStackTrace()
-                "0.0%"
+                "NA"
             }
         } else {
-            "0.0%"
+            "NA"
         }
 
     @ColorRes

@@ -51,6 +51,16 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     }
 
     override fun createReference() {
+        getViewModel().isRefresh.observe(this, Observer {
+            if (it!=null){
+                mRefresh?.isRefreshing = it
+            }
+        })
+
+        mRefresh?.setOnRefreshListener {
+            getBanksData()
+        }
+
         btnNext?.setOnClickListener {
             if (getViewModel().isMandateBankList.get() != true) {
                 if (userBankAdapter?.selectedItemViewCount != 0) {

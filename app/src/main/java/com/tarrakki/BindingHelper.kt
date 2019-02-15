@@ -428,13 +428,18 @@ fun Context.investmentStragiesDialog(
 
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
-        if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-            this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
-        } else {
+        if (this.isInvestStrategyDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),
+                        sipAmount,lumpsumAmount)){
             mDialog.dismiss()
             onInvest?.invoke(thirdLevelCategory, lumpsumAmount,
                     sipAmount)
         }
+      /*
+        if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
+            this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        } else {
+
+        }*/
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
@@ -469,6 +474,29 @@ fun String.toYearWord(): String {
     } catch (e: Exception) {
         "years"
     }
+}
+
+fun Context.isInvestStrategyDialogValid(minSIPAmount: BigInteger,
+                                minLumsumpAmount: BigInteger,
+                                sipAmount: BigInteger,
+                                lumpsumAmount: BigInteger): Boolean {
+    if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
+        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        return false
+    }
+    if (lumpsumAmount != BigInteger.ZERO) {
+        if (lumpsumAmount < minLumsumpAmount) {
+            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount}.")
+            return false
+        }
+    }
+    if (sipAmount != BigInteger.ZERO) {
+        if (sipAmount < minSIPAmount) {
+            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount}.")
+            return false
+        }
+    }
+    return true
 }
 
 fun Context.isInvestDialogValid(minSIPAmount: BigInteger,

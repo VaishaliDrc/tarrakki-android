@@ -39,7 +39,7 @@ interface WebserviceBuilder {
     fun calculatePMT(@Query("data") data: String): Observable<ApiResponse>
 
     @GET("category/homepage/")
-    fun getHomeData(@Query("user_id") userId : String?): Observable<ApiResponse>
+    fun getHomeData(): Observable<ApiResponse>
 
     @GET("users/get_otp/")
     fun getOTP(@Query("data") data: String): Observable<ApiResponse>

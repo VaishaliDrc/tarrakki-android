@@ -28,17 +28,12 @@ class HomeVM : FragmentViewModel() {
     var portfolioVisibility = ObservableField(View.VISIBLE)
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
-        var userId : String? = null
-        if (App.INSTANCE.isLogin()){
-            userId = App.INSTANCE.getUserId()
-        }
-
         val homeData = MutableLiveData<HomeData>()
         if (!isRefreshing)
             EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .getHomeData(userId),
+                        .getHomeData(),
                 apiNames = WebserviceBuilder.ApiNames.getHomeData,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -55,11 +50,13 @@ class HomeVM : FragmentViewModel() {
                                         for (secondlevel in item.secondLevelCategory){
                                             secondlevel.sectionName = item.categoryName
                                         }
-                                        homeSections.add(
-                                                HomeSection(
-                                                        item.categoryName,
-                                                        it.data.toWadgesArray(item.secondLevelCategory)
-                                                ).apply { category = item })
+                                        if (!it.data.toWadgesArray(item.secondLevelCategory).isNullOrEmpty()){
+                                            homeSections.add(
+                                                    HomeSection(
+                                                            item.categoryName,
+                                                            it.data.toWadgesArray(item.secondLevelCategory)
+                                                    ).apply { category = item })
+                                        }
                                     }
                                     homeSections.add(
                                             HomeSection(
