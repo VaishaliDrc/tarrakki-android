@@ -6,6 +6,8 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.databinding.ViewDataBinding
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -27,6 +29,7 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
+import kotlin.concurrent.thread
 
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
@@ -37,8 +40,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         get() = true
     override val title: String
         get() = getString(R.string.bank_accounts)
-
-    var isFromBankMandate: Boolean? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_accounts
@@ -134,13 +135,14 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         getViewModel().getAllBanks().observe(this, bankObserver)
         App.INSTANCE.signatureFile.observe(this, Observer {
             it?.let { file ->
-                getViewModel().completeRegistrations(file).observe(this, Observer { apiResponse ->
+                /*getViewModel().completeRegistrations(file).observe(this, Observer { apiResponse ->
                     apiResponse?.let {
                         context?.simpleAlert("${apiResponse.status?.message}") {
                             onBack(3)
                         }
                     }
-                })
+                })*/
+                startCrop(Uri.fromFile(file))
                 App.INSTANCE.signatureFile.value = null
             }
         })
@@ -232,8 +234,15 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
 
     private fun startCrop(@NonNull uri: Uri) {
         var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
-        destinationFileName += ".jpg"
+        destinationFileName += ".png"
+        val options = context?.getUCropOptions()
+        options?.setCompressionFormat(Bitmap.CompressFormat.PNG)
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
+        options?.let {
+            it.setRootViewBackgroundColor(Color.WHITE)
+            it.setCompressionQuality(100)
+            uCrop.withOptions(it)
+        }
         uCrop.withAspectRatio(16f, 9f)
         uCrop.withMaxResultSize(50, 30)
         uCrop.start(context!!, this)
@@ -244,13 +253,36 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 getViewModel().ICAMERA_RQ_CODE -> {
-                    val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
-                    startCrop(Uri.fromFile(file))
+                    getViewModel().showProgress()
+                    thread {
+                        val colors = arrayListOf(Color.BLACK, Color.BLUE)
+                        val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName).toBitmap()?.toTransparent(colors)?.toFile()
+                        file?.let {
+                            activity?.runOnUiThread {
+                                getViewModel().dismissProgress()
+                                startCrop(Uri.fromFile(it))
+                            }
+                        }
+                    }
                 }
                 getViewModel().IMAGE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        startCrop(selectedUri)
+                        val path = getPath(selectedUri)
+                        path?.let { filePath ->
+                            getViewModel().showProgress()
+                            thread {
+                                val colors = arrayListOf(Color.BLACK, Color.BLUE)
+                                val file = File(filePath).toBitmap()?.toTransparent(colors)?.toFile()
+                                file?.let { mFile ->
+                                    activity?.runOnUiThread {
+                                        getViewModel().dismissProgress()
+                                        startCrop(Uri.fromFile(mFile))
+                                    }
+                                }
+                            }
+
+                        }
                     }
                 }
                 UCrop.REQUEST_CROP -> {
@@ -258,7 +290,15 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val path = getPath(it)
-                            path?.let { App.INSTANCE.signatureFile.value = File(it) }
+                            path?.let { filePath ->
+                                getViewModel().completeRegistrations(File(filePath)).observe(this, Observer { apiResponse ->
+                                    apiResponse?.let {
+                                        context?.simpleAlert("${apiResponse.status?.message}") {
+                                            onBack(3)
+                                        }
+                                    }
+                                })
+                            }
                         }
                     }
                 }

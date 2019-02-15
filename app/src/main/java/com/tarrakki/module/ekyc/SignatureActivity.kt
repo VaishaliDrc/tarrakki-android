@@ -52,7 +52,7 @@ class SignatureActivity : CoreActivity<SignatureVM, ActivitySignatureBinding>() 
         val tempFile = File(cacheDir, "signedImg")
         thread {
             val outStream = FileOutputStream(tempFile)
-            myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
             outStream.flush()
             outStream.close()
             runOnUiThread {

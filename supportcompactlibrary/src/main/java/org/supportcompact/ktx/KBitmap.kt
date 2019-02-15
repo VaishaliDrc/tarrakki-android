@@ -2,10 +2,15 @@ package org.supportcompact.ktx
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.Matrix
+import android.support.annotation.ColorInt
 import android.util.Base64
-import java.io.ByteArrayOutputStream
 import android.view.View
+import org.supportcompact.CoreApp
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 fun View.toBitmap(): Bitmap {
@@ -74,3 +79,60 @@ fun calculateInSampleSize(
 
     return inSampleSize
 }
+
+fun makeTransparent(bit: Bitmap, transparentColor: Int): Bitmap? {
+    val width = bit.width
+    val height = bit.height
+    val myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val allpixels = IntArray(myBitmap.height * myBitmap.width)
+    bit.getPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height)
+
+    for (i in 0 until myBitmap.height * myBitmap.width) {
+        if (allpixels[i] == transparentColor)
+            allpixels[i] = Color.alpha(Color.TRANSPARENT)
+    }
+    myBitmap.setPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    return myBitmap
+}
+
+fun Bitmap.toTransparent(@ColorInt transparentColor: Int): Bitmap {
+    val myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val allpixels = IntArray(myBitmap.height * myBitmap.width)
+    getPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height)
+    for (i in 0 until myBitmap.height * myBitmap.width) {
+        if (allpixels[i] == transparentColor)
+            allpixels[i] = Color.alpha(Color.TRANSPARENT)
+    }
+    myBitmap.setPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    return myBitmap
+}
+
+fun Bitmap.toTransparent(@ColorInt colorToBeIgnors: ArrayList<Int>): Bitmap {
+    val myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444)
+    val allpixels = IntArray(myBitmap.height * myBitmap.width)
+    getPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height)
+    /*getPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height)
+    for (i in 0 until myBitmap.height * myBitmap.width) {
+        if (!colorToBeIgnors.contains(allpixels[i]))
+            allpixels[i] = Color.alpha(Color.TRANSPARENT)
+    }*/
+    //myBitmap.setPixels(allpixels, 0, myBitmap.width, 0, 0, myBitmap.width, myBitmap.height)
+    myBitmap.eraseColor(Color.TRANSPARENT)
+    return myBitmap
+}
+
+fun File.toBitmap(): Bitmap? = BitmapFactory.decodeFile(absolutePath)
+
+fun Bitmap.toFile(formator: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): File {
+    val tempFile = File(CoreApp.getInstance().cacheDir, "signedImg.png")
+    val outStream = FileOutputStream(tempFile)
+    compress(formator, 100, outStream)
+    outStream.flush()
+    outStream.close()
+    return tempFile
+}
+

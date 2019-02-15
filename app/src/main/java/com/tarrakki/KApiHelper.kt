@@ -263,7 +263,7 @@ fun getEKYCData(password: String, pan: String): MutableLiveData<String> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ResponseKYCData) {
-                        e("Data=>$o")
+                        apiResponse.value = "Data"
                     }
                 }
 

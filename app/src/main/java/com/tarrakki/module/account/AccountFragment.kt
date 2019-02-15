@@ -1,6 +1,7 @@
 package com.tarrakki.module.account
 
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
@@ -11,6 +12,7 @@ import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.KYCRegistrationAFragment
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
@@ -113,13 +115,18 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             } else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
+                /*getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
                     it?.let { password ->
                         getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
-                            getEKYCData(password, kyc.pan)
+                            getEKYCData(password, kyc.pan).observe(this, Observer {
+                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                postSticky(kyc)
+                            })
                         })
                     }
-                })
+                })*/
+                startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+                post(kyc)
                 /*checkKYCStatus(kyc).observe(this, Observer {
                     it?.let { html ->
                         //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />

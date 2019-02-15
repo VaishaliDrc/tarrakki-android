@@ -39,18 +39,18 @@ object ApiClient {
     /***
      * CAMS api base url
      * */
-    public const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
+    private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
 
     /**
      * Test Url
      **/
-    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
+    /*private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url*/
     /**
      * Live Url
      **/
-/*    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
+    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
     /**
      * @return [Retrofit] object its single-tone
      */
