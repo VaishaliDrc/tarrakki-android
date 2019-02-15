@@ -15,8 +15,6 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.isLogin
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -41,16 +39,16 @@ class HomeVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
-                                data?.let { it ->
+                                data?.let {
                                     data.data.cartCount?.let {
                                         App.INSTANCE.cartCount.value = it
                                     }
                                     homeSections.clear()
                                     it.data.category.forEach { item ->
-                                        for (secondlevel in item.secondLevelCategory){
+                                        for (secondlevel in item.secondLevelCategory) {
                                             secondlevel.sectionName = item.categoryName
                                         }
-                                        if (!it.data.toWadgesArray(item.secondLevelCategory).isNullOrEmpty()){
+                                        if (!it.data.toWadgesArray(item.secondLevelCategory).isNullOrEmpty()) {
                                             homeSections.add(
                                                     HomeSection(
                                                             item.categoryName,

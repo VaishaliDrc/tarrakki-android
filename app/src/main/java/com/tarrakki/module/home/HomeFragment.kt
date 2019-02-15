@@ -55,7 +55,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
-                mRefresh?.isRefreshing = false
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
                     binder.setVariable(BR.isHome, true)
@@ -140,11 +139,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         cpPortfolio.setProgressWithAnimation(78f)
-        /*App.INSTANCE.isLoggedIn.observe(this, Observer {
-            it?.let { isLogin ->
-                getViewModel().portfolioVisibility.set(if (isLogin) View.VISIBLE else View.GONE)
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
             }
-        })*/
+        })
         getViewModel().getHomeData().observe(this, observerHomeData)
     }
 

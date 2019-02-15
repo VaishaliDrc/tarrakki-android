@@ -21,8 +21,8 @@ import com.tarrakki.module.plan.PlanActivity
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
-import org.supportcompact.events.Event
 import org.supportcompact.inputclasses.keyboardListener
+import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.hasAppLock
 import org.supportcompact.ktx.startActivity
 
@@ -118,9 +118,9 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
                     val fragment = supportFragmentManager?.findFragmentById(R.id.frmContainer)
-                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment){
+                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment) {
                         return super.onOptionsItemSelected(item)
-                    }else{
+                    } else {
                         onBackPressed()
                     }
                 }
@@ -128,6 +128,15 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun showDialog(show: String) {
+        when (show) {
+            DISMISS_PROGRESS -> {
+                App.INSTANCE.isRefreshing.value = false
+            }
+        }
+        super.showDialog(show)
     }
 
     /**

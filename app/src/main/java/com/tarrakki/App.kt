@@ -13,6 +13,7 @@ class App : CoreApp() {
     val widgetsViewModel = MutableLiveData<WidgetsViewModel>()
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
     val signatureFile = MutableLiveData<File>()
+    val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
 
     init {
         App.INSTANCE = this

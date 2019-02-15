@@ -55,7 +55,7 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun showDialog(show: String) {
+    open fun showDialog(show: String) {
         when (show) {
             SHOW_PROGRESS -> {
                 window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
