@@ -127,6 +127,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/default_space"
                     android:background="@color/lighter_gray"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvRiskLevel" />
 
                 <TextView
@@ -183,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
+                <!--org.supportcompact.widgets.WrapContentViewPager-->
                 <org.supportcompact.widgets.WrapContentViewPager
                     android:id="@+id/mPager"
                     android:layout_width="match_parent"

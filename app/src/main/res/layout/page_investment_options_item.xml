@@ -45,14 +45,14 @@
             android:id="@+id/view2"
             android:layout_width="144dp"
             android:layout_height="144dp"
-            app:cardBackgroundColor="@color/circular_bg"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/default_space"
             android:elevation="12dp"
+            app:cardBackgroundColor="@color/circular_bg"
             app:cardCornerRadius="72dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -94,11 +94,11 @@
             android:fontFamily="@font/lato_semibold"
             android:gravity="center_vertical"
             android:minWidth="120dp"
-            android:text="@{invest.riskLevel}"
-            android:visibility="@{invest.riskLevelVisible}"
             android:padding="@dimen/space_8"
+            android:text="@{invest.riskLevel}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/name_aggressive"
+            android:visibility="@{invest.riskLevelVisible}"
             app:layout_constraintEnd_toStartOf="@id/glCenter"
             app:layout_constraintTop_toBottomOf="@id/view2"
             tools:text="High Risk" />
@@ -106,7 +106,6 @@
         <TextView
             android:id="@+id/tvReturnLevel"
             android:layout_width="wrap_content"
-            android:visibility="@{invest.returnRiskVisible}"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_marginTop="@dimen/default_space"
@@ -116,10 +115,11 @@
             android:fontFamily="@font/lato_semibold"
             android:gravity="center_vertical"
             android:minWidth="120dp"
-            android:text="@{invest.returnLevel}"
             android:padding="@dimen/space_8"
+            android:text="@{invest.returnLevel}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/pdlg_color_green"
+            android:visibility="@{invest.returnRiskVisible}"
             app:layout_constraintStart_toStartOf="@id/glCenter"
             app:layout_constraintTop_toBottomOf="@id/view2"
             tools:text="High Return" />
@@ -137,6 +137,8 @@
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/default_space"
             android:background="@color/lighter_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvRiskLevel" />
 
         <TextView
@@ -151,17 +153,6 @@
             tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
 
         <TextView
-            android:id="@+id/tvDescriptionTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginTop="@dimen/default_space"
-            android:lineSpacingExtra="@dimen/space_4"
-            android:text="@string/opt_for_this_if"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tvSortDescription" />
-
-        <TextView
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,7 +160,8 @@
             android:lineSpacingExtra="@dimen/space_4"
             android:text="@{invest.categoryDesctiption}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintTop_toBottomOf="@id/tvDescriptionTitle"
+            app:layout_constraintTop_toBottomOf="@id/tvSortDescription"
+            app:layout_constraintBottom_toTopOf="@+id/btnSelect"
             tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
 
         <Button

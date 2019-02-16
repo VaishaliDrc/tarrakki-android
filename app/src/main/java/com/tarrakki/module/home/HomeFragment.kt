@@ -91,6 +91,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         })
         edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
+            context?.simpleAlert(getString(R.string.coming_soon))
+            return@setOnClickListener
             if (edtPanNo.length() == 0) {
                 context?.simpleAlert("Please enter PAN card number")
             } else if (!isPANCard(edtPanNo.text.toString())) {

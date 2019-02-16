@@ -2,7 +2,6 @@ package com.tarrakki.module.ekyc
 
 
 import android.arch.lifecycle.Observer
-import android.databinding.ObservableField
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
@@ -66,17 +65,23 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
             }
         }
         edtIssue?.setOnClickListener {
-            showCountry(getViewModel().issueByA)
+            context?.showListDialog(R.string.select_country, R.array.countries) { country ->
+                getViewModel().kycData.value?.countryOfIssue1 = country
+            }
         }
         edtIssue1?.setOnClickListener {
-            showCountry(getViewModel().issueByB)
+            context?.showListDialog(R.string.select_country, R.array.countries) { country ->
+                getViewModel().kycData.value?.countryOfIssue2 = country
+            }
         }
         edtIssue2?.setOnClickListener {
-            showCountry(getViewModel().issueByC)
+            context?.showListDialog(R.string.select_country, R.array.countries) { country ->
+                getViewModel().kycData.value?.countryOfIssue3 = country
+            }
         }
-        btnLogout?.setOnClickListener {
+        btnNext?.setOnClickListener {
             getViewModel().kycData.value?.let { kycData ->
-                if (isValid()) {
+                if (isValid(kycData)) {
                     startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
                     post(kycData)
                 }
@@ -85,13 +90,13 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
     }
 
 
-    private fun showCountry(item: ObservableField<String>) {
+    /*private fun showCountry(item: ObservableField<String>) {
         context?.showListDialog(R.string.select_country, R.array.countries) { country ->
             item.set(country)
         }
-    }
+    }*/
 
-    private fun isValid(): Boolean {
+    private fun isValid(kycData: KYCData): Boolean {
         return when {
             /*getViewModel().PANName.isEmpty() -> {
                 context?.simpleAlert("Please enter PAN name")
@@ -105,17 +110,20 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 context?.simpleAlert("Please select income slab")
                 false
             }
-            !switchOnOff.isChecked && getViewModel().TINNumberA.isEmpty() /*&&
-                    getViewModel().TINNumberB.isEmpty() &&
-                    getViewModel().TINNumberC.isEmpty()*/ -> {
-                context?.simpleAlert("Please enter TIN number")
-                false
-            }
-            !switchOnOff.isChecked && getViewModel().issueByA.isEmpty()/* &&
-                    getViewModel().issueByB.isEmpty() &&
-                    getViewModel().issueByC.isEmpty() */ -> {
-                context?.simpleAlert("Please select country of issue")
-                false
+            !switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {
+                when {
+                    kycData.tinNumber1.isEmpty() -> {
+                        context?.simpleAlert("Please enter TIN number") {
+                            edtTIN?.requestFocus()
+                        }
+                        false
+                    }
+                    kycData.countryOfIssue1.isEmpty() -> {
+                        context?.simpleAlert("Please select country of issue")
+                        false
+                    }
+                    else -> true
+                }
             }
             else -> true
         }

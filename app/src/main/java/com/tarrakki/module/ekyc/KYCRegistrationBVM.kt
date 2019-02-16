@@ -11,10 +11,6 @@ class KYCRegistrationBVM : FragmentViewModel() {
 
     var kycData = MutableLiveData<KYCData>()
 
-    val PANName = ObservableField("1ABCDE1234F")
-    val occupationType = ObservableField("")
-    val countryOfBirth = ObservableField("")
-    val placeOfBirth = ObservableField("")
     val sourceOfIncome = ObservableField("")
     val iCertify = ObservableField(true)
     val TAXSlab = ObservableField("")

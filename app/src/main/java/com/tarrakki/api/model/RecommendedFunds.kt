@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import org.supportcompact.ktx.toCurrency
 
 data class RecommendedFundsData(
         @SerializedName("data")
@@ -27,7 +28,7 @@ data class RecommendedFunds(
 
 data class Fund(
         @SerializedName("sip_amount")
-        val amount: Int,
+        val amount: String?,
         @SerializedName("fscbi_broad_category_name")
         val fscbiBroadCategoryName: String,
         @SerializedName("fscbi_category_name")
@@ -35,7 +36,7 @@ data class Fund(
         @SerializedName("id")
         val id: Int,
         @SerializedName("lumpsum")
-        val lumpsum: Int,
+        val lumpsum: Double,
         @SerializedName("name")
         val name: String,
         @SerializedName("scheme_type")
@@ -55,11 +56,14 @@ data class Fund(
                 String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
             } catch (e: Exception) {
                 e.printStackTrace()
-                "NA"
+                "N/A"
             }
         } else {
-            "NA"
+            "N/A"
         }
+
+    val sipAmount
+        get() = amount?.toDoubleOrNull()?.toCurrency()
 
     @ColorRes
     var fundColor: Int = R.color.balanced_fund_color

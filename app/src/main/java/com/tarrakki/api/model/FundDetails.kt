@@ -239,10 +239,10 @@ data class FundsDetails(
         get() = "$investmentStrategy".replace("\n", " ")
 
     var NAVDate: String = ""
-        get() = tsDayEndNavDate?.toDate()?.convertTo() ?: "NA"
+        get() = tsDayEndNavDate?.toDate()?.convertTo() ?: "N/A"
 
     var assetsDate: String = ""
-        get() = fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo() ?: "NA"
+        get() = fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo() ?: "N/A"
 
     var riskProgress = 20
         get() = when {
@@ -316,14 +316,14 @@ data class FundsDetails(
                         }
 
                         val exitLoadData = deferLoads.filter { it.value > 0 }
-                        if (index!=exitLoadData.size-1){
+                        if (index != exitLoadData.size - 1) {
                             result.append("\n")
                         }
                     }
                 }
             }
             if (result.isEmpty()) {
-                result.append(0.0.toReturnAsPercentage())
+                result.append(parseToPercentageOrNA(null))
             }
             result.toString()
         } else {
@@ -332,7 +332,7 @@ data class FundsDetails(
 
     var minSIPAmount = ""
         get() {
-            var sipAmount = "NA"
+            var sipAmount = "N/A"
             if (iaipAip != null && iaipAip.isNotEmpty()) {
                 val aipAip = iaipAip.firstOrNull { it ->
                     "SIP".equals(it.siType, true)
@@ -341,7 +341,7 @@ data class FundsDetails(
                 if (aipAip != null) {
                     val maxTenure = iaipAip.maxBy { it.minTenure }
                     if (maxTenure != null) {
-                        sipAmount = maxTenure.minAmount?.toCurrency() ?: "NA"
+                        sipAmount = maxTenure.minAmount?.toCurrency() ?: "N/A"
                     }
                 }
             }
@@ -349,7 +349,7 @@ data class FundsDetails(
         }
 
     var lumpsumAmount: String = ""
-        get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "NA"
+        get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "N/A"
 
     /*var validminSIPAmount = 0.00
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -396,26 +396,26 @@ data class FundsDetails(
         get() = dpDayEndNav.toDoubleOrNull()?.toReturn()
 
     var lastPrice = ""
-        get() = dpDayEndNav?.toDoubleOrNull()?.toDecimalCurrency() ?: "NA"
+        get() = dpDayEndNav?.toDoubleOrNull()?.toDecimalCurrency() ?: "N/A"
 
     var oneDayChange = ""
         get() = try {
             (((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()).toReturnAsPercentage()
         } catch (e: java.lang.Exception) {
-            "NA"
+            "N/A"
         }
 
     var currentReturn: String = ""
         get() = if (!TextUtils.isEmpty(dpDayEndNav) && !TextUtils.isEmpty(preDpDayEndNav)) {
             try {
-                val result: String? = "${(dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()).toReturn()} (${(((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()).toReturnAsPercentage()})"
-                result ?: "NA"
+                val result: String? = "${(dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()).toReturn().replace("-", "")} (${(((dpDayEndNav.toDouble() - preDpDayEndNav.toDouble()) * 100) / preDpDayEndNav.toDouble()).toReturnAsPercentage()})"
+                result ?: "N/A"
             } catch (e: Exception) {
                 e.printStackTrace()
-                "NA"
+                "N/A"
             }
         } else {
-            "NA"
+            "N/A"
         }
 
 }

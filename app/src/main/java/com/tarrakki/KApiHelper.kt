@@ -193,10 +193,10 @@ fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
     return apiResponse
 }
 
-fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<String> {
+fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String>> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<String>()
+    val apiResponse = MutableLiveData<List<String>>()
     val reqEnvelope = VerifyPANDetails()
     val reqData = VerifyPANDetails.RequestBody.PANDetailsEKYC()
     val input = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean()
@@ -227,7 +227,14 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<String> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ResponseKYCStates) {
-                        apiResponse.value = "${o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq?.camskra}"
+                        val data = o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq;
+                        val kycStates: List<String> = arrayListOf(
+                                "${data?.camskra}",
+                                "${data?.cvlkra}",
+                                "${data?.ndmlkra}",
+                                "${data?.dotexkra}",
+                                "${data?.karvykra}")
+                        apiResponse.value = kycStates
                     }
                 }
 
@@ -241,10 +248,10 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<String> {
 }
 
 
-fun getEKYCData(password: String, pan: String): MutableLiveData<String> {
+fun getEKYCData(password: String, pan: String): MutableLiveData<ResponseKYCData.BodyBean.DownloadPANDetailsEKYCResponseBean.DownloadPANDetailsEKYCResultBean.APPRESROOTBean.APPPANINQBean> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<String>()
+    val apiResponse = MutableLiveData<ResponseKYCData.BodyBean.DownloadPANDetailsEKYCResponseBean.DownloadPANDetailsEKYCResultBean.APPRESROOTBean.APPPANINQBean>()
     val reqEnvelope = RequestEnvelopeDownloadPANDetailsEKYC()
     val reqData = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC()
     val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
@@ -274,7 +281,12 @@ fun getEKYCData(password: String, pan: String): MutableLiveData<String> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ResponseKYCData) {
-                        apiResponse.value = "Data"
+                        val data = o.body?.downloadPANDetailsEKYCResponse?.downloadPANDetailsEKYCResult?.appresroot?.apppaninq
+                        if (data != null) {
+                            apiResponse.value = data
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
                     }
                 }
 

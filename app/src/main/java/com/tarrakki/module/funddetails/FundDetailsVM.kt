@@ -76,5 +76,5 @@ data class TopHolding(
         var percentageHolding: Double,
         var amount: Double = 0.0
 ) {
-    fun getReturns(): String = if (percentageHolding == 0.0) "NA" else "$percentageHolding".plus("% ").plus(App.INSTANCE.getString(R.string.return_))
+    fun getReturns(): String = if (percentageHolding == 0.0) "N/A" else "$percentageHolding".plus("% ").plus(App.INSTANCE.getString(R.string.return_))
 }

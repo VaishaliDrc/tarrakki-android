@@ -48,38 +48,16 @@ data class InvestmentRecommendFundResponse(
                 return weightage
             }
 
-        var SIPWeightage = ""
-            get() {
-                var weightage = ""
-                if (sipWeightage != 0) {
-                    weightage = "$sipWeightage %"
-                } else {
-                    weightage = " - "
-                }
-                return weightage
-            }
-
-        var LumpSumWeightage = ""
-            get() {
-                var weightage = ""
-                if (lumpsumWeightage != 0) {
-                    weightage = "$lumpsumWeightage %"
-                } else {
-                    weightage = " - "
-                }
-                return weightage
-            }
-
         var returns: String = ""
             get() = if (!TextUtils.isEmpty(ttrReturn5Yr)) {
                 try {
                     String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    "NA"
+                    "N/A"
                 }
             } else {
-                "NA"
+                "N/A"
             }
 
         @ColorRes

@@ -70,7 +70,7 @@ class OverviewFragment : Fragment() {
                     keysInfo.add(KeyInfo("Fund Type", fundDetails.fundsDetails?.fscbiLegalStructure))
                     keysInfo.add(KeyInfo("Investment Plan", fundDetails.fundsDetails?.schemePlan))
                     keysInfo.add(KeyInfo("Launch Date", fundDetails.fundsDetails?.inceptionDate?.toDate()?.convertTo()
-                            ?: "NA"))
+                            ?: "N/A"))
                     keysInfo.add(KeyInfo("Benchmark", fundDetails.fundsDetails?.benchmark))
                     keysInfo.add(KeyInfo("Assets Size (\u20B9cr)", fundDetails.fundsDetails?.netAssets))
                     keysInfo.add(KeyInfo("Asset Date", fundDetails.fundsDetails?.assetsDate))

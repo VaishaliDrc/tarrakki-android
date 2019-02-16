@@ -10,7 +10,7 @@ class KYCRegistrationAVM : FragmentViewModel() {
 
     var kycData = MutableLiveData<KYCData>()
     val guardianVisibility = ObservableField(View.GONE)
-    val isEdit = ObservableField(false)
+    val isEdit = ObservableField(true)
     val alpha = ObservableField<Float>(1f)
 
     init {

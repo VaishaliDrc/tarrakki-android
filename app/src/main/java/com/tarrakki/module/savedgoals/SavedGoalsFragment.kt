@@ -57,7 +57,7 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
         })
 
         mRefresh?.setOnRefreshListener {
-            getViewModel().getSavedGoals(context?.getUserId(),true)
+            getViewModel().getSavedGoals(context?.getUserId(), true)
         }
 
         App.INSTANCE.isRefreshing.observe(this, Observer {
@@ -69,12 +69,12 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
     }
 
     override fun onResume() {
-        getViewModel().getSavedGoals(context?.getUserId(),false)
+        getViewModel().getSavedGoals(context?.getUserId(), false)
         super.onResume()
     }
 
     private fun setAdapter(list: List<GoalSavedResponse.Data>?) {
-        if (list!=null) {
+        if (list != null) {
 
             adapter = rvSavedGoals?.setUpRecyclerView(R.layout.row_saved_goal_list_item,
                     list as ArrayList<GoalSavedResponse.Data>
@@ -105,7 +105,7 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
             }
             rvSavedGoals?.adapter = adapter
             updateUI()
-        }else{
+        } else {
             rvSavedGoals.visibility = View.GONE
             coreActivityVM?.emptyView(true)
         }

@@ -370,7 +370,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.issueByA}"
+                    android:text="@={kycData.countryOfIssue1}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -448,7 +448,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.issueByB}"
+                    android:text="@={kycData.countryOfIssue2}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -526,7 +526,7 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.issueByC}"
+                    android:text="@={kycData.countryOfIssue3}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
@@ -537,9 +537,9 @@
                     app:layout_constraintTop_toBottomOf="@id/tvIssue2" />
 
                 <Button
-                    android:id="@+id/btnLogout"
+                    android:id="@+id/btnNext"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginBottom="@dimen/space_8"

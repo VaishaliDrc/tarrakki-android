@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.ConfirmOrderResponse
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
+import com.tarrakki.databinding.RowConfirmOrderBinding
 import com.tarrakki.module.bankaccount.SingleButton
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
@@ -51,8 +53,8 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 val orders = arrayListOf<WidgetsViewModel>()
                 confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
                 orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
-                        ?: 0) + (confirmOrderResponse?.data?.totalSip ?: 0)).toDouble()
-                orderTotal.bank = confirmOrderResponse?.data?.mandateId?.toString() ?: "Add Bank"
+                        ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
+                orderTotal.bank = if (confirmOrderResponse?.data?.bankName?.isEmpty() == false) "${confirmOrderResponse.data.bankName}" else "Add Bank"
                 orders.add(orderTotal)
                 orders.add(SingleButton(R.string.place_order))
                 rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
@@ -66,6 +68,19 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             return@OnClickListener
                         }
                     })
+
+                    binder.setVariable(BR.onCheckedChange, View.OnClickListener {
+                        if (item is ConfirmOrderResponse.Data.OrderLine) {
+                            if (binder is RowConfirmOrderBinding) {
+                                binder.cbSIP.isChecked = item.isFirstInstallmentSIP
+                            }
+                            val isFirstSIP = !item.isFirstInstallmentSIP
+                            getViewModel().updateFirstSIPFlag(item, isFirstSIP).observe(this, Observer {
+                                item.isFirstInstallmentSIP = isFirstSIP
+                            })
+                        }
+                    })
+
                     binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
                         startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
                     })

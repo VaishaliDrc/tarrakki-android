@@ -29,8 +29,8 @@ class ChangePasswordVM : FragmentViewModel() {
 
     fun resetPassword(): MutableLiveData<ApiResponse> {
         val json = JsonObject()
-        json.addProperty("otp",token.get().toString())
-        json.addProperty("otp_id", newPassword.get().toString())
+        json.addProperty("token",token.get().toString())
+        json.addProperty("password", newPassword.get().toString())
         val data = json.toString().toEncrypt()
 
         val apiResponse = MutableLiveData<ApiResponse>()

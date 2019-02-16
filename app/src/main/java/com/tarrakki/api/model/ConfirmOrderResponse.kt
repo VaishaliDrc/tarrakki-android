@@ -2,6 +2,8 @@ package com.tarrakki.api.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.text.TextUtils
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import org.supportcompact.BR
@@ -19,12 +21,14 @@ data class ConfirmOrderResponse(
             val id: Int,
             @SerializedName("mandate_id")
             val mandateId: Int?,
+            @SerializedName("bank_name")
+            val bankName: String?,
             @SerializedName("order_lines")
             val orderLines: ArrayList<OrderLine>,
             @SerializedName("total_lumpsum")
-            val totalLumpsum: Int,
+            val totalLumpsum: Double,
             @SerializedName("total_sip")
-            val totalSip: Int,
+            val totalSip: Double,
             @SerializedName("user_id")
             val userId: Int
     ) {
@@ -52,6 +56,21 @@ data class ConfirmOrderResponse(
             @SerializedName("sip_amount")
             var sipAmount: String? = null
                 get() = field?.toDoubleOrNull()?.toCurrency()
+
+            val hasSIP
+                get() = if (TextUtils.isEmpty(sipAmount) || "₹0" == sipAmount) View.GONE else View.VISIBLE
+
+            val hasLumpsum
+                get() = if (TextUtils.isEmpty(lumpsumAmount) || "₹0" == lumpsumAmount) View.GONE else View.VISIBLE
+
+            val haveSIPAndLumpsum: Int
+                get() = if (hasSIP == View.VISIBLE && hasLumpsum == View.VISIBLE) View.VISIBLE else View.GONE
+
+            val title: Int
+                get() = if (hasSIP == View.VISIBLE) R.string.sip else R.string.lumpsum
+
+            val amount: String?
+                get() = if (hasSIP == View.VISIBLE) sipAmount else lumpsumAmount
 
             @SerializedName("first_order_today")
             @get:Bindable

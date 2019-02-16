@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
-            android:paddingTop="@dimen/space_1"
             android:paddingStart="@dimen/space_4"
+            android:paddingTop="@dimen/space_1"
             android:paddingEnd="@dimen/space_4"
             android:paddingBottom="@dimen/space_4"
             android:text="@{fund.weightage + `%`}"
@@ -107,12 +107,12 @@
 
         <TextView
             android:id="@+id/tvInvestmentMonthly"
-            price="@{fund.amount}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/lato_semibold"
+            android:text="@{fund.sipAmount}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/gdlEnd"

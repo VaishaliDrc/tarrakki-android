@@ -153,7 +153,9 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 false
             }*/
             !getViewModel().isEdit.get()!! && kycData.guardianName.isEmpty() -> {
-                context?.simpleAlert("Please enter guardian name")
+                context?.simpleAlert("Please enter guardian name") {
+                    edtGuardian?.requestFocus()
+                }
                 false
             }
             /*!getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
@@ -193,11 +195,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                  false
              }*/
             kycData.nomineeName.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee name")
+                context?.simpleAlert("Please enter nominee name"){
+                    edtNominee?.requestFocus()
+                }
                 false
             }
             kycData.nomineeRelation.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee relationship")
+                context?.simpleAlert("Please enter nominee relationship"){
+                    edtRelationship?.requestFocus()
+                }
                 false
             }
             else -> true

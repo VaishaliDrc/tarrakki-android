@@ -70,13 +70,13 @@ data class InvestmentFunds(
             get() = if (!TextUtils.isEmpty(todayNAV) && !TextUtils.isEmpty(preDayNAV)) {
                 try {
                     val result: String? = "${((todayNAV.toDouble() - preDayNAV.toDouble()) * 100) / preDayNAV.toDouble()}"
-                    parseToPercentageOrNA(result)
+                    parseToPercentageOrNA(result).replace("-", "")
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    "NA"
+                    "N/A"
                 }
             } else {
-                "NA"
+                "N/A"
             }
 
         var hasNegativeReturn: Boolean = false

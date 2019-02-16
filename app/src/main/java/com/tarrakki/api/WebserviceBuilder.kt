@@ -161,6 +161,10 @@ interface WebserviceBuilder {
     @GET("cart/confirm/order/{userId}")
     fun getConfirmOrder(@Path("userId") userId: String?): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @PUT("cart/add_to_cart/{id}/")
+    fun updateFirstSIPFlag(@Path("id") id: String, @Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

@@ -55,11 +55,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         val cartApi = Observer<CartData> { apiResponse ->
             apiResponse?.let {
                 if (it.data.totalLumpsum == null)
-                    getViewModel().totalLumpsum.set("NA")
+                    getViewModel().totalLumpsum.set("N/A")
                 else
                     getViewModel().totalLumpsum.set(it.data.totalLumpsum.toCurrency())
                 if (it.data.totalSip == null)
-                    getViewModel().totalSip.set("NA")
+                    getViewModel().totalSip.set("N/A")
                 else
                     getViewModel().totalSip.set(it.data.totalSip.toCurrency())
 
@@ -274,6 +274,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
+                context?.simpleAlert(getString(R.string.coming_soon))
+                return@setOnClickListener
                 startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
             }
         }
