@@ -17,21 +17,15 @@ import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
         : MutableLiveData<ApiResponse> {
-    val sip = if (sipAmount == BigInteger.ZERO.toString()) {
-        null
-    } else {
-        sipAmount
-    }
-    val lumpsum = if (lumpsumAmount == BigInteger.ZERO.toString()) {
-        null
-    } else {
-        lumpsumAmount
-    }
-
     val json = JsonObject()
     json.addProperty("fund_id",fundId)
-    json.addProperty("sip_amount", sip)
-    json.addProperty("lumpsum_amount", lumpsum)
+    if (sipAmount != BigInteger.ZERO.toString()) {
+        json.addProperty("sip_amount", sipAmount)
+    }
+    if (lumpsumAmount != BigInteger.ZERO.toString()) {
+        json.addProperty("lumpsum_amount", lumpsumAmount)
+    }
+    json.printRequest()
     val data = json.toString().toEncrypt()
 
     val apiResponse = MutableLiveData<ApiResponse>()

@@ -94,8 +94,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             startFragment(BankAccountsFragment.newInstance(), R.id.frmContainer)
         }
         tvBankMandateAccount?.setOnClickListener {
-            startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
-            //context?.simpleAlert("Under Construction.")
+            //startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
+            context?.simpleAlert("Coming Soon.")
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {

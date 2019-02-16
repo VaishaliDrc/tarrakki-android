@@ -78,6 +78,10 @@ interface WebserviceBuilder {
     @POST("cart/add_to_cart/")
     fun addtocart(@Field("data") data: String): Observable<ApiResponse>
 
+    /*@Field("fund_id") fundId: Int,
+    @Field("sip_amount") sipAmount: String?,
+    @Field("lumpsum_amount") lumpsumAmount: String?
+    */
     @FormUrlEncoded
     @POST("users/get_otp/")
     fun verifyForgotOTP(@Field("data") data: String): Observable<ApiResponse>
