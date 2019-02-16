@@ -23,6 +23,7 @@ class CartVM : FragmentViewModel() {
     var totalSip: ObservableField<String> = ObservableField("")
     var totalLumpsum: ObservableField<String> = ObservableField("")
     val cartUpdate = MutableLiveData<ApiResponse>()
+    val isEmptyCart = MutableLiveData<Boolean>()
 
     fun getCartItem(): MutableLiveData<CartData> {
         EventBus.getDefault().post(SHOW_PROGRESS)
@@ -37,6 +38,7 @@ class CartVM : FragmentViewModel() {
                                 val data = o.data?.parseTo<CartData>()
                                 userGoalList.value = data
                             } else {
+                                //isEmptyCart.value = o.status
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {

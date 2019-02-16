@@ -76,6 +76,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         } catch (e: Exception) {
                             false
                         }
+                        binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+                        binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
                         binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
                         binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
 
