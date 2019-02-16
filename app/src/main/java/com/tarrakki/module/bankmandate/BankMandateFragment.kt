@@ -3,6 +3,8 @@ package com.tarrakki.module.bankmandate
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.View
+import com.tarrakki.App
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
@@ -26,7 +28,6 @@ const val MANDATEID = "mandate_id"
 
 class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
-    private var mandateId = ""
     private var isMandate: Boolean? = null
 
     override val isBackEnabled: Boolean
@@ -51,14 +52,15 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     }
 
     override fun createReference() {
-        getViewModel().isRefresh.observe(this, Observer {
-            if (it!=null){
-                mRefresh?.isRefreshing = it
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
             }
         })
 
         mRefresh?.setOnRefreshListener {
-            getBanksData()
+            getBanksData(true)
         }
 
         btnNext?.setOnClickListener {
@@ -83,8 +85,8 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         }
     }
 
-    private fun getBanksData() {
-        getViewModel().getAllMandateBanks().observe(this, Observer {
+    private fun getBanksData(isRefreshing: Boolean = false) {
+        getViewModel().getAllMandateBanks(isRefreshing).observe(this, Observer {
             if (it?.data?.isNotEmpty() == true) {
                 isMandate = true
                 getViewModel().isNoBankAccount.set(false)
@@ -92,20 +94,25 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 getViewModel().isAddVisible.set(true)
                 setUserBankMandateAdapter(it.data)
             } else {
+               // btnAdd?.text = getString(R.string.add_new_bank_mandate)
                 isMandate = false
-                getUserBankAPI()
+                getUserBankAPI(isRefreshing)
             }
         })
     }
 
-    fun getUserBankAPI() {
+    fun getUserBankAPI(isRefreshing: Boolean = false) {
         getViewModel().getAllBanks().observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
+                if (it1.data.bankDetails.size>5){
+                    btnAdd?.visibility = View.GONE
+                }
                 getViewModel().isNoBankAccount.set(false)
                 getViewModel().isNextVisible.set(true)
                 setUserBankAdapter(it1.data.bankDetails)
             } else {
+                btnAdd?.text = getString(R.string.add_new_bank_account)
                 getViewModel().isNoBankAccount.set(true)
                 getViewModel().isNextVisible.set(false)
             }
@@ -152,8 +159,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
                 }, { item, position, adapter ->
 
-        }
-        )
+        })
         rvBankMandate?.adapter = userBankAdapter
         val default_position = bankDetails.indexOfFirst { it.isDefault }
         if (default_position != -1) {

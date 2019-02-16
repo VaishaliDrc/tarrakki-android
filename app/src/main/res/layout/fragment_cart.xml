@@ -63,6 +63,7 @@
                     android:paddingStart="@dimen/space_16"
                     android:paddingEnd="@dimen/space_16"
                     android:text="@string/add_funds"
+                    android:layout_marginBottom="@dimen/space_1"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/white" />

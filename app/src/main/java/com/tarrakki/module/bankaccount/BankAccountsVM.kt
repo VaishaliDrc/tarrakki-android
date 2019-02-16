@@ -32,8 +32,9 @@ class BankAccountsVM : FragmentViewModel() {
     var kycData = MutableLiveData<KYCData>()
 
 
-    fun getAllBanks(): MutableLiveData<UserBanksResponse> {
-        showProgress()
+    fun getAllBanks(isRefreshing: Boolean = false): MutableLiveData<UserBanksResponse> {
+        if (!isRefreshing)
+            showProgress()
         val response = MutableLiveData<UserBanksResponse>()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getUserBanks(App.INSTANCE.getUserId()),

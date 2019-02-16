@@ -537,15 +537,15 @@
     <string name="no_bank_account_added_yet">No Bank Account Added Yet</string>
     <string name="bank">Bank</string>
     <string name="successful">Successful!</string>
-    <string name="your_bank_mandate_request_has_been">Your bank mandate request has been submitted to your bank successfully. Your bank may take 10-35 days for the approval.</string>
+    <string name="your_bank_mandate_request_has_been">Your bank mandate request has been submitted to your bank successfully.\nYour bank may take 10-35 days for the approval.</string>
     <string name="we_will_inform_you">We\'ll keep you updated about the bank mandate status via email and sms.</string>
     <string name="bank_mandate_type">Bank Mandate Type</string>
     <string name="sip_mandate">ISIP Mandate</string>
     <string name="selft_authorize_to_bank">Self-authorize your bank to auto-invest in SIPs of your choice. Login to your net-banking account online, and self-authorize your bank to auto-invest in SIPs of your choice at pre-determined intervals.</string>
     <string name="nach_mandate">NACH Mandate</string>
-    <string name="we_provide_easiest_way_to">We provide the easiest way to do the NACH Mandate by generating the pre-filled e-Mandate form for you. You can either sign it digitally within the app or sign manually and upload the scan mandate. It will take 10 to 35 days for the approval but you can choose any maximum mandate limit.</string>
+    <string name="we_provide_easiest_way_to">We provide the easiest way to do the NACH Mandate by generating the pre-filled e-Mandate form for you. You can either sign it digitally within the app or sign manually and upload the scan mandate. It will take 15-30 days for the approval but you can choose any maximum mandate limit.</string>
     <string name="download_mandate_form">Download Mandate Form</string>
-    <string name="download_bank_form_description">Download the bank mandate form and fill out your details to set up Auto- Payments./n/nThis form allows secure auto-debiting of a specified amount of money towards your SIP, to create an easier investment experience for you.</string>
+    <string name="download_bank_form_description">Download the bank mandate form and fill out your details to set up Auto- Payments.This form allows secure auto-debiting of a specified amount of money towards your SIP, to create an easier investment experience for you.</string>
     <string name="upload_scanned_form">Upload Scanned Mandate</string>
     <string name="upload_scanned_form_description">Once you have filled out the bank mandate form, please scan the form and upload it.</string>
     <string name="bank_mandate_preview">Bank Mandate Preview</string>
@@ -554,7 +554,7 @@
     <string name="doenload_mandate_form">Download Mandate Form</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
     <string name="normally_take_">Normally takes 15-30 working days for approval</string>
-    <string name="normally_take_nach">Normally takes up to 7 working days for approval</string>
+    <string name="normally_take_nach">Normally takes 7 working days for approval</string>
     <string name="investment_strategies">Investment Strategies</string>
     <string name="note_to_investors_">Note to Investors:</string>
     <string name="note_to_investors_details">
@@ -648,7 +648,7 @@
     <string name="total_amount_payable">Total Amount Payable</string>
     <string name="sip_bank_mandate">SIP Bank Mandate</string>
     <string name="start_date_">Start Date:</string>
-    <string name="first_installment_of_sip_on_toady">First installment of SIP on toady</string>
+    <string name="first_installment_of_sip_on_toady">First installment of SIP on today</string>
     <string name="lumpsum">Lumpsum</string>
     <string name="order_confirm">Order Confirm</string>
     <string name="complete_nach_mandate">Complete Nach Mandate</string>

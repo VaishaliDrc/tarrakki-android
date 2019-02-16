@@ -1,6 +1,7 @@
 package org.supportcompact.networking
 
 import android.util.Log
+import com.google.android.gms.common.internal.ConnectionErrorMessages.getErrorMessage
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -17,7 +18,9 @@ import org.simpleframework.xml.core.Persister
 import org.supportcompact.CoreApp
 import org.supportcompact.R
 import org.supportcompact.ktx.getLoginToken
+import org.supportcompact.ktx.isNetworkConnected
 import org.supportcompact.ktx.postError
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -44,13 +47,13 @@ object ApiClient {
     /**
      * Test Url
      **/
-    /*private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url*/
+    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
     /**
      * Live Url
      **/
-    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+ /*   private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
     /**
      * @return [Retrofit] object its single-tone
      */
@@ -245,7 +248,13 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                 override fun onError(e: Throwable) {
                     when (e) {
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)
-                        is IOException -> e.postError(R.string.internet_connection)
+                        is IOException -> {
+                            if (CoreApp.getInstance().isNetworkConnected()){
+                                e.postError(R.string.server_connection)
+                            }else{
+                                e.postError(R.string.internet_connection)
+                            }
+                        }
                         else -> singleCallback?.onFailure(e, apiNames)
                     }
                 }

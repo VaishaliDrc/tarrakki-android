@@ -28,6 +28,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.toast
 import org.supportcompact.networking.ApiClient
 import java.io.File
@@ -104,7 +105,8 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         override fun onReceive(ctxt:Context, intent:Intent) {
             val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if (refid == referenceId){
-                toast("Download Complete.")
+                context?.simpleAlert("Download Complete.")
+                //toast("Download Complete.")
             }
         }
     }
@@ -240,7 +242,6 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: UserMandateDownloadResponse) {
         getViewModel().mandateResponse.set(data)
-        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {

@@ -14,6 +14,7 @@
     <string name="write_external_storage_title">Read, Write external storage Permissions are necessary</string>
     <string name="try_again_to">Something went wrong, Please try again later</string>
     <string name="internet_connection">Internet connection not available</string>
+    <string name="server_connection">Could not connect to Tarrakki Server</string>
 
     <string-array name="select_image_from">
         <item>Gallery</item>

@@ -43,7 +43,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
 
         if (getViewModel().isIMandate.get() == true) {
             tvBankMandateType?.text = getString(R.string.sip_mandate)
-            tvContent?.text = "Your bank mandate request has been submitted to your bank successfully. Your bank may take up to 7 days for the approval."
+            tvContent?.text = "Your bank mandate request has been submitted to your bank successfully.\nYour bank may takes 7 days for the approval."
         }
 
         btnInvest?.setOnClickListener {

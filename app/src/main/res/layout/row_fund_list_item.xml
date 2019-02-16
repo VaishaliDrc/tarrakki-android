@@ -222,6 +222,7 @@
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
             android:text="@string/invest"
+            android:layout_marginBottom="@dimen/space_1"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/white"

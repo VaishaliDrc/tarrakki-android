@@ -104,7 +104,7 @@ data class InvestmentFunds(
                     if (aipAip != null) {
                         val maxTenure = iaipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
+                            sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
                         }
                     }
                 }

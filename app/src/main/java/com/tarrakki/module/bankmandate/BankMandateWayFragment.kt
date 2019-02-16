@@ -109,7 +109,6 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: BankDetail) {
         getViewModel().bankMandate.set(data)
-        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {

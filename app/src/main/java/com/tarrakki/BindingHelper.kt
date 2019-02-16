@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.*
+import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -243,6 +244,12 @@ fun EditText.applyPAN() {
     })
 }
 
+@BindingAdapter("isPasswordTransformation")
+fun setPasswordTransformation(textview: TextView, isPasswordTransformation: Boolean) {
+    if (isPasswordTransformation) {
+        textview.transformationMethod = PasswordTransformationMethod()
+    }
+}
 
 @BindingAdapter("onEditorAction")
 fun setEditorAction(editText: EditText, onEditorActionListener: TextView.OnEditorActionListener) {
@@ -279,7 +286,7 @@ fun setAction(txt: EditText?, listener: TextView.OnEditorActionListener?) {
 
 @BindingAdapter("requestToEdit")
 fun requestToEdit(txt: EditText, requestToEdit: Boolean?) {
-    requestToEdit?.let {
+    if (requestToEdit == true) {
         txt.requestFocus()
         txt.setSelection(txt.length())
         txt.showKeyboard()
@@ -429,17 +436,17 @@ fun Context.investmentStragiesDialog(
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         if (this.isInvestStrategyDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),
-                        sipAmount,lumpsumAmount)){
+                        sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
             onInvest?.invoke(thirdLevelCategory, lumpsumAmount,
                     sipAmount)
         }
-      /*
-        if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-            this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
-        } else {
+        /*
+          if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
+              this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+          } else {
 
-        }*/
+          }*/
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
@@ -477,9 +484,9 @@ fun String.toYearWord(): String {
 }
 
 fun Context.isInvestStrategyDialogValid(minSIPAmount: BigInteger,
-                                minLumsumpAmount: BigInteger,
-                                sipAmount: BigInteger,
-                                lumpsumAmount: BigInteger): Boolean {
+                                        minLumsumpAmount: BigInteger,
+                                        sipAmount: BigInteger,
+                                        lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false
@@ -545,7 +552,7 @@ fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
 }
 
 fun Context.isCartAmountValid(sipAmount: BigInteger,
-                                lumpsumAmount: BigInteger): Boolean {
+                              lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false

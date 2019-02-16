@@ -30,10 +30,6 @@ class BankMandateVM : FragmentViewModel() {
     val isAddVisible = ObservableField<Boolean>(false)
     val isMandateBankList = ObservableField<Boolean>(false)
     val isNoBankAccount = ObservableField<Boolean>(false)
-    val IMAGE_RQ_CODE = 101
-    val ICAMERA_RQ_CODE = 181
-    val cvPhotoName = "profilePick"
-    val isRefresh = MutableLiveData<Boolean>()
 
     init {
         bankMandate.add(BankMandate(
@@ -49,8 +45,9 @@ class BankMandateVM : FragmentViewModel() {
         })
     }
 
-    fun getAllBanks(): MutableLiveData<UserBanksResponse> {
-        showProgress()
+    fun getAllBanks(isRefreshing: Boolean = false): MutableLiveData<UserBanksResponse> {
+        if (!isRefreshing)
+            showProgress()
         val response = MutableLiveData<UserBanksResponse>()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getUserBanks(App.INSTANCE.getUserId()),
@@ -82,8 +79,8 @@ class BankMandateVM : FragmentViewModel() {
         return response
     }
 
-    fun getAllMandateBanks(): MutableLiveData<UserBankMandateResponse> {
-        isRefresh.value = false
+    fun getAllMandateBanks(isRefreshing: Boolean = false): MutableLiveData<UserBankMandateResponse> {
+        if (!isRefreshing)
         showProgress()
         val response = MutableLiveData<UserBankMandateResponse>()
         subscribeToSingle(

@@ -57,16 +57,19 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
-        /*isFromBankMandate = arguments?.getBoolean(ISFROMBANKMANDATE)
-        if (isFromBankMandate==true){
-            coreActivityVM?.title?.set(getString(R.string.bank_mandate))
-        }*/
         if (isRegistration) {
             coreActivityVM?.title?.set(getString(R.string.complete_registration))
         }
     }
 
     override fun createReference() {
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
+
         val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
         val bankObserver = Observer<UserBanksResponse> { r ->
             r?.let { userBanksResponse ->
@@ -85,7 +88,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                             return R.layout.btn_add_next_bank_mandate
                         }
                     })
-                } else {
+                } else if (count < 5) {
                     banks.add(SingleButton(R.string.add_new_bank_account))
                 }
 
@@ -146,6 +149,10 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                 App.INSTANCE.signatureFile.value = null
             }
         })
+
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getAllBanks(true).observe(this, bankObserver)
+        }
     }
 
     private fun openGallery() {

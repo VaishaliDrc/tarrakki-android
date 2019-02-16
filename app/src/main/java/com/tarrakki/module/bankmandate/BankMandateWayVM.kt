@@ -6,12 +6,14 @@ import android.databinding.Bindable
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.BankDetail
+import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.module.bankaccount.SingleButton
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -47,11 +49,19 @@ class BankMandateWayVM : FragmentViewModel() {
 
     fun addMandateBank(bankId: Int?, amount: String, type: String)
             : MutableLiveData<ApiResponse> {
+        val json = JsonObject()
+        json.addProperty("bank",bankId)
+        json.addProperty("amount", amount)
+        json.addProperty("mandate_type", type)
+        json.addProperty("user_id", App.INSTANCE.getUserId().toString())
+        val data = json.toString().toEncrypt()
+
+
         showProgress()
         val response = MutableLiveData<ApiResponse>()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .addMandateBank(bankId, amount, type, App.INSTANCE.getUserId().toString()),
+                        .addMandateBank(data),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

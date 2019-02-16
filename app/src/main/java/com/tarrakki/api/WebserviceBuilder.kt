@@ -71,30 +71,24 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("users/forgot-password/")
-    fun forgotPassword(@Field("email") email: String,
-                       @Field("type") type: String): Observable<ApiResponse>
+    fun forgotPassword(@Field("email") fund_id_id: String,
+                       @Field("type") lumpsum_amount: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("cart/add_to_cart/")
-    fun addtocart(@Field("fund_id") fundId: Int,
-                  @Field("sip_amount") sipAmount: String?,
-                  @Field("lumpsum_amount") lumpsumAmount: String?): Observable<ApiResponse>
+    fun addtocart(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/get_otp/")
-    fun verifyForgotOTP(@Field("otp_id") otp_id: String?,
-                        @Field("otp") otp: String?): Observable<ApiResponse>
+    fun verifyForgotOTP(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/forgot-password/confirm/")
-    fun resetPassword(@Field("token") token: String?,
-                      @Field("password") password: String?): Observable<ApiResponse>
+    fun resetPassword(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/change-password/")
-    fun changePassword(@Field("current_password") token: String?,
-                       @Field("new_password") newPassword: String?,
-                       @Field("confirm_password") confirmPassword: String?): Observable<ApiResponse>
+    fun changePassword(@Field("data") data: String): Observable<ApiResponse>
 
     @GET("banks/")
     fun getAllBanks(): Observable<ApiResponse>
@@ -108,12 +102,7 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("category/recommendations/")
-    fun investmentStrageyRecommeded(@Field("third_level_category_id") thirdLevelCategoryId: Int,
-            /*@Field("years") years: String,*/
-                                    @Field("lumpsum_amount") lumpsum_amount: String,
-                                    @Field("add_to_cart") addToCart: Int,
-                                    @Field("sip_amount") sip_amount: String
-    ): Observable<ApiResponse>
+    fun investmentStrageyRecommeded(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @PUT("banks/set-default-account/{userId}")
@@ -139,10 +128,7 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("banks/user-mandate-add/")
-    fun addMandateBank(@Field("bank") bank: Int?,
-                       @Field("amount") amount: String,
-                       @Field("mandate_type") mandateType: String,
-                       @Field("user_id") userId: String): Observable<ApiResponse>
+    fun addMandateBank(@Field("data") data: String): Observable<ApiResponse>
 
     @GET("banks/user-mandate-download/{mandate_id}/")
     fun downloadMandateForm(@Path("mandate_id") bank_mandate_id: String?): Observable<ApiResponse>

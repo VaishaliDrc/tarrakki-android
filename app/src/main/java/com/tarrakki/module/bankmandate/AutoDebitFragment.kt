@@ -15,17 +15,11 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrency
 import org.supportcompact.ktx.toCurrencyBigInt
+import java.math.BigInteger
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AutoDebitFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 const val AMOUNT = "amount"
 
 class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>() {
@@ -72,41 +66,25 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
             getViewModel().amount.set(amountSelected.amount.toString())
 
         btnContinue?.setOnClickListener {
-            val bundle = Bundle().apply {
-                putString(AMOUNT, getViewModel().amount.get()?.toCurrencyBigInt().toString())
+            val amount = getViewModel().amount.get()?.toCurrencyBigInt()
+            if (amount != BigInteger.ZERO) {
+                val bundle = Bundle().apply {
+                    putString(AMOUNT, amount.toString())
+                }
+                startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
+            }else{
+                context?.simpleAlert("Please enter valid amount.")
             }
-            startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
         }
         edtInvestAmount?.applyCurrencyFormatPositiveOnly()
-        //getViewModel().amount.set(getViewModel().ammounts[2].amount.toString())
-
     }
 
-    /*override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-*/
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: BankDetail) {
         getViewModel().bankMandate.set(data)
-        //EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment AutoDebitFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = AutoDebitFragment().apply { arguments = basket }
     }

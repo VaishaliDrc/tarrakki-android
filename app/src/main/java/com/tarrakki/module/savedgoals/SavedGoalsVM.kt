@@ -19,7 +19,6 @@ import org.supportcompact.networking.subscribeToSingle
 class SavedGoalsVM : FragmentViewModel() {
 
     val saveGoalResponse = MutableLiveData<List<GoalSavedResponse.Data>>()
-    val refresh = MutableLiveData<Boolean>()
 
     fun getSavedGoals(userId: String?,isRefreshing: Boolean = false): MutableLiveData<List<GoalSavedResponse.Data>> {
         val apiResponse = MutableLiveData<GoalSavedResponse>()
@@ -32,7 +31,6 @@ class SavedGoalsVM : FragmentViewModel() {
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
-                        refresh.value = true
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 o.printResponse()
@@ -49,7 +47,6 @@ class SavedGoalsVM : FragmentViewModel() {
                     override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                         EventBus.getDefault().post(ShowError("${throwable.message}"))
-                        refresh.value = true
                     }
                 }
         )

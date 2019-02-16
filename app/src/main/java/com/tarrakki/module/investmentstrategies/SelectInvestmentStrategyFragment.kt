@@ -1,6 +1,7 @@
 package com.tarrakki.module.investmentstrategies
 
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentSelectInvestmentStrategiesBinding
@@ -16,6 +17,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setPageAdapter
+import org.supportcompact.adapters.setWrapContentPageAdapter
 import org.supportcompact.ktx.startFragment
 import java.util.*
 
@@ -88,7 +90,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                 getViewModel().noteToInvestors.set(!isOpen)
             }
         }
-        mPager?.setPagingEnabled(true)
+        //mPager?.setPagingEnabled(true)
 
         if (getViewModel().isSingleInvestment.get() == true) {
             // singleInvestmentUIFromSecondLevel()
@@ -129,7 +131,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             category.thirdLevelCategory[0].hasPrevious = false
         }
 
-        mPager?.setPageAdapter(R.layout.page_investment_options_item,
+        mPager?.setWrapContentPageAdapter(R.layout.page_investment_options_item,
                 category.thirdLevelCategory as ArrayList<HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory>)
         { binder: PageInvestmentOptionsItemBinding,
           item: HomeData.Data.Category.SecondLevelCategory.ThirdLevelCategory ->
@@ -163,6 +165,8 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             binder.executePendingBindings()
         }
         pageIndicator?.setViewPager(mPager)
+
+
     }
 
     private fun singleInvestmentUIFromSecondLevel() {

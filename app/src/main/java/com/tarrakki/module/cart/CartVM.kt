@@ -2,6 +2,7 @@ package com.tarrakki.module.cart
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
@@ -93,6 +94,15 @@ class CartVM : FragmentViewModel() {
         }
         val lumpsump = fund.lumpsumAmount.toCurrencyBigInt().toString()
         val sip = fund.sipAmount.toCurrencyBigInt().toString()
+
+   /*     val json = JsonObject()
+        json.addProperty("otp",id)
+        json.addProperty("fund_id_id", fund.fundIdId.toString())
+        json.addProperty("lumpsum_amount",lumpsump)
+        json.addProperty("day", fund.day)
+        json.addProperty("sip_amount", sip)
+        val data = json.toString().toEncrypt()*/
+
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)

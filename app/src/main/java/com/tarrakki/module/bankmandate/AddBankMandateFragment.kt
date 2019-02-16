@@ -15,15 +15,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.tarrakki.IS_FROM_BANK_ACCOUNT
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
-import com.tarrakki.getBankMandateStatus
-import com.tarrakki.getUCropOptions
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import com.tarrakki.module.bankaccount.SingleButton
 import com.yalantis.ucrop.UCrop
@@ -60,6 +57,13 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
     }
 
     override fun createReference() {
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
+
         btnAdd?.text = getString(R.string.add_bank_account)
         btnNext?.setOnClickListener {
                 if (userBankAdapter?.selectedItemViewCount != 0) {
@@ -77,8 +81,8 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         }
     }
 
-    fun getUserBankAPI(){
-        getViewModel().getAllBanks().observe(this, Observer { it1 ->
+    fun getUserBankAPI(isRefreshing: Boolean = false){
+        getViewModel().getAllBanks(isRefreshing).observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
                 getViewModel().isNoBankAccount.set(false)
@@ -103,8 +107,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
 
                 }, { item, position, adapter ->
 
-        }
-        )
+        })
         rvBankMandate?.adapter = userBankAdapter
         val default_position = bankDetails.indexOfFirst { it.isDefault }
         if (default_position != -1) {

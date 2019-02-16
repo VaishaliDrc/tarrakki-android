@@ -13,6 +13,7 @@
     </data>
 
     <LinearLayout
+        android:background="@color/bg_color"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,12 +29,14 @@
                 android:layout_height="wrap_content">
 
                 <FrameLayout
+                    android:background="@color/bg_color"
                     android:id="@+id/lytMandate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:ignore="WebViewLayout">
 
                     <WebView
+                        android:background="@color/bg_color"
                         android:minHeight="200dp"
                         android:id="@+id/mWebView"
                         android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.GoalSavedResponse
 import com.tarrakki.databinding.FragmentSavedGoalsBinding
@@ -55,15 +56,16 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
             setAdapter(it)
         })
 
-        getViewModel().refresh.observe(this, Observer {
-            if (it!!){
-                mRefresh?.isRefreshing = false
-            }
-        })
-
         mRefresh?.setOnRefreshListener {
             getViewModel().getSavedGoals(context?.getUserId(),true)
         }
+
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
     }
 
     override fun onResume() {
