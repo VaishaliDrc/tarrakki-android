@@ -146,6 +146,13 @@ interface WebserviceBuilder {
     @POST("profile/add/")
     fun completeRegistration(@Part("data") data: RequestBody, @Part file: MultipartBody.Part): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("banks/set-kyc-details/{userId}")
+    fun saveKYCdata(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
+    @GET("banks/get-kyc-details/{userId}")
+    fun gatKYCdata(@Path("userId") userId: String?): Observable<ApiResponse>
+
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
     @POST("cispl/services_kycenquiry_uat.asmx")
     fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<ResponseBody>
@@ -172,6 +179,6 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate
+        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData
     }
 }

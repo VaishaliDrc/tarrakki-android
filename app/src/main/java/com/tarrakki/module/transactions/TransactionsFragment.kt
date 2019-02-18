@@ -3,8 +3,12 @@ package com.tarrakki.module.transactions
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
+import android.view.KeyEvent
+import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
+import com.tarrakki.module.transactions.childfragments.UnpaidTransactionsFragment
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -36,13 +40,58 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         val pages = arrayListOf(
-                Page(getString(R.string.completed), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
-                Page(getString(R.string.pending), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, true) }))
+                //   Page(getString(R.string.completed), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
+                // Page(getString(R.string.pending), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, true) }))
+                Page("Upcoming", UnpaidTransactionsFragment.newInstance()),
+                Page("Unpaid", UnpaidTransactionsFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
+        mPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(p0: Int) {
+
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+
+            }
+
+            override fun onPageSelected(p0: Int) {
+                getViewModel().hasOptionMenu.value = false
+            }
+        })
         mTab?.setupWithViewPager(mPager, true)
+
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                if (mPager.currentItem == 1) {
+                    getViewModel().onBack.value = true
+                } else {
+                    onBack()
+                }
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                if (mPager.currentItem == 1) {
+                    getViewModel().onBack.value = true
+                } else {
+                    onBack()
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

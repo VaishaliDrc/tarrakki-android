@@ -18,6 +18,7 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.learn.LearnActivity
 import com.tarrakki.module.plan.PlanActivity
+import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
@@ -30,7 +31,6 @@ const val ACTION_FINISH_ALL_TASK = "ACTION_FINISH_ALL_TASK"
 
 
 abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBinding>() {
-
 
     override fun getLayout(): Int {
         return R.layout.activity_base
@@ -118,7 +118,8 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
                     val fragment = supportFragmentManager?.findFragmentById(R.id.frmContainer)
-                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment) {
+                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment ||
+                            fragment is TransactionsFragment) {
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()
@@ -196,6 +197,4 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
     companion object {
         private const val INTENT_AUTHENTICATE: Int = 111
     }
-
-
 }

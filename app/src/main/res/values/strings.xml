@@ -665,5 +665,10 @@
     <string name="pay_now">Pay Now</string>
     <string name="transaction_confirm">Transaction Confirm</string>
 
+    <string name="nav_">NAV:</string>
+    <string name="folio_no_">Folio No.:</string>
+    <string name="order_no_">Order No.:</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="select_all">Select All</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

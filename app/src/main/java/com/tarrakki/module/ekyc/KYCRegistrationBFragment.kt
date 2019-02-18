@@ -20,7 +20,6 @@ import org.supportcompact.ktx.startFragment
  * A simple [Fragment] subclass.
  * Use the [KYCRegistrationBFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
 class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycregistrationBBinding>() {
 
@@ -82,13 +81,14 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
         btnNext?.setOnClickListener {
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
-                    startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
-                    post(kycData)
+                    saveKYCData(kycData).observe(this, android.arch.lifecycle.Observer {
+                        startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+                        post(kycData)
+                    })
                 }
             }
         }
     }
-
 
     /*private fun showCountry(item: ObservableField<String>) {
         context?.showListDialog(R.string.select_country, R.array.countries) { country ->
@@ -98,10 +98,6 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
 
     private fun isValid(kycData: KYCData): Boolean {
         return when {
-            /*getViewModel().PANName.isEmpty() -> {
-                context?.simpleAlert("Please enter PAN name")
-                false
-            }*/
             getViewModel().sourceOfIncome.isEmpty() -> {
                 context?.simpleAlert("Please select source of income")
                 false
@@ -111,6 +107,21 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 false
             }
             !switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {
+                when {
+                    kycData.tinNumber1.isEmpty() -> {
+                        context?.simpleAlert("Please enter TIN number") {
+                            edtTIN?.requestFocus()
+                        }
+                        false
+                    }
+                    kycData.countryOfIssue1.isEmpty() -> {
+                        context?.simpleAlert("Please select country of issue")
+                        false
+                    }
+                    else -> true
+                }
+            }
+            !switchOnOff.isChecked && (!kycData.tinNumber1.isEmpty() || !kycData.countryOfIssue1.isEmpty()) -> {
                 when {
                     kycData.tinNumber1.isEmpty() -> {
                         context?.simpleAlert("Please enter TIN number") {
@@ -144,7 +155,6 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
          * @param basket As Bundle.
          * @return A new instance of fragment KYCRegistrationBFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = KYCRegistrationBFragment().apply { arguments = basket }
     }

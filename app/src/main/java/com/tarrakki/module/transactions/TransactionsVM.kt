@@ -1,11 +1,17 @@
 package com.tarrakki.module.transactions
 
+import android.arch.lifecycle.MutableLiveData
+import android.databinding.BaseObservable
+import android.databinding.Bindable
+import org.supportcompact.BR
 import org.supportcompact.FragmentViewModel
 
 class TransactionsVM : FragmentViewModel() {
 
     val transactions = arrayListOf<Transactions>()
     val pendingTransactions = arrayListOf<Transactions>()
+    val hasOptionMenu = MutableLiveData<Boolean>()
+    val onBack = MutableLiveData<Boolean>()
 
     init {
 
@@ -43,4 +49,12 @@ data class Transactions(
         var units: Int,
         var NAV: Double,
         val isPending: Boolean = true
-)
+) : BaseObservable() {
+    @get:Bindable
+    var isSelected = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selected)
+        }
+
+}
