@@ -274,8 +274,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
-                context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
-                return@setOnClickListener
+               // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
+              //  return@setOnClickListener
                 startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
             }
         }
@@ -371,7 +371,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         isValid = false
                         break@loop
                     } else {
-                        if (item.day?.isNullOrEmpty() == true || item.day == "0") {
+                        if (item.day == null || item.day == "" ||item.day == "0") {
                             context?.simpleAlert("Please Select Start Date.") {
                                 Handler().postDelayed({
                                     if (getViewModel().funds.isNotEmpty()) {

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="widget"
+            type="com.tarrakki.api.model.ConfirmOrderResponse.Data.OrderLine" />
+
+    </data>
+
+<LinearLayout
+    android:layout_marginTop="@dimen/space_16"
+    android:layout_marginBottom="@dimen/space_16"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/space_8"
+            android:layout_toStartOf="@id/tvStatus"
+            android:text="@{widget.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/item_selected_color"
+            tools:text="SBI Banking and Financial Services Growth Direct Plan" />
+
+        <TextView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Succeeded"
+            android:drawablePadding="@dimen/space_5"
+            android:drawableStart="@drawable/ic_succeeded"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorAccent"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_weight="0.4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvSIPLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:background="@drawable/shape_edt_gray_round"
+                android:paddingStart="@dimen/space_16"
+                android:paddingTop="@dimen/space_6"
+                android:paddingEnd="@dimen/space_16"
+                android:paddingBottom="@dimen/space_6"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:text="@{widget.title}"
+                android:textAllCaps="true"
+                tools:text="@string/sip" />
+
+            <TextView
+                android:id="@+id/tvSIP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:fontFamily="@string/returns_sysmbol"
+                android:paddingStart="@dimen/space_4"
+                android:paddingEnd="@dimen/space_4"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:text="@{widget.amount}"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                tools:text="@string/dummy3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="0.6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvLumpsumLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:background="@drawable/shape_edt_gray_round"
+                android:paddingStart="@dimen/space_16"
+                android:paddingTop="@dimen/space_6"
+                android:paddingEnd="@dimen/space_16"
+                android:paddingBottom="@dimen/space_6"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:text="@string/lumpsum"
+                android:textAllCaps="true"
+                android:visibility="@{widget.haveSIPAndLumpsum}" />
+
+            <TextView
+                android:id="@+id/tvLumpsumAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:fontFamily="@string/returns_sysmbol"
+                android:paddingStart="@dimen/space_4"
+                android:paddingEnd="@dimen/space_4"
+                android:text="@{widget.lumpsumAmount}"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/black"
+                android:visibility="@{widget.haveSIPAndLumpsum}"
+                tools:text="@string/dummy3" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
+
+</layout>

@@ -388,6 +388,7 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
+        it.dismissKeyboard()
     }
     val v: View? = mDialog?.window?.decorView
     v?.setBackgroundResource(android.R.color.transparent)
@@ -414,6 +415,7 @@ fun Context.investDialog(fundId: Int, minSIPAmount: BigInteger,
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
+        it.dismissKeyboard()
     }
 
     val v: View? = mDialog?.window?.decorView
@@ -450,6 +452,7 @@ fun Context.investmentStragiesDialog(
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
+        it.dismissKeyboard()
     }
 
     val v: View? = mDialog?.window?.decorView

@@ -182,6 +182,9 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             getViewModel().singleInvestmentCategoryName.set(it.categoryName)
             getViewModel().singleInvestmentCategoryShortDes.set(it.categoryshortDesctiption)
             getViewModel().singleInvestmentCategoryDesc.set(it.categoryDesctiption)
+
+            getViewModel().singleInvestmentRiskTypeVisible.set(it.riskLevelVisible)
+            getViewModel().singleInvestmentReturntypeVisible.set(it.returnRiskVisible)
         }
     }
 

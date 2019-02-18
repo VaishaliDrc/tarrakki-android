@@ -11,6 +11,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.BulletSpan
+import android.view.View
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
@@ -34,6 +35,8 @@ class SelectInvestmentStrategyVM : FragmentViewModel() {
     val singleInvestmentCategoryDesc = ObservableField("")
     val singleInvestmentReturntype = ObservableField("")
     val singleInvestmentRiskType = ObservableField("")
+    val singleInvestmentReturntypeVisible = ObservableField(View.GONE)
+    val singleInvestmentRiskTypeVisible = ObservableField(View.GONE)
 }
 
 data class InvestmentOption(

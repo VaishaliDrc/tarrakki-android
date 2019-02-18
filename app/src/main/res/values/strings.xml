@@ -54,7 +54,8 @@
         Tarrakki helps you invest your hard earned money in mutual funds that best fit your income, age, and risk appetite.
         \n\nWatch your money grow beyond the rate of inflation.
         \n\nAchieve life goals and financial milestones faster.
-        \n\n- Paperless Investing - Direct Plans (No Agent Commissions)
+        \n\n- Paperless Investing
+        \n\n- Direct Plans (No Agent Commissions)
     </string>
     <string name="category">Category</string>
     <string name="sub_category">Sub Category</string>
@@ -591,7 +592,7 @@
     <string name="enter_number_of_years">Enter number of years</string>
     <string name="sip_duration">SIP Duration</string>
     <string name="enter_sip_duration">Enter SIP duration</string>
-    <string name="apply_pmt">Apply PMT</string>
+    <string name="apply_pmt">Invest Now</string>
     <string name="nav_on">NAV on</string>
 
 
@@ -652,5 +653,17 @@
     <string name="order_confirm">Order Confirm</string>
     <string name="complete_nach_mandate">Complete Nach Mandate</string>
     <string name="coming_soon">Coming Soon.</string>
+
+    <string name="payment_mode">Payment Mode</string>
+    <string name="how_would_you_like_to_pay">How would you like to pay?</string>
+    <string name="net_banking">Net Banking</string>
+    <string name="neft_rtgs">NEFT/RTGS</string>
+    <string name="choose_bank_account">Choose bank account</string>
+    <string name="change">Change</string>
+    <string name="enter_utr_number">ENTER UTR NUMBER</string>
+    <string name="utr_number">UTR Number</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="transaction_confirm">Transaction Confirm</string>
+
     <!--<string name="select_country">Select Country</string>-->
 </resources>

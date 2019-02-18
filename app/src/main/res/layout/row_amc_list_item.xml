@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
-            app:price="@{vm.lumpsum}"
+            app:price="@{vm.LumpsumAmount}"
             tools:text="@string/dummy" />
 
         <TextView
@@ -117,7 +117,7 @@
             app:layout_constraintEnd_toStartOf="@+id/gdlEnd"
             app:layout_constraintStart_toStartOf="@+id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
-            app:price="@{vm.sipAmount}"
+            app:price="@{vm.SIPAmount}"
             tools:text="@string/dummy1" />
 
         <TextView

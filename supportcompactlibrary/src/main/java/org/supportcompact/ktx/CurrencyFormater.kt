@@ -114,10 +114,18 @@ fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")
 fun parseToPercentageOrNA(num: String?): String {
     return try {
         val temp: Double? = num?.toDoubleOrNull()
-        //temp?.toReturnAsPercentage() ?: "N/A"
         if (temp == null || temp == 0.0) "N/A" else temp.toReturnAsPercentage()
     } catch (e: java.lang.Exception) {
         "N/A"
+    }
+}
+
+fun toCurrency(num: String?): String {
+    return try {
+        val temp: Double? = num?.toDoubleOrNull()
+        temp?.toString() ?: return 0.0.toString()
+    } catch (e: java.lang.Exception) {
+        "0.0"
     }
 }
 

@@ -42,7 +42,7 @@
             android:name=".module.home.HomeActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".module.plan.PlanActivity"
             android:launchMode="singleInstance"
@@ -52,7 +52,7 @@
             android:name=".module.invest.InvestActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.learn.LearnActivity"
             android:launchMode="singleInstance"

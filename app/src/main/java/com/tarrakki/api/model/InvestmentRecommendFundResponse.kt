@@ -5,6 +5,7 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import org.supportcompact.ktx.toCurrency
 
 data class InvestmentRecommendFundResponse(
         @SerializedName("data")
@@ -18,11 +19,11 @@ data class InvestmentRecommendFundResponse(
             @SerializedName("id")
             val id: Int,
             @SerializedName("lumpsum_amount")
-            val lumpsum: String,
+            val lumpsum: String?,
             @SerializedName("name")
             val name: String,
             @SerializedName("sip_amount")
-            val sipAmount: String,
+            val sipAmount: String?,
             @SerializedName("ttr_return_5_yr")
             val ttrReturn5Yr: String,
             @SerializedName("sip_weightage")
@@ -30,6 +31,20 @@ data class InvestmentRecommendFundResponse(
             @SerializedName("lumpsum_weightage")
             val lumpsumWeightage: Int = 0
     ) {
+
+        /* var lumpsumAmount : String = ""
+         get() {
+             if (lumpsum.isNullOrEmpty()){
+                 return "0".toCurrency()
+             }else{
+
+             }
+         }*/
+
+        val SIPAmount
+            get() = toCurrency(sipAmount)
+        val LumpsumAmount
+            get() = toCurrency(lumpsum)
 
         var allWeightage = ""
             get() {

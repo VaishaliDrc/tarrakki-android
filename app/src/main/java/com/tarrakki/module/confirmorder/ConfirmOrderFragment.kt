@@ -13,6 +13,7 @@ import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
 import com.tarrakki.module.bankaccount.SingleButton
 import com.tarrakki.module.bankmandate.BankMandateFragment
+import com.tarrakki.module.paymentmode.PaymentModeFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
@@ -60,12 +61,16 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                     binder.setVariable(BR.widget, item)
                     binder.setVariable(BR.onAdd, View.OnClickListener {
+                        it1 ->
                         /***
                          * On place order click
                          * */
                         if (confirmOrderResponse?.data?.mandateId == null) {
                             context?.simpleAlert("Please select Mandate bank to continue")
                             return@OnClickListener
+                        }else{
+                            startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                            it?.let { it2 -> postSticky(it2) }
                         }
                     })
 
@@ -92,14 +97,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment ConfirmOrderFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = ConfirmOrderFragment().apply { arguments = basket }
     }
