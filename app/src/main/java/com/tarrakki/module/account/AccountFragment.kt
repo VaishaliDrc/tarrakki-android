@@ -1,7 +1,6 @@
 package com.tarrakki.module.account
 
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
@@ -9,10 +8,8 @@ import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
-import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.KYCData
-import com.tarrakki.module.ekyc.KYCRegistrationAFragment
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
@@ -25,6 +22,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
+import org.supportcompact.networking.ApiClient
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
@@ -101,14 +99,15 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
                 //App.INSTANCE.isLoggedIn.value = false
                 it.context.clearUserData()
+                ApiClient.clear()
                 startActivity(Intent(it.context, LoginActivity::class.java))
                 LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
             })
         }
         edtPanNo?.applyPAN()
         tvNext?.setOnClickListener {
-            context?.simpleAlert(getString(R.string.coming_soon))
-            return@setOnClickListener
+            /*context?.simpleAlert(getString(R.string.coming_soon))
+            return@setOnClickListener*/
             if (edtPanNo.length() == 0) {
                 //startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                 context?.simpleAlert("Please enter PAN card number")
@@ -121,9 +120,12 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     it?.let { password ->
                         getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
                             it?.let { kycStatus ->
+                                edtPanNo?.text?.clear()
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        getEKYCData(password, kyc.pan).observe(this, Observer { data ->
+                                        // TRUtility.sharedInstance.showAlert(strTitle: "", strSubTitle: "Complete Registration is still under development so you will be able to test it in the next build.", strButtonTitle: "Ok", style: .info)
+                                        context?.simpleAlert("Complete Registration is still under development so you will be able to test it in the next build.")
+                                        /*getEKYCData(password, kyc.pan).observe(this, Observer { data ->
                                             data?.let {
                                                 kyc.mobile = data.appmobno
                                                 kyc.nameOfPANHolder = data.appname
@@ -134,7 +136,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                                 startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                                                 postSticky(kyc)
                                             }
-                                        })
+                                        })*/
                                     }
                                     kycStatus.contains("03") -> context?.simpleAlert("Your KYC is on hold")
                                     kycStatus.contains("04") -> context?.simpleAlert("Your KYC is kyc rejected")

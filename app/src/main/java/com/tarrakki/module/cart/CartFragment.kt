@@ -274,7 +274,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
-                context?.simpleAlert(getString(R.string.coming_soon))
+                context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
                 return@setOnClickListener
                 startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
             }

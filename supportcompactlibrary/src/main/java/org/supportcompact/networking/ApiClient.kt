@@ -1,7 +1,6 @@
 package org.supportcompact.networking
 
 import android.util.Log
-import com.google.android.gms.common.internal.ConnectionErrorMessages.getErrorMessage
 import com.google.gson.GsonBuilder
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -20,7 +19,6 @@ import org.supportcompact.R
 import org.supportcompact.ktx.getLoginToken
 import org.supportcompact.ktx.isNetworkConnected
 import org.supportcompact.ktx.postError
-import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,8 +32,8 @@ import java.util.concurrent.TimeUnit
 object ApiClient {
 
     private val OKHTTP_TIMEOUT = 30 // seconds
-    private lateinit var retrofit: Retrofit
-    private lateinit var retrofitHeader: Retrofit
+    private var retrofit: Retrofit? = null
+    private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
     const val BUILD_TYPE_DEBUG = true
 
@@ -58,8 +56,13 @@ object ApiClient {
      * @return [Retrofit] object its single-tone
      */
 
+    fun clear() {
+        retrofit = null
+        retrofitHeader = null
+    }
+
     fun getApiClient(): Retrofit {
-        if (!::retrofit.isInitialized) {
+        if (retrofit == null) {
             val gson = GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                     .create()
@@ -71,7 +74,7 @@ object ApiClient {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
         }
-        return retrofit
+        return retrofit!!
     }
 
     fun getSOAPClient(baseUrl: String = CAMS_API_BASE_URL): Retrofit {
@@ -169,36 +172,35 @@ object ApiClient {
 
     fun getHeaderClient(header: String? = CoreApp.getInstance().getLoginToken()): Retrofit {
 
-        if (::retrofitHeader.isInitialized)
-            return retrofitHeader
+        if (retrofitHeader == null) {
+            val builder = OkHttpClient.Builder()
+                    .addInterceptor(HeaderInterceptor(header))
+                    .retryOnConnectionFailure(true)
+                    .connectTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+                    .writeTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+                    .readTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
 
-        val builder = OkHttpClient.Builder()
-                .addInterceptor(HeaderInterceptor(header))
-                .retryOnConnectionFailure(true)
-                .connectTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
-                .readTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            if (BUILD_TYPE_DEBUG) {
+                val loggingInterceptor = HttpLoggingInterceptor()
+                loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                builder.addInterceptor(loggingInterceptor)
+            }
 
-        if (BUILD_TYPE_DEBUG) {
-            val loggingInterceptor = HttpLoggingInterceptor()
-            loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            builder.addInterceptor(loggingInterceptor)
+            val okHttpClient = builder.build()
+
+            val gson = GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .create()
+
+            retrofitHeader = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build()
+
         }
-
-        val okHttpClient = builder.build()
-
-        val gson = GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create()
-
-        retrofitHeader = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-
-        return retrofitHeader
+        return retrofitHeader!!
     }
 
     private class HeaderInterceptor internal constructor(private val headerString: String?) : Interceptor {
@@ -249,9 +251,9 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                     when (e) {
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)
                         is IOException -> {
-                            if (CoreApp.getInstance().isNetworkConnected()){
+                            if (CoreApp.getInstance().isNetworkConnected()) {
                                 e.postError(R.string.server_connection)
-                            }else{
+                            } else {
                                 e.postError(R.string.internet_connection)
                             }
                         }

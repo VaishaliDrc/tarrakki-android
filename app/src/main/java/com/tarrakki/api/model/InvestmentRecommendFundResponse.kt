@@ -37,13 +37,13 @@ data class InvestmentRecommendFundResponse(
                 weightage += if (sipWeightage != 0) {
                     "SIP: $sipWeightage%"
                 } else {
-                    "SIP:  0%"
+                    "SIP:  N/A"
                 }
                 weightage += "\n"
                 weightage += if (lumpsumWeightage != 0) {
                     "Lumpsum: $lumpsumWeightage%"
                 } else {
-                    "Lumpsum:  0%"
+                    "Lumpsum:  N/A"
                 }
                 return weightage
             }
