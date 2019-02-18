@@ -16,7 +16,7 @@
             app:tabBackground="@color/colorPrimary"
             app:tabIndicatorColor="@color/item_selected_color"
             app:tabIndicatorHeight="4dp"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/tab_text"
             app:tabTextColor="@color/home_title_color" />

@@ -652,5 +652,10 @@
     <string name="order_confirm">Order Confirm</string>
     <string name="complete_nach_mandate">Complete Nach Mandate</string>
     <string name="coming_soon">Coming Soon.</string>
+    <string name="nav_">NAV:</string>
+    <string name="folio_no_">Folio No.:</string>
+    <string name="order_no_">Order No.:</string>
+    <string name="pay_now">Pay Now</string>
+    <string name="select_all">Select All</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

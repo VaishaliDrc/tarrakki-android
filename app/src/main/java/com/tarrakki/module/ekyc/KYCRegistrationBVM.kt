@@ -15,13 +15,6 @@ class KYCRegistrationBVM : FragmentViewModel() {
     val iCertify = ObservableField(true)
     val TAXSlab = ObservableField("")
     val TINVisibility = ObservableField(View.GONE)
-    val TINNumberA = ObservableField("")
-    val issueByA = ObservableField("")
-    val TINNumberB = ObservableField("")
-    val issueByB = ObservableField("")
-    val TINNumberC = ObservableField("")
-    val issueByC = ObservableField("")
-
     val isEdit = ObservableField(false)
     val alpha = ObservableField<Float>(0.4f)
 

@@ -12,6 +12,8 @@ import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.KYCRegistrationAFragment
+import com.tarrakki.module.ekyc.getKYCData
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -106,19 +108,23 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
                                         // TRUtility.sharedInstance.showAlert(strTitle: "", strSubTitle: "Complete Registration is still under development so you will be able to test it in the next build.", strButtonTitle: "Ok", style: .info)
-                                        context?.simpleAlert("Complete Registration is still under development so you will be able to test it in the next build.")
-                                        /*getEKYCData(password, kyc.pan).observe(this, Observer { data ->
+                                        //context?.simpleAlert("Complete Registration is still under development so you will be able to test it in the next build.")
+                                        getEKYCData(password, kyc.pan).observe(this, Observer { data ->
                                             data?.let {
                                                 kyc.mobile = data.appmobno
                                                 kyc.nameOfPANHolder = data.appname
                                                 kyc.fullName = data.appname
                                                 kyc.email = data.appemail
                                                 kyc.OCCcode = data.appocc
-                                                kyc.dob = data.appdobdt.toDate("dd-MM-yyyy HH:mm:ss").convertTo()?:""
-                                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                                postSticky(kyc)
+                                                kyc.dob = data.appdobdt.toDate("dd-MM-yyyy HH:mm:ss").convertTo()?: ""
+                                                getKYCData().observe(this, android.arch.lifecycle.Observer {
+                                                    it?.let { kycData ->
+                                                        startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                                        postSticky(kycData)
+                                                    }
+                                                })
                                             }
-                                        })*/
+                                        })
                                     }
                                     kycStatus.contains("03") -> context?.simpleAlert("Your KYC is on hold")
                                     kycStatus.contains("04") -> context?.simpleAlert("Your KYC is kyc rejected")
