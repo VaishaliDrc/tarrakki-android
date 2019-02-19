@@ -9,6 +9,7 @@ open class ActivityViewModel : ViewModel() {
 
     val progressBar = ObservableField(View.GONE)
     val title = ObservableField<String>()
+    val titleVisibility = ObservableField(true)
     val isBackEnabled = MutableLiveData<Boolean>()
     val footerVisibility = ObservableField<Int>(View.VISIBLE)
     val isEmpty = MutableLiveData<Boolean>()

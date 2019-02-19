@@ -668,7 +668,13 @@
     <string name="nav_">NAV:</string>
     <string name="folio_no_">Folio No.:</string>
     <string name="order_no_">Order No.:</string>
-    <string name="pay_now">Pay Now</string>
     <string name="select_all">Select All</string>
+    <string name="in_progress">In Progress</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="unpaid">Unpaid</string>
+    <string name="delete">Delete</string>
+    <string name="transactions_history">Transactions History</string>
+    <string name="order_type_">Order Type:</string>
+    <string name="units_">Units:</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

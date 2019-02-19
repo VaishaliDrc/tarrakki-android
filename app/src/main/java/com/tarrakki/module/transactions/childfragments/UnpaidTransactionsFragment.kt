@@ -4,6 +4,7 @@ package com.tarrakki.module.transactions.childfragments
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -57,11 +58,15 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
 
         getViewModel().hasOptionMenu.observe(this, Observer {
             it?.let { hasOptionsMenu ->
+                coreActivityVM?.titleVisibility?.set(!hasOptionsMenu)
                 setHasOptionsMenu(hasOptionsMenu)
                 if (!hasOptionsMenu) {
                     getViewModel().transactions.forEach { item ->
                         item.isSelected = false
                     }
+                }
+                if (activity is AppCompatActivity) {
+                    (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(hasOptionsMenu)
                 }
             }
         })
@@ -75,8 +80,11 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
     }
 
     private fun hasSelectedItem() {
-        val item = getViewModel().transactions.firstOrNull { it.isSelected }
-        getViewModel().hasOptionMenu.value = item != null
+        val count = getViewModel().transactions.count { it.isSelected }
+        getViewModel().hasOptionMenu.value = count != 0
+        if (activity is AppCompatActivity) {
+            (activity as AppCompatActivity).supportActionBar?.title = count.toString()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

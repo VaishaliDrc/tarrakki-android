@@ -25,10 +25,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:maxLines="2"
+            android:minLines="2"
             android:text="@{data.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/item_selected_color"
-            app:layout_constraintEnd_toStartOf="@id/tvAmount"
+            app:layout_constraintEnd_toStartOf="@+id/tvDate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
@@ -49,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Feb 13, 2018"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvAmount" />
 
@@ -59,8 +61,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/type_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -71,7 +73,7 @@
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
             android:text="Lumpsum"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/tvTypeL"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -80,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.4" />
+            app:layout_constraintGuide_percent="0.35" />
 
         <TextView
             android:id="@+id/tvNAVL"
@@ -88,19 +90,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/nav_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
             android:id="@+id/tvNAV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_4"
+            android:maxLines="2"
             android:text="27.50"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/gdlEnd"
             app:layout_constraintStart_toEndOf="@id/tvNAVL"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -117,8 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/folio_no_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toStartOf="@id/tvFolioNo"
             app:layout_constraintStart_toEndOf="@id/gdlEnd"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -126,12 +131,12 @@
         <TextView
             android:id="@+id/tvFolioNo"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="12dp"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
-            android:gravity="end"
+            android:maxLines="2"
             android:text="15874"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvFolioL"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -143,37 +148,74 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/order_no_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
-            app:layout_constraintBaseline_toBaselineOf="@id/btnPayNow"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
 
         <TextView
             android:id="@+id/tvOrderNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="@dimen/space_4"
+            android:maxLines="2"
             android:text="#15874"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintBaseline_toBaselineOf="@id/btnPayNow"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderNoL" />
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/gdlCenter"
+            app:layout_constraintStart_toEndOf="@+id/tvOrderNoL"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
 
         <TextView
-            android:id="@+id/btnPayNow"
+            android:id="@+id/tvOrderTypeL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
-            android:background="@drawable/shape_btn_idle_bg"
-            android:paddingStart="@dimen/space_16"
-            android:paddingTop="@dimen/space_8"
-            android:paddingEnd="@dimen/space_16"
-            android:paddingBottom="@dimen/space_8"
-            android:text="@string/pay_now"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/white"
+            android:text="@string/order_type_"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvNAVL" />
+
+        <TextView
+            android:id="@+id/tvOrderType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_16"
+            android:maxLines="2"
+            android:text="Purchase"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/gdlEnd"
+            app:layout_constraintStart_toEndOf="@id/tvOrderTypeL"
+            app:layout_constraintTop_toBottomOf="@id/tvNAVL" />
+
+
+        <TextView
+            android:id="@+id/tvUnitsL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_16"
+            android:text="@string/units_"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@id/tvUnits"
+            app:layout_constraintStart_toEndOf="@id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvFolioL" />
+
+        <TextView
+            android:id="@+id/tvUnits"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_16"
+            android:maxLines="2"
+            android:text="15874"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioNo" />
+            app:layout_constraintStart_toEndOf="@id/tvUnitsL"
+            app:layout_constraintTop_toBottomOf="@id/tvFolioL" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

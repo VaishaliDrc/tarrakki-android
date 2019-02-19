@@ -8,7 +8,9 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
+import com.tarrakki.module.transactions.childfragments.CompletedTransactionsFragment
 import com.tarrakki.module.transactions.childfragments.UnpaidTransactionsFragment
+import com.tarrakki.module.transactions.childfragments.UpcomingTransactionsFragment
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -25,7 +27,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.transactions)
+        get() = getString(R.string.transactions_history)
 
     override fun getLayout(): Int {
         return R.layout.fragment_transactionsk
@@ -42,10 +44,11 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     override fun createReference() {
         setHasOptionsMenu(true)
         val pages = arrayListOf(
-                //   Page(getString(R.string.completed), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
-                // Page(getString(R.string.pending), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, true) }))
-                Page("Upcoming", UnpaidTransactionsFragment.newInstance()),
-                Page("Unpaid", UnpaidTransactionsFragment.newInstance())
+                Page(getString(R.string.all), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
+                Page(getString(R.string.in_progress), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
+                Page(getString(R.string.completed), CompletedTransactionsFragment.newInstance()),
+                Page(getString(R.string.upcoming), UpcomingTransactionsFragment.newInstance()),
+                Page(getString(R.string.unpaid), UnpaidTransactionsFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
@@ -68,7 +71,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
-                if (mPager.currentItem == 1) {
+                if (mPager.currentItem == 4) {
                     getViewModel().onBack.value = true
                 } else {
                     onBack()
@@ -83,7 +86,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                if (mPager.currentItem == 1) {
+                if (mPager.currentItem == 4) {
                     getViewModel().onBack.value = true
                 } else {
                     onBack()
