@@ -9,6 +9,7 @@ import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
 import com.tarrakki.module.transactions.childfragments.CompletedTransactionsFragment
+import com.tarrakki.module.transactions.childfragments.InProgressTransactionsFragment
 import com.tarrakki.module.transactions.childfragments.UnpaidTransactionsFragment
 import com.tarrakki.module.transactions.childfragments.UpcomingTransactionsFragment
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
@@ -45,7 +46,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         setHasOptionsMenu(true)
         val pages = arrayListOf(
                 Page(getString(R.string.all), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
-                Page(getString(R.string.in_progress), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
+                Page(getString(R.string.in_progress), InProgressTransactionsFragment.newInstance()),
                 Page(getString(R.string.completed), CompletedTransactionsFragment.newInstance()),
                 Page(getString(R.string.upcoming), UpcomingTransactionsFragment.newInstance()),
                 Page(getString(R.string.unpaid), UnpaidTransactionsFragment.newInstance())

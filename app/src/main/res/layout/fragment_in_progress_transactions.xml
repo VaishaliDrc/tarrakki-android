@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvCompletedTransactions"
+        android:id="@+id/rvInProgressTransactions"
         dividerV="@{@drawable/shape_transferant_divider_16dp}"
         enableNestedScrollView="@{false}"
         android:layout_width="match_parent"

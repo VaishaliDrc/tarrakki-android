@@ -24,6 +24,7 @@ class TransactionConfirmVM : FragmentViewModel() {
                                   val isSuccess: Boolean, val status: ArrayList<TranscationStatus>)
 
     data class TranscationStatus(val name: String, val description: String, val status: Int) {
+
         var actualStatus: String = ""
             get() = when (status) {
                 1 -> "Completed"

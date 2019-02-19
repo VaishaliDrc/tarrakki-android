@@ -114,9 +114,9 @@ class PerformanceFragment : Fragment() {
                             ?: 0.0))
                     itVM.earningBase.forEach { item ->
                         item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                            durations * 12
-                        } else {
                             durations
+                        } else {
+                            durations / 12
                         }, item.percentageHolding)
                     }
                     resetProgress(itVM.earningBase)
@@ -132,9 +132,9 @@ class PerformanceFragment : Fragment() {
                                     amount = p.toString().replace(",", "").toDouble()
                                     itVM.earningBase.forEach { item ->
                                         item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                            durations * 12
-                                        } else {
                                             durations
+                                        } else {
+                                            durations / 12
                                         }, item.percentageHolding)
                                     }
                                     resetProgress(itVM.earningBase)
@@ -193,9 +193,10 @@ class PerformanceFragment : Fragment() {
                                         item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
                                     }
                                     item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                        durations * 12
-                                    } else {
                                         durations
+                                    } else {
+                                        durations / 12
+
                                     }, item.percentageHolding)
                                 }
                                 resetProgress(itVM.earningBase)
@@ -235,9 +236,9 @@ class PerformanceFragment : Fragment() {
                                     item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
                                 }
                                 item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
-                                    durations * 12
-                                } else {
                                     durations
+                                } else {
+                                    durations / 12
                                 }, item.percentageHolding)
                             }
                             resetProgress(itVM.earningBase)
@@ -333,9 +334,8 @@ class PerformanceFragment : Fragment() {
     // Calculating the compount interest using formula A = P  (1 + r/n)^nt
     fun calculateReturns(amount: Double, durations: Double, rateOfInterest: Double = 5.0): Double {
         val floatRateOfInterest = rateOfInterest / 100
-        val floatFirstValueOfPower = (1 + floatRateOfInterest / 12)
-        val tn = durations / 12 * 12
-        return amount * Math.pow(floatFirstValueOfPower, tn)
+        val floatFirstValueOfPower = (1 + floatRateOfInterest)
+        return amount * Math.pow(floatFirstValueOfPower, durations)
     }
 
     private fun resetProgress(items: ArrayList<TopHolding>) {

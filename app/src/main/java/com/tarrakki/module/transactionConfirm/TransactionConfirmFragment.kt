@@ -61,7 +61,6 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                             { item1, binder1: RowTranscationStatusBinding?, position1, adapter ->
                                 binder1?.widget = item1
                                 binder1?.executePendingBindings()
-
                                 if (position1==item.status.size-1){
                                     binder1?.verticalDivider?.visibility = View.GONE
                                 }else{

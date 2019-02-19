@@ -30,20 +30,28 @@
             android:text="@{data.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/item_selected_color"
-            app:layout_constraintEnd_toStartOf="@id/tvAmount"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintEnd_toStartOf="@id/tvAmount"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="tvAmount,tvDate" />
 
         <TextView
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:gravity="end"
-            android:minWidth="@dimen/_64sdp"
             android:text="@string/dummy3"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgArrow"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/dummy3" />
 
@@ -51,10 +59,21 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:text="Feb 13, 2018"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgArrow"
             app:layout_constraintTop_toBottomOf="@id/tvAmount" />
+
+        <ImageView
+            android:id="@+id/imgArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@{data.isSelected ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_arrow_down" />
 
         <TextView
             android:id="@+id/tvTypeL"
@@ -135,13 +154,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
+            android:gravity="end"
             android:maxLines="2"
             android:text="15874"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvFolioL"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
-
 
         <TextView
             android:id="@+id/tvOrderNoL"
@@ -193,29 +212,26 @@
             app:layout_constraintTop_toBottomOf="@id/tvNAVL" />
 
 
-        <TextView
-            android:id="@+id/tvUnitsL"
-            android:layout_width="wrap_content"
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expStatus"
+            expanded="@{data.isSelected}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
-            android:text="@string/units_"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_9ssp"
-            app:layout_constraintEnd_toStartOf="@id/tvUnits"
-            app:layout_constraintStart_toEndOf="@id/gdlEnd"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioL" />
-
-        <TextView
-            android:id="@+id/tvUnits"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
-            android:text="15874"
-            android:textSize="@dimen/_9ssp"
+            app:el_duration="500"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvUnitsL"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioL" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOrderNo">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvTransactionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
 
     </android.support.constraint.ConstraintLayout>
+
 </layout>
