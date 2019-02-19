@@ -13,51 +13,61 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_section_item_bg"
         android:elevation="2dp"
-        android:padding="8dp"
-        tools:layout_margin="8dp">
+        android:background="@drawable/shape_section_item_bg"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/ivItem"
-            imgUrl="@{widget.categoryImage}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            android:adjustViewBounds="true"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/very_long_investments" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:maxLines="2"
-            android:minLines="2"
-            android:text="@{widget.categoryName}"
-            android:textColor="@color/semi_black"
-            android:textSize="@dimen/sp10"
-            android:textAllCaps="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivItem"
-            tools:text="Very Long Term Investments" />
+            <ImageView
+                android:id="@+id/ivItem"
+                imgUrl="@{widget.categoryImage}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toTopOf="@+id/tvTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/very_long_investments" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:minLines="2"
-            android:text="@{widget.categoryDesctiption}"
-            android:textSize="@dimen/sp9"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="Diversified equity founds, 10+ years or longer" />
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@{widget.categoryName}"
+                android:textColor="@color/semi_black"
+                android:textSize="@dimen/sp10"
+                app:layout_constraintBottom_toTopOf="@+id/tvDescription"
+                app:layout_constraintEnd_toEndOf="@+id/ivItem"
+                app:layout_constraintStart_toStartOf="@+id/ivItem"
+                tools:text="Very Long Term Investments" />
 
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@{widget.categoryDesctiption}"
+                android:textSize="@dimen/sp9"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+                app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                tools:text="Diversified equity founds, 10+ years or longer" />
+
+        </android.support.constraint.ConstraintLayout>
     </android.support.constraint.ConstraintLayout>
+
 </layout>

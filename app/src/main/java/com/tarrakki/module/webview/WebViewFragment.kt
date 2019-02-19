@@ -125,11 +125,11 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                 when (page) {
                     Event.PRIVACY_PAGE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.privacy_policy))
-                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/tos/")
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/privacy/")
                     }
                     Event.TERMS_AND_CONDITIONS_PAGE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.terms_and_condditions))
-                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/privacy/")
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/tos/")
                     }
                     else -> {
                     }

@@ -120,6 +120,7 @@
     <string name="total_investment_">Total Investment:</string>
     <string name="xirr_">XIRR:</string>
     <string name="current_value_">Current Value:</string>
+    <string name="folio_no">Folio No.:</string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="edit">Edit</string>
@@ -654,6 +655,7 @@
     <string name="complete_nach_mandate">Complete Nach Mandate</string>
     <string name="coming_soon">Coming Soon.</string>
 
+    <string name="pay_now">Pay Now</string>
     <string name="payment_mode">Payment Mode</string>
     <string name="how_would_you_like_to_pay">How would you like to pay?</string>
     <string name="net_banking">Net Banking</string>
@@ -662,13 +664,13 @@
     <string name="change">Change</string>
     <string name="enter_utr_number">ENTER UTR NUMBER</string>
     <string name="utr_number">UTR Number</string>
-    <string name="pay_now">Pay Now</string>
-    <string name="transaction_confirm">Transaction Confirm</string>
+    <string name="transaction_confirm">Transaction Status</string>
 
     <string name="nav_">NAV:</string>
     <string name="folio_no_">Folio No.:</string>
     <string name="order_no_">Order No.:</string>
     <string name="select_all">Select All</string>
+    <string name="add">Add</string>
     <string name="in_progress">In Progress</string>
     <string name="upcoming">Upcoming</string>
     <string name="unpaid">Unpaid</string>

@@ -68,6 +68,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_8"
                     android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:text="Your purchase request has been received."

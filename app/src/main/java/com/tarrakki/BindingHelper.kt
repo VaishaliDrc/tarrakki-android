@@ -106,6 +106,12 @@ fun setIndicator(img: ImageView, @DrawableRes res: Int) {
     img.setImageResource(res)
 }
 
+@BindingAdapter("background")
+fun setBackgroundImage(img: TextView, @DrawableRes res: Int) {
+    img.setBackgroundResource(res)
+}
+
+
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, url: String?) {
     url?.let {

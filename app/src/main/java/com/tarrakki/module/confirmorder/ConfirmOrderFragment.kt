@@ -65,13 +65,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         /***
                          * On place order click
                          * */
-                        if (confirmOrderResponse?.data?.mandateId == null) {
+                        /*if (confirmOrderResponse?.data?.mandateId == null) {
                             context?.simpleAlert("Please select Mandate bank to continue")
                             return@OnClickListener
-                        }else{
+                        }else{*/
                             startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                             it?.let { it2 -> postSticky(it2) }
-                        }
+                       // }
                     })
 
                     binder.setVariable(BR.onCheckedChange, View.OnClickListener {

@@ -48,7 +48,7 @@
                 android:layout_toStartOf="@id/imgArrow"
                 android:paddingStart="@dimen/space_25"
                 android:paddingEnd="@dimen/space_8"
-                android:text="10,000"
+                price="@{widget.amount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black" />
 
@@ -85,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/space_4"
-                    android:text="Lumpsum"
+                    android:text="@{widget.type}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/darker_gray" />
 
@@ -110,12 +110,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/space_4"
-                    android:text="Success"
+                    android:text='@{widget.isSuccess==true?"Success":"Failed"}'
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/colorAccent" />
+                    android:textColor="@{widget.isSuccess==true?@color/colorAccent:@color/red}" />
 
             </LinearLayout>
         </RelativeLayout>
+
+        <View
+            android:layout_marginTop="@dimen/space_8"
+            android:visibility="@{widget.success==false?View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lighter_gray"/>
 
         <net.cachapa.expandablelayout.ExpandableLayout
             android:id="@+id/expStatus"
@@ -132,6 +139,29 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <LinearLayout
+            android:visibility="@{widget.success==false?View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remarks:"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/space_4"
+                android:text="Payment Issue"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/darker_gray" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

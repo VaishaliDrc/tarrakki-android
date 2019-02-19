@@ -12,39 +12,52 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="180dp"
-        android:layout_height="172dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/shape_section_item_bg"
-        android:elevation="2dp"
-        android:padding="8dp">
+        android:elevation="2dp">
 
-        <ImageView
-            android:id="@+id/ivItem"
-            imgUrl="@{widget.goalImage}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:paddingBottom="@dimen/space_20"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/wealth_creation" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|top"
-            android:maxLines="2"
-            android:minLines="2"
-            android:text="@{widget.goal}"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/semi_black"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            tools:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1"
-            tools:text="Wealth creation" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivItem"
+                imgUrl="@{widget.goalImage}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:paddingBottom="@dimen/space_20"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/wealth_creation" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|top"
+                android:maxLines="2"
+                android:minLines="2"
+                android:text="@{widget.goal}"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/semi_black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1"
+                tools:text="Wealth creation" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

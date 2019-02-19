@@ -11,7 +11,7 @@ class PortfolioVM : FragmentViewModel() {
 
         directInvestment.add(Investment(
                 "ICICI Prudential Balanced Advantage Fund-Direct-Growth",
-                "NAV on 29 Aug 2018",
+                "NAV on\n29 Aug 2018",
                 10.7,
                 30000.00,
                 45000.00,
@@ -19,7 +19,7 @@ class PortfolioVM : FragmentViewModel() {
 
         directInvestment.add(Investment(
                 "ICICI Prudential Balanced Advantage Fund-Direct-Growth",
-                "NAV on 29 Aug 2018",
+                "NAV on\n29 Aug 2018",
                 10.7,
                 30000.00,
                 45000.00,

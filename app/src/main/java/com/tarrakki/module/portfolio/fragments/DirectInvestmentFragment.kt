@@ -27,7 +27,6 @@ class DirectInvestmentFragment : Fragment() {
     var binder: FragmentDirectInvestmentBinding? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         if (binder == null) {
             binder = DataBindingUtil.inflate(inflater, R.layout.fragment_direct_investment, container, false)
             parentFragment?.let {
@@ -48,13 +47,6 @@ class DirectInvestmentFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle
-         * @return A new instance of fragment DirectInvestmentFragment.
-         */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = DirectInvestmentFragment().apply { arguments = basket }
     }
