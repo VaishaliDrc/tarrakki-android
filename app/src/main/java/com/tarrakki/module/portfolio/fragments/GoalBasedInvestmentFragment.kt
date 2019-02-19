@@ -58,13 +58,6 @@ class GoalBasedInvestmentFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle
-         * @return A new instance of fragment GoalBasedInvestmentFragment.
-         */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = GoalBasedInvestmentFragment().apply { arguments = basket }
     }

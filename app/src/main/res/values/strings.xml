@@ -658,6 +658,7 @@
     <string name="pay_now">Pay Now</string>
     <string name="payment_mode">Payment Mode</string>
     <string name="how_would_you_like_to_pay">How would you like to pay?</string>
+
     <string name="net_banking">Net Banking</string>
     <string name="neft_rtgs">NEFT/RTGS</string>
     <string name="choose_bank_account">Choose bank account</string>
@@ -678,5 +679,10 @@
     <string name="transactions_history">Transactions History</string>
     <string name="order_type_">Order Type:</string>
     <string name="units_">Units:</string>
+    <string name="add_amount">Add Amount</string>
+    <string name="add_in_this_fund">Add in this Fund</string>
+    <string name="choose_folio">Choose Folio</string>
+    <string name="folio_type">Folio Type</string>
+    <string name="enter_amount">Enter Amount</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

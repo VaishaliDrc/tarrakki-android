@@ -2,6 +2,7 @@ package com.tarrakki.module.paymentmode
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.text.SpannableString
 import com.tarrakki.R
 import com.tarrakki.api.model.ConfirmOrderResponse
 import com.tarrakki.databinding.FragmentPaymentModeBinding
@@ -17,6 +18,18 @@ import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.ktx.observe
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.DividerItemDecoration
+import android.text.method.LinkMovementMethod
+import android.databinding.adapters.TextViewBindingAdapter.setText
+import android.text.Spanned
+import android.R.color
+import android.graphics.Color
+import android.text.TextPaint
+import android.text.style.ClickableSpan
+import android.view.View
+import com.tarrakki.module.webview.WebViewFragment
+import org.supportcompact.events.Event
+import org.supportcompact.ktx.getColor
+
 
 class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBinding>() {
 
@@ -34,14 +47,31 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     override fun createReference() {
         getViewModel().isNetBanking.observe {
             if (it){
-                getViewModel().introduction.set("Your transaction will now be processed by Bombay Stock Exchange - Star platform.")
+                tvIntro.text = "Your transaction will now be processed by Bombay Stock Exchange - Star platform."
             }
         }
 
         getViewModel().isNEFTRTGS.observe {
             if (it){
-                getViewModel().introduction.set("Please follow the instructions listed in this link to initiate an NEFT/RTGS \n" +
-                        "transfer and generate the UTR number. Then enter the UTR number below to proceed.")
+                val spannableString = SpannableString("Please follow the instructions listed in this link to initiate an NEFT/RTGS transfer and generate the UTR number. Then enter the UTR number below to proceed.")
+                val end = 30
+                val ssText = SpannableString(spannableString)
+                val clickableSpan = object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                        postSticky(Event.NEFTRTGS)
+                    }
+
+                    override fun updateDrawState(ds: TextPaint) {
+                        super.updateDrawState(ds)
+                        ds.color = getColor(R.color.colorAccent)!!
+                    }
+                }
+                ssText.setSpan(clickableSpan, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                tvIntro.text = ssText
+                tvIntro.movementMethod = LinkMovementMethod.getInstance()
+                tvIntro.highlightColor = Color.TRANSPARENT
+                tvIntro.isEnabled = true
             }
         }
 

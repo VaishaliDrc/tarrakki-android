@@ -123,6 +123,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
         getViewModel().onPage.observe(this, Observer { it ->
             it?.let { page ->
                 when (page) {
+                    Event.NEFTRTGS -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.neft_rtgs))
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/cart/payment/method/")
+                    }
                     Event.PRIVACY_PAGE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.privacy_policy))
                         mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL+"/privacy/")

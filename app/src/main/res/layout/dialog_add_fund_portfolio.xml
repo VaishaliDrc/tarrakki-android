@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="folio"
+            type="String" />
+
+        <variable
+            name="investment"
+            type="String" />
+
+        <variable
+            name="lumpsum"
+            type="String" />
+
+        <variable
+            name="isNew"
+            type="Boolean"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/default_space"
+        android:layout_marginEnd="@dimen/default_space"
+        android:background="@drawable/shape_cart_view_16dp"
+        android:padding="@dimen/default_space">
+
+        <TextView
+            android:id="@+id/tvInvestmentL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/add_in_this_fund"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/tvClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_close_black_24dp"
+            android:tint="@color/dark"
+            app:layout_constraintBottom_toBottomOf="@id/tvInvestmentL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvInvestmentL" />
+
+        <LinearLayout
+            android:id="@+id/ll_folio_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_32"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInvestmentL">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/folio_type"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_folio_type" />
+
+            <RadioGroup
+                android:id="@+id/rbgFolioType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rbCurrent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/darker_gray" />
+
+                <RadioButton
+                    android:id="@+id/rbNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:text="New"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/darker_gray" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvChooseFolio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:text="@string/choose_folio"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_folio_type" />
+
+        <TextView
+            android:id="@+id/edtChooseFolio"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_4"
+            android:background="@drawable/shape_edt_gray_round"
+            android:completionThreshold="1"
+            android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+            android:hint="@string/choose_folio"
+            android:maxLines="1"
+            android:paddingStart="@dimen/default_space"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/default_space"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@={folio}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            android:textColorHint="@color/darker_gray"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/edtLName"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvChooseFolio" />
+
+        <TextView
+            android:id="@+id/tvLumpsum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:text="@string/enter_one_time_lumpsum_amount"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtChooseFolio" />
+
+        <TextView
+            android:id="@+id/tvRSLumpsum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_space"
+            android:text="@string/rs_symbol"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/edtLumpsum"
+            app:layout_constraintStart_toStartOf="@id/edtLumpsum"
+            app:layout_constraintTop_toTopOf="@id/edtLumpsum" />
+
+        <EditText
+            android:id="@+id/edtLumpsum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:background="@drawable/shape_edt_gray_round"
+            android:hint="@string/enter_one_time_lumpsum_amount"
+            android:inputType="number"
+            android:maxLines="1"
+            android:nextFocusForward="@+id/edtSIPAmount"
+            android:paddingStart="@dimen/space_30"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/default_space"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@={lumpsum}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            android:textColorHint="@color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvLumpsum" />
+
+        <TextView
+            android:id="@+id/tvSIPAmountL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:text="@string/monthly_investment_amount_sip_"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtLumpsum" />
+
+        <TextView
+            android:id="@+id/tvRSSIPAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_space"
+            android:text="@string/rs_symbol"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/edtSIPAmount"
+            app:layout_constraintStart_toStartOf="@id/edtSIPAmount"
+            app:layout_constraintTop_toTopOf="@id/edtSIPAmount" />
+
+        <EditText
+            android:id="@+id/edtSIPAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:background="@drawable/shape_edt_gray_round"
+            android:hint="@string/enter_sip_amount"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:maxLines="1"
+            android:paddingStart="@dimen/space_30"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/default_space"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@={investment}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black"
+            android:textColorHint="@color/darker_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSIPAmountL" />
+
+        <Button
+            android:id="@+id/btnInvest"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/space_32"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginBottom="@dimen/space_4"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:fontFamily="@font/lato_semibold"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:text="@string/add_amount"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtSIPAmount" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
