@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tarrakki.R
+import com.tarrakki.addFundPortfolioDialog
 import com.tarrakki.databinding.FragmentDirectInvestmentBinding
 import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
 import com.tarrakki.module.portfolio.Investment
 import com.tarrakki.module.portfolio.PortfolioVM
+import com.tarrakki.redeemFundPortfolioDialog
 import kotlinx.android.synthetic.main.fragment_direct_investment.*
 import org.supportcompact.adapters.setUpRecyclerView
 
@@ -42,6 +44,27 @@ class DirectInvestmentFragment : Fragment() {
             rvDInvests?.setUpRecyclerView(R.layout.row_direct_investment_list_item, vm.directInvestment) { item: Investment, binder: RowDirectInvestmentListItemBinding, position ->
                 binder.investment = item
                 binder.executePendingBindings()
+
+
+                binder.tvAddPortfolio.setOnClickListener {
+                    val portfolio = mutableListOf<String>()
+                    portfolio.add("Portfolio1")
+                    portfolio.add("Portfolio2")
+                    portfolio.add("Portfolio3")
+                    context?.addFundPortfolioDialog(portfolio) { selectedPortfolio, type, amountLumpsum, amountSIP ->
+
+                    }
+                }
+
+                binder.tvRedeem.setOnClickListener {
+                        val portfolio = mutableListOf<String>()
+                        portfolio.add("Portfolio1")
+                        portfolio.add("Portfolio2")
+                        portfolio.add("Portfolio3")
+                        context?.redeemFundPortfolioDialog(portfolio) { selectedPortfolio,amount ->
+
+                        }
+                }
             }
         }
     }

@@ -21,9 +21,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
-import com.tarrakki.databinding.DialogInvestBinding
-import com.tarrakki.databinding.DialogInvestGoalBinding
-import com.tarrakki.databinding.DialogInvestStratergyBinding
+import com.tarrakki.databinding.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -34,7 +32,6 @@ import org.supportcompact.networking.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
 import java.math.BigInteger
-import java.util.*
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
@@ -455,6 +452,91 @@ fun Context.investmentStragiesDialog(
           } else {
 
           }*/
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
+fun Context.addFundPortfolioDialog(portfolioList: MutableList<String>,
+                                   onAdd: ((portfolio: String, type: String,
+                                            amountLumpsum: BigInteger, amountSIP: BigInteger) -> Unit)? = null) {
+    val mBinder = DialogAddFundPortfolioBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+    mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+
+    mBinder.rbCurrent.isChecked = true
+    mBinder.rbgFolioType.setOnCheckedChangeListener { group, checkedId ->
+        if (R.id.rbNew == checkedId) {
+            mBinder.tvChooseFolio.visibility = View.VISIBLE
+            mBinder.edtChooseFolio.visibility = View.VISIBLE
+        } else {
+            mBinder.tvChooseFolio.visibility = View.GONE
+            mBinder.edtChooseFolio.visibility = View.GONE
+        }
+    }
+
+    mBinder.edtChooseFolio.setOnClickListener {
+        this.showListDialog("Select Folio", portfolioList as ArrayList<String>) { item ->
+            mBinder.folio = item
+        }
+    }
+
+    mBinder.btnInvest.setOnClickListener {
+        it.dismissKeyboard()
+
+
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
+fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<String>,
+                                      onAdd: ((portfolio: String,
+                                               totalAmount: BigInteger) -> Unit)? = null) {
+    val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtTotalInvestedAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
+
+    mBinder.investmentAmount = "200000"
+
+    mBinder.edtAmount.setOnClickListener {
+        if (mBinder.chkAmount.isChecked) {
+            this.simpleAlert("Please DeSelect Full Amount first.")
+        }
+    }
+
+    mBinder.chkAmount.setOnCheckedChangeListener { buttonView, isChecked ->
+        mBinder.edtAmount.isFocusable = !isChecked
+        mBinder.edtAmount.isFocusableInTouchMode = !isChecked
+        if (isChecked) {
+            mBinder.edtAmount.setText(mBinder.investmentAmount)
+        }
+    }
+
+    mBinder.edtChooseFolio.setOnClickListener {
+        this.showListDialog("Select Folio", portfolioList as ArrayList<String>) { item ->
+            mBinder.folio = item
+        }
+    }
+
+    mBinder.btnInvest.setOnClickListener {
+        it.dismissKeyboard()
+
+
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
