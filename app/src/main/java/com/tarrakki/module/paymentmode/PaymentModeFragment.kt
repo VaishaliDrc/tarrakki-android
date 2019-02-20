@@ -120,6 +120,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: ConfirmTransactionResponse) {
         getViewModel().confirmOrder.value = data
+
         getViewModel().accountNumber.set("A/C :" + data.data.accountNumber)
         getViewModel().branchName.set(data.data.bankName)
         removeStickyEvent(data)
