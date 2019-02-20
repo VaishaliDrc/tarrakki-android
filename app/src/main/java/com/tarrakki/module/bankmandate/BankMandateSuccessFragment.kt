@@ -84,6 +84,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: BankDetail) {
         getViewModel().bankMandate.set(data)
+        getViewModel().bankLogo.set(data.bankLogo)
         getViewModel().bankName.set(data.branchBankIdBankName)
         getViewModel().accountNumber.set(data.accountNumber)
         getViewModel().branchName.set(data.branchBranchName)
@@ -93,6 +94,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: UserBankMandateResponse.Data.BankDetails) {
         //getViewModel().bankMandate.set(data)
+        getViewModel().bankLogo.set(data.bankLogo)
         getViewModel().bankName.set(data.bankName)
         getViewModel().accountNumber.set(data.accountNumber)
         getViewModel().branchName.set(data.branchName)

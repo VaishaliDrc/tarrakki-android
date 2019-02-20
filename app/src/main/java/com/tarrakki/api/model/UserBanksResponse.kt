@@ -33,7 +33,9 @@ data class BankDetail(
         @SerializedName("is_default")
         val isDefault: Boolean,
         @SerializedName("user__email")
-        val userEmail: String
+        val userEmail: String,
+        @SerializedName("bank_logo")
+        val bankLogo: String
 ) : WidgetsViewModel {
 
     override fun layoutId(): Int {

@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.DrawableRes
+import android.support.constraint.ConstraintLayout
+import android.support.constraint.Guideline
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -245,6 +247,13 @@ fun EditText.applyPAN() {
             setSelection(text.length)
         }
     })
+}
+
+@BindingAdapter("percentageGuideline")
+fun setGuideLinePercentage(guideLine: Guideline, percentageGuildeline: Float) {
+    val params = guideLine.layoutParams as ConstraintLayout.LayoutParams
+    params.guidePercent = percentageGuildeline
+    guideLine.layoutParams = params;
 }
 
 @BindingAdapter("isPasswordTransformation")

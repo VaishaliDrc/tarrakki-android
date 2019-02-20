@@ -128,6 +128,16 @@
                         android:textColor="@color/white"
                         android:visibility="@{vm.isAddVisible==true?View.VISIBLE:View.GONE}" />
 
+                    <Button
+                        android:id="@+id/btnSelectBankMandate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/space_16"
+                        android:background="@drawable/shape_btn_idle_bg"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/select_bank_mandate"
+                        android:textColor="@color/white"
+                        android:visibility="@{vm.isSelectBankVisible==true?View.VISIBLE:View.GONE}" />
                 </LinearLayout>
 
             </LinearLayout>

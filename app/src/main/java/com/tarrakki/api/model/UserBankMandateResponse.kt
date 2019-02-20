@@ -86,7 +86,9 @@ data class UserBankMandateResponse(
                 @SerializedName("branch_name")
                 val branchName: String,
                 @SerializedName("ifsc_code")
-                val ifscCode: String
+                val ifscCode: String,
+                @SerializedName("bank_logo")
+                val bankLogo: String
         )
     }
 }

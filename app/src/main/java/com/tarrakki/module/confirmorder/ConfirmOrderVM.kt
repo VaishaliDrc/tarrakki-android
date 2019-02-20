@@ -1,15 +1,13 @@
 package com.tarrakki.module.confirmorder
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.ConfirmOrderResponse
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -22,6 +20,9 @@ import org.supportcompact.networking.subscribeToSingle
 class ConfirmOrderVM : FragmentViewModel() {
 
     val apiResponse = MutableLiveData<ConfirmOrderResponse>()
+    val bankName = ObservableField<String>()
+    val bankMandateId = ObservableField<Int>()
+    val confirmApiResponse = MutableLiveData<ConfirmTransactionResponse>()
 
     fun getConfirmOrder(): MutableLiveData<ConfirmOrderResponse> {
         showProgress()
@@ -52,7 +53,6 @@ class ConfirmOrderVM : FragmentViewModel() {
         )
         return apiResponse
     }
-
 
     fun updateFirstSIPFlag(data: ConfirmOrderResponse.Data.OrderLine, firstSIP: Boolean): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
@@ -94,13 +94,84 @@ class ConfirmOrderVM : FragmentViewModel() {
         return apiResponse
     }
 
+    fun mandateIdConfirmOrder(mandateId : Int,orderId : Int?): MutableLiveData<ConfirmOrderResponse> {
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("mandate_id", mandateId)
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .mandateIdConfirmOrder(orderId,authData),
+                apiNames = WebserviceBuilder.ApiNames.mandateConfirmOrder,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<ConfirmOrderResponse>()
+                                apiResponse.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
 
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
+    }
+
+    fun checkoutConfirmOrder(): MutableLiveData<ConfirmTransactionResponse> {
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("user_id", App.INSTANCE.getUserId())
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .checkoutOrder(authData),
+                apiNames = WebserviceBuilder.ApiNames.mandateConfirmOrder,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<ConfirmTransactionResponse>()
+                                confirmApiResponse.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return confirmApiResponse
+    }
 }
 
 class OrderTotal : WidgetsViewModel {
 
     var total: Double = 0.0
     var bank: String = ""
+    var bankMandateId = -1
 
     override fun layoutId(): Int {
         return R.layout.row_order_total

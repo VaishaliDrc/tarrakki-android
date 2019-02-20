@@ -8,6 +8,7 @@ import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
+import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.isPANCard
@@ -92,8 +93,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             startFragment(BankAccountsFragment.newInstance(), R.id.frmContainer)
         }
         tvBankMandateAccount?.setOnClickListener {
-            //startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
-            context?.simpleAlert(getString(R.string.coming_soon))
+            startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
+           // context?.simpleAlert(getString(R.string.coming_soon))
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {

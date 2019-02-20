@@ -162,14 +162,14 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:text="A/C : 120000000019"
-                            android:textColor="@color/darker_gray" />
+                            android:textColor="@color/semi_black" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:text="ICICI Bank"
-                            android:textColor="@color/darker_gray" />
+                            android:textColor="@color/semi_black" />
 
                     </LinearLayout>
 
@@ -196,7 +196,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/space_1"
                     android:background="@color/lighter_gray"/>
-
 
                 <TextView
                     android:id="@+id/tvIntro"

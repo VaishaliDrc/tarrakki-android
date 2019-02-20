@@ -52,191 +52,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     override fun createReference() {
         setHasOptionsMenu(true)
 
-        val cartApi = Observer<CartData> { apiResponse ->
-            apiResponse?.let {
-                if (it.data.totalLumpsum == null)
-                    getViewModel().totalLumpsum.set("N/A")
-                else
-                    getViewModel().totalLumpsum.set(it.data.totalLumpsum.toCurrency())
-                if (it.data.totalSip == null)
-                    getViewModel().totalSip.set("N/A")
-                else
-                    getViewModel().totalSip.set(it.data.totalSip.toCurrency())
-
-                getViewModel().funds = it.data.orderLines as ArrayList<CartData.Data.OrderLine>
-
-                App.INSTANCE.cartCount.value = getViewModel().funds.size
-
-                if (getViewModel().funds.isNotEmpty()) {
-                    adapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
-                        binder.fund = item
-                        item.hasOneTimeAmount = try {
-                            val num = item.lumpsumAmount.toCurrencyBigInt()
-                            num > BigInteger.ZERO
-                        } catch (e: Exception) {
-                            false
-                        }
-                        binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
-                        binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
-                        binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
-                        binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
-
-                        if (item.goal != null) {
-                            if (item.goal.goal.isNotEmpty()) {
-                                binder.tvGoal.visibility = View.VISIBLE
-                                binder.goal = "Goal: " + item.goal.goal
-                            } else {
-                                binder.tvGoal.visibility = View.GONE
-                            }
-                        } else {
-                            binder.tvGoal.visibility = View.GONE
-                        }
-
-                        if (item.day.isNullOrEmpty() || item.day == "0") {
-                            binder.date = "Start Date"
-                        } else {
-                            binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
-                        }
-
-                        binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
-
-                        binder.tvAddOneTimeAmount.setOnClickListener {
-                            item.hasOneTimeAmount = true
-                        }
-                        binder.ivDelete.setOnClickListener {
-                            context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
-                                getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, Observer { apiResponse ->
-                                    getViewModel().funds.removeAt(position)
-                                    App.INSTANCE.cartCount.value = getViewModel().funds.size
-                                    getViewModel().cartUpdate.value = null
-                                    updateCartUI()
-                                })
-                            })
-                        }
-                        binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
-                            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                v.dismissKeyboard()
-                                v.clearFocus()
-                                val sipAmount = binder.edtSIPAmount.text.toString()
-                                val lumpsumAmount = binder.edtLumpsum.text.toString()
-                                if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                    if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!) {
-                                        item.lumpsumAmount = binder.edtLumpsum.text.toString()
-                                        getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                    }
-                                }
-                                return@setOnEditorActionListener true
-                            }
-                            return@setOnEditorActionListener false
-                        }
-                        binder.edtSIPAmount.setOnEditorActionListener { v, actionId, event ->
-                            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                v.dismissKeyboard()
-                                v.clearFocus()
-                                val sipAmount = binder.edtSIPAmount.text.toString()
-                                val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                                if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                    if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!) {
-                                        item.sipAmount = binder.edtSIPAmount.text.toString()
-                                        getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                    }
-                                }
-                                return@setOnEditorActionListener true
-                            }
-                            return@setOnEditorActionListener false
-                        }
-                        binder.tvDate.setOnClickListener {
-                            if (binder.startDayDisable == true) {
-                                if (item.frequencyDate.isNotEmpty()) {
-                                    context?.showListDialog("Start Date", item.frequencyDate) {
-                                        binder.date = it
-                                        item.day = it.dropLast(2)
-                                        getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                    }
-                                }
-                            } else {
-                                context?.simpleAlert("Please enter the valid SIP amount first.")
-                            }
-
-                        }
-                        binder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
-                            override fun afterTextChanged(p0: Editable?) {
-                            }
-
-                            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            }
-
-                            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                item.sipAmount = binder.edtSIPAmount.text.toString().toCurrencyBigInt().toString()
-                            }
-                        })
-                        binder.edtLumpsum.addTextChangedListener(object : TextWatcher {
-                            override fun afterTextChanged(p0: Editable?) {
-                            }
-
-                            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            }
-
-                            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                                item.lumpsumAmount = binder.edtLumpsum.text.toString().toCurrencyBigInt().toString()
-                            }
-                        })
-
-                        /*binder.edtSIPAmount.setOnFocusChangeListener { view, b ->
-                            if (!b) {
-                                view.dismissKeyboard()
-                                view.clearFocus()
-                                val sipAmount = binder.edtSIPAmount.text.toString()
-                                val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                                if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                    var isValid = false
-                                    isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
-                                    isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
-                                    if (isValid) {
-                                        item.sipAmount = sipAmount
-                                        item.lumpsumAmount = lumpsumAmount
-                                        getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                    }
-                                }
-                            }
-                        }
-
-                        binder.edtLumpsum.setOnFocusChangeListener { view, b ->
-                            if (!b) {
-                                view.dismissKeyboard()
-                                view.clearFocus()
-                                val sipAmount = binder.edtSIPAmount.text.toString()
-                                val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                                if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                    var isValid = false
-                                    isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
-                                    isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
-                                    if (isValid) {
-                                        item.sipAmount = sipAmount
-                                        item.lumpsumAmount = lumpsumAmount
-                                        getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                    }
-                                }
-                            }
-                        }*/
-
-                        binder.root.setOnClickListener {
-                            startFragment(FundDetailsFragment.newInstance(Bundle().apply {
-                                putString(ITEM_ID, "${item.fundIdId}")
-                            }
-                            ), R.id.frmContainer)
-                        }
-
-                        binder.executePendingBindings()
-                    }
-                }
-                updateCartUI()
-            }
-        }
-
         getViewModel().cartUpdate.observe(this, Observer {
             getViewModel().getCartItem().observe(this, cartApi)
         })
@@ -279,8 +94,196 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
             }
         }
+    }
 
+    override fun onResume() {
         getViewModel().getCartItem().observe(this, cartApi)
+        super.onResume()
+    }
+
+    val cartApi = Observer<CartData> { apiResponse ->
+        apiResponse?.let {
+            if (it.data.totalLumpsum == null)
+                getViewModel().totalLumpsum.set("N/A")
+            else
+                getViewModel().totalLumpsum.set(it.data.totalLumpsum.toCurrency())
+            if (it.data.totalSip == null)
+                getViewModel().totalSip.set("N/A")
+            else
+                getViewModel().totalSip.set(it.data.totalSip.toCurrency())
+
+            getViewModel().funds = it.data.orderLines as ArrayList<CartData.Data.OrderLine>
+
+            App.INSTANCE.cartCount.value = getViewModel().funds.size
+
+            if (getViewModel().funds.isNotEmpty()) {
+                adapter = rvCartItems?.setUpRecyclerView(R.layout.row_cart_item, getViewModel().funds) { item: CartData.Data.OrderLine, binder: RowCartItemBinding, position ->
+                    binder.fund = item
+                    item.hasOneTimeAmount = try {
+                        val num = item.lumpsumAmount.toCurrencyBigInt()
+                        num > BigInteger.ZERO
+                    } catch (e: Exception) {
+                        false
+                    }
+                    binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+                    binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+                    binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
+                    binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
+
+                    if (item.goal != null) {
+                        if (item.goal.goal.isNotEmpty()) {
+                            binder.tvGoal.visibility = View.VISIBLE
+                            binder.goal = "Goal: " + item.goal.goal
+                        } else {
+                            binder.tvGoal.visibility = View.GONE
+                        }
+                    } else {
+                        binder.tvGoal.visibility = View.GONE
+                    }
+
+                    if (item.day.isNullOrEmpty() || item.day == "0") {
+                        binder.date = "Start Date"
+                    } else {
+                        binder.date = item.day?.toInt()?.let { it1 -> getOrdinalFormat(it1) }
+                    }
+
+                    binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
+
+                    binder.tvAddOneTimeAmount.setOnClickListener {
+                        item.hasOneTimeAmount = true
+                    }
+                    binder.ivDelete.setOnClickListener {
+                        context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
+                            getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, Observer { apiResponse ->
+                                getViewModel().funds.removeAt(position)
+                                App.INSTANCE.cartCount.value = getViewModel().funds.size
+                                getViewModel().cartUpdate.value = null
+                                updateCartUI()
+                            })
+                        })
+                    }
+                    binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            v.dismissKeyboard()
+                            v.clearFocus()
+                            val sipAmount = binder.edtSIPAmount.text.toString()
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!) {
+                                    item.lumpsumAmount = binder.edtLumpsum.text.toString()
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
+                            }
+                            return@setOnEditorActionListener true
+                        }
+                        return@setOnEditorActionListener false
+                    }
+                    binder.edtSIPAmount.setOnEditorActionListener { v, actionId, event ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+                            v.dismissKeyboard()
+                            v.clearFocus()
+                            val sipAmount = binder.edtSIPAmount.text.toString()
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!) {
+                                    item.sipAmount = binder.edtSIPAmount.text.toString()
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
+                            }
+                            return@setOnEditorActionListener true
+                        }
+                        return@setOnEditorActionListener false
+                    }
+                    binder.tvDate.setOnClickListener {
+                        if (binder.startDayDisable == true) {
+                            if (item.frequencyDate.isNotEmpty()) {
+                                context?.showListDialog("Start Date", item.frequencyDate) {
+                                    binder.date = it
+                                    item.day = it.dropLast(2)
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
+                            }
+                        } else {
+                            context?.simpleAlert("Please enter the valid SIP amount first.")
+                        }
+
+                    }
+                    binder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p0: Editable?) {
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            item.sipAmount = binder.edtSIPAmount.text.toString().toCurrencyBigInt().toString()
+                        }
+                    })
+                    binder.edtLumpsum.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p0: Editable?) {
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        }
+
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            item.lumpsumAmount = binder.edtLumpsum.text.toString().toCurrencyBigInt().toString()
+                        }
+                    })
+
+                    /*binder.edtSIPAmount.setOnFocusChangeListener { view, b ->
+                        if (!b) {
+                            view.dismissKeyboard()
+                            view.clearFocus()
+                            val sipAmount = binder.edtSIPAmount.text.toString()
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                var isValid = false
+                                isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
+                                isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
+                                if (isValid) {
+                                    item.sipAmount = sipAmount
+                                    item.lumpsumAmount = lumpsumAmount
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
+                            }
+                        }
+                    }
+
+                    binder.edtLumpsum.setOnFocusChangeListener { view, b ->
+                        if (!b) {
+                            view.dismissKeyboard()
+                            view.clearFocus()
+                            val sipAmount = binder.edtSIPAmount.text.toString()
+                            val lumpsumAmount = binder.edtLumpsum.text.toString()
+
+                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                                var isValid = false
+                                isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
+                                isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
+                                if (isValid) {
+                                    item.sipAmount = sipAmount
+                                    item.lumpsumAmount = lumpsumAmount
+                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
+                                }
+                            }
+                        }
+                    }*/
+
+                    binder.root.setOnClickListener {
+                        startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                            putString(ITEM_ID, "${item.fundIdId}")
+                        }
+                        ), R.id.frmContainer)
+                    }
+
+                    binder.executePendingBindings()
+                }
+            }
+            updateCartUI()
+        }
     }
 
     private fun updateCartUI() {
