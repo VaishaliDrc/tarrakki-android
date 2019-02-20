@@ -36,7 +36,7 @@ data class Goal(
                 @SerializedName("id")
                 val id: Int,
                 @SerializedName("intro_questions")
-                val introQuestions: List<IntroQuestion>,
+                val introQuestions: List<IntroQuestion>?,
                 @SerializedName("order_sequence")
                 val orderSequence: Int,
                 @SerializedName("questions")
@@ -113,46 +113,46 @@ data class Goal(
             )
 
             fun getInitQ1(): String {
-                return if (introQuestions.isEmpty()) "" else introQuestions[0].question
+                return if (introQuestions?.isNotEmpty() == true) introQuestions[0].question else ""
             }
 
             fun getInitQ2(): String {
-                return if (!introQuestions.isEmpty() && introQuestions.size == 2) introQuestions[1].question else ""
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 2) introQuestions[1].question else ""
             }
 
             fun getInitHint(): String? {
-                return introQuestions.firstOrNull { q -> q.questionType == "Text" }?.options
+                return introQuestions?.firstOrNull { q -> q.questionType == "Text" }?.options
             }
 
             fun setAnsQ1(ans: String) {
-                if (introQuestions.isNotEmpty()) {
+                if (introQuestions?.isNotEmpty() == true) {
                     introQuestions[0].ans1 = ans
                 }
             }
 
-            fun getAnsQ1() = if (introQuestions.isNotEmpty()) introQuestions[0].ans1 else ""
+            fun getAnsQ1() = if (introQuestions?.isNotEmpty() == true) introQuestions[0].ans1 else ""
 
             fun setAnsQ2(ans: String) {
-                if (introQuestions.isNotEmpty() && introQuestions.size > 1) {
+                if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) {
                     introQuestions[1].ans1 = ans
                 }
             }
 
-            fun getAnsQ2() = if (introQuestions.isNotEmpty() && introQuestions.size > 1) introQuestions[1].ans1 else ""
+            fun getAnsQ2() = if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) introQuestions[1].ans1 else ""
 
             fun initQ1Visibility(): Int {
-                return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Select")
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1 && introQuestions[0].questionType == "Select")
                     View.VISIBLE
-                else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
+                else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
                     View.GONE
                 else
                     View.VISIBLE
             }
 
             fun initQ2Visibility(): Int {
-                return if (introQuestions.isNotEmpty() && introQuestions.size == 1 && introQuestions[0].questionType == "Text")
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1 && introQuestions[0].questionType == "Text")
                     View.VISIBLE
-                else if (introQuestions.isNotEmpty() && introQuestions.size == 1)
+                else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
                     View.GONE
                 else
                     View.VISIBLE
@@ -322,10 +322,10 @@ data class Goal(
                 json.addProperty("goal_id", this@GoalData.id)
                 json.addProperty("pmt", this@GoalData.pmt)
                 json.addProperty("i", this@GoalData.inflation)
-                if (introQuestions.isNotEmpty() && introQuestions.size > 1) {
+                if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) {
                     json.addProperty("saving_for", getAnsQ1())
                     json.addProperty("user_purchase", getAnsQ2())
-                } else if (introQuestions.isNotEmpty()) {
+                } else if (introQuestions?.isNotEmpty() == true) {
                     json.addProperty("saving_for", getAnsQ1())
                 }
                 e("addGoalData->", json)

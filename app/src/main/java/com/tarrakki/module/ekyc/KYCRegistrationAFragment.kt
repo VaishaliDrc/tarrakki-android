@@ -41,7 +41,9 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     }
 
     override fun createReference() {
-
+        /*getViewModel().ivEmailVerifiedVisibility.set(context?.isEmailVerified() == true)
+        if (getViewModel().ivEmailVerifiedVisibility.get() == false) {
+        }*/
         getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
@@ -114,6 +116,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
                     saveKYCData(kycData).observe(this, android.arch.lifecycle.Observer {
+                        context?.setKYClVarified(true)
                         startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
                         post(kycData)
                     })

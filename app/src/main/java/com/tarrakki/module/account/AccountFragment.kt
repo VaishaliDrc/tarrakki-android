@@ -4,12 +4,15 @@ package com.tarrakki.module.account
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
+import android.view.View
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.KYCRegistrationAFragment
+import com.tarrakki.module.ekyc.getKYCData
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
@@ -45,6 +48,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     }
 
     override fun createReference() {
+        ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
+        getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
         rvMenus?.setUpRecyclerView(R.layout.row_account_menu_item, getViewModel().accountMenus) { item: AccountMenu, binder: RowAccountMenuItemBinding, position ->
             binder.menu = item
             binder.executePendingBindings()
@@ -105,6 +110,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             })
         }
         edtPanNo?.applyPAN()
+        btnContinue?.setOnClickListener {
+            getKYCData().observe(this, android.arch.lifecycle.Observer {
+                it?.let { kycData ->
+                    startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                    postSticky(kycData)
+                }
+            })
+        }
         tvNext?.setOnClickListener {
             /*context?.simpleAlert(getString(R.string.coming_soon))
             return@setOnClickListener*/

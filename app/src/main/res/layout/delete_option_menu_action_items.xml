@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingEnd="@dimen/space_16"
-    android:paddingStart="@dimen/space_16"
     android:gravity="center"
     android:orientation="horizontal"
+    android:paddingStart="@dimen/space_16"
+    android:paddingEnd="@dimen/space_16"
     tools:background="@color/colorPrimary">
 
     <TextView
+        android:id="@+id/tvDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_delete_white_24dp"
@@ -19,6 +20,7 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_8"
@@ -30,6 +32,7 @@
         android:textColor="@color/white" />
 
     <CheckBox
+        android:id="@+id/cbSelectAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="@color/white"

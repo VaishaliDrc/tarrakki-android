@@ -5,6 +5,7 @@ import com.google.gson.JsonObject
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
 import com.tarrakki.api.soapmodel.*
+import com.tarrakki.module.ekyc.KYCData
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
@@ -18,7 +19,7 @@ import kotlin.concurrent.thread
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
         : MutableLiveData<ApiResponse> {
     val json = JsonObject()
-    json.addProperty("fund_id",fundId)
+    json.addProperty("fund_id", fundId)
     if (sipAmount != BigInteger.ZERO.toString()) {
         json.addProperty("sip_amount", sipAmount)
     }
@@ -77,7 +78,7 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: BigInteger,
     }
 
     val json = JsonObject()
-    json.addProperty("third_level_category_id",thirdLevelCategoryId)
+    json.addProperty("third_level_category_id", thirdLevelCategoryId)
     json.addProperty("lumpsum_amount", lumpsum)
     json.addProperty("add_to_cart", addToCart)
     json.addProperty("sip_amount", sip)
@@ -132,7 +133,7 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
         EventBus.getDefault().post(SHOW_PROGRESS)
     }
     val json = JsonObject()
-    json.addProperty("third_level_category_id",thirdLevelCategoryId)
+    json.addProperty("third_level_category_id", thirdLevelCategoryId)
     json.addProperty("lumpsum_amount", lumpsum)
     json.addProperty("add_to_cart", addToCart)
     json.addProperty("sip_amount", sip)
@@ -248,15 +249,15 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
 }
 
 
-fun getEKYCData(password: String, pan: String): MutableLiveData<ResponseKYCData.BodyBean.DownloadPANDetailsEKYCResponseBean.DownloadPANDetailsEKYCResultBean.APPRESROOTBean.APPPANINQBean> {
+fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<ResponseKYCData.BodyBean.DownloadPANDetailsEKYCResponseBean.DownloadPANDetailsEKYCResultBean.APPRESROOTBean.APPPANINQBean>()
+    val apiResponse = MutableLiveData<KYCData>()
     val reqEnvelope = RequestEnvelopeDownloadPANDetailsEKYC()
     val reqData = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC()
     val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
     val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
-    apppaninqBean.apppanno = pan
+    apppaninqBean.apppanno = kycData.pan
     apppaninqBean.appiopflg = "IE"
     apppaninqBean.appposcode = "infibeam\$10"
     apppaninqBean.panDOB = ""
@@ -283,7 +284,17 @@ fun getEKYCData(password: String, pan: String): MutableLiveData<ResponseKYCData.
                     if (o is ResponseKYCData) {
                         val data = o.body?.downloadPANDetailsEKYCResponse?.downloadPANDetailsEKYCResult?.appresroot?.apppaninq
                         if (data != null) {
-                            apiResponse.value = data
+                            //kyc.mobile = data.appmobno
+                            //kyc.email = data.appemail
+                            kycData.nameOfPANHolder = data.appname
+                            kycData.fullName = data.appname
+                            kycData.OCCcode = data.appocc
+                            kycData.dob = data.appdobdt.toDate("dd-MM-yyyy HH:mm:ss").convertTo()
+                                    ?: ""
+                            kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
+                            kycData.pincode = data.appcorpincd
+
+                            apiResponse.value = kycData
                         } else {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                         }

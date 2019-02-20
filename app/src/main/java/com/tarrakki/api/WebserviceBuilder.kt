@@ -25,6 +25,9 @@ interface WebserviceBuilder {
     @GET("goals/")
     fun getGoals(): Observable<ApiResponse>
 
+    @GET("users/verify/email/{id}/")
+    fun isEmailVerified(@Path("id") userId: String?): Observable<ApiResponse>
+
     @GET("goals/{id}/")
     fun getGoalsById(@Path("id") id: String): Observable<ApiResponse>
 

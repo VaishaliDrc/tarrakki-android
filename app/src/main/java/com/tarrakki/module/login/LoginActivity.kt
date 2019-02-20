@@ -84,6 +84,10 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                             loginResponse.userId?.let { it1 -> setUserId(it1) }
                             loginResponse.email?.let { it1 -> setEmail(it1) }
                             loginResponse.mobile?.let { it1 -> setMobile(it1) }
+                            loginResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                            loginResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                            loginResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                            loginResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                             startActivity<HomeActivity>()
                             setIsLogin(cbKeepMeSignIn.isChecked)
                             /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {

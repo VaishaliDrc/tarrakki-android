@@ -12,6 +12,7 @@ class KYCRegistrationAVM : FragmentViewModel() {
     val guardianVisibility = ObservableField(View.GONE)
     val isEdit = ObservableField(true)
     val alpha = ObservableField<Float>(1f)
+    val ivEmailVerifiedVisibility = ObservableField(false)
 
     init {
         isEdit.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

@@ -15,6 +15,7 @@ class AccountVM : FragmentViewModel() {
     val appLock = ObservableField(App.INSTANCE.hasAppLock())
     val accountMenus = arrayListOf<AccountMenu>()
     val logoutVisibility = ObservableField(View.VISIBLE/*if (App.INSTANCE.isLoggedIn.value != null && App.INSTANCE.isLoggedIn.value!!) View.VISIBLE else View.GONE*/)
+    val btnComleteRegion = ObservableField(false)
 
     init {
         appLock.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

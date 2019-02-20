@@ -43,10 +43,10 @@ class TransactionDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         vm?.let { vm ->
             if (arguments?.getBoolean(IS_PENDING, true)!!) {
-                rvTransactions?.setUpRecyclerView(R.layout.row_transaction_list_item, vm.pendingTransactions) { item: Transactions, binder: RowTransactionListItemBinding, position ->
+                /*rvTransactions?.setUpRecyclerView(R.layout.row_transaction_list_item, vm.pendingTransactions) { item: Transactions, binder: RowTransactionListItemBinding, position ->
                     binder.transaction = item
                     binder.executePendingBindings()
-                }
+                }*/
             } else {
                 rvTransactions?.setUpRecyclerView(R.layout.row_transaction_list_item, vm.transactions) { item: Transactions, binder: RowTransactionListItemBinding, position ->
                     binder.transaction = item

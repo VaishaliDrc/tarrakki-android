@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.CheckBox
+import android.widget.TextView
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentUnpaidTransactionsBinding
 import com.tarrakki.databinding.RowUnpaidTransactionsBinding
@@ -89,6 +91,24 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.delete_menu, menu)
+        val mView = menu?.findItem(R.id.action_delete)?.actionView
+        val tvDelete = mView?.findViewById<TextView>(R.id.tvDelete)
+        val tvCancel = mView?.findViewById<TextView>(R.id.tvCancel)
+        val cbSelectAll = mView?.findViewById<CheckBox>(R.id.cbSelectAll)
+        tvDelete?.setOnClickListener {
+
+        }
+        tvCancel?.setOnClickListener {
+            getViewModel().hasOptionMenu.value = false
+        }
+        cbSelectAll?.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                getViewModel().transactions.forEach { it.isSelected = true }
+                hasSelectedItem()
+            } else {
+                getViewModel().hasOptionMenu.value = false
+            }
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 

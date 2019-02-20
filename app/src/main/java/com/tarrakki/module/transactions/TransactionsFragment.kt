@@ -2,16 +2,14 @@ package com.tarrakki.module.transactions
 
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
-import com.tarrakki.module.transactions.childfragments.CompletedTransactionsFragment
-import com.tarrakki.module.transactions.childfragments.InProgressTransactionsFragment
-import com.tarrakki.module.transactions.childfragments.UnpaidTransactionsFragment
-import com.tarrakki.module.transactions.childfragments.UpcomingTransactionsFragment
+import com.tarrakki.module.transactions.childfragments.*
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -45,7 +43,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     override fun createReference() {
         setHasOptionsMenu(true)
         val pages = arrayListOf(
-                Page(getString(R.string.all), TransactionDetailsFragment.newInstance(Bundle().apply { putBoolean(IS_PENDING, false) })),
+                Page(getString(R.string.all), AllTransactionsFragment.newInstance()),
                 Page(getString(R.string.in_progress), InProgressTransactionsFragment.newInstance()),
                 Page(getString(R.string.completed), CompletedTransactionsFragment.newInstance()),
                 Page(getString(R.string.upcoming), UpcomingTransactionsFragment.newInstance()),
@@ -67,7 +65,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
             }
         })
         mTab?.setupWithViewPager(mPager, true)
-
+        mTab?.tabMode = TabLayout.MODE_SCROLLABLE
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->

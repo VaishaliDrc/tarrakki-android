@@ -2,6 +2,7 @@ package com.tarrakki.module.myprofile
 
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
@@ -36,6 +37,7 @@ class ProfileFragment : CoreFragment<MyProfileVM, FragmentTransactionskBinding>(
     }
 
     override fun createReference() {
+
         val pages = arrayListOf(
                 Page(getString(R.string.personal_details), MyProfileFragment.newInstance()),
                 Page(getString(R.string.nomination_details), NominationDetailsFragment.newInstance())

@@ -15,6 +15,10 @@ const val USERID = "user_id"
 const val EMAIL = "email"
 const val MOBILE = "mobile"
 const val ISFIRSTTIME = "first_time_installed"
+const val EMAIL_VERIFIED = "email_verified"
+const val MOBILE_VERIFIED = "mobile_verified"
+const val KYC_VERIFIED = "kyc_verified"
+const val COMPLETED_REGISTRATION = "completed_registration"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -148,9 +152,45 @@ fun Context.isFirsttimeInstalled(): Boolean {
     return getPreferences.getBoolean(ISFIRSTTIME, true)
 }
 
+fun Context.setMobileVerified(isMobileVerified: Boolean) {
+    return getPreferences.putBoolean(MOBILE_VERIFIED, isMobileVerified)
+}
+
+fun Context.isMobileVerified(): Boolean {
+    return getPreferences.getBoolean(MOBILE_VERIFIED, false)
+}
+
+fun Context.setEmailVerified(isEmailVerified: Boolean) {
+    return getPreferences.putBoolean(EMAIL_VERIFIED, isEmailVerified)
+}
+
+fun Context.isEmailVerified(): Boolean {
+    return getPreferences.getBoolean(EMAIL_VERIFIED, false)
+}
+
+fun Context.setKYClVarified(isKYCVerified: Boolean) {
+    return getPreferences.putBoolean(KYC_VERIFIED, isKYCVerified)
+}
+
+fun Context.isKYCVerified(): Boolean {
+    return getPreferences.getBoolean(KYC_VERIFIED, false)
+}
+
+fun Context.setCompletedRegistration(isCompletedRegistration: Boolean) {
+    return getPreferences.putBoolean(COMPLETED_REGISTRATION, isCompletedRegistration)
+}
+
+fun Context.isCompletedRegistration(): Boolean {
+    return getPreferences.getBoolean(COMPLETED_REGISTRATION, false)
+}
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(LOGIN_TOKEN)
     getPreferences.remove(APP_LOCK)
     getPreferences.remove(USERID)
+    getPreferences.remove(MOBILE_VERIFIED)
+    getPreferences.remove(EMAIL_VERIFIED)
+    getPreferences.remove(KYC_VERIFIED)
+    getPreferences.remove(COMPLETED_REGISTRATION)
 }

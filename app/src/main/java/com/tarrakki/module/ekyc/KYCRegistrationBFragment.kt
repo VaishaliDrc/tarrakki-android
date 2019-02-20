@@ -63,7 +63,12 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 getViewModel().kycData.value?.taxSlab = item
             }
         }
-        edtIssue?.setOnClickListener {
+        edtCountry?.setOnClickListener {
+            context?.showListDialog(R.string.select_country, R.array.countries) { country ->
+                getViewModel().kycData.value?.birthCountry = country
+            }
+        }
+        /*edtIssue?.setOnClickListener {
             context?.showListDialog(R.string.select_country, R.array.countries) { country ->
                 getViewModel().kycData.value?.countryOfIssue1 = country
             }
@@ -77,7 +82,7 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
             context?.showListDialog(R.string.select_country, R.array.countries) { country ->
                 getViewModel().kycData.value?.countryOfIssue3 = country
             }
-        }
+        }*/
         btnNext?.setOnClickListener {
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
@@ -106,7 +111,15 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 context?.simpleAlert("Please select income slab")
                 false
             }
-            !switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {
+            kycData.birthCountry.isEmpty() -> {
+                context?.simpleAlert("Please select country of birth")
+                false
+            }
+            kycData.birthPlace.isEmpty() -> {
+                context?.simpleAlert("Please enter place of birth")
+                false
+            }
+            /*!switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {
                 when {
                     kycData.tinNumber1.isEmpty() -> {
                         context?.simpleAlert("Please enter TIN number") {
@@ -135,7 +148,7 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                     }
                     else -> true
                 }
-            }
+            }*/
             else -> true
         }
     }

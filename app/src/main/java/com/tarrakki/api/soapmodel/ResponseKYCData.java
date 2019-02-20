@@ -268,7 +268,7 @@ public class ResponseKYCData {
                         @Element(required = false, name ="APP_COR_ADD_DT")
                         private String APPCORADDDT;
                         @Element(required = false, name ="APP_PER_ADD1")
-                        private String APPPERADD1;
+                        private String  APPPERADD1;
                         @Element(required = false, name ="APP_PER_ADD2")
                         private String APPPERADD2;
                         @Element(required = false, name ="APP_PER_ADD3")

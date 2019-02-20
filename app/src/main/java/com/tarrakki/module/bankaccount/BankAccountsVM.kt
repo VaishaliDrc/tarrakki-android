@@ -1,7 +1,6 @@
 package com.tarrakki.module.bankaccount
 
 import android.arch.lifecycle.MutableLiveData
-import android.graphics.Color
 import android.support.annotation.StringRes
 import com.google.gson.JsonObject
 import com.tarrakki.App
@@ -102,7 +101,7 @@ class BankAccountsVM : FragmentViewModel() {
         return response
     }
 
-    fun completeRegistrations(signatureFile: File): MutableLiveData<ApiResponse> {
+    fun completeRegistrations(signatureFile: File, kycData: KYCData): MutableLiveData<ApiResponse> {
         val apiResponse = MutableLiveData<ApiResponse>()
         showProgress()
         thread {
@@ -110,34 +109,39 @@ class BankAccountsVM : FragmentViewModel() {
             val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
             val multipartBody = MultipartBody.Part.createFormData("signature_image1", signatureFile.name, requestFile)
             val json = JsonObject()
-            json.addProperty("pan_number", "EZIPS7324M")
-            json.addProperty("date_of_birth", "01/01/2000")
-            json.addProperty("guardian_name", "")
-            json.addProperty("guardian_pan", "")
-            json.addProperty("address", "GG")
-            json.addProperty("city", "Ah")
-            json.addProperty("pincode", "323223")
-            json.addProperty("state", "GU")
-            json.addProperty("country", "IN")
-            json.addProperty("occ_code", "01")
-            json.addProperty("nominee_name", "jsp")
-            json.addProperty("nominee_relation", "Father")
+            json.addProperty("pan_number", kycData.pan)
+            json.addProperty("date_of_birth", kycData.dob)
+            if (kycData.guardianName.isEmail()) {
+                json.addProperty("guardian_name", "")
+                json.addProperty("guardian_pan", "")
+            } else {
+                json.addProperty("guardian_name", kycData.guardianName)
+                json.addProperty("guardian_pan", kycData.pan)
+            }
+            json.addProperty("address", kycData.address)
+            json.addProperty("city", kycData.city)
+            json.addProperty("pincode", kycData.pincode)
+            json.addProperty("state", kycData.state)
+            json.addProperty("country", kycData.country)
+            json.addProperty("occ_code", kycData.OCCcode)
+            json.addProperty("nominee_name", kycData.nomineeName)
+            json.addProperty("nominee_relation", kycData.nomineeRelation)
             json.addProperty("user_id", "${App.INSTANCE.getUserId()}")
             //json.addProperty("bank_id", "")///What is used
-            json.addProperty("email", "${App.INSTANCE.getEmail()}")
-            json.addProperty("full_name", "JP")
-            json.addProperty("mobile_number", "7896547845")
-            json.addProperty("birth_country", "IN")
-            json.addProperty("birth_place", "IN")
-            json.addProperty("gender", "M")
+            json.addProperty("email", kycData.email)
+            json.addProperty("full_name", kycData.fullName)
+            json.addProperty("mobile_number", kycData.mobile)
+            json.addProperty("birth_country", kycData.birthCountry)
+            json.addProperty("birth_place", kycData.birthPlace)
+            json.addProperty("gender", kycData.gender)
             json.addProperty("tin_number1", "")
             json.addProperty("tin_number2", "")
             json.addProperty("tin_number3", "")
             json.addProperty("country_of_issue1", "")
             json.addProperty("country_of_issue2", "")
             json.addProperty("country_of_issue3", "")
-            json.addProperty("address_type", "1")
-            json.addProperty("source_of_income", "E")
+            json.addProperty("address_type", kycData.addressType)
+            json.addProperty("source_of_income", kycData.sourceOfIncome)
             e("Plain Data=>", json.toString())
             val data = AES.encrypt(json.toString())
             e("Encrypted Data=>", data)

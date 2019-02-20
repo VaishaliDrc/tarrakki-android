@@ -29,7 +29,6 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
-import kotlin.concurrent.thread
 
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
@@ -63,6 +62,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     }
 
     override fun createReference() {
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
                 mRefresh?.isRefreshing = false
@@ -260,24 +260,28 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 getViewModel().ICAMERA_RQ_CODE -> {
-                    getViewModel().showProgress()
+                    val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
+                    startCrop(Uri.fromFile(file))
+                    /*getViewModel().showProgress()
                     thread {
                         val colors = arrayListOf(Color.BLACK, Color.BLUE)
                         val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName).toBitmap()?.toTransparent(colors)?.toFile()
                         file?.let {
+                            startCrop(Uri.fromFile(it))
                             activity?.runOnUiThread {
                                 getViewModel().dismissProgress()
                                 startCrop(Uri.fromFile(it))
                             }
                         }
-                    }
+                    }*/
                 }
                 getViewModel().IMAGE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
                         val path = getPath(selectedUri)
                         path?.let { filePath ->
-                            getViewModel().showProgress()
+                            startCrop(Uri.fromFile(File(filePath)))
+                            /*getViewModel().showProgress()
                             thread {
                                 val colors = arrayListOf(Color.BLACK, Color.BLUE)
                                 val file = File(filePath).toBitmap()?.toTransparent(colors)?.toFile()
@@ -287,7 +291,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                         startCrop(Uri.fromFile(mFile))
                                     }
                                 }
-                            }
+                            }*/
 
                         }
                     }
@@ -298,13 +302,15 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         imageUri?.let {
                             val path = getPath(it)
                             path?.let { filePath ->
-                                getViewModel().completeRegistrations(File(filePath)).observe(this, Observer { apiResponse ->
-                                    apiResponse?.let {
-                                        context?.simpleAlert("${apiResponse.status?.message}") {
-                                            onBack(3)
+                                getViewModel().kycData.value?.let { kycData ->
+                                    getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
+                                        apiResponse?.let {
+                                            context?.simpleAlert("${apiResponse.status?.message}") {
+                                                onBack(3)
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                                }
                             }
                         }
                     }

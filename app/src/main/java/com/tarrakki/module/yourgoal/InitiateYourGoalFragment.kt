@@ -50,11 +50,11 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         getViewModel().goalVM.observe(this, Observer {
             it?.let { goal ->
                 goal.questions = goal.questions.sortedBy { q -> q.questionOrder }
-                getViewModel().hasQuestions.set(goal.introQuestions.isNotEmpty())
+                getViewModel().hasQuestions.set(goal.introQuestions?.isNotEmpty() == true)
                 getBinding().goal = goal
                 getBinding().executePendingBindings()
                 data.clear()
-                if (goal.introQuestions.isNotEmpty()) {
+                if (goal.introQuestions?.isNotEmpty() == true) {
                     goal.introQuestions[0].options.split(",").forEach { item ->
                         data.add(item)
                     }
@@ -70,7 +70,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         })
         btnContinue?.setOnClickListener {
             getViewModel().goalVM.value?.let { goal ->
-                if (goal.introQuestions[0].questionType == "Text")
+                if (goal.introQuestions != null && goal.introQuestions[0].questionType == "Text")
                     goal.setAnsQ1(edtQ2Answer.text.toString())
                 else
                     goal.setAnsQ2(edtQ2Answer.text.toString())
