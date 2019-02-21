@@ -88,7 +88,6 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         rb_netbanking?.isChecked = true
 
         context?.let { DividerItemDecoration(it) }?.let { rvPaymentOrderItems?.addItemDecoration(it) }
-
         getViewModel().confirmOrder.observe(this, Observer { response ->
             getViewModel().totalOrder.set((response?.data?.totalPayableAmount?.toDouble()))
             if (response?.data?.orders?.isNotEmpty() == true) {
