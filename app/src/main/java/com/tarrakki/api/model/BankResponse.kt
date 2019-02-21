@@ -8,7 +8,7 @@ data class BankResponse(
 ) {
     data class Data(
             @SerializedName("bank_logo")
-            val bankLogo: Any,
+            val bankLogo: String,
             @SerializedName("bank_name")
             val bankName: String,
             @SerializedName("bse_bank_code")

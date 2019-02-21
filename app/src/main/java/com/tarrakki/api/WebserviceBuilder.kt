@@ -175,6 +175,15 @@ interface WebserviceBuilder {
     @PUT("cart/add_to_cart/{id}/")
     fun updateFirstSIPFlag(@Path("id") id: String, @Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @PUT("cart/confirm/order/{orderId}")
+    fun mandateIdConfirmOrder(@Path("orderId") orderId: Int?,
+                              @Field("data") data: String): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("cart/confirm/order/")
+    fun checkoutOrder(@Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -182,6 +191,7 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData
+        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData,
+        mandateConfirmOrder, ConfirmOrderResponse
     }
 }

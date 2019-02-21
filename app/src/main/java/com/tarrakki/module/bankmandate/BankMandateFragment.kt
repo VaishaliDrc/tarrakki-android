@@ -12,7 +12,6 @@ import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
-import com.tarrakki.getBankMandateStatus
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.supportcompact.CoreFragment
@@ -23,12 +22,14 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
+const val ISFROMCONFIRMORDER = "isfromconfirmOrder"
 const val ISFROMDIRECTBANKMANDATE = "isfromdirectbankmandate"
 const val MANDATEID = "mandate_id"
 
 class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
     private var isMandate: Boolean? = null
+    private var isConfirmOrder: Boolean? = null
 
     override val isBackEnabled: Boolean
         get() = true
@@ -52,6 +53,8 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     }
 
     override fun createReference() {
+        isConfirmOrder = arguments?.getBoolean(ISFROMCONFIRMORDER, false)
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
                 mRefresh?.isRefreshing = false
@@ -62,7 +65,6 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         mRefresh?.setOnRefreshListener {
             getBanksData(true)
         }
-
         btnNext?.setOnClickListener {
             if (getViewModel().isMandateBankList.get() != true) {
                 if (userBankAdapter?.selectedItemViewCount != 0) {
@@ -83,6 +85,14 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 startFragment(AddBankMandateFragment.newInstance(), R.id.frmContainer)
             }
         }
+        btnSelectBankMandate?.setOnClickListener {
+            if (mandateBankAdapter?.selectedItemViewCount != 0) {
+                onBack()
+                mandateBankAdapter?.getSelectedItems()?.get(0)?.let { it1 -> postSticky(it1) }
+            } else {
+                context?.simpleAlert("Please Select Bank.")
+            }
+        }
     }
 
     private fun getBanksData(isRefreshing: Boolean = false) {
@@ -94,7 +104,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 getViewModel().isAddVisible.set(true)
                 setUserBankMandateAdapter(it.data)
             } else {
-               // btnAdd?.text = getString(R.string.add_new_bank_mandate)
+                // btnAdd?.text = getString(R.string.add_new_bank_mandate)
                 isMandate = false
                 getUserBankAPI(isRefreshing)
             }
@@ -105,7 +115,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         getViewModel().getAllBanks().observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
-                if (it1.data.bankDetails.size>5){
+                if (it1.data.bankDetails.size > 5) {
                     btnAdd?.visibility = View.GONE
                 }
                 getViewModel().isNoBankAccount.set(false)
@@ -126,11 +136,15 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 R.layout.row_bank_mandate_list_item,
                 { item, binder: RowBankMandateListItemBinding?, position, adapter ->
                     binder?.widget = item
-                    binder?.executePendingBindings()
+
+                    if (isConfirmOrder == true) {
+                        binder?.tvDefault?.visibility = View.VISIBLE
+                    } else {
+                        binder?.tvDefault?.visibility = View.GONE
+                    }
+
                     binder?.isSelected = adapter.isItemViewToggled(position)
-
                     binder?.tvPending?.setBackgroundResource(item.statuscolor)
-
                     binder?.btnUploadSanned?.setOnClickListener {
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMDIRECTBANKMANDATE, true)
@@ -139,12 +153,21 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                         startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
                         postSticky(item.bankDetails)
                     }
+
+                    binder?.executePendingBindings()
                 }, { item, position, adapter ->
 
         })
         rvBankMandate?.adapter = mandateBankAdapter
-        mandateBankAdapter?.toggleItemView(0)
-        mandateBankAdapter?.notifyItemChanged(0)
+        if (isConfirmOrder == true) {
+            getViewModel().isSelectBankVisible.set(true)
+            val bankIndex = bankDetails.indexOfFirst { it.id== arguments?.getInt(MANDATEID)}
+            mandateBankAdapter?.toggleItemView(bankIndex)
+            mandateBankAdapter?.notifyItemChanged(bankIndex)
+        } else {
+            mandateBankAdapter?.toggleItemView(0)
+            mandateBankAdapter?.notifyItemChanged(0)
+        }
     }
 
     private fun setUserBankAdapter(bankDetails: List<BankDetail>) {

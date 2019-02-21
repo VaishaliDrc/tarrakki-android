@@ -57,6 +57,19 @@ data class ConfirmOrderResponse(
             var sipAmount: String? = null
                 get() = field?.toDoubleOrNull()?.toCurrency()
 
+            var isGuideline : Boolean? = false
+                get() {
+                    if (hasSIP == View.VISIBLE){
+                        if (hasLumpsum == View.VISIBLE){
+                            return true
+                        }else{
+                            return false
+                        }
+                    }else{
+                        return false
+                    }
+                }
+
             val hasSIP
                 get() = if (TextUtils.isEmpty(sipAmount) || "₹0" == sipAmount) View.GONE else View.VISIBLE
 

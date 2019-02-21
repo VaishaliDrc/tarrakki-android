@@ -30,6 +30,7 @@ class BankMandateVM : FragmentViewModel() {
     val isAddVisible = ObservableField<Boolean>(false)
     val isMandateBankList = ObservableField<Boolean>(false)
     val isNoBankAccount = ObservableField<Boolean>(false)
+    val isSelectBankVisible = ObservableField<Boolean>(false)
 
     init {
         bankMandate.add(BankMandate(
