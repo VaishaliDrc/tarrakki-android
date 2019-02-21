@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
+import com.tarrakki.api.model.Country
+import com.tarrakki.api.model.parseArray
 import com.tarrakki.databinding.FragmentKycregistrationBBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import kotlinx.android.synthetic.main.fragment_kycregistration_b.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.isEmpty
-import org.supportcompact.ktx.showListDialog
+import org.supportcompact.ktx.showCustomListDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -42,31 +44,42 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
     }
 
     override fun createReference() {
+        val countryJSON = resources.openRawResource(R.raw.country).bufferedReader().use { it.readText() }
+        val countries = countryJSON.parseArray<ArrayList<Country>>()
         getViewModel().kycData.observe(this, Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
                 getBinding().executePendingBindings()
+                edtCountry?.text = countries?.firstOrNull { it.code == kycData.birthCountry }?.name
+                getViewModel().sourceOfIncome.set(getViewModel().sourcesOfIncomes.firstOrNull { it.key == kycData.sourceOfIncome }?.value)
+                getViewModel().TAXSlab.set(getViewModel().incomeSlabs.firstOrNull { it.key == kycData.taxSlab }?.value)
             }
         })
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
             getViewModel().iCertify.set(isChecked)
         }
         edtSourceIncome?.setOnClickListener {
-            context?.showListDialog(R.string.source_of_income, R.array.income_source) { item ->
-                getViewModel().sourceOfIncome.set(item)
-                getViewModel().kycData.value?.sourceOfIncome = item
+            context?.showCustomListDialog(R.string.source_of_income, getViewModel().sourcesOfIncomes) { item ->
+                getViewModel().sourceOfIncome.set(item.value)
+                getViewModel().kycData.value?.sourceOfIncome = item.key
             }
         }
         edtIncomeSlab?.setOnClickListener {
-            context?.showListDialog(R.string.income_slab, R.array.income_slab) { item ->
-                getViewModel().TAXSlab.set(item)
-                getViewModel().kycData.value?.taxSlab = item
+            context?.showCustomListDialog(R.string.income_slab, getViewModel().incomeSlabs) { item ->
+                getViewModel().TAXSlab.set(item.value)
+                getViewModel().kycData.value?.taxSlab = item.key
             }
         }
         edtCountry?.setOnClickListener {
-            context?.showListDialog(R.string.select_country, R.array.countries) { country ->
-                getViewModel().kycData.value?.birthCountry = country
+            countries?.let {
+                context?.showCustomListDialog(R.string.select_country, countries) { item: Country ->
+                    getViewModel().kycData.value?.birthCountry = item.code
+                    edtCountry?.text = item.name
+                }
             }
+            /*context?.showListDialog(R.string.select_country, R.array.countries) { country ->
+                getViewModel().kycData.value?.birthCountry = country
+            }*/
         }
         /*edtIssue?.setOnClickListener {
             context?.showListDialog(R.string.select_country, R.array.countries) { country ->
@@ -103,6 +116,14 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
 
     private fun isValid(kycData: KYCData): Boolean {
         return when {
+            kycData.birthCountry.isEmpty() -> {
+                context?.simpleAlert("Please select country of birth")
+                false
+            }
+            kycData.birthPlace.isEmpty() -> {
+                context?.simpleAlert("Please enter place of birth")
+                false
+            }
             getViewModel().sourceOfIncome.isEmpty() -> {
                 context?.simpleAlert("Please select source of income")
                 false
@@ -111,12 +132,8 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 context?.simpleAlert("Please select income slab")
                 false
             }
-            kycData.birthCountry.isEmpty() -> {
-                context?.simpleAlert("Please select country of birth")
-                false
-            }
-            kycData.birthPlace.isEmpty() -> {
-                context?.simpleAlert("Please enter place of birth")
+            switchOnOff?.isChecked == false -> {
+                context?.simpleAlert("We allowing only resident of India")
                 false
             }
             /*!switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {

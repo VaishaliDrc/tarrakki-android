@@ -38,10 +38,19 @@ object ApiClient {
     const val BUILD_TYPE_DEBUG = true
 
     /***
-     * CAMS api base url
+     * CAMS api base url Test Url
      * */
-    private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/"
+    const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
+    /*private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/cispl/services_kycenquiry.asmx"
+    const val CAMS_USER_ID = "PLUTOWS"
+    const val CAMS_PASSWORD = "kra\$36369"*/
 
+    /***
+     * CAMS api base url Live Url
+     * */
+    private const val CAMS_API_BASE_URL = "https://www.camskra.com/"
+    const val CAMS_USER_ID = "PLUTOWS"
+    const val CAMS_PASSWORD = "kra\$36369"
     /**
      * Test Url
      **/
@@ -50,8 +59,8 @@ object ApiClient {
     /**
      * Live Url
      **/
- /*   private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
+    /*   private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+       const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
     /**
      * @return [Retrofit] object its single-tone
      */

@@ -156,17 +156,23 @@ interface WebserviceBuilder {
     @GET("banks/get-kyc-details/{userId}")
     fun gatKYCdata(@Path("userId") userId: String?): Observable<ApiResponse>
 
+
+    /**CAMPS SOAP apis**/
+
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("cispl/services_kycenquiry_uat.asmx")
+    @POST("services_kycenquiry.asmx")
     fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<ResponseBody>
 
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("cispl/services_kycenquiry_uat.asmx")
+    @POST("services_kycenquiry.asmx")
     fun getPANeKYCStates(@Body body: VerifyPANDetails): Observable<ResponseKYCStates>
 
     @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("cispl/services_kycenquiry_uat.asmx")
+    @POST("services_kycenquiry.asmx")
     fun getEKYCData(@Body body: RequestEnvelopeDownloadPANDetailsEKYC): Observable<ResponseKYCData>
+
+    /**End CAMPS SOAP apis**/
+
 
     @GET("cart/confirm/order/{userId}")
     fun getConfirmOrder(@Path("userId") userId: String?): Observable<ApiResponse>

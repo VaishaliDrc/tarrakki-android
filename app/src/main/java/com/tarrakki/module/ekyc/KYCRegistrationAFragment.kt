@@ -56,6 +56,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                         getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
                         getViewModel().isEdit.set(isAdult)
                         if (isAdult) {
+                            kycData.guardianName = ""
                             edtPAN?.setText(getViewModel().kycData.value?.pan)
                         } else {
                             edtPAN?.text?.clear()
@@ -95,6 +96,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                         getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
                         getViewModel().isEdit.set(isAdult)
                         if (isAdult) {
+                            getViewModel().kycData.value?.guardianName = ""
                             edtPAN?.setText(getViewModel().kycData.value?.pan)
                         } else {
                             edtPAN?.text?.clear()
@@ -233,6 +235,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     fun onReceive(kycData: KYCData) {
         if (getViewModel().kycData.value == null) {
             getViewModel().kycData.value = kycData
+            kycData.addressType = "1"
         }
     }
 

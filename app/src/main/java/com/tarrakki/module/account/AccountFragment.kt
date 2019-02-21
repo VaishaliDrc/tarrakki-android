@@ -1,6 +1,7 @@
 package com.tarrakki.module.account
 
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
@@ -48,9 +49,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         binding.executePendingBindings()
     }
 
-    override fun createReference() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+    }
+
+    override fun createReference() {
+
         rvMenus?.setUpRecyclerView(R.layout.row_account_menu_item, getViewModel().accountMenus) { item: AccountMenu, binder: RowAccountMenuItemBinding, position ->
             binder.menu = item
             binder.executePendingBindings()
@@ -99,7 +105,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
         tvBankMandateAccount?.setOnClickListener {
             startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
-           // context?.simpleAlert(getString(R.string.coming_soon))
+            // context?.simpleAlert(getString(R.string.coming_soon))
         }
         btnLogout?.setOnClickListener {
             context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
@@ -137,20 +143,12 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                 edtPanNo?.text?.clear()
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        // TRUtility.sharedInstance.showAlert(strTitle: "", strSubTitle: "Complete Registration is still under development so you will be able to test it in the next build.", strButtonTitle: "Ok", style: .info)
-                                        context?.simpleAlert("Complete Registration is still under development so you will be able to test it in the next build.")
-                                        /*getEKYCData(password, kyc.pan).observe(this, Observer { data ->
-                                            data?.let {
-                                                kyc.mobile = data.appmobno
-                                                kyc.nameOfPANHolder = data.appname
-                                                kyc.fullName = data.appname
-                                                kyc.email = data.appemail
-                                                kyc.OCCcode = data.appocc
-                                                kyc.dob = data.appdobdt.toDate("dd-MM-yyyy HH:mm:ss").convertTo()?:""
+                                        getEKYCData(password, kyc).observe(this, Observer { data ->
+                                            data?.let { kyc ->
                                                 startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                                                 postSticky(kyc)
                                             }
-                                        })*/
+                                        })
                                     }
                                     kycStatus.contains("03") -> context?.simpleAlert("Your KYC is on hold")
                                     kycStatus.contains("04") -> context?.simpleAlert("Your KYC is kyc rejected")

@@ -10,6 +10,9 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
+import org.supportcompact.networking.ApiClient.CAMS_PASSWORD
+import org.supportcompact.networking.ApiClient.CAMS_USER_ID
+import org.supportcompact.networking.ApiClient.PASSKEY
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
 import java.math.BigInteger
@@ -166,14 +169,13 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
     return apiResponse
 }
 
-const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
-const val PASSWORD = "kra\$36369"
+//const val PASSWORD = "kra\$36369"
 //const val PASSKEY = "SajanGandhi"
 
 fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<String>()
-    val body = PasswordRequest(PasswordRequest.GetPassword(PASSWORD, PASSKEY))
+    val body = PasswordRequest(PasswordRequest.GetPassword(CAMS_PASSWORD, PASSKEY))
     subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).requestPassword(RequestBody(body)),
             WebserviceBuilder.ApiNames.getEKYCPage,
             object : SingleCallback<WebserviceBuilder.ApiNames> {
@@ -204,7 +206,7 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
     val apppaninqBean = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
     apppaninqBean.apppanno = pan//"BAMPM9343K"
     apppaninqBean.panDOB = ""
-    apppaninqBean.appiopflg = "IE"
+    apppaninqBean.appiopflg = "RE"
     apppaninqBean.appposcode = "infibeam\$10"
 
     input.apppaninq = apppaninqBean
@@ -215,7 +217,7 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
     appsummrec.apptotalrec = "1"
     input.appsummrec = appsummrec
     reqData.input = VerifyPANDetails.RequestBody.PANDetailsEKYC.InputXML(input)
-    reqData.userName = "PLUTOWS"
+    reqData.userName = CAMS_USER_ID
     reqData.passKey = PASSKEY
     reqData.posCode = "PA"
     reqData.password = password
@@ -258,7 +260,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
     val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
     val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
     apppaninqBean.apppanno = kycData.pan
-    apppaninqBean.appiopflg = "IE"
+    apppaninqBean.appiopflg = "RE"
     apppaninqBean.appposcode = "infibeam\$10"
     apppaninqBean.panDOB = ""
     input.apppaninq = apppaninqBean
@@ -269,7 +271,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
     appsummrec.apptotalrec = "1"
     input.appsummrec = appsummrec
     reqData.input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.InputXML(input)
-    reqData.userName = "PLUTOWS"
+    reqData.userName = CAMS_USER_ID
     reqData.passKey = PASSKEY
     reqData.posCode = "PA"
     reqData.password = password
@@ -283,20 +285,26 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ResponseKYCData) {
                         val data = o.body?.downloadPANDetailsEKYCResponse?.downloadPANDetailsEKYCResult?.appresroot?.apppaninq
-                        if (data != null) {
+                        if (data != null && "R".equals(data.appresstatus, true)) {
                             //kyc.mobile = data.appmobno
                             //kyc.email = data.appemail
                             kycData.nameOfPANHolder = data.appname
                             kycData.fullName = data.appname
                             kycData.OCCcode = data.appocc
-                            kycData.dob = data.appdobdt.toDate("dd-MM-yyyy HH:mm:ss").convertTo()
+                            kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd MMM, yyyy")
                                     ?: ""
+                            kycData.gender = data.appgen
                             kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
                             kycData.pincode = data.appcorpincd
-
+                            kycData.city = data.apppercity
+                            kycData.state = data.appperstate
+                            kycData.country = data.appperctry
+                            kycData.addressType = "1"
                             apiResponse.value = kycData
-                        } else {
+                        } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        } else {
+                            EventBus.getDefault().post(ShowError("We allowing only resident of India"))
                         }
                     }
                 }

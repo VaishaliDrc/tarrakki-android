@@ -171,3 +171,28 @@ fun Context.showListDialog(@StringRes title: Int, @ArrayRes list: Int, onItemSel
             }
             .create().show()
 }
+
+
+fun <T> Context.showCustomListDialog(title: String?, list: ArrayList<T>, onItemSelected: ((item: T) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data: Array<String?> = arrayOfNulls(list.size)
+    list.forEachIndexed { index, t -> data[index] = t.toString() }
+    mDialog.setTitle(title)
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(list[which])
+            }
+            .create().show()
+}
+
+fun <T> Context.showCustomListDialog(@StringRes title: Int, list: ArrayList<T>, onItemSelected: ((item: T) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    val data: Array<String?> = arrayOfNulls(list.size)
+    list.forEachIndexed { index, t -> data[index] = t.toString() }
+    mDialog.setTitle(title)
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(list[which])
+            }
+            .create().show()
+}

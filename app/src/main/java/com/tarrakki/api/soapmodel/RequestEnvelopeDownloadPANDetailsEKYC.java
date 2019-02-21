@@ -20,6 +20,7 @@ public class RequestEnvelopeDownloadPANDetailsEKYC {
     public static class RequestBody {
 
         @Namespace(reference = "https://camskra.com/")
+        //@Element(name = "DownloadPANDetails_eKYC")
         @Element(name = "DownloadPANDetails_eKYC")
         private DownloadPANDetailsEKYC ekyc;
 

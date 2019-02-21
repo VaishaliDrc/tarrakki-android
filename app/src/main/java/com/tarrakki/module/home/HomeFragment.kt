@@ -106,8 +106,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                 edtPanNo?.text?.clear()
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        // TRUtility.sharedInstance.showAlert(strTitle: "", strSubTitle: "Complete Registration is still under development so you will be able to test it in the next build.", strButtonTitle: "Ok", style: .info)
-                                        //context?.simpleAlert("Complete Registration is still under development so you will be able to test it in the next build.")
                                         getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
                                                 startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
