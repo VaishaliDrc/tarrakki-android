@@ -27,29 +27,36 @@
         android:orientation="vertical"
         android:padding="@dimen/space_8">
 
-        <RelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="@dimen/space_12"
                 android:layout_toStartOf="@id/tvAmount"
-                android:text="@{widget.schemeName}"
                 android:gravity="start"
+                android:text="@{widget.schemeName}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/item_selected_color"
-                tools:text="SBI Banking and Financial Services Growth Direct Plan" />
+                app:layout_constraintEnd_toStartOf="@id/tvAmount"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="SBI Banking and Financial Services Growth Direct Plan Growth" />
 
             <TextView
                 android:id="@+id/tvAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@id/imgArrow"
-                android:paddingStart="@dimen/space_25"
-                android:paddingEnd="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_12"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imgArrow"
                 price="@{widget.amount}"
+                tools:text="545454"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black" />
 
@@ -58,11 +65,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="@dimen/space_8"
-                android:visibility="@{widget.isSuccess==true?View.VISIBLE:View.INVISIBLE}"
-                android:src="@{isExpanded ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="@{widget.isSuccess==true?View.VISIBLE:View.GONE}"
+                android:src="@{isExpanded ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                />
 
-        </RelativeLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -86,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/space_4"
-                    android:text="@{widget.orderType.equals('1')==true?@string/sip:@string/lumpsum}"
+                    android:text="@{widget.type}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/darker_gray" />
 

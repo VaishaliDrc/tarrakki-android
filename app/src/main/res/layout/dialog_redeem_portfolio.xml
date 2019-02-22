@@ -145,6 +145,7 @@
             android:gravity="center_vertical"
             android:button="@drawable/checkbox_redeem_folio"
             android:text="Full Amount"
+            android:layout_marginTop="@dimen/space_8"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"

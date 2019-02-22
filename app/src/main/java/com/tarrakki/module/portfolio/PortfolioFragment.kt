@@ -1,8 +1,10 @@
 package com.tarrakki.module.portfolio
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPortfolioBinding
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
@@ -40,6 +42,15 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
     }
 
     override fun createReference() {
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                getViewModel().isRefreshing.value = false
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
+
+        getViewModel().getUserPortfolio()
+
         val pages = arrayListOf(
                 Page("Goal Based Investment", GoalBasedInvestmentFragment.newInstance()),
                 Page("Direct Investment", DirectInvestmentFragment.newInstance())

@@ -21,6 +21,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.*
@@ -517,19 +518,25 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<String>,
     mDialog.show()
 }
 
-fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<String>,
-                                      onAdd: ((portfolio: String,
-                                               totalAmount: BigInteger) -> Unit)? = null) {
+fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
+                                      onRedeem: ((portfolioNo: String,
+                                               totalAmount: String,
+                                               allRedeem : String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtTotalInvestedAmount.applyCurrencyFormatPositiveOnly()
     mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
 
-    mBinder.investmentAmount = "200000"
+    val folioList = portfolioList.map { it.folioNo } as ArrayList
+
+    if (portfolioList.isNotEmpty()){
+        mBinder.investmentAmount = portfolioList[0].amount.toString()
+        mBinder.folio = portfolioList[0].folioNo
+    }
 
     mBinder.edtAmount.setOnClickListener {
         if (mBinder.chkAmount.isChecked) {
-            this.simpleAlert("Please DeSelect Full Amount first.")
+            this.simpleAlert("Please Deselect Full Amount first.")
         }
     }
 
@@ -542,14 +549,30 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<String>,
     }
 
     mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", portfolioList as ArrayList<String>) { item ->
+        this.showListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
+            val selectedAmount = portfolioList.find { it.folioNo==item }
+            if(selectedAmount!=null){
+                mBinder.investmentAmount = selectedAmount.amount.toString()
+            }
         }
     }
 
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
-
+        val amount = mBinder.edtAmount.text.toString()
+        val folioNo = mBinder.edtChooseFolio.text.toString()
+        if (amount.isNotEmpty() && amount!="0"){
+            mDialog.dismiss()
+            val isRedeem = if(mBinder.chkAmount.isChecked){
+               "Y"
+           }else{
+               "N"
+           }
+           onRedeem?.invoke(folioNo,amount.toCurrencyBigInt().toString(),isRedeem)
+        }else{
+            this.simpleAlert("Please enter valid amount.")
+        }
 
     }
     mBinder.tvClose.setOnClickListener {

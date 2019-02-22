@@ -100,7 +100,7 @@ data class KYCData(var pan: String) : BaseObservable() {
     var state: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.start)
+            notifyPropertyChanged(BR.state)
         }
     @get:Bindable
     var country: String = ""

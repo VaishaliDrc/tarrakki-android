@@ -16,9 +16,18 @@ data class TransactionStatusResponse(
         val orderType: String,
         @SerializedName("payment")
         val payment: String,
+        @SerializedName("payment_mode")
+        val paymentMode: String,
         @SerializedName("scheme_name")
         val schemeName: String,
         @SerializedName("units_alloted")
         val unitsAlloted: String
-    )
+    ){
+        var paymentType = ""
+        get() = if (paymentMode=="DIRECT"){
+            "via Net Banking"
+        }else{
+            "via NEFT/RTGS"
+        }
+    }
 }

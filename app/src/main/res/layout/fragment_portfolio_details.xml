@@ -41,7 +41,7 @@
                     android:fontFamily="@font/lato_semibold"
                     android:maxLines="1"
                     android:minLines="1"
-                    android:text="@{investment.name}"
+                    android:text="@{vm.goalInvestment.goalName}"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/item_selected_color"
@@ -75,7 +75,7 @@
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvLastPriceL"
-                    app:price="@{investment.totalInvestment}"
+                    app:price="@{vm.goalInvestment.totalInvestment}"
                     tools:text="\u20B939.55" />
 
                 <TextView
@@ -100,7 +100,7 @@
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="@id/tvDayChangeL"
                     app:layout_constraintTop_toBottomOf="@+id/tvDayChangeL"
-                    app:price="@{investment.currentValue}"
+                    app:price="@{vm.goalInvestment.currentValue}"
                     tools:text="@string/dummy3" />
 
                 <TextView
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@{investment.XIRR + `%`}"
+                    android:text="@{vm.goalInvestment.xirr + `%`}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="@id/tvYDRLabel"

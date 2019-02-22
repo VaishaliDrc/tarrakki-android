@@ -1,60 +1,81 @@
 package com.tarrakki.module.portfolio.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
+import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.databinding.FragmentGoalBasedInvestmentBindingImpl
+import com.tarrakki.api.model.UserPortfolioResponse
+import com.tarrakki.databinding.FragmentGoalBasedInvestmentBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentListItemBinding
-import com.tarrakki.module.portfolio.Investment
 import com.tarrakki.module.portfolio.PortfolioDetailsFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import kotlinx.android.synthetic.main.fragment_goal_based_investment.*
 import org.greenrobot.eventbus.EventBus
+import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.utilise.EqualSpacingItemDecoration
+import java.util.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GoalBasedInvestmentFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
-class GoalBasedInvestmentFragment : Fragment() {
+class GoalBasedInvestmentFragment : CoreFragment<PortfolioVM, FragmentGoalBasedInvestmentBinding>() {
 
     var vm: PortfolioVM? = null
-    var binder: FragmentGoalBasedInvestmentBindingImpl? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        if (binder == null) {
-            binder = DataBindingUtil.inflate(inflater, R.layout.fragment_goal_based_investment, container, false)
-            parentFragment?.let {
-                vm = ViewModelProviders.of(it).get(PortfolioVM::class.java)
-            }
-        }
-        return binder?.root
+    override val isBackEnabled: Boolean
+        get() = true
+    override val title: String
+        get() = getString(R.string.portfolio)
+
+    override fun getLayout(): Int {
+        return R.layout.fragment_goal_based_investment
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        vm?.let { vm ->
-            rvGBInvests?.setUpRecyclerView(R.layout.row_goal_based_investment_list_item, vm.goalBasedInvestment) { item: Investment, binder: RowGoalBasedInvestmentListItemBinding, position ->
-                binder.investment = item
-                binder.executePendingBindings()
-                binder.root.setOnClickListener {
-                    startFragment(PortfolioDetailsFragment.newInstance(), R.id.frmContainer)
-                    EventBus.getDefault().postSticky(item)
-                }
-            }
+    override fun createViewModel(): Class<out PortfolioVM> {
+        return PortfolioVM::class.java
+    }
+
+    override fun setVM(binding: FragmentGoalBasedInvestmentBinding) {
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
+    }
+
+    override fun createReference() {
+        rvGBInvests?.addItemDecoration(EqualSpacingItemDecoration(44))
+
+        parentFragment?.let {
+            vm = ViewModelProviders.of(it).get(PortfolioVM::class.java)
         }
+
+        vm?.isRefreshing?.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+            }
+        })
+
+        vm?.let { vm ->
+            vm.portfolioData.observe(this, Observer {
+                if (it?.data?.goalBasedInvestment?.isNotEmpty() == true) {
+                    rvGBInvests?.setUpRecyclerView(R.layout.row_goal_based_investment_list_item,
+                            it.data.goalBasedInvestment as ArrayList<UserPortfolioResponse.Data.GoalBasedInvestment>) { item: UserPortfolioResponse.Data.GoalBasedInvestment, binder: RowGoalBasedInvestmentListItemBinding, position ->
+                        binder.investment = item
+                        binder.executePendingBindings()
+                        binder.root.setOnClickListener {
+                            startFragment(PortfolioDetailsFragment.newInstance(), R.id.frmContainer)
+                            EventBus.getDefault().postSticky(item)
+                        }
+                    }
+                } else {
+                    coreActivityVM?.emptyView(true)
+                }
+            })
+        }
+
+        mRefresh?.setOnRefreshListener {
+            vm?.getUserPortfolio(true)
+        }
+
     }
 
     companion object {

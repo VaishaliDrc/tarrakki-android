@@ -197,6 +197,13 @@ interface WebserviceBuilder {
     @GET("transactions/success/")
     fun transactionStatus(@Query("data") data: String): Observable<ApiResponse>
 
+    @GET("transactions/portfolio/{userId}")
+    fun getUserPortfolio(@Path("userId") userId: String?): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("transactions/redeem/")
+    fun redeemPortfolio(@Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -205,6 +212,6 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio
     }
 }

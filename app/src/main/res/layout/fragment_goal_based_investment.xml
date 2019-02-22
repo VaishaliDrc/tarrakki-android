@@ -10,16 +10,20 @@
             type="com.tarrakki.module.portfolio.PortfolioVM" />
     </data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvGBInvests"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:padding="@dimen/default_space"
-        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".module.portfolio.fragments.DirectInvestmentFragment"
-        tools:listitem="@layout/row_goal_based_investment_list_item" />
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvGBInvests"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:context=".module.portfolio.fragments.DirectInvestmentFragment"
+            tools:listitem="@layout/row_goal_based_investment_list_item" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 </layout>
 

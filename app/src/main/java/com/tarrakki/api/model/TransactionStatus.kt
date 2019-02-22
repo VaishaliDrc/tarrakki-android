@@ -16,4 +16,11 @@ data class TransactionStatus(
             val schemeName: String,
             val isSuccess: Boolean = false,
             val status : List<TransactionConfirmVM.TranscationStatuss> ?= null
-    )
+    ){
+    var type : String = ""
+      get() = if (orderType=="1"){
+          "Lumpsum"
+      }else{
+          "SIP"
+      }
+}

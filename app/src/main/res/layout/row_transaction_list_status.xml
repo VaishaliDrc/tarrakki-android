@@ -56,7 +56,6 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imgTimeline"
             app:layout_constraintTop_toTopOf="@id/tvStatus">
-
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
@@ -65,7 +64,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 tools:text="saafafafaffffffffffffffffff" />
-
             <TextView
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
@@ -73,7 +71,6 @@
                 android:text="@{widget.description}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/darker_gray" />
-
         </LinearLayout>
 
         <TextView

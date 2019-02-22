@@ -120,7 +120,7 @@
     <string name="total_investment_">Total Investment:</string>
     <string name="xirr_">XIRR:</string>
     <string name="current_value_">Current Value:</string>
-    <string name="folio_no">Folio No.:</string>
+    <string name="folio_no">Folio No.: </string>
     <string name="stop">Stop</string>
     <string name="start">Start</string>
     <string name="edit">Edit</string>

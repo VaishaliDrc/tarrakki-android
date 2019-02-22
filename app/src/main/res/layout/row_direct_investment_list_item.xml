@@ -7,7 +7,7 @@
 
         <variable
             name="investment"
-            type="com.tarrakki.module.portfolio.Investment" />
+            type="com.tarrakki.api.model.UserPortfolioResponse.Data.DirectInvestment" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_cart_view"
         android:elevation="@dimen/space_2"
-        android:padding="@dimen/space_8"
-        tools:layout_marginBottom="@dimen/space_16">
+        android:padding="@dimen/space_8">
 
         <TextView
             android:id="@+id/tvName"
@@ -25,12 +24,10 @@
             android:layout_marginEnd="@dimen/space_8"
             android:fontFamily="@font/lato_semibold"
             android:maxLines="2"
-            android:minLines="2"
-            android:text="@{investment.name}"
+            android:text="@{investment.fundName}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/item_selected_color"
-            app:layout_constraintBaseline_toBaselineOf="@+id/ll_folio"
-            app:layout_constraintEnd_toStartOf="@+id/ll_folio"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
@@ -39,10 +36,12 @@
             android:id="@+id/ll_folio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginTop="@dimen/space_8"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName">
 
             <TextView
                 android:id="@+id/tvFolioNoL"
@@ -56,61 +55,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_semibold"
+                android:text="@{investment.folioNoList}"
+                android:maxLines="2"
+                android:paddingStart="@dimen/space_4"
+                android:ellipsize="end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
-                app:price="@{investment.currentValue}"
                 tools:text="@string/dummy3" />
         </android.support.v7.widget.LinearLayoutCompat>
 
         <LinearLayout
-            android:id="@+id/ll_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/ll_options"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ll_options">
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{investment.date}"
-                android:textSize="@dimen/sp10"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:text="NAV on\n16 Aug, 2018" />
-
-            <TextView
-                android:id="@+id/tvCurrent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_8"
-                android:drawableEnd="@{investment.returns &lt; 0 ? @drawable/ic_arrow_downward_red_24dp:@drawable/ic_arrow_upward_green}"
-                android:drawablePadding="@dimen/space_2"
-                android:fontFamily="@font/lato_semibold"
-                android:text="@{investment.returns + `%`}"
-                android:layout_marginEnd="@dimen/space_8"
-                android:textSize="@dimen/sp10"
-                android:textColor="@android:color/black"
-                tools:drawableEnd="@drawable/ic_arrow_upward_green"
-                tools:text="10.7%" />
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/ll_options"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvName">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_folio">
 
             <TextView
                 android:id="@+id/tvAddPortfolio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_8"
                 android:layout_marginEnd="@dimen/space_12"
                 android:drawableStart="@drawable/ic_add"
                 android:drawablePadding="@dimen/space_4"
@@ -149,9 +116,9 @@
             android:id="@+id/mDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginTop="@dimen/space_8"
             android:background="@color/lighter_gray"
-            app:layout_constraintTop_toBottomOf="@+id/ll_date" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_options" />
 
         <TextView
             android:id="@+id/tvLastPriceL"
@@ -218,7 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
-            android:text="@{investment.XIRR + `%`}"
+            android:text="@{investment.xirr + `%`}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintStart_toStartOf="@id/tvYDRLabel"

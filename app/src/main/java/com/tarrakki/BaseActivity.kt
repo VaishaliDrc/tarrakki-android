@@ -19,6 +19,7 @@ import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.learn.LearnActivity
 import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.plan.PlanActivity
+import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.activity_base.*
 import org.supportcompact.ActivityViewModel
@@ -121,7 +122,8 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                     if (fragment is CartFragment ||
                             fragment is BankMandateSuccessFragment ||
                             fragment is TransactionsFragment ||
-                            fragment is PaymentModeFragment) {
+                            fragment is PaymentModeFragment ||
+                            fragment is TransactionConfirmFragment) {
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()

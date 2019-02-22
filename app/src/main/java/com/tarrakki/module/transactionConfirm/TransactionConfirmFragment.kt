@@ -3,27 +3,28 @@ package com.tarrakki.module.transactionConfirm
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
-import com.google.gson.JsonObject
+import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.model.TransactionStatus
 import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
-import com.tarrakki.databinding.RowTransactionStatusItemBinding
+import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
+import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONArray
+import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.ktx.getUserId
-import org.json.JSONObject
-
-
 
 class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTransactionConfirmBinding>() {
 
@@ -39,7 +40,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     var transactionList: List<TransactionStatus> = arrayListOf()
 
     override fun createReference() {
-        // setOrderItemsAdapter(getViewModel().list)
+        setHasOptionsMenu(true)
 
         val success_transactions = arguments?.getString(SUCCESSTRANSACTION, "")
         if (!success_transactions.isNullOrEmpty()) {
@@ -53,7 +54,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     val transactionStatus: MutableList<TransactionStatus> = arrayListOf()
                     for (funds in it.data) {
                         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", "via Net Banking", funds.payment))
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", funds.orderPlaced))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", funds.investmentConfirmation))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", funds.unitsAlloted))
@@ -65,6 +66,22 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     setOrderItemsAdapter(transactionStatus)
                 }
             })
+        }
+
+        btnExploreAllFunds?.setOnClickListener {
+            onExploreFunds()
+        }
+    }
+
+    fun onExploreFunds(){
+        activity?.let {
+            if (it is BaseActivity) {
+                if (it is InvestActivity) {
+                    it.onBackPressed()
+                } else {
+                    it.mBottomNav.selectedItemId = R.id.action_invest
+                }
+            }
         }
     }
 
@@ -96,22 +113,21 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     }
 
                     if (item.isSuccess) {
-                        val statusAdapter = setUpAdapter(item.status as MutableList<TransactionConfirmVM.TranscationStatuss>,
+                        val transactionAdapter = setUpAdapter(item.status as
+                                MutableList<TransactionConfirmVM.TranscationStatuss>,
                                 ChoiceMode.NONE,
-                                R.layout.row_transaction_list_item,
-                                { item1, binder1: RowTransactionStatusItemBinding?, position1, adapter ->
-                                    binder1?.widget = item1
-                                    binder1?.executePendingBindings()
-                                    if (position1 == item.status.size - 1) {
-                                        binder1?.verticalDivider?.visibility = View.GONE
-                                    } else {
-                                        binder1?.verticalDivider?.visibility = View.VISIBLE
-                                    }
+                                R.layout.row_transaction_list_status, { item1, binder1: RowTransactionListStatusBinding?, position1, adapter1 ->
+                            binder1?.widget = item1
+                            binder1?.executePendingBindings()
+                            if (position1 == item.status.size - 1) {
+                                binder1?.verticalDivider?.visibility = View.GONE
+                            } else {
+                                binder1?.verticalDivider?.visibility = View.VISIBLE
+                            }
+                        }, { item, position, adapter ->
 
-                                }, { item1, position1, adapter1 ->
-
-                        }, false)
-                        binder?.rvTransactionStatus?.adapter = statusAdapter
+                        })
+                        binder?.rvTransactionStatus?.adapter = transactionAdapter
                     }
                 }, { item, position, adapter ->
         }, false)
@@ -125,4 +141,13 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         removeStickyEvent(data)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onExploreFunds()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

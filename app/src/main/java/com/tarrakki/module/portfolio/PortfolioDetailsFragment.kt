@@ -4,21 +4,25 @@ package com.tarrakki.module.portfolio
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.google.gson.JsonObject
+import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.FolioData
+import com.tarrakki.api.model.UserPortfolioResponse
+import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentPortfolioDetailsBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentDetailsListItemBinding
+import com.tarrakki.redeemFundPortfolioDialog
+import com.tarrakki.redeemPortfolio
 import kotlinx.android.synthetic.main.fragment_portfolio_details.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.getUserId
+import java.util.ArrayList
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PortfolioDetailsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfolioDetailsBinding>() {
 
     override val isBackEnabled: Boolean
@@ -40,42 +44,45 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
     }
 
     override fun createReference() {
-        getViewModel().investment.observe(this, Observer {
-            getBinding().investment = it
-            getBinding().executePendingBindings()
+        getViewModel().goalBasedInvestment.observe(this, Observer {
+            rvPortfolioFunds?.setUpRecyclerView(R.layout.row_goal_based_investment_details_list_item,
+                    it?.funds as ArrayList<UserPortfolioResponse.Data.GoalBasedInvestment.Fund>)
+            { item: UserPortfolioResponse.Data.GoalBasedInvestment.Fund, binder: RowGoalBasedInvestmentDetailsListItemBinding, position ->
+                binder.investment = item
+                binder.executePendingBindings()
+
+                binder.tvRedeem.setOnClickListener {
+                    val folios : MutableList<FolioData> = mutableListOf()
+                    for(folio in item.folioList){
+                        folios.add(FolioData(folio.amount,folio.folioNo))
+                    }
+                    context?.redeemFundPortfolioDialog(folios) {
+                        portfolioNo, totalAmount, allRedeem ->
+                        val json = JsonObject()
+                        json.addProperty("user_id", App.INSTANCE.getUserId())
+                        json.addProperty("fund_id", item.fundId)
+                        json.addProperty("all_redeem", allRedeem)
+                        json.addProperty("amount", totalAmount)
+                        json.addProperty("folio_number", portfolioNo)
+                        json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
+                        val data = json.toString().toEncrypt()
+                        redeemPortfolio(data).observe(this, Observer {
+
+                        })
+                    }
+                }
+            }
         })
-
-        rvPortfolioFunds?.setUpRecyclerView(R.layout.row_goal_based_investment_details_list_item, getViewModel().portfolioFunds) { item: PortfolioFund, binder: RowGoalBasedInvestmentDetailsListItemBinding, position ->
-            binder.investment = item
-            binder.executePendingBindings()
-        }
     }
 
-    /*override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-*/
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
-    fun onReceive(data: Investment) {
-        getViewModel().investment.value = data
+    fun onReceive(data: UserPortfolioResponse.Data.GoalBasedInvestment) {
+        getViewModel().goalBasedInvestment.value = data
+        getViewModel().goalInvestment.set(data)
         EventBus.getDefault().removeStickyEvent(data)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment PortfolioDetailsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = PortfolioDetailsFragment().apply { arguments = basket }
     }
