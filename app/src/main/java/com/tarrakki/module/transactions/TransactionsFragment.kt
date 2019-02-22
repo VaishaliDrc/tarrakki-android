@@ -47,7 +47,8 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
                 Page(getString(R.string.in_progress), InProgressTransactionsFragment.newInstance()),
                 Page(getString(R.string.completed), CompletedTransactionsFragment.newInstance()),
                 Page(getString(R.string.upcoming), UpcomingTransactionsFragment.newInstance()),
-                Page(getString(R.string.unpaid), UnpaidTransactionsFragment.newInstance())
+                Page(getString(R.string.unpaid), UnpaidTransactionsFragment.newInstance()),
+                Page(getString(R.string.failed), FailedTransactionFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)

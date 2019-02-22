@@ -197,6 +197,9 @@ interface WebserviceBuilder {
     @GET("transactions/success/")
     fun transactionStatus(@Query("data") data: String): Observable<ApiResponse>
 
+    @GET("transactions/{userId}/")
+    fun getTransactions(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
+
     @GET("transactions/portfolio/{userId}")
     fun getUserPortfolio(@Path("userId") userId: String?): Observable<ApiResponse>
 
@@ -211,7 +214,7 @@ interface WebserviceBuilder {
         onLogin, onSignUp, getGoals, calculatePMT, getHomeData, getGoalById, getOTP, verifyOTP, addGoal, getFunds,
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
-        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio
+        deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse,UserPortfolio
     }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.tarrakki.module.transactions.Transactions" />
+            type="com.tarrakki.api.model.TransactionApiResponse.Transaction" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -49,10 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_8sdp"
             android:gravity="end"
-            android:text="@string/dummy3"
             android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@id/imgArrow"
             app:layout_constraintTop_toTopOf="parent"
+            app:price="@{data.amount}"
             tools:text="@string/dummy3" />
 
         <TextView
@@ -60,10 +60,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="Feb 13, 2018"
+            android:text="@{data.created}"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintEnd_toStartOf="@id/imgArrow"
-            app:layout_constraintTop_toBottomOf="@id/tvAmount" />
+            app:layout_constraintTop_toBottomOf="@id/tvAmount"
+            tools:text="Feb 13, 2018" />
 
         <ImageView
             android:id="@+id/imgArrow"
@@ -92,10 +93,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
-            android:text="Lumpsum"
+            android:text="@{data.type}"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/tvTypeL"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="Lumpsum" />
 
         <android.support.constraint.Guideline
             android:id="@+id/gdlCenter"
@@ -123,11 +125,12 @@
             android:layout_marginTop="@dimen/space_16"
             android:layout_marginEnd="@dimen/space_4"
             android:maxLines="2"
-            android:text="27.50"
             android:textSize="@dimen/_9ssp"
+            app:dprice="@{data.nav}"
             app:layout_constraintEnd_toStartOf="@id/gdlEnd"
             app:layout_constraintStart_toEndOf="@id/tvNAVL"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="27.50" />
 
         <android.support.constraint.Guideline
             android:id="@+id/gdlEnd"
@@ -156,11 +159,12 @@
             android:layout_marginTop="@dimen/space_16"
             android:gravity="end"
             android:maxLines="2"
-            android:text="15874"
+            android:text="@{data.folioNumber}"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tvFolioL"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintTop_toBottomOf="@id/tvName"
+            tools:text="15874" />
 
         <TextView
             android:id="@+id/tvOrderNoL"
@@ -181,11 +185,12 @@
             android:layout_marginTop="@dimen/space_16"
             android:layout_marginEnd="@dimen/space_4"
             android:maxLines="2"
-            android:text="#15874"
+            android:text="@{data.orderNumber}"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toStartOf="@id/gdlCenter"
             app:layout_constraintStart_toEndOf="@+id/tvOrderNoL"
-            app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
+            app:layout_constraintTop_toBottomOf="@id/tvTypeL"
+            tools:text="#15874" />
 
         <TextView
             android:id="@+id/tvOrderTypeL"
@@ -205,11 +210,12 @@
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_16"
             android:maxLines="2"
-            android:text="Purchase"
+            android:text="@{data.orderType}"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toStartOf="@id/gdlEnd"
             app:layout_constraintStart_toEndOf="@id/tvOrderTypeL"
-            app:layout_constraintTop_toBottomOf="@id/tvNAVL" />
+            app:layout_constraintTop_toBottomOf="@id/tvNAVL"
+            tools:text="Purchase" />
 
 
         <net.cachapa.expandablelayout.ExpandableLayout

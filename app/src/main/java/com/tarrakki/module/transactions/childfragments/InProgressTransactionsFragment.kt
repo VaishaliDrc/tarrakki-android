@@ -3,17 +3,10 @@ package com.tarrakki.module.transactions.childfragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentInProgressTransactionsBinding
-import com.tarrakki.databinding.RowInprogressTransactionsBinding
-import com.tarrakki.databinding.RowTranscationStatusBinding
-import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
-import com.tarrakki.module.transactions.Transactions
 import com.tarrakki.module.transactions.TransactionsVM
-import kotlinx.android.synthetic.main.fragment_in_progress_transactions.*
 import org.supportcompact.CoreParentFragment
-import org.supportcompact.adapters.setUpRecyclerView
 
 /**
  * A simple [Fragment] subclass.
@@ -36,7 +29,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
     }
 
     override fun createReference() {
-        val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatus>()
+        /*val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatus>()
         statuslist.add(TransactionConfirmVM.TranscationStatus("Mutual Fund Payment", "via Net Banking", 1))
         statuslist.add(TransactionConfirmVM.TranscationStatus("Order Placed with AMC", "", 2))
         statuslist.add(TransactionConfirmVM.TranscationStatus("Investment Confirmation", "", 3))
@@ -56,7 +49,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                 tBinder.executePendingBindings()
             }
             binder.executePendingBindings()
-        }
+        }*/
     }
 
     companion object {

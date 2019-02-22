@@ -1,23 +1,22 @@
 package com.tarrakki.module.transactions.childfragments
 
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
-import android.view.View
 import com.tarrakki.R
+import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentAllTransactionsBinding
-import com.tarrakki.databinding.RowInprogressTransactionsBinding
-import com.tarrakki.databinding.RowTranscationStatusBinding
-import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
-import com.tarrakki.module.transactions.Transactions
+import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_all_transactions.*
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.adapters.setUpRecyclerView
 
 /**
  * A simple [Fragment] subclass.
@@ -39,7 +38,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
     }
 
     override fun createReference() {
-        val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatus>()
+        /*val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatus>()
         statuslist.add(TransactionConfirmVM.TranscationStatus("Mutual Fund Payment", "via Net Banking", 1))
         statuslist.add(TransactionConfirmVM.TranscationStatus("Order Placed with AMC", "", 2))
         statuslist.add(TransactionConfirmVM.TranscationStatus("Investment Confirmation", "", 3))
@@ -61,7 +60,41 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                 }
             }
             binder.executePendingBindings()
+        }*/
+
+        val allTransactions = arrayListOf<WidgetsViewModel>()
+        val loadMoreObservable = MutableLiveData<Int>()
+        val loadMore = LoadMore()
+        val response = Observer<TransactionApiResponse> {
+            it?.let { data ->
+                allTransactions.remove(loadMore)
+                loadMore.loadMore = false
+                if (data.transactions?.isNotEmpty() == true) {
+                    allTransactions.addAll(data.transactions)
+                }
+                allTransactions.add(loadMore)
+                if (rvAllTransactions.adapter == null) {
+                    rvAllTransactions?.setUpMultiViewRecyclerAdapter(allTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                        binder.setVariable(BR.data, item)
+                        binder.executePendingBindings()
+                        if (position >= 9 && allTransactions.size - 1 == position && !loadMore.loadMore) {
+                            loadMore.loadMore = true
+                            loadMoreObservable.value = data.offset
+                        }
+                    }
+                } else {
+                    rvAllTransactions.adapter?.notifyDataSetChanged()
+                }
+            }
         }
+        getViewModel().getTransactions().observe(this, response)
+        loadMoreObservable.observe(this, Observer {
+            it?.let { offset ->
+                Handler().postDelayed({
+                    getViewModel().getTransactions(offset = offset).observe(this, response)
+                }, 2500)
+            }
+        })
     }
 
 

@@ -7,17 +7,12 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentUnpaidTransactionsBinding
-import com.tarrakki.databinding.RowUnpaidTransactionsBinding
-import com.tarrakki.module.transactions.Transactions
 import com.tarrakki.module.transactions.TransactionsVM
-import kotlinx.android.synthetic.main.fragment_unpaid_transactions.*
 import org.supportcompact.CoreParentFragment
-import org.supportcompact.adapters.setUpRecyclerView
 
 
 /**
@@ -42,7 +37,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
 
     override fun createReference() {
 
-        rvUnpaidTransactions?.setUpRecyclerView(R.layout.row_unpaid_transactions, getViewModel().transactions) { item: Transactions, binder: RowUnpaidTransactionsBinding, position: Int ->
+        /*rvUnpaidTransactions?.setUpRecyclerView(R.layout.row_unpaid_transactions, getViewModel().transactions) { item: Transactions, binder: RowUnpaidTransactionsBinding, position: Int ->
             binder.data = item
             binder.executePendingBindings()
             binder.root.setOnLongClickListener { v: View? ->
@@ -56,7 +51,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                 }
                 hasSelectedItem()
             }
-        }
+        }*/
 
         getViewModel().hasOptionMenu.observe(this, Observer {
             it?.let { hasOptionsMenu ->
