@@ -128,6 +128,11 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
+fun applyCurrencyFormat(txt: TextView, amount: BigInteger?, anim: Boolean?) {
+    applyCurrencyFormat(txt, amount?.toString()?.toDouble(), anim)
+}
+
+@BindingAdapter(value = ["price", "anim"], requireAll = false)
 fun applyCurrencyFormat(txt: TextView, amount: String?, anim: Boolean?) {
     applyCurrencyFormat(txt, amount?.toDouble(), anim)
 }

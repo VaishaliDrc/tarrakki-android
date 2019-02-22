@@ -685,5 +685,6 @@
     <string name="folio_type">Folio Type</string>
     <string name="enter_amount">Enter Amount</string>
     <string name="select_bank_mandate">Use Selected Bank Mandate</string>
+    <string name="select_bank_use">Use Selected Bank</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

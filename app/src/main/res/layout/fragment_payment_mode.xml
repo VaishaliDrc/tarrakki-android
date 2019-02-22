@@ -161,14 +161,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                            android:text="A/C : 120000000019"
+                            android:text='@{"A/C : "+vm.accountNumber}'
                             android:textColor="@color/semi_black" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                            android:text="ICICI Bank"
+                            android:text="@{vm.branchName}"
                             android:textColor="@color/semi_black" />
 
                     </LinearLayout>
@@ -222,6 +222,7 @@
                     android:visibility="@{vm.isNEFTRTGS==true?View.VISIBLE:View.GONE}"
                     android:layout_marginTop="@dimen/space_5"
                     android:inputType="number"
+                    android:text="@={vm.utrNumber}"
                     android:imeOptions="actionDone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:layout_width="match_parent"

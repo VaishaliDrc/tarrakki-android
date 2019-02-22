@@ -54,6 +54,18 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
         EventBus.getDefault().unregister(this)
     }
 
+    fun post(data: Any) {
+        EventBus.getDefault().post(data)
+    }
+
+    fun postSticky(data: Any) {
+        EventBus.getDefault().postSticky(data)
+    }
+
+    fun removeStickyEvent(data: Any) {
+        EventBus.getDefault().removeStickyEvent(data)
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     open fun showDialog(show: String) {
         when (show) {

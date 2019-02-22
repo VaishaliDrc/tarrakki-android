@@ -190,6 +190,13 @@ interface WebserviceBuilder {
     @POST("cart/confirm/order/")
     fun checkoutOrder(@Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("cart/checkout/")
+    fun paymentOrder(@Field("data") data: String): Observable<ApiResponse>
+
+    @GET("transactions/success/")
+    fun transactionStatus(@Query("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -198,6 +205,6 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData,
-        mandateConfirmOrder, ConfirmOrderResponse
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse
     }
 }

@@ -118,8 +118,10 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
                     val fragment = supportFragmentManager?.findFragmentById(R.id.frmContainer)
-                    if (fragment is CartFragment || fragment is BankMandateSuccessFragment ||
-                            fragment is TransactionsFragment || fragment is PaymentModeFragment) {
+                    if (fragment is CartFragment ||
+                            fragment is BankMandateSuccessFragment ||
+                            fragment is TransactionsFragment ||
+                            fragment is PaymentModeFragment) {
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()

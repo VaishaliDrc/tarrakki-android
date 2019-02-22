@@ -17,6 +17,7 @@ import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.bankmandate.ISFROMCONFIRMORDER
 import com.tarrakki.module.bankmandate.MANDATEID
 import com.tarrakki.module.paymentmode.PaymentModeFragment
+import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -55,6 +56,10 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
     }
 
     override fun createReference() {
+        getData()
+    }
+
+    fun getData(){
         getViewModel().getConfirmOrder().observe(this, confirmOrderObserve)
     }
 
@@ -71,6 +76,11 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orders.add(SingleButton(R.string.place_order))
             rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                 binder.setVariable(BR.widget, item)
+                if (item is ConfirmOrderResponse.Data.OrderLine){
+                    val binding = binder as RowConfirmOrderBinding
+                    binding.cbSIP.isEnabled = confirmOrderResponse?.data?.isApproveBank==true
+                }
+
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     /***
                      * On place order click
@@ -83,6 +93,9 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                 it?.let { it2 -> postSticky(it2) }
+                            }else{
+                                startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                it?.data?.failedTransactions?.let { it2 -> postSticky(it2) }
                             }
                         })
                     }
@@ -90,13 +103,16 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 binder.setVariable(BR.onCheckedChange, View.OnClickListener {
                     if (item is ConfirmOrderResponse.Data.OrderLine) {
-                        if (binder is RowConfirmOrderBinding) {
-                            binder.cbSIP.isChecked = item.isFirstInstallmentSIP
+                        if (confirmOrderResponse?.data?.isApproveBank == true) {
+                            if (binder is RowConfirmOrderBinding) {
+                                binder.cbSIP.isChecked = item.isFirstInstallmentSIP
+                            }
+                            val isFirstSIP = !item.isFirstInstallmentSIP
+                            getViewModel().updateFirstSIPFlag(item, isFirstSIP).observe(this, Observer {
+                                item.isFirstInstallmentSIP = isFirstSIP
+                                getData()
+                            })
                         }
-                        val isFirstSIP = !item.isFirstInstallmentSIP
-                        getViewModel().updateFirstSIPFlag(item, isFirstSIP).observe(this, Observer {
-                            item.isFirstInstallmentSIP = isFirstSIP
-                        })
                     }
                 })
 

@@ -5,6 +5,7 @@ import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import org.supportcompact.ktx.toCurrency
+import java.math.BigInteger
 
 data class ConfirmTransactionResponse(
         @SerializedName("data")
@@ -18,8 +19,11 @@ data class ConfirmTransactionResponse(
             @SerializedName("orders")
             val orders: List<Order>,
             @SerializedName("total_payable_amount")
-            val totalPayableAmount: Int
+            val totalPayableAmount: BigInteger,
+            @SerializedName("failed_transactions")
+            val failedTransactions: List<TransactionStatus>
     ) {
+
         data class Order(
                 @SerializedName("lumpsum_transaction_id")
                 val lumpsumTransactionId: Int,
