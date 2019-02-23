@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="statusVisibility"
+            type="int" />
+
         <variable
             name="data"
             type="com.tarrakki.api.model.TransactionApiResponse.Transaction" />
@@ -15,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_16"
         android:layout_marginEnd="@dimen/space_16"
-        android:background="@drawable/shape_cart_view"
+        android:background="@{data.selected?@drawable/shape_cart_view_selected:@drawable/shape_cart_view}"
         android:elevation="@dimen/space_2"
         android:padding="@dimen/space_8">
 
@@ -178,6 +184,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
+            android:alpha="@{data.selected?0.5f:1f}"
             android:background="@drawable/shape_btn_idle_bg"
             android:paddingStart="@dimen/space_16"
             android:paddingTop="@dimen/space_8"
@@ -188,6 +195,52 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFolioNo" />
+
+        <View
+            android:id="@+id/mDivider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_16"
+            android:background="@color/lighter_gray"
+            android:visibility="@{statusVisibility}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnPayNow"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvStateL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginBottom="@dimen/space_16"
+            android:text="@string/status_"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            android:visibility="@{statusVisibility}"
+            app:layout_constraintBaseline_toBaselineOf="@id/tvState"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider1"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:text="@{data.stringRes}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@{data.textColorRes}"
+            android:visibility="@{statusVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvStateL"
+            app:layout_constraintTop_toBottomOf="@id/mDivider1"
+            tools:text="@string/in_progress"
+            tools:textColor="@color/pdlg_color_green"
+            tools:visibility="gone" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

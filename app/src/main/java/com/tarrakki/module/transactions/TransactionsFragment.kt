@@ -51,6 +51,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
                 Page(getString(R.string.failed), FailedTransactionFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
+        mPager?.offscreenPageLimit = 6
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
         mPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {

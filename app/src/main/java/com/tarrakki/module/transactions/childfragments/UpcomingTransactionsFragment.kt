@@ -1,12 +1,24 @@
 package com.tarrakki.module.transactions.childfragments
 
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
+import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.view.View
+import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentUpcomingTransactionsBinding
+import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
+import kotlinx.android.synthetic.main.fragment_upcoming_transactions.*
+import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 
 /**
  * A simple [Fragment] subclass.
@@ -29,10 +41,61 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
     }
 
     override fun createReference() {
-        /*rvUpcomingTransactions?.setUpRecyclerView(R.layout.row_upcoming_transactions, getViewModel().transactions) { item: Transactions, binder: RowUpcomingTransactionsBinding, position: Int ->
-            binder.data = item
-            binder.executePendingBindings()
-        }*/
+
+        val upcomingTransactions = arrayListOf<WidgetsViewModel>()
+        val loadMoreObservable = MutableLiveData<Int>()
+        val loadMore = LoadMore()
+        val response = Observer<TransactionApiResponse> {
+            it?.let { data ->
+                upcomingTransactions.remove(loadMore)
+                loadMore.loadMore = false
+                if (mRefresh?.isRefreshing == true) {
+                    upcomingTransactions.clear()
+                    mRefresh?.isRefreshing = false
+                }
+                if (data.transactions?.isNotEmpty() == true) {
+                    upcomingTransactions.addAll(data.transactions)
+                }
+                if (upcomingTransactions.isNotEmpty()) {
+                    upcomingTransactions.add(loadMore)
+                }
+                if (rvUpcomingTransactions?.adapter == null) {
+                    rvUpcomingTransactions?.setUpMultiViewRecyclerAdapter(upcomingTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                        binder.setVariable(BR.data, item)
+                        binder.setVariable(BR.statusVisibility, View.GONE)
+                        binder.executePendingBindings()
+                        if (position >= 9 && upcomingTransactions.size - 1 == position && !loadMore.loadMore) {
+                            loadMore.loadMore = true
+                            loadMoreObservable.value = data.offset
+                        }
+                    }
+                } else {
+                    rvUpcomingTransactions?.adapter?.notifyDataSetChanged()
+                }
+                tvNoItem?.visibility = if (upcomingTransactions.isEmpty()) View.VISIBLE else View.GONE
+            }
+        }
+        getViewModel().getTransactions(transactionType = TransactionApiResponse.UPCOMING).observe(this, response)
+        loadMoreObservable.observe(this, Observer {
+            it?.let { offset ->
+                Handler().postDelayed({
+                    getViewModel().getTransactions(
+                            transactionType = TransactionApiResponse.UPCOMING,
+                            offset = offset).observe(this, response)
+                }, 2500)
+            }
+        })
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getTransactions(
+                    transactionType = TransactionApiResponse.UPCOMING,
+                    mRefresh = true).observe(this, response)
+        }
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let {
+                mRefresh?.isRefreshing = false
+                tvNoItem?.visibility = if (upcomingTransactions.isEmpty()) View.VISIBLE else View.GONE
+            }
+        })
     }
 
     companion object {

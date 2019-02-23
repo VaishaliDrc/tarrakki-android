@@ -235,7 +235,6 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     fun onReceive(kycData: KYCData) {
         if (getViewModel().kycData.value == null) {
             getViewModel().kycData.value = kycData
-            kycData.addressType = "1"
         }
     }
 

@@ -231,6 +231,13 @@ fun setPANCard(edt: EditText, isPANCard: Boolean) {
     }
 }
 
+@BindingAdapter(value = ["isIFSCCode"])
+fun setIFSCCode(edt: EditText, isIFSCCode: Boolean) {
+    if (isIFSCCode) {
+        edt.applyIFSCCode()
+    }
+}
+
 fun EditText.applyPAN() {
     addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -248,6 +255,30 @@ fun EditText.applyPAN() {
                 }
                 else -> {
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+                }
+            }
+            setSelection(text.length)
+        }
+    })
+}
+
+fun EditText.applyIFSCCode() {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            inputType = when (s?.length) {
+                in 0..3 -> {
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+                }
+                else -> {
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
                 }
             }
             setSelection(text.length)
@@ -520,8 +551,8 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<String>,
 
 fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                                       onRedeem: ((portfolioNo: String,
-                                               totalAmount: String,
-                                               allRedeem : String) -> Unit)? = null) {
+                                                  totalAmount: String,
+                                                  allRedeem: String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtTotalInvestedAmount.applyCurrencyFormatPositiveOnly()
@@ -529,7 +560,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
-    if (portfolioList.isNotEmpty()){
+    if (portfolioList.isNotEmpty()) {
         mBinder.investmentAmount = portfolioList[0].amount.toString()
         mBinder.folio = portfolioList[0].folioNo
     }
@@ -551,8 +582,8 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mBinder.edtChooseFolio.setOnClickListener {
         this.showListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
-            val selectedAmount = portfolioList.find { it.folioNo==item }
-            if(selectedAmount!=null){
+            val selectedAmount = portfolioList.find { it.folioNo == item }
+            if (selectedAmount != null) {
                 mBinder.investmentAmount = selectedAmount.amount.toString()
             }
         }
@@ -562,15 +593,15 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         it.dismissKeyboard()
         val amount = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
-        if (amount.isNotEmpty() && amount!="0"){
+        if (amount.isNotEmpty() && amount != "0") {
             mDialog.dismiss()
-            val isRedeem = if(mBinder.chkAmount.isChecked){
-               "Y"
-           }else{
-               "N"
-           }
-           onRedeem?.invoke(folioNo,amount.toCurrencyBigInt().toString(),isRedeem)
-        }else{
+            val isRedeem = if (mBinder.chkAmount.isChecked) {
+                "Y"
+            } else {
+                "N"
+            }
+            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem)
+        } else {
             this.simpleAlert("Please enter valid amount.")
         }
 

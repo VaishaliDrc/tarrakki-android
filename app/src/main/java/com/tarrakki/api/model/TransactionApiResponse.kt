@@ -4,9 +4,11 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.annotation.StringDef
 import com.google.gson.annotations.SerializedName
+import com.tarrakki.App
 import com.tarrakki.R
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.color
 
 
 data class TransactionApiResponse(
@@ -67,11 +69,33 @@ data class TransactionApiResponse(
             }
         }
 
+        fun getStringRes(): Int {
+            return when ("$status") {
+                IN_PROGRESS -> R.string.in_progress
+                COMPLETED -> R.string.completed
+                UPCOMING -> R.string.upcoming
+                UNPAID -> R.string.unpaid
+                FAILED -> R.string.failed
+                else -> R.string.in_progress
+            }
+        }
+
+        fun getTextColorRes(): Int {
+            return when ("$status") {
+                FAILED -> App.INSTANCE.color(R.color.red)
+                /*IN_PROGRESS -> R.string.in_progress
+                COMPLETED -> R.string.completed
+                UPCOMING -> R.string.upcoming
+                UNPAID -> R.string.unpaid*/
+                else -> App.INSTANCE.color(R.color.pdlg_color_green)
+            }
+        }
+
     }
 
     companion object {
         const val ALL = "all"
-        const val IN_PROGRESS = "in_process"
+        const val IN_PROGRESS = "in_progress"
         const val COMPLETED = "completed"
         const val UPCOMING = "upcoming"
         const val UNPAID = "unpaid"

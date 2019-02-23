@@ -53,8 +53,8 @@ class OverviewFragment : Fragment() {
 
                 fundDetailsResponse?.let { fundDetails ->
                     fundDetails.topTenHoldings?.let { topTenHoldings ->
-                        if (topTenHoldings.isNotEmpty()) {
-                            llTo10?.visibility = View.VISIBLE
+                        if (topTenHoldings.isEmpty()) {
+                            tvDataNotFountTop10?.visibility = View.VISIBLE
                         }
                         rvHolding?.setUpRecyclerView(R.layout.row_top_ten_holdings_list_item, topTenHoldings) { item: TopTenHolding, binder: RowTopTenHoldingsListItemBinding, position ->
                             binder.topFund = item

@@ -7,6 +7,8 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.view.View
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentAllTransactionsBinding
@@ -38,29 +40,6 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
     }
 
     override fun createReference() {
-        /*val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatus>()
-        statuslist.add(TransactionConfirmVM.TranscationStatus("Mutual Fund Payment", "via Net Banking", 1))
-        statuslist.add(TransactionConfirmVM.TranscationStatus("Order Placed with AMC", "", 2))
-        statuslist.add(TransactionConfirmVM.TranscationStatus("Investment Confirmation", "", 3))
-        statuslist.add(TransactionConfirmVM.TranscationStatus("Units Alloted", "", 3))
-        rvAllTransactions?.setUpMultiViewRecyclerAdapter(getViewModel().pendingTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
-            binder.setVariable(BR.data, item)
-            if (binder is RowInprogressTransactionsBinding && item is Transactions) {
-                binder.imgArrow.setOnClickListener {
-                    item.isSelected = !item.isSelected
-                }
-                binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transcation_status, statuslist) { transaction: TransactionConfirmVM.TranscationStatus, tBinder: RowTranscationStatusBinding, position: Int ->
-                    tBinder.widget = transaction
-                    if (position == statuslist.size - 1) {
-                        tBinder.verticalDivider.visibility = View.GONE
-                    } else {
-                        tBinder.verticalDivider.visibility = View.VISIBLE
-                    }
-                    tBinder.executePendingBindings()
-                }
-            }
-            binder.executePendingBindings()
-        }*/
 
         val allTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
@@ -69,13 +48,20 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
             it?.let { data ->
                 allTransactions.remove(loadMore)
                 loadMore.loadMore = false
+                if (mRefresh?.isRefreshing == true) {
+                    allTransactions.clear()
+                    mRefresh?.isRefreshing = false
+                }
                 if (data.transactions?.isNotEmpty() == true) {
                     allTransactions.addAll(data.transactions)
                 }
-                allTransactions.add(loadMore)
-                if (rvAllTransactions.adapter == null) {
+                if (allTransactions.isNotEmpty()) {
+                    allTransactions.add(loadMore)
+                }
+                if (rvAllTransactions?.adapter == null) {
                     rvAllTransactions?.setUpMultiViewRecyclerAdapter(allTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
+                        binder.setVariable(BR.statusVisibility, View.VISIBLE)
                         binder.executePendingBindings()
                         if (position >= 9 && allTransactions.size - 1 == position && !loadMore.loadMore) {
                             loadMore.loadMore = true
@@ -83,8 +69,9 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                         }
                     }
                 } else {
-                    rvAllTransactions.adapter?.notifyDataSetChanged()
+                    rvAllTransactions?.adapter?.notifyDataSetChanged()
                 }
+                tvNoItem?.visibility = if (allTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         }
         getViewModel().getTransactions().observe(this, response)
@@ -93,6 +80,15 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                 Handler().postDelayed({
                     getViewModel().getTransactions(offset = offset).observe(this, response)
                 }, 2500)
+            }
+        })
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getTransactions(mRefresh = true).observe(this, response)
+        }
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let {
+                mRefresh?.isRefreshing = false
+                tvNoItem?.visibility = if (allTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
     }

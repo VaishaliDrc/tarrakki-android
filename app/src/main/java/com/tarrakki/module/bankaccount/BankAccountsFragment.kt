@@ -248,6 +248,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         options?.let {
             it.setRootViewBackgroundColor(Color.WHITE)
             it.setCompressionQuality(100)
+            it.setHideBottomControls(true)
             uCrop.withOptions(it)
         }
         uCrop.withAspectRatio(16f, 9f)

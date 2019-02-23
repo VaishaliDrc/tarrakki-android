@@ -1,18 +1,29 @@
 package com.tarrakki.module.transactions.childfragments
 
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
+import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentUnpaidTransactionsBinding
+import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
+import kotlinx.android.synthetic.main.fragment_unpaid_transactions.*
+import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 
 
 /**
@@ -35,31 +46,89 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
 
     }
 
+    private val unpaidTransactions = arrayListOf<WidgetsViewModel>()
+
     override fun createReference() {
 
-        /*rvUnpaidTransactions?.setUpRecyclerView(R.layout.row_unpaid_transactions, getViewModel().transactions) { item: Transactions, binder: RowUnpaidTransactionsBinding, position: Int ->
-            binder.data = item
-            binder.executePendingBindings()
-            binder.root.setOnLongClickListener { v: View? ->
-                item.isSelected = !item.isSelected
-                hasSelectedItem()
-                true
-            }
-            binder.root.setOnClickListener {
-                if (getViewModel().hasOptionMenu.value == true) {
-                    item.isSelected = !item.isSelected
+        val loadMoreObservable = MutableLiveData<Int>()
+        val loadMore = LoadMore()
+        val response = Observer<TransactionApiResponse> {
+            it?.let { data ->
+                unpaidTransactions.remove(loadMore)
+                loadMore.loadMore = false
+                if (mRefresh?.isRefreshing == true) {
+                    unpaidTransactions.clear()
+                    mRefresh?.isRefreshing = false
                 }
-                hasSelectedItem()
+                if (data.transactions?.isNotEmpty() == true) {
+                    unpaidTransactions.addAll(data.transactions)
+                }
+                if (unpaidTransactions.isNotEmpty()) {
+                    unpaidTransactions.add(loadMore)
+                }
+                if (rvUnpaidTransactions?.adapter == null) {
+                    rvUnpaidTransactions?.setUpMultiViewRecyclerAdapter(unpaidTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                        binder.setVariable(BR.data, item)
+                        binder.setVariable(BR.statusVisibility, View.GONE)
+                        binder.root.setOnLongClickListener { v: View? ->
+                            if (item is TransactionApiResponse.Transaction) {
+                                item.isSelected = !item.isSelected
+                                hasSelectedItem()
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                        binder.root.setOnClickListener {
+                            if (item is TransactionApiResponse.Transaction) {
+                                if (getViewModel().hasOptionMenu.value == true) {
+                                    item.isSelected = !item.isSelected
+                                }
+                            }
+                            hasSelectedItem()
+                        }
+                        binder.executePendingBindings()
+                        if (position >= 9 && unpaidTransactions.size - 1 == position && !loadMore.loadMore) {
+                            loadMore.loadMore = true
+                            loadMoreObservable.value = data.offset
+                        }
+                    }
+                } else {
+                    rvUnpaidTransactions?.adapter?.notifyDataSetChanged()
+                }
+                tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
-        }*/
+        }
+        getViewModel().getTransactions(transactionType = TransactionApiResponse.UNPAID).observe(this, response)
+        loadMoreObservable.observe(this, Observer {
+            it?.let { offset ->
+                Handler().postDelayed({
+                    getViewModel().getTransactions(
+                            transactionType = TransactionApiResponse.UNPAID,
+                            offset = offset).observe(this, response)
+                }, 2500)
+            }
+        })
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getTransactions(
+                    transactionType = TransactionApiResponse.UNPAID,
+                    mRefresh = true).observe(this, response)
+        }
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let {
+                mRefresh?.isRefreshing = false
+                tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
+            }
+        })
 
         getViewModel().hasOptionMenu.observe(this, Observer {
             it?.let { hasOptionsMenu ->
                 coreActivityVM?.titleVisibility?.set(!hasOptionsMenu)
                 setHasOptionsMenu(hasOptionsMenu)
                 if (!hasOptionsMenu) {
-                    getViewModel().transactions.forEach { item ->
-                        item.isSelected = false
+                    unpaidTransactions.forEach { item ->
+                        if (item is TransactionApiResponse.Transaction)
+                            item.isSelected = false
                     }
                 }
                 if (activity is AppCompatActivity) {
@@ -77,7 +146,9 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
     }
 
     private fun hasSelectedItem() {
-        val count = getViewModel().transactions.count { it.isSelected }
+        val count = unpaidTransactions.count {
+            it is TransactionApiResponse.Transaction && it.isSelected
+        }
         getViewModel().hasOptionMenu.value = count != 0
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.title = count.toString()
@@ -98,7 +169,10 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         }
         cbSelectAll?.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                getViewModel().transactions.forEach { it.isSelected = true }
+                unpaidTransactions.forEach {
+                    if (it is TransactionApiResponse.Transaction)
+                        it.isSelected = true
+                }
                 hasSelectedItem()
             } else {
                 getViewModel().hasOptionMenu.value = false

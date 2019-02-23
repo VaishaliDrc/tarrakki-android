@@ -112,4 +112,8 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
         }
     }
 
+    override fun onBackPressed() {
+        if (getViewModel().progressBar.get() == View.GONE)
+            super.onBackPressed()
+    }
 }

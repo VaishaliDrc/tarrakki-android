@@ -49,11 +49,15 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         binding.executePendingBindings()
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ll_complete_verification?.visibility = if (context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+    }
+
     override fun createReference() {
         setHasOptionsMenu(true)
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
-        ll_complete_verification?.visibility = if (context?.isKYCVerified() == true) View.GONE else View.VISIBLE
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->

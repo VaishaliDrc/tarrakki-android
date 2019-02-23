@@ -206,7 +206,6 @@
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical"
                 android:padding="8dp"
-                android:visibility="gone"
                 tools:visibility="visible">
 
                 <TextView
@@ -227,6 +226,15 @@
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_top_ten_holdings_list_item" />
+
+                <TextView
+                    android:id="@+id/tvDataNotFountTop10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/no_data_found"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 

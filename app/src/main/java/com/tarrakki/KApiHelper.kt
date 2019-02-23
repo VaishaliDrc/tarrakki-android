@@ -299,7 +299,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.city = data.apppercity
                             kycData.state = data.appperstate
                             kycData.country = data.appperctry
-                            kycData.addressType = "1"
+                            kycData.addressType =   "01"
                             apiResponse.value = kycData
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

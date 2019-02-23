@@ -688,5 +688,7 @@
     <string name="select_bank_use">Use Selected Bank</string>
     <string name="failed">Failed</string>
     <string name="remarks_">Remarks:</string>
+    <string name="no_data_found">No data found.</string>
+    <string name="status_">Status:</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

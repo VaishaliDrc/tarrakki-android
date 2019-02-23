@@ -311,7 +311,7 @@ fun getKYCData(): MutableLiveData<KYCData> {
                             val kycData = KYCData(jsonData.optString("pan_number"))
                             kycData.nameOfPANHolder = jsonData.optString("pan_name")
                             kycData.countryOfIssue2 = jsonData.optString("country_of_issue2")
-                            kycData.addressType = jsonData.optString("address_type")
+                            kycData.addressType = "01"//jsonData.optString("address_type")
                             kycData.address = jsonData.optString("address")
                             kycData.country = jsonData.optString("country")
                             kycData.OCCcode = jsonData.optString("occ_code")

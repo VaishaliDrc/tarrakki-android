@@ -67,6 +67,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 }
             }
         })
+
         btnAdd?.setOnClickListener {
             if (TextUtils.isEmpty(getViewModel().name.get())) {
                 context?.simpleAlert("Please enter bank name")
