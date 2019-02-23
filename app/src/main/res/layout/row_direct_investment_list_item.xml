@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="investment"
             type="com.tarrakki.api.model.UserPortfolioResponse.Data.DirectInvestment" />
@@ -105,6 +107,7 @@
                 android:layout_marginEnd="@dimen/space_3"
                 android:drawableStart="@drawable/ic_stop"
                 android:drawablePadding="@dimen/space_4"
+                android:visibility="@{investment.isSIP?View.VISIBLE:View.GONE}"
                 android:gravity="center"
                 android:text="@string/stop"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"

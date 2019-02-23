@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="vm"
@@ -15,14 +16,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvGBInvests"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:context=".module.portfolio.fragments.DirectInvestmentFragment"
-            tools:listitem="@layout/row_goal_based_investment_list_item" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvGBInvests"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{vm.isGoalEmpty==true?View.GONE:View.VISIBLE}"
+                android:overScrollMode="never"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+            <TextView
+                android:visibility="@{vm.isGoalEmpty==true?View.VISIBLE:View.GONE}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:text="@string/data_not_found"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </layout>

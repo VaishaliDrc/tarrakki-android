@@ -105,6 +105,7 @@
     <string name="monthly">Monthly</string>
     <string name="my_cart">My Cart</string>
     <string name="great_job">Great Job!</string>
+    <string name="no_funds_cart">No funds in your cart.</string>
     <string name="you_are_almost_there_here_is_a_summary_of_your_order">You are almost there! Here is a summary of your order. Want to invest in more funds? Edit here before investing.</string>
     <string name="add_funds">Add Funds</string>
     <string name="order_summary">Order Summary</string>
@@ -688,6 +689,10 @@
     <string name="select_bank_use">Use Selected Bank</string>
     <string name="failed">Failed</string>
     <string name="remarks_">Remarks:</string>
+    <string name="data_not_found">no data found.</string>
+    <string name="stop_sip">STOP SIP</string>
+    <string name="select_startdate">Select StartDate</string>
+    <string name="select_end_date">Select End Date</string>
     <string name="no_data_found">No data found.</string>
     <string name="status_">Status:</string>
     <!--<string name="select_country">Select Country</string>-->

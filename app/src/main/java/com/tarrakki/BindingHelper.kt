@@ -21,9 +21,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.tarrakki.api.model.FolioData
-import com.tarrakki.api.model.Goal
-import com.tarrakki.api.model.HomeData
+import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -486,7 +484,7 @@ fun Context.investmentStragiesDialog(
 
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
-        if (this.isInvestStrategyDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),
+        if (this.isInvestDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),
                         sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
             onInvest?.invoke(thirdLevelCategory, lumpsumAmount,
@@ -509,13 +507,20 @@ fun Context.investmentStragiesDialog(
     mDialog.show()
 }
 
-fun Context.addFundPortfolioDialog(portfolioList: MutableList<String>,
-                                   onAdd: ((portfolio: String, type: String,
-                                            amountLumpsum: BigInteger, amountSIP: BigInteger) -> Unit)? = null) {
+fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
+                                   minAmountLumpsum: BigInteger, minAmountSIP: BigInteger,
+                                   onAdd: ((portfolio: String, amountLumpsum: BigInteger,
+                                            amountSIP: BigInteger) -> Unit)? = null) {
     val mBinder = DialogAddFundPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+
+    val folioList = portfolioList.map { it.folioNo } as ArrayList
+
+    if (portfolioList.isNotEmpty()) {
+        mBinder.folio = portfolioList[0].folioNo
+    }
 
     mBinder.rbCurrent.isChecked = true
     mBinder.rbgFolioType.setOnCheckedChangeListener { group, checkedId ->
@@ -529,15 +534,24 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<String>,
     }
 
     mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", portfolioList as ArrayList<String>) { item ->
+        this.showListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
         }
     }
 
     mBinder.btnInvest.setOnClickListener {
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
-
-
+        if (this.isInvestDialogValid(minAmountSIP, minAmountLumpsum, sipAmount, lumpsumAmount)) {
+            mDialog.dismiss()
+            val folioNo = if (mBinder.rbNew.isChecked) {
+                mBinder.edtChooseFolio.text.toString()
+            } else {
+                ""
+            }
+            onAdd?.invoke(folioNo, lumpsumAmount, sipAmount)
+        }
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
@@ -616,6 +630,108 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mDialog.show()
 }
 
+fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
+                                          onStop: ((transactionId: Int) -> Unit)? = null) {
+    val mBinder = DialogStopTransactionBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+
+    val folioList = portfolioList.map { it.folioNo } as ArrayList
+    var startDateList = arrayListOf<String>()
+    var sipDetail: SIPDetails? = null
+
+    if (portfolioList.isNotEmpty()) {
+        mBinder.folio = portfolioList[0].folioNo
+        val selectedFolio = portfolioList.find { it.folioNo == portfolioList[0].folioNo }
+        if (selectedFolio != null) {
+            startDateList = selectedFolio.sipDetails?.map { it.startDate } as ArrayList<String>
+            if (startDateList.isNotEmpty()) {
+                if (startDateList[0] != null) {
+                    mBinder.startDate = startDateList[0]
+                }
+            }
+            sipDetail = selectedFolio.sipDetails[0]
+            if (sipDetail != null) {
+                if (sipDetail?.amount != null) {
+                    mBinder.amount = sipDetail.amount?.toCurrencyBigInt()
+                } else {
+                    mBinder.amount = BigInteger.ZERO
+                }
+            } else {
+                mBinder.amount = BigInteger.ZERO
+            }
+        }
+    }
+
+    mBinder.edtChooseFolio.setOnClickListener {
+        this.showListDialog("Select Folio", folioList) { item ->
+            mBinder.folio = item
+            val selectedFolio = portfolioList.find { it.folioNo == item }
+            if (selectedFolio != null) {
+                startDateList = selectedFolio.sipDetails?.map { it.startDate } as ArrayList<String>
+                if (startDateList.isNotEmpty()) {
+                    mBinder.startDate = startDateList[0].toString()
+                    val selectedFolio = portfolioList.find { it.folioNo == item }
+                    if (selectedFolio != null) {
+                        if (selectedFolio.sipDetails?.isNotEmpty() == true) {
+                            sipDetail = selectedFolio.sipDetails.get(0)
+                            if (sipDetail != null) {
+                                if (sipDetail?.amount != null) {
+                                    mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                                } else {
+                                    mBinder.amount = BigInteger.ZERO
+                                }
+                            } else {
+                                mBinder.amount = BigInteger.ZERO
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    mBinder.edtStartDate.setOnClickListener {
+        this.showCustomListDialog("Select StartDate", startDateList) { item ->
+            mBinder.startDate = item
+            val folioNo = mBinder.edtChooseFolio.text.toString()
+            val selectedFolio = portfolioList.find { it.folioNo == folioNo }
+            if (selectedFolio != null) {
+                sipDetail = selectedFolio.sipDetails?.find { it.startDate == item }
+                if (sipDetail != null) {
+                    if (sipDetail?.amount != null) {
+                        mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                    } else {
+                        mBinder.amount = BigInteger.ZERO
+                    }
+                } else {
+                    mBinder.amount = BigInteger.ZERO
+                }
+            }
+        }
+    }
+
+    mBinder.btnInvest.setOnClickListener {
+        it.dismissKeyboard()
+        val amount = mBinder.edtAmount.text.toString().toCurrencyBigInt().toString()
+        val folioNo = mBinder.edtChooseFolio.text.toString()
+        val startDate = mBinder.edtStartDate.text.toString()
+
+        if (sipDetail != null) {
+            mDialog?.dismiss()
+            sipDetail?.transId?.let { it1 -> onStop?.invoke(it1) }
+        }
+    }
+
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
 fun Context.signatureDialog(btnDigitally: (() -> Unit), btnPhysically: (() -> Unit)) {
     val mBinder = com.tarrakki.databinding.SignatureDialogBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
@@ -642,29 +758,6 @@ fun String.toYearWord(): String {
     }
 }
 
-fun Context.isInvestStrategyDialogValid(minSIPAmount: BigInteger,
-                                        minLumsumpAmount: BigInteger,
-                                        sipAmount: BigInteger,
-                                        lumpsumAmount: BigInteger): Boolean {
-    if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
-        return false
-    }
-    if (lumpsumAmount != BigInteger.ZERO) {
-        if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount}.")
-            return false
-        }
-    }
-    if (sipAmount != BigInteger.ZERO) {
-        if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount}.")
-            return false
-        }
-    }
-    return true
-}
-
 fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                                 minLumsumpAmount: BigInteger,
                                 sipAmount: BigInteger,
@@ -674,14 +767,25 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         return false
     }
     if (lumpsumAmount != BigInteger.ZERO) {
-        if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount}.")
+        if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (lumpsumAmount < minLumsumpAmount) {
+                this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toDouble().toCurrency()}.")
+                return false
+            }
+        } else {
+            this.simpleAlert("The lumpsum amount must be in multiplier of 10.")
             return false
         }
+
     }
     if (sipAmount != BigInteger.ZERO) {
-        if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount}.")
+        if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (sipAmount < minSIPAmount) {
+                this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toDouble().toCurrency()}.")
+                return false
+            }
+        } else {
+            this.simpleAlert("The SIP amount must be in multiplier of 10.")
             return false
         }
     }
@@ -691,8 +795,13 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
 fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
                                  lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount != BigInteger.ZERO) {
-        if (lumpsumAmount < minLumsumpAmount) {
-            this.simpleAlert("The lumpsum amount must be greater than or equal to $minLumsumpAmount.")
+        if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (lumpsumAmount < minLumsumpAmount) {
+                this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toDouble().toCurrency()}.")
+                return false
+            }
+        } else {
+            this.simpleAlert("The lumpsum amount must be in multiplier of 10.")
             return false
         }
     }
@@ -702,16 +811,21 @@ fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
 fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
                              sipAmount: BigInteger): Boolean {
     if (sipAmount != BigInteger.ZERO) {
-        if (sipAmount < minSIPAmount) {
-            this.simpleAlert("The SIP amount must be greater than or equal to $minSIPAmount.")
+        if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (sipAmount < minSIPAmount) {
+                this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toDouble().toCurrency()}.")
+                return false
+            }
+        } else {
+            this.simpleAlert("The SIP amount must be in multiplier of 10.")
             return false
         }
     }
     return true
 }
 
-fun Context.isCartAmountValid(sipAmount: BigInteger,
-                              lumpsumAmount: BigInteger): Boolean {
+fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
+                                       lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
         return false

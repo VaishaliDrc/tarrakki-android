@@ -54,7 +54,7 @@
             android:id="@+id/ll_folio_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_32"
+            android:layout_marginTop="@dimen/default_space"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInvestmentL">

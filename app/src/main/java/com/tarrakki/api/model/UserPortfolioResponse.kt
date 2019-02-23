@@ -1,8 +1,8 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
+import org.supportcompact.ktx.toCurrencyBigInt
 import java.math.BigInteger
-import kotlin.text.StringBuilder
 
 data class UserPortfolioResponse(
         @SerializedName("data")
@@ -40,28 +40,71 @@ data class UserPortfolioResponse(
                     @SerializedName("total_investment")
                     val totalInvestment: BigInteger,
                     @SerializedName("xirr")
-                    val xirr: BigInteger
+                    val xirr: BigInteger,
+                    @SerializedName("pi_minimum_initial")
+                    val piMinimumInitial: String?,
+                    @SerializedName("iaip_aip")
+                    val iaipAip: List<IaipAip>?,
+                    @SerializedName("is_sip")
+                    val isSIP: Boolean
             ) {
                 data class Folio(
                         @SerializedName("amount")
-                        val amount: BigInteger,
+                        val amount: Amount,
                         @SerializedName("folio_no")
                         val folioNo: String
-                )
+                ) {
+                    data class Amount(
+                            @SerializedName("amount")
+                            val amount: String,
+                            @SerializedName("sip_details")
+                            val sipDetails: List<SipDetail>
+                    ) {
+                        data class SipDetail(
+                                @SerializedName("amount")
+                                val amount: String?,
+                                @SerializedName("start_date")
+                                val startDate: String?,
+                                @SerializedName("trans_id")
+                                val transId: Int
+                        )
+                    }
+                }
 
-                var folioNoList : String = ""
-                    get() = if (folioList.isNotEmpty()){
+                var folioNoList: String = ""
+                    get() = if (folioList.isNotEmpty()) {
                         val string = StringBuilder()
                         folioList.forEachIndexed { index, folio ->
                             string.append(folio.folioNo)
-                            if (index!=folioList.size-1){
+                            if (index != folioList.size - 1) {
                                 string.append(", ")
                             }
                         }
                         string.toString()
-                    }else{
+                    } else {
                         ""
                     }
+
+                var validminSIPAmount = BigInteger.ZERO
+                    get() {
+                        var sipAmount = BigInteger.valueOf(100)
+                        if (iaipAip != null && iaipAip.isNotEmpty()) {
+                            val aipAip = iaipAip.firstOrNull { it ->
+                                "SIP".equals(it.siType, true)
+                                        && "Monthly".equals(it.frequency, true)
+                            }
+                            if (aipAip != null) {
+                                val maxTenure = iaipAip.maxBy { it.minTenure }
+                                if (maxTenure != null) {
+                                    sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                                }
+                            }
+                        }
+                        return sipAmount
+                    }
+
+                var validminlumpsumAmount = BigInteger.ZERO
+                    get() = piMinimumInitial?.toCurrencyBigInt()
             }
         }
 
@@ -77,33 +120,86 @@ data class UserPortfolioResponse(
                 @SerializedName("total_investment")
                 val totalInvestment: BigInteger,
                 @SerializedName("xirr")
-                val xirr: BigInteger
+                val xirr: BigInteger,
+                @SerializedName("pi_minimum_initial")
+                val piMinimumInitial: String?,
+                @SerializedName("iaip_aip")
+                val iaipAip: List<IaipAip>?,
+                @SerializedName("is_sip")
+                val isSIP: Boolean
         ) {
             data class Folio(
                     @SerializedName("amount")
-                    val amount: BigInteger,
+                    val amount: Amount,
                     @SerializedName("folio_no")
                     val folioNo: String
-            )
+            ) {
+                data class Amount(
+                        @SerializedName("amount")
+                        val amount: String,
+                        @SerializedName("sip_details")
+                        val sipDetails: List<SipDetail>
+                ) {
+                    data class SipDetail(
+                            @SerializedName("amount")
+                            val amount: String?,
+                            @SerializedName("start_date")
+                            val startDate: String?,
+                            @SerializedName("trans_id")
+                            val transId: Int
+                    )
+                }
+            }
 
-            var folioNoList : String = ""
-               get() = if (folioList.isNotEmpty()){
-                   val string = StringBuilder()
-                   folioList.forEachIndexed { index, folio ->
-                       string.append(folio.folioNo)
-                       if (index!=folioList.size-1){
-                           string.append(", ")
-                       }
-                   }
-                   string.toString()
-               }else{
-                   ""
-               }
+            var folioNoList: String = ""
+                get() = if (folioList.isNotEmpty()) {
+                    val string = StringBuilder()
+                    folioList.forEachIndexed { index, folio ->
+                        string.append(folio.folioNo)
+                        if (index != folioList.size - 1) {
+                            string.append(", ")
+                        }
+                    }
+                    string.toString()
+                } else {
+                    ""
+                }
+
+            var validminSIPAmount = BigInteger.ZERO
+                get() {
+                    var sipAmount = BigInteger.valueOf(100)
+                    if (iaipAip != null && iaipAip.isNotEmpty()) {
+                        val aipAip = iaipAip.firstOrNull { it ->
+                            "SIP".equals(it.siType, true)
+                                    && "Monthly".equals(it.frequency, true)
+                        }
+                        if (aipAip != null) {
+                            val maxTenure = iaipAip.maxBy { it.minTenure }
+                            if (maxTenure != null) {
+                                sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                            }
+                        }
+                    }
+                    return sipAmount
+                }
+
+            var validminlumpsumAmount = BigInteger.ZERO
+                get() = piMinimumInitial?.toCurrencyBigInt()
         }
     }
 }
 
 data class FolioData(
-        val amount: BigInteger,
-        val folioNo: String
+        val amount: String,
+        val folioNo: String,
+        val sipDetails: List<SIPDetails> ?= null
+)
+
+data class SIPDetails(
+        @SerializedName("amount")
+        val amount: String?,
+        @SerializedName("start_date")
+        val startDate: String?,
+        @SerializedName("trans_id")
+        val transId: Int
 )

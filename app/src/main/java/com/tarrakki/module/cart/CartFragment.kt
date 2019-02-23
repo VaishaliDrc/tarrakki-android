@@ -89,8 +89,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
-               // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
-              //  return@setOnClickListener
+                // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
+                //  return@setOnClickListener
                 startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
             }
         }
@@ -168,7 +168,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                            if (context?.isLumpsumAndSIPAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
                                 if (context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!) {
                                     item.lumpsumAmount = binder.edtLumpsum.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
@@ -184,8 +184,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             v.clearFocus()
                             val sipAmount = binder.edtSIPAmount.text.toString()
                             val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
+                            if (context?.isLumpsumAndSIPAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
                                 if (context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!) {
                                     item.sipAmount = binder.edtSIPAmount.text.toString()
                                     getViewModel().updateGoalFromCart(item.id.toString(), item)
@@ -232,46 +231,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                     })
 
-                    /*binder.edtSIPAmount.setOnFocusChangeListener { view, b ->
-                        if (!b) {
-                            view.dismissKeyboard()
-                            view.clearFocus()
-                            val sipAmount = binder.edtSIPAmount.text.toString()
-                            val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                var isValid = false
-                                isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
-                                isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
-                                if (isValid) {
-                                    item.sipAmount = sipAmount
-                                    item.lumpsumAmount = lumpsumAmount
-                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                }
-                            }
-                        }
-                    }
-
-                    binder.edtLumpsum.setOnFocusChangeListener { view, b ->
-                        if (!b) {
-                            view.dismissKeyboard()
-                            view.clearFocus()
-                            val sipAmount = binder.edtSIPAmount.text.toString()
-                            val lumpsumAmount = binder.edtLumpsum.text.toString()
-
-                            if (context?.isCartAmountValid(sipAmount.toCurrencyBigInt(), lumpsumAmount.toCurrencyBigInt()) == true) {
-                                var isValid = false
-                                isValid = context?.isSIPAmountValid(item.validminSIPAmount, sipAmount.toCurrencyBigInt())!!
-                                isValid = context?.isLumpsumAmountValid(item.validminlumpsumAmount, lumpsumAmount.toCurrencyBigInt())!!
-                                if (isValid) {
-                                    item.sipAmount = sipAmount
-                                    item.lumpsumAmount = lumpsumAmount
-                                    getViewModel().updateGoalFromCart(item.id.toString(), item)
-                                }
-                            }
-                        }
-                    }*/
-
                     binder.root.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                             putString(ITEM_ID, "${item.fundIdId}")
@@ -288,13 +247,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
-            lyt_orders?.visibility = View.GONE
-            btnAddFund?.setText(R.string.add_funds)
+            getViewModel().isEmptyCart.set(true)
             coreActivityVM?.emptyView(true, "No funds in your cart.")
         } else {
+            getViewModel().isEmptyCart.set(false)
             coreActivityVM?.emptyView(false)
-            lyt_orders?.visibility = View.VISIBLE
-            btnAddFund?.setText(R.string.edit_funds)
         }
     }
 
@@ -339,9 +296,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             val minlumpsumpAmount = item.validminlumpsumAmount
             val minsipAmount = item.validminSIPAmount
 
-            if (lumpsumpAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
+            if (context?.isLumpsumAndSIPAmountValid(sipAmount,lumpsumpAmount)==false) {
                 context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
-                    //rvCartItems?.smoothScrollToPosition(i)
                     Handler().postDelayed({
                         if (getViewModel().funds.isNotEmpty()) {
                             getViewModel().funds[i].reuestToEdit = true
@@ -351,30 +307,27 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 isValid = false
                 break@loop
             } else {
-                if (lumpsumpAmount != BigInteger.ZERO) {
-                    if (lumpsumpAmount < minlumpsumpAmount) {
-                        context?.simpleAlert("The lumpsum amount must be greater than or equal to ${minlumpsumpAmount}.") {
-                            if (getViewModel().funds.isNotEmpty()) {
-                                getViewModel().funds[i].reuestToEdit = true
-                            }
+                if (context?.isLumpsumAmountValid(minlumpsumpAmount, lumpsumpAmount) == false) {
+                    Handler().postDelayed({
+                        if (getViewModel().funds.isNotEmpty()) {
+                            getViewModel().funds[i].reuestToEdit = true
                         }
-                        isValid = false
-                        break@loop
-                    }
+                    }, 100)
+                    isValid = false
+                    break@loop
                 }
-                if (sipAmount != BigInteger.ZERO) {
-                    if (sipAmount < minsipAmount) {
-                        context?.simpleAlert("The SIP amount must be greater than or equal to ${minsipAmount}.") {
-                            Handler().postDelayed({
-                                if (getViewModel().funds.isNotEmpty()) {
-                                    getViewModel().funds[i].reuestToEdit = true
-                                }
-                            }, 100)
+
+                if (context?.isSIPAmountValid(minsipAmount, sipAmount) == false) {
+                    Handler().postDelayed({
+                        if (getViewModel().funds.isNotEmpty()) {
+                            getViewModel().funds[i].reuestToEdit = true
                         }
-                        isValid = false
-                        break@loop
-                    } else {
-                        if (item.day == null || item.day == "" ||item.day == "0") {
+                    }, 100)
+                    isValid = false
+                    break@loop
+                }else {
+                    if (sipAmount != BigInteger.ZERO) {
+                        if (item.day == null || item.day == "" || item.day == "0") {
                             context?.simpleAlert("Please Select Start Date.") {
                                 Handler().postDelayed({
                                     if (getViewModel().funds.isNotEmpty()) {

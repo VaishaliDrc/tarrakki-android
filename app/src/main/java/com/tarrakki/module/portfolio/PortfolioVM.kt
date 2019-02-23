@@ -1,6 +1,7 @@
 package com.tarrakki.module.portfolio
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
@@ -25,6 +26,8 @@ class PortfolioVM : FragmentViewModel() {
     val goalBasedInvestment = arrayListOf<Investment>()
     val portfolioData = MutableLiveData<UserPortfolioResponse>()
     val isRefreshing = MutableLiveData<Boolean>()
+    val isDirectEmpty = ObservableField<Boolean>(false)
+    val isGoalEmpty = ObservableField<Boolean>(false)
 
     fun getUserPortfolio(isRefreshing: Boolean = false) {
         if (!isRefreshing)

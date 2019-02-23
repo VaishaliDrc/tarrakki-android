@@ -207,6 +207,10 @@ interface WebserviceBuilder {
     @POST("transactions/redeem/")
     fun redeemPortfolio(@Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("transactions/stop/")
+    fun stopPortfolio(@Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

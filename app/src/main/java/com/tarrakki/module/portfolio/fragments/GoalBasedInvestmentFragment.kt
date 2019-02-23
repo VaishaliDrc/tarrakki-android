@@ -57,6 +57,7 @@ class GoalBasedInvestmentFragment : CoreFragment<PortfolioVM, FragmentGoalBasedI
         vm?.let { vm ->
             vm.portfolioData.observe(this, Observer {
                 if (it?.data?.goalBasedInvestment?.isNotEmpty() == true) {
+                    getViewModel().isGoalEmpty.set(false)
                     rvGBInvests?.setUpRecyclerView(R.layout.row_goal_based_investment_list_item,
                             it.data.goalBasedInvestment as ArrayList<UserPortfolioResponse.Data.GoalBasedInvestment>) { item: UserPortfolioResponse.Data.GoalBasedInvestment, binder: RowGoalBasedInvestmentListItemBinding, position ->
                         binder.investment = item
@@ -67,7 +68,8 @@ class GoalBasedInvestmentFragment : CoreFragment<PortfolioVM, FragmentGoalBasedI
                         }
                     }
                 } else {
-                    coreActivityVM?.emptyView(true)
+                    getViewModel().isGoalEmpty.set(true)
+                    //coreActivityVM?.emptyView(true)
                 }
             })
         }

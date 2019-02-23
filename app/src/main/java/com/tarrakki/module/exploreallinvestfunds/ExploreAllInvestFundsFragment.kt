@@ -52,7 +52,10 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
         }
 
         btnExploreFunds?.setOnClickListener {
-            startFragment(InvestFragment.newInstance(), R.id.frmContainer)
+            val bundle = Bundle().apply {
+                putBoolean("isEnableBack",true)
+            }
+            startFragment(InvestFragment.newInstance(bundle), R.id.frmContainer)
         }
 
         rvMutualFunds.isFocusable = false
