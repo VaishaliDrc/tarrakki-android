@@ -21,7 +21,7 @@
 
         <variable
             name="startDayDisable"
-            type="Boolean"/>
+            type="Boolean" />
 
     </data>
 
@@ -102,20 +102,36 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-        <TextView
-            android:id="@+id/tvNew"
+        <LinearLayout
+            android:id="@+id/llfolioNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="@dimen/default_space"
-            android:fontFamily="@font/lato_semibold"
-            android:text="Folio"
-            android:textColor="@color/white"
-            android:visibility="invisible"
+            android:layout_marginTop="@dimen/space_8"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvNewLbl"
-            app:layout_constraintTop_toBottomOf="@+id/tvName"
-            tools:text="Folio" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNewLbl">
+
+            <TextView
+                android:id="@+id/tvNew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:text="Folio :"
+                android:textColor="@color/darker_gray"
+                tools:text="Folio" />
+
+            <TextView
+                android:id="@+id/tvFolioNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                android:paddingStart="@dimen/space_4"
+                android:text='@{fund.actualfolioNumber}'
+                android:textColor="@color/white"
+                tools:text="Folio" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvSIP"
@@ -130,7 +146,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNewLbl" />
+            app:layout_constraintTop_toBottomOf="@id/llfolioNo" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/llSIP"
@@ -160,13 +176,13 @@
                 android:id="@+id/edtSIPAmount"
                 requestToEdit="@{fund.reuestToEdit}"
                 android:layout_width="0dp"
-                android:paddingEnd="@dimen/space_8"
                 android:layout_height="0dp"
                 android:background="@null"
                 android:fontFamily="@font/lato_semibold"
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLines="1"
+                android:paddingEnd="@dimen/space_8"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"
@@ -177,7 +193,6 @@
                 tools:text="5000" />
 
         </android.support.constraint.ConstraintLayout>
-
 
         <TextView
             android:id="@+id/tvDate"
@@ -265,9 +280,9 @@
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLines="1"
-                android:text="@={fund.lumpsumAmount}"
-                android:paddingEnd="@dimen/space_8"
                 android:minWidth="100dp"
+                android:paddingEnd="@dimen/space_8"
+                android:text="@={fund.lumpsumAmount}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
                 app:isPositiveCurrency="@{true}"

@@ -1,13 +1,19 @@
 package org.supportcompact.utilise
 
+import android.content.Context
 import android.graphics.Rect
+import android.support.annotation.DimenRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.View
 
-class EqualSpacingItemDecoration @JvmOverloads constructor(private val spacing: Int, private var displayMode: Int = -1) : RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+class EqualSpacingItemDecoration(private val spacing: Int, private var displayMode: Int = -1)
+    : RecyclerView.ItemDecoration() {
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
+                                state: RecyclerView.State) {
         val position = parent.getChildViewHolder(view).adapterPosition
         val itemCount = state.itemCount
         val layoutManager = parent.layoutManager

@@ -29,7 +29,6 @@
         tools:ignore="GoogleAppIndexingWarning,HardcodedDebugMode"
         tools:replace="android:allowBackup,android:name"
         tools:targetApi="m">
-        <activity android:name=".module.webviewActivity.WebviewActivity"></activity>
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -100,6 +99,9 @@
         <activity
             android:name=".module.ekyc.SignatureActivity"
             android:screenOrientation="landscape" />
+        <activity android:name=".module.webviewActivity.WebviewActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

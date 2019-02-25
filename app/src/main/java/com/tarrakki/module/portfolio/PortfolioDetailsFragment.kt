@@ -3,10 +3,12 @@ package com.tarrakki.module.portfolio
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.google.gson.JsonObject
 import com.tarrakki.*
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.FolioData
+import com.tarrakki.api.model.SIPDetails
+import com.tarrakki.api.model.UserPortfolioResponse
+import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentPortfolioDetailsBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentDetailsListItemBinding
 import com.tarrakki.module.cart.CartFragment
@@ -19,7 +21,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
-import java.util.ArrayList
+import java.util.*
 
 class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfolioDetailsBinding>() {
 
@@ -52,12 +54,12 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.tvAddPortfolio.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
-                        folios.add(FolioData(folio.amount.amount, folio.folioNo))
+                        folios.add(FolioData(folio.amount, folio.folioNo))
                     }
                     context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
-                            item.validminSIPAmount) { portfolio,amountLumpsum, amountSIP ->
+                            item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
                         addToCartPortfolio(item.fundId, amountSIP.toString(),
-                                amountLumpsum.toString(),portfolio).observe(this,
+                                amountLumpsum.toString(), portfolio).observe(this,
                                 android.arch.lifecycle.Observer { response ->
                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -67,12 +69,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 }
 
                 binder.tvRedeem.setOnClickListener {
-                    val folios : MutableList<FolioData> = mutableListOf()
-                    for(folio in item.folioList){
-                        folios.add(FolioData(folio.amount.amount,folio.folioNo))
+                    val folios: MutableList<FolioData> = mutableListOf()
+                    for (folio in item.folioList) {
+                        folios.add(FolioData(folio.amount, folio.folioNo))
                     }
-                    context?.redeemFundPortfolioDialog(folios) {
-                        portfolioNo, totalAmount, allRedeem ->
+                    context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem ->
                         val json = JsonObject()
                         json.addProperty("user_id", App.INSTANCE.getUserId())
                         json.addProperty("fund_id", item.fundId)
@@ -90,20 +91,15 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.tvStopPortfolio.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
-                        val sipDetailsList : MutableList<SIPDetails> = mutableListOf()
-                        for (sipDetail in folio.amount.sipDetails){
-                            sipDetailsList.add(SIPDetails(sipDetail.amount,sipDetail.startDate,sipDetail.transId))
+                        val sipDetailsList: MutableList<SIPDetails> = mutableListOf()
+                        for (sipDetail in folio.sipDetails) {
+                            sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                         }
-                        folios.add(FolioData(folio.amount.amount, folio.folioNo,sipDetailsList))
+                        folios.add(FolioData(folio.amount, folio.folioNo, sipDetailsList))
                     }
 
-                    context?.stopFundPortfolioDialog(folios) {
-                        transactionId ->
-                        val json = JsonObject()
-                        json.addProperty("transaction_id", transactionId)
-                        json.toString().printRequest()
-                        val data = json.toString().toEncrypt()
-                        stopPortfolio(data).observe(this, Observer {
+                    context?.stopFundPortfolioDialog(folios) { transactionId ->
+                        stopPortfolio(transactionId).observe(this, Observer {
                             context?.simpleAlert("${it?.status?.message}")
                         })
                     }

@@ -82,9 +82,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 }
 
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
-                    /***
-                     * On place order click
-                     * */
                     if (confirmOrderResponse?.data?.mandateId == null) {
                         context?.simpleAlert("Please select Mandate bank to continue")
                         return@OnClickListener
@@ -92,7 +89,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                                it?.let { it2 -> postSticky(it2) }
+                                it?.data?.failedTransactions?.let { it2 -> postSticky(it2) }
                             }else{
                                 startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
                                 it?.data?.failedTransactions?.let { it2 -> postSticky(it2) }

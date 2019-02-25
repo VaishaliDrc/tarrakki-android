@@ -42,7 +42,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
     }
 
     override fun createReference() {
-        rvDInvests?.addItemDecoration(EqualSpacingItemDecoration(44))
+        rvDInvests?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
         parentFragment?.let {
             vm = ViewModelProviders.of(it).get(PortfolioVM::class.java)
@@ -65,12 +65,12 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.amount.amount, folio.folioNo))
+                                folios.add(FolioData(folio.amount, folio.folioNo))
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
-                                    item.validminSIPAmount) { portfolio,amountLumpsum, amountSIP ->
+                                    item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
                                 addToCartPortfolio(item.fundId, amountSIP.toString(),
-                                        amountLumpsum.toString(),portfolio).observe(this,
+                                        amountLumpsum.toString(), portfolio).observe(this,
                                         android.arch.lifecycle.Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -82,7 +82,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvRedeem.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.amount.amount, folio.folioNo))
+                                folios.add(FolioData(folio.amount, folio.folioNo))
                             }
                             context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem ->
                                 val json = JsonObject()
@@ -94,7 +94,9 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 json.toString().printRequest()
                                 val data = json.toString().toEncrypt()
                                 redeemPortfolio(data).observe(this, Observer {
-                                    context?.simpleAlert("${it?.status?.message}")
+                                    context?.simpleAlert("${it?.status?.message}") {
+                                        vm.getUserPortfolio()
+                                    }
                                 })
                             }
                         }
@@ -102,21 +104,18 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvStopPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                val sipDetailsList : MutableList<SIPDetails> = mutableListOf()
-                                for (sipDetail in folio.amount.sipDetails){
-                                    sipDetailsList.add(SIPDetails(sipDetail.amount,sipDetail.startDate,sipDetail.transId))
+                                val sipDetailsList: MutableList<SIPDetails> = mutableListOf()
+                                for (sipDetail in folio.sipDetails) {
+                                    sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                                 }
-                                folios.add(FolioData(folio.amount.amount, folio.folioNo,sipDetailsList))
+                                folios.add(FolioData(folio.amount, folio.folioNo, sipDetailsList))
                             }
 
-                            context?.stopFundPortfolioDialog(folios) {
-                               transactionId ->
-                                val json = JsonObject()
-                                json.addProperty("transaction_id", transactionId)
-                                json.toString().printRequest()
-                                val data = json.toString().toEncrypt()
-                                stopPortfolio(data).observe(this, Observer {
-                                    context?.simpleAlert("${it?.status?.message}")
+                            context?.stopFundPortfolioDialog(folios) { transactionId ->
+                                stopPortfolio(transactionId).observe(this, Observer {
+                                    context?.simpleAlert("${it?.status?.message}") {
+                                        vm.getUserPortfolio()
+                                    }
                                 })
                             }
                         }

@@ -1,7 +1,9 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
+import org.supportcompact.ktx.convertTo
 import org.supportcompact.ktx.toCurrencyBigInt
+import org.supportcompact.ktx.toDate
 import java.math.BigInteger
 
 data class UserPortfolioResponse(
@@ -50,25 +52,20 @@ data class UserPortfolioResponse(
             ) {
                 data class Folio(
                         @SerializedName("amount")
-                        val amount: Amount,
+                        val amount: String,
                         @SerializedName("folio_no")
-                        val folioNo: String
+                        val folioNo: String,
+                        @SerializedName("sip_details")
+                        val sipDetails: List<SipDetail>
                 ) {
-                    data class Amount(
+                    data class SipDetail(
                             @SerializedName("amount")
-                            val amount: String,
-                            @SerializedName("sip_details")
-                            val sipDetails: List<SipDetail>
-                    ) {
-                        data class SipDetail(
-                                @SerializedName("amount")
-                                val amount: String?,
-                                @SerializedName("start_date")
-                                val startDate: String?,
-                                @SerializedName("trans_id")
-                                val transId: Int
-                        )
-                    }
+                            val amount: String?,
+                            @SerializedName("start_date")
+                            val startDate: String?,
+                            @SerializedName("trans_id")
+                            val transId: Int
+                    )
                 }
 
                 var folioNoList: String = ""
@@ -130,25 +127,20 @@ data class UserPortfolioResponse(
         ) {
             data class Folio(
                     @SerializedName("amount")
-                    val amount: Amount,
+                    val amount: String,
                     @SerializedName("folio_no")
-                    val folioNo: String
+                    val folioNo: String,
+                    @SerializedName("sip_details")
+                    val sipDetails: List<SipDetail>
             ) {
-                data class Amount(
+                data class SipDetail(
                         @SerializedName("amount")
-                        val amount: String,
-                        @SerializedName("sip_details")
-                        val sipDetails: List<SipDetail>
-                ) {
-                    data class SipDetail(
-                            @SerializedName("amount")
-                            val amount: String?,
-                            @SerializedName("start_date")
-                            val startDate: String?,
-                            @SerializedName("trans_id")
-                            val transId: Int
-                    )
-                }
+                        val amount: String?,
+                        @SerializedName("start_date")
+                        val startDate: String?,
+                        @SerializedName("trans_id")
+                        val transId: Int
+                )
             }
 
             var folioNoList: String = ""
@@ -192,7 +184,7 @@ data class UserPortfolioResponse(
 data class FolioData(
         val amount: String,
         val folioNo: String,
-        val sipDetails: List<SIPDetails> ?= null
+        val sipDetails: List<SIPDetails>? = null
 )
 
 data class SIPDetails(
@@ -202,4 +194,11 @@ data class SIPDetails(
         val startDate: String?,
         @SerializedName("trans_id")
         val transId: Int
-)
+) {
+    var convertedDate = ""
+        get() = startDate?.toDate()?.convertTo().toString()
+
+    override fun toString(): String {
+        return convertedDate
+    }
+}

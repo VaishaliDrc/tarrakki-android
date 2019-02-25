@@ -13,7 +13,7 @@ public class WrapContentViewPager extends ViewPager implements Animation.Animati
     private View mCurrentView;
     private PagerAnimation mAnimation = new PagerAnimation();
     private boolean mAnimStarted = false;
-    private long mAnimDuration = 50;
+    private long mAnimDuration = 100;
 
     public WrapContentViewPager(Context context) {
         super(context);

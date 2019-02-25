@@ -114,12 +114,6 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         })
     }
 
-    fun navToMutualFunds(){
-        val intent = Intent(this,InvestActivity::class.java)
-        intent.putExtra("mutualfunds",true)
-        startActivity(intent)
-    }
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {

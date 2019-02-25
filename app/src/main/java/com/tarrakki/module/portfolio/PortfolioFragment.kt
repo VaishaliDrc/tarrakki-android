@@ -60,15 +60,12 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
         mTab?.setupWithViewPager(mPager, true)
     }
 
+    override fun onResume() {
+        getViewModel().getUserPortfolio()
+        super.onResume()
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param basket As Bundle.
-         * @return A new instance of fragment PortfolioFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = PortfolioFragment().apply { arguments = basket }
     }

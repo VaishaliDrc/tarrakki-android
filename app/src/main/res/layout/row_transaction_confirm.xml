@@ -34,7 +34,7 @@
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="0dp"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/space_12"
                 android:layout_toStartOf="@id/tvAmount"
                 android:gravity="start"
@@ -45,7 +45,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="SBI Banking and Financial Services Growth Direct Plan Growth" />
+                tools:text="SBI Banking and Financial Services Growth Direct Plan Growthddddddddd" />
 
             <TextView
                 android:id="@+id/tvAmount"

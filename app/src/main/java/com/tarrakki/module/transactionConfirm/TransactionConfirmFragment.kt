@@ -3,6 +3,7 @@ package com.tarrakki.module.transactionConfirm
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import com.tarrakki.BaseActivity
@@ -13,6 +14,7 @@ import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import kotlinx.android.synthetic.main.activity_base.*
@@ -25,6 +27,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.startActivity
 
 class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTransactionConfirmBinding>() {
 
@@ -71,15 +74,25 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         btnExploreAllFunds?.setOnClickListener {
             onExploreFunds()
         }
+
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onExploreFunds()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
     }
 
-    fun onExploreFunds(){
+    private fun onExploreFunds(){
         activity?.let {
             if (it is BaseActivity) {
-                if (it is InvestActivity) {
-                    it.onBackPressed()
+                if (it is HomeActivity) {
+                    it.startActivity<InvestActivity>()
                 } else {
-                    it.mBottomNav.selectedItemId = R.id.action_invest
+                    it.supportFragmentManager?.backStackEntryCount?.minus(1)?.let { it1 -> onBack(it1) }
                 }
             }
         }

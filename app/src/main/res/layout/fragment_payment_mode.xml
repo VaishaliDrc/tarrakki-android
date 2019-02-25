@@ -28,7 +28,7 @@
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
-                android:layout_marginBottom="@dimen/space_8"
+                android:layout_marginBottom="@dimen/space_12"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical">

@@ -42,7 +42,7 @@ class GoalBasedInvestmentFragment : CoreFragment<PortfolioVM, FragmentGoalBasedI
     }
 
     override fun createReference() {
-        rvGBInvests?.addItemDecoration(EqualSpacingItemDecoration(44))
+        rvGBInvests?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
         parentFragment?.let {
             vm = ViewModelProviders.of(it).get(PortfolioVM::class.java)

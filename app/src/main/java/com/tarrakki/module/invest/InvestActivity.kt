@@ -1,5 +1,6 @@
 package com.tarrakki.module.invest
 
+import android.content.Intent
 import android.os.Bundle
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
@@ -20,5 +21,15 @@ class InvestActivity : BaseActivity() {
             else
                 finish()
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        supportFragmentManager?.let {
+            for (i in 1 until it.backStackEntryCount) {
+                it.popBackStack()
+            }
+        }
+
     }
 }

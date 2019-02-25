@@ -13,7 +13,7 @@ import android.webkit.*
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityWebviewBinding
 import kotlinx.android.synthetic.main.activity_webview.*
-import org.greenrobot.eventbus.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreActivity
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
@@ -79,10 +79,6 @@ class WebviewActivity : CoreActivity<WebviewVM, ActivityWebviewBinding>() {
                         sendEmail(url.substring(7))
                         true
                     }
-                    url.startsWith("http://115.160.244.10:8084") -> {
-                        view.loadUrl(url)
-                        true
-                    }
                     else -> {
                         // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
                         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
@@ -121,11 +117,6 @@ class WebviewActivity : CoreActivity<WebviewVM, ActivityWebviewBinding>() {
                 }
             }
         })
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_webview)
     }
 
     private fun sendEmail(add: String) {

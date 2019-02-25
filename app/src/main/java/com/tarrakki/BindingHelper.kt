@@ -21,7 +21,10 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.FolioData
+import com.tarrakki.api.model.Goal
+import com.tarrakki.api.model.HomeData
+import com.tarrakki.api.model.SIPDetails
 import com.tarrakki.databinding.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -522,9 +525,8 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         mBinder.folio = portfolioList[0].folioNo
     }
 
-    mBinder.rbCurrent.isChecked = true
     mBinder.rbgFolioType.setOnCheckedChangeListener { group, checkedId ->
-        if (R.id.rbNew == checkedId) {
+        if (R.id.rbNew != checkedId) {
             mBinder.tvChooseFolio.visibility = View.VISIBLE
             mBinder.edtChooseFolio.visibility = View.VISIBLE
         } else {
@@ -532,6 +534,8 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             mBinder.edtChooseFolio.visibility = View.GONE
         }
     }
+
+    mBinder.rbCurrent.isChecked = true
 
     mBinder.edtChooseFolio.setOnClickListener {
         this.showListDialog("Select Folio", folioList) { item ->
@@ -545,7 +549,7 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         it.dismissKeyboard()
         if (this.isInvestDialogValid(minAmountSIP, minAmountLumpsum, sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
-            val folioNo = if (mBinder.rbNew.isChecked) {
+            val folioNo = if (!mBinder.rbNew.isChecked) {
                 mBinder.edtChooseFolio.text.toString()
             } else {
                 ""
@@ -575,7 +579,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
     if (portfolioList.isNotEmpty()) {
-        mBinder.investmentAmount = portfolioList[0].amount.toString()
+        mBinder.investmentAmount = portfolioList[0].amount
         mBinder.folio = portfolioList[0].folioNo
     }
 
@@ -598,7 +602,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             mBinder.folio = item
             val selectedAmount = portfolioList.find { it.folioNo == item }
             if (selectedAmount != null) {
-                mBinder.investmentAmount = selectedAmount.amount.toString()
+                mBinder.investmentAmount = selectedAmount.amount
             }
         }
     }
@@ -607,7 +611,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         it.dismissKeyboard()
         val amount = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
-        if (amount.isNotEmpty() && amount != "0") {
+        if (this.isAmountValid(amount.toCurrencyBigInt())) {
             mDialog.dismiss()
             val isRedeem = if (mBinder.chkAmount.isChecked) {
                 "Y"
@@ -615,8 +619,6 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                 "N"
             }
             onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem)
-        } else {
-            this.simpleAlert("Please enter valid amount.")
         }
 
     }
@@ -631,75 +633,27 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 }
 
 fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
-                                          onStop: ((transactionId: Int) -> Unit)? = null) {
+                                    onStop: ((transactionId: Int) -> Unit)? = null) {
     val mBinder = DialogStopTransactionBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
 
-    val folioList = portfolioList.map { it.folioNo } as ArrayList
-    var startDateList = arrayListOf<String>()
+    val folioList = portfolioList.filter { it.sipDetails?.isNotEmpty()==true }.map { it.folioNo } as ArrayList
+    var startDateList = arrayListOf<SIPDetails>()
     var sipDetail: SIPDetails? = null
 
     if (portfolioList.isNotEmpty()) {
-        mBinder.folio = portfolioList[0].folioNo
-        val selectedFolio = portfolioList.find { it.folioNo == portfolioList[0].folioNo }
+        mBinder.folio = folioList[0]
+        val selectedFolio = portfolioList.find { it.folioNo == folioList[0] }
         if (selectedFolio != null) {
-            startDateList = selectedFolio.sipDetails?.map { it.startDate } as ArrayList<String>
-            if (startDateList.isNotEmpty()) {
-                if (startDateList[0] != null) {
-                    mBinder.startDate = startDateList[0]
-                }
-            }
-            sipDetail = selectedFolio.sipDetails[0]
-            if (sipDetail != null) {
-                if (sipDetail?.amount != null) {
-                    mBinder.amount = sipDetail.amount?.toCurrencyBigInt()
-                } else {
-                    mBinder.amount = BigInteger.ZERO
-                }
-            } else {
-                mBinder.amount = BigInteger.ZERO
-            }
-        }
-    }
-
-    mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", folioList) { item ->
-            mBinder.folio = item
-            val selectedFolio = portfolioList.find { it.folioNo == item }
-            if (selectedFolio != null) {
-                startDateList = selectedFolio.sipDetails?.map { it.startDate } as ArrayList<String>
+            if (selectedFolio.sipDetails?.isNotEmpty() == true) {
+                startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
                 if (startDateList.isNotEmpty()) {
-                    mBinder.startDate = startDateList[0].toString()
-                    val selectedFolio = portfolioList.find { it.folioNo == item }
-                    if (selectedFolio != null) {
-                        if (selectedFolio.sipDetails?.isNotEmpty() == true) {
-                            sipDetail = selectedFolio.sipDetails.get(0)
-                            if (sipDetail != null) {
-                                if (sipDetail?.amount != null) {
-                                    mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
-                                } else {
-                                    mBinder.amount = BigInteger.ZERO
-                                }
-                            } else {
-                                mBinder.amount = BigInteger.ZERO
-                            }
-                        }
-                    }
+                    mBinder.startDate = startDateList[0].convertedDate
                 }
-            }
-        }
-    }
-
-    mBinder.edtStartDate.setOnClickListener {
-        this.showCustomListDialog("Select StartDate", startDateList) { item ->
-            mBinder.startDate = item
-            val folioNo = mBinder.edtChooseFolio.text.toString()
-            val selectedFolio = portfolioList.find { it.folioNo == folioNo }
-            if (selectedFolio != null) {
-                sipDetail = selectedFolio.sipDetails?.find { it.startDate == item }
+                sipDetail = selectedFolio.sipDetails[0]
                 if (sipDetail != null) {
-                    if (sipDetail?.amount != null) {
-                        mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                    if (sipDetail.amount != null) {
+                        mBinder.amount = sipDetail.amount?.toCurrencyBigInt()
                     } else {
                         mBinder.amount = BigInteger.ZERO
                     }
@@ -710,12 +664,56 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         }
     }
 
+    mBinder.edtChooseFolio.setOnClickListener {
+        this.showListDialog("Select Folio", folioList) { item ->
+            mBinder.folio = item
+            val selectedFolio = portfolioList.find { it.folioNo == item }
+            if (selectedFolio != null) {
+                startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
+                if (startDateList.isNotEmpty()) {
+                    mBinder.startDate = startDateList[0].convertedDate
+                    if (selectedFolio.sipDetails.isNotEmpty()) {
+                        sipDetail = selectedFolio.sipDetails[0]
+                        if (sipDetail != null) {
+                            if (sipDetail?.amount != null) {
+                                mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                            } else {
+                                mBinder.amount = BigInteger.ZERO
+                            }
+                        } else {
+                            mBinder.amount = BigInteger.ZERO
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    mBinder.edtStartDate.setOnClickListener {
+        this.showCustomListDialog("Select StartDate", startDateList) { item ->
+            mBinder.startDate = item.convertedDate
+            val folioNo = mBinder.edtChooseFolio.text.toString()
+            val selectedFolio = portfolioList.find { it.folioNo == folioNo }
+            if (selectedFolio != null) {
+                if (selectedFolio.sipDetails?.isNotEmpty() == true) {
+                    sipDetail = selectedFolio.sipDetails.find { it.startDate == item.startDate }
+                    if (sipDetail != null) {
+                        if (sipDetail?.amount != null) {
+                            mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                        } else {
+                            mBinder.amount = BigInteger.ZERO
+                        }
+                    } else {
+                        mBinder.amount = BigInteger.ZERO
+                    }
+                }
+            }
+        }
+    }
+
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
-        val amount = mBinder.edtAmount.text.toString().toCurrencyBigInt().toString()
-        val folioNo = mBinder.edtChooseFolio.text.toString()
-        val startDate = mBinder.edtStartDate.text.toString()
-
         if (sipDetail != null) {
             mDialog?.dismiss()
             sipDetail?.transId?.let { it1 -> onStop?.invoke(it1) }
@@ -828,6 +826,19 @@ fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
                                        lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        return false
+    }
+    return true
+}
+
+fun Context.isAmountValid(amount: BigInteger): Boolean {
+    if (amount != BigInteger.ZERO) {
+        if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
+            this.simpleAlert("The SIP amount must be in multiplier of 10.")
+            return false
+        }
+    }else{
+        this.simpleAlert("Please enter valid amount.")
         return false
     }
     return true

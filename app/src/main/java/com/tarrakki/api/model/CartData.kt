@@ -44,8 +44,18 @@ data class CartData(
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("goal")
-                val goal: Goal
+                val goal: Goal,
+                @SerializedName("folio_number")
+                val folioNumber: String
         ) : BaseObservable(), Serializable {
+
+            var actualfolioNumber : String = ""
+                get() = if (folioNumber!=null){
+                    folioNumber
+                }else{
+                    "NEW"
+                }
+
             var validminSIPAmount = BigInteger.ZERO
                 get() {
                     var sipAmount = BigInteger.valueOf(100)

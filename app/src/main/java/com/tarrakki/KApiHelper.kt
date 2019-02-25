@@ -73,7 +73,7 @@ fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, fo
         json.addProperty("lumpsum_amount", lumpsumAmount)
     }
     if (folioNo.isNotEmpty()){
-        json.addProperty("folio_number", lumpsumAmount)
+        json.addProperty("folio_number", folioNo)
     }
     json.printRequest()
     val data = json.toString().toEncrypt()
@@ -395,13 +395,13 @@ fun redeemPortfolio(data: String)
     return apiResponse
 }
 
-fun stopPortfolio(data: String)
+fun stopPortfolio(transactionId: Int)
         : MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .stopPortfolio(data),
+                    .stopPortfolio(transactionId),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
