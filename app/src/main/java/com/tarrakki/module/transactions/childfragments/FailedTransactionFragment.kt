@@ -48,7 +48,7 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 failedTransactions.remove(loadMore)
-                loadMore.loadMore = false
+                loadMore.isLoading = false
                 if (mRefresh?.isRefreshing == true) {
                     failedTransactions.clear()
                     mRefresh?.isRefreshing = false
@@ -56,7 +56,7 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
                 if (data.transactions?.isNotEmpty() == true) {
                     failedTransactions.addAll(data.transactions)
                 }
-                if (failedTransactions.isNotEmpty()) {
+                if (failedTransactions.size >= 10) {
                     failedTransactions.add(loadMore)
                 }
                 if (rvFailedTransactions?.adapter == null) {
@@ -64,8 +64,8 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.executePendingBindings()
-                        if (position >= 9 && failedTransactions.size - 1 == position && !loadMore.loadMore) {
-                            loadMore.loadMore = true
+                        if (position >= 9 && failedTransactions.size - 1 == position && !loadMore.isLoading) {
+                            loadMore.isLoading = true
                             loadMoreObservable.value = data.offset
                         }
                     }

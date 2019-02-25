@@ -48,7 +48,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 upcomingTransactions.remove(loadMore)
-                loadMore.loadMore = false
+                loadMore.isLoading = false
                 if (mRefresh?.isRefreshing == true) {
                     upcomingTransactions.clear()
                     mRefresh?.isRefreshing = false
@@ -56,7 +56,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
                 if (data.transactions?.isNotEmpty() == true) {
                     upcomingTransactions.addAll(data.transactions)
                 }
-                if (upcomingTransactions.isNotEmpty()) {
+                if (upcomingTransactions.size >= 10) {
                     upcomingTransactions.add(loadMore)
                 }
                 if (rvUpcomingTransactions?.adapter == null) {
@@ -64,8 +64,8 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.executePendingBindings()
-                        if (position >= 9 && upcomingTransactions.size - 1 == position && !loadMore.loadMore) {
-                            loadMore.loadMore = true
+                        if (position >= 9 && upcomingTransactions.size - 1 == position && !loadMore.isLoading) {
+                            loadMore.isLoading = true
                             loadMoreObservable.value = data.offset
                         }
                     }

@@ -5,13 +5,17 @@ import android.support.annotation.IntRange
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.FundDetails
+import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.printResponse
 import com.tarrakki.module.invest.FundType
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -76,5 +80,5 @@ data class TopHolding(
         var percentageHolding: Double,
         var amount: Double = 0.0
 ) {
-    fun getReturns(): String = if (percentageHolding == 0.0) "N/A" else "$percentageHolding".plus("% ").plus(App.INSTANCE.getString(R.string.return_))
+    fun getReturns(): String = parseToPercentageOrNA("$percentageHolding").plus(" ").plus(App.INSTANCE.getString(R.string.return_))
 }

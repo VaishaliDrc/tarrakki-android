@@ -341,7 +341,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                                     ?: ""
                             kycData.gender = data.appgen
                             kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
-                            kycData.pincode = data.appcorpincd
+                            kycData.pincode = data.appperpincd
                             kycData.city = data.apppercity
                             kycData.state = data.appperstate
                             kycData.country = data.appperctry

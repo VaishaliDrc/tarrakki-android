@@ -47,7 +47,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 inProgressTransactions.remove(loadMore)
-                loadMore.loadMore = false
+                loadMore.isLoading = false
                 if (mRefresh?.isRefreshing == true) {
                     inProgressTransactions.clear()
                     mRefresh?.isRefreshing = false
@@ -55,7 +55,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                 if (data.transactions?.isNotEmpty() == true) {
                     inProgressTransactions.addAll(data.transactions)
                 }
-                if (inProgressTransactions.isNotEmpty()) {
+                if (inProgressTransactions.size >= 10) {
                     inProgressTransactions.add(loadMore)
                 }
                 if (rvInProgressTransactions?.adapter == null) {
@@ -63,8 +63,8 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.executePendingBindings()
-                        if (position >= 9 && inProgressTransactions.size - 1 == position && !loadMore.loadMore) {
-                            loadMore.loadMore = true
+                        if (position >= 9 && inProgressTransactions.size - 1 == position && !loadMore.isLoading) {
+                            loadMore.isLoading = true
                             loadMoreObservable.value = data.offset
                         }
                     }

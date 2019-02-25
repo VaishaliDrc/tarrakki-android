@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
 import org.supportcompact.networking.ApiClient
@@ -34,7 +35,7 @@ class TransactionsVM : FragmentViewModel() {
         json.printRequest()
         data.printRequest()
         subscribeToSingle(
-                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTransactions("74"/*App.INSTANCE.getUserId()*/, data),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTransactions(App.INSTANCE.getUserId(), data),
                 apiNames = WebserviceBuilder.ApiNames.transactions,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -43,7 +44,8 @@ class TransactionsVM : FragmentViewModel() {
                                 thread {
                                     val response = o.data?.parseTo<TransactionApiResponse>()
                                     apiResponse.postValue(response)
-                                    dismissProgress()
+                                    if (!mRefresh && TransactionApiResponse.ALL == transactionType)
+                                        dismissProgress()
                                 }
                             } else {
                                 dismissProgress()

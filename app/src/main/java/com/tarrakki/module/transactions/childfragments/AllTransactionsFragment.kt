@@ -47,7 +47,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 allTransactions.remove(loadMore)
-                loadMore.loadMore = false
+                loadMore.isLoading = false
                 if (mRefresh?.isRefreshing == true) {
                     allTransactions.clear()
                     mRefresh?.isRefreshing = false
@@ -55,7 +55,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                 if (data.transactions?.isNotEmpty() == true) {
                     allTransactions.addAll(data.transactions)
                 }
-                if (allTransactions.isNotEmpty()) {
+                if (allTransactions.size >= 10) {
                     allTransactions.add(loadMore)
                 }
                 if (rvAllTransactions?.adapter == null) {
@@ -63,8 +63,8 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.VISIBLE)
                         binder.executePendingBindings()
-                        if (position >= 9 && allTransactions.size - 1 == position && !loadMore.loadMore) {
-                            loadMore.loadMore = true
+                        if (position >= 9 && allTransactions.size - 1 == position && !loadMore.isLoading) {
+                            loadMore.isLoading = true
                             loadMoreObservable.value = data.offset
                         }
                     }
@@ -88,7 +88,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
-                tvNoItem?.visibility = if (allTransactions.isEmpty()) View.VISIBLE else View.GONE
+                //tvNoItem?.visibility = if (allTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
     }

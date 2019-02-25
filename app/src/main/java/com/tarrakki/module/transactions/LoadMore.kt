@@ -5,14 +5,16 @@ import android.databinding.Bindable
 import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.e
 
-class LoadMore : WidgetsViewModel, BaseObservable() {
+class LoadMore : BaseObservable(), WidgetsViewModel {
 
     @get:Bindable
-    var loadMore = false
+    var isLoading = false
         set(value) {
             field = value
-            notifyPropertyChanged(BR.loadMore)
+            e("Notify1=$field")
+            notifyPropertyChanged(BR.loading)
         }
 
     override fun layoutId(): Int {

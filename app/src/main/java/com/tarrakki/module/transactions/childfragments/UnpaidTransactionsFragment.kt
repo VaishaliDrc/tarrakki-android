@@ -55,7 +55,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 unpaidTransactions.remove(loadMore)
-                loadMore.loadMore = false
+                loadMore.isLoading = false
                 if (mRefresh?.isRefreshing == true) {
                     unpaidTransactions.clear()
                     mRefresh?.isRefreshing = false
@@ -63,7 +63,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                 if (data.transactions?.isNotEmpty() == true) {
                     unpaidTransactions.addAll(data.transactions)
                 }
-                if (unpaidTransactions.isNotEmpty()) {
+                if (unpaidTransactions.size >= 10) {
                     unpaidTransactions.add(loadMore)
                 }
                 if (rvUnpaidTransactions?.adapter == null) {
@@ -88,8 +88,8 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                             hasSelectedItem()
                         }
                         binder.executePendingBindings()
-                        if (position >= 9 && unpaidTransactions.size - 1 == position && !loadMore.loadMore) {
-                            loadMore.loadMore = true
+                        if (position >= 9 && unpaidTransactions.size - 1 == position && !loadMore.isLoading) {
+                            loadMore.isLoading = true
                             loadMoreObservable.value = data.offset
                         }
                     }

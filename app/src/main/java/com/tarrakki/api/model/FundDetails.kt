@@ -122,7 +122,7 @@ data class FundDetails(
                 e.printStackTrace()
             }
         }
-        return mReturn.decimalFormat().toCurrency()
+        return mReturn/*.decimalFormat().toCurrency()*/
     }
 }
 

@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.*
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -127,6 +128,12 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
     } else {
         view.collapse(true)
     }
+}
+
+@BindingAdapter("visibility")
+fun setVisibility(view: View, visibility: Boolean) {
+    Log.e("E","Notify2=$visibility")
+    view.visibility = if (visibility) View.VISIBLE else View.GONE
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
