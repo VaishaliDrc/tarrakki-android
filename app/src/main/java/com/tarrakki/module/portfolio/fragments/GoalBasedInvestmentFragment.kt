@@ -77,7 +77,6 @@ class GoalBasedInvestmentFragment : CoreFragment<PortfolioVM, FragmentGoalBasedI
         mRefresh?.setOnRefreshListener {
             vm?.getUserPortfolio(true)
         }
-
     }
 
     companion object {
