@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.bankmandate.BankMandateFormFragment
 import com.tarrakki.module.bankmandate.BankMandateSuccessFragment
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.home.HomeActivity
@@ -123,7 +124,8 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                             fragment is BankMandateSuccessFragment ||
                             fragment is TransactionsFragment ||
                             fragment is PaymentModeFragment ||
-                            fragment is TransactionConfirmFragment) {
+                            fragment is TransactionConfirmFragment ||
+                            fragment is BankMandateFormFragment) {
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()

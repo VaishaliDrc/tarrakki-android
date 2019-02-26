@@ -17,12 +17,16 @@ import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentBankMandateWayBinding
+import com.tarrakki.module.account.AccountActivity
 import kotlinx.android.synthetic.main.fragment_bank_mandate_way.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.isCompletedRegistration
+import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startActivity
 import org.supportcompact.ktx.startFragment
 
 const val ISIPMANDATE = "isipmandate"
@@ -57,38 +61,42 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
         rvBankMandateWay?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandateWays) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.setVariable(BR.onAdd, View.OnClickListener {
-                for (viewmodel in getViewModel().bankMandateWays) {
-                    if (viewmodel is BankMandateWay) {
-                        if (viewmodel.isSelected) {
-                            val type = if (viewmodel.title == R.string.sip_mandate) {
-                                "I"
-                            } else {
-                                "X"
-                            }
-                            getViewModel().addMandateBank(getViewModel().bankMandate.get()?.id, amount,
-                                    type).observe(this, Observer {
-                                if (viewmodel.title == R.string.sip_mandate) {
-                                    val data = it?.data?.parseTo<IMandateResponse>()
-                                    val html = data?.data_html
-                                    val bundle = Bundle().apply {
-                                        putString(AMOUNT, amount)
-                                        putBoolean(ISIPMANDATE, true)
-                                        putString(IMANDATEDATA, html)
-                                    }
-                                    startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                if (context?.isCompletedRegistration() == true){
+                    for (viewmodel in getViewModel().bankMandateWays) {
+                        if (viewmodel is BankMandateWay) {
+                            if (viewmodel.isSelected) {
+                                val type = if (viewmodel.title == R.string.sip_mandate) {
+                                    "I"
                                 } else {
-                                    val data = it?.data?.parseTo<UserMandateDownloadResponse>()
-                                    val bundle = Bundle().apply {
-                                        putString(AMOUNT, amount)
-                                        putBoolean(ISIPMANDATE, false)
-                                    }
-                                    startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
-                                    data?.let { it1 -> postSticky(it1) }
+                                    "X"
                                 }
-                            })
-                            break
+                                getViewModel().addMandateBank(getViewModel().bankMandate.get()?.id, amount,
+                                        type).observe(this, Observer {
+                                    if (viewmodel.title == R.string.sip_mandate) {
+                                        val data = it?.data?.parseTo<IMandateResponse>()
+                                        val html = data?.data_html
+                                        val bundle = Bundle().apply {
+                                            putString(AMOUNT, amount)
+                                            putBoolean(ISIPMANDATE, true)
+                                            putString(IMANDATEDATA, html)
+                                        }
+                                        startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                    } else {
+                                        val data = it?.data?.parseTo<UserMandateDownloadResponse>()
+                                        val bundle = Bundle().apply {
+                                            putString(AMOUNT, amount)
+                                            putBoolean(ISIPMANDATE, false)
+                                        }
+                                        startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                        data?.let { it1 -> postSticky(it1) }
+                                    }
+                                })
+                                break
+                            }
                         }
                     }
+                }else{
+                    context?.simpleAlert("Please first complete your registration to place the bank mandate request.")
                 }
             })
             binder.root.setOnClickListener {

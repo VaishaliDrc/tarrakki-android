@@ -67,6 +67,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         val baseUrl = ApiClient.IMAGE_BASE_URL
         url = baseUrl+arguments?.getString("download_url").toString()
 
+        //url = "http://mattermost.drcsystems.com/files/3ma35tai7bnejdej1de5xusijw/public?h=OH4ydhBzDqF0drOsgqI413XWOrAAXOJJe3Ko4RNjqe8"
         loadPdf()
 
         btnDownload?.setOnClickListener {
@@ -115,7 +116,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     private fun loadPdf(){
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
-        mWebView.settings.useWideViewPort = true
+       // mWebView.settings.useWideViewPort = true
         mWebView.settings.domStorageEnabled = true
         mWebView.settings.loadsImagesAutomatically = true
         mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)

@@ -12,6 +12,7 @@ import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
 import com.tarrakki.databinding.RowCartItemBinding
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -89,9 +90,16 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
-                // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
-                //  return@setOnClickListener
-                startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
+                if (context?.isCompletedRegistration() == true) {
+                    startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
+                } else {
+                    context?.simpleAlert("Please first complete your registration to place the order."){
+                        startActivity<AccountActivity>()
+                    }
+                    // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
+                    //  return@setOnClickListener
+
+                }
             }
         }
     }

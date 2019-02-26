@@ -13,8 +13,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import android.view.KeyEvent
+import android.view.MenuItem
 import android.view.View
 import android.webkit.*
 import com.tarrakki.BR
@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
@@ -39,6 +40,9 @@ import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
 class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMandateFormBinding>() {
+
+    private var isFromMainBankMandate : Boolean ?= true
+
     private var mandateId = ""
     override val isBackEnabled: Boolean
         get() = true
@@ -59,24 +63,24 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         getViewModel().isIMandate.set(arguments?.getBoolean(ISIPMANDATE))
-        mandateId = arguments?.getString(MANDATEID,"").toString()
+        mandateId = arguments?.getString(MANDATEID, "").toString()
 
         if (getViewModel().isIMandate.get() == false) {
             var selectedAt = 0
             rvBankMandateForm?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandateWays) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                 binder.setVariable(BR.widget, item)
                 binder.setVariable(BR.onAdd, View.OnClickListener {
-                    if (selectedAt == 0){
+                    if (selectedAt == 0) {
                         //val mandateId = getViewModel().mandateResponse.get()?.data?.id
-                        getViewModel().getMandateForm(mandateId).observe(this, Observer {
-                            response->
+                        getViewModel().getMandateForm(mandateId).observe(this, Observer { response ->
                             val bundle = Bundle().apply {
-                                putString("download_url",response?.data?.mandateFile)
+                                putString("download_url", response?.data?.mandateFile)
                             }
                             startFragment(DownloadBankMandateFromFragment.newInstance(bundle), R.id.frmContainer)
                         })
-                    }else{
+                    } else {
                         context?.takePick(
                                 onGallery = {
                                     openGallery()
@@ -99,20 +103,30 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 }
                 binder.executePendingBindings()
             }
-        }else{
+        } else {
             loadWebView(arguments?.getString(IMANDATEDATA).toString())
         }
 
         btnContinue?.setOnClickListener {
-                val bundle = Bundle().apply {
-                    putBoolean(ISIPMANDATE, true)
-                }
-                startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
+            val bundle = Bundle().apply {
+                putBoolean(ISIPMANDATE, true)
+            }
+            startFragment(BankMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
+        }
+
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onBankMandate()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
         }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun loadWebView(url : String){
+    private fun loadWebView(url: String) {
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
         mWebView.settings.useWideViewPort = true
@@ -305,7 +319,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(800,366)
+        uCrop.withMaxResultSize(800, 366)
         context?.getUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
@@ -329,10 +343,10 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val bundle = Bundle().apply {
-                                val isFromUpload =  arguments?.getBoolean(ISFROMDIRECTBANKMANDATE,false)
-                                putString("upload_url",imageUri.toString())
+                                val isFromUpload = arguments?.getBoolean(ISFROMDIRECTBANKMANDATE, false)
+                                putString("upload_url", imageUri.toString())
                                 isFromUpload?.let { it1 -> putBoolean(ISFROMDIRECTBANKMANDATE, it1) }
-                                putString(MANDATEID,mandateId)
+                                putString(MANDATEID, mandateId)
                             }
                             startFragment(UploadBankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
                         }
@@ -345,5 +359,36 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
     companion object {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = BankMandateFormFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        if (event == Event.ISFROMBANKMANDATE) {
+            isFromMainBankMandate = true
+        }
+    }
+
+    fun onBankMandate(){
+        val isFromUpload = arguments?.getBoolean(ISFROMDIRECTBANKMANDATE, false)
+        if (isFromUpload==true) {
+            onBack()
+        }else{
+            if (isFromMainBankMandate == true) {
+                onBack(4)
+            } else {
+                onBack(3)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBankMandate()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

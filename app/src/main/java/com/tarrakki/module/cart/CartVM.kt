@@ -119,7 +119,7 @@ class CartVM : FragmentViewModel() {
                             o.printResponse()
                             if (o.status?.code == 1) {
                                 cartUpdate.value = o
-                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                                //EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

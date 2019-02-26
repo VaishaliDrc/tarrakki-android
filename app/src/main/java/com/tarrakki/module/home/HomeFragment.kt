@@ -168,7 +168,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         tvViewPortfolio?.setOnClickListener {
-            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+            context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
+
+            //startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
         mRefresh?.setOnRefreshListener {
             getViewModel().getHomeData(true).observe(this, observerHomeData)

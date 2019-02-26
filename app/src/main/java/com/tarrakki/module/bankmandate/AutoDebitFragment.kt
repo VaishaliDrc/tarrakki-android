@@ -45,7 +45,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
         flowLayoutManager.setAlignment(Alignment.CENTER)
         flowLayoutManager.maxItemsPerLine(3)
         rvAmounts?.layoutManager = flowLayoutManager
-        var selectedAt = 1
+        var selectedAt = 3
         rvAmounts?.setUpRecyclerView(R.layout.row_auto_debit_amount_list_item, getViewModel().ammounts) { item: AutoDebitAmount, binder: RowAutoDebitAmountListItemBinding, position ->
             binder.fundType = item
             binder.tvFundType.setOnClickListener {

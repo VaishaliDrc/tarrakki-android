@@ -778,7 +778,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                 return false
             }
         } else {
-            this.simpleAlert("The lumpsum amount must be in multiplier of 10.")
+            this.simpleAlert("The lumpsum amount should be a multiple of 10.")
             return false
         }
 
@@ -790,7 +790,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                 return false
             }
         } else {
-            this.simpleAlert("The SIP amount must be in multiplier of 10.")
+            this.simpleAlert("The SIP amount should be a multiple of 10.")
             return false
         }
     }
@@ -806,7 +806,7 @@ fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
                 return false
             }
         } else {
-            this.simpleAlert("The lumpsum amount must be in multiplier of 10.")
+            this.simpleAlert("The lumpsum amount should be a multiple of 10.")
             return false
         }
     }
@@ -822,7 +822,7 @@ fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
                 return false
             }
         } else {
-            this.simpleAlert("The SIP amount must be in multiplier of 10.")
+            this.simpleAlert("The SIP amount should be a multiple of 10.")
             return false
         }
     }
@@ -841,7 +841,7 @@ fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
 fun Context.isAmountValid(amount: BigInteger): Boolean {
     if (amount != BigInteger.ZERO) {
         if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
-            this.simpleAlert("The SIP amount must be in multiplier of 10.")
+            this.simpleAlert("The SIP amount should be a multiple of 10.")
             return false
         }
     }else{

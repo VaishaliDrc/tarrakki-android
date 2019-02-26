@@ -16,9 +16,9 @@ class AutoMandateVM : FragmentViewModel() {
     init {
 
         ammounts.add(AutoDebitAmount(10000))
-        ammounts.add(AutoDebitAmount(25000, true))
+        ammounts.add(AutoDebitAmount(25000))
         ammounts.add(AutoDebitAmount(50000))
-        ammounts.add(AutoDebitAmount(100000))
+        ammounts.add(AutoDebitAmount(100000,true))
         ammounts.add(AutoDebitAmount(500000))
 
     }

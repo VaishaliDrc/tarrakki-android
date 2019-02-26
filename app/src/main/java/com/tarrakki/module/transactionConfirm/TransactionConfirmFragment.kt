@@ -80,7 +80,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                onExploreFunds()
+                onBack(3)
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
@@ -158,7 +158,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                onExploreFunds()
+                onBack(3)
                 return true
             }
         }

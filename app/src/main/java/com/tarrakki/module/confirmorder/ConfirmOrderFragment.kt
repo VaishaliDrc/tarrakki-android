@@ -77,10 +77,10 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orders.add(SingleButton(R.string.place_order))
             rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                 binder.setVariable(BR.widget, item)
-                if (item is ConfirmOrderResponse.Data.OrderLine){
+                /*if (item is ConfirmOrderResponse.Data.OrderLine){
                     val binding = binder as RowConfirmOrderBinding
                     binding.cbSIP.isEnabled = confirmOrderResponse?.data?.isApproveBank==true
-                }
+                }*/
 
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     if (confirmOrderResponse?.data?.mandateId == null) {
@@ -113,6 +113,11 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                 item.isFirstInstallmentSIP = isFirstSIP
                                 getData()
                             })
+                        }else{
+                            if (binder is RowConfirmOrderBinding) {
+                                binder.cbSIP.isChecked = true
+                            }
+                            context?.simpleAlert("Your selected bank mandate is not approved so you can not uncheck this option.")
                         }
                     }
                 })

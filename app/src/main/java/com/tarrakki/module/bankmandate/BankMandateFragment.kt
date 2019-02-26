@@ -65,6 +65,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         mRefresh?.setOnRefreshListener {
             getBanksData(true)
         }
+
         btnNext?.setOnClickListener {
             if (getViewModel().isMandateBankList.get() != true) {
                 if (userBankAdapter?.selectedItemViewCount != 0) {
@@ -85,6 +86,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 startFragment(AddBankMandateFragment.newInstance(), R.id.frmContainer)
             }
         }
+
         btnSelectBankMandate?.setOnClickListener {
             if (mandateBankAdapter?.selectedItemViewCount != 0) {
                 onBack()

@@ -81,13 +81,16 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         }*/
                     }
                     R.drawable.ic_my_portfolio -> {
-                        startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+                        context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
+
+                        //startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
-                        startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
+                        context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
+                        //startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_privacy_policy -> {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)

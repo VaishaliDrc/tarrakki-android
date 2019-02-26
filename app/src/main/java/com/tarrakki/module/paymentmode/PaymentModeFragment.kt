@@ -89,6 +89,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                     override fun updateDrawState(ds: TextPaint) {
                         super.updateDrawState(ds)
                         ds.color = getColor(R.color.colorAccent)!!
+                        ds.isUnderlineText = false
                     }
                 }
                 ssText.setSpan(clickableSpan, 0, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -148,7 +149,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                             startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
                         })
                     }else{
-                        context?.simpleAlert("Please enter UTR Number.")
+                        context?.simpleAlert("Please first enter the UTR Number.")
                     }
                 }
 
