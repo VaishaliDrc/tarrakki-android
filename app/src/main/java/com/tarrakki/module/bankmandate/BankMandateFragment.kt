@@ -120,6 +120,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 if (it1.data.bankDetails.size > 5) {
                     btnAdd?.visibility = View.GONE
                 }
+                btnAdd?.text = getString(R.string.add_new_bank_account)
                 getViewModel().isNoBankAccount.set(false)
                 getViewModel().isNextVisible.set(true)
                 setUserBankAdapter(it1.data.bankDetails)
