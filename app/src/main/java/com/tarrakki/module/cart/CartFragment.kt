@@ -195,6 +195,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         return@setOnEditorActionListener false
                     }
                     binder.tvDate.setOnClickListener {
+                        it?.dismissKeyboard()
                         if (binder.startDayDisable == true) {
                             if (item.frequencyDate.isNotEmpty()) {
                                 context?.showListDialog("Start Date", item.frequencyDate) {

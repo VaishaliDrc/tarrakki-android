@@ -6,5 +6,6 @@
     <color name="white">#FFF</color>
 
     <color name="btn_bg_color">#48194A</color>
+    <color name="darker_gray">#aaa</color>
 
 </resources>

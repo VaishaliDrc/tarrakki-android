@@ -125,6 +125,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 btnAdd?.text = getString(R.string.add_new_bank_account)
                 getViewModel().isNoBankAccount.set(true)
                 getViewModel().isNextVisible.set(false)
+                getViewModel().isSelectBankVisible.set(false)
             }
         })
     }

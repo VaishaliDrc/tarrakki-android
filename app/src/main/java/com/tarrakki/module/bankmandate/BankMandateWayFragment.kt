@@ -60,8 +60,7 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
                 for (viewmodel in getViewModel().bankMandateWays) {
                     if (viewmodel is BankMandateWay) {
                         if (viewmodel.isSelected) {
-                            var type = ""
-                            type = if (viewmodel.title == R.string.sip_mandate) {
+                            val type = if (viewmodel.title == R.string.sip_mandate) {
                                 "I"
                             } else {
                                 "X"

@@ -9,6 +9,7 @@ import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.ConfirmOrderResponse
+import com.tarrakki.api.model.TransactionStatus
 import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
@@ -89,10 +90,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                                it?.data?.failedTransactions?.let { it2 -> postSticky(it2) }
+                                it?.let { it2 -> postSticky(it2) }
                             }else{
                                 startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
-                                it?.data?.failedTransactions?.let { it2 -> postSticky(it2) }
+                                it?.data?.failedTransactions?.let {list ->
+                                    val failed = FailedTransactions(list)
+                                    postSticky(failed)
+                                }
                             }
                         })
                     }
@@ -135,4 +139,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = ConfirmOrderFragment().apply { arguments = basket }
     }
+
+    class FailedTransactions(val transactions : List<TransactionStatus>)
+
 }

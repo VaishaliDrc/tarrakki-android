@@ -32,6 +32,7 @@
                     android:id="@+id/ivBank"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    imgUrl="@{vm.bankMandate.bankLogo}"
                     android:src="@drawable/temp_icici"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -210,6 +211,7 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:paddingStart="@dimen/default_space"
+                        android:imeOptions="actionDone"
                         android:paddingEnd="@dimen/default_space"
                         android:text="@={vm.amount}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"

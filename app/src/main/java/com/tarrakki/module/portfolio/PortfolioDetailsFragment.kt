@@ -44,6 +44,20 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
     }
 
     override fun createReference() {
+
+        getViewModel().portfolioData.observe(this, Observer { response ->
+            if (response?.data?.goalBasedInvestment?.isNotEmpty()==true){
+                val goldbasedInvestment =
+                        response.data.goalBasedInvestment.find { it.goalId==getViewModel().goalInvestment.get()?.goalId }
+
+                if (goldbasedInvestment!=null){
+                    getViewModel().goalBasedInvestment.value = goldbasedInvestment
+                    getViewModel().goalInvestment.set(goldbasedInvestment)
+                }
+            }
+
+        })
+
         getViewModel().goalBasedInvestment.observe(this, Observer {
             rvPortfolioFunds?.setUpRecyclerView(R.layout.row_goal_based_investment_details_list_item,
                     it?.funds as ArrayList<UserPortfolioResponse.Data.GoalBasedInvestment.Fund>)
@@ -83,7 +97,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
                         val data = json.toString().toEncrypt()
                         redeemPortfolio(data).observe(this, Observer {
-                            context?.simpleAlert("${it?.status?.message}")
+                            getViewModel().getUserPortfolio()
                         })
                     }
                 }
@@ -100,7 +114,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
 
                     context?.stopFundPortfolioDialog(folios) { transactionId ->
                         stopPortfolio(transactionId).observe(this, Observer {
-                            context?.simpleAlert("${it?.status?.message}")
+                            getViewModel().getUserPortfolio()
                         })
                     }
                 }

@@ -1,53 +1,41 @@
 package com.tarrakki.module.bankmandate
 
 
-import android.Manifest
-import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import com.tarrakki.*
+import com.tarrakki.App
+import com.tarrakki.IS_FROM_BANK_ACCOUNT
+import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
-import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.databinding.FragmentBankMandateBinding
-import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import com.tarrakki.module.bankaccount.SingleButton
+import com.tarrakki.module.paymentmode.BANKACCOUNTNUMBER
 import com.tarrakki.module.paymentmode.ISFROMPAYMENTMODE
-import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.KSelectionAdapter
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.events.Event
-import org.supportcompact.ktx.*
-import org.supportcompact.utilise.ImageChooserUtil
-import java.io.File
+import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 
 class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = if (arguments?.getBoolean(ISFROMPAYMENTMODE,false)!=true){
+        get() = if (arguments?.getBoolean(ISFROMPAYMENTMODE, false) != true) {
             getString(R.string.bank_mandate)
-        }else{
+        } else {
             getString(R.string.bank_accounts)
         }
 
     var userBankAdapter: KSelectionAdapter<BankDetail, RowUserBankListMandateBinding>? = null
-    var isFromPaymentMode : Boolean? = null
+    var isFromPaymentMode: Boolean? = null
+    var currentBank: String? = ""
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_mandate
@@ -63,7 +51,10 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
     }
 
     override fun createReference() {
-        isFromPaymentMode = arguments?.getBoolean(ISFROMPAYMENTMODE,false)
+        isFromPaymentMode = arguments?.getBoolean(ISFROMPAYMENTMODE, false)
+        if (isFromPaymentMode == true) {
+            currentBank = arguments?.getString(BANKACCOUNTNUMBER, "")
+        }
 
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
@@ -73,36 +64,39 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         })
 
         btnAdd?.text = getString(R.string.add_bank_account)
-        if (isFromPaymentMode==true){
-            btnNext?.text = getString(R.string.select_bank_use)
+        if (isFromPaymentMode == true) {
+            //btnNext?.text = getString(R.string.select_bank_use)
+            getViewModel().isNextVisible.set(false)
+            getViewModel().isSelectBankVisible.set(true)
+        }
+
+        btnSelectBankMandate?.setOnClickListener {
+            if (userBankAdapter?.selectedItemViewCount != 0) {
+                onBack()
+                postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
+            } else {
+                context?.simpleAlert("Please Select Bank.")
+            }
         }
 
         btnNext?.setOnClickListener {
-            if (isFromPaymentMode==true){
-                if (userBankAdapter?.selectedItemViewCount != 0) {
-                    onBack()
-                    postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
-                } else {
-                    context?.simpleAlert("Please Select Bank.")
-                }
-            }else {
-                if (userBankAdapter?.selectedItemViewCount != 0) {
-                    startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
-                    postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
-                    postSticky(Event.ISFROMNEWBANKMANDATE)
-                } else {
-                    context?.simpleAlert("Please Select Bank.")
-                }
+            if (userBankAdapter?.selectedItemViewCount != 0) {
+                startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
+                postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
+                postSticky(Event.ISFROMNEWBANKMANDATE)
+            } else {
+                context?.simpleAlert("Please Select Bank.")
             }
         }
+
         btnAdd?.setOnClickListener {
-                startFragment(AddBankAccountFragment.newInstance(Bundle().apply {
-                    putSerializable(IS_FROM_BANK_ACCOUNT, false)
-                }), R.id.frmContainer)
+            startFragment(AddBankAccountFragment.newInstance(Bundle().apply {
+                putSerializable(IS_FROM_BANK_ACCOUNT, false)
+            }), R.id.frmContainer)
         }
     }
 
-    fun getUserBankAPI(isRefreshing: Boolean = false){
+    fun getUserBankAPI(isRefreshing: Boolean = false) {
         getViewModel().getAllBanks(isRefreshing).observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
@@ -112,6 +106,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
             } else {
                 getViewModel().isNoBankAccount.set(true)
                 getViewModel().isNextVisible.set(false)
+                getViewModel().isSelectBankVisible.set(false)
             }
         })
     }
@@ -130,13 +125,21 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
 
         })
         rvBankMandate?.adapter = userBankAdapter
-        val default_position = bankDetails.indexOfFirst { it.isDefault }
-        if (default_position != -1) {
-            userBankAdapter?.toggleItemView(default_position)
-            userBankAdapter?.notifyItemChanged(default_position)
-        }else{
-            userBankAdapter?.toggleItemView(0)
-            userBankAdapter?.notifyItemChanged(0)
+        if (isFromPaymentMode == true) {
+            val position = bankDetails.indexOfFirst { it.accountNumber == currentBank }
+            if (position != -1) {
+                userBankAdapter?.toggleItemView(position)
+                userBankAdapter?.notifyItemChanged(position)
+            }
+        } else {
+            val default_position = bankDetails.indexOfFirst { it.isDefault }
+            if (default_position != -1) {
+                userBankAdapter?.toggleItemView(default_position)
+                userBankAdapter?.notifyItemChanged(default_position)
+            } else {
+                userBankAdapter?.toggleItemView(0)
+                userBankAdapter?.notifyItemChanged(0)
+            }
         }
     }
 

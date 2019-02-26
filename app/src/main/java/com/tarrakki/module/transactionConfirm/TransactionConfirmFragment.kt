@@ -14,6 +14,7 @@ import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
@@ -148,9 +149,9 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(data: List<TransactionStatus>) {
-        transactionList = data
-        setOrderItemsAdapter(data)
+    fun onReceive(data: ConfirmOrderFragment.FailedTransactions) {
+        transactionList = data.transactions
+        setOrderItemsAdapter(data.transactions)
         removeStickyEvent(data)
     }
 

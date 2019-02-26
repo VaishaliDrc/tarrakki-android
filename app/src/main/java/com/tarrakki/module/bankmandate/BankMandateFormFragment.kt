@@ -305,6 +305,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         destinationFileName += ".jpg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
+        uCrop.withMaxResultSize(800,366)
         context?.getUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }

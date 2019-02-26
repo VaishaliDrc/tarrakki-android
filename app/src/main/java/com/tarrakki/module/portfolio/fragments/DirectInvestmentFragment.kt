@@ -94,9 +94,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 json.toString().printRequest()
                                 val data = json.toString().toEncrypt()
                                 redeemPortfolio(data).observe(this, Observer {
-                                    context?.simpleAlert("${it?.status?.message}") {
-                                        vm.getUserPortfolio()
-                                    }
+                                    vm.getUserPortfolio()
                                 })
                             }
                         }
@@ -113,15 +111,12 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                             context?.stopFundPortfolioDialog(folios) { transactionId ->
                                 stopPortfolio(transactionId).observe(this, Observer {
-                                    context?.simpleAlert("${it?.status?.message}") {
-                                        vm.getUserPortfolio()
-                                    }
+                                    vm.getUserPortfolio()
                                 })
                             }
                         }
                     }
                 } else {
-                    //coreActivityVM?.emptyView(true)
                     getViewModel().isDirectEmpty.set(true)
                 }
             })

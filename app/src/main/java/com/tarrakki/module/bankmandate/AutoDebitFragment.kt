@@ -14,10 +14,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.applyCurrencyFormatPositiveOnly
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrencyBigInt
+import org.supportcompact.ktx.*
 import java.math.BigInteger
 
 const val AMOUNT = "amount"
@@ -68,10 +65,16 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
         btnContinue?.setOnClickListener {
             val amount = getViewModel().amount.get()?.toCurrencyBigInt()
             if (amount != BigInteger.ZERO) {
-                val bundle = Bundle().apply {
-                    putString(AMOUNT, amount.toString())
+                if (amount != null) {
+                    if (amount>=BigInteger.valueOf(10000)){
+                        val bundle = Bundle().apply {
+                            putString(AMOUNT, amount.toString())
+                        }
+                        startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
+                    }else{
+                        context?.simpleAlert("The amount must be greater than or equal to "+10000.0.toCurrency())
+                    }
                 }
-                startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
             }else{
                 context?.simpleAlert("Please enter valid amount.")
             }

@@ -37,6 +37,7 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.DividerItemDecoration
 
+const val BANKACCOUNTNUMBER = "bankaccountnumber"
 const val ISFROMPAYMENTMODE = "isFromPaymentMode"
 const val SUCCESSTRANSACTION = "successtransactions"
 
@@ -158,6 +159,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         tvChangeBank?.setOnClickListener {
             val bundle = Bundle().apply {
                 putBoolean(ISFROMPAYMENTMODE,true)
+                putString(BANKACCOUNTNUMBER,getViewModel().accountNumber.get())
             }
             startFragment(AddBankMandateFragment.newInstance(bundle), R.id.frmContainer)
         }

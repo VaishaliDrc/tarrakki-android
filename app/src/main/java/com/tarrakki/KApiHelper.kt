@@ -378,6 +378,7 @@ fun redeemPortfolio(data: String)
                         e("Api Response=>${o.data?.toDecrypt()}")
                         if (o.status?.code == 1) {
                             apiResponse.value = o
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }
@@ -410,6 +411,7 @@ fun stopPortfolio(transactionId: Int)
                         e("Api Response=>${o.data?.toDecrypt()}")
                         if (o.status?.code == 1) {
                             apiResponse.value = o
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }
