@@ -66,7 +66,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         btnAdd?.text = getString(R.string.add_bank_account)
         if (isFromPaymentMode == true) {
             //btnNext?.text = getString(R.string.select_bank_use)
-            getViewModel().isNextVisible.set(false)
+            //getViewModel().isNextVisible.set(false)
             getViewModel().isSelectBankVisible.set(true)
         }
 
@@ -101,7 +101,11 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
             getViewModel().isAddVisible.set(true)
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
                 getViewModel().isNoBankAccount.set(false)
-                getViewModel().isNextVisible.set(true)
+                if (isFromPaymentMode == true) {
+                    getViewModel().isNextVisible.set(false)
+                }else{
+                    getViewModel().isNextVisible.set(true)
+                }
                 setUserBankAdapter(it1.data.bankDetails)
             } else {
                 getViewModel().isNoBankAccount.set(true)
