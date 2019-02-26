@@ -62,7 +62,7 @@ fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
     return apiResponse
 }
 
-fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo : String)
+fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo: String)
         : MutableLiveData<ApiResponse> {
     val json = JsonObject()
     json.addProperty("fund_id", fundId)
@@ -72,7 +72,7 @@ fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, fo
     if (lumpsumAmount != BigInteger.ZERO.toString()) {
         json.addProperty("lumpsum_amount", lumpsumAmount)
     }
-    if (folioNo.isNotEmpty()){
+    if (folioNo.isNotEmpty()) {
         json.addProperty("folio_number", folioNo)
     }
     json.printRequest()
@@ -252,7 +252,7 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
     val apppaninqBean = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
     apppaninqBean.apppanno = pan//"BAMPM9343K"
     apppaninqBean.panDOB = ""
-    apppaninqBean.appiopflg = "RE"
+    apppaninqBean.appiopflg = "RS"
     apppaninqBean.appposcode = "infibeam\$10"
 
     input.apppaninq = apppaninqBean
@@ -306,7 +306,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
     val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
     val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
     apppaninqBean.apppanno = kycData.pan
-    apppaninqBean.appiopflg = "RE"
+    apppaninqBean.appiopflg = "RS"
     apppaninqBean.appposcode = "infibeam\$10"
     apppaninqBean.panDOB = ""
     input.apppaninq = apppaninqBean
@@ -337,15 +337,20 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.nameOfPANHolder = data.appname
                             kycData.fullName = data.appname
                             kycData.OCCcode = data.appocc
-                            kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd MMM, yyyy")
-                                    ?: ""
+                            if ("${data.appdobdt}".contains("-")) {
+                                kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd MMM, yyyy")
+                                        ?: ""
+                            } else {
+                                kycData.dob = data.appdobdt.toDate("dd/MM/yyyy").convertTo("dd MMM, yyyy")
+                                        ?: ""
+                            }
                             kycData.gender = data.appgen
                             kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
                             kycData.pincode = data.appperpincd
                             kycData.city = data.apppercity
                             kycData.state = data.appperstate
                             kycData.country = data.appperctry
-                            kycData.addressType =   "01"
+                            kycData.addressType = "01"
                             apiResponse.value = kycData
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))

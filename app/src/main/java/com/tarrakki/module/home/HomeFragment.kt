@@ -49,8 +49,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         binding.executePendingBindings()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         ll_complete_verification?.visibility = if (context?.isKYCVerified() == true) View.GONE else View.VISIBLE
     }
 

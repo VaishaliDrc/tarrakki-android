@@ -123,9 +123,16 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     })
                     binder.setVariable(BR.setDefault, View.OnClickListener {
                         if (item is BankDetail) {
-                            getViewModel().setDefault("${item.id}").observe(this@BankAccountsFragment, Observer {
-                                coreActivityVM?.onNewBank?.value = true
-                            })
+                            context?.let {
+                                it.confirmationDialog(getString(R.string.alert_bank_default),
+                                        btnPositiveClick = {
+                                            getViewModel().setDefault("${item.id}").observe(this@BankAccountsFragment, Observer {
+                                                coreActivityVM?.onNewBank?.value = true
+                                            })
+                                        }
+                                )
+                            }
+
                         }
                     })
                     binder.executePendingBindings()
