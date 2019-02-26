@@ -314,6 +314,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
                                             context?.simpleAlert("${apiResponse.status?.message}") {
+                                                removeStickyEvent(kycData)
                                                 onBack(3)
                                             }
                                         }
@@ -332,7 +333,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         if (getViewModel().kycData.value == null) {
             getViewModel().kycData.value = kycData
         }
-        removeStickyEvent(kycData)
     }
 
     companion object {

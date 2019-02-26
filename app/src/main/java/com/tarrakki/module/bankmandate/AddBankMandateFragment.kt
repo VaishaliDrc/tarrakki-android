@@ -65,7 +65,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
 
         btnAdd?.text = getString(R.string.add_bank_account)
         if (isFromPaymentMode == true) {
-            //btnNext?.text = getString(R.string.select_bank_use)
+            btnSelectBankMandate?.text = getString(R.string.select_bank_use)
             //getViewModel().isNextVisible.set(false)
             getViewModel().isSelectBankVisible.set(true)
         }

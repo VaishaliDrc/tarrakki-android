@@ -201,9 +201,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
-                    android:alpha="@{vm.alpha}"
+                    android:alpha="0.4"
                     android:background="@drawable/shape_edt_gray_round"
-                    android:enabled="@{vm.isEdit()}"
+                    android:enabled="false"
                     android:hint="@string/mobile_number"
                     android:inputType="number"
                     android:maxLength="10"
@@ -219,6 +219,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvMobile" />
+
+                <ImageView
+                    android:id="@+id/ivEmailVerified"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_succeeded"
+                    app:layout_constraintBottom_toBottomOf="@id/edtMobile"
+                    app:layout_constraintEnd_toEndOf="@id/edtMobile"
+                    app:layout_constraintTop_toTopOf="@id/edtMobile" />
 
                 <TextView
                     android:id="@+id/tvGuardian"
