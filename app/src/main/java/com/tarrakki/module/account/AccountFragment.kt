@@ -18,9 +18,7 @@ import com.tarrakki.module.ekyc.getKYCData
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
-import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
-import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
@@ -49,8 +47,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         binding.executePendingBindings()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
     }

@@ -696,6 +696,8 @@
     <string name="no_data_found">No data found.</string>
     <string name="status_">Status:</string>
     <string name="alert_bank_default">Are you sure to make this bank as the default?</string>
+    <string name="please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting">Please make sure your signature is accurate. Take your time to get your signature right before submitting.</string>
+    <string name="sign_digitally">Sign Digitally</string>
 
 
     <!--<string name="select_country">Select Country</string>-->

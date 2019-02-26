@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_8"
-                android:text="@string/sign_genitally"
+                android:text="@string/sign_digitally"
                 android:textColor="@color/black" />
 
         </LinearLayout>
@@ -98,7 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:gravity="center"
-            android:text="Lorem Ipsum has been the industry's standard dummy text scrambled it to make a type specimen book."
+            android:visibility="gone"
+            android:text="@string/please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
