@@ -353,10 +353,12 @@ class PerformanceFragment : Fragment() {
                 // create a custom MarkerView (extend MarkerView) and specify the layout
                 // to use for it
                 val mv = MyMarkerView(context, R.layout.custom_marker_view)
+                mv.returnsHistory = data
                 mv.chartView = mChart // For bounds control
                 mChart.marker = mv // Set the marker to the chart
                 mChart.setBackgroundColor(Color.WHITE)
                 mChart.setDrawBorders(false)
+
 
                 // no description text
                 mChart.description.isEnabled = false
@@ -389,6 +391,7 @@ class PerformanceFragment : Fragment() {
                     xAxis.textColor = it
                 }
                 xAxis.typeface = typeface
+
 
                 val leftAxis = mChart.axisRight
                 leftAxis.labelCount = 4

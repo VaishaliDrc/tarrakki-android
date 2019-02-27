@@ -45,6 +45,7 @@ class SignatureActivity : CoreActivity<SignatureVM, ActivitySignatureBinding>() 
         ivClose?.setOnClickListener { finish() }
         btnContinue?.setOnClickListener {
             signPad?.transparentSignatureBitmap?.let { it1 -> saveAsFile(it1) }
+            //signPad?.signatureBitmap?.let { it1 -> saveAsFile(it1) }
         }
     }
 

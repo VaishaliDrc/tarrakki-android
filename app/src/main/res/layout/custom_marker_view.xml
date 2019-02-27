@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="36dp"
-    android:layout_height="28dp"
-    android:background="@drawable/marker">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_pichart_marker_bg">
 
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingBottom="@dimen/space_8"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:textSize="@dimen/sp10"
+        android:lineSpacingExtra="@dimen/_2sdp"
+        android:padding="@dimen/_4sdp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
         android:textColor="@android:color/white"
-        tools:text="21" />
+        tools:text="26 Nov, 2019\nNAV: 36.55" />
 
 </RelativeLayout>

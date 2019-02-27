@@ -127,6 +127,19 @@ fun Bitmap.toTransparent(@ColorInt colorToBeIgnors: ArrayList<Int>): Bitmap {
 
 fun File.toBitmap(): Bitmap? = BitmapFactory.decodeFile(absolutePath)
 
+fun Bitmap.resizedBitmap(newHeight: Int, newWidth: Int): Bitmap {
+    val width = width
+    val height = height
+    val scaleWidth = newWidth.toFloat() / width
+    val scaleHeight = newHeight.toFloat() / height
+    // create a matrix for the manipulation
+    val matrix = Matrix()
+    // resize the bit map
+    matrix.postScale(scaleWidth, scaleHeight)
+    // recreate the new Bitmap
+    return Bitmap.createBitmap(this, 0, 0, width, height, matrix, false)
+}
+
 fun Bitmap.toFile(formator: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): File {
     val tempFile = File(CoreApp.getInstance().cacheDir, "signedImg.png")
     val outStream = FileOutputStream(tempFile)

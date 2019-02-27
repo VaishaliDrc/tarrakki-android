@@ -28,8 +28,9 @@ class BankAccountsVM : FragmentViewModel() {
     val cvPhotoName = "profilePick"
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
+    val SIGNPAD_RQ_CODE = 182
     var kycData = MutableLiveData<KYCData>()
-
+    var imageFrom = 0
 
     fun getAllBanks(isRefreshing: Boolean = false): MutableLiveData<UserBanksResponse> {
         if (!isRefreshing)
@@ -105,7 +106,6 @@ class BankAccountsVM : FragmentViewModel() {
         val apiResponse = MutableLiveData<ApiResponse>()
         showProgress()
         thread {
-            //val mFile = signatureFile.toBitmap()?.toTransparent(Color.WHITE)?.toFile() ?: signatureFile
             val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
             val multipartBody = MultipartBody.Part.createFormData("signature_image1", signatureFile.name, requestFile)
             val json = JsonObject()
@@ -128,7 +128,6 @@ class BankAccountsVM : FragmentViewModel() {
             json.addProperty("nominee_name", kycData.nomineeName)
             json.addProperty("nominee_relation", kycData.nomineeRelation)
             json.addProperty("user_id", "${App.INSTANCE.getUserId()}")
-            //json.addProperty("bank_id", "")///What is used
             json.addProperty("email", kycData.email)
             json.addProperty("full_name", kycData.fullName)
             json.addProperty("mobile_number", kycData.mobile)
@@ -162,11 +161,6 @@ class BankAccountsVM : FragmentViewModel() {
                                     App.INSTANCE.setKYClVarified(true)
                                 }
                                 apiResponse.value = o
-                                /*if (o.status?.code == 1) {
-                                    apiResponse.value = o
-                                } else {
-                                    EventBus.getDefault().post(ShowError("${o.status?.message}"))
-                                }*/
                             } else {
                                 EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                             }

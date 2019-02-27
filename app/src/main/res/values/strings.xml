@@ -540,7 +540,7 @@
     <string name="no_bank_account_added_yet">No Bank Account Added Yet</string>
     <string name="bank">Bank</string>
     <string name="successful">Successful!</string>
-    <string name="your_bank_mandate_request_has_been">Your bank mandate request has been submitted to your bank successfully. Your bank may take 10-35 days for the approval.</string>
+    <string name="your_bank_mandate_request_has_been">Your bank mandate request has been submitted to your bank successfully. Your bank may take 10-45 days for the approval.</string>
     <string name="we_will_inform_you">We\'ll keep you updated about the bank mandate status via email and sms.</string>
     <string name="bank_mandate_type">Bank Mandate Type</string>
     <string name="sip_mandate">ISIP Mandate</string>
@@ -698,7 +698,7 @@
     <string name="alert_bank_default">Are you sure to make this bank as the default?</string>
     <string name="please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting">Please make sure your signature is accurate. Take your time to get your signature right before submitting.</string>
     <string name="sign_digitally">Sign Digitally</string>
-
+    <string name="complete_registration_msg">Congratulation!\nYour registration is completed successfully and you are ready to place your first order now.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

@@ -88,6 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Type:"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
                 <TextView
@@ -113,6 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Status:"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
                 <TextView
@@ -161,6 +163,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Remarks:"
+                android:textColor="@color/black"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption" />
 
             <TextView

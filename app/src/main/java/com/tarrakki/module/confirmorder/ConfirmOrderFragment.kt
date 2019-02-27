@@ -72,7 +72,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
                     ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
-            orderTotal.bank = if (confirmOrderResponse?.data?.bankName?.isEmpty() == false) "${confirmOrderResponse.data.bankName}" else "Add Bank"
+            orderTotal.bank = if (confirmOrderResponse?.data?.bankName?.isEmpty() == false) "${confirmOrderResponse.data.bankName}" else "Choose Bank"
             orders.add(orderTotal)
             orders.add(SingleButton(R.string.place_order))
             rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->

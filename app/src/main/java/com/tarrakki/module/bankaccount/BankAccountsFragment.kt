@@ -122,7 +122,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                 })
                     })
                     binder.setVariable(BR.setDefault, View.OnClickListener {
-                        if (item is BankDetail) {
+                        if (item is BankDetail && !item.isDefault) {
                             context?.let {
                                 it.confirmationDialog(getString(R.string.alert_bank_default),
                                         btnPositiveClick = {
@@ -154,6 +154,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                 })*/
                 startCrop(Uri.fromFile(file))
                 App.INSTANCE.signatureFile.value = null
+                getViewModel().imageFrom = getViewModel().SIGNPAD_RQ_CODE
             }
         })
 
@@ -260,6 +261,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
         uCrop.withAspectRatio(16f, 9f)
         uCrop.withMaxResultSize(50, 30)
+        //uCrop.withMaxResultSize(150, 90)
         uCrop.start(context!!, this)
     }
 
@@ -270,6 +272,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                 getViewModel().ICAMERA_RQ_CODE -> {
                     val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
                     startCrop(Uri.fromFile(file))
+                    getViewModel().imageFrom = getViewModel().ICAMERA_RQ_CODE
                     /*getViewModel().showProgress()
                     thread {
                         val colors = arrayListOf(Color.BLACK, Color.BLUE)
@@ -289,6 +292,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         val path = getPath(selectedUri)
                         path?.let { filePath ->
                             startCrop(Uri.fromFile(File(filePath)))
+                            getViewModel().imageFrom = getViewModel().IMAGE_RQ_CODE
                             /*getViewModel().showProgress()
                             thread {
                                 val colors = arrayListOf(Color.BLACK, Color.BLUE)
@@ -313,7 +317,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                 getViewModel().kycData.value?.let { kycData ->
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
-                                            context?.simpleAlert("${apiResponse.status?.message}") {
+                                            context?.simpleAlert(if (apiResponse.status?.code == 1) getString(R.string.complete_registration_msg) else "${apiResponse.status?.message}") {
                                                 removeStickyEvent(kycData)
                                                 onBack(3)
                                             }

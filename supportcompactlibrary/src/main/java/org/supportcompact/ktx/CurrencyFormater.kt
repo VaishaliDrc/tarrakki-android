@@ -85,7 +85,7 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
 
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
 val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
-val dFormatter = DecimalFormat("##,##,##,##,##,##,##,##.##")
+val dFormatter = DecimalFormat("##,##,##,##,##,##,##,###.##")
 
 fun TextView.decimalFormat(amount: Double) {
     this.text = dFormatter.format(amount)//String.format(locale, "%,.2f", amount)
