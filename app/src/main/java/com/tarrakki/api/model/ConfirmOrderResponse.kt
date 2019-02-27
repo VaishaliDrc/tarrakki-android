@@ -32,7 +32,9 @@ data class ConfirmOrderResponse(
             @SerializedName("user_id")
             val userId: Int,
             @SerializedName("mandate_status")
-            val mandateStatus: String
+            val mandateStatus: String,
+            @SerializedName("is_sip")
+            val isSIP: Boolean
     ) {
         val isApproveBank : Boolean?
             get() = if ("APPROVED"==mandateStatus){

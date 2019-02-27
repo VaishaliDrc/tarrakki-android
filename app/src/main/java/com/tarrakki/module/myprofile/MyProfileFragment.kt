@@ -14,6 +14,7 @@ import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentMyProfileBinding
+import com.tarrakki.getUCropOptions
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_my_profile.*
@@ -192,6 +193,9 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         destinationFileName += ".png"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(1f, 1f)
+        val options = context?.getUCropOptions()
+        context?.color(R.color.lighter_gray)?.let { options?.setRootViewBackgroundColor(it) }
+        options?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
 

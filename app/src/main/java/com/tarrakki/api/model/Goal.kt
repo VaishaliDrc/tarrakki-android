@@ -103,7 +103,7 @@ data class Goal(
 
             data class IntroQuestion(
                     @SerializedName("options")
-                    val options: String,
+                    val options: String?,
                     @SerializedName("question")
                     val question: String,
                     @SerializedName("question_type")

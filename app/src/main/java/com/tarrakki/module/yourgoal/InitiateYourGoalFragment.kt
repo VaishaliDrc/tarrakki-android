@@ -55,7 +55,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                 getBinding().executePendingBindings()
                 data.clear()
                 if (goal.introQuestions?.isNotEmpty() == true) {
-                    goal.introQuestions[0].options.split(",").forEach { item ->
+                    goal.introQuestions[0].options?.split(",")?.forEach { item ->
                         data.add(item)
                     }
                     val adapter = ArrayAdapter(

@@ -37,17 +37,20 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     override val title: String
         get() = getString(R.string.transaction_confirm)
 
+    var isFromPaymentMode : Boolean? = false
+
     override fun getLayout(): Int {
         return R.layout.fragment_transaction_confirm
     }
 
-    var transactionList: List<TransactionStatus> = arrayListOf()
+    var transactionList: List<TransactionStatus> = arrayListOf<TransactionStatus>()
 
     override fun createReference() {
         setHasOptionsMenu(true)
 
         val success_transactions = arguments?.getString(SUCCESSTRANSACTION, "")
         if (!success_transactions.isNullOrEmpty()) {
+            isFromPaymentMode = true
             val json = JSONObject()
             json.put("user_id", context?.getUserId())
             json.put("success_transaction_ids", JSONArray(success_transactions))
@@ -80,7 +83,11 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                onBack(3)
+                if (isFromPaymentMode==true){
+                    onBack(3)
+                }else {
+                    onBack(2)
+                }
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
@@ -158,7 +165,11 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                onBack(3)
+                if (isFromPaymentMode==true){
+                    onBack(3)
+                }else {
+                    onBack(2)
+                }
                 return true
             }
         }

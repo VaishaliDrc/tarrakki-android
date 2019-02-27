@@ -60,7 +60,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
         getData()
     }
 
-    fun getData(){
+    fun getData() {
         getViewModel().getConfirmOrder().observe(this, confirmOrderObserve)
     }
 
@@ -83,17 +83,32 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 }*/
 
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
-                    if (confirmOrderResponse?.data?.mandateId == null) {
-                        context?.simpleAlert("Please select Mandate bank to continue")
-                        return@OnClickListener
+                    if (confirmOrderResponse?.data?.isSIP == true) {
+                        if (confirmOrderResponse.data.mandateId == null) {
+                            context?.simpleAlert("Please select mandate bank to continue.")
+                            return@OnClickListener
+                        } else {
+                            getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                if (!it?.data?.orders.isNullOrEmpty()) {
+                                    startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                    it?.let { it2 -> postSticky(it2) }
+                                } else {
+                                    startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                    it?.data?.failedTransactions?.let { list ->
+                                        val failed = FailedTransactions(list)
+                                        postSticky(failed)
+                                    }
+                                }
+                            })
+                        }
                     } else {
                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                 it?.let { it2 -> postSticky(it2) }
-                            }else{
+                            } else {
                                 startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
-                                it?.data?.failedTransactions?.let {list ->
+                                it?.data?.failedTransactions?.let { list ->
                                     val failed = FailedTransactions(list)
                                     postSticky(failed)
                                 }
@@ -113,7 +128,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                 item.isFirstInstallmentSIP = isFirstSIP
                                 getData()
                             })
-                        }else{
+                        } else {
                             if (binder is RowConfirmOrderBinding) {
                                 binder.cbSIP.isChecked = true
                             }
@@ -123,11 +138,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 })
 
                 binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
-                    val bundle = Bundle().apply {
-                        putBoolean(ISFROMCONFIRMORDER, true)
-                        confirmOrderResponse?.data?.mandateId?.let { it1 -> putInt(MANDATEID, it1) }
+                    if (confirmOrderResponse?.data?.isSIP == true) {
+                        val bundle = Bundle().apply {
+                            putBoolean(ISFROMCONFIRMORDER, true)
+                            confirmOrderResponse.data.mandateId?.let { it1 -> putInt(MANDATEID, it1) }
+                        }
+                        startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
                     }
-                    startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
                 })
                 binder.executePendingBindings()
             }
@@ -145,6 +162,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
         fun newInstance(basket: Bundle? = null) = ConfirmOrderFragment().apply { arguments = basket }
     }
 
-    class FailedTransactions(val transactions : List<TransactionStatus>)
+    class FailedTransactions(val transactions: List<TransactionStatus>)
 
 }

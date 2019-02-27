@@ -94,6 +94,10 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
                 putSerializable(IS_FROM_BANK_ACCOUNT, false)
             }), R.id.frmContainer)
         }
+
+        mRefresh?.setOnRefreshListener {
+            getUserBankAPI(true)
+        }
     }
 
     fun getUserBankAPI(isRefreshing: Boolean = false) {
