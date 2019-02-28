@@ -19,6 +19,7 @@ import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
+import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
@@ -87,8 +88,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
-                        context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
-                        //startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
+                        //context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
+                        startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_privacy_policy -> {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)

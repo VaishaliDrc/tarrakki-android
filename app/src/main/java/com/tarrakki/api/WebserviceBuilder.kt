@@ -210,6 +210,10 @@ interface WebserviceBuilder {
     @POST("transactions/stop/{transactionId}")
     fun stopPortfolio(@Path("transactionId") transactionId: Int): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @HTTP(method = "DELETE", path = "transactions/delete-transaction/{userId}", hasBody = true)
+    fun deleteUnpaidTransactions(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -218,6 +222,6 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse,UserPortfolio
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio
     }
 }

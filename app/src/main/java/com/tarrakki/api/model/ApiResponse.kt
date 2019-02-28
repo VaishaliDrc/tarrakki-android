@@ -32,6 +32,9 @@ fun String.printRequest() = e("Request Data=>${this}")
 
 fun JsonObject.printRequest() = e("Request Data=>${this}")
 
+fun JSONArray.printRequest() = e("Request Data=>${this}")
+
+
 inline fun <reified T> String.parseTo(): T? {
     return try {
         val data = JSONObject(this.toDecrypt())

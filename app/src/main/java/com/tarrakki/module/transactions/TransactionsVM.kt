@@ -1,6 +1,7 @@
 package com.tarrakki.module.transactions
 
 import android.arch.lifecycle.MutableLiveData
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -48,7 +49,43 @@ class TransactionsVM : FragmentViewModel() {
                                         dismissProgress()
                                 }
                             } else {
+                                if (TransactionApiResponse.ALL == transactionType)
+                                    apiResponse.value = null
                                 dismissProgress()
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        throwable.postError()
+                    }
+                }
+        )
+        return apiResponse
+    }
+
+    fun deleteTransactions(jsonArray: JsonArray): MutableLiveData<ApiResponse> {
+        val apiResponse = MutableLiveData<ApiResponse>()
+        showProgress()
+        val json = JsonObject()
+        json.add("transaction_ids", jsonArray)
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        data.printRequest()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).deleteUnpaidTransactions(App.INSTANCE.getUserId(), data),
+                apiNames = WebserviceBuilder.ApiNames.transactions,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                apiResponse.value = o
+                            } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {

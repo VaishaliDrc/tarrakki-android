@@ -256,11 +256,11 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         options?.let {
             it.setRootViewBackgroundColor(Color.WHITE)
             it.setCompressionQuality(100)
-            it.setHideBottomControls(true)
+//          it.setHideBottomControls(true)
             uCrop.withOptions(it)
         }
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(50, 30)
+        uCrop.withMaxResultSize(150, 90)
         //uCrop.withMaxResultSize(150, 90)
         uCrop.start(context!!, this)
     }

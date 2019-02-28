@@ -13,6 +13,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import com.google.gson.JsonArray
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
@@ -24,6 +25,7 @@ import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.confirmationDialog
 
 
 /**
@@ -47,11 +49,11 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
     }
 
     private val unpaidTransactions = arrayListOf<WidgetsViewModel>()
-
+    val loadMore = LoadMore()
     override fun createReference() {
 
         val loadMoreObservable = MutableLiveData<Int>()
-        val loadMore = LoadMore()
+
         val response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 unpaidTransactions.remove(loadMore)
@@ -110,6 +112,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
             }
         })
         mRefresh?.setOnRefreshListener {
+            getViewModel().hasOptionMenu.value = false
             getViewModel().getTransactions(
                     transactionType = TransactionApiResponse.UNPAID,
                     mRefresh = true).observe(this, response)
@@ -162,7 +165,26 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         val tvCancel = mView?.findViewById<TextView>(R.id.tvCancel)
         val cbSelectAll = mView?.findViewById<CheckBox>(R.id.cbSelectAll)
         tvDelete?.setOnClickListener {
-
+            context?.confirmationDialog("Are you sure you want to delete?", btnPositiveClick = {
+                val jsonArray = JsonArray()
+                unpaidTransactions.forEach {
+                    if (it is TransactionApiResponse.Transaction && it.isSelected) {
+                        jsonArray.add(it.id)
+                    }
+                }
+                getViewModel().deleteTransactions(jsonArray).observe(this, Observer {
+                    it?.let {
+                        val deleteData = unpaidTransactions.filter { it is TransactionApiResponse.Transaction && it.isSelected }
+                        unpaidTransactions.removeAll(deleteData)
+                        if (unpaidTransactions.size <= 10) {
+                            unpaidTransactions.remove(loadMore)
+                        }
+                        tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
+                        rvUnpaidTransactions?.adapter?.notifyDataSetChanged()
+                        getViewModel().hasOptionMenu.value = false
+                    }
+                })
+            })
         }
         tvCancel?.setOnClickListener {
             getViewModel().hasOptionMenu.value = false
