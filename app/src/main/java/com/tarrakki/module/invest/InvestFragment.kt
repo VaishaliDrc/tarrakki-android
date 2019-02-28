@@ -31,6 +31,7 @@ import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.*
+import org.supportcompact.utilise.EqualSpacingItemDecoration
 
 
 /**
@@ -59,6 +60,8 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
     }
 
     override fun createReference() {
+        rvFunds?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
+
         setHasOptionsMenu(true)
 
         val categories = arrayListOf(getString(R.string.all))

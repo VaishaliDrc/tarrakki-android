@@ -52,20 +52,22 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
     }
 
     override fun createReference() {
-        rvGoals.visibility = View.VISIBLE
         rvGoals.isFocusable = false
         rvGoals.isNestedScrollingEnabled = false
         rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
         val observerGoals = Observer<Goal> { response ->
             response?.let {
-                mRefresh?.isRefreshing = false
-                rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data.goalData) { item: Goal.Data.GoalData, binder: RowGoalListItemBinding, position ->
-                    binder.goal = item
-                    binder.executePendingBindings()
-                    binder.root.setOnClickListener { v ->
-                        item.inflation = it.data.inflation
-                        startFragment(InitiateYourGoalFragment.newInstance(), R.id.frmContainer)
-                        postSticky(item)
+                if (it.data.goalData.isNotEmpty()) {
+                    rvGoals.visibility = View.VISIBLE
+                    mRefresh?.isRefreshing = false
+                    rvGoals.setUpRecyclerView(R.layout.row_goal_list_item, it.data.goalData) { item: Goal.Data.GoalData, binder: RowGoalListItemBinding, position ->
+                        binder.goal = item
+                        binder.executePendingBindings()
+                        binder.root.setOnClickListener { v ->
+                            item.inflation = it.data.inflation
+                            startFragment(InitiateYourGoalFragment.newInstance(), R.id.frmContainer)
+                            postSticky(item)
+                        }
                     }
                 }
             }

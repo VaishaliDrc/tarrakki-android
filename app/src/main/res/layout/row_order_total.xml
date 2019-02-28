@@ -13,6 +13,8 @@
             name="onBankMandateChange"
             type="android.view.View.OnClickListener" />
 
+        <import type="android.view.View"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -49,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
+            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
             android:layout_marginEnd="@dimen/space_8"
             android:text="@string/sip_bank_mandate"
             app:layout_constraintBaseline_toBaselineOf="@id/tvBankMandateAccount"
@@ -62,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:drawableEnd="@drawable/ic_edit"
+            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
             android:gravity="center_vertical"
             android:onClick="@{onBankMandateChange}"
             android:text="@{widget.bank}"

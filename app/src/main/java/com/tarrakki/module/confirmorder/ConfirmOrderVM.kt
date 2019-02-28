@@ -172,6 +172,7 @@ class OrderTotal : WidgetsViewModel {
     var total: Double = 0.0
     var bank: String = ""
     var bankMandateId = -1
+    var isBankMandateVisible : Boolean ? = true
 
     override fun layoutId(): Int {
         return R.layout.row_order_total

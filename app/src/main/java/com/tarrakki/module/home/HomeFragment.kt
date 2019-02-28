@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
+import org.supportcompact.utilise.EqualSpacingItemDecoration
 
 const val CATEGORYNAME = "category_name"
 const val ISSINGLEINVESTMENT = "category_single_investment"
@@ -56,6 +57,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override fun createReference() {
         setHasOptionsMenu(true)
+
+        rvHomeItem?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
+
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
         val observerHomeData = Observer<HomeData> {
@@ -168,10 +172,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         tvViewPortfolio?.setOnClickListener {
-            context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
+            //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
 
-            //startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
+
         mRefresh?.setOnRefreshListener {
             getViewModel().getHomeData(true).observe(this, observerHomeData)
         }

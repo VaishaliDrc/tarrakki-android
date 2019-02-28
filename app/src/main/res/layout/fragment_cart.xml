@@ -26,13 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/default_space">
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginBottom="@dimen/default_space">
 
             <LinearLayout
                 android:id="@+id/llWhyInflationMatter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_2"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:orientation="vertical"
@@ -78,6 +80,8 @@
                 android:visibility="@{vm.isEmptyCart?View.GONE:View.VISIBLE}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginBottom="@dimen/space_2"
                 android:background="@drawable/shape_cart_view"

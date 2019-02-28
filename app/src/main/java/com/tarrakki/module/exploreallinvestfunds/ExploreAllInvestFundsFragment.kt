@@ -23,6 +23,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.utilise.EqualSpacingItemDecoration
 
 class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, FragmentExploreAllInvestFundsBinding>() {
 
@@ -45,6 +46,8 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
     }
 
     override fun createReference() {
+        rvMutualFunds?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
+
         setHasOptionsMenu(true)
 
         btnIdle?.setOnClickListener {

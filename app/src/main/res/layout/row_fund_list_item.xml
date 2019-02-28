@@ -15,8 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_cart_view"
         android:elevation="@dimen/space_2"
-        android:padding="@dimen/space_8"
-        tools:layout_margin="@dimen/default_space">
+        android:padding="@dimen/space_8">
 
         <TextView
             android:id="@+id/tvName"

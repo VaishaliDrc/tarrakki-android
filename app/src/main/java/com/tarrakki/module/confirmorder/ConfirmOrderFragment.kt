@@ -69,6 +69,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orderId = confirmOrderResponse?.data?.id
             orders.clear()
             val orderTotal = OrderTotal()
+            orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
                     ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
@@ -130,7 +131,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             })
                         } else {
                             if (binder is RowConfirmOrderBinding) {
-                                binder.cbSIP.isChecked = true
+                                binder.cbSIP.isChecked = !binder.cbSIP.isChecked
                             }
                             context?.simpleAlert("Your selected bank mandate is not approved so you can not uncheck this option.")
                         }
@@ -146,6 +147,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
                     }
                 })
+
                 binder.executePendingBindings()
             }
         }

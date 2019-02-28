@@ -84,7 +84,7 @@ class PerformanceFragment : Fragment() {
                 fundDetailsResponse?.let { fund ->
                     binder?.fund = fund.fundsDetails
                     binder?.executePendingBindings()
-
+                    binder?.root?.visibility = View.VISIBLE
                     val returns = arrayListOf<KeyInfo>()
                     returns.add(KeyInfo("1 Month", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn1Mth)))
                     returns.add(KeyInfo("3 Month", parseAsNoZiroReturnOrNA(fund.fundsDetails?.ttrReturn3Mth)))

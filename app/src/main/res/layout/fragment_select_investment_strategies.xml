@@ -21,15 +21,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/default_space">
+            android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 android:visibility="@{vm.isSingleInvestment==false?View.GONE:View.VISIBLE}"
                 android:id="@+id/lyt_single_investment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:layout_marginBottom="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
                 android:padding="@dimen/space_8">
 
                 <android.support.v7.widget.CardView
@@ -191,12 +195,17 @@
                     android:id="@+id/mPager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2" />
 
                 <me.relex.circleindicator.CircleIndicator
                     android:id="@+id/pageIndicator"
                     android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
                     android:layout_height="48dp"
                     app:ci_drawable="@drawable/page_selected"
                     app:ci_drawable_unselected="@drawable/page_unselected" />
@@ -207,6 +216,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_cart_view"
                     android:elevation="2dp"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
                     android:orientation="vertical"
                     android:padding="8dp">
 
