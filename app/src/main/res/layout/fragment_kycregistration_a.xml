@@ -66,7 +66,7 @@
                     android:textColorHint="@color/darker_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvFName" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvDOBL"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -100,17 +100,15 @@
                     app:layout_constraintEnd_toStartOf="@id/edtPAN"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvDOBL" />
+                    app:layout_constraintTop_toBottomOf="@id/tvDOBL" />-->
 
                 <TextView
                     android:id="@+id/tvPAN"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/pan_number"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@id/tvDOBL"
                     app:layout_constraintTop_toBottomOf="@id/edtFName" />
@@ -118,7 +116,7 @@
                 <EditText
                     android:id="@+id/edtPAN"
                     isPANCard="@{true}"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_4"
                     android:layout_marginTop="@dimen/space_4"
@@ -313,6 +311,34 @@
                     app:layout_constraintTop_toBottomOf="@id/tvGuardianPAN"
                     tools:visibility="gone" />
 
+
+                <TextView
+                    android:id="@+id/tvCertificate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="Are you born before  27 Feb, 2019 ?"
+                    android:textColor="@color/black"
+                    app:layout_constraintBaseline_toBaselineOf="@id/switchOnOff"
+                    app:layout_constraintEnd_toStartOf="@+id/switchOnOff"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edtGuardian" />
+
+                <ToggleButton
+                    android:id="@+id/switchOnOff"
+                    android:layout_width="64dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:background="@drawable/shape_switch_bg"
+                    android:button="@null"
+                    android:checked="@{vm.isEdit()}"
+                    android:textOff=""
+                    android:textOn=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edtGuardian"
+                    tools:checked="true" />
                 <!--<TextView
                     android:id="@+id/tvAddressTypeL"
                     android:layout_width="wrap_content"

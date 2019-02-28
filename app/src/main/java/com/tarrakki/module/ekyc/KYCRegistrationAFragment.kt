@@ -6,12 +6,10 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_kycregistration_a.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
-import java.text.DateFormatSymbols
 import java.util.*
 
 /**
@@ -44,13 +42,26 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         /*getViewModel().ivEmailVerifiedVisibility.set(context?.isEmailVerified() == true)
         if (getViewModel().ivEmailVerifiedVisibility.get() == false) {
         }*/
+        tvCertificate.text = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?"
+        switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
+            getViewModel().guardianVisibility.set(if (isChecked) View.GONE else View.VISIBLE)
+            getViewModel().isEdit.set(isChecked)
+            if (isChecked) {
+                getViewModel().kycData.value?.guardianName = ""
+                edtPAN?.setText(getViewModel().kycData.value?.pan)
+            } else {
+                edtPAN?.text?.clear()
+            }
+        }
         getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
                 edtPAN?.setText(kycData.pan)
                 getBinding().executePendingBindings()
-                if (kycData.dob.isNotEmpty()) {
-                    kycData.dob.toDate("dd MMM, yyyy").let { dob ->
+                switchOnOff.isChecked = kycData.guardianName.isEmpty()
+                /*if (kycData.guardianName.isNotEmpty()) {
+
+                    *//*kycData.dob.toDate("dd MMM, yyyy").let { dob ->
                         val cal = dob.toCalendar()
                         val isAdult = isAdult(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
                         getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
@@ -61,8 +72,8 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                         } else {
                             edtPAN?.text?.clear()
                         }
-                    }
-                }
+                    }*//*
+                }*/
             }
         })
 
@@ -80,6 +91,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
              }
          }*/
 
+/*
         edtDOB?.setOnClickListener {
             val now: Calendar = Calendar.getInstance()
             var Cdob: Calendar? = null
@@ -113,6 +125,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             }
             dPicker.build().show()
         }
+*/
 
         btnContinue?.setOnClickListener {
             getViewModel().kycData.value?.let { kycData ->
@@ -153,10 +166,10 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter valid PAN number")
                 false
             }
-            kycData.dob.isEmpty() -> {
+            /*kycData.dob.isEmpty() -> {
                 context?.simpleAlert("Please select date of birth")
                 false
-            }
+            }*/
             /*getViewModel().email.isEmpty() -> {
                 context?.simpleAlert("Please enter email id")
                 false

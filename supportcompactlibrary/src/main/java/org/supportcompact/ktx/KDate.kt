@@ -60,6 +60,12 @@ fun Date.toCalendar(): Calendar {
     return cal
 }
 
+fun getDate(years: Int): Date {
+    val cal = Calendar.getInstance()
+    cal.add(Calendar.YEAR, -years) // to get previous year add -1
+    return cal.time
+}
+
 fun Date.isFuture(): Boolean {
     return !Date().before(this)
 }
