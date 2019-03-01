@@ -21,6 +21,7 @@ import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
+import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
 import org.greenrobot.eventbus.Subscribe
@@ -333,7 +334,11 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                         apiResponse?.let {
                                             context?.simpleAlert(if (apiResponse.status?.code == 1) getString(R.string.complete_registration_msg) else "${apiResponse.status?.message}") {
                                                 removeStickyEvent(kycData)
-                                                startActivity<AccountActivity>()
+                                                if (activity is HomeActivity) {
+                                                    onBack(3)
+                                                } else {
+                                                    startActivity<AccountActivity>()
+                                                }
                                                 /*when (kycData.pageNo) {
                                                     2 -> {
                                                         onBack(2)
