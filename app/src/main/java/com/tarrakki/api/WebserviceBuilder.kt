@@ -200,7 +200,7 @@ interface WebserviceBuilder {
     @GET("transactions/{userId}/")
     fun getTransactions(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
 
-    @GET("transactions/portfolio/{userId}")
+    @GET("portfolio/{userId}/")
     fun getUserPortfolio(@Path("userId") userId: String?): Observable<ApiResponse>
 
     @FormUrlEncoded

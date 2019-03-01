@@ -14,7 +14,7 @@
 
         <variable
             name="amount"
-            type="java.math.BigInteger" />
+            type="String" />
 
     </data>
 
@@ -69,6 +69,8 @@
             android:hint="@string/choose_folio"
             android:maxLines="1"
             android:paddingStart="@dimen/default_space"
+            android:drawableStart="@drawable/ic_folio_number"
+            android:drawablePadding="@dimen/space_8"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
@@ -103,6 +105,8 @@
             android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
             android:hint="@string/select_startdate"
             android:maxLines="1"
+            android:drawableStart="@drawable/ic_calendar"
+            android:drawablePadding="@dimen/space_8"
             android:paddingStart="@dimen/default_space"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
@@ -128,19 +132,33 @@
             app:layout_constraintTop_toBottomOf="@id/edtStartDate" />
 
         <TextView
+            android:id="@+id/tvRSInvestedAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_space"
+            android:text="@string/rs_symbol"
+            android:textColor="@color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@id/edtAmount"
+            app:layout_constraintStart_toStartOf="@id/edtAmount"
+            app:layout_constraintTop_toTopOf="@id/edtAmount" />
+
+        <EditText
             android:id="@+id/edtAmount"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
             android:background="@drawable/shape_edt_gray_round"
-            android:hint="@string/select_end_date"
+            android:hint="@string/amount"
             android:maxLines="1"
-            android:paddingStart="@dimen/default_space"
+            android:paddingStart="@dimen/space_40"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
-            price="@{amount}"
+            android:editable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:text="@={amount}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"

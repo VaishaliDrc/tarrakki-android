@@ -132,7 +132,7 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
 
 @BindingAdapter("visibility")
 fun setVisibility(view: View, visibility: Boolean) {
-    Log.e("E","Notify2=$visibility")
+    Log.e("E", "Notify2=$visibility")
     view.visibility = if (visibility) View.VISIBLE else View.GONE
 }
 
@@ -577,7 +577,8 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                                       onRedeem: ((portfolioNo: String,
                                                   totalAmount: String,
-                                                  allRedeem: String) -> Unit)? = null) {
+                                                  allRedeem: String,
+                                                  amount: String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtTotalInvestedAmount.applyCurrencyFormatPositiveOnly()
@@ -586,13 +587,13 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
     if (portfolioList.isNotEmpty()) {
-        mBinder.investmentAmount = portfolioList[0].amount
+        mBinder.investmentAmount = portfolioList[0].cValue
         mBinder.folio = portfolioList[0].folioNo
     }
 
     mBinder.edtAmount.setOnClickListener {
         if (mBinder.chkAmount.isChecked) {
-            this.simpleAlert("Please Deselect Full Amount first.")
+            this.simpleAlert("Please uncheck the full amount option first.")
         }
     }
 
@@ -601,6 +602,8 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         mBinder.edtAmount.isFocusableInTouchMode = !isChecked
         if (isChecked) {
             mBinder.edtAmount.setText(mBinder.investmentAmount)
+        } else {
+            mBinder.edtAmount.setText("")
         }
     }
 
@@ -609,7 +612,8 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             mBinder.folio = item
             val selectedAmount = portfolioList.find { it.folioNo == item }
             if (selectedAmount != null) {
-                mBinder.investmentAmount = selectedAmount.amount
+                mBinder.investmentAmount = selectedAmount.cValue
+                mBinder.chkAmount.isChecked = false
             }
         }
     }
@@ -625,7 +629,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             } else {
                 "N"
             }
-            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem)
+            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem,amount)
         }
 
     }
@@ -640,11 +644,11 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 }
 
 fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
-                                    onStop: ((transactionId: Int) -> Unit)? = null) {
+                                    onStop: ((transactionId: Int,folio : String,startDate : String) -> Unit)? = null) {
     val mBinder = DialogStopTransactionBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
-
-    val folioList = portfolioList.filter { it.sipDetails?.isNotEmpty()==true }.map { it.folioNo } as ArrayList
+    mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
+    val folioList = portfolioList.filter { it.sipDetails?.isNotEmpty() == true }.map { it.folioNo } as ArrayList
     var startDateList = arrayListOf<SIPDetails>()
     var sipDetail: SIPDetails? = null
 
@@ -660,12 +664,12 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                 sipDetail = selectedFolio.sipDetails[0]
                 if (sipDetail != null) {
                     if (sipDetail.amount != null) {
-                        mBinder.amount = sipDetail.amount?.toCurrencyBigInt()
+                        mBinder.amount = sipDetail.amount
                     } else {
-                        mBinder.amount = BigInteger.ZERO
+                        mBinder.amount = "0"
                     }
                 } else {
-                    mBinder.amount = BigInteger.ZERO
+                    mBinder.amount = "0"
                 }
             }
         }
@@ -683,12 +687,12 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                         sipDetail = selectedFolio.sipDetails[0]
                         if (sipDetail != null) {
                             if (sipDetail?.amount != null) {
-                                mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                                mBinder.amount = sipDetail?.amount
                             } else {
-                                mBinder.amount = BigInteger.ZERO
+                                mBinder.amount = "0"
                             }
                         } else {
-                            mBinder.amount = BigInteger.ZERO
+                            mBinder.amount = "0"
                         }
                     }
 
@@ -707,12 +711,12 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                     sipDetail = selectedFolio.sipDetails.find { it.startDate == item.startDate }
                     if (sipDetail != null) {
                         if (sipDetail?.amount != null) {
-                            mBinder.amount = sipDetail?.amount?.toCurrencyBigInt()
+                            mBinder.amount = sipDetail?.amount
                         } else {
-                            mBinder.amount = BigInteger.ZERO
+                            mBinder.amount = "0"
                         }
                     } else {
-                        mBinder.amount = BigInteger.ZERO
+                        mBinder.amount = "0"
                     }
                 }
             }
@@ -721,9 +725,12 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
+        val folio = mBinder.edtChooseFolio.text.toString()
+        val date = mBinder.edtStartDate.text.toString()
+
         if (sipDetail != null) {
             mDialog?.dismiss()
-            sipDetail?.transId?.let { it1 -> onStop?.invoke(it1) }
+            sipDetail?.transId?.let { it1 -> onStop?.invoke(it1,folio,date) }
         }
     }
 
@@ -840,11 +847,12 @@ fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
 
 fun Context.isAmountValid(amount: BigInteger): Boolean {
     if (amount != BigInteger.ZERO) {
-        if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
+        /*if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
             this.simpleAlert("The SIP amount should be a multiple of 10.")
             return false
-        }
-    }else{
+        }*/
+        return true
+    } else {
         this.simpleAlert("Please enter valid amount.")
         return false
     }

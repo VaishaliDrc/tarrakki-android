@@ -87,6 +87,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
+            android:name=".ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
             android:name=".module.resetPassword.ResetPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppWindowBGThem"

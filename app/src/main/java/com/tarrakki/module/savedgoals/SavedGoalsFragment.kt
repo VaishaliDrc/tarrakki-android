@@ -17,10 +17,7 @@ import kotlinx.android.synthetic.main.fragment_saved_goals.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 import java.util.*
 
 /**
@@ -107,14 +104,14 @@ class SavedGoalsFragment : CoreFragment<SavedGoalsVM, FragmentSavedGoalsBinding>
             updateUI()
         } else {
             rvSavedGoals.visibility = View.GONE
-            coreActivityVM?.emptyView(true)
+            context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(true, it) }
         }
     }
 
     fun updateUI() {
         if (adapter?.itemCount == 0) {
             rvSavedGoals.visibility = View.GONE
-            coreActivityVM?.emptyView(true)
+            context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(true, it) }
         } else {
             coreActivityVM?.emptyView(false)
             rvSavedGoals.visibility = View.VISIBLE

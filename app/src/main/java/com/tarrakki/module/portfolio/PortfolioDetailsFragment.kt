@@ -46,11 +46,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
     override fun createReference() {
 
         getViewModel().portfolioData.observe(this, Observer { response ->
-            if (response?.data?.goalBasedInvestment?.isNotEmpty()==true){
+            if (response?.data?.goalBasedInvestment?.isNotEmpty() == true) {
                 val goldbasedInvestment =
-                        response.data.goalBasedInvestment.find { it.goalId==getViewModel().goalInvestment.get()?.goalId }
+                        response.data.goalBasedInvestment.find { it.goalId == getViewModel().goalInvestment.get()?.goalId }
 
-                if (goldbasedInvestment!=null){
+                if (goldbasedInvestment != null) {
                     getViewModel().goalBasedInvestment.value = goldbasedInvestment
                     getViewModel().goalInvestment.set(goldbasedInvestment)
                 }
@@ -68,7 +68,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.tvAddPortfolio.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
-                        folios.add(FolioData(folio.amount, folio.folioNo))
+                        folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                     }
                     context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                             item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
@@ -85,21 +85,23 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.tvRedeem.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
-                        folios.add(FolioData(folio.amount, folio.folioNo))
+                        folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                     }
-                    context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem ->
-                        val json = JsonObject()
-                        json.addProperty("user_id", App.INSTANCE.getUserId())
-                        json.addProperty("fund_id", item.fundId)
-                        json.addProperty("all_redeem", allRedeem)
-                        json.addProperty("amount", totalAmount)
-                        json.addProperty("folio_number", portfolioNo)
-                        json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
-                        val data = json.toString().toEncrypt()
-                        redeemPortfolio(data).observe(this, Observer {
-                            getViewModel().getUserPortfolio()
-                        })
-                    }
+                    context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
+                            val json = JsonObject()
+                            json.addProperty("user_id", App.INSTANCE.getUserId())
+                            json.addProperty("fund_id", item.fundId)
+                            json.addProperty("all_redeem", allRedeem)
+                            json.addProperty("amount", totalAmount)
+                            json.addProperty("folio_number", portfolioNo)
+                            json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
+                            val data = json.toString().toEncrypt()
+                            redeemPortfolio(data).observe(this, Observer {
+                                context?.simpleAlert("Your redemption of amount $amount is successful.") {
+                                    getViewModel().getUserPortfolio()
+                                }
+                            })
+                        }
                 }
 
                 binder.tvStopPortfolio.setOnClickListener {
@@ -109,12 +111,14 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         for (sipDetail in folio.sipDetails) {
                             sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                         }
-                        folios.add(FolioData(folio.amount, folio.folioNo, sipDetailsList))
+                        folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                     }
 
-                    context?.stopFundPortfolioDialog(folios) { transactionId ->
+                    context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                         stopPortfolio(transactionId).observe(this, Observer {
-                            getViewModel().getUserPortfolio()
+                            context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully.") {
+                                getViewModel().getUserPortfolio()
+                            }
                         })
                     }
                 }

@@ -2,8 +2,10 @@ package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.format
 import org.supportcompact.ktx.toCurrencyBigInt
 import org.supportcompact.ktx.toDate
+import java.math.BigDecimal
 import java.math.BigInteger
 
 data class UserPortfolioResponse(
@@ -18,7 +20,7 @@ data class UserPortfolioResponse(
     ) {
         data class GoalBasedInvestment(
                 @SerializedName("current_value")
-                val currentValue: BigInteger,
+                val currentValue: Double,
                 @SerializedName("funds")
                 val funds: List<Fund>,
                 @SerializedName("goal_id")
@@ -28,11 +30,14 @@ data class UserPortfolioResponse(
                 @SerializedName("total_investment")
                 val totalInvestment: BigInteger,
                 @SerializedName("xirr")
-                val xirr: BigInteger
+                val xirr: Double
         ) {
+            var xiRR : String = ""
+                get() = xirr.format()
+
             data class Fund(
                     @SerializedName("current_value")
-                    val currentValue: BigInteger,
+                    val currentValue: Double,
                     @SerializedName("folio_list")
                     val folioList: List<Folio>,
                     @SerializedName("fund_id")
@@ -42,7 +47,7 @@ data class UserPortfolioResponse(
                     @SerializedName("total_investment")
                     val totalInvestment: BigInteger,
                     @SerializedName("xirr")
-                    val xirr: BigInteger,
+                    val xirr: Double,
                     @SerializedName("pi_minimum_initial")
                     val piMinimumInitial: String?,
                     @SerializedName("iaip_aip")
@@ -50,7 +55,12 @@ data class UserPortfolioResponse(
                     @SerializedName("is_sip")
                     val isSIP: Boolean
             ) {
+                var xiRR : String = ""
+                   get() = xirr.format()
+
                 data class Folio(
+                        @SerializedName("current_value")
+                        val currentValue: Double,
                         @SerializedName("amount")
                         val amount: String,
                         @SerializedName("folio_no")
@@ -107,7 +117,7 @@ data class UserPortfolioResponse(
 
         data class DirectInvestment(
                 @SerializedName("current_value")
-                val currentValue: BigInteger,
+                val currentValue: Double,
                 @SerializedName("folio_list")
                 val folioList: List<Folio>,
                 @SerializedName("fund_id")
@@ -117,7 +127,7 @@ data class UserPortfolioResponse(
                 @SerializedName("total_investment")
                 val totalInvestment: BigInteger,
                 @SerializedName("xirr")
-                val xirr: BigInteger,
+                val xirr: Double,
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("iaip_aip")
@@ -125,7 +135,12 @@ data class UserPortfolioResponse(
                 @SerializedName("is_sip")
                 val isSIP: Boolean
         ) {
+            var xiRR : String = ""
+                get() = xirr.format()
+
             data class Folio(
+                    @SerializedName("current_value")
+                    val currentValue: Double,
                     @SerializedName("amount")
                     val amount: String,
                     @SerializedName("folio_no")
@@ -182,10 +197,20 @@ data class UserPortfolioResponse(
 }
 
 data class FolioData(
+        val currentValue: Double,
         val amount: String,
         val folioNo: String,
         val sipDetails: List<SIPDetails>? = null
-)
+){
+    var cValue : String = ""
+    get() {
+        var value = currentValue
+        if (value==null){
+            value = 0.0
+        }
+        return value.toString()
+    }
+}
 
 data class SIPDetails(
         @SerializedName("amount")

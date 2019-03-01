@@ -119,6 +119,8 @@
             android:completionThreshold="1"
             android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
             android:hint="@string/choose_folio"
+            android:drawableStart="@drawable/ic_folio_number"
+            android:drawablePadding="@dimen/space_8"
             android:maxLines="1"
             android:paddingStart="@dimen/default_space"
             android:paddingTop="@dimen/space_8"

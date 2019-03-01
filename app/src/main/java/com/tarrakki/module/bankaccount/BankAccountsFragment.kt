@@ -4,6 +4,7 @@ package com.tarrakki.module.bankaccount
 import android.Manifest
 import android.app.Activity
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.Intent
 import android.databinding.ViewDataBinding
 import android.graphics.Bitmap
@@ -20,7 +21,7 @@ import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
-import com.yalantis.ucrop.UCrop
+import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
@@ -29,6 +30,12 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
+import java.io.FileOutputStream
+import kotlin.concurrent.thread
+import android.provider.MediaStore
+import com.tarrakki.ucrop.UCropActivity
+import com.yalantis.ucrop.model.AspectRatio
+import com.yalantis.ucrop.view.CropImageView
 
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
@@ -62,6 +69,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     }
 
     override fun createReference() {
+        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
 
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
@@ -70,7 +78,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
             }
         })
 
-        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
         val bankObserver = Observer<UserBanksResponse> { r ->
             r?.let { userBanksResponse ->
                 val banks = arrayListOf<WidgetsViewModel>()
@@ -152,7 +159,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         }
                     }
                 })*/
-                startCrop(Uri.fromFile(file))
+                startCrop(Uri.fromFile(file),true)
                 App.INSTANCE.signatureFile.value = null
                 getViewModel().imageFrom = getViewModel().SIGNPAD_RQ_CODE
             }
@@ -247,21 +254,31 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         })
     }
 
-    private fun startCrop(@NonNull uri: Uri) {
+    private fun startCrop(@NonNull uri: Uri,isPhysically : Boolean = true) {
         var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
         destinationFileName += ".png"
-        val options = context?.getUCropOptions()
-        options?.setCompressionFormat(Bitmap.CompressFormat.PNG)
+        val options = context?.getCustomUCropOptions()
+        //options?.setCompressionFormat(Bitmap.CompressFormat.PNG)
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         options?.let {
-            it.setRootViewBackgroundColor(Color.WHITE)
+            //it.setAspectRatioOptions(0, AspectRatio("Crop",150f, 90f))
+            if (isPhysically) {
+                it.setRootViewBackgroundColor(Color.WHITE)
+            }
             it.setCompressionQuality(100)
+            it.setCompressionFormat(Bitmap.CompressFormat.PNG)
+            it.setShowCropGrid(false)
+            /*it.setAspectRatioOptions(0,AspectRatio(getString(R.string.ucrop_label_original).toUpperCase(),
+                    CropImageView.SOURCE_IMAGE_ASPECT_RATIO, CropImageView.SOURCE_IMAGE_ASPECT_RATIO))*/
+            //it.setFreeStyleCropEnabled(true)
+            //it.setMaxScaleMultiplier(15f)
+            //it.setShowCropFrame(false)
 //          it.setHideBottomControls(true)
-            uCrop.withOptions(it)
         }
+        //uCrop?.useSourceImageAspectRatio()
+        options?.let { uCrop.withOptions(it) }
         uCrop.withAspectRatio(16f, 9f)
         uCrop.withMaxResultSize(150, 90)
-        //uCrop.withMaxResultSize(150, 90)
         uCrop.start(context!!, this)
     }
 
@@ -313,6 +330,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val path = getPath(it)
+
                             path?.let { filePath ->
                                 getViewModel().kycData.value?.let { kycData ->
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
@@ -332,6 +350,19 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
     }
 
+    private fun saveAsFile(myBitmap: Bitmap) {
+        val tempFile = File(activity?.cacheDir, "finalSignedImg")
+        thread {
+            val outStream = FileOutputStream(tempFile)
+            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
+            outStream.flush()
+            outStream.close()
+            activity?.runOnUiThread {
+
+            }
+        }
+    }
+
     @Subscribe(sticky = true)
     fun onReceive(kycData: KYCData) {
         if (getViewModel().kycData.value == null) {
@@ -343,4 +374,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = BankAccountsFragment().apply { arguments = basket }
     }
+
+
 }

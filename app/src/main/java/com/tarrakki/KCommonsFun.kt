@@ -161,3 +161,11 @@ fun Context.getUCropOptions() : UCrop.Options{
     options.setActiveWidgetColor(ContextCompat.getColor(this, R.color.colorAccent))
     return options
 }
+
+fun Context.getCustomUCropOptions() : com.tarrakki.ucrop.UCrop.Options{
+    val options = com.tarrakki.ucrop.UCrop.Options()
+    options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+    options.setActiveWidgetColor(ContextCompat.getColor(this, R.color.colorAccent))
+    return options
+}

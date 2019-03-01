@@ -194,7 +194,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(1f, 1f)
         val options = context?.getUCropOptions()
-        context?.color(R.color.lighter_gray)?.let { options?.setRootViewBackgroundColor(it) }
+       // context?.color(R.color.lighter_gray)?.let { options?.setRootViewBackgroundColor(it) }
         options?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }

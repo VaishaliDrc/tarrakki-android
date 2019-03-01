@@ -1,9 +1,6 @@
 package org.supportcompact.ktx
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.Matrix
+import android.graphics.*
 import android.support.annotation.ColorInt
 import android.util.Base64
 import android.view.View
@@ -147,5 +144,21 @@ fun Bitmap.toFile(formator: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG): 
     outStream.flush()
     outStream.close()
     return tempFile
+}
+
+fun Bitmap.mergeBitmap(): Bitmap {
+    val width = this.width + (this.width * 10 / 100)
+    val height = this.height + (this.height * 10 / 100)
+
+    val backgroundBitmap = Bitmap.createBitmap(width, height,
+            Bitmap.Config.ARGB_8888)
+    backgroundBitmap.eraseColor(Color.TRANSPARENT)
+
+    val resultBitmap = Bitmap.createBitmap(backgroundBitmap.width, backgroundBitmap.height, backgroundBitmap.config)
+    val canvas = Canvas(resultBitmap)
+    canvas.drawBitmap(backgroundBitmap, Matrix(), null)
+    canvas.drawBitmap(this, ((backgroundBitmap.width - this.width) / 2).toFloat(), ((backgroundBitmap.height - this.height) / 2).toFloat(), Paint())
+
+    return resultBitmap
 }
 

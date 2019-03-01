@@ -16,6 +16,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toCurrencyBigInt
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
 
@@ -65,7 +66,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo))
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                                     item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
@@ -82,19 +83,20 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvRedeem.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo))
                             }
-                            context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem ->
+                            context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
                                 val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
                                 json.addProperty("fund_id", item.fundId)
                                 json.addProperty("all_redeem", allRedeem)
                                 json.addProperty("amount", totalAmount)
                                 json.addProperty("folio_number", portfolioNo)
-                                json.toString().printRequest()
                                 val data = json.toString().toEncrypt()
                                 redeemPortfolio(data).observe(this, Observer {
-                                    vm.getUserPortfolio()
+                                    context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt()} is successful.") {
+                                        getViewModel().getUserPortfolio()
+                                    }
                                 })
                             }
                         }
@@ -106,12 +108,14 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 for (sipDetail in folio.sipDetails) {
                                     sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                                 }
-                                folios.add(FolioData(folio.amount, folio.folioNo, sipDetailsList))
+                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo, sipDetailsList))
                             }
 
-                            context?.stopFundPortfolioDialog(folios) { transactionId ->
+                            context?.stopFundPortfolioDialog(folios) { transactionId,folio,date ->
                                 stopPortfolio(transactionId).observe(this, Observer {
-                                    vm.getUserPortfolio()
+                                    context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully."){
+                                        vm.getUserPortfolio()
+                                    }
                                 })
                             }
                         }

@@ -699,6 +699,8 @@
     <string name="please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting">Please make sure your signature is accurate. Take your time to get your signature right before submitting.</string>
     <string name="sign_digitally">Sign Digitally</string>
     <string name="complete_registration_msg">Congratulation!\nYour registration is completed successfully and you are ready to place your first order now.</string>
+    <string name="no_goals_found">No goals found.</string>
+    <string name="no_funds_found">No funds found.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>
