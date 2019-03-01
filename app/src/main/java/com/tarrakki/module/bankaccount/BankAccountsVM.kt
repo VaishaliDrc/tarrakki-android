@@ -118,7 +118,7 @@ class BankAccountsVM : FragmentViewModel() {
             } else {
                 json.addProperty("guardian_name", kycData.guardianName)
                 json.addProperty("guardian_pan", kycData.pan)
-                json.addProperty("date_of_birth", getDate(14).convertTo("dd/MM/yyyy"))
+                json.addProperty("date_of_birth", kycData.guardianDOB.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy"))
             }
             json.addProperty("address", kycData.address)
             json.addProperty("city", kycData.city)

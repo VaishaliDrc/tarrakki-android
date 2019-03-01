@@ -12,14 +12,11 @@ import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
-import com.tarrakki.module.ekyc.KYCData
-import com.tarrakki.module.ekyc.KYCRegistrationAFragment
-import com.tarrakki.module.ekyc.getKYCData
-import com.tarrakki.module.ekyc.isPANCard
+import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.ProfileFragment
+import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
-import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
@@ -68,7 +65,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(ChangePasswordFragment.newInstance(bundle), R.id.frmContainer)
                     }
                     R.drawable.ic_my_profile -> {
-                        startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
+
+                        context?.simpleAlert("My Profile is still under development so you will be able to test it in the next build.")
+                        //startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
                         /*if (App.INSTANCE.isLoggedIn.value!!) {
                             //Open My Profile
                             startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
@@ -80,16 +79,16 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         }*/
                     }
                     R.drawable.ic_my_portfolio -> {
-                        context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
+                        //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
 
-                        //startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+                        startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
-                        //context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
-                        startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
+                        context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
+                        //startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_privacy_policy -> {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
@@ -122,7 +121,17 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         btnContinue?.setOnClickListener {
             getKYCData().observe(this, android.arch.lifecycle.Observer {
                 it?.let { kycData ->
-                    startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                    when (kycData.pageNo) {
+                        2 -> {
+                            startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
+                        }
+                        3 -> {
+                            startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+                        }
+                        else -> {
+                            startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                        }
+                    }
                     postSticky(kycData)
                 }
             })

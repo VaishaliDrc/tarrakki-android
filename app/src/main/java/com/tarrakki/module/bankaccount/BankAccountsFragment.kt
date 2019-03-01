@@ -4,7 +4,6 @@ package com.tarrakki.module.bankaccount
 import android.Manifest
 import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.content.Intent
 import android.databinding.ViewDataBinding
 import android.graphics.Bitmap
@@ -19,6 +18,7 @@ import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankAccountsBinding
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.ucrop.UCrop
@@ -32,10 +32,6 @@ import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.concurrent.thread
-import android.provider.MediaStore
-import com.tarrakki.ucrop.UCropActivity
-import com.yalantis.ucrop.model.AspectRatio
-import com.yalantis.ucrop.view.CropImageView
 
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
@@ -159,7 +155,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         }
                     }
                 })*/
-                startCrop(Uri.fromFile(file),true)
+                startCrop(Uri.fromFile(file), true)
                 App.INSTANCE.signatureFile.value = null
                 getViewModel().imageFrom = getViewModel().SIGNPAD_RQ_CODE
             }
@@ -254,7 +250,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         })
     }
 
-    private fun startCrop(@NonNull uri: Uri,isPhysically : Boolean = true) {
+    private fun startCrop(@NonNull uri: Uri, isPhysically: Boolean = true) {
         var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
@@ -337,7 +333,19 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                         apiResponse?.let {
                                             context?.simpleAlert(if (apiResponse.status?.code == 1) getString(R.string.complete_registration_msg) else "${apiResponse.status?.message}") {
                                                 removeStickyEvent(kycData)
-                                                onBack(3)
+                                                startActivity<AccountActivity>()
+                                                /*when (kycData.pageNo) {
+                                                    2 -> {
+                                                        onBack(2)
+                                                    }
+                                                    3 -> {
+                                                        onBack()
+                                                    }
+                                                    else -> {
+                                                        onBack(3)
+                                                    }
+                                                }*/
+
                                             }
                                         }
                                     })

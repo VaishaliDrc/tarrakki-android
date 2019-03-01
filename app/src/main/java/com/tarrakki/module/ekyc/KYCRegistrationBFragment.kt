@@ -99,6 +99,7 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
         btnNext?.setOnClickListener {
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
+                    kycData.pageNo = 3
                     saveKYCData(kycData).observe(this, android.arch.lifecycle.Observer {
                         startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
                         post(kycData)

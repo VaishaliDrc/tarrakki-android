@@ -35,6 +35,8 @@ class EKYCVM : FragmentViewModel() {
 
 data class KYCData(var pan: String) : BaseObservable() {
 
+    var pageNo = 1
+
     @get:Bindable
     var nameOfPANHolder = ""
         set(value) {
@@ -67,10 +69,10 @@ data class KYCData(var pan: String) : BaseObservable() {
             notifyPropertyChanged(BR.guardianName)
         }
     @get:Bindable
-    var guardianPAN: String = ""
+    var guardianDOB: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.guardianPAN)
+            notifyPropertyChanged(BR.guardianDOB)
         }
     @get:Bindable
     var addressType: String = ""
@@ -238,11 +240,12 @@ fun saveKYCData(kycData: KYCData): MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     val json = JsonObject()
+    json.addProperty("page_no", kycData.pageNo)
     json.addProperty("pan_name", kycData.nameOfPANHolder)
     json.addProperty("pan_number", kycData.pan)
     json.addProperty("date_of_birth", kycData.dob)
     json.addProperty("guardian_name", kycData.guardianName)
-    //json.addProperty("guardian_pan", kycData.pan)
+    json.addProperty("guardian_dob", kycData.guardianDOB)
     json.addProperty("address", kycData.address)
     json.addProperty("city", kycData.city)
     json.addProperty("pincode", kycData.pincode)
@@ -309,6 +312,7 @@ fun getKYCData(): MutableLiveData<KYCData> {
                             val jsonObject = JSONObject(o.data?.toDecrypt())
                             val jsonData = JSONObject(jsonObject.optString("data"))
                             val kycData = KYCData(jsonData.optString("pan_number"))
+                            kycData.pageNo = jsonData.optInt("page_no", 1)
                             kycData.nameOfPANHolder = jsonData.optString("pan_name")
                             kycData.countryOfIssue2 = jsonData.optString("country_of_issue2")
                             kycData.addressType = "01"//jsonData.optString("address_type")
@@ -329,6 +333,7 @@ fun getKYCData(): MutableLiveData<KYCData> {
                             kycData.city = jsonData.optString("city")
                             kycData.birthPlace = jsonData.optString("birth_place")
                             kycData.guardianName = jsonData.optString("guardian_name")
+                            kycData.guardianDOB = jsonData.optString("guardian_dob")
                             kycData.state = jsonData.optString("state")
                             kycData.sourceOfIncome = jsonData.optString("source_of_income")
                             kycData.taxSlab = jsonData.optString("income_slab")
