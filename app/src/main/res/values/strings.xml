@@ -578,6 +578,7 @@
     <string name="personal_details">Personal Details</string>
     <string name="add_nominee">Add Nominee</string>
     <string name="nominee_name">Nominee Name</string>
+    <string name="nominee_relationship">Nominee Relationship</string>
     <string name="relationship">Relationship</string>
     <string name="occupation">Occupation</string>
     <string name="full_name">Full Name</string>
@@ -701,6 +702,11 @@
     <string name="complete_registration_msg">Congratulation!\nYour registration is completed successfully and you are ready to place your first order now.</string>
     <string name="no_goals_found">No goals found.</string>
     <string name="no_funds_found">No funds found.</string>
+    <string name="profile_details">Profile Details</string>
+    <string name="display_name">Display Name</string>
+    <string name="guardian_pan_number">Guardian PAN Number</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="update_signature">Update Signature</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

@@ -14,6 +14,7 @@ import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
@@ -65,9 +66,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(ChangePasswordFragment.newInstance(bundle), R.id.frmContainer)
                     }
                     R.drawable.ic_my_profile -> {
-
-                        context?.simpleAlert("My Profile is still under development so you will be able to test it in the next build.")
-                        //startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
+                        startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
                         /*if (App.INSTANCE.isLoggedIn.value!!) {
                             //Open My Profile
                             startFragment(ProfileFragment.newInstance(), R.id.frmContainer)

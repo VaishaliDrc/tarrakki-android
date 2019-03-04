@@ -28,6 +28,19 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     val getOTP = MutableLiveData<ApiResponse>()
     private val verifyOTP = MutableLiveData<Boolean>()
 
+    fun getDataOTP(originalData: String?): MutableLiveData<ApiResponse> {
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        e("Plain Data=>", originalData.toString())
+        val data = AES.encrypt(originalData.toString())
+        e("Encrypted Data=>", data)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
+                apiNames = WebserviceBuilder.ApiNames.getOTP,
+                singleCallback = this@OptVerificationsVM
+        )
+        return getOTP
+    }
+
     fun getOTP(mobile: String?, email: String?, type: String = "signup"): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()

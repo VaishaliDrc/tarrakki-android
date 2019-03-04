@@ -29,7 +29,8 @@ class ForgotPasswordVM : ActivityViewModel() {
         val apiResponse = MutableLiveData<ForgotPasswordEmailResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).forgotPassword(email.get().toString(), "forgot_password"),
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java)
+                        .forgotPassword(email.get().toString(), "forgot_password"),
                 apiNames = WebserviceBuilder.ApiNames.forgotPassword,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

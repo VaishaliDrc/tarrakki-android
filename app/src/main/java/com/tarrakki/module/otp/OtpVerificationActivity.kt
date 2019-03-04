@@ -8,6 +8,8 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.ActivityOtpVerificationBinding
 import com.tarrakki.module.forgotpassword.FORGOTPASSWORD_DATA
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.myprofile.PROFILE_EMAIL_DATA
+import com.tarrakki.module.myprofile.PROFILE_MOBILE_DATA
 import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.resetPassword.ResetPasswordActivity
 import kotlinx.android.synthetic.main.activity_otp_verification.*
@@ -15,6 +17,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 
 class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVerificationBinding>() {
@@ -43,7 +46,12 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
         getViewModel().getOTP.observe(this, getOtp)
         if (intent.hasExtra(SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SIGNUP_DATA))
-            //getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+        }
+        if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
+            data = JSONObject(intent.getStringExtra(PROFILE_EMAIL_DATA))
+        }
+        if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
+            data = JSONObject(intent.getStringExtra(PROFILE_MOBILE_DATA))
         }
         if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
             data = JSONObject(intent.getStringExtra(FORGOTPASSWORD_DATA))
@@ -99,6 +107,36 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                 finish()
                             })
                 }
+
+                if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
+                    getViewModel().getOTP.value?.let { otp ->
+                        otp.data?.let { it1 ->
+                            getViewModel().verifyOTP(it1).observe(this, Observer {
+                                data?.let {
+                                    if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
+                                        onBackPressed()
+                                        postSticky(Event.ISMOBILEVERIFIED)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+
+                if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
+                    getViewModel().getOTP.value?.let { otp ->
+                        otp.data?.let { it1 ->
+                            getViewModel().verifyOTP(it1).observe(this, Observer {
+                                data?.let {
+                                    if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
+                                        onBackPressed()
+                                        postSticky(Event.ISEMAILVERIFIED)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
             }
         }
 
@@ -107,6 +145,18 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             if (intent.hasExtra(SIGNUP_DATA)) {
                 data?.let { json ->
                     getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+                }
+            }
+
+            if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
+                data?.let { json ->
+                    getViewModel().getDataOTP(json.toString()).observe(this, getOtp)
+                }
+            }
+
+            if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
+                data?.let { json ->
+                    getViewModel().getDataOTP(json.toString()).observe(this, getOtp)
                 }
             }
 

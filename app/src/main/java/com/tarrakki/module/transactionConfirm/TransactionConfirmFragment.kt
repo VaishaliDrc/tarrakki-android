@@ -27,6 +27,7 @@ import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.setUpAdapter
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.startActivity
 
@@ -160,6 +161,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         transactionList = data.transactions
         setOrderItemsAdapter(data.transactions)
         removeStickyEvent(data)
+        e("Failed Data",transactionList.toString())
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

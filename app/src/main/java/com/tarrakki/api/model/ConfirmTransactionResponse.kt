@@ -12,6 +12,8 @@ data class ConfirmTransactionResponse(
         val `data`: Data
 ) {
     data class Data(
+            @SerializedName("cart_count")
+            val cartCount: Int,
             @SerializedName("account_number")
             val accountNumber: String,
             @SerializedName("bank_name")

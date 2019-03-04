@@ -22,6 +22,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
@@ -629,7 +630,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             } else {
                 "N"
             }
-            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem,amount)
+            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem, amount)
         }
 
     }
@@ -644,7 +645,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 }
 
 fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
-                                    onStop: ((transactionId: Int,folio : String,startDate : String) -> Unit)? = null) {
+                                    onStop: ((transactionId: Int, folio: String, startDate: String) -> Unit)? = null) {
     val mBinder = DialogStopTransactionBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
@@ -730,7 +731,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
         if (sipDetail != null) {
             mDialog?.dismiss()
-            sipDetail?.transId?.let { it1 -> onStop?.invoke(it1,folio,date) }
+            sipDetail?.transId?.let { it1 -> onStop?.invoke(it1, folio, date) }
         }
     }
 

@@ -74,8 +74,8 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("users/forgot-password/")
-    fun forgotPassword(@Field("email") fund_id_id: String,
-                       @Field("type") lumpsum_amount: String): Observable<ApiResponse>
+    fun forgotPassword(@Field("email") email: String,
+                       @Field("type") type: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("cart/add_to_cart/")
@@ -213,6 +213,16 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @HTTP(method = "DELETE", path = "transactions/delete-transaction/{userId}", hasBody = true)
     fun deleteUnpaidTransactions(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
+    @GET("profile/")
+    fun getUserProfile(): Observable<ApiResponse>
+
+    @Multipart
+    @PUT("profile/{user_id}")
+    fun updateProfile(@Path("user_id") userId: String?,
+                      @Part("data") data: RequestBody,
+                      @Part profile_image: MultipartBody.Part?,
+                      @Part signature_image: MultipartBody.Part?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

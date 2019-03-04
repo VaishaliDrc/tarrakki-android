@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.View
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.ConfirmOrderResponse
@@ -90,9 +91,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             return@OnClickListener
                         } else {
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                App.INSTANCE.cartCount.value = it?.data?.cartCount
                                 if (!it?.data?.orders.isNullOrEmpty()) {
                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                     it?.let { it2 -> postSticky(it2) }
+                                    if (it?.data?.failedTransactions?.isNotEmpty()==true){
+                                        val failed = FailedTransactions(it.data.failedTransactions)
+                                        postSticky(failed)
+                                    }
                                 } else {
                                     startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
                                     it?.data?.failedTransactions?.let { list ->
@@ -104,9 +110,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         }
                     } else {
                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                            App.INSTANCE.cartCount.value = it?.data?.cartCount
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                 it?.let { it2 -> postSticky(it2) }
+                                if (it?.data?.failedTransactions?.isNotEmpty()==true){
+                                    val failed = FailedTransactions(it.data.failedTransactions)
+                                    postSticky(failed)
+                                }
                             } else {
                                 startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
                                 it?.data?.failedTransactions?.let { list ->
