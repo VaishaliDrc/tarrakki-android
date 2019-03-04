@@ -157,8 +157,57 @@ fun Bitmap.mergeBitmap(): Bitmap {
     val resultBitmap = Bitmap.createBitmap(backgroundBitmap.width, backgroundBitmap.height, backgroundBitmap.config)
     val canvas = Canvas(resultBitmap)
     canvas.drawBitmap(backgroundBitmap, Matrix(), null)
-    canvas.drawBitmap(this, ((backgroundBitmap.width - this.width) / 2).toFloat(), ((backgroundBitmap.height - this.height) / 2).toFloat(), Paint())
+    canvas.drawBitmap(this, ((backgroundBitmap.width - this.width) / 2).toFloat(), ((backgroundBitmap.height - this.height) / 2).toFloat(), Paint(Paint.FILTER_BITMAP_FLAG))
 
     return resultBitmap
 }
 
+fun Bitmap.scaleBitmap(newWidth: Int, newHeight: Int): Bitmap {
+    val resizedBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+    val scaleX = newWidth / this.width.toFloat()
+    val scaleY = newHeight / this.height.toFloat()
+    val pivotX = 0f
+    val pivotY = 0f
+    val scaleMatrix = Matrix()
+    scaleMatrix.setScale(scaleX, scaleY, pivotX, pivotY)
+    val canvas = Canvas(resizedBitmap)
+    canvas.matrix = scaleMatrix
+    canvas.drawBitmap(this, 0f, 0f, Paint(Paint.FILTER_BITMAP_FLAG))
+    return resizedBitmap
+}
+
+fun Bitmap.scaleBitmap(x: Int = 0, y: Int = 0, newWidth: Int, newHeight: Int): Bitmap {
+    val resizedBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(resizedBitmap)
+    canvas.drawBitmap(this, ((resizedBitmap.width - this.width) / 2).toFloat(), ((resizedBitmap.height - this.height) / 2).toFloat(), Paint(Paint.FILTER_BITMAP_FLAG))
+    return resizedBitmap
+}
+
+/**
+ * @param compressPercentage Hint to the compressor, 0-100 percent. 0 meaning compress for
+ * small size, 100 meaning compress for max quality. Some
+ * formats, like PNG which is lossless, will ignore the
+ * quality setting
+ */
+fun Bitmap.getCompressedSignatureBitmap(compressPercentage: Int): Bitmap {
+    var compressPercentage = compressPercentage
+
+    if (compressPercentage < 0) {
+        compressPercentage = 0
+    } else if (compressPercentage > 100) {
+        compressPercentage = 100
+    }
+    val originalBitmap = this
+    val originalWidth = originalBitmap.width
+    val originalHeight = originalBitmap.height
+
+    val targetWidth = originalWidth * compressPercentage / 100 // your arbitrary fixed limit
+    val targetHeight = (originalHeight * targetWidth / originalWidth.toDouble()).toInt()
+
+    var whiteBgBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(whiteBgBitmap)
+    canvas.drawColor(Color.WHITE)
+    canvas.drawBitmap(originalBitmap, 0f, 0f, null)
+    whiteBgBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
+    return whiteBgBitmap
+}

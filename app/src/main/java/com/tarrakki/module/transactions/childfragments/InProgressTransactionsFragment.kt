@@ -12,6 +12,9 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentInProgressTransactionsBinding
+import com.tarrakki.databinding.RowInprogressTransactionsBinding
+import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_in_progress_transactions.*
@@ -19,6 +22,7 @@ import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.adapters.setUpRecyclerView
 
 /**
  * A simple [Fragment] subclass.
@@ -62,6 +66,38 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                     rvInProgressTransactions?.setUpMultiViewRecyclerAdapter(inProgressTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
+                        if (binder is RowInprogressTransactionsBinding && item is TransactionApiResponse.Transaction) {
+                            binder.imgArrow.setOnClickListener {
+                                item.isSelected = !item.isSelected
+                            }
+                            val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
+                            setData(statuslist, "${item.orderOperation}", "${item.paymentType}")
+                            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                                binder2.widget = item2
+                                binder2.executePendingBindings()
+                                if (position2 == statuslist.size - 1) {
+                                    binder2.verticalDivider.visibility = View.GONE
+                                } else {
+                                    binder2.verticalDivider.visibility = View.VISIBLE
+                                }
+                            }
+                            /*if (binder.rvTransactionStatus.adapter == null) {
+                                binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                                    binder2.widget = item2
+                                    binder2.executePendingBindings()
+                                    if (position2 == statuslist.size - 1) {
+                                        binder2.verticalDivider.visibility = View.GONE
+                                    } else {
+                                        binder2.verticalDivider.visibility = View.VISIBLE
+                                    }
+                                }
+                            } else {
+                                binder.rvTransactionStatus.adapter?.notifyDataSetChanged()
+                                rvInProgressTransactions?.post {
+                                    rvInProgressTransactions?.adapter?.notifyItemChanged(position)
+                                }
+                            }*/
+                        }
                         binder.executePendingBindings()
                         if (position >= 9 && inProgressTransactions.size - 1 == position && !loadMore.isLoading) {
                             loadMore.isLoading = true
@@ -95,6 +131,41 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                 tvNoItem?.visibility = if (inProgressTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
+    }
+
+    fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, status: String, paymentType: String) {
+        when (status) {
+            "1" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+            "2" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+            "3" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "In progress"))
+            }
+            "4" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "completed"))
+            }
+            else -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+        }
     }
 
     companion object {

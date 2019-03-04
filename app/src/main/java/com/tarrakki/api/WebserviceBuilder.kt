@@ -211,7 +211,7 @@ interface WebserviceBuilder {
     fun stopPortfolio(@Path("transactionId") transactionId: Int): Observable<ApiResponse>
 
     @FormUrlEncoded
-    @HTTP(method = "DELETE", path = "transactions/delete-transaction/{userId}", hasBody = true)
+    @POST("transactions/delete-transaction/{userId}")
     fun deleteUnpaidTransactions(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
     @GET("profile/")

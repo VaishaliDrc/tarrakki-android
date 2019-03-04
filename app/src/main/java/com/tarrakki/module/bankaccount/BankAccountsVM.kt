@@ -106,8 +106,12 @@ class BankAccountsVM : FragmentViewModel() {
         val apiResponse = MutableLiveData<ApiResponse>()
         showProgress()
         thread {
+
             val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
             val multipartBody = MultipartBody.Part.createFormData("signature_image1", signatureFile.name, requestFile)
+            /*if (signatureFile !=null) {
+                return@thread
+            }*/
             val json = JsonObject()
             json.addProperty("pan_name", kycData.nameOfPANHolder)
             if (kycData.guardianName.isEmpty()) {

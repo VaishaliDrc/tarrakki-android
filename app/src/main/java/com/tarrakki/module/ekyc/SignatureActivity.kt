@@ -4,10 +4,11 @@ import android.graphics.Bitmap
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivitySignatureBinding
-import com.williamww.silkysignature.views.SignaturePad
+import com.tarrakki.signaturepad.SignaturePad
 import kotlinx.android.synthetic.main.activity_signature.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.mergeBitmap
+import org.supportcompact.ktx.scaleBitmap
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.concurrent.thread
@@ -45,15 +46,17 @@ class SignatureActivity : CoreActivity<SignatureVM, ActivitySignatureBinding>() 
         btnClear?.setOnClickListener { signPad?.clear() }
         ivClose?.setOnClickListener { finish() }
         btnContinue?.setOnClickListener {
-            signPad?.getFixedSizeSignatureBitmap(600,360)?.let { it1 -> saveAsFile(it1) }
+            signPad?.transparentSignatureBitmap?.let { it1 -> saveAsFile(it1) }
+            //signPad?.getCompressedSignatureBitmap(40)?.let { it1 -> saveAsFile(it1) }
             //signPad?.signatureBitmap?.let { it1 -> saveAsFile(it1) }
+            //signPad?.transparentSignatureBitmap?.let { it1 -> saveAsFile(it1) }
         }
     }
 
     private fun saveAsFile(myBitmap: Bitmap) {
         val tempFile = File(cacheDir, "signedImg")
         thread {
-            val newBitmap = myBitmap.mergeBitmap()
+            val newBitmap = myBitmap.scaleBitmap(newWidth = 500, newHeight = 300).mergeBitmap()
             val outStream = FileOutputStream(tempFile)
             newBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
             outStream.flush()

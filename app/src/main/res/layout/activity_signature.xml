@@ -17,7 +17,7 @@
         android:padding="@dimen/default_space"
         tools:context=".module.ekyc.SignatureActivity">
 
-        <com.williamww.silkysignature.views.SignaturePad
+        <com.tarrakki.signaturepad.SignaturePad
             android:id="@+id/signPad"
             android:layout_width="match_parent"
             android:layout_height="0dp"

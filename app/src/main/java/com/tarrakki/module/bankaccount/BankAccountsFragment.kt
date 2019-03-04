@@ -255,27 +255,18 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
-        //options?.setCompressionFormat(Bitmap.CompressFormat.PNG)
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         options?.let {
-            //it.setAspectRatioOptions(0, AspectRatio("Crop",150f, 90f))
             if (isPhysically) {
                 it.setRootViewBackgroundColor(Color.WHITE)
             }
             it.setCompressionQuality(100)
             it.setCompressionFormat(Bitmap.CompressFormat.PNG)
             it.setShowCropGrid(false)
-            /*it.setAspectRatioOptions(0,AspectRatio(getString(R.string.ucrop_label_original).toUpperCase(),
-                    CropImageView.SOURCE_IMAGE_ASPECT_RATIO, CropImageView.SOURCE_IMAGE_ASPECT_RATIO))*/
-            //it.setFreeStyleCropEnabled(true)
-            //it.setMaxScaleMultiplier(15f)
-            //it.setShowCropFrame(false)
-//          it.setHideBottomControls(true)
         }
-        //uCrop?.useSourceImageAspectRatio()
         options?.let { uCrop.withOptions(it) }
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(150, 90)
+        uCrop.withMaxResultSize(200, 120)
         uCrop.start(context!!, this)
     }
 
@@ -339,18 +330,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                                 } else {
                                                     startActivity<AccountActivity>()
                                                 }
-                                                /*when (kycData.pageNo) {
-                                                    2 -> {
-                                                        onBack(2)
-                                                    }
-                                                    3 -> {
-                                                        onBack()
-                                                    }
-                                                    else -> {
-                                                        onBack(3)
-                                                    }
-                                                }*/
-
                                             }
                                         }
                                     })
@@ -363,18 +342,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
     }
 
-    private fun saveAsFile(myBitmap: Bitmap) {
-        val tempFile = File(activity?.cacheDir, "finalSignedImg")
-        thread {
-            val outStream = FileOutputStream(tempFile)
-            myBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
-            outStream.flush()
-            outStream.close()
-            activity?.runOnUiThread {
-
-            }
-        }
-    }
 
     @Subscribe(sticky = true)
     fun onReceive(kycData: KYCData) {

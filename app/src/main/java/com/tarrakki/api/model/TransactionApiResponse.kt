@@ -21,6 +21,8 @@ data class TransactionApiResponse(
 
 ) {
     data class Transaction(
+            @SerializedName("order_operation")
+            val orderOperation: String,
             @SerializedName("amount")
             val amount: Double?,
             @SerializedName("created")
@@ -47,9 +49,18 @@ data class TransactionApiResponse(
             val status: String?,
             @SerializedName("type")
             val type: String,
+            @SerializedName("payment_mode")
+            val paymentMode: String,
             @SerializedName("units")
             val units: String?
     ) : BaseObservable(), WidgetsViewModel {
+
+        val paymentType
+            get() = if (paymentMode == "DIRECT") {
+                "via Net Banking"
+            } else {
+                "via NEFT/RTGS"
+            }
 
         @get:Bindable
         var isSelected = false

@@ -47,7 +47,7 @@ object ApiClient {
 
     /***
      * CAMS api base url Live Url
-     ***/
+     * */
     private const val CAMS_API_BASE_URL = "https://www.camskra.com/"
     const val CAMS_USER_ID = "PLUTOWS"
     const val CAMS_PASSWORD = "kra\$36369"
@@ -55,16 +55,16 @@ object ApiClient {
     /**
      * Test Url
      **/
-     private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-     const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
+    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
 
     /**
      * Live Url
      **/
 
-   /* private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
-*/
+    /*  private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+      const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+  */
     /**
      * @return [Retrofit] object its single-tone
      */
@@ -181,6 +181,7 @@ object ApiClient {
             okHttpClient
         }
     }
+
 
     fun getHeaderClient(header: String? = CoreApp.getInstance().getLoginToken()): Retrofit {
 
