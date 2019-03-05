@@ -53,10 +53,12 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             if (isChecked) {
                 getViewModel().kycData.value?.guardianName = ""
                 getViewModel().kycData.value?.guardianDOB = ""
+                getViewModel().kycData.value?.fullName = "" + getViewModel().kycData.value?.nameOfPANHolder
                 edtPAN?.setText(getViewModel().kycData.value?.pan)
             } else {
                 getViewModel().kycData.value?.guardianName = "" + getViewModel().kycData.value?.nameOfPANHolder
                 edtPAN?.text?.clear()
+                getViewModel().kycData.value?.fullName = ""
             }
         }
         getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {

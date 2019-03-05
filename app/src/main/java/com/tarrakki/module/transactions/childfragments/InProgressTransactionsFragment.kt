@@ -59,7 +59,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                 if (data.transactions?.isNotEmpty() == true) {
                     inProgressTransactions.addAll(data.transactions)
                 }
-                if (inProgressTransactions.size >= 10) {
+                if (inProgressTransactions.size >= 10 && data.totalCount > inProgressTransactions.size) {
                     inProgressTransactions.add(loadMore)
                 }
                 if (rvInProgressTransactions?.adapter == null) {
@@ -71,7 +71,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                                 item.isSelected = !item.isSelected
                             }
                             val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                            setData(statuslist, "${item.orderOperation}", "${item.paymentType}")
+                            setData(statuslist, "${item.orderOperation}", item.paymentType)
                             binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
                                 binder2.widget = item2
                                 binder2.executePendingBindings()
@@ -81,22 +81,6 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                                     binder2.verticalDivider.visibility = View.VISIBLE
                                 }
                             }
-                            /*if (binder.rvTransactionStatus.adapter == null) {
-                                binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
-                                    binder2.widget = item2
-                                    binder2.executePendingBindings()
-                                    if (position2 == statuslist.size - 1) {
-                                        binder2.verticalDivider.visibility = View.GONE
-                                    } else {
-                                        binder2.verticalDivider.visibility = View.VISIBLE
-                                    }
-                                }
-                            } else {
-                                binder.rvTransactionStatus.adapter?.notifyDataSetChanged()
-                                rvInProgressTransactions?.post {
-                                    rvInProgressTransactions?.adapter?.notifyItemChanged(position)
-                                }
-                            }*/
                         }
                         binder.executePendingBindings()
                         if (position >= 9 && inProgressTransactions.size - 1 == position && !loadMore.isLoading) {
@@ -133,6 +117,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         })
     }
 
+    //TODO static data
     fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, status: String, paymentType: String) {
         when (status) {
             "1" -> {

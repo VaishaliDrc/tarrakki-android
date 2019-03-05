@@ -56,7 +56,7 @@ class SignatureActivity : CoreActivity<SignatureVM, ActivitySignatureBinding>() 
     private fun saveAsFile(myBitmap: Bitmap) {
         val tempFile = File(cacheDir, "signedImg")
         thread {
-            val newBitmap = myBitmap.scaleBitmap(newWidth = 500, newHeight = 300).mergeBitmap()
+            val newBitmap = myBitmap.scaleBitmap(newWidth = 550, newHeight = 330).mergeBitmap()
             val outStream = FileOutputStream(tempFile)
             newBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream)
             outStream.flush()

@@ -9,6 +9,8 @@ import com.tarrakki.R
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.color
+import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
+import org.supportcompact.ktx.toReturn
 
 
 data class TransactionApiResponse(
@@ -17,12 +19,14 @@ data class TransactionApiResponse(
         @SerializedName("limit")
         val limit: Int,
         @SerializedName("offset")
-        val offset: Int
+        val offset: Int,
+        @SerializedName("total_count")
+        val totalCount: Int
 
 ) {
     data class Transaction(
             @SerializedName("order_operation")
-            val orderOperation: String,
+            val orderOperation: String?,
             @SerializedName("amount")
             val amount: Double?,
             @SerializedName("created")
@@ -50,10 +54,13 @@ data class TransactionApiResponse(
             @SerializedName("type")
             val type: String,
             @SerializedName("payment_mode")
-            val paymentMode: String,
-            @SerializedName("units")
-            val units: String?
+            val paymentMode: String
+
     ) : BaseObservable(), WidgetsViewModel {
+
+        @SerializedName("units")
+        val units: String? = null
+            get() = parseAsNoZiroReturnOrNA("$field")
 
         val paymentType
             get() = if (paymentMode == "DIRECT") {

@@ -15,7 +15,6 @@ import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.MyProfileFragment
-import com.tarrakki.module.myprofile.ProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.transactions.TransactionsFragment
@@ -51,6 +50,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+        getViewModel().setAccountMenu()
+        rvMenus?.adapter?.notifyDataSetChanged()
     }
 
     override fun createReference() {
@@ -68,15 +69,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_my_profile -> {
                         startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
-                        /*if (App.INSTANCE.isLoggedIn.value!!) {
-                            //Open My Profile
-                            startFragment(ProfileFragment.newInstance(), R.id.frmContainer)
-                        } else {
-                            //Open Redirect to login screen
-                            startActivity(Intent(activity, LoginActivity::class.java).apply {
-                                putExtra(IS_FROM_ACCOUNT, true)
-                            })
-                        }*/
+                        /*startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
+                        val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
+                        postSticky(kyc)*/
                     }
                     R.drawable.ic_my_portfolio -> {
                         //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")

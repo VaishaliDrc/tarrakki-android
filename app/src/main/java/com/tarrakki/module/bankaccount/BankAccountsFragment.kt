@@ -266,7 +266,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
         options?.let { uCrop.withOptions(it) }
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(200, 120)
+        uCrop.withMaxResultSize(250, 150)
         uCrop.start(context!!, this)
     }
 

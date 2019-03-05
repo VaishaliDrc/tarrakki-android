@@ -56,7 +56,7 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
                 if (data.transactions?.isNotEmpty() == true) {
                     failedTransactions.addAll(data.transactions)
                 }
-                if (failedTransactions.size >= 10) {
+                if (failedTransactions.size >= 10 && data.totalCount > failedTransactions.size) {
                     failedTransactions.add(loadMore)
                 }
                 if (rvFailedTransactions?.adapter == null) {

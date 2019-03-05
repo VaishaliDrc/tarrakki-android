@@ -98,9 +98,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:gravity="center"
-            android:visibility="gone"
-            android:text="@string/please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting"
+            android:text="@string/please_sign_clearly"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llSignDigitally" />

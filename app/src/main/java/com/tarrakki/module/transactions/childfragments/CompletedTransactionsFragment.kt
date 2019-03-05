@@ -56,7 +56,7 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                 if (data.transactions?.isNotEmpty() == true) {
                     completedTransactions.addAll(data.transactions)
                 }
-                if (completedTransactions.size >= 10) {
+                if (completedTransactions.size >= 10 && data.totalCount > completedTransactions.size) {
                     completedTransactions.add(loadMore)
                 }
                 if (rvCompletedTransactions?.adapter == null) {

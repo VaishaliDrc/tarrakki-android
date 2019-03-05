@@ -177,9 +177,15 @@ fun Bitmap.scaleBitmap(newWidth: Int, newHeight: Int): Bitmap {
 }
 
 fun Bitmap.scaleBitmap(x: Int = 0, y: Int = 0, newWidth: Int, newHeight: Int): Bitmap {
+    val myBitmap = Bitmap.createBitmap(this, x, y, newWidth, newHeight)//.getCompressedSignatureBitmap(55)
     val resizedBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(resizedBitmap)
-    canvas.drawBitmap(this, ((resizedBitmap.width - this.width) / 2).toFloat(), ((resizedBitmap.height - this.height) / 2).toFloat(), Paint(Paint.FILTER_BITMAP_FLAG))
+    val mPaint = Paint()
+    mPaint.flags = Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG
+    canvas.drawBitmap(myBitmap,
+            ((resizedBitmap.width - myBitmap.width) / 2).toFloat(),
+            ((resizedBitmap.height - myBitmap.height) / 2).toFloat(),
+            mPaint)
     return resizedBitmap
 }
 
@@ -204,10 +210,10 @@ fun Bitmap.getCompressedSignatureBitmap(compressPercentage: Int): Bitmap {
     val targetWidth = originalWidth * compressPercentage / 100 // your arbitrary fixed limit
     val targetHeight = (originalHeight * targetWidth / originalWidth.toDouble()).toInt()
 
-    var whiteBgBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(whiteBgBitmap)
-    canvas.drawColor(Color.WHITE)
-    canvas.drawBitmap(originalBitmap, 0f, 0f, null)
-    whiteBgBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
+    /* var whiteBgBitmap = Bitmap.createBitmap(originalWidth, originalHeight, Bitmap.Config.ARGB_8888)
+     val canvas = Canvas(whiteBgBitmap)
+     canvas.drawColor(Color.WHITE)
+     canvas.drawBitmap(originalBitmap, 0f, 0f, null)*/
+    var whiteBgBitmap = Bitmap.createScaledBitmap(originalBitmap, targetWidth, targetHeight, true)
     return whiteBgBitmap
 }

@@ -109,7 +109,8 @@ class BankAccountsVM : FragmentViewModel() {
 
             val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
             val multipartBody = MultipartBody.Part.createFormData("signature_image1", signatureFile.name, requestFile)
-            /*if (signatureFile !=null) {
+            /*if (signatureFile != null) {
+                dismissProgress()
                 return@thread
             }*/
             val json = JsonObject()

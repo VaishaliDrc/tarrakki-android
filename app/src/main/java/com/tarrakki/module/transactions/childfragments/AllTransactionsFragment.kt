@@ -55,7 +55,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                 if (data.transactions?.isNotEmpty() == true) {
                     allTransactions.addAll(data.transactions)
                 }
-                if (allTransactions.size >= 10) {
+                if (allTransactions.size >= 10 && data.totalCount > allTransactions.size) {
                     allTransactions.add(loadMore)
                 }
                 if (rvAllTransactions?.adapter == null) {

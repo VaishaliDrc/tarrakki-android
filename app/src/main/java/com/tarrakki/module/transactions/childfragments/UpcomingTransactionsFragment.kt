@@ -56,7 +56,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
                 if (data.transactions?.isNotEmpty() == true) {
                     upcomingTransactions.addAll(data.transactions)
                 }
-                if (upcomingTransactions.size >= 10) {
+                if (upcomingTransactions.size >= 10 && data.totalCount > upcomingTransactions.size) {
                     upcomingTransactions.add(loadMore)
                 }
                 if (rvUpcomingTransactions?.adapter == null) {
