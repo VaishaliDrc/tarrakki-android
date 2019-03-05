@@ -110,7 +110,6 @@ class MyProfileVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
-                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -153,7 +152,6 @@ class MyProfileVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
-                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -197,7 +195,6 @@ class MyProfileVM : FragmentViewModel() {
                 if (o is ApiResponse) {
                     if (o.status?.code == 1) {
                         response.value = o
-                        EventBus.getDefault().post(ShowError("${o.status?.message}"))
                     } else {
                         EventBus.getDefault().post(ShowError("${o.status?.message}"))
                     }

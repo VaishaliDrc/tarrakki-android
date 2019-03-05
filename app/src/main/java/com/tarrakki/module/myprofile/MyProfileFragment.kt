@@ -52,7 +52,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     var oldMobile: String? = ""
     var isProfileClickable: Boolean? = false
 
-    var isEmailAuth : Boolean? = false
+    var isEmailAuth: Boolean? = false
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "ProfileImage"
     private val SIGN_CROPPED_IMAGE_NAME = "SignCropImage"
@@ -125,13 +125,57 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             }
         }
 
+        getViewModel().isEmailVerified.observe {
+            if (it) {
+                edtEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_succeeded, 0)
+            } else {
+                edtEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
+        }
+
+        getViewModel().isMobileVerified.observe {
+            if (it) {
+                edtMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_succeeded, 0)
+            } else {
+                edtMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            }
+        }
+
+        getViewModel().email.observe {
+            if (it.isNotEmpty()) {
+                if (verifiedEmail == it) {
+                    getViewModel().isEmailVerified.set(true)
+                } else {
+                    getViewModel().isEmailVerified.set(false)
+                }
+            } else {
+                getViewModel().isEmailVerified.set(false)
+            }
+        }
+
+        getViewModel().mobile.observe {
+            if (it.isNotEmpty()) {
+                if (verifiedMobile == it) {
+                    getViewModel().isMobileVerified.set(true)
+                } else {
+                    getViewModel().isMobileVerified.set(false)
+                }
+            } else {
+                getViewModel().isMobileVerified.set(false)
+            }
+        }
+
         btnEdit?.setOnClickListener {
             getViewModel().isEdit.get()?.let { isEdit ->
                 if (isEdit) {
                     if (isValidate()) {
                         getViewModel().updateProfile().observe(this, android.arch.lifecycle.Observer {
-                            getViewModel().isEdit.set(false)
-                            getViewModel().getUserProfile().observe(this, profileObserver)
+                            context?.simpleAlert("Your profile is updated successfully."){
+                                Handler().postDelayed({
+                                    getViewModel().isEdit.set(false)
+                                    getViewModel().getUserProfile().observe(this, profileObserver)
+                                },100)
+                            }
                         })
                     } else {
 
@@ -158,48 +202,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             )
         }
 
-        getViewModel().isEmailVerified.observe {
-            if (it) {
-                edtEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_succeeded, 0)
-            } else {
-                edtEmail.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-            }
-        }
-
-        getViewModel().isMobileVerified.observe {
-            if (it) {
-                edtMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_succeeded, 0)
-            } else {
-                edtMobile.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-            }
-        }
-
-        getViewModel().email.observe {
-            if (it.isNotEmpty()) {
-                if (verifiedEmail == it) {
-                    getViewModel().isEmailVerified.set(true)
-                } else {
-                    getViewModel().isEmailVerified.set(false)
-                }
-            }else{
-                getViewModel().isEmailVerified.set(false)
-            }
-        }
-
-        getViewModel().mobile.observe {
-            if (it.isNotEmpty()) {
-                if (verifiedMobile == it) {
-                    getViewModel().isMobileVerified.set(true)
-                } else {
-                    getViewModel().isMobileVerified.set(false)
-                }
-            }else{
-                getViewModel().isMobileVerified.set(false)
-            }
-        }
-
-        getViewModel().getUserProfile().observe(this, profileObserver)
-
         btnSignature?.setOnClickListener {
             isProfileClickable = false
             context?.signatureDialog(
@@ -218,32 +220,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                     })
         }
 
-        App.INSTANCE.signatureFile.observe(this, Observer {
-            it?.let { file ->
-                /*getViewModel().completeRegistrations(file).observe(this, Observer { apiResponse ->
-                    apiResponse?.let {
-                        context?.simpleAlert("${apiResponse.status?.message}") {
-                            onBack(3)
-                        }
-                    }
-                })*/
-                startSignCrop(Uri.fromFile(file), true)
-                App.INSTANCE.signatureFile.value = null
-            }
-        })
-
-        edtEmail.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                onVerifyEmail()
-            }
-        }
-
-        edtMobile.setOnFocusChangeListener { view, b ->
-            if (!b) {
-                onVerifyMobile()
-            }
-        }
-
         edtEmail.setOnEditorActionListener { textView, i, keyEvent ->
             if (i == EditorInfo.IME_ACTION_DONE) {
                 onVerifyEmail()
@@ -257,47 +233,118 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             }
             false
         }
+
+        App.INSTANCE.signatureFile.observe(this, Observer {
+            it?.let { file ->
+                startSignCrop(Uri.fromFile(file), true)
+                App.INSTANCE.signatureFile.value = null
+            }
+        })
+
+        getViewModel().getUserProfile().observe(this, profileObserver)
+    }
+
+    private fun validateMobile(): Boolean {
+        return when {
+            getViewModel().mobile.isEmpty() -> {
+                context?.simpleAlert("Please enter mobile number") {
+                    Handler().postDelayed({
+                        edtMobile?.requestFocus()
+                    }, 100)
+                }
+                false
+            }
+            getViewModel().mobile.get()?.length != 10 -> {
+                context?.simpleAlert("Please enter valid mobile number") {
+                    Handler().postDelayed({
+                        edtMobile?.requestFocus()
+                    }, 100)
+                }
+                false
+            }
+            else -> true
+        }
+    }
+
+    private fun validateEmail(): Boolean {
+        return when {
+            getViewModel().email.isEmpty() -> {
+                context?.simpleAlert("Please enter email id") {
+                    Handler().postDelayed({
+                        edtEmail?.requestFocus()
+                    }, 100)
+                }
+                false
+            }
+            !getViewModel().email.isEmail() -> {
+                context?.simpleAlert("Please enter valid email id") {
+                    Handler().postDelayed({
+                        edtEmail?.requestFocus()
+                    }, 100)
+                }
+                false
+            }
+            else -> true
+        }
     }
 
     private fun onVerifyEmail() {
-        if (!getViewModel().email.isEmpty()) {
-            if (getViewModel().isEmailVerified.get() != true) {
-                val json = JsonObject()
-                json.addProperty("user_id", App.INSTANCE.getUserId())
-                json.addProperty("email", orignalEmail)
-                json.addProperty("type", "update_email")
-                e("Plain Data=>", json.toString())
-                val data = AES.encrypt(json.toString())
-                e("Encrypted Data=>", data)
-                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                    it?.let { it1 ->
-                        val intent = Intent(activity, OtpVerificationActivity::class.java)
-                        intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
-                        startActivity(intent)
-                        EventBus.getDefault().postSticky(it1)
-                    }
-                })
+        if (validateEmail()) {
+            if (getViewModel().email.get() != orignalEmail) {
+                if (isEmailAuth != true) {
+                    context?.confirmationDialog(title = getString(R.string.app_name),
+                            msg = "You need to authenticate with an OTP to update your e-mail. Do you want to redirect for the OTP verification?",
+                            btnPositive = "Yes",
+                            btnNegative = "No",
+                            btnPositiveClick = {
+                                val json = JsonObject()
+                                json.addProperty("user_id", App.INSTANCE.getUserId())
+                                json.addProperty("email", orignalEmail)
+                                json.addProperty("type", "update_email")
+                                e("Plain Data=>", json.toString())
+                                val data = AES.encrypt(json.toString())
+                                e("Encrypted Data=>", data)
+                                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                                    it?.let { it1 ->
+                                        val intent = Intent(activity, OtpVerificationActivity::class.java)
+                                        intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
+                                        startActivity(intent)
+                                        EventBus.getDefault().postSticky(it1)
+                                    }
+                                })
+                            }, btnNegativeClick = {
+                        getViewModel().email.set(orignalEmail)
+                    })
+                }
             }
         }
     }
 
     private fun onVerifyMobile() {
-        if (!getViewModel().mobile.isEmpty()) {
+        if (validateMobile()) {
             if (getViewModel().isMobileVerified.get() != true) {
-                val json = JsonObject()
-                json.addProperty("user_id", App.INSTANCE.getUserId())
-                json.addProperty("mobile", getViewModel().mobile.get())
-                json.addProperty("type", "update_mobile")
-                e("Plain Data=>", json.toString())
-                val data = AES.encrypt(json.toString())
-                e("Encrypted Data=>", data)
-                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                    it?.let { it1 ->
-                        val intent = Intent(activity, OtpVerificationActivity::class.java)
-                        intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
-                        startActivity(intent)
-                        EventBus.getDefault().postSticky(it1)
-                    }
+                context?.confirmationDialog(title = getString(R.string.app_name),
+                        msg = "You need to authenticate with an OTP to update your mobile number. Do you want to redirect for the OTP verification?",
+                        btnPositive = "Yes",
+                        btnNegative = "No",
+                        btnPositiveClick = {
+                            val json = JsonObject()
+                            json.addProperty("user_id", App.INSTANCE.getUserId())
+                            json.addProperty("mobile", getViewModel().mobile.get())
+                            json.addProperty("type", "update_mobile")
+                            e("Plain Data=>", json.toString())
+                            val data = AES.encrypt(json.toString())
+                            e("Encrypted Data=>", data)
+                            getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                                it?.let { it1 ->
+                                    val intent = Intent(activity, OtpVerificationActivity::class.java)
+                                    intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
+                                    startActivity(intent)
+                                    EventBus.getDefault().postSticky(it1)
+                                }
+                            })
+                        }, btnNegativeClick = {
+                    getViewModel().mobile.set(oldMobile)
                 })
             }
         }
@@ -426,8 +473,12 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                             profileUri = UCrop.getOutput(data)
                             profileUri?.let {
                                 getViewModel().updateProfileImage(profileUri).observe(this, android.arch.lifecycle.Observer {
-                                    getViewModel().isEdit.set(false)
-                                    getViewModel().getUserProfile().observe(this, profileObserver)
+                                    context?.simpleAlert("Your profile picture is updated successfully."){
+                                        Handler().postDelayed({
+                                            getViewModel().isEdit.set(false)
+                                            getViewModel().getUserProfile().observe(this, profileObserver)
+                                        },100)
+                                    }
                                 })
 
                                 if (it.scheme == "file") {
@@ -441,8 +492,12 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                             signatureUri = com.tarrakki.ucrop.UCrop.getOutput(data)
                             signatureUri?.let {
                                 getViewModel().updateSignatureImage(signatureUri).observe(this, android.arch.lifecycle.Observer {
-                                    getViewModel().isEdit.set(false)
-                                    getViewModel().getUserProfile().observe(this, profileObserver)
+                                    context?.simpleAlert("Your signature is updated successfully."){
+                                        Handler().postDelayed({
+                                            getViewModel().isEdit.set(false)
+                                            getViewModel().getUserProfile().observe(this, profileObserver)
+                                        },100)
+                                    }
                                 })
 
                                 if (it.scheme == "file") {
@@ -474,7 +529,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             }
             Event.ISEMAILVERIFIEDBACK -> {
                 getViewModel().email.set(orignalEmail)
-                isEmailAuth = false
             }
             Event.ISMOBILEVERIFIEDBACK -> {
                 getViewModel().mobile.set(oldMobile)
@@ -540,7 +594,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 }
                 false
             }
-            getViewModel().isMobileVerified.get()==false-> {
+            getViewModel().isMobileVerified.get() == false -> {
                 context?.simpleAlert("Please verify OTP before changing mobile number.") {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
@@ -548,15 +602,15 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 }
                 false
             }
-            getViewModel().email.get()!=orignalEmail ->{
-                if (isEmailAuth!=true){
+            getViewModel().email.get() != orignalEmail -> {
+                if (isEmailAuth != true) {
                     context?.simpleAlert("Please verify email before changing another email.") {
                         Handler().postDelayed({
                             edtEmail?.requestFocus()
                         }, 100)
                     }
                     false
-                }else {
+                } else {
                     true
                 }
             }
