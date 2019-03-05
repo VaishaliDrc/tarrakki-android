@@ -1,10 +1,7 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
-import org.supportcompact.ktx.convertTo
-import org.supportcompact.ktx.format
-import org.supportcompact.ktx.toCurrencyBigInt
-import org.supportcompact.ktx.toDate
+import org.supportcompact.ktx.*
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -30,10 +27,10 @@ data class UserPortfolioResponse(
                 @SerializedName("total_investment")
                 val totalInvestment: BigInteger,
                 @SerializedName("xirr")
-                val xirr: Double
+                val xirr: String
         ) {
             var xiRR : String = ""
-                get() = xirr.format()
+                get() = parseAsReturn(xirr)
 
             data class Fund(
                     @SerializedName("current_value")
@@ -47,7 +44,7 @@ data class UserPortfolioResponse(
                     @SerializedName("total_investment")
                     val totalInvestment: BigInteger,
                     @SerializedName("xirr")
-                    val xirr: Double,
+                    val xirr: String,
                     @SerializedName("pi_minimum_initial")
                     val piMinimumInitial: String?,
                     @SerializedName("iaip_aip")
@@ -56,7 +53,7 @@ data class UserPortfolioResponse(
                     val isSIP: Boolean
             ) {
                 var xiRR : String = ""
-                   get() = xirr.format()
+                   get() = parseAsReturn(xirr)
 
                 data class Folio(
                         @SerializedName("current_value")
@@ -127,7 +124,7 @@ data class UserPortfolioResponse(
                 @SerializedName("total_investment")
                 val totalInvestment: BigInteger,
                 @SerializedName("xirr")
-                val xirr: Double,
+                val xirr: String,
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("iaip_aip")
@@ -136,7 +133,7 @@ data class UserPortfolioResponse(
                 val isSIP: Boolean
         ) {
             var xiRR : String = ""
-                get() = xirr.format()
+                get() = parseAsReturn(xirr)
 
             data class Folio(
                     @SerializedName("current_value")

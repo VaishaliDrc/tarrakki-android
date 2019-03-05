@@ -24,6 +24,7 @@ class HomeVM : FragmentViewModel() {
     val whayTarrakki = ObservableField(true)
     var homeSections = ArrayList<WidgetsViewModel>()
     var portfolioVisibility = ObservableField(View.VISIBLE)
+    var portfolioDetails = ObservableField<HomeData.Data.PortfolioDetails>()
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()
@@ -40,6 +41,7 @@ class HomeVM : FragmentViewModel() {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
                                 data?.let {
+                                    portfolioDetails.set(data.data.portfolioDetails)
                                     data.data.cartCount?.let {
                                         App.INSTANCE.cartCount.value = it
                                     }

@@ -18,6 +18,7 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
 
@@ -92,7 +93,9 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
-            tvCartCount?.text = it.toString()
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)

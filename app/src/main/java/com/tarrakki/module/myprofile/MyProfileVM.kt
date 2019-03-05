@@ -28,15 +28,15 @@ class MyProfileVM : FragmentViewModel() {
     val isMobileVerified = ObservableField(true)
     val isEmailVerified = ObservableField(false)
     val profileUrl = ObservableField("")
-    val fName = ObservableField("Himanshu Pratap")
-    val guardian = ObservableField("Ravi Pratap")
-    val guardianPANNumber = ObservableField("1ABCDE1234F")
-    val email = ObservableField("hinnanshu.pratap@gnnail.com")
-    val mobile = ObservableField("9253493800")
-    val PANNumber = ObservableField("1ABCDE1234F")
-    val PANName = ObservableField("Himanshu Pratap")
-    val nominiName = ObservableField("Himanshu Pratap")
-    val nominiRelationship = ObservableField("Father")
+    val fName = ObservableField("")
+    val guardian = ObservableField("")
+    val guardianPANNumber = ObservableField("")
+    val email = ObservableField("")
+    val mobile = ObservableField("")
+    val PANNumber = ObservableField("")
+    val PANName = ObservableField("")
+    val nominiName = ObservableField("")
+    val nominiRelationship = ObservableField("")
     val isEdit = ObservableField(false)
 
     val alpha = ObservableField<Float>(0.4f)
@@ -87,30 +87,12 @@ class MyProfileVM : FragmentViewModel() {
         return apiResponse
     }
 
-    fun updateProfile(profileUri: Uri?, signatureUri: Uri?): MutableLiveData<ApiResponse> {
+    fun updateSignatureImage(signatureUri: Uri?): MutableLiveData<ApiResponse> {
         showProgress()
-        var profileImage: MultipartBody.Part? = null
         var signatureImage: MultipartBody.Part? = null
-
-        val json = JsonObject()
-        json.addProperty("full_name",fName.get())
-        json.addProperty("mobile_number",mobile.get())
-        json.addProperty("email", email.get())
-        json.addProperty("nominee_name", nominiName.get())
-        json.addProperty("nominee_relationship", nominiRelationship.get())
-        val data = json.toString().toEncrypt()
-
-        val paramData = RequestBody.create(
-                MediaType.parse("text/plain"),
-                data)
 
         val userId = App.INSTANCE.getUserId()
 
-        if (profileUri != null) {
-            val file = File(getPath(profileUri))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            profileImage = MultipartBody.Part.createFormData("user_profile_image", file.name, requestFile)
-        }
         if (signatureUri != null) {
             val file = File(getPath(signatureUri))
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
@@ -121,7 +103,94 @@ class MyProfileVM : FragmentViewModel() {
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient()
                         .create(WebserviceBuilder::class.java)
-                        .updateProfile(userId, paramData,profileImage,signatureImage),
+                        .updateProfile(userId,signatureImage),
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                response.value = o
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                            dismissProgress()
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
+    }
+
+    fun updateProfileImage(profileUri: Uri?): MutableLiveData<ApiResponse> {
+        showProgress()
+        var profileImage: MultipartBody.Part? = null
+
+        val userId = App.INSTANCE.getUserId()
+
+        if (profileUri != null) {
+            val file = File(getPath(profileUri))
+            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
+            profileImage = MultipartBody.Part.createFormData("user_profile_image", file.name, requestFile)
+        }
+
+        val response = MutableLiveData<ApiResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient()
+                        .create(WebserviceBuilder::class.java)
+                        .updateProfile(userId,profileImage),
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                response.value = o
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                            dismissProgress()
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return response
+    }
+
+    fun updateProfile(): MutableLiveData<ApiResponse> {
+        showProgress()
+
+        val json = JsonObject()
+        json.addProperty("full_name",fName.get())
+        json.addProperty("mobile_number",mobile.get())
+        json.addProperty("email", email.get())
+        json.addProperty("nominee_name", nominiName.get())
+        json.addProperty("nominee_relationship", nominiRelationship.get())
+        val data = json.toString().toEncrypt()
+
+        val userId = App.INSTANCE.getUserId()
+
+        val response = MutableLiveData<ApiResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient()
+                        .create(WebserviceBuilder::class.java)
+                        .updateProfile(userId, data),
         apiNames = WebserviceBuilder.ApiNames.getAllBanks,
         singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
             override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

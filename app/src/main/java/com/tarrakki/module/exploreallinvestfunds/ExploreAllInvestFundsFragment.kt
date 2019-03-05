@@ -2,25 +2,28 @@ package com.tarrakki.module.exploreallinvestfunds
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import android.widget.TextView
-import com.tarrakki.*
-
+import com.tarrakki.App
+import com.tarrakki.BR
+import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentExploreAllInvestFundsBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
-import com.tarrakki.module.home.*
+import com.tarrakki.module.home.CATEGORYNAME
+import com.tarrakki.module.home.HomeSection
 import com.tarrakki.module.invest.InvestFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
-import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
-import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.*
-import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.EqualSpacingItemDecoration
@@ -56,7 +59,7 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
         btnExploreFunds?.setOnClickListener {
             val bundle = Bundle().apply {
-                putBoolean("isEnableBack",true)
+                putBoolean("isEnableBack", true)
             }
             startFragment(InvestFragment.newInstance(bundle), R.id.frmContainer)
         }
@@ -118,7 +121,9 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
-            tvCartCount?.text = it.toString()
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)

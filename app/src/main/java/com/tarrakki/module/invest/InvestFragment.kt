@@ -27,9 +27,6 @@ import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.parseToPercentageOrNA
-import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -99,10 +96,9 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.btnInvest.setOnClickListener {
                         context?.investDialog(item.id, item.validminSIPAmount,
                                 item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
-                            addToCart(fundId,amountSIP,amountLumpsum).observe(this,
-                                    android.arch.lifecycle.Observer {
-                                response ->
-                                        context?.simpleAlert(getString(R.string.cart_fund_added)){
+                            addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                    android.arch.lifecycle.Observer { response ->
+                                        context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                             startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                         }
                                     })
@@ -291,7 +287,9 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
-            tvCartCount?.text = it.toString()
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -22,7 +23,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
@@ -189,6 +190,19 @@ fun returns(txt: TextView, amount: Double, anim: Boolean = true) {
     txt.text = amount.toCurrency()
 }
 
+@BindingAdapter("returnpercentage")
+fun returns(progressBar: CircularProgressBar, returnpercentage: Int) {
+    progressBar.backgroundColor = Color.parseColor("#2E1D3E")
+    progressBar.progressBarWidth = App.INSTANCE.resources.getDimension(R.dimen.space_8)
+    progressBar.backgroundProgressBarWidth = App.INSTANCE.resources.getDimension(R.dimen.space_8)
+    if (returnpercentage >= 0) {
+        progressBar.color = App.INSTANCE.color(R.color.colorAccent)
+        progressBar.setProgressWithAnimation(returnpercentage.toFloat(), 1000)
+    } else {
+        progressBar.color = App.INSTANCE.color(R.color.red)
+        progressBar.setProgressWithAnimation(returnpercentage.toFloat() * -1, 1000)
+    }
+}
 
 @BindingAdapter("isCurrency")
 fun inputType(edt: EditText, isCurrency: Boolean) = if (isCurrency) {
@@ -299,7 +313,7 @@ fun EditText.applyIFSCCode() {
 fun setGuideLinePercentage(guideLine: Guideline, percentageGuildeline: Float) {
     val params = guideLine.layoutParams as ConstraintLayout.LayoutParams
     params.guidePercent = percentageGuildeline
-    guideLine.layoutParams = params;
+    guideLine.layoutParams = params
 }
 
 @BindingAdapter("isPasswordTransformation")
@@ -380,9 +394,12 @@ fun handleTextView(initialValue: Double, finalValue: Double, textview: TextView)
 fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
     valueAnimator.duration = 1500
-    val returnType = if (finalValue >= 0) "+" else "-"
+    // val returnType = if (finalValue >= 0) "+" else "-"
+
+    textview.setTextColor(textview.context.color(if (finalValue >= 0) R.color.colorAccent else R.color.red))
+
     valueAnimator.addUpdateListener { it ->
-        textview.text = returnType.plus(it.animatedValue.toString().toDouble().toDecimalCurrency())
+        textview.text = it.animatedValue.toString().toDouble().toReturnAsPercentage()
     }
     valueAnimator.start()
 }

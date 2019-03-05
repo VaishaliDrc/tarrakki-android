@@ -137,7 +137,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/tvXIRRL"
             app:layout_constraintTop_toBottomOf="@+id/tvXIRRL"
-            android:text="@{investment.xiRR + `%`}"
+            android:text="@{investment.xiRR}"
             tools:text="@string/dummy3" />
 
         <android.support.constraint.Guideline

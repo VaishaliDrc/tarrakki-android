@@ -13,6 +13,7 @@ import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestFundsFragment
 import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -53,7 +54,9 @@ class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
-            tvCartCount?.text = it.toString()
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)

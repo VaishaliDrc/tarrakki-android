@@ -1,6 +1,5 @@
 package com.tarrakki.module.myprofile
 
-
 import android.Manifest
 import android.app.Activity
 import android.arch.lifecycle.Observer
@@ -14,7 +13,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
@@ -37,23 +35,24 @@ import org.supportcompact.networking.ApiClient
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MyProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 const val PROFILE_EMAIL_DATA = "profile_email_data"
 const val PROFILE_MOBILE_DATA = "profile_mobile_data"
 
 class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() {
 
+    var orignalEmail: String? = ""
+    var orignalMobile: String? = ""
+    var verifiedEmail: String? = ""
+    var verifiedMobile: String? = ""
+
+
     var profileUri: Uri? = null
     var signatureUri: Uri? = null
-    var oldEmail: String? = null
-    var oldMobile: String? = null
+    var oldEmail: String? = ""
+    var oldMobile: String? = ""
     var isProfileClickable: Boolean? = false
+
+    var isEmailAuth : Boolean? = false
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "ProfileImage"
     private val SIGN_CROPPED_IMAGE_NAME = "SignCropImage"
@@ -92,8 +91,22 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             getViewModel().nominiName.set(response.data.nomineeName)
             getViewModel().nominiRelationship.set(response.data.nomineeRelationship)
 
+            orignalEmail = response.data.email
+            orignalMobile = response.data.mobileNumber
+
             //oldEmail = response.data.email
             oldMobile = response.data.mobileNumber
+
+            getViewModel().isEmailVerified.set(response.data.isEmailActivated)
+            getViewModel().isMobileVerified.set(response.data.isMobileVerified)
+
+            if (response.data.isEmailActivated) {
+                verifiedEmail = response.data.email
+            }
+
+            if (response.data.isMobileVerified) {
+                verifiedMobile = response.data.mobileNumber
+            }
         }
     }
 
@@ -116,7 +129,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             getViewModel().isEdit.get()?.let { isEdit ->
                 if (isEdit) {
                     if (isValidate()) {
-                        getViewModel().updateProfile(profileUri, signatureUri).observe(this, android.arch.lifecycle.Observer {
+                        getViewModel().updateProfile().observe(this, android.arch.lifecycle.Observer {
                             getViewModel().isEdit.set(false)
                             getViewModel().getUserProfile().observe(this, profileObserver)
                         })
@@ -134,71 +147,15 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         }
 
         ivEditProfilePick?.setOnClickListener {
-            if (getViewModel().isEdit.get() == true) {
-                isProfileClickable = true
-                context?.takePick(
-                        onGallery = {
-                            openGallery()
-                        },
-                        onCamera = {
-                            openCamera()
-                        }
-                )
-            }
-        }
-
-        edtEmail.setOnEditorActionListener { textView, i, keyEvent ->
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                if (getViewModel().isEmailVerified.get() != true) {
-                    val json = JsonObject()
-                    json.addProperty("user_id", App.INSTANCE.getUserId())
-                    json.addProperty("email", getViewModel().email.get())
-                    json.addProperty("type", "update_email")
-                    e("Plain Data=>", json.toString())
-                    val data = AES.encrypt(json.toString())
-                    e("Encrypted Data=>", data)
-                    getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                        it?.let { it1 ->
-                            val intent = Intent(activity, OtpVerificationActivity::class.java)
-                            intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
-                            startActivity(intent)
-                            EventBus.getDefault().postSticky(it1)
-                        }
-                    })
-                }
-            }
-            false
-        }
-
-        edtMobile.setOnEditorActionListener { textView, i, keyEvent ->
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                if (getViewModel().isMobileVerified.get() != true) {
-                    val json = JsonObject()
-                    json.addProperty("user_id", App.INSTANCE.getUserId())
-                    json.addProperty("mobile", getViewModel().mobile.get())
-                    json.addProperty("type", "update_mobile")
-                    e("Plain Data=>", json.toString())
-                    val data = AES.encrypt(json.toString())
-                    e("Encrypted Data=>", data)
-                    getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                        it?.let { it1 ->
-                            val intent = Intent(activity, OtpVerificationActivity::class.java)
-                            intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
-                            startActivity(intent)
-                            EventBus.getDefault().postSticky(it1)
-                        }
-                    })
-                }
-            }
-            false
-        }
-
-        getViewModel().email.observe {
-            if (oldEmail == it) {
-                getViewModel().isEmailVerified.set(true)
-            } else {
-                getViewModel().isEmailVerified.set(false)
-            }
+            isProfileClickable = true
+            context?.takePick(
+                    onGallery = {
+                        openGallery()
+                    },
+                    onCamera = {
+                        openCamera()
+                    }
+            )
         }
 
         getViewModel().isEmailVerified.observe {
@@ -217,10 +174,26 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             }
         }
 
+        getViewModel().email.observe {
+            if (it.isNotEmpty()) {
+                if (verifiedEmail == it) {
+                    getViewModel().isEmailVerified.set(true)
+                } else {
+                    getViewModel().isEmailVerified.set(false)
+                }
+            }else{
+                getViewModel().isEmailVerified.set(false)
+            }
+        }
+
         getViewModel().mobile.observe {
-            if (oldMobile == it) {
-                getViewModel().isMobileVerified.set(true)
-            } else {
+            if (it.isNotEmpty()) {
+                if (verifiedMobile == it) {
+                    getViewModel().isMobileVerified.set(true)
+                } else {
+                    getViewModel().isMobileVerified.set(false)
+                }
+            }else{
                 getViewModel().isMobileVerified.set(false)
             }
         }
@@ -228,23 +201,21 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         getViewModel().getUserProfile().observe(this, profileObserver)
 
         btnSignature?.setOnClickListener {
-            if (getViewModel().isEdit.get() == true) {
-                isProfileClickable = false
-                context?.signatureDialog(
-                        btnDigitally = {
-                            startActivity<SignatureActivity>()
-                        },
-                        btnPhysically = {
-                            context?.takePick(
-                                    onGallery = {
-                                        openGallery()
-                                    },
-                                    onCamera = {
-                                        openCamera()
-                                    }
-                            )
-                        })
-            }
+            isProfileClickable = false
+            context?.signatureDialog(
+                    btnDigitally = {
+                        startActivity<SignatureActivity>()
+                    },
+                    btnPhysically = {
+                        context?.takePick(
+                                onGallery = {
+                                    openGallery()
+                                },
+                                onCamera = {
+                                    openCamera()
+                                }
+                        )
+                    })
         }
 
         App.INSTANCE.signatureFile.observe(this, Observer {
@@ -260,6 +231,76 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 App.INSTANCE.signatureFile.value = null
             }
         })
+
+        edtEmail.setOnFocusChangeListener { view, b ->
+            if (!b) {
+                onVerifyEmail()
+            }
+        }
+
+        edtMobile.setOnFocusChangeListener { view, b ->
+            if (!b) {
+                onVerifyMobile()
+            }
+        }
+
+        edtEmail.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onVerifyEmail()
+            }
+            false
+        }
+
+        edtMobile.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onVerifyMobile()
+            }
+            false
+        }
+    }
+
+    private fun onVerifyEmail() {
+        if (!getViewModel().email.isEmpty()) {
+            if (getViewModel().isEmailVerified.get() != true) {
+                val json = JsonObject()
+                json.addProperty("user_id", App.INSTANCE.getUserId())
+                json.addProperty("email", orignalEmail)
+                json.addProperty("type", "update_email")
+                e("Plain Data=>", json.toString())
+                val data = AES.encrypt(json.toString())
+                e("Encrypted Data=>", data)
+                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                    it?.let { it1 ->
+                        val intent = Intent(activity, OtpVerificationActivity::class.java)
+                        intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
+                        startActivity(intent)
+                        EventBus.getDefault().postSticky(it1)
+                    }
+                })
+            }
+        }
+    }
+
+    private fun onVerifyMobile() {
+        if (!getViewModel().mobile.isEmpty()) {
+            if (getViewModel().isMobileVerified.get() != true) {
+                val json = JsonObject()
+                json.addProperty("user_id", App.INSTANCE.getUserId())
+                json.addProperty("mobile", getViewModel().mobile.get())
+                json.addProperty("type", "update_mobile")
+                e("Plain Data=>", json.toString())
+                val data = AES.encrypt(json.toString())
+                e("Encrypted Data=>", data)
+                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                    it?.let { it1 ->
+                        val intent = Intent(activity, OtpVerificationActivity::class.java)
+                        intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
+                        startActivity(intent)
+                        EventBus.getDefault().postSticky(it1)
+                    }
+                })
+            }
+        }
     }
 
     private fun openGallery() {
@@ -384,6 +425,11 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         if (isProfileClickable == true) {
                             profileUri = UCrop.getOutput(data)
                             profileUri?.let {
+                                getViewModel().updateProfileImage(profileUri).observe(this, android.arch.lifecycle.Observer {
+                                    getViewModel().isEdit.set(false)
+                                    getViewModel().getUserProfile().observe(this, profileObserver)
+                                })
+
                                 if (it.scheme == "file") {
                                     val myBitmap = BitmapFactory.decodeFile(it.path)
                                     ivProfile?.setImageBitmap(myBitmap)
@@ -392,15 +438,20 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                                 }
                             }
                         } else {
-                            signatureUri = UCrop.getOutput(data)
+                            signatureUri = com.tarrakki.ucrop.UCrop.getOutput(data)
                             signatureUri?.let {
+                                getViewModel().updateSignatureImage(signatureUri).observe(this, android.arch.lifecycle.Observer {
+                                    getViewModel().isEdit.set(false)
+                                    getViewModel().getUserProfile().observe(this, profileObserver)
+                                })
+
                                 if (it.scheme == "file") {
                                     val myBitmap = BitmapFactory.decodeFile(it.path)
                                     imgSign?.setImageBitmap(myBitmap)
                                 } else {
                                     imgSign?.setImageURI(it)
                                 }
-                                imgSign.show()
+                                // imgSign.show()
                             }
                         }
                     }
@@ -413,12 +464,20 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     fun onEventData(event: Event) {
         when (event) {
             Event.ISEMAILVERIFIED -> {
-                oldEmail = getViewModel().email.get()
-                getViewModel().isEmailVerified.set(true)
+                isEmailAuth = true
+                // oldEmail = getViewModel().email.get()
+                // getViewModel().isEmailVerified.set(true)
             }
             Event.ISMOBILEVERIFIED -> {
-                oldMobile = getViewModel().mobile.get()
+                verifiedMobile = getViewModel().mobile.get()
                 getViewModel().isMobileVerified.set(true)
+            }
+            Event.ISEMAILVERIFIEDBACK -> {
+                getViewModel().email.set(orignalEmail)
+                isEmailAuth = false
+            }
+            Event.ISMOBILEVERIFIEDBACK -> {
+                getViewModel().mobile.set(oldMobile)
             }
         }
     }
@@ -481,76 +540,26 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 }
                 false
             }
-            /*getViewModel().email.isEmpty() -> {
-                context?.simpleAlert("Please enter email id")
+            getViewModel().isMobileVerified.get()==false-> {
+                context?.simpleAlert("Please verify OTP before changing mobile number.") {
+                    Handler().postDelayed({
+                        edtMobile?.requestFocus()
+                    }, 100)
+                }
                 false
             }
-            !getViewModel().email.isEmail() -> {
-                context?.simpleAlert("Please enter valid email id")
-                false
+            getViewModel().email.get()!=orignalEmail ->{
+                if (isEmailAuth!=true){
+                    context?.simpleAlert("Please verify email before changing another email.") {
+                        Handler().postDelayed({
+                            edtEmail?.requestFocus()
+                        }, 100)
+                    }
+                    false
+                }else {
+                    true
+                }
             }
-            getViewModel().mobile.isEmpty() -> {
-                context?.simpleAlert("Please enter mobile number")
-                false
-            }
-            getViewModel().mobile.get()?.length != 10 -> {
-                context?.simpleAlert("Please enter valid mobile number")
-                false
-            }*/
-            /*   !switchOnOff.isChecked && kycData.guardianName.isEmpty() -> {
-                   context?.simpleAlert("Please enter guardian name") {
-                       edtGuardian?.requestFocus()
-                   }
-                   false
-               }*/
-            /*!getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
-                context?.simpleAlert("Please enter guardian PAN number")
-                false
-            }
-            !getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isPAN() -> {
-                context?.simpleAlert("Please enter valid guardian PAN number")
-                false
-            }*/
-            /* getViewModel().addressType.isEmpty() -> {
-                 context?.simpleAlert("Please select address type")
-                 false
-             }
-             getViewModel().address.isEmpty() -> {
-                 context?.simpleAlert("Please enter address")
-                 false
-             }
-             getViewModel().city.isEmpty() -> {
-                 context?.simpleAlert("Please enter city")
-                 false
-             }
-             getViewModel().pincode.isEmpty() -> {
-                 context?.simpleAlert("Please enter pin-code")
-                 false
-             }
-             getViewModel().pincode.get()?.length != 6 -> {
-                 context?.simpleAlert("Please enter valid pin-code")
-                 false
-             }
-             getViewModel().state.isEmpty() -> {
-                 context?.simpleAlert("Please select state")
-                 false
-             }
-             getViewModel().country.isEmpty() -> {
-                 context?.simpleAlert("Please enter country")
-                 false
-             }*/
-            /*  kycData.nomineeName.isEmpty() -> {
-                  context?.simpleAlert("Please enter nominee name") {
-                      edtNominee?.requestFocus()
-                  }
-                  false
-              }
-              kycData.nomineeRelation.isEmpty() -> {
-                  context?.simpleAlert("Please enter nominee relationship") {
-                      edtRelationship?.requestFocus()
-                  }
-                  false
-              }*/
             else -> true
         }
     }
@@ -559,27 +568,18 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         var destinationFileName = SIGN_CROPPED_IMAGE_NAME
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
-        //options?.setCompressionFormat(Bitmap.CompressFormat.PNG)
         val uCrop = com.tarrakki.ucrop.UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         options?.let {
-            //it.setAspectRatioOptions(0, AspectRatio("Crop",150f, 90f))
             if (isPhysically) {
                 it.setRootViewBackgroundColor(Color.WHITE)
             }
             it.setCompressionQuality(100)
             it.setCompressionFormat(Bitmap.CompressFormat.PNG)
             it.setShowCropGrid(false)
-            /*it.setAspectRatioOptions(0,AspectRatio(getString(R.string.ucrop_label_original).toUpperCase(),
-                    CropImageView.SOURCE_IMAGE_ASPECT_RATIO, CropImageView.SOURCE_IMAGE_ASPECT_RATIO))*/
-            //it.setFreeStyleCropEnabled(true)
-            //it.setMaxScaleMultiplier(15f)
-            //it.setShowCropFrame(false)
-//          it.setHideBottomControls(true)
         }
-        //uCrop?.useSourceImageAspectRatio()
         options?.let { uCrop.withOptions(it) }
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(150, 90)
+        uCrop.withMaxResultSize(200, 120)
         uCrop.start(context!!, this)
     }
 

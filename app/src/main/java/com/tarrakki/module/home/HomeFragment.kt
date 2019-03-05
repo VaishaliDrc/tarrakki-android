@@ -56,6 +56,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
     override fun createReference() {
+        cpPortfolio?.progress = 0f
+
         setHasOptionsMenu(true)
 
         rvHomeItem?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
@@ -64,6 +66,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         rvHomeItem.isNestedScrollingEnabled = false
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
+
+
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
                     binder.setVariable(BR.isHome, true)
@@ -195,7 +199,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
-            tvCartCount?.text = it.toString()
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)

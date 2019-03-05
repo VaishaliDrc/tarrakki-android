@@ -2,19 +2,17 @@ package org.supportcompact.ktx
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import android.support.annotation.LayoutRes
 import android.support.annotation.RequiresApi
 import android.support.annotation.StringRes
 import android.support.design.widget.Snackbar
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 
 fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -343,6 +341,13 @@ fun View.hide() {
 
 fun View.show() {
     visibility = View.VISIBLE
+}
+
+fun Int.visibility() = if (this <= 0) View.GONE else View.VISIBLE
+
+fun TextView.cartCount(text: Int) {
+    this.text = text.toString()
+    visibility = text.visibility()
 }
 
 infix fun ViewGroup.inflate(@LayoutRes lyt: Int) = LayoutInflater.from(context).inflate(lyt, this, false)!!

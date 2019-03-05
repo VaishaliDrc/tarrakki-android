@@ -114,7 +114,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                             getViewModel().verifyOTP(it1).observe(this, Observer {
                                 data?.let {
                                     if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
-                                        onBackPressed()
+                                        finish()
                                         postSticky(Event.ISMOBILEVERIFIED)
                                     }
                                 }
@@ -129,7 +129,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                             getViewModel().verifyOTP(it1).observe(this, Observer {
                                 data?.let {
                                     if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
-                                        onBackPressed()
+                                        finish()
                                         postSticky(Event.ISEMAILVERIFIED)
                                     }
                                 }
@@ -173,6 +173,16 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
     fun onReceive(apiResponse: ApiResponse) {
         getViewModel().getOTP.value = apiResponse
         EventBus.getDefault().removeStickyEvent(apiResponse)
+    }
+
+    override fun onBackPressed() {
+        if (intent.hasExtra(PROFILE_MOBILE_DATA)) {
+            postSticky(Event.ISMOBILEVERIFIEDBACK)
+        }
+        if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
+            postSticky(Event.ISEMAILVERIFIEDBACK)
+        }
+        super.onBackPressed()
     }
 
 }

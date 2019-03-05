@@ -24,7 +24,11 @@ data class UserProfileResponse(
             @SerializedName("nominee_relationship")
             val nomineeRelationship: String,
             @SerializedName("user_profile_image")
-            val userProfileImage: String
+            val userProfileImage: String,
+            @SerializedName("is_email_activated")
+            val isEmailActivated: Boolean,
+            @SerializedName("is_mobile_verified")
+            val isMobileVerified: Boolean
     ) {
         data class KycDetail(
                 @SerializedName("full_name")

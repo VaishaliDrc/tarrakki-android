@@ -138,6 +138,15 @@ fun parseAsReturnOrNA(num: String?): String {
     }
 }
 
+fun parseAsReturn(num: String?): String {
+    return try {
+        val temp: Double? = num?.toDoubleOrNull()
+        if (temp == null || temp == 0.0) "0 %" else temp.toReturnAsPercentage()
+    } catch (e: java.lang.Exception) {
+        "0 %"
+    }
+}
+
 fun parseAsNoZiroReturnOrNA(num: String?): String {
     return try {
         val temp: Double? = num?.toDoubleOrNull()

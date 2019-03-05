@@ -217,12 +217,15 @@ interface WebserviceBuilder {
     @GET("profile/")
     fun getUserProfile(): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @PUT("profile/{user_id}")
+    fun updateProfile(@Path("user_id") userId: String?,
+                      @Field("data") data: String): Observable<ApiResponse>
+
     @Multipart
     @PUT("profile/{user_id}")
     fun updateProfile(@Path("user_id") userId: String?,
-                      @Part("data") data: RequestBody,
-                      @Part profile_image: MultipartBody.Part?,
-                      @Part signature_image: MultipartBody.Part?): Observable<ApiResponse>
+                      @Part image: MultipartBody.Part?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

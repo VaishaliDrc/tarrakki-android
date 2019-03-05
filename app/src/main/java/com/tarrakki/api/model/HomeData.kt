@@ -5,6 +5,7 @@ import android.databinding.Bindable
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.*
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.toReturnAsPercentage
 import java.io.Serializable
 
 data class HomeData(
@@ -17,8 +18,25 @@ data class HomeData(
             @SerializedName("goals")
             val goals: List<Goal>,
             @SerializedName("cart_count")
-            val cartCount: Int?
+            val cartCount: Int?,
+            @SerializedName("portfolio_details")
+            val portfolioDetails: PortfolioDetails
     ) {
+        data class PortfolioDetails(
+                @SerializedName("current_value")
+                val currentValue: Double,
+                @SerializedName("total_investment")
+                val totalInvestment: Double,
+                @SerializedName("xirr")
+                val xirr: String?
+        ) {
+            val totalReturn: Double
+                get() = xirr?.toDoubleOrNull() ?: 0.0
+
+            val totalReturnPercentage : Int
+                get() = totalReturn.toInt()
+        }
+
         data class Goal(
                 @SerializedName("goal")
                 val goal: String,
