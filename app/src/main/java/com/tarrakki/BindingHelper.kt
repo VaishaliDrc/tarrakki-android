@@ -401,7 +401,7 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     textview.setTextColor(textview.context.color(if (finalValue >= 0) R.color.colorAccent else R.color.red))
 
     valueAnimator.addUpdateListener { it ->
-        textview.text = returnType+it.animatedValue.toString().toDouble().toReturnAsPercentage()
+        textview.text = returnType + it.animatedValue.toString().toDouble().toReturnAsPercentage()
     }
     valueAnimator.start()
 }
@@ -642,14 +642,19 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         it.dismissKeyboard()
         val amount = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
+
         if (this.isAmountValid(amount.toCurrencyBigInt())) {
-            mDialog.dismiss()
-            val isRedeem = if (mBinder.chkAmount.isChecked) {
-                "Y"
+            if (amount.toCurrencyBigInt() <= "${mBinder.investmentAmount}".toCurrencyBigInt()) {
+                mDialog.dismiss()
+                val isRedeem = if (mBinder.chkAmount.isChecked) {
+                    "Y"
+                } else {
+                    "N"
+                }
+                onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem, amount)
             } else {
-                "N"
+                this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
             }
-            onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem, amount)
         }
 
     }
@@ -866,9 +871,9 @@ fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
 }
 
 fun Context.isAmountValid(amount: BigInteger): Boolean {
-    if (amount != BigInteger.ZERO) {
+    return if (amount != BigInteger.ZERO) {
         /*if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
-            this.simpleAlert("The SIP amount should be a multiple of 10.")
+            this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
             return false
         }*/
         return true
@@ -876,7 +881,6 @@ fun Context.isAmountValid(amount: BigInteger): Boolean {
         this.simpleAlert("Please enter valid amount.")
         return false
     }
-    return true
 }
 
 fun getOrdinalFormat(num: Int): String {
