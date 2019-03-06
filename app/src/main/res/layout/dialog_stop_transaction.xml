@@ -151,7 +151,7 @@
             android:background="@drawable/shape_edt_gray_round"
             android:hint="@string/amount"
             android:maxLines="1"
-            android:paddingStart="@dimen/space_40"
+            android:paddingStart="@dimen/space_30"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
