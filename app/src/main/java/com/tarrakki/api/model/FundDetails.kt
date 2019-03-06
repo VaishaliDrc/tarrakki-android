@@ -246,10 +246,11 @@ data class FundsDetails(
 
     var riskProgress = 20
         get() = when {
-            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 40
+            "Low Risk".equals(fscbiIndianRiskLevel, true) -> 15
+            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 30
             "Medium Risk".equals(fscbiIndianRiskLevel, true) -> 50
-            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 80
-            "High Risk".equals(fscbiIndianRiskLevel, true) -> 90
+            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 70
+            "High Risk".equals(fscbiIndianRiskLevel, true) -> 85
             else -> 20
         }
 

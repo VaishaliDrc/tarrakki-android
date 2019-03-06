@@ -137,7 +137,18 @@ data class InvestmentFunds(
     )
 
     fun getRiskLevelId(riskLevel: String): Int? {
-        return riskLevels.firstOrNull { r -> riskLevel.equals(r.name, true) }?.id
+        val data = if (riskLevel == "MODERATE") {
+            "Medium"
+        } else {
+            riskLevel
+        }
+        return riskLevels.firstOrNull { r ->
+            data.equals(
+                    "${r.name}"
+                            .replace("risk", "")
+                            .replace("Risk", "")
+                            .trim(), true)
+        }?.id
     }
 
     fun getRiskLevelName(riskLevelId: String?): String? {
