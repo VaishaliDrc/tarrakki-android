@@ -168,6 +168,19 @@ fun String.toCurrencyBigInt(): BigInteger = try {
     BigInteger.ZERO
 }
 
+fun BigInteger.toCurrency(): String {
+    return try {
+        val temp: Double? = this.toDouble() ?: 0.0
+        if (temp!=null) {
+            temp.toCurrency().toString()
+        }else{
+            0.0.toCurrency().toString()
+        }
+    } catch (e: java.lang.Exception) {
+        0.0.toCurrency().toString()
+    }
+}
+
 fun String.toCurrencyBigDecimal(): BigDecimal = try {
     this.replace(",", "").toBigDecimalOrNull() ?: BigDecimal.ZERO
 } catch (e: java.lang.Exception) {
