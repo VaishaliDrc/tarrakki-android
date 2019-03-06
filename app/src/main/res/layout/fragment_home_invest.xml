@@ -69,6 +69,7 @@
                     android:id="@+id/img_logo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/space_3"
                     android:elevation="12dp"
                     app:cardBackgroundColor="@color/circular_bg"
                     app:cardCornerRadius="30dp">
@@ -138,6 +139,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:elevation="12dp"
+                    android:layout_marginStart="@dimen/space_3"
                     app:cardBackgroundColor="@color/circular_bg"
                     app:cardCornerRadius="30dp">
 

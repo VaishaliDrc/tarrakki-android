@@ -13,10 +13,7 @@ import com.tarrakki.module.portfolio.PortfolioVM
 import kotlinx.android.synthetic.main.fragment_direct_investment.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrencyBigInt
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
 
@@ -94,7 +91,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 json.addProperty("folio_number", portfolioNo)
                                 val data = json.toString().toEncrypt()
                                 redeemPortfolio(data).observe(this, Observer {
-                                    context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt()} is successful.") {
+                                    context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
                                         getViewModel().getUserPortfolio()
                                     }
                                 })

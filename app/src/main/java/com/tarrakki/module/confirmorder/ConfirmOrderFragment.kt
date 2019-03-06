@@ -1,6 +1,5 @@
 package com.tarrakki.module.confirmorder
 
-
 import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
 import android.os.Bundle
@@ -29,12 +28,6 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ConfirmOrderFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBinding>() {
 
     override val isBackEnabled: Boolean

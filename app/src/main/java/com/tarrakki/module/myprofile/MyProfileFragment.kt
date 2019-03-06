@@ -499,7 +499,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                                         },100)
                                     }
                                 })
-
                                 if (it.scheme == "file") {
                                     val myBitmap = BitmapFactory.decodeFile(it.path)
                                     imgSign?.setImageBitmap(myBitmap)
