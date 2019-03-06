@@ -74,21 +74,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/type_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="8dp"
             android:text="@{data.type}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            app:layout_constraintStart_toEndOf="@id/tvTypeL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
+            app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeL"
             tools:text="Lumpsum" />
 
         <android.support.constraint.Guideline
@@ -104,21 +104,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/nav_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
             android:id="@+id/tvNAV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_marginEnd="@dimen/space_4"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:dprice="@{data.nav}"
-            app:layout_constraintStart_toEndOf="@id/tvNAVL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintEnd_toStartOf="@id/gdlEnd"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvNAVL"
             tools:text="27.50" />
 
         <android.support.constraint.Guideline
@@ -134,9 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/folio_no_"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@id/tvFolioNo"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/gdlEnd"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -144,14 +143,13 @@
             android:id="@+id/tvFolioNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
-            android:gravity="end"
+            android:maxLines="2"
             android:text="@{data.folioNumber}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvFolioL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvFolioL"
             tools:text="15874" />
 
         <View
@@ -162,7 +160,7 @@
             android:background="@color/lighter_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
+            app:layout_constraintTop_toBottomOf="@id/tvType" />
 
         <TextView
             android:id="@+id/tvRemarkL"
@@ -210,7 +208,6 @@
             android:layout_marginBottom="@dimen/space_16"
             android:text="@string/status_"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/black"
             android:visibility="@{statusVisibility}"
             app:layout_constraintBaseline_toBaselineOf="@id/tvState"
             app:layout_constraintBottom_toBottomOf="parent"

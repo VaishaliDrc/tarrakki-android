@@ -74,21 +74,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/type_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
             android:id="@+id/tvType"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
+            android:layout_marginEnd="8dp"
             android:text="@{data.type}"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
-            app:layout_constraintStart_toEndOf="@id/tvTypeL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintEnd_toStartOf="@+id/gdlCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTypeL"
             tools:text="Lumpsum" />
 
         <android.support.constraint.Guideline
@@ -104,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/nav_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
@@ -113,15 +112,14 @@
             android:id="@+id/tvNAV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
             android:layout_marginEnd="@dimen/space_4"
             android:maxLines="2"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:dprice="@{data.nav}"
             app:layout_constraintEnd_toStartOf="@id/gdlEnd"
-            app:layout_constraintStart_toEndOf="@id/tvNAVL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvNAVL"
             tools:text="27.50" />
 
         <android.support.constraint.Guideline
@@ -137,9 +135,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/folio_no_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
-            app:layout_constraintEnd_toStartOf="@id/tvFolioNo"
             app:layout_constraintStart_toEndOf="@id/gdlEnd"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -147,16 +143,14 @@
             android:id="@+id/tvFolioNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
             android:maxLines="2"
             android:text="@{data.folioNumber}"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvFolioL"
-            app:layout_constraintTop_toBottomOf="@id/tvName"
+            app:layout_constraintStart_toEndOf="@id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvFolioL"
             tools:text="15874" />
-
 
         <TextView
             android:id="@+id/tvOrderNoL"
@@ -164,24 +158,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/order_no_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
+            app:layout_constraintTop_toBottomOf="@id/tvType" />
 
         <TextView
             android:id="@+id/tvOrderNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
             android:layout_marginEnd="@dimen/space_4"
             android:maxLines="2"
             android:text="@{data.orderNumber}"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toStartOf="@id/gdlCenter"
-            app:layout_constraintStart_toEndOf="@+id/tvOrderNoL"
-            app:layout_constraintTop_toBottomOf="@id/tvTypeL"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOrderNoL"
             tools:text="#15874" />
 
         <TextView
@@ -190,25 +182,22 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/order_type_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintStart_toEndOf="@id/gdlCenter"
-            app:layout_constraintTop_toBottomOf="@id/tvNAVL" />
+            app:layout_constraintTop_toBottomOf="@id/tvNAV" />
 
         <TextView
             android:id="@+id/tvOrderType"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
             android:maxLines="2"
             android:text="@{data.orderType}"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toStartOf="@id/gdlEnd"
-            app:layout_constraintStart_toEndOf="@id/tvOrderTypeL"
-            app:layout_constraintTop_toBottomOf="@id/tvNAVL"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvOrderTypeL"
             tools:text="Purchase" />
-
 
         <TextView
             android:id="@+id/tvUnitsL"
@@ -216,23 +205,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/units_"
-            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
-            app:layout_constraintEnd_toStartOf="@id/tvUnits"
             app:layout_constraintStart_toEndOf="@id/gdlEnd"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioL" />
+            app:layout_constraintTop_toBottomOf="@id/tvFolioNo" />
 
         <TextView
             android:id="@+id/tvUnits"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_16"
             android:text="@{data.units}"
+            android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tvUnitsL"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioL"
+            app:layout_constraintStart_toEndOf="@id/gdlEnd"
+            app:layout_constraintTop_toBottomOf="@id/tvUnitsL"
             tools:text="15874" />
 
         <View
@@ -244,7 +230,7 @@
             android:visibility="@{statusVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvOrderNoL"
+            app:layout_constraintTop_toBottomOf="@id/tvOrderNo"
             tools:visibility="gone" />
 
         <TextView
@@ -255,7 +241,6 @@
             android:layout_marginBottom="@dimen/space_16"
             android:text="@string/status_"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/black"
             android:visibility="@{statusVisibility}"
             app:layout_constraintBaseline_toBaselineOf="@id/tvState"
             app:layout_constraintBottom_toBottomOf="parent"

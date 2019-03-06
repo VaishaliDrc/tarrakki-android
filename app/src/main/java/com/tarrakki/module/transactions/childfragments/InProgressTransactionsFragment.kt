@@ -71,7 +71,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                                 item.isSelected = !item.isSelected
                             }
                             val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                            setData(statuslist, "${item.orderOperation}", item.paymentType)
+                            getViewModel().setData(statuslist, "${item.orderOperation}", item.paymentType)
                             binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
                                 binder2.widget = item2
                                 binder2.executePendingBindings()
@@ -83,9 +83,9 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                             }
                         }
                         binder.executePendingBindings()
-                        if (position >= 9 && inProgressTransactions.size - 1 == position && !loadMore.isLoading) {
+                        if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true
-                            loadMoreObservable.value = data.offset
+                            loadMoreObservable.value = position
                         }
                     }
                 } else {
@@ -117,41 +117,6 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         })
     }
 
-    //TODO static data
-    fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, status: String, paymentType: String) {
-        when (status) {
-            "1" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-            "2" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-            "3" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "In progress"))
-            }
-            "4" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "completed"))
-            }
-            else -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-        }
-    }
 
     companion object {
         /**

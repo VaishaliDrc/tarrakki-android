@@ -90,9 +90,9 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                             hasSelectedItem()
                         }
                         binder.executePendingBindings()
-                        if (position >= 9 && unpaidTransactions.size - 1 == position && !loadMore.isLoading) {
+                        if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true
-                            loadMoreObservable.value = data.offset
+                            loadMoreObservable.value = position
                         }
                     }
                 } else {

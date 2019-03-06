@@ -64,9 +64,9 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.executePendingBindings()
-                        if (position >= 9 && completedTransactions.size - 1 == position && !loadMore.isLoading) {
+                        if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true
-                            loadMoreObservable.value = data.offset
+                            loadMoreObservable.value = position
                         }
                     }
                 } else {
