@@ -7,6 +7,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
+import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
@@ -100,6 +101,42 @@ class TransactionsVM : FragmentViewModel() {
                 }
         )
         return apiResponse
+    }
+
+    //TODO static data
+    fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, status: String, paymentType: String) {
+        when (status) {
+            "1" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+            "2" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+            "3" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "In progress"))
+            }
+            "4" -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "completed"))
+            }
+            else -> {
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "In progress"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
+            }
+        }
     }
 
 }

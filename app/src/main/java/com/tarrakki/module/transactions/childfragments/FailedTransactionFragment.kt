@@ -64,9 +64,9 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.executePendingBindings()
-                        if (position >= 9 && failedTransactions.size - 1 == position && !loadMore.isLoading) {
+                        if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true
-                            loadMoreObservable.value = data.offset
+                            loadMoreObservable.value = position
                         }
                     }
                 } else {
