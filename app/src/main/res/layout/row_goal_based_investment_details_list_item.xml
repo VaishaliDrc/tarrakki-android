@@ -117,9 +117,9 @@
         <TextView
             android:id="@+id/tvXIRRL"
             android:layout_width="wrap_content"
-            android:layout_height="14dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/xirr_"
+            android:text="@{investment.xirrLabel}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

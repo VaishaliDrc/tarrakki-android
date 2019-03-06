@@ -1,6 +1,7 @@
 package com.tarrakki
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
@@ -391,15 +392,16 @@ fun handleTextView(initialValue: Double, finalValue: Double, textview: TextView)
     valueAnimator.start()
 }
 
+@SuppressLint("SetTextI18n")
 fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     val valueAnimator = ValueAnimator.ofFloat(initialValue.toFloat(), finalValue.toFloat())
     valueAnimator.duration = 1500
-    // val returnType = if (finalValue >= 0) "+" else "-"
+    val returnType = if (finalValue >= 0) "+" else ""
 
     textview.setTextColor(textview.context.color(if (finalValue >= 0) R.color.colorAccent else R.color.red))
 
     valueAnimator.addUpdateListener { it ->
-        textview.text = it.animatedValue.toString().toDouble().toReturnAsPercentage()
+        textview.text = returnType+it.animatedValue.toString().toDouble().toReturnAsPercentage()
     }
     valueAnimator.start()
 }

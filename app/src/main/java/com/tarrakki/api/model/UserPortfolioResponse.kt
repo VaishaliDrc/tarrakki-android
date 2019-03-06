@@ -29,6 +29,9 @@ data class UserPortfolioResponse(
                 @SerializedName("xirr")
                 val xirr: String
         ) {
+            var xirrLabel : String = "Abs.:"
+                get() = "Abs.:"
+
             var xiRR : String = ""
                 get() = parseAsReturn(xirr)
 
@@ -52,6 +55,9 @@ data class UserPortfolioResponse(
                     @SerializedName("is_sip")
                     val isSIP: Boolean
             ) {
+                var xirrLabel : String = "Abs.:"
+                    get() = "Abs.:"
+
                 var xiRR : String = ""
                    get() = parseAsReturn(xirr)
 
@@ -132,6 +138,9 @@ data class UserPortfolioResponse(
                 @SerializedName("is_sip")
                 val isSIP: Boolean
         ) {
+            var xirrLabel : String = "Abs.:"
+                get() = "Abs.:"
+
             var xiRR : String = ""
                 get() = parseAsReturn(xirr)
 

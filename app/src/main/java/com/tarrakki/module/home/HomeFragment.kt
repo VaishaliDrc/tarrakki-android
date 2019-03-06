@@ -56,8 +56,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
     override fun createReference() {
-        cpPortfolio?.progress = 0f
-
         setHasOptionsMenu(true)
 
         rvHomeItem?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
@@ -185,7 +183,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             getViewModel().getHomeData(true).observe(this, observerHomeData)
         }
 
-        cpPortfolio.setProgressWithAnimation(78f)
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
                 mRefresh?.isRefreshing = false
