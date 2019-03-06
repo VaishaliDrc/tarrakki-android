@@ -12,6 +12,9 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentCompletedTransactionsBinding
+import com.tarrakki.databinding.RowCompletedTransactionsBinding
+import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_completed_transactions.*
@@ -19,6 +22,7 @@ import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.adapters.setUpRecyclerView
 
 /**
  * A simple [Fragment] subclass.
@@ -63,6 +67,22 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                     rvCompletedTransactions?.setUpMultiViewRecyclerAdapter(completedTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
+                        if (binder is RowCompletedTransactionsBinding && item is TransactionApiResponse.Transaction) {
+                            binder.imgArrow.setOnClickListener {
+                                item.isSelected = !item.isSelected
+                            }
+                            val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
+                            getViewModel().setData(statuslist, "${item.orderOperation}", item.paymentType)
+                            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                                binder2.widget = item2
+                                binder2.executePendingBindings()
+                                if (position2 == statuslist.size - 1) {
+                                    binder2.verticalDivider.visibility = View.GONE
+                                } else {
+                                    binder2.verticalDivider.visibility = View.VISIBLE
+                                }
+                            }
+                        }
                         binder.executePendingBindings()
                         if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true

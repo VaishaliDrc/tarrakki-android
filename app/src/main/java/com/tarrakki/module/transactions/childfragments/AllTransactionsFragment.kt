@@ -12,6 +12,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentAllTransactionsBinding
+import com.tarrakki.databinding.RowCompletedTransactionsBinding
 import com.tarrakki.databinding.RowInprogressTransactionsBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
@@ -66,21 +67,8 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                     rvAllTransactions?.setUpMultiViewRecyclerAdapter(allTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.VISIBLE)
-                        if (binder is RowInprogressTransactionsBinding && item is TransactionApiResponse.Transaction) {
-                            binder.imgArrow.setOnClickListener {
-                                item.isSelected = !item.isSelected
-                            }
-                            val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                            getViewModel().setData(statuslist, "${item.orderOperation}", item.paymentType)
-                            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
-                                binder2.widget = item2
-                                binder2.executePendingBindings()
-                                if (position2 == statuslist.size - 1) {
-                                    binder2.verticalDivider.visibility = View.GONE
-                                } else {
-                                    binder2.verticalDivider.visibility = View.VISIBLE
-                                }
-                            }
+                        if (item is TransactionApiResponse.Transaction) {
+                            setStatusView(binder, item)
                         }
                         binder.executePendingBindings()
                         if (item is LoadMore && !item.isLoading) {
@@ -113,6 +101,39 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
         })
     }
 
+    private fun <T : ViewDataBinding> setStatusView(binder: T, data: TransactionApiResponse.Transaction) {
+        if (binder is RowInprogressTransactionsBinding) {
+            binder.imgArrow.setOnClickListener {
+                data.isSelected = !data.isSelected
+            }
+            val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
+            getViewModel().setData(statuslist, "${data.orderOperation}", data.paymentType)
+            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                binder2.widget = item2
+                binder2.executePendingBindings()
+                if (position2 == statuslist.size - 1) {
+                    binder2.verticalDivider.visibility = View.GONE
+                } else {
+                    binder2.verticalDivider.visibility = View.VISIBLE
+                }
+            }
+        } else if (binder is RowCompletedTransactionsBinding) {
+            binder.imgArrow.setOnClickListener {
+                data.isSelected = !data.isSelected
+            }
+            val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
+            getViewModel().setData(statuslist, "${data.orderOperation}", data.paymentType)
+            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                binder2.widget = item2
+                binder2.executePendingBindings()
+                if (position2 == statuslist.size - 1) {
+                    binder2.verticalDivider.visibility = View.GONE
+                } else {
+                    binder2.verticalDivider.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
 
     companion object {
         /**

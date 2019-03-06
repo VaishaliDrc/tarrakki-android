@@ -51,9 +51,10 @@
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:gravity="end"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgArrow"
             app:layout_constraintTop_toTopOf="parent"
             app:price="@{data.amount}"
             tools:text="@string/dummy3" />
@@ -62,11 +63,22 @@
             android:id="@+id/tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:text="@{data.created}"
             android:textSize="@dimen/_10ssp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgArrow"
             app:layout_constraintTop_toBottomOf="@id/tvAmount"
             tools:text="Feb 13, 2018" />
+
+        <ImageView
+            android:id="@+id/imgArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@{data.isSelected ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_arrow_down" />
 
         <TextView
             android:id="@+id/tvTypeL"
@@ -243,7 +255,6 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:visibility="@{statusVisibility}"
             app:layout_constraintBaseline_toBaselineOf="@id/tvState"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mDivider1"
             tools:visibility="gone" />
@@ -258,13 +269,32 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@{data.textColorRes}"
             android:visibility="@{statusVisibility}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvStateL"
             app:layout_constraintTop_toBottomOf="@id/mDivider1"
             tools:text="@string/in_progress"
             tools:textColor="@color/pdlg_color_green"
             tools:visibility="gone" />
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expStatus"
+            expanded="@{data.isSelected}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvState">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvTransactionStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

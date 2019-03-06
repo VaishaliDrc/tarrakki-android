@@ -3,6 +3,7 @@ package com.tarrakki.api.model
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.annotation.StringDef
+import android.support.v7.widget.RecyclerView
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R
@@ -10,7 +11,6 @@ import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
-import org.supportcompact.ktx.toReturn
 
 
 data class TransactionApiResponse(
@@ -53,7 +53,7 @@ data class TransactionApiResponse(
             val status: String?,
             @SerializedName("type")
             val type: String,
-            @SerializedName("payment_mode")
+            @SerializedName("payment_mode", alternate = ["payment_method"])
             val paymentMode: String
 
     ) : BaseObservable(), WidgetsViewModel {

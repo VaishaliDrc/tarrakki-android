@@ -67,7 +67,7 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isH
 }
 
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
-fun setAdapterH(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+fun setAdapterH(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     val manager = LinearLayoutManager(view.context)
     manager.orientation = RecyclerView.HORIZONTAL
     view.layoutManager = manager
@@ -75,7 +75,7 @@ fun setAdapterH(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
 }
 
 @BindingAdapter(value = ["setAdapterV"], requireAll = false)
-fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     val manager = LinearLayoutManager(view.context)
     manager.orientation = RecyclerView.VERTICAL
     view.layoutManager = manager
