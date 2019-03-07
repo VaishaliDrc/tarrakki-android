@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
@@ -15,10 +16,12 @@ import com.tarrakki.databinding.FragmentFailedTransactionBinding
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_failed_transaction.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +31,8 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
  */
 
 class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFailedTransactionBinding>() {
+
+    lateinit var response : Observer<TransactionApiResponse>
 
     override fun getLayout(): Int {
         return R.layout.fragment_failed_transaction
@@ -45,7 +50,7 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
         val failedTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        val response = Observer<TransactionApiResponse> {
+        response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 failedTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -85,17 +90,21 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
                 }, 2500)
             }
         })
-        mRefresh?.setOnRefreshListener {
-            getViewModel().getTransactions(
-                    transactionType = TransactionApiResponse.FAILED,
-                    mRefresh = true).observe(this, response)
-        }
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (failedTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
+
+        mRefresh?.setOnRefreshListener(refreshListener)
+    }
+
+    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+        getViewModel().getTransactions(
+                transactionType = TransactionApiResponse.FAILED,
+                mRefresh = true).observe(this, response)
     }
 
 
@@ -110,5 +119,15 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = FailedTransactionFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        }
     }
 }

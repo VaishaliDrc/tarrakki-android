@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="paynow"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="statusVisibility"
             type="int" />
 
@@ -185,6 +189,7 @@
             android:background="@drawable/shape_btn_idle_bg"
             android:paddingStart="@dimen/space_16"
             android:paddingTop="@dimen/space_8"
+            android:onClick="@{paynow}"
             android:paddingEnd="@dimen/space_16"
             android:paddingBottom="@dimen/space_8"
             android:text="@string/pay_now"

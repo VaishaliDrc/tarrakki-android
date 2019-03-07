@@ -65,7 +65,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         val observerHomeData = Observer<HomeData> {
             it?.let { apiResponse ->
 
-
                 rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                     binder.setVariable(BR.section, item)
                     binder.setVariable(BR.isHome, true)

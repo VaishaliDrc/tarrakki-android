@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
@@ -18,14 +19,18 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentUnpaidTransactionsBinding
+import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_unpaid_transactions.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.startFragment
 
 
 /**
@@ -50,11 +55,14 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
 
     private val unpaidTransactions = arrayListOf<WidgetsViewModel>()
     val loadMore = LoadMore()
+
+    lateinit var response : Observer<TransactionApiResponse>
+
     override fun createReference() {
 
         val loadMoreObservable = MutableLiveData<Int>()
 
-        val response = Observer<TransactionApiResponse> {
+        response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 unpaidTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -72,6 +80,11 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                     rvUnpaidTransactions?.setUpMultiViewRecyclerAdapter(unpaidTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
+                        binder.setVariable(BR.paynow, View.OnClickListener {
+                            startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                            postSticky(item as TransactionApiResponse.Transaction)
+                        })
+
                         binder.root.setOnLongClickListener { v: View? ->
                             if (item is TransactionApiResponse.Transaction) {
                                 item.isSelected = !item.isSelected
@@ -111,12 +124,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                 }, 2500)
             }
         })
-        mRefresh?.setOnRefreshListener {
-            getViewModel().hasOptionMenu.value = false
-            getViewModel().getTransactions(
-                    transactionType = TransactionApiResponse.UNPAID,
-                    mRefresh = true).observe(this, response)
-        }
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
@@ -146,6 +154,15 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                 onBack()
             }
         })
+
+        mRefresh?.setOnRefreshListener(refreshListener)
+    }
+
+    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+        getViewModel().hasOptionMenu.value = false
+        getViewModel().getTransactions(
+                transactionType = TransactionApiResponse.UNPAID,
+                mRefresh = true).observe(this, response)
     }
 
     private fun hasSelectedItem() {
@@ -214,5 +231,15 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = UnpaidTransactionsFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event==Event.ISFROMTRANSACTIONSUCCESS){
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        }
     }
 }

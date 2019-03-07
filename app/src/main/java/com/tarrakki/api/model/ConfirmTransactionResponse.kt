@@ -32,15 +32,17 @@ data class ConfirmTransactionResponse(
                 @SerializedName("scheme_name")
                 val schemeName: String,
                 @SerializedName("sip_transaction_id")
-                val sipTransactionId: Int
+                val sipTransactionId: Int,
+                @SerializedName("lumpsum_amount")
+                var lumpsum_amount: String?,
+                @SerializedName("sip_amount")
+                var sip_amount: String?
         ) {
-            @SerializedName("lumpsum_amount")
-            var lumpsumAmount: String? = null
-                get() = field?.toDoubleOrNull()?.toCurrency()
+            var lumpsumAmount: String? = ""
+                get() = lumpsum_amount?.toDoubleOrNull()?.toCurrency()
 
-            @SerializedName("sip_amount")
-            var sipAmount: String? = null
-                get() = field?.toDoubleOrNull()?.toCurrency()
+            var sipAmount: String? = ""
+                get() = sip_amount?.toDoubleOrNull()?.toCurrency()
 
             val hasSIP
                 get() = if (TextUtils.isEmpty(sipAmount) || "₹0" == sipAmount) View.GONE else View.VISIBLE

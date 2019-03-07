@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
@@ -18,11 +19,13 @@ import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_completed_transactions.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -31,6 +34,8 @@ import org.supportcompact.adapters.setUpRecyclerView
  *
  */
 class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentCompletedTransactionsBinding>() {
+
+    lateinit var response : Observer<TransactionApiResponse>
 
     override fun getLayout(): Int {
         return R.layout.fragment_completed_transactions
@@ -49,7 +54,7 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
         val completedTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        val response = Observer<TransactionApiResponse> {
+        response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 completedTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -73,7 +78,8 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                             }
                             val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
                             getViewModel().setData(statuslist, "${item.orderOperation}", item.paymentType)
-                            binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
+                            val adapter =  binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist)
+                            { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
                                 binder2.widget = item2
                                 binder2.executePendingBindings()
                                 if (position2 == statuslist.size - 1) {
@@ -82,6 +88,11 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                                     binder2.verticalDivider.visibility = View.VISIBLE
                                 }
                             }
+                           // if (binder.rvTransactionStatus.adapter==null) {
+                                binder.rvTransactionStatus.adapter = adapter
+                          /*  }else{
+                                binder.rvTransactionStatus.swapAdapter(binder.rvTransactionStatus.adapter,true)
+                            }*/
                         }
                         binder.executePendingBindings()
                         if (item is LoadMore && !item.isLoading) {
@@ -105,19 +116,22 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
                 }, 2500)
             }
         })
-        mRefresh?.setOnRefreshListener {
-            getViewModel().getTransactions(
-                    transactionType = TransactionApiResponse.COMPLETED,
-                    mRefresh = true).observe(this, response)
-        }
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (completedTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
+
+        mRefresh?.setOnRefreshListener(refreshListener)
     }
 
+    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+        getViewModel().getTransactions(
+                transactionType = TransactionApiResponse.COMPLETED,
+                mRefresh = true).observe(this, response)
+    }
 
     companion object {
         /**
@@ -129,5 +143,15 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = CompletedTransactionsFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        }
     }
 }

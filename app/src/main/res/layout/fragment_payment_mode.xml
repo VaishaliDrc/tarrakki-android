@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.tarrakki.module.paymentmode.PaymentModeVM" />
@@ -25,8 +26,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_12"
                 android:background="@drawable/shape_cart_view"
@@ -82,17 +83,17 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:layout_height="wrap_content"
                     android:text="@string/how_would_you_like_to_pay"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 
                 <RadioGroup
-                    android:background="@drawable/dr_bg_payment_border"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
                     android:layout_marginBottom="@dimen/space_16"
+                    android:background="@drawable/dr_bg_payment_border"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -103,132 +104,166 @@
                         android:background="@drawable/dr_bg_payment_button"
                         android:button="@null"
                         android:checked="@={vm.isNetBanking}"
-                        android:paddingEnd="@dimen/space_16"
-                        android:paddingStart="@dimen/space_16"
-                        android:paddingBottom="@dimen/space_8"
-                        android:paddingTop="@dimen/space_8"
                         android:gravity="center"
+                        android:paddingStart="@dimen/space_16"
+                        android:paddingTop="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_16"
+                        android:paddingBottom="@dimen/space_8"
                         android:text="@string/net_banking"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@drawable/dr_payment_txt_selector" />
 
                     <RadioButton
-                        android:paddingEnd="@dimen/space_16"
-                        android:paddingStart="@dimen/space_16"
-                        android:paddingBottom="@dimen/space_8"
-                        android:paddingTop="@dimen/space_8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@drawable/dr_bg_payment_button"
                         android:button="@null"
-                        android:gravity="center"
                         android:checked="@={vm.isNEFTRTGS}"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/space_16"
+                        android:paddingTop="@dimen/space_8"
+                        android:paddingEnd="@dimen/space_16"
+                        android:paddingBottom="@dimen/space_8"
                         android:text="@string/neft_rtgs"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@drawable/dr_payment_txt_selector" />
                 </RadioGroup>
 
                 <TextView
-                    android:layout_marginBottom="@dimen/space_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:layout_marginBottom="@dimen/space_16"
                     android:text="@string/choose_bank_account"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility='@{vm.accountNumber.equals("")?View.GONE:View.VISIBLE}'>
 
                     <RadioButton
-                        android:layout_marginEnd="@dimen/space_5"
-                        android:layout_alignParentStart="true"
                         android:id="@+id/rb_bank_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="true"/>
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="@dimen/space_5"
+                        android:checked="true" />
 
                     <LinearLayout
-                        android:layout_toEndOf="@id/rb_bank_btn"
-                        android:layout_toStartOf="@id/tvChangeBank"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@id/tvChangeBank"
+                        android:layout_toEndOf="@id/rb_bank_btn"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/space_3"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:text='@{"A/C : "+vm.accountNumber}'
-                            android:textColor="@color/semi_black" />
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/darker_gray" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                             android:text="@{vm.branchName}"
-                            android:textColor="@color/semi_black" />
+                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                            android:textColor="@color/darker_gray" />
 
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvChangeBank"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/shape_pending_bg"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                        android:text="@string/change"
-                        android:textColor="@color/white"
-                        android:paddingTop="@dimen/space_4"
-                        android:paddingBottom="@dimen/space_4"
+                        android:background="@drawable/shape_pending_bg"
                         android:paddingStart="@dimen/space_8"
-                        android:paddingEnd="@dimen/space_8"/>
+                        android:paddingTop="@dimen/space_4"
+                        android:paddingEnd="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_4"
+                        android:text="@string/change"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility='@{vm.accountNumber.equals("")?View.VISIBLE:View.GONE}'>
+
+                    <TextView
+                        android:id="@+id/txt_SelectBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_toEndOf="@id/txt_SelectBank"
+                        android:text="No bank selected."
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/tvSelectBank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/shape_pending_bg"
+                        android:paddingStart="@dimen/space_10"
+                        android:paddingTop="@dimen/space_4"
+                        android:paddingEnd="@dimen/space_10"
+                        android:paddingBottom="@dimen/space_4"
+                        android:text="@string/select"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
 
                 <View
-                    android:layout_marginTop="@dimen/space_16"
-                    android:layout_marginBottom="@dimen/space_16"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/space_1"
-                    android:background="@color/lighter_gray"/>
+                    android:layout_marginTop="@dimen/space_16"
+                    android:layout_marginBottom="@dimen/space_16"
+                    android:background="@color/lighter_gray" />
 
                 <TextView
                     android:id="@+id/tvIntro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:text="@{vm.introduction}"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/darker_gray" />
 
                 <TextView
-                    android:visibility="@{vm.isNEFTRTGS==true?View.VISIBLE:View.GONE}"
-                    android:layout_marginTop="@dimen/space_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:layout_marginTop="@dimen/space_16"
                     android:text="@string/enter_utr_number"
-                    android:textColor="@color/black" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
+                    android:visibility="@{vm.isNEFTRTGS==true?View.VISIBLE:View.GONE}" />
 
                 <EditText
-                    android:paddingStart="@dimen/space_16"
-                    android:paddingEnd="@dimen/space_16"
-                    android:paddingBottom="@dimen/space_8"
-                    android:paddingTop="@dimen/space_8"
-                    android:visibility="@{vm.isNEFTRTGS==true?View.VISIBLE:View.GONE}"
-                    android:layout_marginTop="@dimen/space_5"
-                    android:inputType="number"
-                    android:text="@={vm.utrNumber}"
-                    android:imeOptions="actionDone"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_5"
                     android:background="@drawable/shape_edt_gray_round"
                     android:hint="@string/utr_number"
-                    android:layout_height="wrap_content" />
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/space_16"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/space_16"
+                    android:paddingBottom="@dimen/space_8"
+                    android:text="@={vm.utrNumber}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:visibility="@{vm.isNEFTRTGS==true?View.VISIBLE:View.GONE}" />
 
             </LinearLayout>
 
@@ -236,9 +271,9 @@
                 android:id="@+id/btnPayNow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_16"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/pay_now"

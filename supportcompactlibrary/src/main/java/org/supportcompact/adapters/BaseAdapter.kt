@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
 
+
 /**
  * Created by jayeshparkariya on 26/2/18.
  */

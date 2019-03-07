@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
@@ -18,11 +19,13 @@ import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_in_progress_transactions.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -31,6 +34,8 @@ import org.supportcompact.adapters.setUpRecyclerView
  *
  */
 class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.tarrakki.databinding.FragmentInProgressTransactionsBinding>() {
+
+    lateinit var response : Observer<TransactionApiResponse>
 
     override fun getLayout(): Int {
         return R.layout.fragment_in_progress_transactions
@@ -48,7 +53,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         val inProgressTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        val response = Observer<TransactionApiResponse> {
+        response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 inProgressTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -104,19 +109,22 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                 }, 2500)
             }
         })
-        mRefresh?.setOnRefreshListener {
-            getViewModel().getTransactions(
-                    transactionType = TransactionApiResponse.IN_PROGRESS,
-                    mRefresh = true).observe(this, response)
-        }
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (inProgressTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
+
+        mRefresh?.setOnRefreshListener(refreshListener)
     }
 
+    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+        getViewModel().getTransactions(
+                transactionType = TransactionApiResponse.IN_PROGRESS,
+                mRefresh = true).observe(this, response)
+    }
 
     companion object {
         /**
@@ -128,5 +136,15 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
          */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = InProgressTransactionsFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
+import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
@@ -27,6 +28,7 @@ import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.setUpAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.startActivity
@@ -69,7 +71,9 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         transactionStatus.add(TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>))
                     }
                     if (transactionList.isNotEmpty()) {
-                        transactionStatus.addAll(transactionList)
+                        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE)!=true) {
+                            transactionStatus.addAll(transactionList)
+                        }
                     }
                     setOrderItemsAdapter(transactionStatus)
                 }
@@ -84,11 +88,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
-                if (isFromPaymentMode==true){
-                    onBack(3)
-                }else {
-                    onBack(2)
-                }
+                onBackPress()
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
@@ -164,14 +164,22 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         e("Failed Data",transactionList.toString())
     }
 
+    fun onBackPress(){
+        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE)==true){
+            onBack(2)
+        }else{
+            if (isFromPaymentMode==true){
+                onBack(3)
+            }else {
+                onBack(2)
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             android.R.id.home -> {
-                if (isFromPaymentMode==true){
-                    onBack(3)
-                }else {
-                    onBack(2)
-                }
+                onBackPress()
                 return true
             }
         }

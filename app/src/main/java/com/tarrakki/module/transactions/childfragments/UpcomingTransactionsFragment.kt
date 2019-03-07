@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
@@ -15,10 +16,12 @@ import com.tarrakki.databinding.FragmentUpcomingTransactionsBinding
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_upcoming_transactions.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -27,6 +30,8 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
  *
  */
 class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUpcomingTransactionsBinding>() {
+
+    lateinit var response : Observer<TransactionApiResponse>
 
     override fun getLayout(): Int {
         return R.layout.fragment_upcoming_transactions
@@ -45,7 +50,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
         val upcomingTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        val response = Observer<TransactionApiResponse> {
+        response = Observer<TransactionApiResponse> {
             it?.let { data ->
                 upcomingTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -85,17 +90,21 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
                 }, 2500)
             }
         })
-        mRefresh?.setOnRefreshListener {
-            getViewModel().getTransactions(
-                    transactionType = TransactionApiResponse.UPCOMING,
-                    mRefresh = true).observe(this, response)
-        }
+
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (upcomingTransactions.isEmpty()) View.VISIBLE else View.GONE
             }
         })
+
+        mRefresh?.setOnRefreshListener(refreshListener)
+    }
+
+    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+        getViewModel().getTransactions(
+                transactionType = TransactionApiResponse.UPCOMING,
+                mRefresh = true).observe(this, response)
     }
 
     companion object {
@@ -108,5 +117,15 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
          */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = UpcomingTransactionsFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        }
     }
 }
