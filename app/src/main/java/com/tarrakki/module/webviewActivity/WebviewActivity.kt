@@ -45,9 +45,6 @@ class WebviewActivity : CoreActivity<WebviewVM, ActivityWebviewBinding>() {
         mWebView.settings.useWideViewPort = true
         mWebView.settings.domStorageEnabled = true
         mWebView.settings.loadsImagesAutomatically = true
-        mWebView.settings.setAppCachePath(cacheDir?.absolutePath)
-        mWebView.settings.setAppCacheEnabled(true)
-        mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
         mWebView.settings.setSupportMultipleWindows(false)
 
         mWebView.webChromeClient = object : WebChromeClient() {
