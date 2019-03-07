@@ -24,6 +24,7 @@ class TransactionsVM : FragmentViewModel() {
 
     val hasOptionMenu = MutableLiveData<Boolean>()
     val onBack = MutableLiveData<Boolean>()
+    val onRefresh = MutableLiveData<Boolean>()
 
     fun getTransactions(transactionType: String = TransactionApiResponse.ALL, offset: Int = 0, mRefresh: Boolean = false): MutableLiveData<TransactionApiResponse> {
         if (offset == 0 && !mRefresh)

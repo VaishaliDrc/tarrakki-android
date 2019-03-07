@@ -11,9 +11,12 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
 import com.tarrakki.module.transactions.childfragments.*
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
+import kotlinx.android.synthetic.main.fragment_upcoming_transactions.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
 import org.supportcompact.adapters.setFragmentPagerAdapter
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -109,5 +112,13 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = TransactionsFragment().apply { arguments = basket }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+            getViewModel().onRefresh.value = true
+        }
+        removeStickyEvent(event)
     }
 }

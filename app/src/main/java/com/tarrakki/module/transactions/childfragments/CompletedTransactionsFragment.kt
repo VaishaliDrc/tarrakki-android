@@ -125,6 +125,13 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
         })
 
         mRefresh?.setOnRefreshListener(refreshListener)
+
+        getViewModel().onRefresh.observe(this, Observer {
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        })
     }
 
     val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
@@ -143,15 +150,5 @@ class CompletedTransactionsFragment : CoreParentFragment<TransactionsVM, Fragmen
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = CompletedTransactionsFragment().apply { arguments = basket }
-    }
-
-    @Subscribe(sticky = true)
-    fun onEventData(event: Event) {
-        if (event== Event.ISFROMTRANSACTIONSUCCESS){
-            mRefresh?.post {
-                mRefresh?.isRefreshing = true
-                refreshListener.onRefresh()
-            }
-        }
     }
 }

@@ -118,6 +118,13 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         })
 
         mRefresh?.setOnRefreshListener(refreshListener)
+
+        getViewModel().onRefresh.observe(this, Observer {
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        })
     }
 
     val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
@@ -136,15 +143,5 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
          */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = InProgressTransactionsFragment().apply { arguments = basket }
-    }
-
-    @Subscribe(sticky = true)
-    fun onEventData(event: Event) {
-        if (event== Event.ISFROMTRANSACTIONSUCCESS){
-            mRefresh?.post {
-                mRefresh?.isRefreshing = true
-                refreshListener.onRefresh()
-            }
-        }
     }
 }

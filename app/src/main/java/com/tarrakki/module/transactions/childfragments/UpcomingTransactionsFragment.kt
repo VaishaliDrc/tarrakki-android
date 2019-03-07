@@ -3,6 +3,7 @@ package com.tarrakki.module.transactions.childfragments
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +14,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentUpcomingTransactionsBinding
+import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_upcoming_transactions.*
@@ -46,7 +48,6 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
     }
 
     override fun createReference() {
-
         val upcomingTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
@@ -99,6 +100,13 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
         })
 
         mRefresh?.setOnRefreshListener(refreshListener)
+
+        getViewModel().onRefresh.observe(this, Observer {
+            mRefresh?.post {
+                mRefresh?.isRefreshing = true
+                refreshListener.onRefresh()
+            }
+        })
     }
 
     val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
@@ -117,15 +125,5 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
          */
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = UpcomingTransactionsFragment().apply { arguments = basket }
-    }
-
-    @Subscribe(sticky = true)
-    fun onEventData(event: Event) {
-        if (event== Event.ISFROMTRANSACTIONSUCCESS){
-            mRefresh?.post {
-                mRefresh?.isRefreshing = true
-                refreshListener.onRefresh()
-            }
-        }
     }
 }
