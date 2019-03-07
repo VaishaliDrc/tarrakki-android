@@ -72,8 +72,8 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                     }
                     context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                             item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
-                        addToCartPortfolio(item.fundId, amountSIP.toString(),
-                                amountLumpsum.toString(), portfolio).observe(this,
+                        addToCartGoalPortfolio(item.fundId, amountSIP.toString(),
+                                amountLumpsum.toString(), portfolio,getViewModel().goalInvestment.get()?.goalId).observe(this,
                                 android.arch.lifecycle.Observer { response ->
                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
