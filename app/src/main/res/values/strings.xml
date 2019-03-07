@@ -708,6 +708,7 @@
     <string name="personal_information">Personal Information</string>
     <string name="update_signature">Update Signature</string>
     <string name="please_sign_clearly">Please sign clearly and legibly on a clean, white paper. Your signature must match the signature your provided at the time of KYC.</string>
+    <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

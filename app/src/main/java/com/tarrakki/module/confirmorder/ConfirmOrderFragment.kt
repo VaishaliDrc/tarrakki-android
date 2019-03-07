@@ -137,7 +137,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             if (binder is RowConfirmOrderBinding) {
                                 binder.cbSIP.isChecked = !binder.cbSIP.isChecked
                             }
-                            context?.simpleAlert("Your selected bank mandate is not approved so you can not uncheck this option.")
+                            context?.simpleAlert("Your bank mandate is pending, hence you will not be currently able to uncheck this option.")
                         }
                     }
                 })

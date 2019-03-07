@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="widget"
@@ -76,8 +76,8 @@
             android:paddingEnd="@dimen/space_4"
             android:text="@{widget.amount}"
             android:textAllCaps="true"
-            android:textColor="@color/black"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSIPLabel"
             tools:text="@string/dummy3" />
@@ -86,9 +86,9 @@
             android:id="@+id/tvDateL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
             android:text="@string/start_date_"
-            android:layout_marginStart="@dimen/space_4"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/black"
             android:visibility="@{widget.hasSIP}"
@@ -113,6 +113,7 @@
             android:id="@+id/cbSIP"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="8dp"
             android:button="@drawable/selector_check_box_gray"
@@ -120,11 +121,10 @@
             android:fontFamily="@font/lato_semibold"
             android:gravity="start|center_vertical"
             android:onClick="@{onCheckedChange}"
-            android:layout_marginStart="@dimen/space_4"
             android:padding="@dimen/space_8"
-            android:text="@string/first_installment_of_sip_on_toady"
+            android:text="@string/make_the_first_investment_of_sip_today"
             android:textColor="@color/darker_gray"
-            android:textSize="11sp"
+            android:textSize="@dimen/_11ssp"
             android:visibility="@{widget.hasSIP}"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
@@ -134,10 +134,12 @@
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline6"
+            app:percentageGuideline="@{widget.isGuideline==true?0.5f:1.0f}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            percentageGuideline="@{widget.isGuideline==true?0.5f:1.0f}" />
+            app:layout_constraintGuide_percent="50"
+            tools:percentageGuideline="0.5" />
 
 
         <TextView
