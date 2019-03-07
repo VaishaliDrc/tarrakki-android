@@ -20,8 +20,10 @@ import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -55,6 +57,42 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
     }
 
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        when (event) {
+            Event.ISGOALADDED -> {
+                getViewModel().getHomeData().observe(this, observerHomeData)
+            }
+        }
+    }
+
+    val observerHomeData = Observer<HomeData> {
+        it?.let { apiResponse ->
+
+            rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
+                binder.setVariable(BR.section, item)
+                binder.setVariable(BR.isHome, true)
+                binder.setVariable(BR.onViewAll, View.OnClickListener {
+                    if (item is HomeSection)
+                        when ("${item.title}") {
+                            "Set a Goal" -> {
+                                startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                            }
+                            else -> {
+                                val bundle = Bundle().apply {
+                                    putString(CATEGORYNAME, item.title)
+                                }
+                                startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
+                                item.category?.let { postSticky(it) }
+                            }
+                        }
+                })
+                binder.executePendingBindings()
+            }
+            rvHomeItem.visibility = View.VISIBLE
+        }
+    }
+
     override fun createReference() {
         setHasOptionsMenu(true)
 
@@ -62,32 +100,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
-        val observerHomeData = Observer<HomeData> {
-            it?.let { apiResponse ->
-
-                rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
-                    binder.setVariable(BR.section, item)
-                    binder.setVariable(BR.isHome, true)
-                    binder.setVariable(BR.onViewAll, View.OnClickListener {
-                        if (item is HomeSection)
-                            when ("${item.title}") {
-                                "Set a Goal" -> {
-                                    startFragment(GoalFragment.newInstance(), R.id.frmContainer)
-                                }
-                                else -> {
-                                    val bundle = Bundle().apply {
-                                        putString(CATEGORYNAME, item.title)
-                                    }
-                                    startFragment(InvestmentStrategiesFragment.newInstance(bundle), R.id.frmContainer)
-                                    item.category?.let { postSticky(it) }
-                                }
-                            }
-                    })
-                    binder.executePendingBindings()
-                }
-                rvHomeItem.visibility = View.VISIBLE
-            }
-        }
 
         App.INSTANCE.widgetsViewModel.observe(this, Observer { item ->
             item?.let {

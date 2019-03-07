@@ -92,7 +92,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 val data = json.toString().toEncrypt()
                                 redeemPortfolio(data).observe(this, Observer {
                                     context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
-                                        getViewModel().getUserPortfolio()
+                                        vm.getUserPortfolio()
                                     }
                                 })
                             }

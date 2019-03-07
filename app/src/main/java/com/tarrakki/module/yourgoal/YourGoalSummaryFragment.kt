@@ -26,6 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 
 
@@ -179,6 +180,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                             startFragment(RecommendedFragment.newInstance(), R.id.frmContainer)
                             postSticky(funds)
                             postSticky(goal)
+                            postSticky(Event.ISGOALADDED)
                         }
                     })
                 }

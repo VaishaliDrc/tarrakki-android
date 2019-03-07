@@ -21,8 +21,10 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -48,6 +50,44 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
         binding.executePendingBindings()
     }
 
+    val observerHomeData = Observer<HomeData> {
+        it?.let { apiResponse ->
+            btnIdle?.visibility = View.VISIBLE
+            btnExploreFunds?.visibility = View.VISIBLE
+            mRefresh?.isRefreshing = false
+            rvMutualFunds.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
+                binder.setVariable(BR.section, item)
+                binder.setVariable(BR.onViewAll, View.OnClickListener {
+                    if (item is HomeSection)
+                        when ("${item.title}") {
+                            "Set a Goal" -> {
+                                startFragment(GoalFragment.newInstance(), R.id.frmContainer)
+                            }
+                            else -> {
+                                val bundle = Bundle().apply {
+                                    putString(CATEGORYNAME, item.title)
+                                }
+                                startFragment(InvestmentStrategiesFragment.newInstance(bundle)
+                                        , R.id.frmContainer)
+                                item.category?.let { postSticky(it) }
+                            }
+                        }
+                })
+                binder.executePendingBindings()
+            }
+            rvMutualFunds.visibility = View.VISIBLE
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        when (event) {
+            Event.ISGOALADDED -> {
+                getViewModel().getHomeData().observe(this, observerHomeData)
+            }
+        }
+    }
+
     override fun createReference() {
         rvMutualFunds?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
@@ -66,34 +106,6 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
         rvMutualFunds.isFocusable = false
         rvMutualFunds.isNestedScrollingEnabled = false
-        val observerHomeData = Observer<HomeData> {
-            it?.let { apiResponse ->
-                btnIdle?.visibility = View.VISIBLE
-                btnExploreFunds?.visibility = View.VISIBLE
-                mRefresh?.isRefreshing = false
-                rvMutualFunds.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
-                    binder.setVariable(BR.section, item)
-                    binder.setVariable(BR.onViewAll, View.OnClickListener {
-                        if (item is HomeSection)
-                            when ("${item.title}") {
-                                "Set a Goal" -> {
-                                    startFragment(GoalFragment.newInstance(), R.id.frmContainer)
-                                }
-                                else -> {
-                                    val bundle = Bundle().apply {
-                                        putString(CATEGORYNAME, item.title)
-                                    }
-                                    startFragment(InvestmentStrategiesFragment.newInstance(bundle)
-                                            , R.id.frmContainer)
-                                    item.category?.let { postSticky(it) }
-                                }
-                            }
-                    })
-                    binder.executePendingBindings()
-                }
-                rvMutualFunds.visibility = View.VISIBLE
-            }
-        }
         App.INSTANCE.widgetsViewModelB.value = null
         App.INSTANCE.widgetsViewModelB.observe(this, Observer { item ->
             if (item is HomeData.Data.Goal) {

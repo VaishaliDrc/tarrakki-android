@@ -76,7 +76,7 @@ fun addToCartGoalPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String
     if (folioNo.isNotEmpty()) {
         json.addProperty("folio_number", folioNo)
     }
-    json.addProperty("goal_id", goal_id)
+    json.addProperty("user_goal", goal_id)
     json.printRequest()
     val data = json.toString().toEncrypt()
 

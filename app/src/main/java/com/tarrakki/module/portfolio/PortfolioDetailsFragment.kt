@@ -18,9 +18,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 import java.util.*
 
 class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfolioDetailsBinding>() {
@@ -53,7 +51,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 if (goldbasedInvestment != null) {
                     getViewModel().goalBasedInvestment.value = goldbasedInvestment
                     getViewModel().goalInvestment.set(goldbasedInvestment)
+                }else{
+                    onBack()
                 }
+            }else{
+                onBack()
             }
 
         })
@@ -97,7 +99,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                             json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
                             val data = json.toString().toEncrypt()
                             redeemPortfolio(data).observe(this, Observer {
-                                context?.simpleAlert("Your redemption of amount $amount is successful.") {
+                                context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
                                     getViewModel().getUserPortfolio()
                                 }
                             })
