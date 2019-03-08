@@ -22,7 +22,6 @@ import kotlin.concurrent.thread
 
 class PortfolioDetailsVM : FragmentViewModel() {
 
-    val investment = MutableLiveData<Investment>()
     val goalBasedInvestment = MutableLiveData<UserPortfolioResponse.Data.GoalBasedInvestment>()
     val goalInvestment = ObservableField<UserPortfolioResponse.Data.GoalBasedInvestment>()
     val portfolioData = MutableLiveData<UserPortfolioResponse>()

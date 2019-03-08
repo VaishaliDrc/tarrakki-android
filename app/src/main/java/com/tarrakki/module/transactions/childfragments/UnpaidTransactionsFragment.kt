@@ -81,6 +81,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.setVariable(BR.paynow, View.OnClickListener {
+                            getViewModel().hasOptionMenu.value = false
                             startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                             postSticky(item as TransactionApiResponse.Transaction)
                         })

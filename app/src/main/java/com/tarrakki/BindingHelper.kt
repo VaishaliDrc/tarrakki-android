@@ -684,7 +684,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     var startDateList = arrayListOf<SIPDetails>()
     var sipDetail: SIPDetails? = null
 
-    if (portfolioList.isNotEmpty()) {
+    if (folioList.isNotEmpty()) {
         mBinder.folio = folioList[0]
         val selectedFolio = portfolioList.find { it.folioNo == folioList[0] }
         if (selectedFolio != null) {

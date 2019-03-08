@@ -9,9 +9,7 @@
             name="vm"
             type="com.tarrakki.module.portfolio.PortfolioDetailsVM" />
 
-        <variable
-            name="investment"
-            type="com.tarrakki.module.portfolio.Investment" />
+
     </data>
 
     <android.support.v4.widget.NestedScrollView
