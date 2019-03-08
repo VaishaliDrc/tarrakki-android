@@ -12,10 +12,8 @@ import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.TransactionApiResponse
-import com.tarrakki.databinding.FragmentAllTransactionsBinding
-import com.tarrakki.databinding.RowCompletedTransactionsBinding
-import com.tarrakki.databinding.RowInprogressTransactionsBinding
-import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.databinding.*
+import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
@@ -27,6 +25,7 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -72,6 +71,13 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                     rvAllTransactions?.setUpMultiViewRecyclerAdapter(allTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.VISIBLE)
+
+                        if (binder is RowUnpaidTransactionsBinding) {
+                            binder.setVariable(BR.paynow, View.OnClickListener {
+                                startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                postSticky(item as TransactionApiResponse.Transaction)
+                            })
+                        }
                         if (item is TransactionApiResponse.Transaction) {
                             setStatusView(binder, item)
                         }

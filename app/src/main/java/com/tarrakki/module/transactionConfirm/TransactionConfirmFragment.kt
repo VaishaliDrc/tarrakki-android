@@ -14,6 +14,7 @@ import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
@@ -98,7 +99,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     private fun onExploreFunds(){
         activity?.let {
             if (it is BaseActivity) {
-                if (it is HomeActivity) {
+                if (it is HomeActivity || it is AccountActivity) {
                     it.startActivity<InvestActivity>()
                 } else {
                     it.supportFragmentManager?.backStackEntryCount?.minus(1)?.let { it1 -> onBack(it1) }
@@ -167,6 +168,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     fun onBackPress(){
         if (arguments?.getBoolean(ISFROMTRANSACTIONMODE)==true){
             onBack(2)
+            postSticky(Event.ISFROMTRANSACTIONSUCCESS)
         }else{
             if (isFromPaymentMode==true){
                 onBack(3)

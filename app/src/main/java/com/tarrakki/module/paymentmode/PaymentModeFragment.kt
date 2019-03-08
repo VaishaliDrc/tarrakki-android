@@ -140,9 +140,6 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                 isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
                             }
                             startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
-                            if (isFromTransaction==true) {
-                                postSticky(Event.ISFROMTRANSACTIONSUCCESS)
-                            }
                         })
                     } else {
                         if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
@@ -156,9 +153,6 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                     isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
                                 }
                                 startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
-                                if (isFromTransaction==true) {
-                                    postSticky(Event.ISFROMTRANSACTIONSUCCESS)
-                                }
                             })
                         } else {
                             context?.simpleAlert("Please first enter the UTR Number.")
