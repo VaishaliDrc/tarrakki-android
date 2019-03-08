@@ -106,6 +106,13 @@ fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
     rv.isFocusable = enable
 }
 
+@BindingAdapter("title")
+fun toolbarText(toolbar: CenteredToolbar, title : String?) {
+    if (title!=null) {
+        toolbar.title = title
+    }
+}
+
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, @DrawableRes res: Int) {
     img.setImageResource(res)

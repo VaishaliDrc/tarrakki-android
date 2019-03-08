@@ -138,7 +138,7 @@ fun FragmentActivity?.onInvestmentStrategies(item : HomeData.Data.Category.Secon
                     }
                 } else {
                     val bundle = Bundle().apply {
-                        putString(CATEGORYNAME, item.sectionName)
+                        putString(CATEGORYNAME, item.categoryName)
                         putBoolean(ISSINGLEINVESTMENT, false)
                     }
                     this?.startFragment(SelectInvestmentStrategyFragment.newInstance(bundle), R.id.frmContainer)
