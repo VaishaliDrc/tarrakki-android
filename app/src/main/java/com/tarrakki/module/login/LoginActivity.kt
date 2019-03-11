@@ -126,7 +126,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
         super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount) {
+    override fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount?) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         getGoogleAccountData()
     }

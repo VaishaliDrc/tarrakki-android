@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "890740840004",
+    "firebase_url": "https://test-fcm-3f5a7.firebaseio.com",
+    "project_id": "test-fcm-3f5a7",
+    "storage_bucket": "test-fcm-3f5a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:890740840004:android:d3fa7c37efd7abe2",
+        "android_client_info": {
+          "package_name": "com.tarrakki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "890740840004-4gujv0i71t21pc8op606nq02vkteq09f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUOq3WhkpMBQLDwODPQ6jwfv7b1hSIuqU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

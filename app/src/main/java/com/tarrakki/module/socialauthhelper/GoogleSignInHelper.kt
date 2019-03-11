@@ -55,7 +55,7 @@ class GoogleSignInHelper(val activity : AppCompatActivity,
 }
 
 interface GoogleSignInListener{
-    fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount)
+    fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount?)
 
     fun onGoogleSignInFailed(e: ApiException)
 }
