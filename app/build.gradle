@@ -93,7 +93,7 @@ dependencies {
     /**Firebase Dependency*/
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:17.4.0'
-
+    implementation 'com.facebook.android:facebook-login:4.41.0'
 
 
     testImplementation 'junit:junit:4.12'

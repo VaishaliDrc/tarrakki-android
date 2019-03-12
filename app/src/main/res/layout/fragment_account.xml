@@ -145,10 +145,10 @@
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
-                android:layout_marginStart="@dimen/default_space"
-                android:layout_marginEnd="@dimen/default_space"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:padding="@dimen/space_8">
@@ -175,26 +175,39 @@
                     app:layout_constraintStart_toEndOf="@+id/ivLogo"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ToggleButton
+                <!--<ToggleButton
                     android:id="@+id/switchOnOff"
                     android:layout_width="64dp"
                     android:layout_height="24dp"
                     android:background="@drawable/shape_switch_bg"
                     android:button="@null"
-                    android:checked="@={vm.appLock}"
+                    android:checked="@{vm.appLock}"
                     android:textOff=""
                     android:textOn=""
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:checked="true" />
+                    tools:checked="true" />-->
+
+                <ImageView
+                    android:id="@+id/switchOnOff"
+                    android:layout_width="64dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginEnd="@dimen/space_16"
+                    android:adjustViewBounds="true"
+                    android:elevation="@dimen/space_2"
+                    android:src="@{vm.appLock ? @drawable/switch_on :  @drawable/switch_off}"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:src="@drawable/shape_switch_bg" />
 
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -260,8 +273,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -283,8 +296,8 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -319,8 +332,8 @@
                 android:layout_width="125dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
@@ -333,8 +346,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:text="V.0.1.5" />
 

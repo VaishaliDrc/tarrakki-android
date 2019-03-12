@@ -10,6 +10,7 @@ import com.tarrakki.module.intro.IntroductionActivity
 import com.tarrakki.module.login.LoginActivity
 import org.supportcompact.ktx.isFirsttimeInstalled
 import org.supportcompact.ktx.isLogin
+import org.supportcompact.ktx.printHasKey
 import org.supportcompact.ktx.startActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -17,6 +18,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        printHasKey()
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
         Handler().postDelayed({
            /* if (isFirsttimeInstalled()) {

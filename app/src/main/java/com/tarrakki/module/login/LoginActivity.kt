@@ -2,7 +2,14 @@ package com.tarrakki.module.login
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.os.Bundle
 import android.util.Patterns
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -16,13 +23,16 @@ import com.tarrakki.module.socialauthhelper.GoogleSignInHelper
 import com.tarrakki.module.socialauthhelper.GoogleSignInListener
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.EventBus
+import org.json.JSONException
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.*
+import java.util.*
 
 
 class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignInListener {
 
     var mGoogleSignInHelper: GoogleSignInHelper? = null
+    var callbackManager: CallbackManager? = null
 
     override fun getLayout(): Int {
         return R.layout.activity_login
@@ -116,36 +126,73 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
         })*/
 
         llGpl?.setOnClickListener {
-            //  EventBus.getDefault().post(SHOW_PROGRESS)
-            // mGoogleSignInHelper?.signIn()
+            EventBus.getDefault().post(SHOW_PROGRESS)
+            mGoogleSignInHelper?.signIn()
+        }
+
+        callbackManager = CallbackManager.Factory.create()
+        LoginManager.getInstance().registerCallback(callbackManager,
+                object : FacebookCallback<LoginResult> {
+                    override fun onSuccess(loginResult: LoginResult) {
+                        // App code
+                        getViewModel().showProgress()
+                        val request = GraphRequest.newMeRequest(loginResult.accessToken) { jsonObject, response ->
+                            try {
+                                val socialEmail = jsonObject.optString("email")
+                                val socialFirstName = jsonObject.optString("first_name")
+                                val socialLastName = jsonObject.optString("last_name")
+                                e("Email=>$socialEmail")
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
+                            }
+                            getViewModel().dismissProgress()
+                            LoginManager.getInstance().logOut()
+                        }
+                        val parameters = Bundle()
+                        parameters.putString("fields", "id,email,first_name,last_name")
+                        request.parameters = parameters
+                        request.executeAsync()
+                    }
+
+                    override fun onCancel() {
+                        // App code
+                    }
+
+                    override fun onError(exception: FacebookException) {
+                        // App code
+                    }
+                })
+
+        llFB?.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         mGoogleSignInHelper?.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onGoogleSignInSuccess(googleSignInAccount: GoogleSignInAccount?) {
-        EventBus.getDefault().post(DISMISS_PROGRESS)
+        getViewModel().dismissProgress()
         getGoogleAccountData()
     }
 
     override fun onGoogleSignInFailed(e: ApiException) {
-        EventBus.getDefault().post(DISMISS_PROGRESS)
+        getViewModel().dismissProgress()
         e(e.localizedMessage.toString())
     }
 
-    fun getGoogleAccountData() {
+    private fun getGoogleAccountData() {
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
             val personName = acct.displayName
-            val personGivenName = acct.givenName
-            val personFamilyName = acct.familyName
+            val fname = acct.givenName
+            val lname = acct.familyName
             val personEmail = acct.email
             val personId = acct.id
             val personPhoto = acct.photoUrl
-
             e(personName.toString())
         }
     }

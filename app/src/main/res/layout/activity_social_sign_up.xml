@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.register.RegisterVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
+
+            <ImageView
+                android:id="@+id/ivLogin"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_50"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_login"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvLoginLbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_32"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/sign_up_start_investing"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivLogin" />
+
+            <EditText
+                android:id="@+id/edtMobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/space_32"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_edt_white_round"
+                android:hint="@string/mobile_number_star"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.mobile}"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvLoginLbl" />
+
+            <CheckBox
+                android:id="@+id/cbTermsConditions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:button="@drawable/selector_check_box"
+                android:checked="false"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center"
+                android:padding="@dimen/space_8"
+                android:text="@string/i_agree_with_terms_and_conditions"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@+id/edtMobile"
+                app:layout_constraintTop_toBottomOf="@id/edtMobile" />
+
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/space_32"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/txtcontinue"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cbTermsConditions" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{vm.progressBar}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</layout>

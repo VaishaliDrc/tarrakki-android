@@ -1,9 +1,13 @@
 package com.tarrakki.module.account
 
 
+import android.app.KeyguardManager
+import android.app.admin.DevicePolicyManager
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v4.content.LocalBroadcastManager
 import android.view.View
 import com.tarrakki.*
@@ -25,6 +29,8 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
+import android.provider.Settings.ACTION_SECURITY_SETTINGS
+
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
@@ -213,6 +219,17 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 rvMenus?.adapter?.notifyDataSetChanged()
             }
         })*/
+
+        switchOnOff?.setOnClickListener {
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            if (!km.isKeyguardSecure) {
+                getViewModel().appLock.set(false)
+                val intent = Intent(Settings.ACTION_SECURITY_SETTINGS)
+                startActivity(intent)
+            } else {
+                getViewModel().appLock.set(getViewModel().appLock.get() != true)
+            }
+        }
     }
 
     companion object {
