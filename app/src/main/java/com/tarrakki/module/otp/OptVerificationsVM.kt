@@ -68,6 +68,37 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         return verifyOTP
     }
 
+    fun verifySocialOTP(data: String): MutableLiveData<SignUpresponse> {
+        val onSignUp = MutableLiveData<SignUpresponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).verifyOTP(data),
+                apiNames = WebserviceBuilder.ApiNames.verifyOTP,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<SignUpresponse>()
+                                onSignUp.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return onSignUp
+    }
+
     fun onSignUp(json: JSONObject): MutableLiveData<SignUpresponse> {
         val onSignUp = MutableLiveData<SignUpresponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
@@ -164,9 +195,9 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         return apiResponse
     }
 
-    fun forgotPasswordVerifyOTP(otp: String?,otpId : String?): MutableLiveData<ForgotPasswordVerifyOtpResponse> {
+    fun forgotPasswordVerifyOTP(otp: String?, otpId: String?): MutableLiveData<ForgotPasswordVerifyOtpResponse> {
         val json = JsonObject()
-        json.addProperty("otp",otp)
+        json.addProperty("otp", otp)
         json.addProperty("otp_id", otpId)
         val data = json.toString().toEncrypt()
 

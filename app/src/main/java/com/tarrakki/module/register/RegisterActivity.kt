@@ -90,20 +90,11 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     it?.let { it1 ->
                         val intent = Intent(this, OtpVerificationActivity::class.java)
                         intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
-                        /*if (getIntent().hasExtra(IS_FROM_ACCOUNT)) {
-                            intent.putExtra(IS_FROM_ACCOUNT, true)
-                        }*/
                         startActivity(intent)
                         EventBus.getDefault().postSticky(it1)
                     }
                 })
             }
         }
-        /*App.INSTANCE.isLoggedIn.observe(this, Observer {
-            it?.let { isLogin ->
-                if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
-                    finish()
-            }
-        })*/
     }
 }

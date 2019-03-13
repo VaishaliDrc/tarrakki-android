@@ -13,12 +13,16 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
+import com.google.gson.JsonObject
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityLoginBinding
 import com.tarrakki.module.forgotpassword.ForgotPasswordActivity
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.otp.OtpVerificationActivity
 import com.tarrakki.module.register.RegisterActivity
+import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
+import com.tarrakki.module.register.SocialSignUpActivity
 import com.tarrakki.module.socialauthhelper.GoogleSignInHelper
 import com.tarrakki.module.socialauthhelper.GoogleSignInListener
 import kotlinx.android.synthetic.main.activity_login.*
@@ -88,42 +92,47 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                     }
                 }
                 else -> {
-                    getViewModel().doLogin().observe(this, Observer { loginResponse ->
-                        loginResponse?.let {
-                            loginResponse.token?.let { it1 -> setLoginToken(it1) }
-                            loginResponse.userId?.let { it1 -> setUserId(it1) }
-                            loginResponse.email?.let { it1 -> setEmail(it1) }
-                            loginResponse.mobile?.let { it1 -> setMobile(it1) }
-                            loginResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
-                            loginResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
-                            loginResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
-                            loginResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
-                            startActivity<HomeActivity>()
-                            setIsLogin(cbKeepMeSignIn.isChecked)
-                            /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
-                                startActivity<HomeActivity>()
-                            }*/
-
-                            //App.INSTANCE.isLoggedIn.value = true
-                            finish()
-                        }
-                    })
-                    /*if (!intent.hasExtra(IS_FROM_ACCOUNT)) {
-                        startActivity<HomeActivity>()
-                    }
-                    setIsLogin(cbKeepMeSignIn.isChecked)
-                    App.INSTANCE.isLoggedIn.value = true
-                    finish()*/
+                    getViewModel().doLogin()
                 }
             }
         }
 
-        /*App.INSTANCE.isLoggedIn.observe(this, Observer {
-            it?.let { isLogin ->
-                if (intent.hasExtra(IS_FROM_ACCOUNT) && isLogin)
-                    finish()
+        getViewModel().onLogin.observe(this, Observer { loginResponse ->
+            loginResponse?.let {
+                loginResponse.token?.let { it1 -> setLoginToken(it1) }
+                loginResponse.userId?.let { it1 -> setUserId(it1) }
+                loginResponse.email?.let { it1 -> setEmail(it1) }
+                loginResponse.mobile?.let { it1 -> setMobile(it1) }
+                loginResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                loginResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                loginResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                loginResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
+                startActivity<HomeActivity>()
+                setIsLogin(cbKeepMeSignIn.isChecked)
+                finish()
             }
-        })*/
+        })
+
+        getViewModel().onSocialLogin.observe(this, Observer {
+            it?.let { apiResponse ->
+                if (apiResponse.status?.code == 3) {
+                    val json = JsonObject()
+                    json.addProperty("access_token", getViewModel().socialId.get())
+                    json.addProperty("email", getViewModel().socialEmail.get())
+                    json.addProperty("first_name", getViewModel().socialFName.get())
+                    json.addProperty("last_name", getViewModel().socialLName.get())
+                    json.addProperty("social_auth", apiResponse.status.message)
+                    val intent = Intent(this, SocialSignUpActivity::class.java)
+                    intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
+                    startActivity(intent)
+                } else if (apiResponse.status?.code == 2) {
+                    val intent = Intent(this, OtpVerificationActivity::class.java)
+                    intent.putExtra(SOACIAL_SIGNUP_DATA, "")
+                    startActivity(intent)
+                    EventBus.getDefault().postSticky(apiResponse)
+                }
+            }
+        })
 
         llGpl?.setOnClickListener {
             EventBus.getDefault().post(SHOW_PROGRESS)
@@ -138,15 +147,21 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                         getViewModel().showProgress()
                         val request = GraphRequest.newMeRequest(loginResult.accessToken) { jsonObject, response ->
                             try {
+                                val socialId = jsonObject.optString("id")
                                 val socialEmail = jsonObject.optString("email")
                                 val socialFirstName = jsonObject.optString("first_name")
                                 val socialLastName = jsonObject.optString("last_name")
                                 e("Email=>$socialEmail")
+                                getViewModel().socialId.set(socialId)
+                                getViewModel().socialEmail.set(socialEmail)
+                                getViewModel().socialFName.set(socialFirstName)
+                                getViewModel().socialLName.set(socialLastName)
                             } catch (e: JSONException) {
                                 e.printStackTrace()
                             }
                             getViewModel().dismissProgress()
                             LoginManager.getInstance().logOut()
+                            getViewModel().doSocialLogin(loginWith = "facebook")
                         }
                         val parameters = Bundle()
                         parameters.putString("fields", "id,email,first_name,last_name")
@@ -194,6 +209,11 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
             val personId = acct.id
             val personPhoto = acct.photoUrl
             e(personName.toString())
+            getViewModel().socialEmail.set(personEmail)
+            getViewModel().socialFName.set(fname)
+            getViewModel().socialLName.set(lname)
+            getViewModel().socialId.set(personId)
+            getViewModel().doSocialLogin(loginWith = "google")
         }
     }
 }

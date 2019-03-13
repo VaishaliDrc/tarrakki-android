@@ -20,7 +20,7 @@ data class ApiResponse(
             @SerializedName("code")
             val code: Int,
             @SerializedName("message")
-            val message: String
+            var message: String
     )
 }
 

@@ -7,10 +7,12 @@ import com.tarrakki.databinding.ActivitySocialSignUpBinding
 import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
+import org.json.JSONObject
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.dismissKeyboard
 import org.supportcompact.ktx.simpleAlert
 
+const val SOACIAL_SIGNUP_DATA = "social_signup_data"
 
 class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBinding>() {
 
@@ -28,7 +30,10 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
     }
 
     override fun createReference() {
-
+        var data: JSONObject? = null
+        if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+            data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
+        }
         btnSignUp?.setOnClickListener {
             when {
                 getViewModel().mobile.get()?.length == 0 -> simpleAlert("Please enter mobile number") {
@@ -37,16 +42,24 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                 getViewModel().mobile.get()?.length != 10 -> simpleAlert("Please enter valid mobile number") {
                     edtMobile?.requestFocus()
                 }
+                cbTermsConditions?.isChecked == false -> {
+                    simpleAlert("Please agree our Terms & Conditions.") {
+                        edtConfirmPassword?.requestFocus()
+                    }
+                }
                 else -> {
                     it.dismissKeyboard()
-                    getViewModel().getOTP(getViewModel().mobile.get(), getViewModel().email.get()).observe(this, Observer {
-                        it?.let { it1 ->
-                            val intent = Intent(this, OtpVerificationActivity::class.java)
-                            intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
-                            startActivity(intent)
-                            EventBus.getDefault().postSticky(it1)
-                        }
-                    })
+                    data?.let {
+                        it.put("mobile", getViewModel().mobile.get())
+                        getViewModel().socialSignUp(it).observe(this, Observer {
+                            it?.let { it1 ->
+                                val intent = Intent(this, OtpVerificationActivity::class.java)
+                                intent.putExtra(SOACIAL_SIGNUP_DATA, data.toString())
+                                startActivity(intent)
+                                EventBus.getDefault().postSticky(it1)
+                            }
+                        })
+                    }
                 }
             }
         }

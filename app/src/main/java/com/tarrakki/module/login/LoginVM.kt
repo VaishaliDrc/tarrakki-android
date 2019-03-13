@@ -14,9 +14,7 @@ import com.tarrakki.api.model.printResponse
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.e
+import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
 import org.supportcompact.networking.SingleCallback
 import org.supportcompact.networking.subscribeToSingle
@@ -26,6 +24,12 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
     val userName = ObservableField("")
     val password = ObservableField("")
     val onLogin = MutableLiveData<LoginResponse>()
+    val onSocialLogin = MutableLiveData<ApiResponse>()
+    val socialId = ObservableField("")
+    val socialEmail = ObservableField("")
+    val socialFName = ObservableField("")
+    val socialLName = ObservableField("")
+
 
     fun doLogin(): MutableLiveData<LoginResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
@@ -41,6 +45,47 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
                 singleCallback = this@LoginVM
         )
         return onLogin
+    }
+
+    fun doSocialLogin(loginWith: String = "facebook"): MutableLiveData<ApiResponse> {
+        /***
+        3 - You have to request for social signup
+        2 - you need to show popup for otp verification
+        1 - successfully login with email and return login response
+         * */
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("email", socialEmail.get())
+        json.addProperty("social_auth", loginWith)
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).socialLogin(authData),
+                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 2 || o.status?.code == 3) {
+                                o.status.message = loginWith
+                                onSocialLogin.value = o
+                            } else if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<LoginResponse>()
+                                onLogin.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        this@LoginVM.onFailure(throwable, apiNames)
+                    }
+                }
+        )
+        return onSocialLogin
     }
 
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

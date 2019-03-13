@@ -227,6 +227,13 @@ interface WebserviceBuilder {
     fun updateProfile(@Path("user_id") userId: String?,
                       @Part image: MultipartBody.Part?): Observable<ApiResponse>
 
+    @GET("users/social_auth/")
+    fun socialLogin(@Query("data") data: String): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("users/social_auth/")
+    fun socialSignUp(@Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

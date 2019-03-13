@@ -2,7 +2,6 @@ package com.tarrakki.module.account
 
 
 import android.app.KeyguardManager
-import android.app.admin.DevicePolicyManager
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
@@ -29,7 +28,6 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.networking.ApiClient
-import android.provider.Settings.ACTION_SECURITY_SETTINGS
 
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
@@ -58,6 +56,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
+        if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            getViewModel().appLock.set(km.isKeyguardSecure)
+            getViewModel().isAppLockClick = false
+        }
     }
 
     override fun createReference() {
@@ -221,6 +224,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         })*/
 
         switchOnOff?.setOnClickListener {
+            getViewModel().isAppLockClick = true
             val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
             if (!km.isKeyguardSecure) {
                 getViewModel().appLock.set(false)

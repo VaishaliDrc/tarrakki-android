@@ -11,6 +11,7 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.myprofile.PROFILE_EMAIL_DATA
 import com.tarrakki.module.myprofile.PROFILE_MOBILE_DATA
 import com.tarrakki.module.register.SIGNUP_DATA
+import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
 import com.tarrakki.module.resetPassword.ResetPasswordActivity
 import kotlinx.android.synthetic.main.activity_otp_verification.*
 import org.greenrobot.eventbus.EventBus
@@ -46,6 +47,9 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
         getViewModel().getOTP.observe(this, getOtp)
         if (intent.hasExtra(SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SIGNUP_DATA))
+        }
+        if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+            data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
         }
         if (intent.hasExtra(PROFILE_EMAIL_DATA)) {
             data = JSONObject(intent.getStringExtra(PROFILE_EMAIL_DATA))
@@ -84,6 +88,24 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                             }
                                         })
                                     }
+                                }
+                            })
+                        }
+                    }
+                }
+
+                if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+                    getViewModel().getOTP.value?.let { otp ->
+                        otp.data?.let { it1 ->
+                            getViewModel().verifySocialOTP(it1).observe(this, Observer { signUpResponse ->
+                                signUpResponse?.let {
+                                    signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                    signUpResponse.userId?.let { it1 -> setUserId(it1) }
+                                    signUpResponse.email?.let { it1 -> setEmail(it1) }
+                                    signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                    setIsLogin(true)
+                                    startActivity<HomeActivity>()
+                                    finishAffinity()
                                 }
                             })
                         }
@@ -136,6 +158,12 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
         tvResendOtp?.setOnClickListener {
             //simpleAlert("OTP has benn resend successfully")
             if (intent.hasExtra(SIGNUP_DATA)) {
+                data?.let { json ->
+                    getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+                }
+            }
+
+            if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 data?.let { json ->
                     getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
                 }
