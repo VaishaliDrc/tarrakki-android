@@ -1,8 +1,6 @@
 package com.tarrakki.module.exploreallinvestfunds
 
 import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
-import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
@@ -16,11 +14,9 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.isLogin
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class ExploreAllInvestmentFundsVM : FragmentViewModel() {
     var homeSections = ArrayList<WidgetsViewModel>()
@@ -39,16 +35,17 @@ class ExploreAllInvestmentFundsVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
+                                App.INSTANCE.homeData = data
                                 data?.let { it ->
                                     data.data.cartCount?.let {
                                         App.INSTANCE.cartCount.value = it
                                     }
                                     homeSections.clear()
                                     it.data.category.forEach { item ->
-                                        for (secondlevel in item.secondLevelCategory){
+                                        for (secondlevel in item.secondLevelCategory) {
                                             secondlevel.sectionName = item.categoryName
                                         }
-                                        if (!it.data.toWadgesArray(item.secondLevelCategory).isNullOrEmpty()){
+                                        if (!it.data.toWadgesArray(item.secondLevelCategory).isNullOrEmpty()) {
                                             homeSections.add(
                                                     HomeSection(
                                                             item.categoryName,

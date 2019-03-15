@@ -55,6 +55,9 @@ data class UserPortfolioResponse(
                     @SerializedName("is_sip")
                     val isSIP: Boolean
             ) {
+                var isMoreFolioList = false
+                    get() = folioList.size>1
+
                 var xirrLabel : String = "Return:"
                     get() = "Return:"
 
@@ -138,6 +141,8 @@ data class UserPortfolioResponse(
                 @SerializedName("is_sip")
                 val isSIP: Boolean
         ) {
+            var isMoreFolioList = false
+                get() = folioList.size>1
             var xirrLabel : String = "Return:"
                 get() = "Return:"
 

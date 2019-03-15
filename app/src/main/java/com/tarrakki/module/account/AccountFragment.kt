@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.content.LocalBroadcastManager
 import android.view.View
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
@@ -16,7 +15,6 @@ import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.ekyc.*
-import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
@@ -27,7 +25,6 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
 
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
@@ -113,13 +110,13 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             // context?.simpleAlert(getString(R.string.coming_soon))
         }
         btnLogout?.setOnClickListener {
-            context?.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
-                //App.INSTANCE.isLoggedIn.value = false
-                it.context.clearUserData()
-                ApiClient.clear()
-                startActivity(Intent(it.context, LoginActivity::class.java))
-                LocalBroadcastManager.getInstance(it.context).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
-            })
+            context?.let { context ->
+                context.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
+                    getViewModel().doLogout().observe(this, Observer {
+                        context.onLogout()
+                    })
+                })
+            }
         }
         edtPanNo?.applyPAN()
         btnContinue?.setOnClickListener {

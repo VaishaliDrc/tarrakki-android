@@ -1,15 +1,22 @@
 package com.tarrakki.module.account
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.Observable
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.printResponse
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.ktx.hasAppLock
-import org.supportcompact.ktx.isCompletedRegistration
-import org.supportcompact.ktx.setAppIsLock
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.*
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class AccountVM : FragmentViewModel() {
 
@@ -30,6 +37,33 @@ class AccountVM : FragmentViewModel() {
         setAccountMenu()
     }
 
+    fun doLogout(): MutableLiveData<ApiResponse> {
+        val apiResponse = MutableLiveData<ApiResponse>()
+        showProgress()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).logout(App.INSTANCE.getUserId()),
+                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                apiResponse.value = o
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+
+                    }
+                }
+        )
+        return apiResponse
+    }
+
     fun setAccountMenu() {
         accountMenus.clear()
         /*accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
@@ -41,7 +75,7 @@ class AccountVM : FragmentViewModel() {
         accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.notifications), R.drawable.ic_notifications))
         accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
         accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))*/
-        if (App.INSTANCE.isCompletedRegistration() == true) {
+        if (App.INSTANCE.isCompletedRegistration()) {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))

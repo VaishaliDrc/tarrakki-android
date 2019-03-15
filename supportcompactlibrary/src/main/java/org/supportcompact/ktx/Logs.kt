@@ -5,9 +5,9 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Base64
 import android.util.Log
-import org.supportcompact.networking.ApiClient.BUILD_TYPE_DEBUG
 import java.security.MessageDigest
 
+const val BUILD_TYPE_DEBUG = true
 
 fun Any.e(e: Any) = if (BUILD_TYPE_DEBUG) Log.e(this.javaClass.name, "$e") else null
 

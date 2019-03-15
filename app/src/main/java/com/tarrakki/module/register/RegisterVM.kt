@@ -16,9 +16,9 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class RegisterVM : ActivityViewModel() {
 

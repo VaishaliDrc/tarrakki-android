@@ -1,6 +1,7 @@
 package com.tarrakki
 
 import android.arch.lifecycle.MutableLiveData
+import com.tarrakki.api.model.HomeData
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.File
@@ -14,6 +15,8 @@ class App : CoreApp() {
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
     val signatureFile = MutableLiveData<File>()
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
+
+    var homeData : HomeData? = null
 
     init {
         App.INSTANCE = this

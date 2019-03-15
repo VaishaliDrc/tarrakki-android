@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.view.View
 import android.webkit.*
 import com.tarrakki.R
@@ -17,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreActivity
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
-import org.supportcompact.networking.ApiClient
+import com.tarrakki.api.ApiClient
 
 class WebviewActivity : CoreActivity<WebviewVM, ActivityWebviewBinding>() {
 

@@ -1,7 +1,10 @@
-package org.supportcompact.networking
+package com.tarrakki.api
 
 import android.util.Log
 import com.google.gson.GsonBuilder
+import com.tarrakki.App
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.onLogout
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -19,6 +22,7 @@ import org.supportcompact.R
 import org.supportcompact.ktx.getLoginToken
 import org.supportcompact.ktx.isNetworkConnected
 import org.supportcompact.ktx.postError
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -153,7 +157,7 @@ object ApiClient {
      * @return [OkHttpClient]
      */
     private fun getOKHttpClient(): OkHttpClient {
-        return if (!::okHttpClient.isInitialized) {
+        return if (!ApiClient::okHttpClient.isInitialized) {
             val builder = OkHttpClient.Builder()
                     .retryOnConnectionFailure(true)
                     .connectTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -260,6 +264,11 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
 
                 override fun onError(e: Throwable) {
                     when (e) {
+                        is HttpException -> {
+                            if (e.code()==401){
+                                App.INSTANCE.onLogout()
+                            }
+                        }
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)
                         is IOException -> {
                             if (CoreApp.getInstance().isNetworkConnected()) {

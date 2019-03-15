@@ -12,9 +12,10 @@ import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.model.Goal
+import com.tarrakki.api.subscribeToSingle
 
 class GoalVM : FragmentViewModel() {
 
@@ -32,7 +33,7 @@ class GoalVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 o.printResponse()
-                                val data = o.data?.parseTo<com.tarrakki.api.model.Goal>()
+                                val data = o.data?.parseTo<Goal>()
                                 goalList.value = data
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))

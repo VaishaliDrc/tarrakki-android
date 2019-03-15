@@ -11,9 +11,9 @@ import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.showProgress
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 import java.math.BigInteger
 
 class PaymentModeVM : FragmentViewModel() {
@@ -31,31 +31,31 @@ class PaymentModeVM : FragmentViewModel() {
      fun paymentOrder(data : String): MutableLiveData<ApiResponse> {
           val apiResponse = MutableLiveData<ApiResponse>()
           showProgress()
-          subscribeToSingle(
-                  observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                          .paymentOrder(data),
-                  apiNames = WebserviceBuilder.ApiNames.deleteCartItem,
-                  singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
-                       override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                            dismissProgress()
-                            if (o is ApiResponse) {
-                                 o.printResponse()
-                                 if (o.status?.code == 1) {
-                                      apiResponse.value = o
-                                 } else {
-                                      EventBus.getDefault().post(ShowError("${o.status?.message}"))
-                                 }
-                            } else {
-                                 EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
-                            }
-                       }
+         subscribeToSingle(
+                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                         .paymentOrder(data),
+                 apiNames = WebserviceBuilder.ApiNames.deleteCartItem,
+                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                         dismissProgress()
+                         if (o is ApiResponse) {
+                             o.printResponse()
+                             if (o.status?.code == 1) {
+                                 apiResponse.value = o
+                             } else {
+                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                             }
+                         } else {
+                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                         }
+                     }
 
-                       override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                            dismissProgress()
-                            EventBus.getDefault().post(ShowError("${throwable.message}"))
-                       }
-                  }
-          )
+                     override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                         dismissProgress()
+                         EventBus.getDefault().post(ShowError("${throwable.message}"))
+                     }
+                 }
+         )
           return apiResponse
      }
 }

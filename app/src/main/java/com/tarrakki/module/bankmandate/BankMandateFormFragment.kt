@@ -35,7 +35,7 @@ import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.takePick
-import org.supportcompact.networking.ApiClient
+import com.tarrakki.api.ApiClient
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 

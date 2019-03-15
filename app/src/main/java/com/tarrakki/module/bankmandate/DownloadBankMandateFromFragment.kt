@@ -29,8 +29,7 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.toast
-import org.supportcompact.networking.ApiClient
+import com.tarrakki.api.ApiClient
 import java.io.File
 
 /**

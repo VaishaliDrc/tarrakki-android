@@ -15,9 +15,9 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 

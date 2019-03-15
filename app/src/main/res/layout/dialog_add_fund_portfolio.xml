@@ -20,6 +20,10 @@
             name="isNew"
             type="Boolean"/>
 
+        <variable
+            name="isSingleFolio"
+            type="Boolean"/>
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -102,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="@string/choose_folio"
+            android:text="@{isSingleFolio?@string/current_folio:@string/choose_folio}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:visibility="gone"
@@ -117,7 +121,7 @@
             android:layout_marginEnd="@dimen/space_4"
             android:background="@drawable/shape_edt_gray_round"
             android:completionThreshold="1"
-            android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+            android:drawableEnd="@{isSingleFolio?null:@drawable/ic_drop_down_dark_gray_24dp}"
             android:hint="@string/choose_folio"
             android:drawableStart="@drawable/ic_folio_number"
             android:drawablePadding="@dimen/space_8"
@@ -127,6 +131,7 @@
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
             android:text="@={folio}"
+            android:clickable="@{isSingleFolio?false:true}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"

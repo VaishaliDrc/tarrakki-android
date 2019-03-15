@@ -36,7 +36,7 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
+import com.tarrakki.api.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
 import java.math.BigInteger
@@ -107,8 +107,8 @@ fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
 }
 
 @BindingAdapter("title")
-fun toolbarText(toolbar: CenteredToolbar, title : String?) {
-    if (title!=null) {
+fun toolbarText(toolbar: CenteredToolbar, title: String?) {
+    if (title != null) {
         toolbar.title = title
     }
 }
@@ -555,8 +555,11 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
-    if (portfolioList.isNotEmpty()) {
-        mBinder.folio = portfolioList[0].folioNo
+    if (folioList.isNotEmpty()) {
+        mBinder.folio = folioList[0]
+        mBinder.isSingleFolio = folioList.size == 1
+    } else {
+        mBinder.isSingleFolio = true
     }
 
     mBinder.rbgFolioType.setOnCheckedChangeListener { group, checkedId ->
@@ -613,9 +616,13 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
-    if (portfolioList.isNotEmpty()) {
-        mBinder.investmentAmount = portfolioList[0].cValue
-        mBinder.folio = portfolioList[0].folioNo
+    if (folioList.isNotEmpty()) {
+        mBinder.folio = folioList[0]
+        val folio = portfolioList.find { it.folioNo == folioList[0] }
+        mBinder.investmentAmount = folio?.cValue
+        mBinder.isSingleFolio = folioList.size == 1
+    } else {
+        mBinder.isSingleFolio = true
     }
 
     mBinder.edtAmount.setOnClickListener {
@@ -650,7 +657,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         val amount = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
 
-        if (this.isAmountValid(amount.toCurrencyBigInt())) {
+     /*   if (this.isAmountValid(amount.toCurrencyBigInt())) {
             if (amount.toCurrencyBigInt() <= "${mBinder.investmentAmount}".toCurrencyBigInt()) {
                 mDialog.dismiss()
                 val isRedeem = if (mBinder.chkAmount.isChecked) {
@@ -662,9 +669,10 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             } else {
                 this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
             }
-        }
+        }*/
 
     }
+
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()
         it.dismissKeyboard()
@@ -705,6 +713,9 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                 }
             }
         }
+        mBinder.isSingleFolio = folioList.size == 1
+    } else {
+        mBinder.isSingleFolio = true
     }
 
     mBinder.edtChooseFolio.setOnClickListener {

@@ -14,9 +14,9 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.showProgress
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 import okhttp3.RequestBody
 import okhttp3.MultipartBody
 import java.io.File
@@ -39,7 +39,7 @@ class UploadBankMandateFormVM : FragmentViewModel(){
         val response = MutableLiveData<ApiResponse>()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .uploadNachMandateForm(id,body),
+                        .uploadNachMandateForm(id, body),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

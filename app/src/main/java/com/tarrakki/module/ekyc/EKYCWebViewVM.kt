@@ -4,14 +4,13 @@ import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
 import android.webkit.ValueCallback
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.module.ekyc.KYCData
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class EKYCWebViewVM : FragmentViewModel() {
 

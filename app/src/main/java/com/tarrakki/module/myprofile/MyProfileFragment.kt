@@ -31,7 +31,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
+import com.tarrakki.api.ApiClient
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 

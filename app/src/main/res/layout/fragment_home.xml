@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/total_investment_value"
+                    android:text="@string/total_investment"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/home_title_color"
                     android:visibility="@{vm.portfolioVisibility}"

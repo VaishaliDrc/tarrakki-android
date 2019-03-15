@@ -4,8 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
-import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.google.gson.Gson
 import com.tarrakki.App
@@ -20,9 +18,9 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 
 class YourGoalVM : FragmentViewModel() {
 
@@ -69,7 +67,7 @@ class YourGoalVM : FragmentViewModel() {
                                     * */
                                     val json = JSONObject(o.data?.toDecrypt())
                                     val data = json.optJSONObject("data")
-                                    val goal = Gson().fromJson(data.optString("goal_data"), com.tarrakki.api.model.Goal.Data.GoalData::class.java)
+                                    val goal = Gson().fromJson(data.optString("goal_data"), Goal.Data.GoalData::class.java)
                                     goal?.inflation = data.optDouble("inflation")
                                     goalVM.value = goal
                                 } catch (e: Exception) {

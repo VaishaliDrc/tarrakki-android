@@ -4,7 +4,6 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
-import android.view.View
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
@@ -18,9 +17,9 @@ import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.showProgress
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 import kotlin.concurrent.thread
 
 class BankMandateVM : FragmentViewModel() {

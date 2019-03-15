@@ -2,7 +2,6 @@ package com.tarrakki.module.cart
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
-import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder
@@ -11,9 +10,9 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 import java.math.BigInteger
 
 class CartVM : FragmentViewModel() {
@@ -109,7 +108,7 @@ class CartVM : FragmentViewModel() {
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                         .updateCartItem(id, fund.fundIdId.toString(), lumpsump,
-                                fund.day,sip),
+                                fund.day, sip),
                 apiNames = WebserviceBuilder.ApiNames.updateCartItem,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

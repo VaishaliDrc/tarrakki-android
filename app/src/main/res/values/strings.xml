@@ -29,6 +29,7 @@
     <string name="rs">\u20A8</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="view_portfolio">View Portfolio</string>
+    <string name="total_investment">Total Investment</string>
     <string name="total_investment_value">Total Investment Value</string>
     <string name="total_return">Total Return</string>
     <string name="cart">Cart</string>
@@ -639,6 +640,7 @@
     <string name="income_slab">Income Slab</string>
 
     <string name="explore_all_funds">Explore All Funds</string>
+    <string name="explore_investment_strategies">Explore Investment Strategies</string>
 
     <string name="fatca_details">FATCA Details</string>
     <string name="i_certify_that_i_am_a_person_resident_of_india">I certify that I am a person/resident of India</string>
@@ -691,6 +693,7 @@
     <string name="add_amount">Add Amount</string>
     <string name="add_in_this_fund">Add in this Fund</string>
     <string name="choose_folio">Choose Folio</string>
+    <string name="current_folio">Current Folio</string>
     <string name="folio_type">Folio Type</string>
     <string name="enter_amount">Enter Amount</string>
     <string name="select_bank_mandate">Use Selected Bank Mandate</string>
@@ -716,6 +719,8 @@
     <string name="update_signature">Update Signature</string>
     <string name="please_sign_clearly">Please sign clearly and legibly on a clean, white paper. Your signature must match the signature your provided at the time of KYC.</string>
     <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
+    <string name="woops">Woops!</string>
+    <string name="your_cart_is_empty">Your cart is Empty</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

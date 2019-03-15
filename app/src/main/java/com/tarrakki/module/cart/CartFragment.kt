@@ -16,8 +16,10 @@ import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
+import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
+import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
@@ -53,27 +55,6 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     override fun createReference() {
         setHasOptionsMenu(true)
 
-        getViewModel().cartUpdate.observe(this, Observer {
-            getViewModel().getCartItem().observe(this, cartApi)
-        })
-
-        btnAddFund?.setOnClickListener {
-            if (getString(R.string.edit_funds) == btnAddFund.text.toString()) {
-                if (getViewModel().funds.isNotEmpty()) {
-                    getViewModel().funds[0].reuestToEdit = true
-                }
-                return@setOnClickListener
-            }
-            activity?.let {
-                if (it is BaseActivity) {
-                    if (it is InvestActivity) {
-                        it.onBackPressed()
-                    } else {
-                        it.mBottomNav.selectedItemId = R.id.action_invest
-                    }
-                }
-            }
-        }
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
@@ -93,13 +74,57 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 if (context?.isCompletedRegistration() == true) {
                     startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
                 } else {
-                    context?.simpleAlert("Please first complete your registration to place the order."){
+                    context?.simpleAlert("Please first complete your registration to place the order.") {
                         startActivity<AccountActivity>()
                     }
-                    // context?.simpleAlert("Order Confirm Screen is still under development so you will be able to test it in the next build.")
-                    //  return@setOnClickListener
-
                 }
+            }
+        }
+
+        btnEditFund?.setOnClickListener {
+            onEditFunds()
+        }
+
+        btnAddFund?.setOnClickListener {
+            onAddFunds()
+        }
+
+        btnExploreInvestmentStrategies?.setOnClickListener {
+            ExploreInvestmentStrategies()
+        }
+
+        getViewModel().cartUpdate.observe(this, Observer {
+            getViewModel().getCartItem().observe(this, cartApi)
+        })
+    }
+
+    private fun onEditFunds() {
+        if (getViewModel().funds.isNotEmpty()) {
+            getViewModel().funds[0].reuestToEdit = true
+        }
+    }
+
+    private fun onAddFunds() {
+        activity?.let {
+            if (it is BaseActivity) {
+                if (it is InvestActivity) {
+                    it.onBackPressed()
+                } else {
+                    it.mBottomNav.selectedItemId = R.id.action_invest
+                }
+            }
+        }
+    }
+
+    private fun ExploreInvestmentStrategies() {
+        App.INSTANCE.homeData?.let {
+            if (it.data.category.isNotEmpty()) {
+                val bundle = Bundle().apply {
+                    putString(CATEGORYNAME, it.data.category[0].categoryName)
+                }
+                startFragment(InvestmentStrategiesFragment.newInstance(bundle)
+                        , R.id.frmContainer)
+                postSticky(it.data.category[0])
             }
         }
     }
@@ -257,10 +282,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     private fun updateCartUI() {
         if (getViewModel().funds.isEmpty()) {
             getViewModel().isEmptyCart.set(true)
-            coreActivityVM?.emptyView(true, "No funds in your cart.")
         } else {
             getViewModel().isEmptyCart.set(false)
-            coreActivityVM?.emptyView(false)
         }
     }
 
@@ -305,7 +328,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             val minlumpsumpAmount = item.validminlumpsumAmount
             val minsipAmount = item.validminSIPAmount
 
-            if (context?.isLumpsumAndSIPAmountValid(sipAmount,lumpsumpAmount)==false) {
+            if (context?.isLumpsumAndSIPAmountValid(sipAmount, lumpsumpAmount) == false) {
                 context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
                     Handler().postDelayed({
                         if (getViewModel().funds.isNotEmpty()) {
@@ -334,7 +357,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     }, 100)
                     isValid = false
                     break@loop
-                }else {
+                } else {
                     if (sipAmount != BigInteger.ZERO) {
                         if (item.day == null || item.day == "" || item.day == "0") {
                             context?.simpleAlert("Please Select Start Date.") {

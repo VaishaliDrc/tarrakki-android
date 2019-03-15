@@ -234,6 +234,9 @@ interface WebserviceBuilder {
     @POST("users/social_auth/")
     fun socialSignUp(@Field("data") data: String): Observable<ApiResponse>
 
+    @POST("users/logout/{user_id}")
+    fun logout(@Path("user_id") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -242,6 +245,6 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout
     }
 }

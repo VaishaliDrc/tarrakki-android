@@ -27,6 +27,9 @@
     <color name="name_aggressive">#B78B0A</color>
     <color name="pdlg_color_green">#00CB00</color>
     <color name="red">#FC0000</color>
+
+    <color name="bg_img_color">#D1F3F5</color>
+
     <string-array name="risk_level_color">
         <item>#00CB00</item>
         <item>#5DFE5D</item>

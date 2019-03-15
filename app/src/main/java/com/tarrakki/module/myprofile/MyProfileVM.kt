@@ -7,7 +7,6 @@ import android.net.Uri
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
 import okhttp3.MediaType
@@ -17,11 +16,10 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import org.supportcompact.networking.ApiClient
-import org.supportcompact.networking.SingleCallback
-import org.supportcompact.networking.subscribeToSingle
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
+import com.tarrakki.api.subscribeToSingle
 import java.io.File
-import java.net.URL
 
 class MyProfileVM : FragmentViewModel() {
 
@@ -103,7 +101,7 @@ class MyProfileVM : FragmentViewModel() {
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient()
                         .create(WebserviceBuilder::class.java)
-                        .updateProfile(userId,signatureImage),
+                        .updateProfile(userId, signatureImage),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -145,7 +143,7 @@ class MyProfileVM : FragmentViewModel() {
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient()
                         .create(WebserviceBuilder::class.java)
-                        .updateProfile(userId,profileImage),
+                        .updateProfile(userId, profileImage),
                 apiNames = WebserviceBuilder.ApiNames.getAllBanks,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -189,27 +187,27 @@ class MyProfileVM : FragmentViewModel() {
                 observable = ApiClient.getHeaderClient()
                         .create(WebserviceBuilder::class.java)
                         .updateProfile(userId, data),
-        apiNames = WebserviceBuilder.ApiNames.getAllBanks,
-        singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
-            override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                if (o is ApiResponse) {
-                    if (o.status?.code == 1) {
-                        response.value = o
-                    } else {
-                        EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                apiNames = WebserviceBuilder.ApiNames.getAllBanks,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                response.value = o
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                            dismissProgress()
+                        } else {
+                            dismissProgress()
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
                     }
-                    dismissProgress()
-                } else {
-                    dismissProgress()
-                    EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
-                }
-            }
 
-            override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                EventBus.getDefault().post(DISMISS_PROGRESS)
-                EventBus.getDefault().post(ShowError("${throwable.message}"))
-            }
-        }
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
         )
         return response
     }
