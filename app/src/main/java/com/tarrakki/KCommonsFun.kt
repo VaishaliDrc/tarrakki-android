@@ -7,8 +7,10 @@ import android.support.annotation.ColorRes
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.widget.LinearLayoutCompat
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TableRow
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.module.home.CATEGORYNAME
@@ -188,16 +190,19 @@ fun Context?.onLogout() {
     }
 }
 
-fun Context.tableRow() : TableRow{
+fun Context.tableRow(): TableRow {
     val tableRow = TableRow(this)
     tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+    tableRow.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE or LinearLayout.SHOW_DIVIDER_BEGINNING or LinearLayout.SHOW_DIVIDER_END
+    tableRow.dividerDrawable = getDrawable(android.R.drawable.divider_horizontal_bright)
+    tableRow.setBackgroundResource(R.color.white)
     return tableRow
 }
 
-fun Context.tableRowContent(text : String,textColor : Int? = null) : View?{
-    val view = LayoutInflater.from(this).inflate(R.layout.row_table_layout_content,null,false)
+fun Context.tableRowContent(text: String, textColor: Int? = null): View? {
+    val view = LayoutInflater.from(this).inflate(R.layout.row_table_layout_content, null, false)
     view.tvTableRowContent.text = text
-    if (textColor!=null){
+    if (textColor != null) {
         view.tvTableRowContent.setTextColor(textColor)
     }
     return view

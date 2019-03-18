@@ -232,80 +232,86 @@
 
             <HorizontalScrollView
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_height="wrap_content">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TableLayout
                     android:id="@+id/tlfolio"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:divider="?android:attr/dividerHorizontal"
+                    android:orientation="vertical"
+                    android:showDividers="middle|end|beginning"
                     android:stretchColumns="*">
 
                     <TableRow
-                        android:background="@color/bg_img_color"
                         android:id="@+id/trContent"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@color/bg_img_color"
+                        android:divider="?android:attr/dividerHorizontal"
+                        android:showDividers="middle|end|beginning"
+                        android:stretchColumns="*">
 
                         <TextView
-                            android:padding="@dimen/space_8"
                             android:id="@+id/tvFolioNumberMultiple"
                             android:layout_width="wrap_content"
-                            android:text="Folio\nNumber"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:padding="@dimen/space_8"
+                            android:text="Folio\nNumber"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
                             tools:text="1234546552" />
 
                         <TextView
-                            android:padding="@dimen/space_8"
                             android:id="@+id/tvTotalInvestmentMultiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="@dimen/space_8"
                             android:text="Total\nInvestment"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
                             tools:text="74876565" />
 
                         <TextView
-                            android:padding="@dimen/space_8"
                             android:id="@+id/tvCurrentValueMultiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Current\nValue"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:padding="@dimen/space_8"
+                            android:text="Current\nValue"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
                             tools:text="74876565" />
 
                         <TextView
-                            android:padding="@dimen/space_8"
                             android:id="@+id/tvUnitsMultiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Units"
                             android:gravity="center"
+                            android:padding="@dimen/space_8"
+                            android:text="Units"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
                             tools:text="74876565" />
 
                         <TextView
-                            android:padding="@dimen/space_8"
                             android:id="@+id/tvReturnsMultiple"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="%\nReturns"
                             android:layout_gravity="center"
                             android:gravity="center"
+                            android:padding="@dimen/space_8"
+                            android:text="%\nReturns"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
                             tools:text="74876565" />

@@ -3,7 +3,16 @@ package com.tarrakki.module.learn
 import android.support.annotation.DrawableRes
 import android.view.View
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback1
+import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.showProgress
 import java.io.Serializable
 
 class LearnVM : FragmentViewModel() {
@@ -36,6 +45,28 @@ class LearnVM : FragmentViewModel() {
                 "3 Sep, 2018",
                 46,
                 R.drawable.temp_sip))
+    }
+
+    private fun getBlogs() {
+        showProgress()
+        val data = "exOOWQh3cXeCoEoFmVv7ASxGqDjNtSck/hD3AVGS7mRT2nKT4700dnWSJxRs+bEZZ4pEJh1WVvXGeSqN3MO2/A=="
+        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getBlogs(data),
+                object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        dismissProgress()
+                        if (o.status?.code == 1) {
+                            o.printResponse()
+                        } else {
+                            postError("${o.status?.message}")
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        dismissProgress()
+                        throwable.postError()
+                    }
+                }
+        )
     }
 
 }

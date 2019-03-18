@@ -45,6 +45,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
     }
 
     override fun createReference() {
+
         rvDInvests?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
         parentFragment?.let {
@@ -65,7 +66,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.investment = item
                         binder.executePendingBindings()
 
-                        if (item.folioList.size>1) {
+                        if (item.folioList.size > 1) {
 
                             for (folioList in item.folioList) {
                                 val tableRow = context?.tableRow()

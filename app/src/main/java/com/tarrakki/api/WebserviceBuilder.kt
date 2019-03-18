@@ -237,6 +237,10 @@ interface WebserviceBuilder {
     @POST("users/logout/{user_id}")
     fun logout(@Path("user_id") userId: String?): Observable<ApiResponse>
 
+    @GET("blogs/")
+    fun getBlogs(@Query("data") data: String): Observable<ApiResponse>
+
+
     /**
      * ApiNames to differentiate APIs
      */

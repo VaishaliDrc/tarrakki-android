@@ -2,9 +2,6 @@ package com.tarrakki.api
 
 import android.util.Log
 import com.google.gson.GsonBuilder
-import com.tarrakki.App
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.onLogout
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -70,6 +67,13 @@ object ApiClient {
 
     /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
+
+    /**
+     * Live Url
+     **/
+
+    /*private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url*/
     /**
      * @return [Retrofit] object its single-tone
      */
@@ -237,6 +241,20 @@ object ApiClient {
     }
 }
 
+interface SingleCallback1<T> {
+    /**
+     * @param o        Whole response Object
+     * @param apiNames [A] to differentiate Apis
+     */
+    fun onSingleSuccess(o: T)
+
+    /**
+     * @param throwable returns [Throwable] for checking Exception
+     * @param apiNames  [A] to differentiate Apis
+     */
+    fun onFailure(throwable: Throwable)
+}
+
 interface SingleCallback<A> {
     /**
      * @param o        Whole response Object
@@ -280,6 +298,40 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                             }
                         }
                         else -> singleCallback?.onFailure(e, apiNames)
+                    }
+                }
+            })
+}
+
+fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallback1<T>?) {
+    Single.fromObservable(observable)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe(object : SingleObserver<T> {
+                override fun onSuccess(t: T) {
+                    singleCallback?.onSingleSuccess(t)
+                }
+
+                override fun onSubscribe(d: Disposable) {
+
+                }
+
+                override fun onError(e: Throwable) {
+                    when (e) {
+                        is HttpException -> {
+                            if (e.code() == 401) {
+                                EventBus.getDefault().postSticky(ONLOGOUT)
+                            }
+                        }
+                        is SocketTimeoutException -> e.postError(R.string.try_again_to)
+                        is IOException -> {
+                            if (CoreApp.getInstance().isNetworkConnected()) {
+                                e.postError(R.string.server_connection)
+                            } else {
+                                e.postError(R.string.internet_connection)
+                            }
+                        }
+                        else -> singleCallback?.onFailure(e)
                     }
                 }
             })

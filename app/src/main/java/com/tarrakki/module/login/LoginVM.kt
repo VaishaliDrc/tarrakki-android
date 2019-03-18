@@ -21,8 +21,8 @@ import com.tarrakki.api.subscribeToSingle
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    val userName = ObservableField("")
-    val password = ObservableField("")
+    val userName = ObservableField("vinay.tiwari@ia.ooo")
+    val password = ObservableField("Drc@1234")
     val onLogin = MutableLiveData<LoginResponse>()
     val onSocialLogin = MutableLiveData<ApiResponse>()
     val socialId = ObservableField("")
