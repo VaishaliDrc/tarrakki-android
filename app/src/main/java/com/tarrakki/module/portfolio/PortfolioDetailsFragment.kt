@@ -3,6 +3,7 @@ package com.tarrakki.module.portfolio
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.widget.TableLayout
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
@@ -66,6 +67,40 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
             { item: UserPortfolioResponse.Data.GoalBasedInvestment.Fund, binder: RowGoalBasedInvestmentDetailsListItemBinding, position ->
                 binder.investment = item
                 binder.executePendingBindings()
+
+                if (item.folioList.size>1) {
+
+                    for (folioList in item.folioList) {
+                        val tableRow = context?.tableRow()
+
+                        tableRow?.addView(context?.tableRowContent(folioList.folioNo))
+
+                        tableRow?.addView(context?.tableRowContent(folioList.amount.toDouble().toCurrency()))
+
+                        tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
+
+                        tableRow?.addView(context?.tableRowContent("20"))
+
+                        tableRow?.addView(context?.tableRowContent("2%"))
+
+                        binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+                    }
+
+                    val tableRow = context?.tableRow()
+
+                    tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
+
+                    tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
+
+                    tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
+
+                    tableRow?.addView(context?.tableRowContent("200", context?.color(R.color.black)))
+
+                    tableRow?.addView(context?.tableRowContent("22%", context?.color(R.color.black)))
+
+                    binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
+                }
 
                 binder.tvAddPortfolio.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()

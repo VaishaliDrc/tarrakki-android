@@ -115,8 +115,8 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
 
         getViewModel().onSocialLogin.observe(this, Observer {
             it?.let { apiResponse ->
+                val json = JsonObject()
                 if (apiResponse.status?.code == 3) {
-                    val json = JsonObject()
                     json.addProperty("access_token", getViewModel().socialId.get())
                     json.addProperty("email", getViewModel().socialEmail.get())
                     json.addProperty("first_name", getViewModel().socialFName.get())
@@ -127,7 +127,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                     startActivity(intent)
                 } else if (apiResponse.status?.code == 2) {
                     val intent = Intent(this, OtpVerificationActivity::class.java)
-                    intent.putExtra(SOACIAL_SIGNUP_DATA, "")
+                    intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
                     startActivity(intent)
                     EventBus.getDefault().postSticky(apiResponse)
                 }

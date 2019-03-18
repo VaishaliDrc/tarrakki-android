@@ -2,12 +2,14 @@ package com.tarrakki.module.portfolio.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.widget.TableLayout
 import com.google.gson.JsonObject
 import com.tarrakki.*
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.FolioData
+import com.tarrakki.api.model.SIPDetails
+import com.tarrakki.api.model.UserPortfolioResponse
+import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentDirectInvestmentBinding
 import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
@@ -18,13 +20,6 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
-import android.content.Context.LAYOUT_INFLATER_SERVICE
-import android.support.v4.content.ContextCompat.getSystemService
-import kotlinx.android.synthetic.main.row_table_layout_content.view.*
-import android.widget.TableLayout
-import android.view.ViewGroup.LayoutParams.FILL_PARENT
-import android.view.ViewGroup.LayoutParams.FILL_PARENT
-import android.widget.TableRow
 
 
 class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestmentBinding>() {
@@ -70,69 +65,43 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.investment = item
                         binder.executePendingBindings()
 
-                        for (folioList in item.folioList){
-                            val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                            val tableRow = TableRow(context)
-                            tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+                        if (item.folioList.size>1) {
 
-                            val columnFolioNo = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                            columnFolioNo.tvTableRowContent.text = folioList.folioNo
-                            tableRow.addView(columnFolioNo)
+                            for (folioList in item.folioList) {
+                                val tableRow = context?.tableRow()
 
-                            val columnTotalInvestment = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                            columnTotalInvestment.tvTableRowContent.text = folioList.amount.toDouble().toCurrency()
-                            tableRow.addView(columnTotalInvestment)
+                                tableRow?.addView(context?.tableRowContent(folioList.folioNo))
 
-                            val columnCurrentValue = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                            columnCurrentValue.tvTableRowContent.text = folioList.currentValue.toCurrency()
-                            tableRow.addView(columnCurrentValue)
+                                tableRow?.addView(context?.tableRowContent(folioList.amount.toDouble().toCurrency()))
 
-                            val columnUnits = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                            columnUnits.tvTableRowContent.text = "20"
-                            tableRow.addView(columnUnits)
+                                tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
 
-                            val columnReturn = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                            columnReturn.tvTableRowContent.text = "2 %"
-                            tableRow.addView(columnReturn)
+                                tableRow?.addView(context?.tableRowContent("20"))
+
+                                tableRow?.addView(context?.tableRowContent("2%"))
+
+                                binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+                            }
+
+                            val tableRow = context?.tableRow()
+
+                            tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
+
+                            tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
+
+                            tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
+
+                            tableRow?.addView(context?.tableRowContent("200", context?.color(R.color.black)))
+
+                            tableRow?.addView(context?.tableRowContent("22%", context?.color(R.color.black)))
 
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
                         }
-
-                        val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                        val tableRow = TableRow(context)
-                        tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
-
-                        val columnFolioNo = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                        columnFolioNo.tvTableRowContent.text = "Total"
-                        context?.color(R.color.black)?.let { it1 -> columnFolioNo.tvTableRowContent.setTextColor(it1) }
-                        tableRow.addView(columnFolioNo)
-
-                        val columnTotalInvestment = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                        columnTotalInvestment.tvTableRowContent.text = 20000.00.toCurrency()
-                        context?.color(R.color.black)?.let { it1 -> columnTotalInvestment.tvTableRowContent.setTextColor(it1) }
-                        tableRow.addView(columnTotalInvestment)
-
-                        val columnCurrentValue = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                        columnCurrentValue.tvTableRowContent.text = 200000.00.toCurrency()
-                        context?.color(R.color.black)?.let { it1 -> columnCurrentValue.tvTableRowContent.setTextColor(it1) }
-                        tableRow.addView(columnCurrentValue)
-
-                        val columnUnits = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                        columnUnits.tvTableRowContent.text = "200"
-                        context?.color(R.color.black)?.let { it1 -> columnUnits.tvTableRowContent.setTextColor(it1) }
-                        tableRow.addView(columnUnits)
-
-                        val columnReturn = inflater.inflate(R.layout.row_table_layout_content,null,false)
-                        columnReturn.tvTableRowContent.text = "22 %"
-                        context?.color(R.color.black)?.let { it1 -> columnReturn.tvTableRowContent.setTextColor(it1) }
-                        tableRow.addView(columnReturn)
-
-                        binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
-
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                                     item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
@@ -149,7 +118,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvRedeem.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                             }
                             context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
                                 val json = JsonObject()
@@ -174,12 +143,12 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 for (sipDetail in folio.sipDetails) {
                                     sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                                 }
-                                folios.add(FolioData(folio.currentValue,folio.amount, folio.folioNo, sipDetailsList))
+                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                             }
 
-                            context?.stopFundPortfolioDialog(folios) { transactionId,folio,date ->
+                            context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                                 stopPortfolio(transactionId).observe(this, Observer {
-                                    context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully."){
+                                    context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully.") {
                                         vm.getUserPortfolio()
                                     }
                                 })

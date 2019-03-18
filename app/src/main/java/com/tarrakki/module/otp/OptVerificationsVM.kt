@@ -5,8 +5,7 @@ import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
@@ -15,9 +14,6 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import kotlin.concurrent.thread
 
 class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
@@ -49,6 +45,18 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         json.addProperty("type", type)
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())
+        e("Encrypted Data=>", data)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
+                apiNames = WebserviceBuilder.ApiNames.getOTP,
+                singleCallback = this@OptVerificationsVM
+        )
+        return getOTP
+    }
+
+    fun getNewOTP(data: String): MutableLiveData<ApiResponse> {
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        e("Plain Data=>", data.toDecrypt())
         e("Encrypted Data=>", data)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),

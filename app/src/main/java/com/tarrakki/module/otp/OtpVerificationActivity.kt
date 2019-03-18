@@ -42,6 +42,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             apiResponse?.let { response ->
                 val json = JSONObject(response.data?.toDecrypt())
                 getViewModel().otp.set(json.optString("otp"))
+                edtOtp?.length()?.let { edtOtp?.setSelection(0, it) }
             }
         }
         getViewModel().getOTP.observe(this, getOtp)
@@ -164,8 +165,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             }
 
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
-                data?.let { json ->
-                    getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+                getViewModel().getOTP.value?.let { otp ->
+                    otp.data?.let { it1 ->
+                        getViewModel().getNewOTP(it1).observe(this, getOtp)
+                    }
                 }
             }
 

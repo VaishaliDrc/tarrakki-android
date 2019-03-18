@@ -27,6 +27,7 @@ import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
 import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.ONLOGOUT
 import org.supportcompact.ktx.hasAppLock
 import org.supportcompact.ktx.startActivity
 
@@ -141,6 +142,9 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         when (show) {
             DISMISS_PROGRESS -> {
                 App.INSTANCE.isRefreshing.value = false
+            }
+            ONLOGOUT -> {
+                onLogout()
             }
         }
         super.showDialog(show)

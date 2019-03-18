@@ -15,10 +15,12 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
+import org.greenrobot.eventbus.EventBus
 import org.simpleframework.xml.convert.AnnotationStrategy
 import org.simpleframework.xml.core.Persister
 import org.supportcompact.CoreApp
 import org.supportcompact.R
+import org.supportcompact.ktx.ONLOGOUT
 import org.supportcompact.ktx.getLoginToken
 import org.supportcompact.ktx.isNetworkConnected
 import org.supportcompact.ktx.postError
@@ -265,8 +267,8 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                 override fun onError(e: Throwable) {
                     when (e) {
                         is HttpException -> {
-                            if (e.code()==401){
-                                App.INSTANCE.onLogout()
+                            if (e.code() == 401) {
+                                EventBus.getDefault().postSticky(ONLOGOUT)
                             }
                         }
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)

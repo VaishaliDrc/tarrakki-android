@@ -18,12 +18,9 @@ class App : CoreApp() {
 
     var homeData : HomeData? = null
 
-    init {
-        App.INSTANCE = this
-    }
-
     override fun onCreate() {
         super.onCreate()
+        App.INSTANCE = this
         cartCount.value = 0
     }
 

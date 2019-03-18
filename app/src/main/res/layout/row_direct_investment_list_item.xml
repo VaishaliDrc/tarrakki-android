@@ -67,55 +67,6 @@
                 tools:text="@string/dummy3" />
         </android.support.v7.widget.LinearLayoutCompat>
 
-        <LinearLayout
-            android:id="@+id/ll_options"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_folio">
-
-            <TextView
-                android:id="@+id/tvAddPortfolio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_12"
-                android:drawableStart="@drawable/ic_add"
-                android:drawablePadding="@dimen/space_4"
-                android:gravity="center"
-                android:text="@string/add"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorAccent" />
-
-            <TextView
-                android:id="@+id/tvRedeem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_12"
-                android:drawableStart="@drawable/ic_redeem"
-                android:drawablePadding="@dimen/space_4"
-                android:gravity="center"
-                android:text="@string/redeem"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorAccent" />
-
-            <TextView
-                android:id="@+id/tvStopPortfolio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/space_3"
-                android:drawableStart="@drawable/ic_stop"
-                android:drawablePadding="@dimen/space_4"
-                android:gravity="center"
-                android:text="@string/stop"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorAccent"
-                android:visibility="@{investment.isSIP?View.VISIBLE:View.GONE}" />
-
-        </LinearLayout>
-
         <android.support.constraint.ConstraintLayout
             android:id="@+id/lyt_single_folio_value"
             android:layout_width="0dp"
@@ -124,7 +75,7 @@
             android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_options">
+            app:layout_constraintTop_toBottomOf="@+id/ll_folio">
 
             <View
                 android:id="@+id/mDivider"
@@ -220,6 +171,55 @@
                 app:layout_constraintGuide_percent="0.80" />
         </android.support.constraint.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_options"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lyt_single_folio_value">
+
+            <TextView
+                android:id="@+id/tvAddPortfolio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_12"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="@dimen/space_4"
+                android:gravity="center"
+                android:text="@string/add"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvRedeem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_12"
+                android:drawableStart="@drawable/ic_redeem"
+                android:drawablePadding="@dimen/space_4"
+                android:gravity="center"
+                android:text="@string/redeem"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvStopPortfolio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_3"
+                android:drawableStart="@drawable/ic_stop"
+                android:drawablePadding="@dimen/space_4"
+                android:gravity="center"
+                android:text="@string/stop"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                android:textColor="@color/colorAccent"
+                android:visibility="@{investment.isSIP?View.VISIBLE:View.GONE}" />
+
+        </LinearLayout>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/lyt_multi_folio_value"
             android:layout_width="0dp"
@@ -228,7 +228,7 @@
             android:visibility="@{investment.moreFolioList?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyt_single_folio_value">
+            app:layout_constraintTop_toBottomOf="@+id/ll_options">
 
             <HorizontalScrollView
                 android:layout_width="0dp"

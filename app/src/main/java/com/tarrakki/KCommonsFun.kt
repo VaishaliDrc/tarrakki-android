@@ -3,10 +3,13 @@ package com.tarrakki
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.ColorRes
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TableRow
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
@@ -22,6 +25,7 @@ import org.supportcompact.ktx.clearUserData
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import com.tarrakki.api.ApiClient
+import kotlinx.android.synthetic.main.row_table_layout_content.view.*
 
 fun getRiskLevelVisibility(riskType: String?): Int {
     return when {
@@ -182,4 +186,19 @@ fun Context?.onLogout() {
         startActivity(Intent(it, LoginActivity::class.java))
         LocalBroadcastManager.getInstance(it).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
     }
+}
+
+fun Context.tableRow() : TableRow{
+    val tableRow = TableRow(this)
+    tableRow.layoutParams = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT)
+    return tableRow
+}
+
+fun Context.tableRowContent(text : String,textColor : Int? = null) : View?{
+    val view = LayoutInflater.from(this).inflate(R.layout.row_table_layout_content,null,false)
+    view.tvTableRowContent.text = text
+    if (textColor!=null){
+        view.tvTableRowContent.setTextColor(textColor)
+    }
+    return view
 }
