@@ -247,14 +247,13 @@
                     android:showDividers="middle|end|beginning"
                     android:stretchColumns="*">
 
-                    <TableRow
+                    <!--<TableRow
                         android:id="@+id/trContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/bg_img_color"
                         android:divider="?android:attr/dividerHorizontal"
-                        android:showDividers="middle|end|beginning"
-                        android:stretchColumns="*">
+                        android:showDividers="middle">
 
                         <TextView
                             android:id="@+id/tvFolioNumberMultiple"
@@ -266,7 +265,7 @@
                             android:text="Folio\nNumber"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
-                            tools:text="1234546552" />
+                            tools:text="Folio\nNumber" />
 
                         <TextView
                             android:id="@+id/tvTotalInvestmentMultiple"
@@ -278,7 +277,7 @@
                             android:text="Total\nInvestment"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
-                            tools:text="74876565" />
+                            tools:text="Total\nInvestment" />
 
                         <TextView
                             android:id="@+id/tvCurrentValueMultiple"
@@ -290,7 +289,7 @@
                             android:text="Current\nValue"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
-                            tools:text="74876565" />
+                            tools:text="Current\nValue" />
 
                         <TextView
                             android:id="@+id/tvUnitsMultiple"
@@ -302,7 +301,7 @@
                             android:text="Units"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
-                            tools:text="74876565" />
+                            tools:text="Units" />
 
                         <TextView
                             android:id="@+id/tvReturnsMultiple"
@@ -314,9 +313,9 @@
                             android:text="%\nReturns"
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/black"
-                            tools:text="74876565" />
+                            tools:text="%\nReturns" />
 
-                    </TableRow>
+                    </TableRow>-->
                 </TableLayout>
 
             </HorizontalScrollView>

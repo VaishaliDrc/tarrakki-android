@@ -14,6 +14,7 @@ import com.tarrakki.databinding.FragmentDirectInvestmentBinding
 import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.portfolio.PortfolioVM
+import com.tarrakki.module.redeem.RedeemConfirmFragment
 import kotlinx.android.synthetic.main.fragment_direct_investment.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -68,34 +69,45 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                         if (item.folioList.size > 1) {
 
+                            binder.tlfolio.removeAllViews()
+
+                            var totalInvesment = 0.0
+                            var totalCurrent = 0.0
+                            var totalUnites = 0.0
+                            var totalReturns = 0.0
+
+                            /**Header View**/
+                            val tableRowHeader = context?.tableRow()
+                            tableRowHeader?.setBackgroundResource(R.color.bg_img_color)
+                            tableRowHeader?.addView(context?.tableRowContent("Folio\nNumber", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("Total\nInvestment", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("Current\nValue", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("Units", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("%\nReturns", context?.color(R.color.black)))
+                            binder.tlfolio.addView(tableRowHeader, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
+                            /**Body View**/
                             for (folioList in item.folioList) {
+                                totalInvesment += folioList.amount.toDoubleOrNull() ?: 0.0
+                                totalCurrent += folioList.currentValue
+                                totalUnites += (folioList.currentValue / item.nav).decimalFormat().toCurrencyBigDecimal().toDouble()
+                                totalReturns += folioList.xirr.toDoubleOrNull() ?: 0.0
                                 val tableRow = context?.tableRow()
-
                                 tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-
                                 tableRow?.addView(context?.tableRowContent(folioList.amount.toDouble().toCurrency()))
-
                                 tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
-
-                                tableRow?.addView(context?.tableRowContent("20"))
-
-                                tableRow?.addView(context?.tableRowContent("2%"))
-
+                                tableRow?.addView(context?.tableRowContent((folioList.currentValue / item.nav).decimalFormat()))
+                                tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                                 binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                             }
 
+                            /**Footer View**/
                             val tableRow = context?.tableRow()
-
                             tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
-
-                            tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
-
-                            tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
-
-                            tableRow?.addView(context?.tableRowContent("200", context?.color(R.color.black)))
-
-                            tableRow?.addView(context?.tableRowContent("22%", context?.color(R.color.black)))
-
+                            tableRow?.addView(context?.tableRowContent(totalInvesment.toCurrency(), context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(totalCurrent.toCurrency(), context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(totalUnites.decimalFormat(), context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(totalReturns.toReturnAsPercentage(), context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
                         }
@@ -122,7 +134,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                             }
                             context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
-                                val json = JsonObject()
+                                startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                /*val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
                                 json.addProperty("fund_id", item.fundId)
                                 json.addProperty("all_redeem", allRedeem)
@@ -133,7 +146,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                     context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
                                         vm.getUserPortfolio()
                                     }
-                                })
+                                })*/
                             }
                         }
 

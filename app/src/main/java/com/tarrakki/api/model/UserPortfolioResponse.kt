@@ -1,8 +1,10 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
-import org.supportcompact.ktx.*
-import java.math.BigDecimal
+import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.parseAsReturn
+import org.supportcompact.ktx.toCurrencyBigInt
+import org.supportcompact.ktx.toDate
 import java.math.BigInteger
 
 data class UserPortfolioResponse(
@@ -29,10 +31,10 @@ data class UserPortfolioResponse(
                 @SerializedName("xirr")
                 val xirr: String
         ) {
-            var xirrLabel : String = "Abs.:"
+            var xirrLabel: String = "Abs.:"
                 get() = "Return:"
 
-            var xiRR : String = ""
+            var xiRR: String = ""
                 get() = parseAsReturn(xirr)
 
             data class Fund(
@@ -53,16 +55,22 @@ data class UserPortfolioResponse(
                     @SerializedName("iaip_aip")
                     val iaipAip: List<IaipAip>?,
                     @SerializedName("is_sip")
-                    val isSIP: Boolean
+                    val isSIP: Boolean,
+                    @SerializedName("dp_day_end_nav")
+                    val todayNAV: String?
             ) {
-                var isMoreFolioList = false
-                    get() = folioList.size>1
 
-                var xirrLabel : String = "Return:"
+                val nav
+                    get() = todayNAV?.toDoubleOrNull() ?: 0.0
+
+                var isMoreFolioList = false
+                    get() = folioList.size > 1
+
+                var xirrLabel: String = "Return:"
                     get() = "Return:"
 
-                var xiRR : String = ""
-                   get() = parseAsReturn(xirr)
+                var xiRR: String = ""
+                    get() = parseAsReturn(xirr)
 
                 data class Folio(
                         @SerializedName("current_value")
@@ -72,8 +80,13 @@ data class UserPortfolioResponse(
                         @SerializedName("folio_no")
                         val folioNo: String,
                         @SerializedName("sip_details")
-                        val sipDetails: List<SipDetail>
+                        val sipDetails: List<SipDetail>,
+                        @SerializedName("xirr")
+                        val xirr: String
                 ) {
+                    var xiRR: String = ""
+                        get() = parseAsReturn(xirr)
+
                     data class SipDetail(
                             @SerializedName("amount")
                             val amount: String?,
@@ -139,14 +152,20 @@ data class UserPortfolioResponse(
                 @SerializedName("iaip_aip")
                 val iaipAip: List<IaipAip>?,
                 @SerializedName("is_sip")
-                val isSIP: Boolean
+                val isSIP: Boolean,
+                @SerializedName("dp_day_end_nav")
+                val todayNAV: String?
         ) {
+
+            val nav
+                get() = todayNAV?.toDoubleOrNull() ?: 0.0
+
             var isMoreFolioList = false
-                get() = folioList.size>1
-            var xirrLabel : String = "Return:"
+                get() = folioList.size > 1
+            var xirrLabel: String = "Return:"
                 get() = "Return:"
 
-            var xiRR : String = ""
+            var xiRR: String = ""
                 get() = parseAsReturn(xirr)
 
             data class Folio(
@@ -157,8 +176,14 @@ data class UserPortfolioResponse(
                     @SerializedName("folio_no")
                     val folioNo: String,
                     @SerializedName("sip_details")
-                    val sipDetails: List<SipDetail>
+                    val sipDetails: List<SipDetail>,
+                    @SerializedName("xirr")
+                    val xirr: String
             ) {
+                var xiRR: String = ""
+                    get() = parseAsReturn(xirr)
+
+
                 data class SipDetail(
                         @SerializedName("amount")
                         val amount: String?,
@@ -212,15 +237,15 @@ data class FolioData(
         val amount: String,
         val folioNo: String,
         val sipDetails: List<SIPDetails>? = null
-){
-    var cValue : String = ""
-    get() {
-        var value = currentValue
-        if (value==null){
-            value = 0.0
+) {
+    var cValue: String = ""
+        get() {
+            var value = currentValue
+            if (value == null) {
+                value = 0.0
+            }
+            return value.toString()
         }
-        return value.toString()
-    }
 }
 
 data class SIPDetails(

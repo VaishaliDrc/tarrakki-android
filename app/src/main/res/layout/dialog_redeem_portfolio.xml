@@ -18,9 +18,9 @@
 
         <variable
             name="isSingleFolio"
-            type="Boolean"/>
+            type="Boolean" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
@@ -58,9 +58,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:text="@string/choose_folio"
-            android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvInvestmentL" />
 
@@ -70,22 +70,21 @@
             android:layout_height="36dp"
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
-            android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
             android:background="@drawable/shape_edt_gray_round"
             android:completionThreshold="1"
             android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+            android:drawablePadding="@dimen/space_8"
             android:hint="@string/choose_folio"
             android:maxLines="1"
             android:paddingStart="@dimen/default_space"
             android:paddingTop="@dimen/space_8"
-            android:drawableStart="@drawable/ic_folio_number"
-            android:drawablePadding="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
             android:text="@={folio}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"
+            android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
             app:layout_constraintEnd_toStartOf="@id/edtLName"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="Current Value"
+            android:text="Total Units"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +129,7 @@
             android:layout_marginStart="@dimen/default_space"
             android:text="@string/rs_symbol"
             android:textColor="@color/darker_gray"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/edtTotalInvestedAmount"
             app:layout_constraintStart_toStartOf="@id/edtTotalInvestedAmount"
             app:layout_constraintTop_toTopOf="@id/edtTotalInvestedAmount" />
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="@string/amount"
+            android:text="Units to Redeem"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
@@ -149,11 +149,11 @@
             android:id="@+id/chkAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:gravity="center_vertical"
-            android:button="@drawable/checkbox_redeem_folio"
-            android:text="Full Amount"
             android:layout_marginTop="@dimen/space_8"
+            android:button="@drawable/checkbox_redeem_folio"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="Withdraw All Units"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,6 +166,7 @@
             android:layout_marginStart="@dimen/default_space"
             android:text="@string/rs_symbol"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/edtAmount"
             app:layout_constraintStart_toStartOf="@id/edtAmount"
             app:layout_constraintTop_toTopOf="@id/edtAmount" />
@@ -177,7 +178,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/shape_edt_gray_round"
-            android:hint="@string/enter_amount"
+            android:hint="@string/enter_units"
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLines="1"
@@ -197,8 +198,8 @@
 
         <Button
             android:id="@+id/btnInvest"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/space_32"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginBottom="@dimen/space_4"
             android:background="@drawable/shape_btn_idle_bg"

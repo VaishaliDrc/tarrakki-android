@@ -721,6 +721,20 @@
     <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
     <string name="woops">Woops!</string>
     <string name="your_cart_is_empty">Your cart is Empty</string>
+    <string name="number_of_unites_redeemed">Number of Units redeemed</string>
+    <string name="amount_will_be_credited_in_2_4_business_days_depending_on_the_amc">Amount will be credited in 2-4 business days depending on the AMC.</string>
+    <string name="withdraw_to_your_bank_account">Withdraw to your Bank Account:</string>
+    <string name="exit_load">Exit Load</string>
+    <string name="final_amount_will_depend_on_nav_applicable_at_the_time_of_redemption_request_as_confirmed_by_the_amc">Final amount will depend on NAV applicable at the time of redemption request (as confirmed by the AMC.)</string>
+    <string name="proceed">Proceed</string>
+    <string name="by_continuing_i_agree_with_the_disclaimers_and_terms_and_conditions_of_tarrakki">By continuing, i agree with the <font color='#4EB95D'><u>Disclaimers</u></font> and <font color='#4EB95D'><u>Terms and Conditions</u></font> of Tarrakki.</string>
+    <string name="redemption_confim">Redemption Confirm</string>
+    <string name="enter_units">Enter units</string>
+    <string name="we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company">We have submitted your request for redemption to the Mutual Fund company.</string>
+    <string name="will_be_credited_to">Will be credited to:</string>
+    <string name="amount_">Amount:</string>
+    <string name="redeem_status">Redemption Status</string>
+    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent you withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

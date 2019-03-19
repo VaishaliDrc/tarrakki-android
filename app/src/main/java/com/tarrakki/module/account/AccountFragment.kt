@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.support.v4.app.ShareCompat
 import android.view.View
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
@@ -108,6 +109,13 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         tvBankMandateAccount?.setOnClickListener {
             startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
             // context?.simpleAlert(getString(R.string.coming_soon))
+        }
+        tvInvite?.setOnClickListener {
+            ShareCompat.IntentBuilder.from(activity)
+                    .setType("text/plain")
+                    .setChooserTitle("Share link")
+                    .setText("http://play.google.com/store/apps/details?id=" + activity?.packageName)
+                    .startChooser()
         }
         btnLogout?.setOnClickListener {
             context?.let { context ->

@@ -4,15 +4,14 @@ package com.tarrakki.module.portfolio
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.widget.TableLayout
-import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.SIPDetails
 import com.tarrakki.api.model.UserPortfolioResponse
-import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentPortfolioDetailsBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentDetailsListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.redeem.RedeemConfirmFragment
 import kotlinx.android.synthetic.main.fragment_portfolio_details.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -52,10 +51,10 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 if (goldbasedInvestment != null) {
                     getViewModel().goalBasedInvestment.value = goldbasedInvestment
                     getViewModel().goalInvestment.set(goldbasedInvestment)
-                }else{
+                } else {
                     onBack()
                 }
-            }else{
+            } else {
                 onBack()
             }
 
@@ -68,35 +67,54 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.investment = item
                 binder.executePendingBindings()
 
-                if (item.folioList.size>1) {
+                if (item.folioList.size > 1) {
+                    binder.tlfolio.removeAllViews()
+                    var totalInvesment = 0.0
+                    var totalCurrent = 0.0
+                    var totalUnites = 0.0
+                    var totalReturns = 0.0
 
+                    /**Header View**/
+                    val tableRowHeader = context?.tableRow()
+                    tableRowHeader?.setBackgroundResource(R.color.bg_img_color)
+                    tableRowHeader?.addView(context?.tableRowContent("Folio\nNumber", context?.color(R.color.black)))
+                    tableRowHeader?.addView(context?.tableRowContent("Total\nInvestment", context?.color(R.color.black)))
+                    tableRowHeader?.addView(context?.tableRowContent("Current\nValue", context?.color(R.color.black)))
+                    tableRowHeader?.addView(context?.tableRowContent("Units", context?.color(R.color.black)))
+                    tableRowHeader?.addView(context?.tableRowContent("%\nReturns", context?.color(R.color.black)))
+                    binder.tlfolio.addView(tableRowHeader, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
+
+                    /**Body View**/
                     for (folioList in item.folioList) {
+
+                        totalInvesment += folioList.amount.toDoubleOrNull() ?: 0.0
+                        totalCurrent += folioList.currentValue
+                        totalUnites += (folioList.currentValue / item.nav).decimalFormat().toCurrencyBigDecimal().toDouble()
+                        totalReturns += folioList.xirr.toDoubleOrNull() ?: 0.0
+
                         val tableRow = context?.tableRow()
-
                         tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-
                         tableRow?.addView(context?.tableRowContent(folioList.amount.toDouble().toCurrency()))
-
                         tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
-
-                        tableRow?.addView(context?.tableRowContent("20"))
-
-                        tableRow?.addView(context?.tableRowContent("2%"))
-
+                        tableRow?.addView(context?.tableRowContent((folioList.currentValue / item.nav).decimalFormat()))
+                        tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                         binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                     }
 
+                    /**Footer View**/
                     val tableRow = context?.tableRow()
 
                     tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
 
-                    tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
 
-                    tableRow?.addView(context?.tableRowContent(20000.00.toCurrency(), context?.color(R.color.black)))
+                    tableRow?.addView(context?.tableRowContent(totalInvesment.toCurrency(), context?.color(R.color.black)))
 
-                    tableRow?.addView(context?.tableRowContent("200", context?.color(R.color.black)))
+                    tableRow?.addView(context?.tableRowContent(totalCurrent.toCurrency(), context?.color(R.color.black)))
 
-                    tableRow?.addView(context?.tableRowContent("22%", context?.color(R.color.black)))
+                    tableRow?.addView(context?.tableRowContent(totalUnites.decimalFormat(), context?.color(R.color.black)))
+
+                    tableRow?.addView(context?.tableRowContent(totalReturns.toReturnAsPercentage(), context?.color(R.color.black)))
 
                     binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
@@ -110,7 +128,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                     context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                             item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
                         addToCartGoalPortfolio(item.fundId, amountSIP.toString(),
-                                amountLumpsum.toString(), portfolio,getViewModel().goalInvestment.get()?.goalId).observe(this,
+                                amountLumpsum.toString(), portfolio, getViewModel().goalInvestment.get()?.goalId).observe(this,
                                 android.arch.lifecycle.Observer { response ->
                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -125,20 +143,21 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                     }
                     context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
-                            val json = JsonObject()
-                            json.addProperty("user_id", App.INSTANCE.getUserId())
-                            json.addProperty("fund_id", item.fundId)
-                            json.addProperty("all_redeem", allRedeem)
-                            json.addProperty("amount", totalAmount)
-                            json.addProperty("folio_number", portfolioNo)
-                            json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
-                            val data = json.toString().toEncrypt()
-                            redeemPortfolio(data).observe(this, Observer {
-                                context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
-                                    getViewModel().getUserPortfolio()
-                                }
-                            })
-                        }
+                        startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                        /*val json = JsonObject()
+                        json.addProperty("user_id", App.INSTANCE.getUserId())
+                        json.addProperty("fund_id", item.fundId)
+                        json.addProperty("all_redeem", allRedeem)
+                        json.addProperty("amount", totalAmount)
+                        json.addProperty("folio_number", portfolioNo)
+                        json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
+                        val data = json.toString().toEncrypt()
+                        redeemPortfolio(data).observe(this, Observer {
+                            context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
+                                getViewModel().getUserPortfolio()
+                            }
+                        })*/
+                    }
                 }
 
                 binder.tvStopPortfolio.setOnClickListener {

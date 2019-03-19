@@ -657,7 +657,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         val amount = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
 
-     /*   if (this.isAmountValid(amount.toCurrencyBigInt())) {
+        if (this.isAmountValid(amount.toCurrencyBigInt())) {
             if (amount.toCurrencyBigInt() <= "${mBinder.investmentAmount}".toCurrencyBigInt()) {
                 mDialog.dismiss()
                 val isRedeem = if (mBinder.chkAmount.isChecked) {
@@ -669,7 +669,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             } else {
                 this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
             }
-        }*/
+        }
 
     }
 
