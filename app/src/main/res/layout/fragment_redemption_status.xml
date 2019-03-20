@@ -6,6 +6,11 @@
         <variable
             name="vm"
             type="com.tarrakki.module.redeem.RedeemConfirmVM" />
+
+        <variable
+            name="bank"
+            type="com.tarrakki.api.model.DefaultBankResponse.DefaultBank" />
+
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,100 +79,107 @@
 
             </LinearLayout>
 
-
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:maxLines="2"
-                    android:minLines="2"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/item_selected_color"
-                    app:layout_constraintEnd_toStartOf="@id/barrier"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_constraintEnd_toStartOf="@id/tvAmount"
-                    tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
-                <android.support.constraint.Barrier
-                    android:id="@+id/barrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="start"
-                    app:constraint_referenced_ids="tvAmount,tvDate" />
-
-                <TextView
-                    android:id="@+id/tvAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/units"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvUnits"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_semibold"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_10ssp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvAmount"
-                    tools:text="200" />
-
-                <TextView
-                    android:id="@+id/tvTypeL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:text="@string/amount_"
-                    android:textSize="@dimen/_9ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvName" />
-
-                <TextView
-                    android:id="@+id/tvType"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:text="To be confirmed"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_9ssp"
-                    app:layout_constraintStart_toEndOf="@id/tvTypeL"
-                    app:layout_constraintTop_toBottomOf="@id/tvName" />
-
-                <View
-                    android:id="@+id/mDivider"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvTransactionStatus"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_16"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/mDivider" />
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/item_selected_color"
+                        app:layout_constraintEnd_toStartOf="@id/barrier"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:layout_constraintEnd_toStartOf="@id/tvAmount"
+                        tools:text="SBI Banking and Financial Services Growth Direct Plan" />
+
+                    <android.support.constraint.Barrier
+                        android:id="@+id/barrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="start"
+                        app:constraint_referenced_ids="tvAmount,tvDate" />
+
+                    <TextView
+                        android:id="@+id/tvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/units"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvUnits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_semibold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAmount"
+                        tools:text="200" />
+
+                    <TextView
+                        android:id="@+id/tvTypeL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="@string/amount_"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                    <TextView
+                        android:id="@+id/tvType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:text="To be confirmed"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintStart_toEndOf="@id/tvTypeL"
+                        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+                    <View
+                        android:id="@+id/mDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTypeL" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvTransactionStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_16"
+                        android:nestedScrollingEnabled="false"
+                        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -177,17 +189,15 @@
                     android:padding="8dp"
                     android:text="@string/we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/semi_white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rvTransactionStatus" />
+                    android:textColor="@color/semi_white" />
 
-            </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:orientation="vertical"
@@ -208,6 +218,7 @@
 
                 <ImageView
                     android:id="@+id/ivBank"
+                    imgUrl="@{bank.bankImgUrl}"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
@@ -223,11 +234,12 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_bold"
                     android:singleLine="true"
-                    android:text="ICICI Bank"
+                    android:text="@{bank.bankName}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toEndOf="@id/ivBank"
-                    app:layout_constraintTop_toBottomOf="@id/tvTitleW" />
+                    app:layout_constraintTop_toBottomOf="@id/tvTitleW"
+                    tools:text="ICICI Bank" />
 
                 <TextView
                     android:id="@+id/tvAccountNo"
@@ -235,11 +247,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:singleLine="true"
-                    android:text="A/C: 123456789456132"
+                    android:text="@{`A/C: ` + bank.accountNumber}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toEndOf="@id/ivBank"
-                    app:layout_constraintTop_toBottomOf="@id/tvBankName" />
+                    app:layout_constraintTop_toBottomOf="@id/tvBankName"
+                    tools:text="A/C: 123456789456132" />
 
             </android.support.constraint.ConstraintLayout>
 

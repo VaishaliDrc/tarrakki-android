@@ -150,9 +150,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_16"
-                android:layout_marginBottom="@dimen/space_16"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:paddingStart="@dimen/space_8"
@@ -162,6 +162,31 @@
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:itemCount="3"
                 tools:listitem="@layout/row_goal_based_investment_details_list_item" />
+
+            <TextView
+                android:id="@+id/tvWhen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/when_does_my_portfolio_update_here"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvHowReturns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/space_16"
+                android:layout_marginBottom="@dimen/space_16"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/how_are_returns_calculated"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorAccent" />
+
 
         </LinearLayout>
 

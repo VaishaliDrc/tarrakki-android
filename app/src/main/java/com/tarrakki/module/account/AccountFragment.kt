@@ -58,6 +58,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
             getViewModel().appLock.set(km.isKeyguardSecure)
             getViewModel().isAppLockClick = false
+        } else if (App.INSTANCE.hasAppLock()) {
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            getViewModel().appLock.set(km.isKeyguardSecure)
         }
     }
 

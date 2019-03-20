@@ -5,8 +5,7 @@ import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.LoginResponse
 import com.tarrakki.api.model.parseTo
@@ -15,14 +14,13 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    val userName = ObservableField("vinay.tiwari@ia.ooo")
-    val password = ObservableField("Drc@1234")
+    /*val userName = ObservableField("vinay.tiwari@ia.ooo")
+    val password = ObservableField("Drc@1234")*/
+    val userName = ObservableField("")
+    val password = ObservableField("")
     val onLogin = MutableLiveData<LoginResponse>()
     val onSocialLogin = MutableLiveData<ApiResponse>()
     val socialId = ObservableField("")

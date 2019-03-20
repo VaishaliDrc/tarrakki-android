@@ -3,15 +3,15 @@ package com.tarrakki
 import android.arch.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.api.*
+import com.tarrakki.api.ApiClient.CAMS_PASSWORD
+import com.tarrakki.api.ApiClient.CAMS_USER_ID
+import com.tarrakki.api.ApiClient.PASSKEY
 import com.tarrakki.api.model.*
 import com.tarrakki.api.soapmodel.*
 import com.tarrakki.module.ekyc.KYCData
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient.CAMS_PASSWORD
-import com.tarrakki.api.ApiClient.CAMS_USER_ID
-import com.tarrakki.api.ApiClient.PASSKEY
 import java.math.BigInteger
 import java.util.*
 import kotlin.concurrent.thread
@@ -413,8 +413,8 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
     return apiResponse
 }
 
-fun getDefaultBank(): MutableLiveData<ApiResponse> {
-    val apiResponse = MutableLiveData<ApiResponse>()
+fun getDefaultBank(): MutableLiveData<DefaultBankResponse> {
+    val apiResponse = MutableLiveData<DefaultBankResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
@@ -424,7 +424,8 @@ fun getDefaultBank(): MutableLiveData<ApiResponse> {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     e("Api Response=>${o.data?.toDecrypt()}")
                     if (o.status?.code == 1) {
-                        apiResponse.value = o
+                        val bank = o.data?.parseTo<DefaultBankResponse>()
+                        apiResponse.value = bank
                     } else {
                         EventBus.getDefault().post(ShowError("${o.status?.message}"))
                     }

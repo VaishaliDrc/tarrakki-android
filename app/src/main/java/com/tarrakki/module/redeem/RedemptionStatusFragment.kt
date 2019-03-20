@@ -44,16 +44,21 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         getViewModel().directRedeemFund.observe(this, Observer {
             it?.let { fund ->
                 tvName?.text = fund.fundName
                 tvUnits?.text = fund.redeemUnits
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
             }
         })
         getViewModel().goalBasedRedeemFund.observe(this, Observer {
             it?.let { fund ->
                 tvName?.text = fund.fundName
                 tvUnits?.text = fund.redeemUnits
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
             }
         })
         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()

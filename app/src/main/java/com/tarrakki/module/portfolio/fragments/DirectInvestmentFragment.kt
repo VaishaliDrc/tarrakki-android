@@ -66,11 +66,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                     rvDInvests?.setUpRecyclerView(R.layout.row_direct_investment_list_item, it?.data?.directInvestment as ArrayList<UserPortfolioResponse.Data.DirectInvestment>) { item: UserPortfolioResponse.Data.DirectInvestment, binder: RowDirectInvestmentListItemBinding, position ->
                         binder.investment = item
                         binder.executePendingBindings()
-
                         if (item.folioList.size > 1) {
-
                             binder.tlfolio.removeAllViews()
-
                             var totalInvesment = 0.0
                             var totalCurrent = 0.0
                             var totalUnites = 0.0
@@ -144,9 +141,12 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 item.redeemRequest = json
                                 item.redeemUnits = amount
                                 getDefaultBank().observe(this, Observer {
-                                    json.printRequest()
-                                    startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(item)
+                                    it?.let { bank ->
+                                        json.printRequest()
+                                        item.bank = bank.data
+                                        startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                        postSticky(item)
+                                    }
                                 })
                                 /*val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -197,8 +197,15 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
             options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
             options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
                     "Investments over one year reflect XIRR returns(Annualised returns)"))
+            context?.portfolioIntro(options, 1)
+        }
 
-            context?.portfolioIntro(options,2)
+        tvWhen?.setOnClickListener {
+            val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
+            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
+                    "Investments over one year reflect XIRR returns(Annualised returns)"))
+            context?.portfolioIntro(options, 0)
         }
 
     }

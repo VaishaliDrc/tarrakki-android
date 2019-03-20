@@ -60,6 +60,8 @@ data class UserPortfolioResponse(
                     val deferLoads: List<ExitLoad>?
             ) {
 
+                var bank: DefaultBankResponse.DefaultBank? = null
+
                 var redeemRequest: JsonObject? = null
 
                 var redeemUnits: String? = null
@@ -214,6 +216,8 @@ data class UserPortfolioResponse(
             var redeemRequest: JsonObject? = null
 
             var redeemUnits: String? = null
+
+            var bank: DefaultBankResponse.DefaultBank? = null
 
             var exitLoad: String = ""
                 get() = if (deferLoads != null && deferLoads.isNotEmpty()) {

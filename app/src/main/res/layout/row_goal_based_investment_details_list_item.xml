@@ -219,7 +219,7 @@
         <android.support.constraint.ConstraintLayout
             android:id="@+id/lyt_multi_folio_value"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:visibility="@{investment.moreFolioList?View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -243,75 +243,6 @@
                     android:showDividers="middle"
                     android:stretchColumns="*">
 
-                    <!--<TableRow
-                        android:id="@+id/trContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/bg_img_color"
-                        android:divider="?android:attr/dividerHorizontal"
-                        android:showDividers="middle">
-
-                        <TextView
-                            android:id="@+id/tvFolioNumberMultiple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/space_8"
-                            android:text="Folio\nNumber"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/black"
-                            tools:text="Folio\nNumber" />
-
-                        <TextView
-                            android:id="@+id/tvTotalInvestmentMultiple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/space_8"
-                            android:text="Total\nInvestment"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/black"
-                            tools:text="Total\nInvestment" />
-
-                        <TextView
-                            android:id="@+id/tvCurrentValueMultiple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/space_8"
-                            android:text="Current\nValue"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/black"
-                            tools:text="Current\nValue" />
-
-                        <TextView
-                            android:id="@+id/tvUnitsMultiple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/space_8"
-                            android:text="Units"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/black"
-                            tools:text="Units" />
-
-                        <TextView
-                            android:id="@+id/tvReturnsMultiple"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="@dimen/space_8"
-                            android:text="%\nReturns"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                            android:textColor="@color/black"
-                            tools:text="%\nReturns" />
-
-                    </TableRow>-->
                 </TableLayout>
 
             </HorizontalScrollView>

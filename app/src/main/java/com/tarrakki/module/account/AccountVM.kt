@@ -7,20 +7,20 @@ import android.support.annotation.DrawableRes
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class AccountVM : FragmentViewModel() {
 
-    val appLock = ObservableField(App.INSTANCE.hasAppLock())
+    val appLock = ObservableField(false)
     val accountMenus = arrayListOf<AccountMenu>()
     val logoutVisibility = ObservableField(View.VISIBLE/*if (App.INSTANCE.isLoggedIn.value != null && App.INSTANCE.isLoggedIn.value!!) View.VISIBLE else View.GONE*/)
     val btnComleteRegion = ObservableField(false)

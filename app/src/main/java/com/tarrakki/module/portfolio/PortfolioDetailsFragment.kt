@@ -13,6 +13,7 @@ import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentPortfolioDetailsBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentDetailsListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.module.redeem.RedeemConfirmFragment
 import kotlinx.android.synthetic.main.fragment_portfolio_details.*
 import org.greenrobot.eventbus.EventBus
@@ -154,9 +155,12 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         item.redeemRequest = json
                         item.redeemUnits = amount
                         getDefaultBank().observe(this, Observer {
-                            json.printRequest()
-                            startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                            postSticky(item)
+                            it?.let { bank ->
+                                json.printRequest()
+                                item.bank = bank.data
+                                startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                postSticky(item)
+                            }
                         })
                         /*val json = JsonObject()
                         json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -195,6 +199,22 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 }
             }
         })
+
+        tvHowReturns?.setOnClickListener {
+            val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
+            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
+                    "Investments over one year reflect XIRR returns(Annualised returns)"))
+            context?.portfolioIntro(options, 1)
+        }
+
+        tvWhen?.setOnClickListener {
+            val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
+            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
+                    "Investments over one year reflect XIRR returns(Annualised returns)"))
+            context?.portfolioIntro(options, 0)
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

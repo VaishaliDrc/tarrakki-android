@@ -925,7 +925,9 @@ fun Context.portfolioIntro(list: MutableList<DirectInvestmentFragment.Investment
         mBinder.pageIndicator.setViewPager(mBinder.pagerIntro)
         mBinder.pagerIntro.interval = 4000
         mBinder.pagerIntro.startAutoScroll()
-
+        mBinder.imgDown.setOnClickListener {
+            dismiss()
+        }
         if (currentPosition != null || currentPosition != -1) {
             Handler().postDelayed({
                 mBinder.pagerIntro.currentItem = currentPosition!!

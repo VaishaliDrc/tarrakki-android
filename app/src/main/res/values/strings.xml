@@ -736,6 +736,7 @@
     <string name="redeem_status">Redemption Status</string>
     <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent you withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
     <string name="how_are_returns_calculated">How are returns calculated?</string>
+    <string name="when_does_my_portfolio_update_here">When does my portfolio update here?</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>
