@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+
+        <import type="android.view.View" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/space_8"
+            android:src="@drawable/ic_drop_down_dark_gray_24dp"/>
+
+        <org.supportcompact.widgets.AutoScrollWrapContentViewPager
+            android:id="@+id/pager_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_down"  />
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/pageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_40"
+            app:ci_drawable="@drawable/page_selected"
+            app:ci_drawable_unselected="@drawable/page_unselected"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pager_intro" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -111,6 +111,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
                         }
+
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
@@ -191,10 +192,21 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
             vm?.getUserPortfolio(true)
         }
 
+        tvHowReturns?.setOnClickListener {
+            val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
+            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
+                    "Investments over one year reflect XIRR returns(Annualised returns)"))
+
+            context?.portfolioIntro(options,2)
+        }
+
     }
 
     companion object {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = DirectInvestmentFragment().apply { arguments = basket }
     }
+
+    data class InvestmentPortfolioIntro(val title: String, val description: String)
 }

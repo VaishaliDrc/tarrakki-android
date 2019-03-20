@@ -1,20 +1,26 @@
 package org.supportcompact.ktx
 
 import android.content.Context
+import android.graphics.Paint
+import android.support.annotation.StyleRes
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.app.Fragment
 import android.view.View
 
-fun Fragment.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit): BottomSheetDialogBuilder? = activity?.bottomSheetDialog(init)
+fun Fragment.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit,@StyleRes theme : Int? = null): BottomSheetDialogBuilder? = activity?.bottomSheetDialog(init,theme)
 
-fun Context.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit) = BottomSheetDialogBuilder(this).apply(init)
+fun Context.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit,@StyleRes theme : Int? = null) = BottomSheetDialogBuilder(this,theme).apply(init)
 
-class BottomSheetDialogBuilder(context: Context) {
+class BottomSheetDialogBuilder(context: Context,@StyleRes theme : Int? = null) {
 
     var dialog: BottomSheetDialog? = null
 
     init {
-        dialog = BottomSheetDialog(context)
+        dialog = if (theme!=null) {
+            BottomSheetDialog(context, theme)
+        }else{
+            BottomSheetDialog(context)
+        }
     }
 
     fun dismiss() = dialog?.dismiss()

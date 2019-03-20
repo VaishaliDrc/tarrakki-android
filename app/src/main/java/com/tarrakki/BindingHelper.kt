@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
@@ -31,9 +32,11 @@ import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.api.model.SIPDetails
 import com.tarrakki.databinding.*
+import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
@@ -907,4 +910,28 @@ fun getOrdinalFormat(num: Int): String {
     val suffix = arrayOf("th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th")
     val m = num % 100
     return num.toString() + suffix[if (m > 3 && m < 21) 0 else m % 10]
+}
+
+fun Context.portfolioIntro(list: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro>, currentPosition: Int? = null) {
+    val context = this
+    val bottomSheetDialog = this.bottomSheetDialog({
+        val mBinder = DialogHowReturnsIntroBinding.inflate(LayoutInflater.from(context))
+        customView(mBinder.root)
+
+        mBinder.pagerIntro.setAutoWrapContentPageAdapter(R.layout.row_porfolio_calculates_intro, list as java.util.ArrayList<DirectInvestmentFragment.InvestmentPortfolioIntro>) { binder: RowPorfolioCalculatesIntroBinding, item: DirectInvestmentFragment.InvestmentPortfolioIntro ->
+            binder.vm = item
+            binder.executePendingBindings()
+        }
+        mBinder.pageIndicator.setViewPager(mBinder.pagerIntro)
+        mBinder.pagerIntro.interval = 4000
+        mBinder.pagerIntro.startAutoScroll()
+
+        if (currentPosition != null || currentPosition != -1) {
+            Handler().postDelayed({
+                mBinder.pagerIntro.currentItem = currentPosition!!
+            }, 10)
+        }
+
+    }, R.style.AppBottomSheetDialogTheme)
+    bottomSheetDialog.show()
 }
