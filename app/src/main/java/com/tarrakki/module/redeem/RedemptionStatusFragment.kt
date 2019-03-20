@@ -1,14 +1,19 @@
 package com.tarrakki.module.redeem
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
+import android.view.MenuItem
 import android.view.View
 import com.tarrakki.R
+import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.databinding.FragmentRedemptionStatusBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import kotlinx.android.synthetic.main.fragment_redemption_status.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 
@@ -39,6 +44,18 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
     }
 
     override fun createReference() {
+        getViewModel().directRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvName?.text = fund.fundName
+                tvUnits?.text = fund.redeemUnits
+            }
+        })
+        getViewModel().goalBasedRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvName?.text = fund.fundName
+                tvUnits?.text = fund.redeemUnits
+            }
+        })
         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
         statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "12 Mar 2019, 01:34 PM", "completed"))
         statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "In progress"))
@@ -54,8 +71,46 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
             }
         }
         rvTransactionStatus?.adapter = adapter
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onBackPress()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPress()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun onBackPress() {
+        onBack(2)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReemFund(item: UserPortfolioResponse.Data.DirectInvestment) {
+        if (getViewModel().directRedeemFund.value == null) {
+            getViewModel().directRedeemFund.value = item
+        }
+        removeStickyEvent(item)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReemFund(item: UserPortfolioResponse.Data.GoalBasedInvestment.Fund) {
+        if (getViewModel().goalBasedRedeemFund.value == null) {
+            getViewModel().goalBasedRedeemFund.value = item
+        }
+        removeStickyEvent(item)
+    }
 
     companion object {
         /**

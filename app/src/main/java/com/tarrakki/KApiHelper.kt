@@ -2,19 +2,16 @@ package com.tarrakki
 
 import android.arch.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import com.tarrakki.api.soapmodel.*
 import com.tarrakki.module.ekyc.KYCData
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.ApiClient.CAMS_PASSWORD
 import com.tarrakki.api.ApiClient.CAMS_USER_ID
 import com.tarrakki.api.ApiClient.PASSKEY
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.math.BigInteger
 import java.util.*
 import kotlin.concurrent.thread
@@ -63,7 +60,7 @@ fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
 }
 
 fun addToCartGoalPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String,
-                           folioNo: String,goal_id : Int?)
+                           folioNo: String, goal_id: Int?)
         : MutableLiveData<ApiResponse> {
     val json = JsonObject()
     json.addProperty("fund_id", fundId)
@@ -413,6 +410,32 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                     throwable.postError()
                 }
             })
+    return apiResponse
+}
+
+fun getDefaultBank(): MutableLiveData<ApiResponse> {
+    val apiResponse = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(
+            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                    .getDefaultBank(App.INSTANCE.getUserId()),
+            singleCallback = object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    e("Api Response=>${o.data?.toDecrypt()}")
+                    if (o.status?.code == 1) {
+                        apiResponse.value = o
+                    } else {
+                        EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    EventBus.getDefault().post(ShowError("${throwable.message}"))
+                }
+            }
+    )
     return apiResponse
 }
 

@@ -25,6 +25,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.Goal
 import com.tarrakki.api.model.HomeData
@@ -36,9 +37,9 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
+import java.math.BigDecimal
 import java.math.BigInteger
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
@@ -604,22 +605,23 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mDialog.show()
 }
 
-fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
+fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableList<FolioData>,
                                       onRedeem: ((portfolioNo: String,
-                                                  totalAmount: String,
+                                                  totalUnits: String,
                                                   allRedeem: String,
-                                                  amount: String) -> Unit)? = null) {
+                                                  units: String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
-    mBinder.edtTotalInvestedAmount.applyCurrencyFormatPositiveOnly()
-    mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.edtTotalInvestedAmount.applyCurrencyDecimalFormatPositiveOnly()
+    mBinder.edtAmount.applyCurrencyDecimalFormatPositiveOnly()
 
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
     if (folioList.isNotEmpty()) {
         mBinder.folio = folioList[0]
         val folio = portfolioList.find { it.folioNo == folioList[0] }
-        mBinder.investmentAmount = folio?.cValue
+        mBinder.investmentAmount = ((folio?.cValue?.toDouble()
+                ?: 0.0) / todayNAV).roundOff().toString()
         mBinder.isSingleFolio = folioList.size == 1
     } else {
         mBinder.isSingleFolio = true
@@ -627,7 +629,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     mBinder.edtAmount.setOnClickListener {
         if (mBinder.chkAmount.isChecked) {
-            this.simpleAlert("Please uncheck the full amount option first.")
+            this.simpleAlert("Please uncheck the all withdraw option first.")
         }
     }
 
@@ -646,7 +648,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             mBinder.folio = item
             val selectedAmount = portfolioList.find { it.folioNo == item }
             if (selectedAmount != null) {
-                mBinder.investmentAmount = selectedAmount.cValue
+                mBinder.investmentAmount = (selectedAmount.cValue.toDouble() / todayNAV).roundOff().toString()
                 mBinder.chkAmount.isChecked = false
             }
         }
@@ -654,20 +656,20 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
-        val amount = mBinder.edtAmount.text.toString()
+        val units = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
 
-        if (this.isAmountValid(amount.toCurrencyBigInt())) {
-            if (amount.toCurrencyBigInt() <= "${mBinder.investmentAmount}".toCurrencyBigInt()) {
+        if (this.isAmountValid(units.toCurrencyBigDecimal())) {
+            if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
                 mDialog.dismiss()
                 val isRedeem = if (mBinder.chkAmount.isChecked) {
                     "Y"
                 } else {
                     "N"
                 }
-                onRedeem?.invoke(folioNo, amount.toCurrencyBigInt().toString(), isRedeem, amount)
+                onRedeem?.invoke(folioNo, (Math.round((units.toCurrencyBigDecimal() * todayNAV.toBigDecimal()).toDouble())).toString(), isRedeem, units)
             } else {
-                this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
+                this.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
             }
         }
 
@@ -888,15 +890,15 @@ fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
     return true
 }
 
-fun Context.isAmountValid(amount: BigInteger): Boolean {
-    return if (amount != BigInteger.ZERO) {
+fun Context.isAmountValid(amount: BigDecimal): Boolean {
+    return if (amount != BigDecimal.ZERO) {
         /*if (amount % BigInteger.valueOf(10) != BigInteger.ZERO) {
             this.simpleAlert("The redemption amount can not be greater than the current value of the selected folio.")
             return false
         }*/
         return true
     } else {
-        this.simpleAlert("Please enter valid amount.")
+        this.simpleAlert("Please enter units.")
         return false
     }
 }

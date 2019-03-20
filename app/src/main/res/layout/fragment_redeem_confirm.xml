@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="SBI Banking and Financial Services Growth Direct Plan"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/item_selected_color"
                     tools:text="SBI Banking and Financial Services Growth Direct Plan" />
@@ -51,13 +50,13 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/tvUnits"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_bold"
                     android:paddingStart="@dimen/space_4"
                     android:paddingEnd="@dimen/space_4"
-                    android:text="200"
                     android:textAllCaps="true"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
@@ -166,12 +165,12 @@
                     android:gravity="end"
                     android:maxLines="2"
                     android:singleLine="true"
-                    android:text="1.0% if redeemed within 360 days"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvExitL"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvExitL"
-                    app:layout_constraintTop_toBottomOf="@id/mDivider" />
+                    app:layout_constraintTop_toBottomOf="@id/mDivider"
+                    tools:text="1.0% if redeemed within 360 days" />
 
                 <View
                     android:id="@+id/mDivider1"

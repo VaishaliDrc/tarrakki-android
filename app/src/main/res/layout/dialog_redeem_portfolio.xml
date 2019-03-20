@@ -180,7 +180,7 @@
             android:background="@drawable/shape_edt_gray_round"
             android:hint="@string/enter_units"
             android:imeOptions="actionDone"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLines="1"
             android:paddingStart="@dimen/space_30"
             android:paddingTop="@dimen/space_8"

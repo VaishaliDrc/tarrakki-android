@@ -82,6 +82,51 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
     })
 }
 
+fun EditText.applyCurrencyDecimalFormatPositiveOnly() {
+
+    addTextChangedListener(object : TextWatcher {
+        private var current = ""
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if (s == null || s.isEmpty()) {
+                current = ""
+                return
+            }
+            if (s.toString() != current) {
+                try {
+                    this@applyCurrencyDecimalFormatPositiveOnly.removeTextChangedListener(this)
+                    var cleanString = s.toString().replace(",", "")
+                    if (cleanString.length > 16 || (cleanString.contains(".") && cleanString.split(".")[1].length > 2)) {
+                        cleanString = cleanString.dropLast(1)
+                    }
+                    val amount = cleanString.toDouble()
+                    if (amount > 0) {
+                        this@applyCurrencyDecimalFormatPositiveOnly.setText(amount.decimalFormat())
+                        if (cleanString.contains(".") && cleanString.split(".")[1].isEmpty()) {
+                            this@applyCurrencyDecimalFormatPositiveOnly.append(".")
+                        }
+                        //this@applyCurrencyDecimalFormatPositiveOnly.decimalFormat(amount)
+                    } else {
+                        this@applyCurrencyDecimalFormatPositiveOnly.text.clear()
+                    }
+                    current = this@applyCurrencyDecimalFormatPositiveOnly.text.toString()
+                    this@applyCurrencyDecimalFormatPositiveOnly.setSelection(current.length)
+                    this@applyCurrencyDecimalFormatPositiveOnly.addTextChangedListener(this)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    })
+}
+
 
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
 val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
@@ -94,6 +139,8 @@ fun TextView.decimalFormat(amount: Double) {
 fun TextView.format(amount: Double) {
     this.text = formatter.format(Math.round(amount))//String.format(locale, "%,d", Math.round(amount))
 }
+
+fun Double.roundOff() = Math.round(this * 100).toDouble() / 100
 
 fun Double.format() = formatter.format(Math.round(this))
 
@@ -171,9 +218,9 @@ fun String.toCurrencyBigInt(): BigInteger = try {
 fun BigInteger.toCurrency(): String {
     return try {
         val temp: Double? = this.toDouble() ?: 0.0
-        if (temp!=null) {
+        if (temp != null) {
             temp.toCurrency().toString()
-        }else{
+        } else {
             0.0.toCurrency().toString()
         }
     } catch (e: java.lang.Exception) {

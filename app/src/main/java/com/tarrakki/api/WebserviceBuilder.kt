@@ -240,6 +240,8 @@ interface WebserviceBuilder {
     @GET("blogs/")
     fun getBlogs(@Query("data") data: String): Observable<ApiResponse>
 
+    @GET("banks/get-default-bank/{user_id}")
+    fun getDefaultBank(@Path("user_id") userId: String?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

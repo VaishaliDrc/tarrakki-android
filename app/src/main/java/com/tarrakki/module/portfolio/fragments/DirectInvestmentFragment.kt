@@ -9,7 +9,7 @@ import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.SIPDetails
 import com.tarrakki.api.model.UserPortfolioResponse
-import com.tarrakki.api.model.toEncrypt
+import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentDirectInvestmentBinding
 import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
@@ -133,8 +133,20 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             for (folio in item.folioList) {
                                 folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
                             }
-                            context?.redeemFundPortfolioDialog(folios) { portfolioNo, totalAmount, allRedeem, amount ->
-                                startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                            context?.redeemFundPortfolioDialog(item.nav, folios) { portfolioNo, totalAmount, allRedeem, amount ->
+                                val json = JsonObject()
+                                json.addProperty("user_id", App.INSTANCE.getUserId())
+                                json.addProperty("fund_id", item.fundId)
+                                json.addProperty("all_redeem", allRedeem)
+                                json.addProperty("amount", totalAmount)
+                                json.addProperty("folio_number", portfolioNo)
+                                item.redeemRequest = json
+                                item.redeemUnits = amount
+                                getDefaultBank().observe(this, Observer {
+                                    json.printRequest()
+                                    startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                    postSticky(item)
+                                })
                                 /*val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
                                 json.addProperty("fund_id", item.fundId)
