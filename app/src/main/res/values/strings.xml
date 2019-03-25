@@ -560,7 +560,7 @@
     <string name="upload_scanned_form">Upload Scanned Mandate</string>
     <string name="upload_scanned_form_description">Once you have filled out the bank mandate form, please scan the form and upload it.\nIn case your phone has a low quality camera, please download the CAMSCanner or Office Lens App from the Google Play Store, to scan the Bank Mandate.</string>
     <string name="bank_mandate_preview">Bank Mandate Preview</string>
-    <string name="please_look_at_the_pre_filled">Please look at the pre-filled Bank Mandate carefully to verify that all the in-formation is correct. Download the Bank Mandate and Print.</string>
+    <string name="please_look_at_the_pre_filled">Please look at the pre-filled Bank Mandate carefully to verify that all the in-formation is correct.\n\nDownload the Bank Mandate and Print.</string>
     <string name="sign_scan_and_upload">Sign, Scan, and Upload.</string>
     <string name="doenload_mandate_form">Download Mandate Form</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
@@ -609,15 +609,15 @@
 
     <string name="req_change_password">All the fields are mandatory so please enter the required fields first to change the password.</string>
     <string name="req_reset_password">All the fields are mandatory so please enter the required fields first to reset the password.</string>
-    <string name="req_match_confirm_password">The confirm password doesn\'t match the new password.</string>
+    <string name="req_match_confirm_password">The \'Confirm Password\' field does not match the \'New Password\'. Please Re-enter.</string>
 
-    <string name="cart_delete">Are you sure to delete this fund from your cart?</string>
-    <string name="cart_fund_added">The fund has been added into your cart successfully.</string>
-    <string name="cart_goal_added">The goal has been added into your cart successfully.</string>
+    <string name="cart_delete">Are you sure you want to Delete this Fund from your cart?</string>
+    <string name="cart_fund_added">The fund has been added to your cart successfully.</string>
+    <string name="cart_goal_added">The goal has been added to your cart successfully.</string>
 
-    <string name="alert_profile_reset">Your password has been reset successfully.</string>
-    <string name="alert_profile_change">Your password has been changed successfully.</string>
-    <string name="alert_third_level_category">Please add third level category data from the admin panel first.</string>
+    <string name="alert_profile_reset">Your Password has been Reset Successfully.</string>
+    <string name="alert_profile_change">Your Password has been Changed Successfully.</string>
+    <string name="alert_third_level_category">Please add a third level category.</string>
     <string name="tap_here_to_see_the_fund_offer_document"><u>Scheme document</u></string>
 
     <string name="saved_goal_delete">Are you sure to delete this goal?</string>
@@ -706,7 +706,7 @@
     <string name="select_end_date">Select End Date</string>
     <string name="no_data_found">No data found.</string>
     <string name="status_">Status:</string>
-    <string name="alert_bank_default">Are you sure to make this bank as the default?</string>
+    <string name="alert_bank_default">Are you sure you want to make this Bank your Primary Bank Account?</string>
     <string name="please_make_sure_your_signature_is_accurate_take_your_time_to_get_your_signature_right_before_submitting">Please make sure your signature is accurate. Take your time to get your signature right before submitting.</string>
     <string name="sign_digitally">Sign Digitally</string>
     <string name="complete_registration_msg">Congratulation!\nYour registration is completed successfully and you are ready to place your first order now.</string>
@@ -736,13 +736,50 @@
     <string name="redeem_status">Redemption Status</string>
     <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
     <string name="how_are_returns_calculated">How are returns calculated?</string>
-    <string name="when_does_my_portfolio_update_here">When does my portfolio update here?</string>
+    <string name="when_does_my_portfolio_update_here">When does my portfolio get updated?</string>
     <string name="pls_enter_email_address">Please enter Email Address.</string>
     <string name="pls_enter_valid_email_address">Please enter a valid Email Address.</string>
     <string name="pls_enter_password">Please enter Password.</string>
     <string name="pls_enter_mobile_number">Please enter Mobile Number.</string>
-    <string name="pls_enter_valid_indian_mobile_number">Please Enter a Valid Indian Mobile Number.</string>
+    <string name="pls_enter_valid_indian_mobile_number">Please enter a valid Indian Mobile Number.</string>
     <string name="pls_enter_confirm_password">Please enter Confirm Password.</string>
+    <string name="send_nach_mandate_form_email">Send NACH Mandate Form Via Email</string>
+    <string name="download_nach_mandate_form">Download NACH Mandate Form</string>
+
+    <string name="alert_nach_mandate_email_send">The email has been sent.</string>
+    <string name="alert_nach_mandate_download_success">Your NACH Mandate Form has been downloaded successfully. Please install any file explorer and search for it by the name \Tarrakki\, to access it.</string>
+    <string name="alert_req_sip_or_lumpsump">Please enter, either a lumpsum amount or an SIP amount.</string>
+    <string name="alert_valid_sip_amount">Please enter a valid SIP amount.</string>
+    <string name="alert_req_sip_date">Please select the SIP start date.</string>
+    <string name="alert_req_place_order_registration">Please Complete your Registration to Place the Order.</string>
+    <string name="alert_req_bank_name">Please select the Bank Name.</string>
+    <string name="alert_req_bank_account_number">Please enter the Bank Account Number.</string>
+    <string name="alert_req_confirm_bank_account_number">Please confirm the Bank Account Number.</string>
+    <string name="alert_match_bank_account_numbers">The Bank Account Numbers do not match.</string>
+    <string name="alert_req_bank_account_type">Please select the Bank Account Type.</string>
+    <string name="alert_req_ifsc_code">Please enter the IFSC Code.</string>
+    <string name="alert_valid_bank_ifsc_code">Please enter a valid IFSC Code.</string>
+    <string name="alert_success_new_bank">New Bank Account has been added successfully.</string>
+    <string name="alert_limit_add_bank">You can\'t add more then 5 banks.</string>
+    <string name="alert_add_bank_complete_registration">Please Add your Bank to Complete your Registration.</string>
+    <string name="alert_req_bank">Please Select a Bank.</string>
+    <string name="alert_select_amount">Please Select an Amount.</string>
+    <string name="alert_req_full_name">Please Enter your Full Name.</string>
+    <string name="alert_req_pan_number">Please enter your PAN Number.</string>
+    <string name="alert_valid_pan_number">Please enter a valid PAN Number.</string>
+    <string name="alert_req_guardian_name">Please Enter your Guardian\'s Name.</string>
+    <string name="alert_req_nominee_name">Please Enter the Name of a Nominee.</string>
+    <string name="alert_req_nominee_relationship">Please Enter your Relationship with the Nominee.</string>
+    <string name="alert_req_date_of_birth">Please select Date of Birth.</string>
+    <string name="alert_req_country_birth">Please Enter your Country of Birth.</string>
+    <string name="alert_req_place_birth">Please Enter your Place of Birth.</string>
+    <string name="alert_req_source_income">Please Select your Primary Source of Income.</string>
+    <string name="alert_req_income_slab">Please Select your Income Slab.</string>
+    <string name="alert_only_india">We allowing only resident of India.</string>
+    <string name="alert_req_email">Please enter Email Address.</string>
+    <string name="alert_valid_email">Please enter a valid Email Address.</string>
+    <string name="alert_req_otp">Please enter the OTP first for Verification.</string>
+    <string name="alert_req_terms"><![CDATA[Please Accept the Terms & Conditions first, to continue.]]></string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

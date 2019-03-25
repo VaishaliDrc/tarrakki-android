@@ -100,14 +100,14 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     binder.setVariable(BR.widget, item)
                     binder.setVariable(BR.onAdd, View.OnClickListener {
                         if (count >= 5) {
-                            context?.simpleAlert("You can't add more then 5 banks.")
+                            context?.simpleAlert(getString(R.string.alert_limit_add_bank))
                             return@OnClickListener
                         }
                         startFragment(AddBankAccountFragment.newInstance(Bundle().apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
                     })
                     binder.setVariable(BR.onNext, View.OnClickListener {
                         if (noBanks) {
-                            context?.simpleAlert("Please add bank to continue complete registration")
+                            context?.simpleAlert(getString(R.string.alert_add_bank_complete_registration))
                             return@OnClickListener
                         }
                         context?.signatureDialog(

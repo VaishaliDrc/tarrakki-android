@@ -16,7 +16,7 @@
         tools:context=".module.bankmandate.DownloadBankMandateFromFragment">
 
         <RelativeLayout
-            android:layout_above="@id/btnDownload"
+            android:layout_above="@id/lyt_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/shape_cart_view"
@@ -62,7 +62,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/please_look_at_the_pre_filled"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginTop="@dimen/space_12"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/sign_scan_and_upload"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -80,17 +80,35 @@
 
         </RelativeLayout>
 
-        <Button
+
+        <LinearLayout
+            android:id="@+id/lyt_btn"
             android:layout_alignParentBottom="true"
-            android:id="@+id/btnDownload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/space_3"
-            android:layout_marginTop="@dimen/default_space"
-            android:background="@drawable/shape_btn_idle_bg"
-            android:fontFamily="@font/lato_bold"
-            android:text="@string/doenload_mandate_form"
-            android:textColor="@color/white" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnMandateSendEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/send_nach_mandate_form_email"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/space_3"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/download_nach_mandate_form"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

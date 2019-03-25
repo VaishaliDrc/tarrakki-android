@@ -107,6 +107,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             tableRow?.addView(context?.tableRowContent(totalReturns.toReturnAsPercentage(), context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
+                           // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
                         }
 
                         binder.tvAddPortfolio.setOnClickListener {
@@ -175,7 +176,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                             context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                                 stopPortfolio(transactionId).observe(this, Observer {
-                                    context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully.") {
+                                    context?.simpleAlert(alertStopPortfolio(folio,date)) {
                                         vm.getUserPortfolio()
                                     }
                                 })
@@ -193,19 +194,11 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
         }
 
         tvHowReturns?.setOnClickListener {
-            val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
-            options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
-                    "Investments over one year reflect XIRR returns(Annualised returns)"))
-            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
-            context?.portfolioIntro(options, 0)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 0)
         }
 
         tvWhen?.setOnClickListener {
-            val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
-            options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
-                    "Investments over one year reflect XIRR returns(Annualised returns)"))
-            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
-            context?.portfolioIntro(options, 1)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 1)
         }
 
     }

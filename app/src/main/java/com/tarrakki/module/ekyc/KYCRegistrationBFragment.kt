@@ -118,23 +118,23 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
     private fun isValid(kycData: KYCData): Boolean {
         return when {
             kycData.birthCountry.isEmpty() -> {
-                context?.simpleAlert("Please select country of birth")
+                context?.simpleAlert(getString(R.string.alert_req_country_birth))
                 false
             }
             kycData.birthPlace.isEmpty() -> {
-                context?.simpleAlert("Please enter place of birth")
+                context?.simpleAlert(getString(R.string.alert_req_place_birth))
                 false
             }
             getViewModel().sourceOfIncome.isEmpty() -> {
-                context?.simpleAlert("Please select source of income")
+                context?.simpleAlert(getString(R.string.alert_req_source_income))
                 false
             }
             getViewModel().TAXSlab.isEmpty() -> {
-                context?.simpleAlert("Please select income slab")
+                context?.simpleAlert(getString(R.string.alert_req_income_slab))
                 false
             }
             switchOnOff?.isChecked == false -> {
-                context?.simpleAlert("We allowing only resident of India")
+                context?.simpleAlert(getString(R.string.alert_only_india))
                 false
             }
             /*!switchOnOff.isChecked && (kycData.tinNumber1.isEmpty() || kycData.countryOfIssue1.isEmpty()) -> {

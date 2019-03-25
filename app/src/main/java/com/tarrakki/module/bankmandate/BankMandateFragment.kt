@@ -73,7 +73,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
                     postSticky(Event.ISFROMBANKMANDATE)
                 } else {
-                    context?.simpleAlert("Please Select Bank.")
+                    context?.simpleAlert(getString(R.string.alert_req_bank))
                 }
             }
         }
@@ -92,7 +92,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 onBack()
                 mandateBankAdapter?.getSelectedItems()?.get(0)?.let { it1 -> postSticky(it1) }
             } else {
-                context?.simpleAlert("Please Select Bank.")
+                context?.simpleAlert(getString(R.string.alert_req_bank))
             }
         }
     }
@@ -106,7 +106,6 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                 getViewModel().isAddVisible.set(true)
                 setUserBankMandateAdapter(it.data)
             } else {
-                // btnAdd?.text = getString(R.string.add_new_bank_mandate)
                 isMandate = false
                 getUserBankAPI(isRefreshing)
             }

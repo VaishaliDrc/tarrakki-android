@@ -3,31 +3,30 @@ package com.tarrakki
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.ColorRes
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.widget.LinearLayoutCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TableRow
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.yalantis.ucrop.UCrop
+import kotlinx.android.synthetic.main.row_table_layout_content.view.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ktx.clearUserData
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
-import com.tarrakki.api.ApiClient
-import kotlinx.android.synthetic.main.row_table_layout_content.view.*
 
 fun getRiskLevelVisibility(riskType: String?): Int {
     return when {
@@ -206,4 +205,22 @@ fun Context.tableRowContent(text: String, textColor: Int? = null): View? {
         view.tvTableRowContent.setTextColor(textColor)
     }
     return view
+}
+
+fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> {
+    val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
+    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?",
+            "Investments less than one year reflect absolute returns.\n" +
+                    "Investments over one year reflect XIRR returns(Annualised returns)."))
+    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio get updated?",
+            "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+    return options
+}
+
+fun alertStopPortfolio(folio : String,date : String) : String{
+    return "Your SIP with Folio No. $folio and Start Date $date has been stopped successfully."
+}
+
+fun alertRedeemPortfolio(amount : String) : String{
+    return "Your redemption of $amount was successful."
 }

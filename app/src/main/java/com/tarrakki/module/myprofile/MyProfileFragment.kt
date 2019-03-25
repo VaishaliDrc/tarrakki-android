@@ -595,18 +595,18 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             }
             getViewModel().isMobileVerified.get() == false -> {
                 context?.simpleAlert("Please verify OTP before changing mobile number.") {
-                    Handler().postDelayed({
+                 /*   Handler().postDelayed({
                         edtMobile?.requestFocus()
-                    }, 100)
+                    }, 100)*/
                 }
                 false
             }
             getViewModel().email.get() != orignalEmail -> {
                 if (isEmailAuth != true) {
                     context?.simpleAlert("Please verify email before changing another email.") {
-                        Handler().postDelayed({
+                       /* Handler().postDelayed({
                             edtEmail?.requestFocus()
-                        }, 100)
+                        }, 100)*/
                     }
                     false
                 } else {

@@ -191,7 +191,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
 
                     context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                         stopPortfolio(transactionId).observe(this, Observer {
-                            context?.simpleAlert("Your SIP having folio no. $folio and start date $date has been stopped successfully.") {
+                            context?.simpleAlert(alertStopPortfolio(folio,date)) {
                                 getViewModel().getUserPortfolio()
                             }
                         })
@@ -201,19 +201,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
         })
 
         tvHowReturns?.setOnClickListener {
-            val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
-            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
-            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
-                    "Investments over one year reflect XIRR returns(Annualised returns)"))
-            context?.portfolioIntro(options, 1)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 1)
         }
 
         tvWhen?.setOnClickListener {
-            val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
-            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
-            options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
-                    "Investments over one year reflect XIRR returns(Annualised returns)"))
-            context?.portfolioIntro(options, 0)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 0)
         }
     }
 

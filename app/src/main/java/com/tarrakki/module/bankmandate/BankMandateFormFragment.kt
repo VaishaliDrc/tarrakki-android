@@ -76,6 +76,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                         //val mandateId = getViewModel().mandateResponse.get()?.data?.id
                         getViewModel().getMandateForm(mandateId).observe(this, Observer { response ->
                             val bundle = Bundle().apply {
+                                putString("mandate_id", mandateId)
                                 putString("download_url", response?.data?.mandateFile)
                             }
                             startFragment(DownloadBankMandateFromFragment.newInstance(bundle), R.id.frmContainer)

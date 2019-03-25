@@ -823,13 +823,13 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                                 sipAmount: BigInteger,
                                 lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        this.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump))
         return false
     }
     if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (lumpsumAmount < minLumsumpAmount) {
-                this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toDouble().toCurrency()}.")
+                this.simpleAlert("The lumpsum amount must be greater than or equal to  ${minLumsumpAmount.toDouble().toCurrency()}.")
                 return false
             }
         } else {
@@ -887,7 +887,7 @@ fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
 fun Context.isLumpsumAndSIPAmountValid(sipAmount: BigInteger,
                                        lumpsumAmount: BigInteger): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-        this.simpleAlert("Please enter either the lumpsum or the SIP amount first.")
+        this.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump))
         return false
     }
     return true

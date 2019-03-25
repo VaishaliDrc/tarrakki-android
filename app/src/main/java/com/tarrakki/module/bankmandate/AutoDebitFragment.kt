@@ -76,7 +76,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
                     }
                 }
             }else{
-                context?.simpleAlert("Please enter valid amount.")
+                context?.simpleAlert(getString(R.string.alert_select_amount))
             }
         }
         edtInvestAmount?.applyCurrencyFormatPositiveOnly()

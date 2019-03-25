@@ -70,26 +70,24 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
 
         btnAdd?.setOnClickListener {
             if (TextUtils.isEmpty(getViewModel().name.get())) {
-                context?.simpleAlert("Please enter bank name")
+                context?.simpleAlert(getString(R.string.alert_req_bank_name))
             } else if (TextUtils.isEmpty(getViewModel().accountNo.get())) {
-                context?.simpleAlert("Please enter account number")
+                context?.simpleAlert(getString(R.string.alert_req_bank_account_number))
             } else if (TextUtils.isEmpty(getViewModel().reenterAccountNo.get())) {
-                context?.simpleAlert("Please enter re-enter account number")
+                context?.simpleAlert(getString(R.string.alert_req_confirm_bank_account_number))
             } else if (getViewModel().accountNo.get() != getViewModel().reenterAccountNo.get()) {
-                context?.simpleAlert("Account number and re-enter account number should be same")
-            } /*else if (TextUtils.isEmpty(getViewModel().breachName.get())) {
-                context?.simpleAlert("Please enter breach name")
-            }*/ else if (TextUtils.isEmpty(getViewModel().accountType.get())) {
-                context?.simpleAlert("Please select account type")
+                context?.simpleAlert(getString(R.string.alert_match_bank_account_numbers))
+            } else if (TextUtils.isEmpty(getViewModel().accountType.get())) {
+                context?.simpleAlert(getString(R.string.alert_req_bank_account_type))
             } else if (TextUtils.isEmpty(getViewModel().IFSCCode.get())) {
-                context?.simpleAlert("Please enter IFSC code")
+                context?.simpleAlert(getString(R.string.alert_req_ifsc_code))
             } else if (!isIFSCCode("${getViewModel().IFSCCode.get()}")) {
-                context?.simpleAlert("Please enter the valid IFSC Code")
+                context?.simpleAlert(getString(R.string.alert_valid_bank_ifsc_code))
             } else {
                 val bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
                 bankId?.let {
                     getViewModel().addBankDetails(it).observe(this, Observer {
-                        context?.simpleAlert("New Bank Account has been added successfully") {
+                        context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
                             onBack()
                             coreActivityVM?.onNewBank?.value = true
                         }

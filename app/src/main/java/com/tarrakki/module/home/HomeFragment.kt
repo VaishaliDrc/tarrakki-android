@@ -114,10 +114,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
             if (edtPanNo.length() == 0) {
-                context?.simpleAlert("Please enter PAN card number")
+                //startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                context?.simpleAlert(getString(R.string.alert_req_pan_number))
             } else if (!isPANCard(edtPanNo.text.toString())) {
-                context?.simpleAlert("Please enter valid PAN card number")
-            } else {
+                context?.simpleAlert(getString(R.string.alert_valid_pan_number))
+            }  else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
                 getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {

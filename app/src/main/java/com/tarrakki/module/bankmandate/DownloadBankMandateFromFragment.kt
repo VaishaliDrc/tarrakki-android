@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.DownloadManager
+import android.arch.lifecycle.Observer
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -46,6 +47,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         get() = getString(R.string.bank_mandate)
 
     var url : String? = ""
+    var mandate_id : String? = ""
     var refid : Long? = 0
     var path = File(Environment.getExternalStorageDirectory().toString() + "/Tarrakki")
 
@@ -65,12 +67,18 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     override fun createReference() {
         val baseUrl = ApiClient.IMAGE_BASE_URL
         url = baseUrl+arguments?.getString("download_url").toString()
+        mandate_id = arguments?.getString("mandate_id").toString()
 
-        //url = "http://mattermost.drcsystems.com/files/3ma35tai7bnejdej1de5xusijw/public?h=OH4ydhBzDqF0drOsgqI413XWOrAAXOJJe3Ko4RNjqe8"
         loadPdf()
 
         btnDownload?.setOnClickListener {
             downloadPdf(url)
+        }
+
+        btnMandateSendEmail?.setOnClickListener {
+            getViewModel().sendMandateForm(mandate_id).observe(this, Observer {
+                context?.simpleAlert(getString(R.string.alert_nach_mandate_email_send))
+            })
         }
     }
 
@@ -105,8 +113,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         override fun onReceive(ctxt:Context, intent:Intent) {
             val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
             if (refid == referenceId){
-                context?.simpleAlert("Download Complete.")
-                //toast("Download Complete.")
+                context?.simpleAlert(getString(R.string.alert_nach_mandate_download_success))
             }
         }
     }

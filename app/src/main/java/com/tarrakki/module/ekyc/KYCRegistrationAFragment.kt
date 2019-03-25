@@ -167,19 +167,19 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     private fun isValid(kycData: KYCData): Boolean {
         return when {
             kycData.fullName.isEmpty() -> {
-                context?.simpleAlert("Please enter full name")
+                context?.simpleAlert(getString(R.string.alert_req_full_name))
                 false
             }
             kycData.pan.isEmpty() -> {
-                context?.simpleAlert("Please enter PAN number")
+                context?.simpleAlert(getString(R.string.alert_req_pan_number))
                 false
             }
             !kycData.pan.isPAN() -> {
-                context?.simpleAlert("Please enter valid PAN number")
+                context?.simpleAlert(getString(R.string.alert_valid_pan_number))
                 false
             }
             !switchOnOff.isChecked && kycData.guardianDOB.isEmpty() -> {
-                context?.simpleAlert("Please select date of birth")
+                context?.simpleAlert(getString(R.string.alert_req_date_of_birth))
                 false
             }
             /*getViewModel().email.isEmpty() -> {
@@ -199,7 +199,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 false
             }*/
             !switchOnOff.isChecked && kycData.guardianName.isEmpty() -> {
-                context?.simpleAlert("Please enter guardian name") {
+                context?.simpleAlert(getString(R.string.alert_req_guardian_name)) {
                     edtGuardian?.requestFocus()
                 }
                 false
@@ -241,13 +241,13 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                  false
              }*/
             kycData.nomineeName.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee name") {
+                context?.simpleAlert(getString(R.string.alert_req_nominee_name)) {
                     edtNominee?.requestFocus()
                 }
                 false
             }
             kycData.nomineeRelation.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee relationship") {
+                context?.simpleAlert(getString(R.string.alert_req_nominee_relationship)) {
                     edtRelationship?.requestFocus()
                 }
                 false

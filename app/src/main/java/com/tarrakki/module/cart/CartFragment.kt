@@ -74,7 +74,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 if (context?.isCompletedRegistration() == true) {
                     startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
                 } else {
-                    context?.simpleAlert("Please first complete your registration to place the order.") {
+                    context?.simpleAlert(getString(R.string.alert_req_place_order_registration)) {
                         startActivity<AccountActivity>()
                     }
                 }
@@ -238,7 +238,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                                 }
                             }
                         } else {
-                            context?.simpleAlert("Please enter the valid SIP amount first.")
+                            context?.simpleAlert(getString(R.string.alert_valid_sip_amount))
                         }
 
                     }
@@ -265,11 +265,10 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                     })
 
-                    binder.root.setOnClickListener {
+                    binder.tvName.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                             putString(ITEM_ID, "${item.fundIdId}")
-                        }
-                        ), R.id.frmContainer)
+                        }), R.id.frmContainer)
                     }
 
                     binder.executePendingBindings()
@@ -329,7 +328,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             val minsipAmount = item.validminSIPAmount
 
             if (context?.isLumpsumAndSIPAmountValid(sipAmount, lumpsumpAmount) == false) {
-                context?.simpleAlert("Please enter either the lumpsum or the SIP amount first.") {
+                context?.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump)) {
                     Handler().postDelayed({
                         if (getViewModel().funds.isNotEmpty()) {
                             getViewModel().funds[i].reuestToEdit = true
@@ -360,7 +359,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 } else {
                     if (sipAmount != BigInteger.ZERO) {
                         if (item.day == null || item.day == "" || item.day == "0") {
-                            context?.simpleAlert("Please Select Start Date.") {
+                            context?.simpleAlert(getString(R.string.alert_req_sip_date)) {
                                 Handler().postDelayed({
                                     if (getViewModel().funds.isNotEmpty()) {
                                         getViewModel().funds[i].reuestToEdit = true

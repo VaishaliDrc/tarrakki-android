@@ -77,11 +77,11 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     edtPassword?.requestFocus()
                 }
             } else if (getViewModel().confirmPassword.get() != getViewModel().password.get()) {
-                simpleAlert("Password and confirm password miss match") {
+                simpleAlert("The 'Confirm Password' field does not match the 'Password'. Please Re-enter.") {
                     edtConfirmPassword?.requestFocus()
                 }
             } else if (cbTermsConditions?.isChecked == false) {
-                simpleAlert("Please agree our Terms & Conditions.") {
+                simpleAlert(getString(R.string.alert_req_terms)) {
                     edtConfirmPassword?.requestFocus()
                 }
             } else {

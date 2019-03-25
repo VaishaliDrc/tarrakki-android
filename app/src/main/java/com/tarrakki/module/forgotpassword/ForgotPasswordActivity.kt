@@ -35,11 +35,11 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
         }
         btnResetPassword?.setOnClickListener {
             if (getViewModel().email.get()?.length == 0) {
-                simpleAlert("Please enter email address") {
+                simpleAlert(getString(R.string.alert_req_email)) {
                     edtEmail?.requestFocus()
                 }
             } else if (!Patterns.EMAIL_ADDRESS.matcher(getViewModel().email.get()).matches()) {
-                simpleAlert("Please enter valid email address") {
+                simpleAlert(getString(R.string.alert_valid_email)) {
                     edtEmail?.requestFocus()
                     edtEmail?.selectAll()
                 }

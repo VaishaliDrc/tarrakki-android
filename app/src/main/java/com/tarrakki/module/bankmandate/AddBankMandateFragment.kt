@@ -66,7 +66,6 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         btnAdd?.text = getString(R.string.add_bank_account)
         if (isFromPaymentMode == true) {
             btnSelectBankMandate?.text = getString(R.string.select_bank_use)
-            //getViewModel().isNextVisible.set(false)
             getViewModel().isSelectBankVisible.set(true)
         }
 
@@ -75,7 +74,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
                 onBack()
                 postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
             } else {
-                context?.simpleAlert("Please Select Bank.")
+                context?.simpleAlert(getString(R.string.alert_req_bank))
             }
         }
 
@@ -85,7 +84,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
                 postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
                 postSticky(Event.ISFROMNEWBANKMANDATE)
             } else {
-                context?.simpleAlert("Please Select Bank.")
+                context?.simpleAlert(getString(R.string.alert_req_bank))
             }
         }
 

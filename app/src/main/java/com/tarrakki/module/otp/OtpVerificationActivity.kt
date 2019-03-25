@@ -66,7 +66,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
         }
         btnSummit?.setOnClickListener {
             if (getViewModel().otp.get()?.length == 0) {
-                simpleAlert("Please enter OTP") {
+                simpleAlert(getString(R.string.alert_req_otp)) {
                     edtOtp?.selectAll()
                     edtOtp?.requestFocus()
                 }
