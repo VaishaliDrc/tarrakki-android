@@ -651,7 +651,7 @@
     <string name="select_country">Select Country</string>
     <string name="select_address_type">Select Address Type</string>
     <string name="select_state">Select State</string>
-    <string name="valid_password">The password should be between 6-20 characters and must contain at least one alphabet and one numeric value</string>
+    <string name="valid_password">The password should be between 6 to 20 characters, and must contain at least one alphabet, and one numeric value.</string>
     <string name="select_signature_type">Select Signature Type</string>
     <string name="sign_genitally">Sign Genitally</string>
     <string name="sign_physically">Sign Physically</string>
@@ -702,7 +702,7 @@
     <string name="remarks_">Remarks:</string>
     <string name="data_not_found">no data found.</string>
     <string name="stop_sip">STOP SIP</string>
-    <string name="select_startdate">Select StartDate</string>
+    <string name="select_startdate">Select SIP Date</string>
     <string name="select_end_date">Select End Date</string>
     <string name="no_data_found">No data found.</string>
     <string name="status_">Status:</string>
@@ -734,9 +734,14 @@
     <string name="will_be_credited_to">Will be credited to:</string>
     <string name="amount_">Amount:</string>
     <string name="redeem_status">Redemption Status</string>
-    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent you withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
+    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
     <string name="how_are_returns_calculated">How are returns calculated?</string>
     <string name="when_does_my_portfolio_update_here">When does my portfolio update here?</string>
+    <string name="pls_enter_email_address">Please enter Email Address.</string>
+    <string name="pls_enter_valid_email_address">Please enter a valid Email Address.</string>
+    <string name="pls_enter_password">Please enter Password.</string>
+    <string name="pls_enter_mobile_number">Please enter Mobile Number.</string>
+    <string name="pls_enter_valid_indian_mobile_number">Please Enter a Valid Indian Mobile Number.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

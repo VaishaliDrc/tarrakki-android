@@ -48,23 +48,23 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
         btnSignUp?.setOnClickListener {
 
             if (getViewModel().email.get()?.length == 0) {
-                simpleAlert("Please enter email address") {
+                simpleAlert(getString(R.string.pls_enter_email_address)) {
                     edtEmail.requestFocus()
                 }
             } else if (!Patterns.EMAIL_ADDRESS.matcher(getViewModel().email.get()).matches()) {
-                simpleAlert("Please enter valid email address") {
+                simpleAlert(getString(R.string.pls_enter_valid_email_address)) {
                     edtEmail?.requestFocus()
                 }
             } else if (getViewModel().mobile.get()?.length == 0) {
-                simpleAlert("Please enter mobile number") {
+                simpleAlert(getString(R.string.pls_enter_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
             } else if (getViewModel().mobile.get()?.length != 10) {
-                simpleAlert("Please enter valid mobile number") {
+                simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
             } else if (getViewModel().password.get()?.length == 0) {
-                simpleAlert("Please enter password") {
+                simpleAlert(getString(R.string.pls_enter_password)) {
                     edtPassword?.requestFocus()
                 }
             } else if (!getViewModel().password.isValidPassword()) {

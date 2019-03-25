@@ -117,7 +117,12 @@ data class Goal(
             }
 
             fun getInitQ2(): String {
-                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 2) introQuestions[1].question else ""
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 2)
+                    introQuestions[1].question
+                else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
+                    introQuestions[0].question
+                else
+                    ""
             }
 
             fun getInitHint(): String? {
@@ -125,37 +130,33 @@ data class Goal(
             }
 
             fun setAnsQ1(ans: String) {
-                if (introQuestions?.isNotEmpty() == true) {
-                    introQuestions[0].ans1 = ans
+                if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Select".equals(it.questionType, true) } != null) {
+                    introQuestions.find { "Select".equals(it.questionType, true) }?.ans1 = ans
                 }
             }
 
             fun getAnsQ1() = if (introQuestions?.isNotEmpty() == true) introQuestions[0].ans1 else ""
 
             fun setAnsQ2(ans: String) {
-                if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) {
-                    introQuestions[1].ans1 = ans
+                if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Text".equals(it.questionType, true) } != null) {
+                    introQuestions.find { "Text".equals(it.questionType, true) }?.ans1 = ans
                 }
             }
 
             fun getAnsQ2() = if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) introQuestions[1].ans1 else ""
 
             fun initQ1Visibility(): Int {
-                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1 && introQuestions[0].questionType == "Select")
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Select".equals(it.questionType, true) } != null)
                     View.VISIBLE
-                else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
-                    View.GONE
                 else
-                    View.VISIBLE
+                    View.GONE
             }
 
             fun initQ2Visibility(): Int {
-                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1 && introQuestions[0].questionType == "Text")
+                return if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Text".equals(it.questionType, true) } != null)
                     View.VISIBLE
-                else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
-                    View.GONE
                 else
-                    View.VISIBLE
+                    View.GONE
             }
 
             fun getCVAmount(): String? {

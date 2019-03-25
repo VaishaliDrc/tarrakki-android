@@ -71,17 +71,17 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
         btnLogin?.setOnClickListener {
             when {
                 getViewModel().userName.get()?.length == 0 -> {
-                    simpleAlert("Please enter email address") {
+                    simpleAlert(getString(R.string.pls_enter_email_address)) {
                         edtEmail?.requestFocus()
                     }
                 }
                 !Patterns.EMAIL_ADDRESS.matcher(getViewModel().userName.get()).matches() -> {
-                    simpleAlert("Please enter valid email address") {
+                    simpleAlert(getString(R.string.pls_enter_valid_email_address)) {
                         edtEmail?.requestFocus()
                     }
                 }
                 getViewModel().password.get()?.length == 0 -> {
-                    simpleAlert("Please enter password") {
+                    simpleAlert(getString(R.string.pls_enter_password)) {
                         edtPassword?.requestFocus()
                     }
                 }

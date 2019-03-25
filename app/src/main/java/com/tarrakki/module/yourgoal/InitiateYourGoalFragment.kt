@@ -47,15 +47,16 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
             getViewModel().getGoalById("$goalId")
         }
         val data = arrayListOf<String>()//resources.getStringArray(R.array.automobile)
-        getViewModel().goalVM.observe(this, Observer {
+        getViewModel().goalVM.observe(this, Observer { it ->
             it?.let { goal ->
                 goal.questions = goal.questions.sortedBy { q -> q.questionOrder }
                 getViewModel().hasQuestions.set(goal.introQuestions?.isNotEmpty() == true)
                 getBinding().goal = goal
                 getBinding().executePendingBindings()
                 data.clear()
-                if (goal.introQuestions?.isNotEmpty() == true) {
-                    goal.introQuestions[0].options?.split(",")?.forEach { item ->
+                if (goal.introQuestions?.isNotEmpty() == true && goal.introQuestions.find { "Select".equals(it.questionType, true) } != null) {
+                    val arr = goal.introQuestions.find { "Select".equals(it.questionType, true) }
+                    arr?.options?.split(",")?.forEach { item ->
                         data.add(item)
                     }
                     val adapter = ArrayAdapter(
@@ -70,10 +71,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         })
         btnContinue?.setOnClickListener {
             getViewModel().goalVM.value?.let { goal ->
-                if (goal.introQuestions != null && goal.introQuestions[0].questionType == "Text")
-                    goal.setAnsQ1(edtQ2Answer.text.toString())
-                else
-                    goal.setAnsQ2(edtQ2Answer.text.toString())
+                goal.setAnsQ2(edtQ2Answer.text.toString())
                 startFragment(YourGoalFragment.newInstance(), R.id.frmContainer)
                 postSticky(goal)
             }

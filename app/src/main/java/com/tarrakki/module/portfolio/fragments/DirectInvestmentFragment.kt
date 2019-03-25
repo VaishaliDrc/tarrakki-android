@@ -194,18 +194,18 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
         tvHowReturns?.setOnClickListener {
             val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
-            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
             options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
                     "Investments over one year reflect XIRR returns(Annualised returns)"))
-            context?.portfolioIntro(options, 1)
+            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            context?.portfolioIntro(options, 0)
         }
 
         tvWhen?.setOnClickListener {
             val options: MutableList<InvestmentPortfolioIntro> = mutableListOf()
-            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
             options.add(InvestmentPortfolioIntro("How are returns calculated?", "Investments less than one year reflect absolute returns.\n" +
                     "Investments over one year reflect XIRR returns(Annualised returns)"))
-            context?.portfolioIntro(options, 0)
+            options.add(InvestmentPortfolioIntro("When does my portfolio update here?", "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+            context?.portfolioIntro(options, 1)
         }
 
     }

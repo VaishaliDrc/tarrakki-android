@@ -34,33 +34,36 @@
                     android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+
                 <TextView
-                    android:id="@+id/tvWhen"
+                    android:id="@+id/tvHowReturns"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rvDInvests"
                     android:layout_marginStart="@dimen/space_16"
                     android:layout_marginEnd="@dimen/space_16"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@string/when_does_my_portfolio_update_here"
+                    android:text="@string/how_are_returns_calculated"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorAccent"
                     android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tvHowReturns"
+                    android:id="@+id/tvWhen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvWhen"
-                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/tvHowReturns"
                     android:layout_marginStart="@dimen/space_16"
                     android:layout_marginEnd="@dimen/space_16"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="@dimen/space_16"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@string/how_are_returns_calculated"
+                    android:text="@string/when_does_my_portfolio_update_here"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorAccent"
                     android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
+
+
 
 
                 <TextView
