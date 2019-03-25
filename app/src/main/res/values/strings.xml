@@ -742,6 +742,7 @@
     <string name="pls_enter_password">Please enter Password.</string>
     <string name="pls_enter_mobile_number">Please enter Mobile Number.</string>
     <string name="pls_enter_valid_indian_mobile_number">Please Enter a Valid Indian Mobile Number.</string>
+    <string name="pls_enter_confirm_password">Please enter Confirm Password.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

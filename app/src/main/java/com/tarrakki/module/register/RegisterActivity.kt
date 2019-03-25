@@ -73,7 +73,7 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     edtPassword?.setSelection(edtPassword.text.length)
                 }
             } else if (getViewModel().confirmPassword.get()?.length == 0) {
-                simpleAlert("Please enter confirm password") {
+                simpleAlert(getString(R.string.pls_enter_confirm_password)) {
                     edtPassword?.requestFocus()
                 }
             } else if (getViewModel().confirmPassword.get() != getViewModel().password.get()) {
