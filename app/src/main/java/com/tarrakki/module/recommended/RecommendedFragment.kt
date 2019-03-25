@@ -46,6 +46,7 @@ const val KEY_FUND_DIST_HYBRID = "Hybrid"
 const val KEY_FUND_DIST_LIQUID = "Liquid"
 const val KEY_FUND_DIST_MIP = "MIP"
 const val KEY_FUND_DIST_STP = "STP"
+
 const val ISFROMGOALRECOMMEDED = "is_from_goal_recommended"
 
 class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBinding>() {

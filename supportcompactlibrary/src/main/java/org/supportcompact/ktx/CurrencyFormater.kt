@@ -45,6 +45,8 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
 
     addTextChangedListener(object : TextWatcher {
         private var current = ""
+        private var dChange = -1
+
         override fun afterTextChanged(p0: Editable?) {
 
         }
@@ -53,7 +55,7 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
 
         }
 
-        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        override fun onTextChanged(s: CharSequence?, p1: Int, delete: Int, add: Int) {
             if (s == null || s.isEmpty()) {
                 current = ""
                 return
@@ -72,7 +74,13 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
                         this@applyCurrencyFormatPositiveOnly.text.clear()
                     }
                     current = this@applyCurrencyFormatPositiveOnly.text.toString()
-                    this@applyCurrencyFormatPositiveOnly.setSelection(current.length)
+                    this@applyCurrencyFormatPositiveOnly.setSelection(
+                            when {
+                                p1 != 0 && delete == 1 -> p1
+                                p1 != 0 && add == 1 -> p1
+                                else -> current.length
+                            }
+                    )
                     this@applyCurrencyFormatPositiveOnly.addTextChangedListener(this)
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -217,7 +225,7 @@ fun String.toCurrencyBigInt(): BigInteger = try {
 
 fun BigInteger.toCurrency(): String {
     return try {
-        val temp: Double? = this.toDouble() ?: 0.0
+        val temp: Double? = this.toDouble()
         if (temp != null) {
             temp.toCurrency().toString()
         } else {

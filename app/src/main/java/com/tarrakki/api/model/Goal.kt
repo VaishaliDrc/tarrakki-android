@@ -135,7 +135,7 @@ data class Goal(
                 }
             }
 
-            fun getAnsQ1() = if (introQuestions?.isNotEmpty() == true) introQuestions[0].ans1 else ""
+            fun getAnsQ1() = if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Select".equals(it.questionType, true) } != null) introQuestions.find { "Select".equals(it.questionType, true) }?.ans1 else ""
 
             fun setAnsQ2(ans: String) {
                 if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Text".equals(it.questionType, true) } != null) {
@@ -143,7 +143,7 @@ data class Goal(
                 }
             }
 
-            fun getAnsQ2() = if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) introQuestions[1].ans1 else ""
+            fun getAnsQ2() = if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Text".equals(it.questionType, true) } != null) introQuestions.find { "Text".equals(it.questionType, true) }?.ans1 else ""
 
             fun initQ1Visibility(): Int {
                 return if (introQuestions?.isNotEmpty() == true && introQuestions.find { "Select".equals(it.questionType, true) } != null)
@@ -324,10 +324,10 @@ data class Goal(
                 json.addProperty("pmt", this@GoalData.pmt)
                 json.addProperty("i", this@GoalData.inflation)
                 if (introQuestions?.isNotEmpty() == true && introQuestions.size > 1) {
-                    json.addProperty("saving_for", getAnsQ1())
-                    json.addProperty("user_purchase", getAnsQ2())
+                    json.addProperty("saving_for", getAnsQ2())
+                    json.addProperty("user_purchase", getAnsQ1())
                 } else if (introQuestions?.isNotEmpty() == true) {
-                    json.addProperty("saving_for", getAnsQ1())
+                    json.addProperty("saving_for", getAnsQ2())
                 }
                 e("addGoalData->", json)
                 e("addGoalData->", AES.encrypt(json.toString()))
