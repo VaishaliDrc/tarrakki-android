@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.AES
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.UserProfileResponse
 import com.tarrakki.databinding.FragmentMyProfileBinding
 import com.tarrakki.module.ekyc.SignatureActivity
@@ -31,7 +32,6 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
@@ -40,19 +40,16 @@ const val PROFILE_MOBILE_DATA = "profile_mobile_data"
 
 class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() {
 
-    var orignalEmail: String? = ""
-    var orignalMobile: String? = ""
+    var isEmailVerified: Boolean? = false
+    var isMobileVerified: Boolean? = false
+
     var verifiedEmail: String? = ""
     var verifiedMobile: String? = ""
 
-
     var profileUri: Uri? = null
     var signatureUri: Uri? = null
-    var oldEmail: String? = ""
-    var oldMobile: String? = ""
-    var isProfileClickable: Boolean? = false
 
-    var isEmailAuth: Boolean? = false
+    var isProfileClickable: Boolean? = false
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "ProfileImage"
     private val SIGN_CROPPED_IMAGE_NAME = "SignCropImage"
@@ -91,22 +88,14 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             getViewModel().nominiName.set(response.data.nomineeName)
             getViewModel().nominiRelationship.set(response.data.nomineeRelationship)
 
-            orignalEmail = response.data.email
-            orignalMobile = response.data.mobileNumber
+            isEmailVerified = response.data.isEmailActivated
+            isMobileVerified = response.data.isMobileVerified
 
-            //oldEmail = response.data.email
-            oldMobile = response.data.mobileNumber
+            getViewModel().isEmailVerified.set(isEmailVerified)
+            getViewModel().isMobileVerified.set(isMobileVerified)
 
-            getViewModel().isEmailVerified.set(response.data.isEmailActivated)
-            getViewModel().isMobileVerified.set(response.data.isMobileVerified)
-
-            if (response.data.isEmailActivated) {
-                verifiedEmail = response.data.email
-            }
-
-            if (response.data.isMobileVerified) {
-                verifiedMobile = response.data.mobileNumber
-            }
+            verifiedEmail = response.data.email
+            verifiedMobile = response.data.mobileNumber
         }
     }
 
@@ -143,8 +132,12 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
 
         getViewModel().email.observe {
             if (it.isNotEmpty()) {
-                if (verifiedEmail == it) {
-                    getViewModel().isEmailVerified.set(true)
+                if (isEmailVerified == true) {
+                    if (verifiedEmail == it) {
+                        getViewModel().isEmailVerified.set(true)
+                    } else {
+                        getViewModel().isEmailVerified.set(false)
+                    }
                 } else {
                     getViewModel().isEmailVerified.set(false)
                 }
@@ -155,8 +148,12 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
 
         getViewModel().mobile.observe {
             if (it.isNotEmpty()) {
-                if (verifiedMobile == it) {
-                    getViewModel().isMobileVerified.set(true)
+                if (isMobileVerified == true) {
+                    if (verifiedMobile == it) {
+                        getViewModel().isMobileVerified.set(true)
+                    } else {
+                        getViewModel().isMobileVerified.set(false)
+                    }
                 } else {
                     getViewModel().isMobileVerified.set(false)
                 }
@@ -170,11 +167,11 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 if (isEdit) {
                     if (isValidate()) {
                         getViewModel().updateProfile().observe(this, android.arch.lifecycle.Observer {
-                            context?.simpleAlert("Your profile is updated successfully."){
+                            context?.simpleAlert(context?.getString(R.string.alert_profile_success_update).toString()) {
                                 Handler().postDelayed({
                                     getViewModel().isEdit.set(false)
                                     getViewModel().getUserProfile().observe(this, profileObserver)
-                                },100)
+                                }, 100)
                             }
                         })
                     } else {
@@ -247,7 +244,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     private fun validateMobile(): Boolean {
         return when {
             getViewModel().mobile.isEmpty() -> {
-                context?.simpleAlert("Please enter mobile number") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
                     }, 100)
@@ -255,7 +252,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().mobile.get()?.length != 10 -> {
-                context?.simpleAlert("Please enter valid mobile number") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_valid_indian_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
                     }, 100)
@@ -269,7 +266,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     private fun validateEmail(): Boolean {
         return when {
             getViewModel().email.isEmpty() -> {
-                context?.simpleAlert("Please enter email id") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_email_address).toString()) {
                     Handler().postDelayed({
                         edtEmail?.requestFocus()
                     }, 100)
@@ -277,7 +274,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             !getViewModel().email.isEmail() -> {
-                context?.simpleAlert("Please enter valid email id") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_valid_email_address).toString()) {
                     Handler().postDelayed({
                         edtEmail?.requestFocus()
                     }, 100)
@@ -290,41 +287,39 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
 
     private fun onVerifyEmail() {
         if (validateEmail()) {
-            if (getViewModel().email.get() != orignalEmail) {
-                if (isEmailAuth != true) {
-                    context?.confirmationDialog(title = getString(R.string.app_name),
-                            msg = "You need to authenticate with an OTP to update your e-mail. Do you want to redirect for the OTP verification?",
-                            btnPositive = "Yes",
-                            btnNegative = "No",
-                            btnPositiveClick = {
-                                val json = JsonObject()
-                                json.addProperty("user_id", App.INSTANCE.getUserId())
-                                json.addProperty("email", orignalEmail)
-                                json.addProperty("type", "update_email")
-                                e("Plain Data=>", json.toString())
-                                val data = AES.encrypt(json.toString())
-                                e("Encrypted Data=>", data)
-                                getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                                    it?.let { it1 ->
-                                        val intent = Intent(activity, OtpVerificationActivity::class.java)
-                                        intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
-                                        startActivity(intent)
-                                        EventBus.getDefault().postSticky(it1)
-                                    }
-                                })
-                            }, btnNegativeClick = {
-                        getViewModel().email.set(orignalEmail)
-                    })
-                }
+            if (verifiedEmail != getViewModel().email.get()) {
+                context?.confirmationDialog(title = getString(R.string.app_name),
+                        msg = getString(R.string.alert_email_auth),
+                        btnPositive = "Yes",
+                        btnNegative = "No",
+                        btnPositiveClick = {
+                            val json = JsonObject()
+                            json.addProperty("user_id", App.INSTANCE.getUserId())
+                            json.addProperty("email", verifiedEmail)
+                            json.addProperty("type", "update_email")
+                            e("Plain Data=>", json.toString())
+                            val data = AES.encrypt(json.toString())
+                            e("Encrypted Data=>", data)
+                            getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                                it?.let { it1 ->
+                                    val intent = Intent(activity, OtpVerificationActivity::class.java)
+                                    intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
+                                    startActivity(intent)
+                                    EventBus.getDefault().postSticky(it1)
+                                }
+                            })
+                        }, btnNegativeClick = {
+                    getViewModel().email.set(verifiedEmail)
+                })
             }
         }
     }
 
     private fun onVerifyMobile() {
         if (validateMobile()) {
-            if (getViewModel().isMobileVerified.get() != true) {
+            if (getViewModel().mobile.get() != verifiedMobile) {
                 context?.confirmationDialog(title = getString(R.string.app_name),
-                        msg = "You need to authenticate with an OTP to update your mobile number. Do you want to redirect for the OTP verification?",
+                        msg = getString(R.string.alert_mobile_auth),
                         btnPositive = "Yes",
                         btnNegative = "No",
                         btnPositiveClick = {
@@ -344,7 +339,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                                 }
                             })
                         }, btnNegativeClick = {
-                    getViewModel().mobile.set(oldMobile)
+                    getViewModel().mobile.set(verifiedMobile)
                 })
             }
         }
@@ -473,11 +468,11 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                             profileUri = UCrop.getOutput(data)
                             profileUri?.let {
                                 getViewModel().updateProfileImage(profileUri).observe(this, android.arch.lifecycle.Observer {
-                                    context?.simpleAlert("Your profile picture is updated successfully."){
+                                    context?.simpleAlert(getString(R.string.alert_profile_success)) {
                                         Handler().postDelayed({
                                             getViewModel().isEdit.set(false)
                                             getViewModel().getUserProfile().observe(this, profileObserver)
-                                        },100)
+                                        }, 100)
                                     }
                                 })
 
@@ -492,11 +487,11 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                             signatureUri = com.tarrakki.ucrop.UCrop.getOutput(data)
                             signatureUri?.let {
                                 getViewModel().updateSignatureImage(signatureUri).observe(this, android.arch.lifecycle.Observer {
-                                    context?.simpleAlert("Your signature is updated successfully."){
+                                    context?.simpleAlert(getString(R.string.alert_signtuare_success)) {
                                         Handler().postDelayed({
                                             getViewModel().isEdit.set(false)
                                             getViewModel().getUserProfile().observe(this, profileObserver)
-                                        },100)
+                                        }, 100)
                                     }
                                 })
                                 if (it.scheme == "file") {
@@ -518,19 +513,21 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     fun onEventData(event: Event) {
         when (event) {
             Event.ISEMAILVERIFIED -> {
-                isEmailAuth = true
-                // oldEmail = getViewModel().email.get()
-                // getViewModel().isEmailVerified.set(true)
+                verifiedEmail = getViewModel().email.get()
+                getViewModel().isEmailVerified.set(false)
             }
             Event.ISMOBILEVERIFIED -> {
                 verifiedMobile = getViewModel().mobile.get()
                 getViewModel().isMobileVerified.set(true)
             }
             Event.ISEMAILVERIFIEDBACK -> {
-                getViewModel().email.set(orignalEmail)
+                getViewModel().email.set(verifiedEmail)
             }
             Event.ISMOBILEVERIFIEDBACK -> {
-                getViewModel().mobile.set(oldMobile)
+                getViewModel().mobile.set(verifiedMobile)
+            }
+            else -> {
+
             }
         }
     }
@@ -538,7 +535,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     private fun isValidate(): Boolean {
         return when {
             getViewModel().fName.isEmpty() -> {
-                context?.simpleAlert("Please enter Display name") {
+                context?.simpleAlert(getString(R.string.alert_enter_display_name)) {
                     Handler().postDelayed({
                         edtFName?.requestFocus()
                     }, 100)
@@ -546,7 +543,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().email.isEmpty() -> {
-                context?.simpleAlert("Please enter email id") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_email_address).toString()) {
                     Handler().postDelayed({
                         edtEmail?.requestFocus()
                     }, 100)
@@ -554,7 +551,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             !getViewModel().email.isEmail() -> {
-                context?.simpleAlert("Please enter valid email id") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_valid_email_address).toString()) {
                     Handler().postDelayed({
                         edtEmail?.requestFocus()
                     }, 100)
@@ -562,7 +559,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().mobile.isEmpty() -> {
-                context?.simpleAlert("Please enter mobile number") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
                     }, 100)
@@ -570,7 +567,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().mobile.get()?.length != 10 -> {
-                context?.simpleAlert("Please enter valid mobile number") {
+                context?.simpleAlert(context?.getString(R.string.pls_enter_valid_indian_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
                     }, 100)
@@ -578,7 +575,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().nominiName.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee name") {
+                context?.simpleAlert(context?.getString(R.string.alert_req_nominee_name).toString()) {
                     Handler().postDelayed({
                         edtNominee?.requestFocus()
                     }, 100)
@@ -586,32 +583,20 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 false
             }
             getViewModel().nominiRelationship.isEmpty() -> {
-                context?.simpleAlert("Please enter nominee relationship") {
+                context?.simpleAlert(context?.getString(R.string.alert_req_nominee_relationship).toString()) {
                     Handler().postDelayed({
                         edtNomineeRelationship?.requestFocus()
                     }, 100)
                 }
                 false
             }
-            getViewModel().isMobileVerified.get() == false -> {
-                context?.simpleAlert("Please verify OTP before changing mobile number.") {
-                 /*   Handler().postDelayed({
-                        edtMobile?.requestFocus()
-                    }, 100)*/
-                }
+            verifiedMobile != getViewModel().mobile.get() -> {
+                context?.simpleAlert(getString(R.string.alert_verify_mobile))
                 false
             }
-            getViewModel().email.get() != orignalEmail -> {
-                if (isEmailAuth != true) {
-                    context?.simpleAlert("Please verify email before changing another email.") {
-                       /* Handler().postDelayed({
-                            edtEmail?.requestFocus()
-                        }, 100)*/
-                    }
-                    false
-                } else {
-                    true
-                }
+            verifiedEmail != getViewModel().email.get() -> {
+                context?.simpleAlert(getString(R.string.alert_verify_email))
+                false
             }
             else -> true
         }

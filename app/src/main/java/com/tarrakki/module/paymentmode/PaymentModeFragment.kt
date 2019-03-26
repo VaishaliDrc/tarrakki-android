@@ -155,12 +155,12 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                 startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
                             })
                         } else {
-                            context?.simpleAlert("Please first enter the UTR Number.")
+                            context?.simpleAlert(getString(R.string.alert_req_utr))
                         }
                     }
                     e("Plain Data=>", json.toString())
                 }else{
-                    context?.simpleAlert("Please Select Bank first.")
+                    context?.simpleAlert(getString(R.string.alert_req_bank))
                 }
             }
         }

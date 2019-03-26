@@ -80,7 +80,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     if (confirmOrderResponse?.data?.isSIP == true) {
                         if (confirmOrderResponse.data.mandateId == null) {
-                            context?.simpleAlert("Please select mandate bank to continue.")
+                            context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
                             return@OnClickListener
                         } else {
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
@@ -137,7 +137,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             if (binder is RowConfirmOrderBinding) {
                                 binder.cbSIP.isChecked = !binder.cbSIP.isChecked
                             }
-                            context?.simpleAlert("Your bank mandate is pending, hence you will not be currently able to uncheck this option.")
+                            context?.simpleAlert(getString(R.string.alert_warn_uncheck_mandate))
                         }
                     }
                 })

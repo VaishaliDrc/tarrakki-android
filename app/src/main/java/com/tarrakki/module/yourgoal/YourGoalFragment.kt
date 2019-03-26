@@ -152,7 +152,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     isBoolean = item1.questionType == "boolean"
                     if (isBoolean) {
                         if (item1.ansBoolean && TextUtils.isEmpty(item2.ans)) {
-                            context?.simpleAlert("All the questions mentioned above are mandatory so please answers them first to continue!")
+                            context?.simpleAlert(getString(R.string.alert_req_answers))
                         } else if (item1.ansBoolean && !TextUtils.isEmpty(item2.ans)) {
                             isValidate = isValid(item2)
                         } else {
@@ -161,7 +161,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                         }
                     } else {
                         if (TextUtils.isEmpty(item1.ans) && TextUtils.isEmpty(item2.ans)) {
-                            context?.simpleAlert("All the questions mentioned above are mandatory so please answers them first to continue!")
+                            context?.simpleAlert(getString(R.string.alert_req_answers))
                         } else if (isValid(item1) && isValid(item2)) {
                             isValidate = true
                         }
@@ -192,7 +192,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 "cv" -> {
                     val amount = "${question.ans}".replace(",", "")
                     if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
-                        var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        var msg = getString(R.string.alert_valid_above).plus(" ".plus(question.minValue))
                         context?.simpleAlert(msg)
                         false
                     } else
@@ -201,7 +201,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 "tax_pmt" -> {
                     val amount = "${question.ans}".replace(",", "")
                     if (TextUtils.isEmpty(amount) || amount.toDouble() < question.minValue) {
-                        var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
+                        var msg = getString(R.string.alert_valid_above).plus(" ".plus(question.minValue))
                         context?.simpleAlert(msg)
                         false
                     } else
@@ -215,15 +215,14 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                     val pvAmount = "${question.ans}".replace(",", "")
                     //amount = "${question.ans}".replace(",", "")
                     if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
-                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
-                        context?.simpleAlert("Your lumpsum investment cannot be equal to or more than your total investment goal.")
+                        context?.simpleAlert(getString(R.string.alert_valid_goal_lumpsum))
                         false
                     } else
                         true
                 }
                 "n" -> {
                     if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
-                        var msg = "Please enter a valid number of years between"
+                        var msg = getString(R.string.alert_valid_years)
                                 .plus(" ".plus(question.minValue))
                                 .plus(" to ".plus(question.maxValue))
                         context?.simpleAlert(msg)
@@ -233,7 +232,7 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 }
                 "dp" -> {
                     if (TextUtils.isEmpty(question.ans) || question.ans.toDouble() !in question.minValue..question.maxValue.toDouble()) {
-                        var msg = "Please enter a valid percentage between"
+                        var msg = getString(R.string.alert_valid_percentage)
                                 .plus(" ".plus(question.minValue))
                                 .plus(" to ".plus(question.maxValue))
                         context?.simpleAlert(msg)

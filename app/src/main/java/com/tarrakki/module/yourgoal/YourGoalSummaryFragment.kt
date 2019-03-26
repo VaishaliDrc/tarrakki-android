@@ -224,17 +224,17 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
             return if (cv != null && n != null) {
                 val amount = "${cv.ans}".replace(",", "")
                 return if (TextUtils.isEmpty(amount) || amount.toDouble() < cv.minValue) {
-                    var msg = "Please enter a valid number above".plus(" ".plus(cv.minValue))
+                    var msg = getString(R.string.alert_valid_above).plus(" ".plus(cv.minValue))
                     context?.simpleAlert(msg)
                     false
                 } else if (TextUtils.isEmpty(n.ans) || n.ans.toDouble() !in n.minValue..n.maxValue.toDouble()) {
-                    var msg = "Please enter a valid number of years between"
+                    var msg = getString(R.string.alert_valid_years)
                             .plus(" ".plus(n.minValue))
                             .plus(" to ".plus(n.maxValue))
                     context?.simpleAlert(msg)
                     false
                 } else if (goal.inflation == null || "${goal.inflation}" == "0") {
-                    context?.simpleAlert("Please enter inflation")
+                    context?.simpleAlert(getString(R.string.alert_req_inflation))
                     false
                 } else
                     true

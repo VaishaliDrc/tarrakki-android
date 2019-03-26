@@ -620,7 +620,7 @@
     <string name="alert_third_level_category">Please add a third level category.</string>
     <string name="tap_here_to_see_the_fund_offer_document"><u>Scheme document</u></string>
 
-    <string name="saved_goal_delete">Are you sure to delete this goal?</string>
+    <string name="saved_goal_delete">Are you sure you want to Delete this Goal?</string>
     <string name="e_kyc">E-KYC</string>
 
     <string name="new_user">New User</string>
@@ -780,6 +780,27 @@
     <string name="alert_valid_email">Please enter a valid Email Address.</string>
     <string name="alert_req_otp">Please enter the OTP first for Verification.</string>
     <string name="alert_req_terms"><![CDATA[Please Accept the Terms & Conditions first, to continue.]]></string>
+    <string name="alert_profile_success_update">Your Profile has been Updated Successfully.</string>
+    <string name="alert_enter_display_name">Please enter Display Name.</string>
+    <string name="alert_mobile_auth">You need to authenticate your Update Mobile Number request with an OTP. Would you like to get redirected for OTP Verification?</string>
+    <string name="alert_email_auth">You need to authenticate your Update Email request with an OTP. Would you like to get redirected for OTP Verification?</string>
+    <string name="alert_verify_mobile">Please verify your Mobile Number.</string>
+    <string name="alert_verify_email">Please verify your Email Address.</string>
+    <string name="alert_profile_success">Your Profile Picture has been Updated Successfully.</string>
+    <string name="alert_signtuare_success">Your Signature has been Updated Successfully.</string>
+    <string name="alert_req_answers">All the questions are mandatory. Please answer them to continue.</string>
+    <string name="alert_valid_above">Please enter a valid number above</string>
+    <string name="alert_valid_percentage">Please enter a valid percentage between</string>
+    <string name="alert_valid_years">Please enter a valid number of years between</string>
+    <string name="alert_valid_goal_lumpsum">Your lumpsum investment cannot be equal to or more than your total investment goal.</string>
+    <string name="alert_req_inflation">Please enter Inflation.</string>
+    <string name="alert_mismatch_reg_password">The \'Confirm Password\' field does not match the \'Password\'. Please Re-enter.</string>
+    <string name="alert_valid_multiple_sip">The SIP amount should be a multiple of 10.</string>
+    <string name="alert_valid_multiple_lumpsum">The lumpsum amount should be a multiple of 10.</string>
+    <string name="alert_req_units">Please enter Units.</string>
+    <string name="alert_req_utr">Please Enter the UTR Number.</string>
+    <string name="alert_req_bank_mandate">Please Select the Bank to Continue</string>
+    <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

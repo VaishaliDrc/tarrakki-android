@@ -377,14 +377,6 @@ fun requestToEdit(txt: EditText, requestToEdit: Boolean?) {
     }
 }
 
-/*fun TextView.decimalFormat(amount: Double) {
-    this.text = String.format(Locale.US, "%,.2f", amount)
-}
-
-fun TextView.format(amount: Double) {
-    this.text = String.format(Locale.US, "%,d", Math.round(amount))
-}*/
-
 fun handleTextView(initialValue: Int, finalValue: Int, textview: TextView) {
     val valueAnimator = ValueAnimator.ofInt(initialValue, finalValue)
     valueAnimator.duration = 1500
@@ -430,33 +422,15 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
     mBinder.durations = goal?.getNDuration()
     mBinder.btnInvest.setOnClickListener {
         if (goal != null) {
-            //val cv = goal.getCV()
             val n = goal.getN()
-            if (/*cv != null && */n != null) {
+            if (n != null) {
                 try {
-                    /*
-                    * "pv" -> {
-                    var amount = ""
-                    getViewModel().goalVM.value?.let { goal ->
-                        amount = "${goal.getCVAmount()}".replace(",", "")
-                    }
-                    val pvAmount = "${question.ans}".replace(",", "")
-                    //amount = "${question.ans}".replace(",", "")
-                    if ((TextUtils.isEmpty(amount) && TextUtils.isEmpty(pvAmount)) || pvAmount.toDouble() > amount.toDouble()) {
-                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
-                        context?.simpleAlert("Your lumpsum investment cannot be equal to or more than your total investment goal.")
-                        false
-                    } else
-                        true
-                }
-                    * */
                     val pvAmount = "${mBinder.lumpsum}".replace(",", "")
                     val amount = "${if (goal.isCustomInvestment()) goal.getInvestmentAmount() else goal.getPMT()?.ans}".replace(",", "")
                     if (!TextUtils.isEmpty(amount) && !TextUtils.isEmpty(pvAmount) && pvAmount.toDouble() > amount.toDouble()) {
-                        //var msg = "Please enter a valid number above".plus(" ".plus(question.minValue))
-                        EventBus.getDefault().post(ShowError("Your lumpsum investment cannot be equal to or more than your total investment goal."))
+                        EventBus.getDefault().post(ShowError(this.getString(R.string.alert_valid_goal_lumpsum)))
                     } else if (TextUtils.isEmpty(mBinder.durations) || "${mBinder.durations}".toDouble() !in n.minValue..n.maxValue.toDouble()) {
-                        val msg = "Please enter a valid number of years between"
+                        val msg = this.getString(R.string.alert_valid_years)
                                 .plus(" ".plus(n.minValue))
                                 .plus(" to ".plus(n.maxValue))
                         EventBus.getDefault().post(ShowError(msg))
@@ -829,11 +803,11 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
     if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (lumpsumAmount < minLumsumpAmount) {
-                this.simpleAlert("The lumpsum amount must be greater than or equal to  ${minLumsumpAmount.toDouble().toCurrency()}.")
+                this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
                 return false
             }
         } else {
-            this.simpleAlert("The lumpsum amount should be a multiple of 10.")
+            this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
             return false
         }
 
@@ -841,11 +815,11 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
     if (sipAmount != BigInteger.ZERO) {
         if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (sipAmount < minSIPAmount) {
-                this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toDouble().toCurrency()}.")
+                this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
                 return false
             }
         } else {
-            this.simpleAlert("The SIP amount should be a multiple of 10.")
+            this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
             return false
         }
     }
@@ -857,11 +831,11 @@ fun Context.isLumpsumAmountValid(minLumsumpAmount: BigInteger,
     if (lumpsumAmount != BigInteger.ZERO) {
         if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (lumpsumAmount < minLumsumpAmount) {
-                this.simpleAlert("The lumpsum amount must be greater than or equal to ${minLumsumpAmount.toDouble().toCurrency()}.")
+                this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
                 return false
             }
         } else {
-            this.simpleAlert("The lumpsum amount should be a multiple of 10.")
+            this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
             return false
         }
     }
@@ -873,11 +847,11 @@ fun Context.isSIPAmountValid(minSIPAmount: BigInteger,
     if (sipAmount != BigInteger.ZERO) {
         if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (sipAmount < minSIPAmount) {
-                this.simpleAlert("The SIP amount must be greater than or equal to ${minSIPAmount.toDouble().toCurrency()}.")
+                this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
                 return false
             }
         } else {
-            this.simpleAlert("The SIP amount should be a multiple of 10.")
+            this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
             return false
         }
     }
@@ -901,7 +875,7 @@ fun Context.isAmountValid(amount: BigDecimal): Boolean {
         }*/
         return true
     } else {
-        this.simpleAlert("Please enter units.")
+        this.simpleAlert(getString(R.string.alert_req_units))
         return false
     }
 }

@@ -224,3 +224,11 @@ fun alertStopPortfolio(folio : String,date : String) : String{
 fun alertRedeemPortfolio(amount : String) : String{
     return "Your redemption of $amount was successful."
 }
+
+fun alertSIPMin(amount : String) : String{
+    return "The SIP amount must be greater than or equal to $amount."
+}
+
+fun alertLumpsumMin(amount : String) : String{
+    return "The lumpsum amount must be greater than or equal to $amount."
+}
