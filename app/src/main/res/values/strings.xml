@@ -792,7 +792,7 @@
     <string name="alert_valid_above">Please enter a valid number above</string>
     <string name="alert_valid_percentage">Please enter a valid percentage between</string>
     <string name="alert_valid_years">Please enter a valid number of years between</string>
-    <string name="alert_valid_goal_lumpsum">Your lumpsum investment cannot be equal to or more than your total investment goal.</string>
+    <string name="alert_valid_goal_lumpsum">The lumpsum amount can not be equal to or greater than the goal\'s target amount.</string>
     <string name="alert_req_inflation">Please enter Inflation.</string>
     <string name="alert_mismatch_reg_password">The \'Confirm Password\' field does not match the \'Password\'. Please Re-enter.</string>
     <string name="alert_valid_multiple_sip">The SIP amount should be a multiple of 10.</string>

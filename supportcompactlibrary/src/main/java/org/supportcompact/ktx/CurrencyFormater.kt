@@ -75,11 +75,12 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
                     }
                     current = this@applyCurrencyFormatPositiveOnly.text.toString()
                     this@applyCurrencyFormatPositiveOnly.setSelection(
-                            when {
+                            /*when {
                                 p1 != 0 && delete == 1 -> p1
                                 p1 != 0 && add == 1 -> p1
                                 else -> current.length
-                            }
+                            }*/
+                            current.length
                     )
                     this@applyCurrencyFormatPositiveOnly.addTextChangedListener(this)
                 } catch (e: Exception) {

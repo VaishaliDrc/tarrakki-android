@@ -16,8 +16,10 @@ import com.tarrakki.databinding.RowGoalListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
@@ -52,11 +54,13 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         binding.executePendingBindings()
     }
 
+    lateinit var observerGoals: Observer<Goal>
+
     override fun createReference() {
         rvGoals.isFocusable = false
         rvGoals.isNestedScrollingEnabled = false
         rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
-        val observerGoals = Observer<Goal> { response ->
+        observerGoals = Observer { response ->
             response?.let {
                 if (it.data.goalData.isNotEmpty()) {
                     rvGoals.visibility = View.VISIBLE
@@ -77,6 +81,12 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         mRefresh?.setOnRefreshListener {
             getViewModel().getGoals(true).observe(this, observerGoals)
         }
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                mRefresh?.isRefreshing = false
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
     }
 
     override fun onStart() {
@@ -99,6 +109,15 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onEventData(event: Event) {
+        when (event) {
+            Event.ISGOALADDED -> {
+                getViewModel().getGoals(true).observe(this, observerGoals)
+            }
         }
     }
 

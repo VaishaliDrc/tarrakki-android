@@ -71,7 +71,7 @@ data class Fund(
             KEY_FUND_DIST_EQUITY.equals("$schemeType", true) ||
                     KEY_FUND_DIST_ELSS.equals("$schemeType", true) ||
                     KEY_FUND_DIST_HYBRID.equals("$schemeType", true) ||
-                    KEY_FUND_DIST_EQUITY.equals("$schemeType", true) -> {
+                    KEY_FUND_DIST_EQUITY.contains("$schemeType", true) -> {
                 R.color.equity_fund_color
             }
             KEY_FUND_DIST_BALANCED.equals("$schemeType", true) -> {

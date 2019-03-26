@@ -140,7 +140,7 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 KEY_FUND_DIST_EQUITY.equals(action.key, true) ||
                         KEY_FUND_DIST_ELSS.equals(action.key, true) ||
                         KEY_FUND_DIST_HYBRID.equals(action.key, true) ||
-                        KEY_FUND_DIST_EQUITY.equals(action.key, true) -> {
+                        KEY_FUND_DIST_EQUITY.contains(action.key, true) -> {
                     entries.add(PieEntry(sum, "EQUITY"))
                     getColor(R.color.equity_fund_color)?.let { colors.add(it) }
                 }

@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.tarrakki.module.learn.Article" />
+            type="com.tarrakki.api.model.Blog" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -21,7 +21,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2">
@@ -57,18 +57,20 @@
 
                 <TextView
                     android:id="@+id/tvDate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
                     android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:drawableStart="@drawable/ic_calendar"
                     android:drawablePadding="@dimen/space_8"
                     android:gravity="center_vertical"
-                    android:text="@{article.data}"
+                    android:text="@{article.date}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintBottom_toBottomOf="@+id/ivSocial"
+                    app:layout_constraintEnd_toStartOf="@+id/ivSocial"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     tools:text="3 Sep, 2018" />
@@ -91,12 +93,12 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_8"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/temp_article_details"
-                    app:layout_constraintTop_toBottomOf="@+id/ivSocial" />
+                    app:imgUrl="@{article.image}"
+                    app:layout_constraintTop_toBottomOf="@+id/ivSocial"
+                    tools:src="@drawable/temp_article_details" />
 
-                <TextView
-                    android:id="@+id/tvDescriptions"
-                    HTML="@{article.tempTxt}"
+                <WebView
+                    android:id="@+id/mWebViewDescriptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_8"
@@ -104,6 +106,7 @@
                     android:layout_marginEnd="@dimen/space_8"
                     android:layout_marginBottom="@dimen/space_8"
                     android:lineSpacingExtra="@dimen/space_4"
+                    app:HTML="@{article.description}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

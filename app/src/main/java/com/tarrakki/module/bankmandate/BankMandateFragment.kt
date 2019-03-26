@@ -24,7 +24,8 @@ import org.supportcompact.ktx.startFragment
 
 const val ISFROMCONFIRMORDER = "isfromconfirmOrder"
 const val ISFROMDIRECTBANKMANDATE = "isfromdirectbankmandate"
-const val MANDATEID = "mandate_id"
+const val MANDATEID = "mandateid"
+const val MANDATE_ID = "mandate_id"
 
 class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
@@ -152,6 +153,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMDIRECTBANKMANDATE, true)
                             putString(MANDATEID, item.id.toString())
+                            putString(MANDATE_ID, "${item.mandateId}")
                         }
                         startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
                         postSticky(item.bankDetails)
@@ -164,7 +166,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         rvBankMandate?.adapter = mandateBankAdapter
         if (isConfirmOrder == true) {
             getViewModel().isSelectBankVisible.set(true)
-            val bankIndex = bankDetails.indexOfFirst { it.id== arguments?.getInt(MANDATEID)}
+            val bankIndex = bankDetails.indexOfFirst { it.id == arguments?.getInt(MANDATEID) }
             mandateBankAdapter?.toggleItemView(bankIndex)
             mandateBankAdapter?.notifyItemChanged(bankIndex)
         } else {

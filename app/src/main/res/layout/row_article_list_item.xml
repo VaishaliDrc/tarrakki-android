@@ -7,7 +7,12 @@
 
         <variable
             name="article"
-            type="com.tarrakki.module.learn.Article" />
+            type="com.tarrakki.api.model.Blog" />
+
+        <variable
+            name="onReadMore"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -22,14 +27,14 @@
 
         <ImageView
             android:id="@+id/ivArticle"
-            imgUrl="@{article.imgUrl}"
             android:layout_width="108dp"
             android:layout_height="108dp"
             android:src="@drawable/temp_fpi"
+            app:imgUrl="@{article.image}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/ivVideoPLay"
             openYoutube="@{article.title}"
             android:layout_width="108dp"
@@ -39,7 +44,7 @@
             android:src="@drawable/video_play"
             android:visibility="@{article.videoVisibility()}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tvTitle"
@@ -53,6 +58,7 @@
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivArticle"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Are Fl Is buying the same stocks as MFs?" />
 
         <TextView
@@ -62,9 +68,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:maxLines="2"
-            android:text="@{article.description}"
+            android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            app:HTML="@{article.description}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivArticle"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -78,6 +85,7 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
+            android:onClick="@{onReadMore}"
             android:paddingStart="@dimen/default_space"
             android:paddingEnd="@dimen/default_space"
             android:text="@string/read_more"
@@ -103,7 +111,7 @@
             android:drawableStart="@drawable/ic_calendar"
             android:drawablePadding="@dimen/space_8"
             android:gravity="center_vertical"
-            android:text="@{article.data}"
+            android:text="@{article.date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintStart_toStartOf="parent"

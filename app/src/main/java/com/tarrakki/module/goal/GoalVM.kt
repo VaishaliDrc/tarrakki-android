@@ -25,7 +25,7 @@ class GoalVM : FragmentViewModel() {
         if (!isRefreshing)
             EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getGoals(),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getGoals(),
                 apiNames = WebserviceBuilder.ApiNames.getGoals,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

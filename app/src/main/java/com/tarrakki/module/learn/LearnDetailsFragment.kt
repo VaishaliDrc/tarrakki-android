@@ -1,13 +1,17 @@
 package com.tarrakki.module.learn
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.ShareCompat
 import com.tarrakki.R
+import com.tarrakki.api.model.Blog
 import com.tarrakki.databinding.FragmentLearnDetailsBinding
 import kotlinx.android.synthetic.main.fragment_learn_details.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.toHTMl
 
 /**
  * A simple [Fragment] subclass.
@@ -31,26 +35,34 @@ class LearnDetailsFragment : CoreFragment<LearnVM, FragmentLearnDetailsBinding>(
     }
 
     override fun setVM(binding: FragmentLearnDetailsBinding) {
-        arguments?.let {
-            binding.article = it.getSerializable(ARTICLE) as Article?
-            binding.executePendingBindings()
-        }
+
     }
 
     override fun createReference() {
-        tvShare?.setOnClickListener {
-            val mimeType = "text/plain"
-            ShareCompat.IntentBuilder.from(activity)
-                    .setChooserTitle(R.string.send_to)
-                    .setType(mimeType)
-                    .setText(
-                            getBinding().article?.title
-                                    .plus("\n\n")
-                                    .plus(getBinding().article?.description)
-                    ).startChooser()
-        }
+        getViewModel().blog.observe(this, Observer {
+            it?.let { blog ->
+                tvShare?.setOnClickListener {
+                    val mimeType = "text/html"
+                    ShareCompat.IntentBuilder.from(activity)
+                            .setChooserTitle(R.string.send_to)
+                            .setType(mimeType)
+                            .setText(
+                                    getBinding().article?.title
+                                            .plus("\n\n")
+                                            .plus(getBinding().article?.description?.toHTMl())
+                            ).startChooser()
+                }
+                getBinding().article = blog
+                getBinding().executePendingBindings()
+            }
+        })
     }
 
+    @Subscribe(sticky = true)
+    fun onReceive(blog: Blog) {
+        getViewModel().blog.value = blog
+        removeStickyEvent(blog)
+    }
 
     companion object {
         /**

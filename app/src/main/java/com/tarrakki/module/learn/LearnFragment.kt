@@ -1,15 +1,25 @@
 package com.tarrakki.module.learn
 
 
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
+import android.databinding.ViewDataBinding
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
+import android.view.View
+import com.tarrakki.App
+import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.BlogResponse
 import com.tarrakki.databinding.FragmentLearnBinding
-import com.tarrakki.databinding.RowArticleListItemBinding
+import com.tarrakki.module.transactions.LoadMore
 import kotlinx.android.synthetic.main.fragment_learn.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.string
 
 /**
  * A simple [Fragment] subclass.
@@ -17,8 +27,6 @@ import org.supportcompact.ktx.startFragment
  * create an instance of this fragment.
  *
  */
-
-const val ARTICLE = "article"
 
 class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
 
@@ -40,15 +48,50 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
     }
 
     override fun createReference() {
-        rvArticles?.setUpRecyclerView(R.layout.row_article_list_item, getViewModel().articles) { item: Article, binder: RowArticleListItemBinding, position ->
-            binder.article = item
-            binder.executePendingBindings()
-            binder.btnReadMore.setOnClickListener {
-                startFragment(LearnDetailsFragment.newInstance(Bundle().apply {
-                    putSerializable(ARTICLE, item)
-                }), R.id.frmContainer)
+        val loadMoreObservable = MutableLiveData<Int>()
+        val blogs = ArrayList<WidgetsViewModel>()
+        val blogObservable = Observer<BlogResponse> {
+            it?.data?.let { blogResponse ->
+                blogResponse.blogs?.let { blogsData ->
+                    blogs.clear()
+                    blogs.addAll(blogsData)
+                    if (blogs.size >= 5 && blogResponse.total > blogs.size) {
+                        blogs.add(getViewModel().loadMore)
+                    }
+                    if (rvArticles?.adapter == null) {
+                        rvArticles?.setUpMultiViewRecyclerAdapter(blogs) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                            binder.setVariable(BR.article, item)
+                            binder.setVariable(BR.onReadMore, View.OnClickListener {
+                                startFragment(LearnDetailsFragment.newInstance(), R.id.frmContainer)
+                                postSticky(item)
+                            })
+                            binder.executePendingBindings()
+                            if (item is LoadMore && !item.isLoading) {
+                                item.isLoading = true
+                                loadMoreObservable.value = blogResponse.offset
+                            }
+                        }
+                    } else {
+                        rvArticles?.adapter?.notifyDataSetChanged()
+                    }
+                }
             }
+            context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
         }
+        getViewModel().getBlogs().observe(this, blogObservable)
+        loadMoreObservable.observe(this, Observer {
+            it?.let { offset ->
+                Handler().postDelayed({
+                    getViewModel().getBlogs(offset = offset).observe(this, blogObservable)
+                }, 2500)
+            }
+        })
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            it?.let { isRefreshing ->
+                context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
+                App.INSTANCE.isRefreshing.value = null
+            }
+        })
     }
 
 

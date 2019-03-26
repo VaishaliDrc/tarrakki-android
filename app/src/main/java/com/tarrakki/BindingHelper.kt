@@ -21,6 +21,7 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.WebView
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -361,6 +362,12 @@ fun setHtml(txt: TextView, txtHtml: String?) {
     } else {
         Html.fromHtml(html)
     }
+}
+
+@BindingAdapter("HTML")
+fun setWebviewData(txt: WebView, txtHtml: String?) {
+    val txtHtmlNotNull = txtHtml ?: ""
+    txt.loadDataWithBaseURL("file:///android_res/", txtHtmlNotNull.toHTMl("lato_regular.ttf"), "text/html", "utf-8", null)
 }
 
 @BindingAdapter("onEditorAction")
