@@ -12,15 +12,16 @@ import android.text.style.ClickableSpan
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import com.google.gson.JsonObject
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentPaymentModeBinding
 import com.tarrakki.databinding.RowListPaymentFundsItemBinding
+import com.tarrakki.getDefaultBank
 import com.tarrakki.module.bankmandate.AddBankMandateFragment
+import com.tarrakki.module.netbanking.NET_BANKING_PAGE
+import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
-import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.module.webviewActivity.WebviewActivity
 import kotlinx.android.synthetic.main.fragment_payment_mode.*
 import org.greenrobot.eventbus.Subscribe
@@ -35,7 +36,6 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.DividerItemDecoration
 import java.math.BigDecimal
-import java.math.BigInteger
 
 const val BANKACCOUNTNUMBER = "bankaccountnumber"
 const val ISFROMPAYMENTMODE = "isFromPaymentMode"
@@ -49,7 +49,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     override val title: String
         get() = getString(R.string.payment_mode)
 
-    var isFromTransaction : Boolean ? = false
+    var isFromTransaction: Boolean? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_payment_mode
@@ -112,7 +112,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 
         btnPayNow?.setOnClickListener {
             val items = confirmOrderAdapter?.getAllItems()
-            if (items?.isNotEmpty()==true){
+            if (items?.isNotEmpty() == true) {
                 if (!getViewModel().accountNumber.get().isNullOrEmpty()) {
 
                     val transaction = arrayListOf<Int>()
@@ -134,12 +134,20 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                         json.put("payment_mode", "DIRECT")
                         val authData = AES.encrypt(json.toString())
                         getViewModel().paymentOrder(authData).observe(this, Observer {
-                            it?.printResponse()
+                            it?.let { response ->
+                                val jsonObject = JSONObject("${response.data?.toDecrypt()}")
+                                startFragment(NetBankingFragment.newInstance(Bundle().apply {
+                                    putSerializable(NET_BANKING_PAGE, jsonObject.optString("data"))
+                                    putString(SUCCESSTRANSACTION, transaction.toString())
+                                    isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+                                }), R.id.frmContainer)
+                            }
+                            /*it?.printResponse()
                             val bundle = Bundle().apply {
                                 putString(SUCCESSTRANSACTION, transaction.toString())
                                 isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
                             }
-                            startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                            startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)*/
                         })
                     } else {
                         if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
@@ -159,7 +167,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                         }
                     }
                     e("Plain Data=>", json.toString())
-                }else{
+                } else {
                     context?.simpleAlert(getString(R.string.alert_req_bank))
                 }
             }
@@ -167,21 +175,28 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 
         tvChangeBank?.setOnClickListener {
             val bundle = Bundle().apply {
-                putBoolean(ISFROMPAYMENTMODE,true)
-                putString(BANKACCOUNTNUMBER,getViewModel().accountNumber.get())
+                putBoolean(ISFROMPAYMENTMODE, true)
+                putString(BANKACCOUNTNUMBER, getViewModel().accountNumber.get())
             }
             startFragment(AddBankMandateFragment.newInstance(bundle), R.id.frmContainer)
         }
 
         tvSelectBank?.setOnClickListener {
             val bundle = Bundle().apply {
-                putBoolean(ISFROMPAYMENTMODE,true)
-                putString(BANKACCOUNTNUMBER,getViewModel().accountNumber.get())
+                putBoolean(ISFROMPAYMENTMODE, true)
+                putString(BANKACCOUNTNUMBER, getViewModel().accountNumber.get())
             }
             startFragment(AddBankMandateFragment.newInstance(bundle), R.id.frmContainer)
         }
 
         rb_netbanking?.isChecked = true
+
+        getDefaultBank().observe(this, Observer {
+            it?.data?.let { bank ->
+                getViewModel().accountNumber.set(bank.accountNumber)
+                getViewModel().branchName.set(bank.branchName)
+            }
+        })
     }
 
     override fun createViewModel(): Class<out PaymentModeVM> {
@@ -217,39 +232,39 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     fun onReceive(data: TransactionApiResponse.Transaction) {
         isFromTransaction = true
 
-        val orderList : MutableList<ConfirmTransactionResponse.Data.Order> = mutableListOf()
+        val orderList: MutableList<ConfirmTransactionResponse.Data.Order> = mutableListOf()
         val failedTransactions = arrayListOf<TransactionStatus>()
 
-        val sipAmount: String = if (data.type=="SIP"){
+        val sipAmount: String = if (data.type == "SIP") {
             data.amount.toString()
-        }else{
+        } else {
             ""
         }
-        val lumpsumAmount: String = if (data.type=="Lumpsum"){
+        val lumpsumAmount: String = if (data.type == "Lumpsum") {
             data.amount.toString()
-        }else{
+        } else {
             ""
         }
-        val sipTransactionId: Int = if (data.type=="SIP"){
+        val sipTransactionId: Int = if (data.type == "SIP") {
             data.id
-        }else{
+        } else {
             0
         }
-        val lumpsumTransactionId: Int = if (data.type=="Lumpsum"){
+        val lumpsumTransactionId: Int = if (data.type == "Lumpsum") {
             data.id
-        }else{
+        } else {
             0
         }
 
         val transaction = ConfirmTransactionResponse.Data.Order(
-                sipTransactionId,data.name,lumpsumTransactionId
-                ,lumpsumAmount,sipAmount
+                sipTransactionId, data.name, lumpsumTransactionId
+                , lumpsumAmount, sipAmount
         )
         orderList.add(transaction)
 
         val ConfirmResponseData = data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
             ConfirmTransactionResponse.Data(0,
-                "","",orderList, it,failedTransactions)
+                    "", "", orderList, it, failedTransactions)
         }
 
         val confirmTransactionResponse = ConfirmResponseData?.let { ConfirmTransactionResponse(it) }
@@ -283,10 +298,10 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         return super.onOptionsItemSelected(item)
     }
 
-    fun onBackPress(){
-        if (isFromTransaction==true){
+    fun onBackPress() {
+        if (isFromTransaction == true) {
             onBack(1)
-        }else{
+        } else {
             onBack(2)
         }
     }

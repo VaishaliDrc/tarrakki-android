@@ -2,6 +2,7 @@ package com.tarrakki.api
 
 import android.util.Log
 import com.google.gson.GsonBuilder
+import com.tarrakki.App
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private val OKHTTP_TIMEOUT = 30 * 4 // seconds
+    private val OKHTTP_TIMEOUT = 30//30 * 4 // seconds
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
@@ -65,14 +66,13 @@ object ApiClient {
      * Live Url
      **/
 
-     private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-     const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
     /**
      * Live Url
      **/
-
-    /*private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url*/
+    private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone
@@ -286,7 +286,11 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                     when (e) {
                         is HttpException -> {
                             if (e.code() == 401) {
+                                App.INSTANCE.isRefreshing.value = false
                                 EventBus.getDefault().postSticky(ONLOGOUT)
+                            } else {
+                                App.INSTANCE.isRefreshing.value = false
+                                e.postError(R.string.server_connection)
                             }
                         }
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)
@@ -321,6 +325,9 @@ fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallb
                         is HttpException -> {
                             if (e.code() == 401) {
                                 EventBus.getDefault().postSticky(ONLOGOUT)
+                            } else {
+                                App.INSTANCE.isRefreshing.value = false
+                                e.postError(R.string.server_connection)
                             }
                         }
                         is SocketTimeoutException -> e.postError(R.string.try_again_to)

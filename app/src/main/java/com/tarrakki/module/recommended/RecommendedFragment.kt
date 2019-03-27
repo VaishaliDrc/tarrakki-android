@@ -140,13 +140,27 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                 KEY_FUND_DIST_EQUITY.equals(action.key, true) ||
                         KEY_FUND_DIST_ELSS.equals(action.key, true) ||
                         KEY_FUND_DIST_HYBRID.equals(action.key, true) ||
-                        KEY_FUND_DIST_EQUITY.contains(action.key, true) -> {
-                    entries.add(PieEntry(sum, "EQUITY"))
-                    getColor(R.color.equity_fund_color)?.let { colors.add(it) }
+                        "${action.key}".contains(KEY_FUND_DIST_EQUITY, true) -> {
+                    val equity = entries.find { it.label == "EQUITY" }
+                    if (equity == null) {
+                        entries.add(PieEntry(sum, "EQUITY"))
+                        getColor(R.color.equity_fund_color)?.let { colors.add(it) }
+                    } else {
+                        val update = PieEntry(equity.value + sum, "EQUITY")
+                        entries.remove(equity)
+                        entries.add(update)
+                    }
                 }
                 KEY_FUND_DIST_BALANCED.equals(action.key, true) -> {
-                    entries.add(PieEntry(sum, "BALANCED"))
-                    getColor(R.color.balanced_fund_color)?.let { colors.add(it) }
+                    val balanced = entries.find { it.label == "BALANCED" }
+                    if (balanced == null) {
+                        entries.add(PieEntry(sum, "BALANCED"))
+                        getColor(R.color.balanced_fund_color)?.let { colors.add(it) }
+                    } else {
+                        val update = PieEntry(balanced.value + sum, "BALANCED")
+                        entries.remove(balanced)
+                        entries.add(update)
+                    }
                 }
                 KEY_FUND_DIST_MIP.equals(action.key, true) ||
                         KEY_FUND_DIST_BOND.equals(action.key, true) ||
@@ -154,12 +168,26 @@ class RecommendedFragment : CoreFragment<RecommendedVM, FragmentRecommendedBindi
                         KEY_FUND_DIST_LIQUID.equals(action.key, true) ||
                         KEY_FUND_DIST_STP.equals(action.key, true) ||
                         KEY_FUND_DIST_DEBT.equals(action.key, true) -> {
-                    entries.add(PieEntry(sum, "DEBT"))
-                    getColor(R.color.debt_fund_color)?.let { colors.add(it) }
+                    val debt = entries.find { it.label == "DEBT" }
+                    if (debt == null) {
+                        entries.add(PieEntry(sum, "DEBT"))
+                        getColor(R.color.debt_fund_color)?.let { colors.add(it) }
+                    } else {
+                        val update = PieEntry(debt.value + sum, "DEBT")
+                        entries.remove(debt)
+                        entries.add(update)
+                    }
                 }
                 else -> {
-                    entries.add(PieEntry(sum, "FOF"))
-                    getColor(R.color.fof_fund_color)?.let { colors.add(it) }
+                    val FOF = entries.find { it.label == "FOF" }
+                    if (FOF == null) {
+                        entries.add(PieEntry(sum, "FOF"))
+                        getColor(R.color.fof_fund_color)?.let { colors.add(it) }
+                    } else {
+                        val update = PieEntry(FOF.value + sum, "FOF")
+                        entries.remove(FOF)
+                        entries.add(update)
+                    }
                 }
             }
         }

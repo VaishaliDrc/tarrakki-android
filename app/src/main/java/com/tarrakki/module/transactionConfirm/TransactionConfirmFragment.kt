@@ -18,6 +18,7 @@ import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
+import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import kotlinx.android.synthetic.main.activity_base.*
@@ -41,7 +42,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     override val title: String
         get() = getString(R.string.transaction_confirm)
 
-    var isFromPaymentMode : Boolean? = false
+    var isFromPaymentMode: Boolean? = false
 
     override fun getLayout(): Int {
         return R.layout.fragment_transaction_confirm
@@ -72,7 +73,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         transactionStatus.add(TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>))
                     }
                     if (transactionList.isNotEmpty()) {
-                        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE)!=true) {
+                        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) != true) {
                             transactionStatus.addAll(transactionList)
                         }
                     }
@@ -96,7 +97,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         }
     }
 
-    private fun onExploreFunds(){
+    private fun onExploreFunds() {
         activity?.let {
             if (it is BaseActivity) {
                 if (it is HomeActivity || it is AccountActivity) {
@@ -162,18 +163,19 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         transactionList = data.transactions
         setOrderItemsAdapter(data.transactions)
         removeStickyEvent(data)
-        e("Failed Data",transactionList.toString())
+        e("Failed Data", transactionList.toString())
     }
 
-    fun onBackPress(){
-        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE)==true){
-            onBack(2)
+    fun onBackPress() {
+        val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
+        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) == true) {
+            onBack(2 + temp)
             postSticky(Event.ISFROMTRANSACTIONSUCCESS)
-        }else{
-            if (isFromPaymentMode==true){
-                onBack(3)
-            }else {
-                onBack(2)
+        } else {
+            if (isFromPaymentMode == true) {
+                onBack(3 + temp)
+            } else {
+                onBack(2 + temp)
             }
         }
     }

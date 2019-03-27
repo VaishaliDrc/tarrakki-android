@@ -44,10 +44,10 @@
 
                 <com.mikhaellopez.circularprogressbar.CircularProgressBar
                     android:id="@+id/cpPortfolio"
+                    returnpercentage="@{vm.portfolioDetails.totalReturnPercentage}"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
                     android:visibility="@{vm.portfolioVisibility}"
-                    returnpercentage="@{vm.portfolioDetails.totalReturnPercentage}"
                     app:cpb_progressbar_width="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/homeView"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -64,10 +64,10 @@
                     android:text="@string/portfolio_value"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/home_title_color"
-                    app:layout_constraintEnd_toEndOf="@+id/cpPortfolio"
-                    app:layout_constraintStart_toStartOf="@+id/cpPortfolio"
                     android:visibility="@{vm.portfolioVisibility}"
                     app:layout_constraintBottom_toBottomOf="@+id/homeView"
+                    app:layout_constraintEnd_toEndOf="@+id/cpPortfolio"
+                    app:layout_constraintStart_toStartOf="@+id/cpPortfolio"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.3" />
 
@@ -131,7 +131,6 @@
 
                 <TextView
                     android:id="@+id/tvTotalInvestmentValue"
-                    app:price="@{vm.portfolioDetails.totalInvestment}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -140,6 +139,7 @@
                     android:visibility="@{vm.portfolioVisibility}"
                     app:layout_constraintStart_toEndOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@+id/tvTotalInvestment"
+                    app:price="@{vm.portfolioDetails.totalInvestment}"
                     tools:text="@string/dummy1" />
 
                 <TextView
@@ -176,11 +176,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:visibility="gone"
                     android:gravity="center"
                     android:text="(+0%)"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
+                    android:visibility="gone"
                     app:layout_constraintStart_toEndOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@+id/tvTotalReturnValue" />
 
@@ -305,6 +305,7 @@
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
                     android:background="@drawable/shape_cart_view"
                     android:elevation="2dp"
                     android:orientation="vertical"
@@ -359,14 +360,15 @@
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
                     android:layout_marginBottom="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
                     android:background="@drawable/shape_btn_idle_bg"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/move_idle_money_from_your_bank_a_c"
                     android:textColor="@android:color/white"
+                    app:layout_constraintTop_toBottomOf="@id/rvHomeItem"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rvHomeItem"
                     app:layout_constraintVertical_bias="1"
                     tools:layout_marginTop="@dimen/default_space" />
 
