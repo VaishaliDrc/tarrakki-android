@@ -43,9 +43,11 @@ fun EditText.applyCurrencyFormat() {
 
 fun EditText.applyCurrencyFormatPositiveOnly() {
 
+    //addTextChangedListener(InputCurrency(this))
+
     addTextChangedListener(object : TextWatcher {
+
         private var current = ""
-        private var dChange = -1
 
         override fun afterTextChanged(p0: Editable?) {
 
@@ -74,14 +76,10 @@ fun EditText.applyCurrencyFormatPositiveOnly() {
                         this@applyCurrencyFormatPositiveOnly.text.clear()
                     }
                     current = this@applyCurrencyFormatPositiveOnly.text.toString()
-                    this@applyCurrencyFormatPositiveOnly.setSelection(
-                            /*when {
-                                p1 != 0 && delete == 1 -> p1
-                                p1 != 0 && add == 1 -> p1
-                                else -> current.length
-                            }*/
-                            current.length
-                    )
+                    e("Current=>${current.length}")
+                    e("Cursor=>$p1")
+                    this@applyCurrencyFormatPositiveOnly.setSelection(current.length)
+                    //this@applyCurrencyFormatPositiveOnly.setSelection(current.length)
                     this@applyCurrencyFormatPositiveOnly.addTextChangedListener(this)
                 } catch (e: Exception) {
                     e.printStackTrace()

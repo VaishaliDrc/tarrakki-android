@@ -55,7 +55,7 @@
                 android:completionThreshold="1"
                 android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
                 android:entries="@array/list_of_bank"
-                android:hint="@string/icici_bank"
+                android:hint="@string/select_bank"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"

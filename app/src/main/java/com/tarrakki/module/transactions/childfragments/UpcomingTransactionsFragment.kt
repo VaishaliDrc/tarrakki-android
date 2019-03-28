@@ -51,7 +51,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
         val upcomingTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        response = Observer<TransactionApiResponse> {
+        response = Observer {
             it?.let { data ->
                 upcomingTransactions.remove(loadMore)
                 loadMore.isLoading = false

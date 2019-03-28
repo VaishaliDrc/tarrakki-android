@@ -17,6 +17,7 @@ import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_net_banking.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 /**
@@ -83,9 +84,9 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
             }
 
             fun onPageRequest(view: WebView, url: String): Boolean {
+                e("URL=>$url")
                 return when {
                     url.startsWith("http://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/") -> {
-                        //context?.toast("Payment done")
                         val bundle = Bundle().apply {
                             arguments?.getString(SUCCESSTRANSACTION)?.let { it1 -> putString(SUCCESSTRANSACTION, it1) }
                             arguments?.getBoolean(ISFROMTRANSACTIONMODE)?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
