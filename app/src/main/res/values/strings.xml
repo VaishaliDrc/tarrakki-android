@@ -590,8 +590,8 @@
     <string name="relationship">Relationship</string>
     <string name="occupation">Occupation</string>
     <string name="full_name">Full Name</string>
-    <string name="date_of_birth_">Date Of Birth</string>
-    <string name="name_of_guardian">Name Of Guardian</string>
+    <string name="date_of_birth_">Date of Birth</string>
+    <string name="name_of_guardian">Name of Guardian</string>
     <string name="address">Address</string>
     <string name="city">City</string>
     <string name="pincode">Pincode</string>
@@ -727,7 +727,7 @@
     <string name="exit_load">Exit Load</string>
     <string name="final_amount_will_depend_on_nav_applicable_at_the_time_of_redemption_request_as_confirmed_by_the_amc">Final amount will depend on NAV applicable at the time of redemption request (as confirmed by the AMC.)</string>
     <string name="proceed">Proceed</string>
-    <string name="by_continuing_i_agree_with_the_disclaimers_and_terms_and_conditions_of_tarrakki">By continuing, i agree with the <font color='#4EB95D'><u>Disclaimers</u></font> and <font color='#4EB95D'><u>Terms and Conditions</u></font> of Tarrakki.</string>
+    <string name="by_continuing_i_agree_with_the_disclaimers_and_terms_and_conditions_of_tarrakki">By countinuing, I agree with the Disclaimers, Privacy Policy and Terms and Conditions of Tarrakki.</string>
     <string name="redemption_confim">Redemption Confirm</string>
     <string name="enter_units">Enter units</string>
     <string name="we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company">We have submitted your request for redemption to the Mutual Fund company.</string>
@@ -801,6 +801,8 @@
     <string name="alert_req_utr">Please Enter the UTR Number.</string>
     <string name="alert_req_bank_mandate">Please Select the Bank to Continue</string>
     <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
+    <string name="select_funds_and_pay">Select Funds and Pay</string>
+    <string name="please_select_fund_to_payment">Please select funds for payment.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

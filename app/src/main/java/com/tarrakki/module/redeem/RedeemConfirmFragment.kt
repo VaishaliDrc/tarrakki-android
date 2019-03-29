@@ -2,13 +2,25 @@ package com.tarrakki.module.redeem
 
 
 import android.arch.lifecycle.Observer
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.view.View
+import android.widget.TextView
 import com.tarrakki.R
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.databinding.FragmentRedeemConfirmBinding
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_redeem_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
+import org.supportcompact.ktx.color
+import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.startFragment
 
 
@@ -76,6 +88,54 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
             }
 
         }
+
+        val privacyPolicyClickSpan = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                postSticky(Event.PRIVACY_PAGE)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                context?.color(R.color.colorAccent)?.let { ds.color = it }
+            }
+        }
+
+        val termsAndCondditionClickSpan = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                context?.color(R.color.colorAccent)?.let { ds.color = it }
+            }
+        }
+
+        makeLinks(
+                tvDisclaimer,
+                arrayOf("Disclaimers, Privacy Policy", "Terms and Conditions"),
+                arrayOf(privacyPolicyClickSpan, termsAndCondditionClickSpan)
+        )
+
+    }
+
+    private fun makeLinks(textView: TextView, links: Array<String>, clickableSpans: Array<ClickableSpan>) {
+        val spannableString = SpannableString(textView.text)
+        for (i in links.indices) {
+            val clickableSpan = clickableSpans[i]
+            val link = links[i]
+            val startIndexOfLink = textView.text.toString().indexOf(link)
+            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        textView.highlightColor = Color.TRANSPARENT // prevent TextView change background when highlight
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        textView.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
     @Subscribe(sticky = true)

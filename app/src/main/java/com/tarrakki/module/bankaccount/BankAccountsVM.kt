@@ -5,8 +5,7 @@ import android.support.annotation.StringRes
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import com.tarrakki.module.ekyc.KYCData
 import okhttp3.MediaType
@@ -17,9 +16,6 @@ import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -119,11 +115,11 @@ class BankAccountsVM : FragmentViewModel() {
                 json.addProperty("pan_number", kycData.pan)
                 json.addProperty("guardian_name", "")
                 json.addProperty("guardian_pan", "")
-                json.addProperty("date_of_birth", kycData.dob.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy"))
+                json.addProperty("date_of_birth", kycData.dob/*.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy")*/)
             } else {
                 json.addProperty("guardian_name", kycData.guardianName)
                 json.addProperty("guardian_pan", kycData.pan)
-                json.addProperty("date_of_birth", kycData.guardianDOB.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy"))
+                json.addProperty("date_of_birth", kycData.guardianDOB/*.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy")*/)
             }
             json.addProperty("address", kycData.address)
             json.addProperty("city", kycData.city)

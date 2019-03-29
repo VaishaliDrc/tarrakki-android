@@ -36,6 +36,7 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.DividerItemDecoration
 import java.math.BigDecimal
+import java.math.BigInteger
 
 const val BANKACCOUNTNUMBER = "bankaccountnumber"
 const val ISFROMPAYMENTMODE = "isFromPaymentMode"
@@ -272,6 +273,49 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         getViewModel().accountNumber.set("")
         getViewModel().branchName.set("")
         removeStickyEvent(data)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(items: ArrayList<TransactionApiResponse.Transaction>) {
+        isFromTransaction = true
+        val orderList: MutableList<ConfirmTransactionResponse.Data.Order> = mutableListOf()
+        val failedTransactions = arrayListOf<TransactionStatus>()
+        var totalPayableAmount: BigInteger = BigInteger.ZERO
+        items.forEach { data ->
+            val sipAmount: String = if (data.type == "SIP") {
+                data.amount.toString()
+            } else {
+                ""
+            }
+            val lumpsumAmount: String = if (data.type == "Lumpsum") {
+                data.amount.toString()
+            } else {
+                ""
+            }
+            val sipTransactionId: Int = if (data.type == "SIP") {
+                data.id
+            } else {
+                0
+            }
+            val lumpsumTransactionId: Int = if (data.type == "Lumpsum") {
+                data.id
+            } else {
+                0
+            }
+
+            val transaction = ConfirmTransactionResponse.Data.Order(
+                    sipTransactionId, data.name, lumpsumTransactionId
+                    , lumpsumAmount, sipAmount
+            )
+            orderList.add(transaction)
+            data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
+                totalPayableAmount += it
+            }
+        }
+        getViewModel().confirmOrder.value = ConfirmTransactionResponse(ConfirmTransactionResponse.Data(orderList.size, "", "", orderList, totalPayableAmount, failedTransactions))
+        getViewModel().accountNumber.set("")
+        getViewModel().branchName.set("")
+        removeStickyEvent(items)
     }
 
     private fun setOrderItemsAdapter(list: List<ConfirmTransactionResponse.Data.Order>) {

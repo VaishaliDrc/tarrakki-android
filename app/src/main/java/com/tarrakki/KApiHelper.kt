@@ -383,10 +383,10 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.fullName = data.appname
                             kycData.OCCcode = data.appocc
                             if ("${data.appdobdt}".contains("-")) {
-                                kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd MMM, yyyy")
+                                kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd/MM/yyyy")
                                         ?: ""
                             } else {
-                                kycData.dob = data.appdobdt.toDate("dd/MM/yyyy").convertTo("dd MMM, yyyy")
+                                kycData.dob = data.appdobdt//.toDate("dd/MM/yyyy").convertTo("dd MMM, yyyy")
                                         ?: ""
                             }
                             kycData.gender = data.appgen

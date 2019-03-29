@@ -118,7 +118,7 @@
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toEndOf="@+id/tvPAN"
                     app:layout_constraintTop_toBottomOf="@id/edtFName" />
-
+                <!--android:text="@={kycData.guardianDOB}"-->
                 <TextView
                     android:id="@+id/edtDOB"
                     android:layout_width="0dp"
@@ -133,7 +133,6 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:text="@={kycData.guardianDOB}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"

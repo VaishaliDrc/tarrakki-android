@@ -5,9 +5,9 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
-        <import type="android.text.TextUtils"/>
+        <import type="android.text.TextUtils" />
 
         <variable
             name="vm"
@@ -27,11 +27,11 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_marginTop="@dimen/space_16"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical"
@@ -64,9 +64,9 @@
 
                         <ImageView
                             android:id="@+id/ivProfile"
-                            android:src="@drawable/ic_profile_default"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_profile_default" />
 
                     </android.support.v7.widget.CardView>
 
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/display_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <EditText
                     android:id="@+id/edtFName"
@@ -102,6 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
                     android:background="@{vm.isEdit?@drawable/shape_edt_gray_round:@drawable/shape_edt_disable_gray_round}"
+                    android:focusable="@{vm.isEdit}"
+                    android:focusableInTouchMode="@{vm.isEdit}"
                     android:hint="@string/display_name"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
@@ -109,8 +111,6 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
-                    android:focusableInTouchMode="@{vm.isEdit}"
-                    android:focusable="@{vm.isEdit}"
                     android:text="@={vm.FName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
@@ -124,8 +124,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/pan_number"
-                    android:visibility='@{TextUtils.isEmpty(vm.PANNumber)?View.GONE:View.VISIBLE}'
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <EditText
                     android:id="@+id/edtPAN"
@@ -134,19 +134,19 @@
                     android:layout_marginTop="@dimen/space_4"
                     android:layout_marginEnd="@dimen/space_4"
                     android:background="@drawable/shape_edt_disable_gray_round"
-                    android:hint="@string/pan_number"
-                    android:focusableInTouchMode="false"
                     android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/pan_number"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
-                    android:visibility='@{TextUtils.isEmpty(vm.PANNumber)?View.GONE:View.VISIBLE}'
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.PANNumber}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray" />
+                    android:textColorHint="@color/darker_gray"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <TextView
                     android:id="@+id/tvPANName"
@@ -155,8 +155,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/pan_name"
-                    android:visibility='@{TextUtils.isEmpty(vm.PANName)?View.GONE:View.VISIBLE}'
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <EditText
                     android:id="@+id/edtPANName"
@@ -165,19 +165,19 @@
                     android:layout_marginTop="@dimen/space_4"
                     android:layout_marginEnd="@dimen/space_4"
                     android:background="@drawable/shape_edt_disable_gray_round"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/pan_name"
                     android:maxLines="1"
-                    android:focusableInTouchMode="false"
-                    android:focusable="false"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.PANName}"
-                    android:visibility='@{TextUtils.isEmpty(vm.PANName)?View.GONE:View.VISIBLE}'
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray" />
+                    android:textColorHint="@color/darker_gray"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <TextView
                     android:id="@+id/tvEmailID"
@@ -195,17 +195,17 @@
                     android:background="@{vm.isEdit?@drawable/shape_edt_gray_round:@drawable/shape_edt_disable_gray_round}"
                     android:enabled="@{vm.isEdit()}"
                     android:hint="@string/email_id"
+                    android:imeOptions="actionDone"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
-                    android:imeOptions="actionDone"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.email}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"/>
+                    android:textColorHint="@color/darker_gray" />
 
                 <TextView
                     android:id="@+id/tvMobile"
@@ -221,20 +221,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
                     android:background="@{vm.isEdit?@drawable/shape_edt_gray_round:@drawable/shape_edt_disable_gray_round}"
+                    android:drawableEnd="@drawable/ic_succeeded"
                     android:enabled="@{vm.isEdit()}"
-                    android:imeOptions="actionDone"
                     android:hint="@string/mobile_number"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
-                    android:drawableEnd="@drawable/ic_succeeded"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.mobile}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"/>
+                    android:textColorHint="@color/darker_gray" />
 
                 <TextView
                     android:id="@+id/tvGuardian"
@@ -242,8 +242,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/name_of_guardian"
-                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.GONE:View.VISIBLE}'
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.GONE:View.VISIBLE}' />
 
                 <EditText
                     android:id="@+id/edtGuardian"
@@ -251,28 +251,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
                     android:background="@drawable/shape_edt_disable_gray_round"
-                    android:hint="@string/name_of_guardian"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:hint="@string/name_of_guardian"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
-                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.GONE:View.VISIBLE}'
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.guardian}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"/>
+                    android:textColorHint="@color/darker_gray"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.GONE:View.VISIBLE}' />
 
                 <TextView
                     android:id="@+id/tvGuardianPanNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
-                    android:visibility='@{TextUtils.isEmpty(vm.guardianPANNumber)?View.GONE:View.VISIBLE}'
-                    android:text="@string/guardian_pan_number"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    android:text="@string/guardian_pan"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardianPANNumber)?View.GONE:View.VISIBLE}' />
 
                 <EditText
                     android:id="@+id/edtGuardianPANNumber"
@@ -280,28 +280,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"
                     android:background="@drawable/shape_edt_disable_gray_round"
-                    android:hint="@string/guardian_pan_number"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
+                    android:hint="@string/guardian_pan_number"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
-                    android:visibility='@{TextUtils.isEmpty(vm.guardianPANNumber)?View.GONE:View.VISIBLE}'
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.guardianPANNumber}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"/>
+                    android:textColorHint="@color/darker_gray"
+                    android:visibility='@{TextUtils.isEmpty(vm.guardianPANNumber)?View.GONE:View.VISIBLE}' />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="@dimen/space_16"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical"
@@ -320,7 +320,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/nominee_name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <EditText
                     android:id="@+id/edtNominee"
@@ -347,7 +347,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/nominee_relationship"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <EditText
                     android:id="@+id/edtNomineeRelationship"
@@ -372,39 +372,39 @@
             </LinearLayout>
 
             <ImageView
-                android:visibility="gone"
+                android:id="@+id/imgSign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:id="@+id/imgSign"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSignature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
                 android:text="@string/update_signature"
-                android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"/>
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
-                android:layout_marginStart="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_16"
                 android:text="@{vm.isEdit() ? @string/save : @string/edit_profile}"
-                android:textColor="@color/white"
-                android:layout_gravity="center_horizontal"/>
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

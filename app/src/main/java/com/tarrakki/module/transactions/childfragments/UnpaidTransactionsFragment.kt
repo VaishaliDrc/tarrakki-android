@@ -23,13 +23,12 @@ import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_unpaid_transactions.*
-import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
 
@@ -50,19 +49,33 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
     }
 
     override fun setVM(binding: FragmentUnpaidTransactionsBinding) {
-
+        binding.setVariable(BR.paynow, View.OnClickListener {
+            if (getViewModel().hasOptionMenu.value == true) {
+                val transactions = ArrayList<TransactionApiResponse.Transaction>()
+                unpaidTransactions.forEach {
+                    if (it is TransactionApiResponse.Transaction && it.isSelected) {
+                        transactions.add(it)
+                    }
+                }
+                startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                postSticky(transactions)
+                getViewModel().hasOptionMenu.value = false
+            } else {
+                context?.simpleAlert(getString(R.string.please_select_fund_to_payment))
+            }
+        })
     }
 
     private val unpaidTransactions = arrayListOf<WidgetsViewModel>()
     val loadMore = LoadMore()
 
-    lateinit var response : Observer<TransactionApiResponse>
+    lateinit var response: Observer<TransactionApiResponse>
 
     override fun createReference() {
 
         val loadMoreObservable = MutableLiveData<Int>()
 
-        response = Observer<TransactionApiResponse> {
+        response = Observer {
             it?.let { data ->
                 unpaidTransactions.remove(loadMore)
                 loadMore.isLoading = false
@@ -80,12 +93,6 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                     rvUnpaidTransactions?.setUpMultiViewRecyclerAdapter(unpaidTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
-                        binder.setVariable(BR.paynow, View.OnClickListener {
-                            getViewModel().hasOptionMenu.value = false
-                            startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                            postSticky(item as TransactionApiResponse.Transaction)
-                        })
-
                         binder.root.setOnLongClickListener { v: View? ->
                             if (item is TransactionApiResponse.Transaction) {
                                 item.isSelected = !item.isSelected
@@ -113,6 +120,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                     rvUnpaidTransactions?.adapter?.notifyDataSetChanged()
                 }
                 tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
+                btnPayment?.visibility = if (unpaidTransactions.isEmpty()) View.GONE else View.VISIBLE
             }
         }
         getViewModel().getTransactions(transactionType = TransactionApiResponse.UNPAID).observe(this, response)
@@ -130,6 +138,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
+                btnPayment?.visibility = if (unpaidTransactions.isEmpty()) View.GONE else View.VISIBLE
             }
         })
 
@@ -166,7 +175,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         })
     }
 
-    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+    val refreshListener = SwipeRefreshLayout.OnRefreshListener {
         getViewModel().hasOptionMenu.value = false
         getViewModel().getTransactions(
                 transactionType = TransactionApiResponse.UNPAID,

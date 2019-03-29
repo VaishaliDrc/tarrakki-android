@@ -46,41 +46,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         }*/
         tvCertificate.text = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?"
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
-            getViewModel().guardianVisibility.set(if (isChecked) View.GONE else View.VISIBLE)
-            getViewModel().isEdit.set(isChecked)
-            edtDOB?.alpha = if (isChecked) 0.8f else 1f
-            edtDOB?.isEnabled = !isChecked
-            if (isChecked) {
-                getViewModel().kycData.value?.guardianName = ""
-                getViewModel().kycData.value?.guardianDOB = ""
-                getViewModel().kycData.value?.fullName = "" + getViewModel().kycData.value?.nameOfPANHolder
-                edtPAN?.setText(getViewModel().kycData.value?.pan)
-            } else {
-                getViewModel().kycData.value?.guardianName = "" + getViewModel().kycData.value?.nameOfPANHolder
-                edtPAN?.text?.clear()
-                getViewModel().kycData.value?.fullName = ""
-            }
+            isAdult(isChecked)
         }
         getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
                 edtPAN?.setText(kycData.pan)
                 getBinding().executePendingBindings()
-                switchOnOff.isChecked = kycData.guardianName.isEmpty()
-                /*if (kycData.guardianName.isNotEmpty()) {
-                    kycData.dob.toDate("dd MMM, yyyy").let { dob ->
-                        val cal = dob.toCalendar()
-                        val isAdult = isAdult(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))
-                        getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
-                        getViewModel().isEdit.set(isAdult)
-                        if (isAdult) {
-                            kycData.guardianName = ""
-                            edtPAN?.setText(getViewModel().kycData.value?.pan)
-                        } else {
-                            edtPAN?.text?.clear()
-                        }
-                    }
-                }*/
+                switchOnOff?.isChecked = kycData.guardianName.isEmpty()
+                isAdult(kycData.guardianName.isEmpty())
             }
         })
 
@@ -107,23 +81,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             minDate.add(Calendar.DAY_OF_YEAR, 1)
             var Cdob: Calendar? = null
             var date: String? = getViewModel().kycData.value?.guardianDOB
-            date?.toDate("dd MMM, yyyy")?.let { dob ->
+            date?.toDate("dd/MM/yyyy")?.let { dob ->
                 Cdob = dob.toCalendar()
             }
             val dPicker = SpinnerDatePickerDialogBuilder()
                     .context(context)
                     .callback { view, year, monthOfYear, dayOfMonth ->
-                        date = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                        date = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year)
                         getViewModel().kycData.value?.guardianDOB = date as String
-                        /*val isAdult = isAdult(year, monthOfYear, dayOfMonth)
-                        getViewModel().guardianVisibility.set(if (isAdult) View.GONE else View.VISIBLE)
-                        getViewModel().isEdit.set(isAdult)
-                        if (isAdult) {
-                            getViewModel().kycData.value?.guardianName = ""
-                            edtPAN?.setText(getViewModel().kycData.value?.pan)
-                        } else {
-                            edtPAN?.text?.clear()
-                        }*/
+                        edtDOB?.text = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
                     }
                     .showTitle(true)
                     .minDate(minDate.get(Calendar.YEAR), minDate.get(Calendar.MONTH), minDate.get(Calendar.DAY_OF_MONTH))
@@ -152,16 +118,27 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         }
     }
 
-    private fun isAdult(year: Int, month: Int, day: Int): Boolean {
-        //calculating age from dob
-        val dob = Calendar.getInstance()
-        val today = Calendar.getInstance()
-        dob.set(year, month, day)
-        var age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
-        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
-            age--
+    private fun isAdult(isChecked: Boolean) {
+        getViewModel().guardianVisibility.set(if (isChecked) View.GONE else View.VISIBLE)
+        getViewModel().isEdit.set(isChecked)
+        edtDOB?.alpha = if (isChecked) 0.8f else 1f
+        edtDOB?.isEnabled = !isChecked
+        if (isChecked) {
+            edtDOB?.text = getViewModel().kycData.value?.dob?.toDate("dd/MM/yyyy")?.convertTo("dd MMM, yyyy")
+            getViewModel().kycData.value?.guardianName = ""
+            getViewModel().kycData.value?.guardianDOB = ""
+            getViewModel().kycData.value?.fullName = "" + getViewModel().kycData.value?.nameOfPANHolder
+            edtPAN?.setText(getViewModel().kycData.value?.pan)
+        } else {
+            getViewModel().kycData.value?.guardianName = "" + getViewModel().kycData.value?.nameOfPANHolder
+            edtPAN?.text?.clear()
+            if (!getViewModel().kycData.value?.guardianDOB.isNullOrEmpty()) {
+                edtDOB?.text = getViewModel().kycData.value?.guardianDOB?.toDate("dd/MM/yyyy")?.convertTo("dd MMM, yyyy")
+            } else {
+                edtDOB?.text = ""
+                getViewModel().kycData.value?.fullName = ""
+            }
         }
-        return age >= 18
     }
 
     private fun isValid(kycData: KYCData): Boolean {

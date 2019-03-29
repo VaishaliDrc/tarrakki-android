@@ -141,8 +141,8 @@
             android:layout_marginTop="@dimen/space_16"
             android:text="@string/folio_no_"
             android:textSize="@dimen/_9ssp"
-            app:layout_constraintStart_toEndOf="@id/gdlEnd"
-            app:layout_constraintTop_toBottomOf="@id/tvName" />
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
+            app:layout_constraintTop_toBottomOf="@id/tvNAV" />
 
         <TextView
             android:id="@+id/tvFolioNo"
@@ -153,7 +153,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/gdlEnd"
+            app:layout_constraintStart_toEndOf="@id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvFolioL"
             tools:text="15874" />
 
@@ -165,7 +165,7 @@
             android:text="@string/order_no_"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioNo" />
+            app:layout_constraintTop_toBottomOf="@id/tvType" />
 
         <TextView
             android:id="@+id/tvOrderNo"
@@ -184,19 +184,19 @@
             android:id="@+id/btnPayNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
             android:alpha="@{data.selected?0.5f:1f}"
             android:background="@drawable/shape_btn_idle_bg"
+            android:onClick="@{paynow}"
             android:paddingStart="@dimen/space_16"
             android:paddingTop="@dimen/space_8"
-            android:onClick="@{paynow}"
             android:paddingEnd="@dimen/space_16"
             android:paddingBottom="@dimen/space_8"
             android:text="@string/pay_now"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
+            android:visibility="@{statusVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFolioNo" />
+            app:layout_constraintTop_toTopOf="@+id/tvNAVL" />
 
         <View
             android:id="@+id/mDivider1"
