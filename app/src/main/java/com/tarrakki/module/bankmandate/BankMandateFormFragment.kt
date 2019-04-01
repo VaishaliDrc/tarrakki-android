@@ -21,8 +21,6 @@ import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentBankMandateFormBinding
-import com.tarrakki.getUCropOptions
-import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_mandate_form.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -36,6 +34,8 @@ import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.takePick
 import com.tarrakki.api.ApiClient
+import com.tarrakki.getCustomUCropOptions
+import com.tarrakki.ucrop.UCrop
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
@@ -324,8 +324,8 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(16f, 9f)
-        uCrop.withMaxResultSize(800, 366)
-        context?.getUCropOptions()?.let { uCrop.withOptions(it) }
+        //uCrop.withMaxResultSize(800, 366)
+        context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
 
