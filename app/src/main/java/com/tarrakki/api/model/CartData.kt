@@ -2,6 +2,7 @@ package com.tarrakki.api.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.getOrdinalFormat
@@ -49,10 +50,10 @@ data class CartData(
                 val folioNumber: String
         ) : BaseObservable(), Serializable {
 
-            var actualfolioNumber : String = ""
-                get() = if (folioNumber!=null){
+            var actualfolioNumber: String = ""
+                get() = if (TextUtils.isEmpty(folioNumber)) {
                     folioNumber
-                }else{
+                } else {
                     "NEW"
                 }
 

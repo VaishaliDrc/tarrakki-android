@@ -66,16 +66,16 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
             val amount = getViewModel().amount.get()?.toCurrencyBigInt()
             if (amount != BigInteger.ZERO) {
                 if (amount != null) {
-                    if (amount>=BigInteger.valueOf(10000)){
+                    if (amount >= BigInteger.valueOf(10000)) {
                         val bundle = Bundle().apply {
                             putString(AMOUNT, amount.toString())
                         }
                         startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
-                    }else{
-                        context?.simpleAlert("The amount must be greater than or equal to "+10000.0.toCurrency())
+                    } else {
+                        context?.simpleAlert("The amount must be greater than or equal to " + 10000.0.toCurrency())
                     }
                 }
-            }else{
+            } else {
                 context?.simpleAlert(getString(R.string.alert_select_amount))
             }
         }

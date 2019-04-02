@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/item_home"
-        android:icon="@drawable/ic_home_vc"
+        android:icon="@drawable/ic_action_home"
         android:title="@string/home"
         app:showAsAction="always" />
 </menu>

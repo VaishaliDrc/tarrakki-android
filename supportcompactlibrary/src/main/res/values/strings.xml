@@ -21,51 +21,7 @@
         <item>Camera</item>
     </string-array>
     <string-array name="accountTypes">
-        <item>Saving Account</item>
-        <item>Current Account</item>
-    </string-array>
-    <string-array name="list_of_bank">
-        <item>Axis Bank</item>
-        <item>Catholic Syrian Bank</item>
-        <item>City Union Bank</item>
-        <item>DCB Bank</item>
-        <item>Dhanlaxmi Bank</item>
-        <item>Federal Bank</item>
-        <item>HDFC Bank</item>
-        <item>ICICI Bank</item>
-        <item>SBI Bank</item>
-        <item>Yes Bank</item>
-    </string-array>
-    <string-array name="state_list">
-        <item>Andhra Pradesh</item>
-        <item>Arunachal Pradesh</item>
-        <item>Assam</item>
-        <item>Bihar</item>
-        <item>Chhattisgarh</item>
-        <item>Goa</item>
-        <item>Gujarat</item>
-        <item>Haryana</item>
-        <item>Haryana</item>
-        <item>Himachal Pradesh</item>
-        <item>Jammu &amp; Kashmir</item>
-        <item>Jharkhand</item>
-        <item>Karnataka</item>
-        <item>Kerala</item>
-        <item>Madhya Pradesh</item>
-        <item>Maharashtra</item>
-        <item>Manipur</item>
-        <item>Meghalaya</item>
-        <item>Mizoram</item>
-        <item>Nagaland</item>
-        <item>Odisha</item>
-        <item>Punjab</item>
-        <item>Rajasthan</item>
-        <item>Sikkim</item>
-        <item>Tamil Nadu</item>
-        <item>Telangana</item>
-        <item>Tripura</item>
-        <item>Uttarakhand</item>
-        <item>Uttar Pradesh</item>
-        <item>West Bengal</item>
+        <item>Saving</item>
+        <item>Current</item>
     </string-array>
 </resources>

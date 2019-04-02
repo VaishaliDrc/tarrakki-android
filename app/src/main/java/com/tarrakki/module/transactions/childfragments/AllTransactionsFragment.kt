@@ -53,7 +53,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
         val allTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        response = Observer<TransactionApiResponse> {
+        response = Observer {
             it?.let { data ->
                 allTransactions.remove(loadMore)
                 loadMore.isLoading = false

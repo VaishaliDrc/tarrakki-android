@@ -74,9 +74,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 if (context?.isCompletedRegistration() == true) {
                     startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
                 } else {
-                    context?.simpleAlert(getString(R.string.alert_req_place_order_registration)) {
-                        startActivity<AccountActivity>()
-                    }
+                    context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
+                            btnPositiveClick = {
+                                startActivity<AccountActivity>()
+                            }
+                    )
                 }
             }
         }
@@ -292,6 +294,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        menu?.findItem(R.id.itemHome)?.isVisible = false
         inflater?.inflate(R.menu.cart_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }

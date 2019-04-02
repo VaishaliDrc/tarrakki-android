@@ -52,13 +52,6 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
         getViewModel().getAllBanks().observe(this, Observer { r ->
             r?.let { bankResponse ->
                 bankResponse.banks?.let { banks ->
-                    /*context?.let {
-                        // Get the string array
-                        // Create the adapter and set it to the AutoCompleteTextView
-                        *//*ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, banks).also { adapter ->
-                            edtName?.setAdapter(adapter)
-                        }*//*
-                    }*/
                     edtName?.setOnClickListener {
                         context?.showListDialog("Select Bank", banks) { item ->
                             getViewModel().name.set(item)

@@ -18,6 +18,7 @@ import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.learn.LearnActivity
+import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.plan.PlanActivity
 import com.tarrakki.module.redeem.RedemptionStatusFragment
@@ -128,7 +129,8 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                             fragment is PaymentModeFragment ||
                             fragment is TransactionConfirmFragment ||
                             fragment is BankMandateFormFragment ||
-                            fragment is RedemptionStatusFragment) {
+                            fragment is RedemptionStatusFragment ||
+                            fragment is NetBankingFragment) {
                         return super.onOptionsItemSelected(item)
                     } else {
                         onBackPressed()

@@ -7,6 +7,9 @@
     <string name="fb_login_protocol_scheme">fb387985278434317</string>
     <!--End Facebook Details-->
 
+
+    <string name="app_description">Tarrakki is a comprehensive Wealth Management and Financial Planning App that enables you to make calculated, goal based investments, with just a few taps.</string>
+    <string name="invite_your_friend">Invite Your Friends to Invest Using the Tarrakki App.</string>
     <string name="mutual_funds">Mutual Funds</string>
     <string name="home">Home</string>
     <string name="plan">Plan</string>
@@ -137,7 +140,7 @@
     <string name="redeem">Redeem</string>
     <string name="username">Username</string>
     <string name="login_start_investing">Login. Start investing.</string>
-    <string name="password">Password</string>
+    <string name="password">Password*</string>
     <string name="login">Login</string>
     <string name="keep_me_sign_in">Keep me signed in</string>
     <string name="forgot_password_">Forgot Password?</string>
@@ -147,7 +150,7 @@
     <string name="facebook">Facebook</string>
     <string name="don_t_have_an_account_yet_get_started">Don\'t have an account yet? <font color='#4EB95D'>Get Started</font></string>
     <string name="we_just_need_your_registered_email_id">We just need your registered Email ID to send you password reset instructions.</string>
-    <string name="email_address">Email Address</string>
+    <string name="email_address">Email Address*</string>
     <string name="reset_password">Reset Password</string>
     <string name="back">Back</string>
     <string name="sign_up_start_investing">Sign Up. Start Investing.</string>
@@ -162,7 +165,7 @@
     <string name="otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below">OTP has been sent to you on your mobile number. Please enter it below.</string>
     <string name="not_received_your_otp_resend_otp">Not received your OTP? <font color='#4EB95D'>Resend OTP</font></string>
     <string name="submit">Submit</string>
-    <string name="enter_otp">Enter OTP</string>
+    <string name="enter_otp">Enter OTP*</string>
     <string name="pan_number">PAN Number</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="mobile_number">Mobile Number</string>
@@ -517,9 +520,9 @@
     <string name="notifications">Notifications</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_condditions"><![CDATA[Terms & Conditions]]></string>
-    <string name="current_password">Current Password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="current_password">Current Password*</string>
+    <string name="new_password">New Password*</string>
+    <string name="confirm_new_password">Confirm New Password*</string>
     <string name="save">Save</string>
     <string name="email_id">Email ID</string>
     <string name="edit_profile">Edit Profile</string>
@@ -539,10 +542,10 @@
     <string name="ifsc_code">IFSC Code</string>
     <string name="add_new_bank_account">Add New Bank Account</string>
     <string name="add_new_bank_mandate">Add New Bank Mandate</string>
-    <string name="select_bank">Select Bank</string>
+    <string name="select_bank">Select Bank*</string>
     <string name="icici_bank">ICICI Bank</string>
     <string name="re_enter_account_number">Re-enter Account Number</string>
-    <string name="account_type">Account Type</string>
+    <string name="account_type">Account Type*</string>
     <string name="add_bank_account">Add Bank Account</string>
     <string name="max_auto_debit">Maximum auto-debit limit</string>
     <string name="no_bank_account_added_yet">No Bank Account Added Yet</string>
@@ -589,8 +592,8 @@
     <string name="nominee_relationship">Nominee Relationship</string>
     <string name="relationship">Relationship</string>
     <string name="occupation">Occupation</string>
-    <string name="full_name">Full Name</string>
-    <string name="date_of_birth_">Date of Birth</string>
+    <string name="full_name">Full Name*</string>
+    <string name="date_of_birth_">Date of Birth*</string>
     <string name="name_of_guardian">Name of Guardian</string>
     <string name="address">Address</string>
     <string name="city">City</string>
@@ -631,15 +634,15 @@
     <string name="nominee_details">Nominee Details</string>
     <string name="occupation_type">Occupation Type</string>
     <string name="pan_name">PAN Name</string>
-    <string name="country_of_birth">Country of Birth</string>
+    <string name="country_of_birth">Country of Birth*</string>
     <string name="enter_pan_name">Enter PAN Name</string>
     <string name="enter_country_of_birth">Enter Country of Birth</string>
-    <string name="place_of_birth">Place of Birth</string>
+    <string name="place_of_birth">Place of Birth*</string>
     <string name="enter_place_of_birth">Enter Place of Birth</string>
     <string name="source_of_income">Source of Income</string>
     <string name="income_slab">Income Slab</string>
 
-    <string name="explore_all_funds">Explore All Funds</string>
+    <string name="explore_all_funds">EXPLORE ALL MUTUAL FUNDS</string>
     <string name="explore_investment_strategies">Explore Investment Strategies</string>
 
     <string name="fatca_details">FATCA Details</string>
@@ -691,7 +694,7 @@
     <string name="order_type_">Order Type:</string>
     <string name="units_">Units:</string>
     <string name="add_amount">Add Amount</string>
-    <string name="add_in_this_fund">Add in this Fund</string>
+    <string name="add_in_this_fund">Add in this fund</string>
     <string name="choose_folio">Choose Folio</string>
     <string name="current_folio">Current Folio</string>
     <string name="folio_type">Folio Type</string>
@@ -803,6 +806,33 @@
     <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
     <string name="select_funds_and_pay">Select Funds and Pay</string>
     <string name="please_select_fund_to_payment">Please select funds for payment.</string>
+    <string name="no_transaction_found">No Transaction found</string>
+    <string name="choose_bank">Choose Bank</string>
+    <string name="enter_account_number">Enter Account Number</string>
+    <string name="account_number_">Account Number*</string>
+    <string name="re_enter_account_number_">Re-enter Account Number*</string>
+    <string name="choose_account_type">Choose Account Type</string>
+    <string name="ifsc_code_">IFSC Code*</string>
+    <string name="enter_ifsc_code">Enter IFSC Code</string>
+    <string name="enter_your_full_name">Enter Your Full Name</string>
+    <string name="enter_date_of_birth">Enter Date of Birth</string>
+    <string name="email_id_">Email ID*</string>
+    <string name="enter_your_email_id">Enter Your Email ID</string>
+    <string name="enter_mobile_number">Enter Mobile Number</string>
+    <string name="mobile_number_">Mobile Number*</string>
+    <string name="nominee_name_">Nominee Name*</string>
+    <string name="enter_nominee_name">Enter Nominee Name</string>
+    <string name="relationship_">Relationship*</string>
+    <string name="enter_relationship">Enter Relationship</string>
+    <string name="enter_name_of_guardian">Enter Name of Guardian</string>
+    <string name="enter_guardian_pan">Enter Guardian PAN</string>
+    <string name="pan_name_">PAN Name*</string>
+    <string name="choose_source_of_income">Choose Source of Income</string>
+    <string name="source_of_income_">Source of Income*</string>
+    <string name="choose_income_slab">Choose Income Slab</string>
+    <string name="income_slab_">Income Slab*</string>
+    <string name="go_back_from_bank">Are you sure you want to go back?</string>
+    <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

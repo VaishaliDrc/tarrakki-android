@@ -209,26 +209,28 @@ fun Context.tableRowContent(text: String, textColor: Int? = null): View? {
 
 fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> {
     val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
-    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("How are returns calculated?",
-            "Investments less than one year reflect absolute returns.\n" +
-                    "Investments over one year reflect XIRR returns(Annualised returns)."))
-    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro("When does my portfolio get updated?",
-            "Updates to your portfolio that you make today, will only be visible after 9:30 am tomorrow, in your Portfolio Screen here. Please check the transaction screen to know the status of your recent transactions."))
+    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
+            "How are returns calculated?",
+            "Investments of less than one year reflect absolute returns.\n" +
+                    "Investments of one year and above reflect XIRR returns (annualised returns)."))
+    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
+            "When does my portfolio get updated?",
+            "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 9:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen."))
     return options
 }
 
-fun alertStopPortfolio(folio : String,date : String) : String{
+fun alertStopPortfolio(folio: String, date: String): String {
     return "Your SIP with Folio No. $folio and Start Date $date has been stopped successfully."
 }
 
-fun alertRedeemPortfolio(amount : String) : String{
+fun alertRedeemPortfolio(amount: String): String {
     return "Your redemption of $amount was successful."
 }
 
-fun alertSIPMin(amount : String) : String{
+fun alertSIPMin(amount: String): String {
     return "The SIP amount must be greater than or equal to $amount."
 }
 
-fun alertLumpsumMin(amount : String) : String{
+fun alertLumpsumMin(amount: String): String {
     return "The lumpsum amount must be greater than or equal to $amount."
 }

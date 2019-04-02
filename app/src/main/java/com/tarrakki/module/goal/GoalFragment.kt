@@ -99,7 +99,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    /*override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater?.inflate(R.menu.home_menu, menu)
         val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
         App.INSTANCE.cartCount.observe(this, Observer {
@@ -110,7 +110,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)
         }
-    }
+    }*/
 
     @Subscribe(sticky = true)
     fun onEventData(event: Event) {

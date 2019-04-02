@@ -199,7 +199,7 @@
         <Button
             android:id="@+id/btnInvest"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginTop="@dimen/default_space"
             android:layout_marginBottom="@dimen/space_4"
             android:background="@drawable/shape_btn_idle_bg"

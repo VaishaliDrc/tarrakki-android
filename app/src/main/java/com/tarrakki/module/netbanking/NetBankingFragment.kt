@@ -8,8 +8,11 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.KeyEvent
+import android.view.MenuItem
 import android.view.View
 import android.webkit.*
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentNetBankingBinding
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
@@ -17,6 +20,7 @@ import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_net_banking.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
@@ -49,6 +53,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
+        setHasOptionsMenu(true)
 
         val newUA = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
         mWebView.settings.userAgentString = newUA
@@ -128,6 +133,33 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
         arguments?.getString(NET_BANKING_PAGE)?.let { page ->
             getViewModel().onPage.value = page
         }
+
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
+        getBinding().root.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                onBackPress()
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
+        }
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPress()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun onBackPress() {
+        context?.confirmationDialog(App.INSTANCE.getString(R.string.go_back_from_bank), btnPositiveClick = {
+            onBack()
+        })
     }
 
     companion object {

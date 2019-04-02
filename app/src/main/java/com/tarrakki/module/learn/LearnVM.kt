@@ -20,8 +20,8 @@ class LearnVM : FragmentViewModel() {
     val loadMore = LoadMore()
     val blog = MutableLiveData<Blog>()
 
-    fun getBlogs(offset: Int = 0): MutableLiveData<BlogResponse> {
-        if (offset == 0)
+    fun getBlogs(offset: Int = 0, isRefresh: Boolean = false): MutableLiveData<BlogResponse> {
+        if (offset == 0 && !isRefresh)
             showProgress()
         val json = JsonObject()
         json.addProperty("offset", offset)

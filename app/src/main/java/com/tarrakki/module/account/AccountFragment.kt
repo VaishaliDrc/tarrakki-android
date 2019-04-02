@@ -79,20 +79,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_my_profile -> {
                         startFragment(MyProfileFragment.newInstance(), R.id.frmContainer)
-                        /*startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
-                        val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                        postSticky(kyc)*/
                     }
                     R.drawable.ic_my_portfolio -> {
-                        //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
-
                         startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
-                        //context?.simpleAlert("Transactions is still under development so you will be able to test it in the next build.")
                         startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_privacy_policy -> {
@@ -111,13 +105,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
         tvBankMandateAccount?.setOnClickListener {
             startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
-            // context?.simpleAlert(getString(R.string.coming_soon))
         }
         tvInvite?.setOnClickListener {
             ShareCompat.IntentBuilder.from(activity)
                     .setType("text/plain")
                     .setChooserTitle("Share link")
-                    .setText("http://play.google.com/store/apps/details?id=" + activity?.packageName)
+                    .setText(App.INSTANCE.getString(R.string.invite_your_friend)
+                            .plus("\n\n")
+                            .plus("http://play.google.com/store/apps/details?id=" + activity?.packageName))
                     .startChooser()
         }
         btnLogout?.setOnClickListener {
@@ -149,10 +144,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             })
         }
         tvNext?.setOnClickListener {
-            /*context?.simpleAlert(getString(R.string.coming_soon))
-            return@setOnClickListener*/
             if (edtPanNo.length() == 0) {
-                //startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                 context?.simpleAlert(getString(R.string.alert_req_pan_number))
             } else if (!isPANCard(edtPanNo.text.toString())) {
                 context?.simpleAlert(getString(R.string.alert_valid_pan_number))
@@ -190,46 +182,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         })
                     }
                 })
-                /*startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
-                post(kyc)*/
-                /*checkKYCStatus(kyc).observe(this, Observer {
-                    it?.let { html ->
-                        //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />
-                        try {
-                            val doc = Jsoup.parse(html)
-                            val values = doc.select("input[name=result]").attr("value").split("|")
-                            if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
-                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
-                                postSticky(kyc)
-                            } else {
-                                //post(ShowError(values[3]))
-                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                postSticky(kyc)
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                        edtPanNo?.text?.clear()
-                    }
-                })*/
-                /*kyc.mobile = "8460421008"
-                startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
-                postSticky(kyc)*/
             }
         }
-        /*App.INSTANCE.isLoggedIn.observe(this, Observer { isLogin ->
-            isLogin?.let {
-                if (it) {
-                    getViewModel().logoutVisibility.set(View.VISIBLE)
-                    getViewModel().setAccountMenu()
-                } else {
-                    context?.setIsLogin(it)
-                    getViewModel().logoutVisibility.set(View.GONE)
-                    getViewModel().setAccountMenu()
-                }
-                rvMenus?.adapter?.notifyDataSetChanged()
-            }
-        })*/
 
         switchOnOff?.setOnClickListener {
             getViewModel().isAppLockClick = true

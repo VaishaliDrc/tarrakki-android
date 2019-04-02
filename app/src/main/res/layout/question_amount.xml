@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="1,00,000"
+                android:hint="10,00,000"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:nextFocusForward="@+id/edtDurations"

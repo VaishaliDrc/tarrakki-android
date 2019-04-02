@@ -147,13 +147,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         getViewModel().getAllBanks().observe(this, bankObserver)
         App.INSTANCE.signatureFile.observe(this, Observer {
             it?.let { file ->
-                /*getViewModel().completeRegistrations(file).observe(this, Observer { apiResponse ->
-                    apiResponse?.let {
-                        context?.simpleAlert("${apiResponse.status?.message}") {
-                            onBack(3)
-                        }
-                    }
-                })*/
                 startCrop(Uri.fromFile(file), true)
                 App.INSTANCE.signatureFile.value = null
                 getViewModel().imageFrom = getViewModel().SIGNPAD_RQ_CODE
@@ -261,6 +254,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
             it.setCompressionQuality(100)
             it.setCompressionFormat(Bitmap.CompressFormat.PNG)
             it.setShowCropGrid(false)
+            //  it.setToolbarTitle("Edit Signature")
         }
         options?.let { uCrop.withOptions(it) }
         uCrop.withAspectRatio(16f, 9f)
@@ -276,18 +270,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
                     startCrop(Uri.fromFile(file))
                     getViewModel().imageFrom = getViewModel().ICAMERA_RQ_CODE
-                    /*getViewModel().showProgress()
-                    thread {
-                        val colors = arrayListOf(Color.BLACK, Color.BLUE)
-                        val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName).toBitmap()?.toTransparent(colors)?.toFile()
-                        file?.let {
-                            startCrop(Uri.fromFile(it))
-                            activity?.runOnUiThread {
-                                getViewModel().dismissProgress()
-                                startCrop(Uri.fromFile(it))
-                            }
-                        }
-                    }*/
                 }
                 getViewModel().IMAGE_RQ_CODE -> {
                     val selectedUri = data?.data
@@ -296,18 +278,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         path?.let { filePath ->
                             startCrop(Uri.fromFile(File(filePath)))
                             getViewModel().imageFrom = getViewModel().IMAGE_RQ_CODE
-                            /*getViewModel().showProgress()
-                            thread {
-                                val colors = arrayListOf(Color.BLACK, Color.BLUE)
-                                val file = File(filePath).toBitmap()?.toTransparent(colors)?.toFile()
-                                file?.let { mFile ->
-                                    activity?.runOnUiThread {
-                                        getViewModel().dismissProgress()
-                                        startCrop(Uri.fromFile(mFile))
-                                    }
-                                }
-                            }*/
-
                         }
                     }
                 }
@@ -352,6 +322,4 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = BankAccountsFragment().apply { arguments = basket }
     }
-
-
 }

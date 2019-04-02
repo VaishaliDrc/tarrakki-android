@@ -124,12 +124,14 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         edtDOB?.alpha = if (isChecked) 0.8f else 1f
         edtDOB?.isEnabled = !isChecked
         if (isChecked) {
+            edtDOB?.setBackgroundResource(R.drawable.shape_edt_disable_gray_round)
             edtDOB?.text = getViewModel().kycData.value?.dob?.toDate("dd/MM/yyyy")?.convertTo("dd MMM, yyyy")
             getViewModel().kycData.value?.guardianName = ""
             getViewModel().kycData.value?.guardianDOB = ""
             getViewModel().kycData.value?.fullName = "" + getViewModel().kycData.value?.nameOfPANHolder
             edtPAN?.setText(getViewModel().kycData.value?.pan)
         } else {
+            edtDOB?.setBackgroundResource(R.drawable.shape_edt_gray_round)
             getViewModel().kycData.value?.guardianName = "" + getViewModel().kycData.value?.nameOfPANHolder
             edtPAN?.text?.clear()
             if (!getViewModel().kycData.value?.guardianDOB.isNullOrEmpty()) {

@@ -66,7 +66,7 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
                                 postSticky(item)
                             })
                             binder.executePendingBindings()
-                            if (item is LoadMore && !item.isLoading) {
+                            if (item is LoadMore && !item.isLoading && mRefresh?.isRefreshing == false) {
                                 item.isLoading = true
                                 loadMoreObservable.value = blogResponse.offset
                             }
@@ -77,21 +77,26 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
                 }
             }
             context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
+            mRefresh?.isRefreshing = false
         }
         getViewModel().getBlogs().observe(this, blogObservable)
         loadMoreObservable.observe(this, Observer {
             it?.let { offset ->
                 Handler().postDelayed({
                     getViewModel().getBlogs(offset = offset).observe(this, blogObservable)
-                }, 2500)
+                }, 1500)
             }
         })
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
                 context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
+                mRefresh?.isRefreshing = false
                 App.INSTANCE.isRefreshing.value = null
             }
         })
+        mRefresh?.setOnRefreshListener {
+            getViewModel().getBlogs(isRefresh = true).observe(this, blogObservable)
+        }
     }
 
 

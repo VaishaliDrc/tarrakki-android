@@ -1,10 +1,16 @@
 package com.tarrakki.module.invest
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.widget.TextView
+import com.tarrakki.App
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.homeInvest.HomeInvestFragment
+import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.startFragment
 
 class InvestActivity : BaseActivity() {
@@ -21,6 +27,20 @@ class InvestActivity : BaseActivity() {
             else
                 finish()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.home_menu, menu)
+        val tvCartCount = menu?.findItem(R.id.itemHome)?.actionView?.findViewById<TextView>(R.id.tvCartCount)
+        App.INSTANCE.cartCount.observe(this, Observer {
+            it?.let {
+                tvCartCount?.cartCount(it)
+            }
+        })
+        menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
+            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onNewIntent(intent: Intent?) {

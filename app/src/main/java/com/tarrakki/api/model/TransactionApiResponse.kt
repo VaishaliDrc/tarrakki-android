@@ -3,7 +3,7 @@ package com.tarrakki.api.model
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.annotation.StringDef
-import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R
@@ -11,6 +11,7 @@ import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
+import org.supportcompact.ktx.parseAsReturnOrNA
 
 
 data class TransactionApiResponse(
@@ -32,7 +33,7 @@ data class TransactionApiResponse(
             @SerializedName("created")
             val created: String?,
             @SerializedName("folio_number")
-            val folioNumber: String,
+            val folioNo: String,
             @SerializedName("fund_id")
             val fundId: Int,
             @SerializedName("id")
@@ -40,7 +41,7 @@ data class TransactionApiResponse(
             @SerializedName("name")
             val name: String,
             @SerializedName("nav")
-            val nav: Double?,
+            val nav: String?,
             @SerializedName("order_id")
             val orderId: String,
             @SerializedName("order_number")
@@ -61,6 +62,12 @@ data class TransactionApiResponse(
         @SerializedName("units")
         val units: String? = null
             get() = parseAsNoZiroReturnOrNA("$field")
+
+        val todayNAV
+            get() = parseAsReturnOrNA(nav)
+
+        val folioNumber
+            get() = if (TextUtils.isEmpty(folioNo)) "N/A" else folioNo
 
         val paymentType
             get() = if (paymentMode == "DIRECT") {

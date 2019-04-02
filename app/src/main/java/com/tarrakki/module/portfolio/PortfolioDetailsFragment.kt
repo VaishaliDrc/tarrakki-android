@@ -201,11 +201,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
         })
 
         tvHowReturns?.setOnClickListener {
-            context?.portfolioIntro(getPortfolioCalculatedIntro(), 1)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 0)
         }
 
         tvWhen?.setOnClickListener {
-            context?.portfolioIntro(getPortfolioCalculatedIntro(), 0)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 1)
         }
     }
 

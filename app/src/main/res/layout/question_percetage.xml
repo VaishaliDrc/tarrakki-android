@@ -60,6 +60,7 @@
                 android:layout_toStartOf="@+id/tvDurations"
                 android:background="@null"
                 android:gravity="center"
+                android:hint="0"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal"
                 android:text="@={question.ans}"

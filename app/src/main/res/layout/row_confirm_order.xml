@@ -123,8 +123,8 @@
             android:onClick="@{onCheckedChange}"
             android:padding="@dimen/space_8"
             android:text="@string/make_the_first_investment_of_sip_today"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/darker_gray"
-            android:textSize="@dimen/_11ssp"
             android:visibility="@{widget.hasSIP}"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
@@ -134,11 +134,11 @@
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline6"
-            app:percentageGuideline="@{widget.isGuideline==true?0.5f:1.0f}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="50"
+            app:percentageGuideline="@{widget.isGuideline==true?0.5f:1.0f}"
             tools:percentageGuideline="0.5" />
 
 

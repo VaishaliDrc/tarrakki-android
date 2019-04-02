@@ -24,8 +24,7 @@ class AddBankAccountVM : FragmentViewModel() {
     val name = ObservableField<String>("")
     val accountNo = ObservableField<String>("")
     val reenterAccountNo = ObservableField<String>("")
-    //val breachName = ObservableField<String>("")
-    val accountType = ObservableField<String>("Saving Account")
+    val accountType = ObservableField<String>("Saving")
     val IFSCCode = ObservableField<String>("")
     val response = MutableLiveData<BankResponse>()
 

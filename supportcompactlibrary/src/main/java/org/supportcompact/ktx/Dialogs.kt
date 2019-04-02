@@ -55,7 +55,7 @@ fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = nu
             .addButton(getString(R.string.yes), R.color.white, R.color.btn_bg_color) {
                 btnPositiveClick?.invoke()
                 mDialog.dismiss()
-            }.addButton(getString(R.string.no), R.color.white, R.color.btn_bg_color) {
+            }.addButton(getString(R.string.cancel), R.color.white, R.color.btn_bg_color) {
                 btnNegativeClick?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -75,7 +75,7 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositiveClick: (()
             .addButton(getString(R.string.yes), R.color.white, R.color.btn_bg_color) {
                 btnPositiveClick?.invoke()
                 mDialog.dismiss()
-            }.addButton(getString(R.string.no), R.color.white, R.color.btn_bg_color) {
+            }.addButton(getString(R.string.cancel), R.color.white, R.color.btn_bg_color) {
                 btnNegativeClick?.invoke()
                 mDialog.dismiss()
             }.show()
@@ -132,17 +132,6 @@ fun Context.accountTypes(onItemSelected: ((item: String) -> Unit)? = null) {
     val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
     val data = resources.getStringArray(R.array.accountTypes)
     mDialog.setTitle("Account Type")
-            .setItems(data) { dialogInterface, which ->
-                dialogInterface.dismiss()
-                onItemSelected?.invoke(data[which])
-            }
-            .create().show()
-}
-
-fun Context.showStates(onItemSelected: ((item: String) -> Unit)? = null) {
-    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
-    val data = resources.getStringArray(R.array.state_list)
-    mDialog.setTitle("Select State")
             .setItems(data) { dialogInterface, which ->
                 dialogInterface.dismiss()
                 onItemSelected?.invoke(data[which])
