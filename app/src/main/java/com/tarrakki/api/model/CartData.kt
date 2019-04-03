@@ -51,7 +51,7 @@ data class CartData(
         ) : BaseObservable(), Serializable {
 
             var actualfolioNumber: String = ""
-                get() = if (TextUtils.isEmpty(folioNumber)) {
+                get() = if (!TextUtils.isEmpty(folioNumber)) {
                     folioNumber
                 } else {
                     "NEW"

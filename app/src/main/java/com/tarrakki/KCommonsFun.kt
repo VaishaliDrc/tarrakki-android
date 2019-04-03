@@ -220,7 +220,7 @@ fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.Investme
 }
 
 fun alertStopPortfolio(folio: String, date: String): String {
-    return "Your SIP with Folio No. $folio and Start Date $date has been stopped successfully."
+    return "Your SIP with Folio No. $folio and Start Date $date, has been stopped successfully."
 }
 
 fun alertRedeemPortfolio(amount: String): String {

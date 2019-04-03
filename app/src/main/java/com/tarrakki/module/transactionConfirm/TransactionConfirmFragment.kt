@@ -21,7 +21,6 @@ import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
-import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

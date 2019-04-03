@@ -199,7 +199,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         val tvCancel = mView?.findViewById<TextView>(R.id.tvCancel)
         val cbSelectAll = mView?.findViewById<CheckBox>(R.id.cbSelectAll)
         tvDelete?.setOnClickListener {
-            context?.confirmationDialog("Are you sure to delete the selected transaction records?", btnPositiveClick = {
+            context?.confirmationDialog(getString(R.string.alert_are_you_sure_to_delete_transactions), btnPositiveClick = {
                 val jsonArray = JsonArray()
                 unpaidTransactions.forEach {
                     if (it is TransactionApiResponse.Transaction && it.isSelected) {

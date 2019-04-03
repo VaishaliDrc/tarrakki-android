@@ -1,23 +1,17 @@
 package com.tarrakki.module.bankmandate
 
 
-import android.Manifest
-import android.app.Activity
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.databinding.ViewDataBinding
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
-import android.support.annotation.NonNull
 import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
-import com.tarrakki.api.model.*
+import com.tarrakki.api.model.BankDetail
+import com.tarrakki.api.model.IMandateResponse
+import com.tarrakki.api.model.UserMandateDownloadResponse
+import com.tarrakki.api.model.parseTo
 import com.tarrakki.databinding.FragmentBankMandateWayBinding
-import com.tarrakki.module.account.AccountActivity
 import kotlinx.android.synthetic.main.fragment_bank_mandate_way.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -26,7 +20,6 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.isCompletedRegistration
 import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startActivity
 import org.supportcompact.ktx.startFragment
 
 const val ISIPMANDATE = "isipmandate"

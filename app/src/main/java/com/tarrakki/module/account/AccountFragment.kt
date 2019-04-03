@@ -172,7 +172,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     kycStatus.contains("12") -> context?.simpleAlert("KYC REGISTERED - Incomplete KYC (Existing / OLD Record)")
                                     kycStatus.contains("11") -> context?.simpleAlert("UNDER_PROCESS - Incomplete KYC (Existing / OLD Record)")
                                     kycStatus.contains("13") -> context?.simpleAlert("ON HOLD- Incomplete KYC (Existing / OLD Record) 22- CVL MF KYC")
-                                    kycStatus.contains("99") -> context?.simpleAlert("If specific KRA web service is not reachable")
+                                        kycStatus.contains("99") -> context?.simpleAlert("If specific KRA web service is not reachable")
                                     else -> {
                                         context?.simpleAlert("If specific KRA web service is not reachable")
                                     }

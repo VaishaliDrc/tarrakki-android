@@ -804,6 +804,7 @@
     <string name="alert_req_utr">Please Enter the UTR Number.</string>
     <string name="alert_req_bank_mandate">Please Select the Bank to Continue</string>
     <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
+
     <string name="select_funds_and_pay">Select Funds and Pay</string>
     <string name="please_select_fund_to_payment">Please select funds for payment.</string>
     <string name="no_transaction_found">No Transaction found</string>
@@ -833,6 +834,7 @@
     <string name="income_slab_">Income Slab*</string>
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
+    <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

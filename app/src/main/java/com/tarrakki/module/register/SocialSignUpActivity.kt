@@ -36,14 +36,14 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
         }
         btnSignUp?.setOnClickListener {
             when {
-                getViewModel().mobile.get()?.length == 0 -> simpleAlert("Please enter mobile number") {
+                getViewModel().mobile.get()?.length == 0 -> simpleAlert(getString(R.string.pls_enter_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
-                getViewModel().mobile.get()?.length != 10 -> simpleAlert("Please enter valid mobile number") {
+                getViewModel().mobile.get()?.length != 10 -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
                 cbTermsConditions?.isChecked == false -> {
-                    simpleAlert("Please agree our Terms & Conditions.") {
+                    simpleAlert(getString(R.string.alert_req_terms)) {
                         edtConfirmPassword?.requestFocus()
                     }
                 }

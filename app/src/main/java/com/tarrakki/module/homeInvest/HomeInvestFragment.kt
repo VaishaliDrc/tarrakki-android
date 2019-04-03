@@ -1,19 +1,12 @@
 package com.tarrakki.module.homeInvest
 
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.widget.TextView
-import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentHomeInvestBinding
-import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestFundsFragment
 import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
