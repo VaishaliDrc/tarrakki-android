@@ -3,7 +3,6 @@ package com.tarrakki.module.confirmorder
 import android.arch.lifecycle.Observer
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.BR
@@ -51,7 +50,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
     }
 
     override fun createReference() {
-        getData()
     }
 
     fun getData() {
@@ -88,7 +86,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                 if (!it?.data?.orders.isNullOrEmpty()) {
                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                     it?.let { it2 -> postSticky(it2) }
-                                    if (it?.data?.failedTransactions?.isNotEmpty()==true){
+                                    if (it?.data?.failedTransactions?.isNotEmpty() == true) {
                                         val failed = FailedTransactions(it.data.failedTransactions)
                                         postSticky(failed)
                                     }
@@ -107,7 +105,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             if (!it?.data?.orders.isNullOrEmpty()) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                 it?.let { it2 -> postSticky(it2) }
-                                if (it?.data?.failedTransactions?.isNotEmpty()==true){
+                                if (it?.data?.failedTransactions?.isNotEmpty() == true) {
                                     val failed = FailedTransactions(it.data.failedTransactions)
                                     postSticky(failed)
                                 }
@@ -160,6 +158,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: UserBankMandateResponse.Data) {
         getViewModel().mandateIdConfirmOrder(data.id, orderId).observe(this, confirmOrderObserve)
+        removeStickyEvent(data)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(data: ConfirmOrderResponse) {
+        getViewModel().apiResponse.value = data
+        confirmOrderObserve.onChanged(data)
         removeStickyEvent(data)
     }
 

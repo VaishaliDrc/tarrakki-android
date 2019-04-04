@@ -3,14 +3,11 @@ package com.tarrakki.module.home
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
-import android.widget.TextView
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.KYCRegistrationAFragment
 import com.tarrakki.module.ekyc.isPANCard
@@ -19,6 +16,7 @@ import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
@@ -182,12 +180,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         btnIdle?.setOnClickListener {
-            context?.simpleAlert(getString(R.string.coming_soon))
+            //context?.simpleAlert(getString(R.string.coming_soon))
+            startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
         tvViewPortfolio?.setOnClickListener {
             //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
-
             startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
 

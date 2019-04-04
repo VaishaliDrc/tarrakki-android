@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.zyaada.TarrakkiZyaadaVM" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.zyaada.TarrakkiZyaadaFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_space">
+
+            <LinearLayout
+                android:id="@+id/llWhyTarrakki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvWhatTarrakkii"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@{vm.whatIsTarrakkiZyaada ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/what_is_tarrakki_zyaada"
+                    android:textColor="@android:color/black"
+                    tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="true"
+                    app:expanded="@{vm.whatIsTarrakkiZyaada}">
+
+                    <TextView
+                        android:id="@+id/tvWhyTarrakkiiReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/what_is_tarrakki_zyaada_details"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvWhereIsMyMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@{vm.whereIsMyMoney ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/where_is_my_money_invested"
+                    android:textColor="@android:color/black"
+                    tools:drawableEnd="@drawable/ic_arrow_up" />
+
+                <net.cachapa.expandablelayout.ExpandableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:el_duration="500"
+                    app:el_expanded="true"
+                    app:expanded="@{vm.whereIsMyMoney}">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/where_is_my_money"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </net.cachapa.expandablelayout.ExpandableLayout>
+
+            </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvReturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/reliance_liquid_fund_performance"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvReturnP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/returns_sysmbol"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tvReturn"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvReturns"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerV="@{null}"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/tvReturn"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/row_fund_key_info_list_item" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:text="@string/disclaimer_expected_returns"
+                    android:textColor="#4185c9"
+                    android:textSize="@dimen/sp9"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rvReturns" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnInvest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/invest_and_save_now"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tvFAQs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_8"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/_4sdp"
+                android:text="@string/faqs"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>

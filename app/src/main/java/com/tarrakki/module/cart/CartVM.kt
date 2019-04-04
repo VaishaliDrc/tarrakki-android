@@ -24,6 +24,38 @@ class CartVM : FragmentViewModel() {
     val cartUpdate = MutableLiveData<ApiResponse>()
     val isEmptyCart = ObservableField<Boolean>(true)
 
+
+    fun getConfirmOrder(): MutableLiveData<ConfirmOrderResponse> {
+        showProgress()
+        val apiResponse = MutableLiveData<ConfirmOrderResponse>()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getConfirmOrder(App.INSTANCE.getUserId()),
+                apiNames = WebserviceBuilder.ApiNames.deleteCartItem,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<ConfirmOrderResponse>()
+                                apiResponse.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
+    }
+
     fun getCartItem(): MutableLiveData<CartData> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(

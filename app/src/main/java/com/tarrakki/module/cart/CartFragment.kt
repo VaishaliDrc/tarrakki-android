@@ -72,7 +72,12 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
                 if (context?.isCompletedRegistration() == true) {
-                    startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
+                    getViewModel().getConfirmOrder().observe(this, Observer {
+                        it?.let {
+                            startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
+                            postSticky(it)
+                        }
+                    })
                 } else {
                     context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
                             btnPositiveClick = {
