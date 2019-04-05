@@ -13,66 +13,92 @@
             name="onBankMandateChange"
             type="android.view.View.OnClickListener" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_space"
         android:layout_marginEnd="@dimen/default_space"
-        android:background="@drawable/shape_cart_view"
-        android:elevation="@dimen/space_2"
-        android:padding="@dimen/space_8">
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_cart_view"
+            android:elevation="@dimen/space_2"
+            android:padding="@dimen/space_8">
+
+            <TextView
+                android:id="@+id/tvTotalL"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/space_8"
+                android:text="@string/total_amount_payable"
+                app:layout_constraintEnd_toStartOf="@id/tvTotal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                price="@{widget.total}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dummy3"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvMandate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:layout_marginEnd="@dimen/space_8"
+                android:text="@string/sip_bank_mandate"
+                android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
+                app:layout_constraintBaseline_toBaselineOf="@id/tvBankMandateAccount"
+                app:layout_constraintEnd_toStartOf="@id/tvBankMandateAccount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTotalL" />
+
+            <TextView
+                android:id="@+id/tvBankMandateAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_16"
+                android:drawableEnd="@drawable/ic_bank_mandate_edit"
+                android:gravity="center_vertical"
+                android:onClick="@{onBankMandateChange}"
+                android:text="@{widget.bank}"
+                android:textColor="@color/colorAccent"
+                android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTotalL"
+                tools:text="ICICI Bank" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tvTotalL"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/space_8"
-            android:text="@string/total_amount_payable"
-            app:layout_constraintEnd_toStartOf="@id/tvTotal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="@dimen/default_space"
+            android:text="- If [ ] is checked, you will have to make the first payment towards your SIP today."
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/disclaimer_color"
+            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}" />
 
         <TextView
-            android:id="@+id/tvTotal"
-            price="@{widget.total}"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dummy3"
-            android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="@dimen/default_space"
+            android:text="- If [ ] is unchecked, the first payment towards your SIP will be made on the SIP start date."
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/disclaimer_color"
+            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}" />
 
-        <TextView
-            android:id="@+id/tvMandate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
-            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
-            android:layout_marginEnd="@dimen/space_8"
-            android:text="@string/sip_bank_mandate"
-            app:layout_constraintBaseline_toBaselineOf="@id/tvBankMandateAccount"
-            app:layout_constraintEnd_toStartOf="@id/tvBankMandateAccount"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTotalL" />
 
-        <TextView
-            android:id="@+id/tvBankMandateAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_16"
-            android:drawableEnd="@drawable/ic_bank_mandate_edit"
-            android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
-            android:gravity="center_vertical"
-            android:onClick="@{onBankMandateChange}"
-            android:text="@{widget.bank}"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTotalL"
-            tools:text="ICICI Bank" />
-
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -4,15 +4,16 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
+import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
+import org.supportcompact.events.ShowErrorDialog
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.math.BigInteger
 
 class CartVM : FragmentViewModel() {
@@ -39,6 +40,22 @@ class CartVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<ConfirmOrderResponse>()
                                 apiResponse.value = data
+                            } else if (o.status?.code == 5) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_desc_code_5)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
+                            } else if (o.status?.code == 6) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_msg_code_6)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -119,22 +136,22 @@ class CartVM : FragmentViewModel() {
     }
 
     fun updateGoalFromCart(id: String, fund: CartData.Data.OrderLine): MutableLiveData<ApiResponse> {
-        if (fund.sipAmount.toCurrencyBigInt()== BigInteger.ZERO){
+        if (fund.sipAmount.toCurrencyBigInt() == BigInteger.ZERO) {
             fund.day = ""
         }
-        if (fund.day==null || fund.day==""){
+        if (fund.day == null || fund.day == "") {
             fund.day = "0"
         }
         val lumpsump = fund.lumpsumAmount.toCurrencyBigInt().toString()
         val sip = fund.sipAmount.toCurrencyBigInt().toString()
 
-   /*     val json = JsonObject()
-        json.addProperty("otp",id)
-        json.addProperty("fund_id_id", fund.fundIdId.toString())
-        json.addProperty("lumpsum_amount",lumpsump)
-        json.addProperty("day", fund.day)
-        json.addProperty("sip_amount", sip)
-        val data = json.toString().toEncrypt()*/
+        /*     val json = JsonObject()
+             json.addProperty("otp",id)
+             json.addProperty("fund_id_id", fund.fundIdId.toString())
+             json.addProperty("lumpsum_amount",lumpsump)
+             json.addProperty("day", fund.day)
+             json.addProperty("sip_amount", sip)
+             val data = json.toString().toEncrypt()*/
 
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(

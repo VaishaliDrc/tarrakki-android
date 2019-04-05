@@ -21,6 +21,8 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.recommended.ISFROMGOALRECOMMEDED
+import com.tarrakki.module.transactions.SET_SELECTED_PAGE
+import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.activity_base.*
 import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
@@ -133,6 +135,17 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         , R.id.frmContainer)
                 postSticky(it.data.category[0])
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (App.INSTANCE.needToLoadTransactionScreen) {
+            val selectPageNo = 4
+            startFragment(TransactionsFragment.newInstance(Bundle().apply {
+                putInt(SET_SELECTED_PAGE, selectPageNo)
+            }), R.id.frmContainer)
+            App.INSTANCE.needToLoadTransactionScreen = false
         }
     }
 

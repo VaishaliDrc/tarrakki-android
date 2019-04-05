@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import com.tarrakki.App
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.AES
@@ -65,11 +66,15 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     val transactionStatus: MutableList<TransactionStatus> = arrayListOf()
                     for (funds in it.data) {
                         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
+                        if (!("N".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)))
+                            statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", funds.orderPlaced))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", funds.investmentConfirmation))
-                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", funds.unitsAlloted))
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Allotted", "", funds.unitsAlloted))
                         transactionStatus.add(TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>))
+                        if ("Failed".equals(funds.payment, true)) {
+                            btnToTransactionScreen?.visibility = View.VISIBLE
+                        }
                     }
                     if (transactionList.isNotEmpty()) {
                         if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) != true) {
@@ -85,6 +90,10 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             onExploreFunds()
         }
 
+        btnToTransactionScreen?.setOnClickListener {
+            onTransactionScreen()
+        }
+
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
@@ -93,6 +102,21 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
+        }
+    }
+
+    private fun onTransactionScreen() {
+        val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
+        if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) == true) {
+            onBack(2 + temp)
+            postSticky(Event.ISFROMTRANSACTIONSUCCESS)
+        } else {
+            App.INSTANCE.needToLoadTransactionScreen = true
+            if (isFromPaymentMode == true) {
+                onBack(3 + temp)
+            } else {
+                onBack(2 + temp)
+            }
         }
     }
 

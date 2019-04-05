@@ -867,6 +867,15 @@
     <string name="invest_and_save_now">Invest and save now</string>
     <string name="faqs">FAQs</string>
     <string name="reliance_liquid_fund_performance">Reliance Liquid Fund Performance</string>
+    <string name="key_benefits">Key Benefits</string>
+    <string name="higher_returns_than_your_bank">Higher returns than your bank</string>
+    <string name="debit_card_powered_by_hdfc_bank_amp_visa_towards_your_investment"><![CDATA[Debit card powered by HDFC Bank & Visa towards your investment]]></string>
+    <string name="instant_redemption_redemption">Instant Redemption Redemption</string>
+    <string name="sip_start_date">Your SIP will start on April</string>
+    <string name="go_to_unpaid_transactions">Go to unpaid transactions</string>
+    <string name="cut_of_time_title">CUT OFF TIME HAS PASSED</string>
+    <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can still place orders for the remaining funds by removing the below fund(s) from the cart.\n</string>
+    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm.\n</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

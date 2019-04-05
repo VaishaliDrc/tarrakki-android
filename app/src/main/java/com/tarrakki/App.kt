@@ -15,8 +15,8 @@ class App : CoreApp() {
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
     val signatureFile = MutableLiveData<File>()
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
-
-    var homeData : HomeData? = null
+    var homeData: HomeData? = null
+    var needToLoadTransactionScreen = false
 
     override fun onCreate() {
         super.onCreate()

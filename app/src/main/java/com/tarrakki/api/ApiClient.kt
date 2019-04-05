@@ -59,8 +59,8 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-   /* private const val BASE_URL = "http://172.10.29.36:8000/api/v1/"
-    const val IMAGE_BASE_URL = "http://172.10.29.36:8000"*/
+    /* private const val BASE_URL = "http://172.10.29.36:8000/api/v1/"
+     const val IMAGE_BASE_URL = "http://172.10.29.36:8000"*/
 
 
     /**
@@ -72,14 +72,14 @@ object ApiClient {
     /**
      * Live Url
      **/
-    private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
+    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url*/
 
     /**
      * Live Url
      **/
-    /*private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url*/
+    private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone

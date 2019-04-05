@@ -106,6 +106,128 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:id="@+id/tvKeyBenefits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/key_benefits"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@id/barrier2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.constraint.Barrier
+                    android:id="@+id/barrier2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="tvKeyBenefits" />
+
+                <ImageView
+                    android:id="@+id/ivB1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:padding="@dimen/_16sdp"
+                    android:src="@drawable/key_benefits_1"
+                    app:layout_constraintEnd_toStartOf="@id/ivB2"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                <TextView
+                    android:id="@+id/tvB1L"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:gravity="center"
+                    android:text="@string/higher_returns_than_your_bank"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintEnd_toEndOf="@id/ivB1"
+                    app:layout_constraintStart_toStartOf="@id/ivB1"
+                    app:layout_constraintTop_toBottomOf="@id/ivB1" />
+
+                <ImageView
+                    android:id="@+id/ivB2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:padding="@dimen/_16sdp"
+                    android:src="@drawable/key_benefits_2"
+                    app:layout_constraintEnd_toStartOf="@id/ivB3"
+                    app:layout_constraintHorizontal_weight="4"
+                    app:layout_constraintStart_toEndOf="@id/ivB1"
+                    app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                <TextView
+                    android:id="@+id/tvB2L"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:gravity="center"
+                    android:text="@string/debit_card_powered_by_hdfc_bank_amp_visa_towards_your_investment"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintEnd_toEndOf="@id/ivB2"
+                    app:layout_constraintStart_toStartOf="@id/ivB2"
+                    app:layout_constraintTop_toBottomOf="@id/ivB2" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/darker_gray"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    app:layout_constraintStart_toEndOf="@id/ivB1"
+                    app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                    app:layout_constraintTop_toTopOf="@id/ivB2" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@color/darker_gray"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    app:layout_constraintEnd_toStartOf="@id/ivB3"
+                    app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                    app:layout_constraintTop_toTopOf="@id/ivB2" />
+
+
+                <ImageView
+                    android:id="@+id/ivB3"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:padding="@dimen/_16sdp"
+                    android:src="@drawable/key_benefits_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="3"
+                    app:layout_constraintStart_toEndOf="@id/ivB2"
+                    app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                <TextView
+                    android:id="@+id/tvB3L"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:gravity="center"
+                    android:text="@string/instant_redemption_redemption"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintEnd_toEndOf="@id/ivB3"
+                    app:layout_constraintStart_toStartOf="@id/ivB3"
+                    app:layout_constraintTop_toBottomOf="@id/ivB3" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
                     android:id="@+id/tvReturn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

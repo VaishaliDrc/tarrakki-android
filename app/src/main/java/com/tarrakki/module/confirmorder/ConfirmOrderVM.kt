@@ -5,17 +5,14 @@ import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
+import org.supportcompact.events.ShowErrorDialog
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class ConfirmOrderVM : FragmentViewModel() {
 
@@ -37,6 +34,22 @@ class ConfirmOrderVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<ConfirmOrderResponse>()
                                 apiResponse.value = data
+                            } else if (o.status?.code == 5) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_desc_code_5)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
+                            } else if (o.status?.code == 6) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_msg_code_6)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -94,7 +107,7 @@ class ConfirmOrderVM : FragmentViewModel() {
         return apiResponse
     }
 
-    fun mandateIdConfirmOrder(mandateId : Int,orderId : Int?): MutableLiveData<ConfirmOrderResponse> {
+    fun mandateIdConfirmOrder(mandateId: Int, orderId: Int?): MutableLiveData<ConfirmOrderResponse> {
         showProgress()
         val json = JsonObject()
         json.addProperty("mandate_id", mandateId)
@@ -149,6 +162,22 @@ class ConfirmOrderVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<ConfirmTransactionResponse>()
                                 confirmApiResponse.value = data
+                            } else if (o.status?.code == 5) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_desc_code_5)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
+                            } else if (o.status?.code == 6) {
+                                EventBus.getDefault().post(
+                                        ShowErrorDialog(
+                                                title = App.INSTANCE.getString(R.string.cut_of_time_title),
+                                                error = App.INSTANCE.getString(R.string.cut_of_msg_code_6)
+                                                        .plus("\n")
+                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
+                                        ))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -172,7 +201,7 @@ class OrderTotal : WidgetsViewModel {
     var total: Double = 0.0
     var bank: String = ""
     var bankMandateId = -1
-    var isBankMandateVisible : Boolean ? = true
+    var isBankMandateVisible: Boolean? = true
 
     override fun layoutId(): Int {
         return R.layout.row_order_total

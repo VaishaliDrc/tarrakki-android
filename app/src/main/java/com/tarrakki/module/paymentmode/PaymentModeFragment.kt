@@ -61,7 +61,6 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     override fun createReference() {
         context?.let { DividerItemDecoration(it) }?.let { rvPaymentOrderItems?.addItemDecoration(it) }
         setHasOptionsMenu(true)
-
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
@@ -261,6 +260,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 sipTransactionId, data.name, lumpsumTransactionId
                 , lumpsumAmount, sipAmount
         )
+        transaction.isFirstSIP = "Y"
         orderList.add(transaction)
 
         val ConfirmResponseData = data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
@@ -307,6 +307,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                     sipTransactionId, data.name, lumpsumTransactionId
                     , lumpsumAmount, sipAmount
             )
+            transaction.isFirstSIP = "Y"
             orderList.add(transaction)
             data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
                 totalPayableAmount += it

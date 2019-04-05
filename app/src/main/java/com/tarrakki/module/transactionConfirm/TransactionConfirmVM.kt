@@ -4,19 +4,19 @@ import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.DrawableRes
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.TransactionStatusResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.showProgress
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.util.*
 
 class TransactionConfirmVM : FragmentViewModel() {
@@ -28,13 +28,13 @@ class TransactionConfirmVM : FragmentViewModel() {
         statuslist.add(TranscationStatus("Mutual Fund Payment", "via Net Banking", 1))
         statuslist.add(TranscationStatus("Order Placed with AMC", "", 2))
         statuslist.add(TranscationStatus("Investment Confirmation", "", 3))
-        statuslist.add(TranscationStatus("Units Alloted", "", 3))
+        statuslist.add(TranscationStatus("Units Allotted", "", 3))
 
         list.add(TransactionConfirm("HDFC GOLD Fund Direct Growth", "Lumpsump", "10000", true, statuslist))
         list.add(TransactionConfirm("HDFC GOLD Fund Direct Growth", "SIP", "20000", false, statuslist))
     }
 
-    fun getTransactionStatus(dataRequest : String): MutableLiveData<TransactionStatusResponse> {
+    fun getTransactionStatus(dataRequest: String): MutableLiveData<TransactionStatusResponse> {
         val apiResponse = MutableLiveData<TransactionStatusResponse>()
         showProgress()
         subscribeToSingle(
@@ -98,25 +98,28 @@ class TransactionConfirmVM : FragmentViewModel() {
     data class TranscationStatuss(val name: String, val description: String, val status: String) {
 
         var actualStatus: String = ""
-            get() = when (status) {
-                "completed" -> "Completed"
-                "In progress" -> "In Progress"
+            get() = when {
+                "completed".equals(status, true) -> "Completed"
+                "In progress".equals(status, true) -> "In Progress"
+                "Failed".equals(status, true) -> "Failed"
                 else -> "Pending"
             }
 
         @DrawableRes
         var actualStatusDrawable: Int = R.drawable.shape_pending_bg
-            get() = when (status) {
-                "completed" -> R.drawable.shape_completed_bg
-                "In progress" -> R.drawable.shape_progress_bg
+            get() = when {
+                "completed".equals(status, true) -> R.drawable.shape_completed_bg
+                "In progress".equals(status, true) -> R.drawable.shape_progress_bg
+                "Failed".equals(status, true) -> R.drawable.shape_failed_transn_bg
                 else -> R.drawable.shape_pending_bg
             }
 
         @DrawableRes
         var actualStatusIcon: Int = R.drawable.ic_round_pending
-            get() = when (status) {
-                "completed"-> R.drawable.ic_round_completed
-                "In progress" -> R.drawable.in_round_progress
+            get() = when {
+                "completed".equals(status, true) -> R.drawable.ic_round_completed
+                "In progress".equals(status, true) -> R.drawable.in_round_progress
+                "Failed".equals(status, true)->  R.drawable.ic_round_failed
                 else -> R.drawable.ic_round_pending
             }
     }

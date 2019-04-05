@@ -3,6 +3,7 @@ package com.tarrakki.api.model
 import android.text.TextUtils
 import android.view.View
 import com.google.gson.annotations.SerializedName
+import com.tarrakki.App
 import com.tarrakki.R
 import org.supportcompact.ktx.toCurrency
 import java.math.BigInteger
@@ -36,8 +37,20 @@ data class ConfirmTransactionResponse(
                 @SerializedName("lumpsum_amount")
                 var lumpsum_amount: String?,
                 @SerializedName("sip_amount")
-                var sip_amount: String?
+                var sip_amount: String?,
+                @SerializedName("first_order_flag")
+                var isFirstSIP: String? = null
         ) {
+
+            @SerializedName("sip_start_date")
+            val sipStartDate = ""
+
+            //var isFirstInstallmentSIP: Boolean = isFirstSIP == true
+
+            val sipStartMsg
+                get() = App.INSTANCE.getString(R.string.sip_start_date).plus(" $sipStartDate")
+
+
             var lumpsumAmount: String? = ""
                 get() = lumpsum_amount?.toDoubleOrNull()?.toCurrency()
 
@@ -57,7 +70,14 @@ data class ConfirmTransactionResponse(
                 get() = if (hasSIP == View.VISIBLE) R.string.sip else R.string.lumpsum
 
             val amount: String?
-                get() = if (hasSIP == View.VISIBLE) sipAmount else lumpsumAmount
+                get() = if (hasSIP == View.VISIBLE)
+                    if ("Y".equals(isFirstSIP, true)) sipAmount else "₹0"
+                else
+                    lumpsumAmount
+
+            val sipFirstMsgVisibility
+                get() = if (hasSIP == View.VISIBLE && !"Y".equals(isFirstSIP, true)) View.VISIBLE else View.GONE
+
         }
     }
 }

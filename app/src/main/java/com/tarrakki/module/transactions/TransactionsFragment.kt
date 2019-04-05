@@ -11,7 +11,6 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
 import com.tarrakki.module.transactions.childfragments.*
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
-import kotlinx.android.synthetic.main.fragment_upcoming_transactions.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -24,6 +23,8 @@ import org.supportcompact.events.Event
  * create an instance of this fragment.
  *
  */
+const val SET_SELECTED_PAGE = "set_selected_page"
+
 class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskBinding>() {
 
     override val isBackEnabled: Boolean
@@ -69,6 +70,9 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
                 getViewModel().hasOptionMenu.value = false
             }
         })
+        arguments?.getInt(SET_SELECTED_PAGE)?.let {
+            mPager?.setCurrentItem(it, true)
+        }
         mTab?.setupWithViewPager(mPager, true)
         mTab?.tabMode = TabLayout.MODE_SCROLLABLE
         getBinding().root.isFocusableInTouchMode = true
@@ -116,7 +120,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
 
     @Subscribe(sticky = true)
     fun onEventData(event: Event) {
-        if (event== Event.ISFROMTRANSACTIONSUCCESS){
+        if (event == Event.ISFROMTRANSACTIONSUCCESS) {
             getViewModel().onRefresh.value = true
         }
         removeStickyEvent(event)

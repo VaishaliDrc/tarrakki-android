@@ -29,6 +29,7 @@
     <color name="red">#FC0000</color>
 
     <color name="bg_img_color">#D1F3F5</color>
+    <color name="disclaimer_color">#4185c9</color>
 
     <string-array name="risk_level_color">
         <item>#00CB00</item>
