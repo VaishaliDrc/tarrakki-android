@@ -38,7 +38,7 @@ class OtpPANVerifyFragment : CoreFragment<PANVerifyVM, FragmentOtpPanverifyBindi
     override fun createReference() {
         btnSummit?.setOnClickListener {
             if (getViewModel().otp.get()?.length == 0) {
-                context?.simpleAlert("Please enter OTP") {
+                context?.simpleAlert(getString(R.string.alert_otp_mandatory)) {
                     edtOtp?.selectAll()
                     edtOtp?.requestFocus()
                 }
@@ -50,7 +50,7 @@ class OtpPANVerifyFragment : CoreFragment<PANVerifyVM, FragmentOtpPanverifyBindi
         }
 
         tvResendOtp?.setOnClickListener {
-            context?.simpleAlert("OTP has benn resend successfully")
+            context?.simpleAlert(getString(R.string.alert_resend_otp))
         }
     }
 

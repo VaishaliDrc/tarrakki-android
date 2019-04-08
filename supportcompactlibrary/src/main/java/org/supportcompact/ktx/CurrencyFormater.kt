@@ -217,7 +217,7 @@ fun String.toCurrency(): Double = try {
 }
 
 fun String.toCurrencyBigInt(): BigInteger = try {
-    this.replace(",", "").toBigIntegerOrNull() ?: BigInteger.ZERO
+    this.replace(",", "").replace("\u20B9", "").toBigIntegerOrNull() ?: BigInteger.ZERO
 } catch (e: java.lang.Exception) {
     BigInteger.ZERO
 }

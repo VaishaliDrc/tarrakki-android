@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout">
 
     <data>
 
@@ -118,7 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_semibold"
-                android:text="Folio:"
+                android:text="@string/folio_"
                 android:textColor="@color/darker_gray"
                 tools:text="Folio" />
 
@@ -134,7 +135,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvSIP"
+            android:id="@+id/tvSIPLabel"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
@@ -148,7 +149,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llfolioNo" />
 
-        <android.support.constraint.ConstraintLayout
+        <!--<android.support.constraint.ConstraintLayout
             android:id="@+id/llSIP"
             android:layout_width="80dp"
             android:layout_height="0dp"
@@ -192,7 +193,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="5000" />
 
-        </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>-->
+        <TextView
+            android:id="@+id/tvSIPAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:background="@drawable/shape_edt_white_round"
+            android:hint="@string/rs_symbol"
+            android:minWidth="@dimen/_80sdp"
+            android:padding="@dimen/space_8"
+            android:text="@{fund.sipAmount}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSIPLabel"
+            app:layout_constraintStart_toEndOf="@id/tvSIPLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvSIPLabel" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -206,9 +223,11 @@
             android:text="@{date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@{startDayDisable?@color/white:@color/darker_gray}"
-            app:layout_constraintBottom_toBottomOf="@+id/llSIP"
-            app:layout_constraintStart_toEndOf="@+id/llSIP"
-            app:layout_constraintTop_toTopOf="@+id/llSIP"
+            app:layout_constraintBottom_toBottomOf="@+id/tvSIPAmount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/tvSIPAmount"
+            app:layout_constraintTop_toTopOf="@+id/tvSIPAmount"
             tools:text="07 Sep 2018" />
 
         <TextView
@@ -222,7 +241,7 @@
             android:textColor="#F6C469"
             android:visibility="@{fund.hasOneTimeAmount ? View.GONE: View.VISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSIP"
+            app:layout_constraintTop_toBottomOf="@id/tvSIPAmount"
             tools:visibility="invisible" />
 
 
@@ -243,10 +262,28 @@
             android:textColor="@color/white"
             android:visibility="@{fund.hasOneTimeAmount ? View.VISIBLE: View.INVISIBLE}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSIP"
+            app:layout_constraintTop_toBottomOf="@id/tvSIPAmount"
             tools:visibility="visible" />
 
-        <android.support.constraint.ConstraintLayout
+        <TextView
+            android:id="@+id/tvLumpsumAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_8"
+            android:background="@drawable/shape_edt_white_round"
+            android:hint="@string/rs_symbol"
+            android:minWidth="@dimen/_80sdp"
+            android:padding="@dimen/space_8"
+            android:text="@{fund.lumpsumAmount}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:visibility="@{fund.hasOneTimeAmount ? View.VISIBLE: View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLumpsum"
+            app:layout_constraintStart_toEndOf="@id/tvLumpsum"
+            app:layout_constraintTop_toTopOf="@+id/tvLumpsum" />
+
+        <!--<android.support.constraint.ConstraintLayout
             android:id="@+id/llLumpsum"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -292,7 +329,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="20,000" />
 
-        </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>-->
 
         <!--<EditText
             android:id="@+id/edtLumpsum"

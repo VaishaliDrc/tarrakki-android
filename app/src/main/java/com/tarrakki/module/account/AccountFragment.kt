@@ -165,16 +165,16 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                             }
                                         })
                                     }
-                                    kycStatus.contains("03") -> context?.simpleAlert("Your KYC is on hold")
-                                    kycStatus.contains("04") -> context?.simpleAlert("Your KYC is kyc rejected")
-                                    kycStatus.contains("05") -> context?.simpleAlert("Your KYC is not available")
-                                    kycStatus.contains("06") -> context?.simpleAlert("Your KYC is deactivate")
-                                    kycStatus.contains("12") -> context?.simpleAlert("KYC REGISTERED - Incomplete KYC (Existing / OLD Record)")
-                                    kycStatus.contains("11") -> context?.simpleAlert("UNDER_PROCESS - Incomplete KYC (Existing / OLD Record)")
-                                    kycStatus.contains("13") -> context?.simpleAlert("ON HOLD- Incomplete KYC (Existing / OLD Record) 22- CVL MF KYC")
-                                        kycStatus.contains("99") -> context?.simpleAlert("If specific KRA web service is not reachable")
+                                    kycStatus.contains("03") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
+                                    kycStatus.contains("04") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
+                                    kycStatus.contains("05") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
+                                    kycStatus.contains("06") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
+                                    kycStatus.contains("12") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
+                                    kycStatus.contains("11") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
+                                    kycStatus.contains("13") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
+                                    kycStatus.contains("99") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                     else -> {
-                                        context?.simpleAlert("If specific KRA web service is not reachable")
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                     }
                                 }
                             }

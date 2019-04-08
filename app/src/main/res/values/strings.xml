@@ -720,6 +720,7 @@
     <string name="guardian_pan_number">Guardian PAN Number</string>
     <string name="personal_information">Personal Information</string>
     <string name="update_signature">Update Signature</string>
+    <string name="update">Update</string>
     <string name="please_sign_clearly">Please sign clearly and legibly on a clean, white paper. Your signature must match the signature your provided at the time of KYC.</string>
     <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
     <string name="woops">Woops!</string>
@@ -749,8 +750,8 @@
     <string name="send_nach_mandate_form_email">Send NACH Mandate Form Via Email</string>
     <string name="download_nach_mandate_form">Download NACH Mandate Form</string>
 
-    <string name="alert_nach_mandate_email_send">The email has been sent.</string>
-    <string name="alert_nach_mandate_download_success">Your NACH Mandate Form has been downloaded successfully. Please install any file explorer and search for it by the name \Tarrakki\, to access it.</string>
+    <string name="alert_nach_mandate_email_send">Email Sent Successfully. Please check  the inbox of your registered email address.</string>
+    <string name="alert_nach_mandate_download_success">Your NACH Mandate form has been downloaded successfully. Please install any file explorer and search for it by the name \Tarrakki\, to access it.</string>
     <string name="alert_req_sip_or_lumpsump">Please enter, either a lumpsum amount or an SIP amount.</string>
     <string name="alert_valid_sip_amount">Please enter a valid SIP amount.</string>
     <string name="alert_req_sip_date">Please select the SIP start date.</string>
@@ -806,7 +807,7 @@
     <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
 
     <string name="select_funds_and_pay">Select Funds and Pay</string>
-    <string name="please_select_fund_to_payment">Please select funds for payment.</string>
+    <string name="please_select_fund_to_payment">Please select the funds for which you would like to make the payment.</string>
     <string name="no_transaction_found">No Transaction found</string>
     <string name="choose_bank">Choose Bank</string>
     <string name="enter_account_number">Enter Account Number</string>
@@ -876,6 +877,26 @@
     <string name="cut_of_time_title">CUT OFF TIME HAS PASSED</string>
     <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can still place orders for the remaining funds by removing the below fund(s) from the cart.\n</string>
     <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm.\n</string>
+    <string name="folio_">Folio:</string>
+    <string name="alert_alert_non_resident">This app is currently only available for use to residents of India.</string>
+    <string name="alert_try_later">Something went wrong. We\'re looking into it. Please try again later.</string>
+    <string name="alert_kyc_on_hold">Your KYC is currently on hold. This is part of a standard procedure. We will inform you when it is approved.</string>
+    <string name="alert_kyc_rejected">Your KYC has been rejected. Please re-apply with the correct details.</string>
+    <string name="alert_not_available">Your KYC records are unavailable. Kindly contact support@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_deactivated">Your KYC records are unavailable. Kindly contact support@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_registered">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
+    <string name="alert_under_process">Your KYC registration is under way. We will inform you once your KYC has been approved.</string>
+    <string name="alert_kyc_on_hold_due_to_incomplete">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_server_not_reachable">The web service you need to complete this action is currently unavailable. Please try again later.</string>
+    <string name="alert_otp_mandatory">Please Enter the OTP. Please do not share your OTP with anyone.</string>
+    <string name="alert_resend_otp">The OTP has been sent to you again.</string>
+    <string name="tarrakki_correspondence_address">Tarrakki Correspondence Address</string>
+    <string name="pls_entr_ur_adrs">Please enter your address</string>
+    <string name="pls_enter_your_city">Please enter your city</string>
+    <string name="please_enter_your_pincode">Please enter your pincode</string>
+    <string name="please_enter_your_state">Please enter your state</string>
+    <string name="please_select_your_country">Please select your country</string>
+    <string name="disclaimer_this_address_details">Disclaimer: This address details for your Mutual Fund investment will be as per your KYC records. In case you wish to change address for your KYC records, please send a request to support@tarrakki.com.</string>
 
     <!--<string name="select_country">Select Country</string>-->
 </resources>

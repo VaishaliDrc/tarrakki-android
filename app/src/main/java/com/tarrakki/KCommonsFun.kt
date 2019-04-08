@@ -27,6 +27,7 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ktx.clearUserData
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toCurrency
 
 fun getRiskLevelVisibility(riskType: String?): Int {
     return when {
@@ -233,4 +234,8 @@ fun alertSIPMin(amount: String): String {
 
 fun alertLumpsumMin(amount: String): String {
     return "The lumpsum amount must be greater than or equal to $amount."
+}
+
+fun alertBankMandateMinLimit(): String {
+    return "Please enter an amount that is greater than or equal to ${1000.0.toCurrency()}."
 }

@@ -2,8 +2,8 @@ package com.tarrakki.module.bankmandate
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.alertBankMandateMinLimit
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.databinding.FragmentAutoDebitBinding
 import com.tarrakki.databinding.RowAutoDebitAmountListItemBinding
@@ -72,7 +72,7 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
                         }
                         startFragment(BankMandateWayFragment.newInstance(bundle), R.id.frmContainer)
                     } else {
-                        context?.simpleAlert("The amount must be greater than or equal to " + 1000.0.toCurrency())
+                        context?.simpleAlert(alertBankMandateMinLimit())
                     }
                 }
             } else {

@@ -28,10 +28,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
-import com.tarrakki.api.model.FolioData
-import com.tarrakki.api.model.Goal
-import com.tarrakki.api.model.HomeData
-import com.tarrakki.api.model.SIPDetails
+import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -481,6 +478,41 @@ fun Context.investDialog(fundId: Int, minSIPAmount: BigInteger,
                     sipAmount.toString(),
                     fundId)
         }
+    }
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
+fun Context.investCartDialog(item: CartData.Data.OrderLine, onInvest: ((amountLumpsum: String, amountSIP: String) -> Unit)? = null) {
+    val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+
+    mBinder.lumpsum = item.lumpsumAmount.replace("\u20B9", "")
+    mBinder.investment = item.sipAmount.replace("\u20B9", "")
+    mBinder.executePendingBindings()
+
+    mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+    mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+    mBinder.edtLumpsum.setSelection(mBinder.edtLumpsum.length())
+
+    mBinder.btnInvest.setText(R.string.update)
+    mBinder.btnInvest.setOnClickListener {
+        val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
+        val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
+        it.dismissKeyboard()
+        if (isLumpsumAndSIPAmountValid(sipAmount, lumpsumAmount)) {
+            if (this.isInvestDialogValid(item.validminSIPAmount, item.validminlumpsumAmount, sipAmount, lumpsumAmount)) {
+                mDialog.dismiss()
+                onInvest?.invoke(lumpsumAmount.toString(), sipAmount.toString())
+            }
+        }
+
     }
     mBinder.tvClose.setOnClickListener {
         mDialog.dismiss()

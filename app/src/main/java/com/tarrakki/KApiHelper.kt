@@ -275,7 +275,7 @@ fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
                     if (o is ResponseBody) {
                         apiResponse.value = o.resBody?.response?.getPasswordResult
                     } else {
-                        postError(R.string.try_again_to)
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
                     }
                 }
 
@@ -329,6 +329,8 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
                                 "${data?.dotexkra}",
                                 "${data?.karvykra}")
                         apiResponse.value = kycStates
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
                     }
                 }
 
@@ -398,9 +400,9 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.addressType = "01"
                             apiResponse.value = kycData
                         } else if (data == null) {
-                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
                         } else {
-                            EventBus.getDefault().post(ShowError("We allowing only resident of India"))
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_alert_non_resident)))
                         }
                     }
                 }

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 
+
 fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     this.requestFocus()
@@ -71,7 +72,13 @@ fun View.snackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT,
 
 fun View.snackBar(@StringRes message: Int, duration: Int = Snackbar.LENGTH_SHORT) = Snackbar.make(this, message, duration).show()
 
-fun View.snackBar(message: String, duration: Int = Snackbar.LENGTH_LONG) = Snackbar.make(this, message, duration).show()
+fun View.snackBar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+    val snackbar = Snackbar.make(this, message, duration)
+    val yourSnackBarView = snackbar.view //get your snackbar view
+    val textView = yourSnackBarView.findViewById(android.support.design.R.id.snackbar_text) as TextView //Get reference of snackbar textview
+    textView.maxLines = 4
+    snackbar.show()
+}
 
 fun View.animateTranslationX(values: FloatArray, duration: Long = 300, repeatCount: Int = 0, repeatMode: Int = 0) {
     val animator = ObjectAnimator.ofFloat(this, View.TRANSLATION_X, *values)

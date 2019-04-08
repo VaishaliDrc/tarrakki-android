@@ -21,7 +21,9 @@ import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.AES
 import com.tarrakki.api.ApiClient
+import com.tarrakki.api.model.Country
 import com.tarrakki.api.model.UserProfileResponse
+import com.tarrakki.api.model.parseArray
 import com.tarrakki.databinding.FragmentMyProfileBinding
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.otp.OtpVerificationActivity
@@ -111,6 +113,16 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         .setDefaultRequestOptions(requestOptions)
                         .load(ApiClient.IMAGE_BASE_URL.plus(it))
                         .into(ivProfile)
+            }
+        }
+        val countryJSON = resources.openRawResource(R.raw.country).bufferedReader().use { it.readText() }
+        val countries = countryJSON.parseArray<ArrayList<Country>>()
+        edtCountry?.setOnClickListener {
+            countries?.let {
+                context?.showCustomListDialog(R.string.select_country, countries) { item: Country ->
+                    edtCountry?.text = item.name
+                    getViewModel().country.set(item.code)
+                }
             }
         }
 

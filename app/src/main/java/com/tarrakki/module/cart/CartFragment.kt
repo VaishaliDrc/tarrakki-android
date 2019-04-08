@@ -4,10 +4,7 @@ package com.tarrakki.module.cart
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
@@ -109,7 +106,13 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     private fun onEditFunds() {
         if (getViewModel().funds.isNotEmpty()) {
-            getViewModel().funds[0].reuestToEdit = true
+            //getViewModel().funds[0].reuestToEdit = true
+            val item = getViewModel().funds[0]
+            context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
+                item.lumpsumAmount = amountLumpsum
+                item.sipAmount = amountSIP
+                getViewModel().updateGoalFromCart(item.id.toString(), item)
+            }
         }
     }
 
@@ -178,10 +181,10 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     } catch (e: Exception) {
                         false
                     }
-                    binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
-                    binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
-                    binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
-                    binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
+                    //binder.edtLumpsum.applyCurrencyFormatPositiveOnly()
+                    //binder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+                    //binder.edtLumpsum.setText(item.lumpsumAmount.toCurrency().format())
+                    //binder.edtSIPAmount.setText(item.sipAmount.toCurrency().format())
 
                     if (item.goal != null) {
                         if (item.goal.goal.isNotEmpty()) {
@@ -203,7 +206,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
 
                     binder.tvAddOneTimeAmount.setOnClickListener {
-                        item.hasOneTimeAmount = true
+                        context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
+                            if ("0" != amountLumpsum) {
+                                item.lumpsumAmount = amountLumpsum
+                                item.sipAmount = amountSIP
+                                item.hasOneTimeAmount = true
+                                getViewModel().updateGoalFromCart(item.id.toString(), item)
+                            }
+                        }
                     }
                     binder.ivDelete.setOnClickListener {
                         context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
@@ -215,7 +225,21 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             })
                         })
                     }
-                    binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
+                    binder.tvSIPAmount.setOnClickListener {
+                        context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
+                            item.lumpsumAmount = amountLumpsum
+                            item.sipAmount = amountSIP
+                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                        }
+                    }
+                    binder.tvLumpsumAmount.setOnClickListener {
+                        context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
+                            item.lumpsumAmount = amountLumpsum
+                            item.sipAmount = amountSIP
+                            getViewModel().updateGoalFromCart(item.id.toString(), item)
+                        }
+                    }
+                    /*binder.edtLumpsum.setOnEditorActionListener { v, actionId, event ->
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
                             v.dismissKeyboard()
                             v.clearFocus()
@@ -246,7 +270,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                             return@setOnEditorActionListener true
                         }
                         return@setOnEditorActionListener false
-                    }
+                    }*/
                     binder.tvDate.setOnClickListener {
                         it?.dismissKeyboard()
                         if (binder.startDayDisable == true) {
@@ -262,7 +286,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
 
                     }
-                    binder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
+                    /*binder.edtSIPAmount.addTextChangedListener(object : TextWatcher {
                         override fun afterTextChanged(p0: Editable?) {
                         }
 
@@ -283,7 +307,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                             item.lumpsumAmount = binder.edtLumpsum.text.toString().toCurrencyBigInt().toString()
                         }
-                    })
+                    })*/
 
                     binder.tvName.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply {

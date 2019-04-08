@@ -7,8 +7,11 @@ import android.net.Uri
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
+import com.tarrakki.api.subscribeToSingle
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -16,9 +19,6 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.io.File
 
 class MyProfileVM : FragmentViewModel() {
@@ -35,6 +35,11 @@ class MyProfileVM : FragmentViewModel() {
     val PANName = ObservableField("")
     val nominiName = ObservableField("")
     val nominiRelationship = ObservableField("")
+    val address = ObservableField("")
+    val city = ObservableField("")
+    val pincode = ObservableField("")
+    val state = ObservableField("")
+    val country = ObservableField("")
     val isEdit = ObservableField(false)
 
     val alpha = ObservableField<Float>(0.4f)
@@ -173,11 +178,18 @@ class MyProfileVM : FragmentViewModel() {
         showProgress()
 
         val json = JsonObject()
-        json.addProperty("full_name",fName.get())
-        json.addProperty("mobile_number",mobile.get())
+        json.addProperty("full_name", fName.get())
+        json.addProperty("mobile_number", mobile.get())
         json.addProperty("email", email.get())
         json.addProperty("nominee_name", nominiName.get())
         json.addProperty("nominee_relationship", nominiRelationship.get())
+
+        json.addProperty("corr_address", address.get())
+        json.addProperty("corr_city", city.get())
+        json.addProperty("corr_pincode", pincode.get())
+        json.addProperty("corr_state", state.get())
+        json.addProperty("corr_country", country.get())
+
         val data = json.toString().toEncrypt()
 
         val userId = App.INSTANCE.getUserId()

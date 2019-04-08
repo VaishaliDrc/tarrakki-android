@@ -6,6 +6,7 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.getOrdinalFormat
+import org.supportcompact.ktx.toCurrency
 import java.io.Serializable
 import java.math.BigInteger
 
@@ -32,12 +33,8 @@ data class CartData(
                 val fundIdSchemeType: String,
                 @SerializedName("id")
                 val id: Int,
-                @SerializedName("lumpsum_amount")
-                var lumpsumAmount: String,
                 @SerializedName("order_id_id")
                 val orderIdId: Int,
-                @SerializedName("sip_amount")
-                var sipAmount: String,
                 @SerializedName("day")
                 var day: String?,
                 @SerializedName("iaip_aip")
@@ -49,6 +46,20 @@ data class CartData(
                 @SerializedName("folio_number")
                 val folioNumber: String
         ) : BaseObservable(), Serializable {
+
+            @SerializedName("lumpsum_amount")
+            var lumpsumAmount: String = ""
+                get() = "$field".toCurrency().toCurrency()
+
+            @SerializedName("sip_amount")
+            var sipAmount: String = ""
+                get() = "$field".toCurrency().toCurrency()
+
+            /*var lumpsum: String = ""
+                get() = "$lumpsumAmount".toCurrency().format()
+
+            var sip: String = ""
+                get() = "$sipAmount".toCurrency().format()*/
 
             var actualfolioNumber: String = ""
                 get() = if (!TextUtils.isEmpty(folioNumber)) {
