@@ -21,10 +21,31 @@
             android:orientation="vertical"
             android:padding="@dimen/default_space">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp">
+
+                <org.supportcompact.widgets.AutoScrollWrapContentViewPager
+                    android:id="@+id/mAutoPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/pageIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="bottom"
+                    app:ci_drawable="@drawable/page_selected_white"
+                    app:ci_drawable_unselected="@drawable/page_unselected_white" />
+
+            </FrameLayout>
+
             <LinearLayout
                 android:id="@+id/llWhyTarrakki"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:orientation="vertical"
@@ -82,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:el_duration="500"
-                    app:el_expanded="true"
+                    app:el_expanded="false"
                     app:expanded="@{vm.whereIsMyMoney}">
 
                     <TextView
@@ -176,19 +197,19 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="0dp"
-                    android:background="@color/darker_gray"
                     android:layout_marginTop="@dimen/_4sdp"
-                    app:layout_constraintStart_toEndOf="@id/ivB1"
+                    android:background="@color/darker_gray"
                     app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                    app:layout_constraintStart_toEndOf="@id/ivB1"
                     app:layout_constraintTop_toTopOf="@id/ivB2" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="0dp"
-                    android:background="@color/darker_gray"
                     android:layout_marginTop="@dimen/_4sdp"
-                    app:layout_constraintEnd_toStartOf="@id/ivB3"
+                    android:background="@color/darker_gray"
                     app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                    app:layout_constraintEnd_toStartOf="@id/ivB3"
                     app:layout_constraintTop_toTopOf="@id/ivB2" />
 
 

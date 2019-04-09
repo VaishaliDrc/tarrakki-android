@@ -130,7 +130,7 @@ class BankAccountsVM : FragmentViewModel() {
             json.addProperty("nominee_name", kycData.nomineeName)
             json.addProperty("nominee_relation", kycData.nomineeRelation)
             json.addProperty("user_id", "${App.INSTANCE.getUserId()}")
-            json.addProperty("email", kycData.email)
+            json.addProperty("email", "${kycData.email}".toLowerCase())
             json.addProperty("full_name", kycData.fullName)
             json.addProperty("mobile_number", kycData.mobile)
             json.addProperty("birth_country", kycData.birthCountry)

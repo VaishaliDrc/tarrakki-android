@@ -13,8 +13,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.NonNull
+import android.text.TextUtils
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
@@ -74,6 +74,9 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         binding.executePendingBindings()
     }
 
+    val countryJSON = App.INSTANCE.resources.openRawResource(R.raw.country).bufferedReader().use { it.readText() }
+    val countries = countryJSON.parseArray<ArrayList<Country>>()
+
     val profileObserver: android.arch.lifecycle.Observer<UserProfileResponse> = android.arch.lifecycle.Observer { response ->
         response?.let {
             getBinding().root.visibility = View.VISIBLE
@@ -86,9 +89,17 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             getViewModel().mobile.set(response.data.mobileNumber)
             getViewModel().guardian.set(response.data.guardianName)
             getViewModel().guardianPANNumber.set(response.data.guardianPan)
-
             getViewModel().nominiName.set(response.data.nomineeName)
             getViewModel().nominiRelationship.set(response.data.nomineeRelationship)
+            getViewModel().address.set(response.data.address)
+            getViewModel().city.set(response.data.city)
+            getViewModel().pincode.set(response.data.pincode)
+            getViewModel().state.set(response.data.state)
+            getViewModel().country.set(response.data.country)
+            if (!TextUtils.isEmpty(response.data.country)) {
+                val country = countries?.find { it.code == response.data.country }
+                country?.let { edtCountry?.setText(it.name) }
+            }
 
             isEmailVerified = response.data.isEmailActivated
             isMobileVerified = response.data.isMobileVerified
@@ -115,8 +126,6 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         .into(ivProfile)
             }
         }
-        val countryJSON = resources.openRawResource(R.raw.country).bufferedReader().use { it.readText() }
-        val countries = countryJSON.parseArray<ArrayList<Country>>()
         edtCountry?.setOnClickListener {
             countries?.let {
                 context?.showCustomListDialog(R.string.select_country, countries) { item: Country ->
@@ -229,18 +238,24 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                     })
         }
 
-        edtEmail.setOnEditorActionListener { textView, i, keyEvent ->
-            if (i == EditorInfo.IME_ACTION_DONE) {
+        edtEmail.setOnClickListener {
+            context?.updateEmailOrMobile(updateField = "${getViewModel().email.get()}") { email: String ->
+                getViewModel().email.set(email)
                 onVerifyEmail()
             }
-            false
+            /*if (i == EditorInfo.IME_ACTION_DONE) {
+                onVerifyEmail()
+            }*/
         }
 
-        edtMobile.setOnEditorActionListener { textView, i, keyEvent ->
-            if (i == EditorInfo.IME_ACTION_DONE) {
+        edtMobile.setOnClickListener {
+            context?.updateEmailOrMobile(isEmailUpdate = false, updateField = "${getViewModel().mobile.get()}") { mobile: String ->
+                getViewModel().mobile.set(mobile)
                 onVerifyMobile()
             }
-            false
+            /*if (i == EditorInfo.IME_ACTION_DONE) {
+                onVerifyMobile()
+            }*/
         }
 
         App.INSTANCE.signatureFile.observe(this, Observer {
@@ -298,63 +313,67 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     }
 
     private fun onVerifyEmail() {
-        if (validateEmail()) {
-            if (verifiedEmail != getViewModel().email.get()) {
-                context?.confirmationDialog(title = getString(R.string.app_name),
-                        msg = getString(R.string.alert_email_auth),
-                        btnPositive = "Yes",
-                        btnNegative = "No",
-                        btnPositiveClick = {
-                            val json = JsonObject()
-                            json.addProperty("user_id", App.INSTANCE.getUserId())
-                            json.addProperty("email", verifiedEmail)
-                            json.addProperty("type", "update_email")
-                            e("Plain Data=>", json.toString())
-                            val data = AES.encrypt(json.toString())
-                            e("Encrypted Data=>", data)
-                            getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                                it?.let { it1 ->
-                                    val intent = Intent(activity, OtpVerificationActivity::class.java)
-                                    intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
-                                    startActivity(intent)
-                                    EventBus.getDefault().postSticky(it1)
-                                }
-                            })
-                        }, btnNegativeClick = {
-                    getViewModel().email.set(verifiedEmail)
-                })
-            }
+        if (verifiedEmail != getViewModel().email.get()) {
+            context?.confirmationDialog(title = getString(R.string.app_name),
+                    msg = getString(R.string.alert_email_auth),
+                    btnPositive = "Yes",
+                    btnNegative = "No",
+                    btnPositiveClick = {
+                        val json = JsonObject()
+                        json.addProperty("user_id", App.INSTANCE.getUserId())
+                        json.addProperty("email", "$verifiedEmail".toLowerCase())
+                        json.addProperty("type", "update_email")
+                        e("Plain Data=>", json.toString())
+                        val data = AES.encrypt(json.toString())
+                        e("Encrypted Data=>", data)
+                        getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                            it?.let { it1 ->
+                                val intent = Intent(activity, OtpVerificationActivity::class.java)
+                                intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
+                                startActivity(intent)
+                                EventBus.getDefault().postSticky(it1)
+                            }
+                        })
+                    },
+                    btnNegativeClick = {
+                        getViewModel().email.set(verifiedEmail)
+                    })
         }
+        /*if (validateEmail()) {
+
+        }*/
     }
 
     private fun onVerifyMobile() {
-        if (validateMobile()) {
-            if (getViewModel().mobile.get() != verifiedMobile) {
-                context?.confirmationDialog(title = getString(R.string.app_name),
-                        msg = getString(R.string.alert_mobile_auth),
-                        btnPositive = "Yes",
-                        btnNegative = "No",
-                        btnPositiveClick = {
-                            val json = JsonObject()
-                            json.addProperty("user_id", App.INSTANCE.getUserId())
-                            json.addProperty("mobile", getViewModel().mobile.get())
-                            json.addProperty("type", "update_mobile")
-                            e("Plain Data=>", json.toString())
-                            val data = AES.encrypt(json.toString())
-                            e("Encrypted Data=>", data)
-                            getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
-                                it?.let { it1 ->
-                                    val intent = Intent(activity, OtpVerificationActivity::class.java)
-                                    intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
-                                    startActivity(intent)
-                                    EventBus.getDefault().postSticky(it1)
-                                }
-                            })
-                        }, btnNegativeClick = {
-                    getViewModel().mobile.set(verifiedMobile)
-                })
-            }
+        if (getViewModel().mobile.get() != verifiedMobile) {
+            context?.confirmationDialog(title = getString(R.string.app_name),
+                    msg = getString(R.string.alert_mobile_auth),
+                    btnPositive = "Yes",
+                    btnNegative = "No",
+                    btnPositiveClick = {
+                        val json = JsonObject()
+                        json.addProperty("user_id", App.INSTANCE.getUserId())
+                        json.addProperty("mobile", getViewModel().mobile.get())
+                        json.addProperty("type", "update_mobile")
+                        e("Plain Data=>", json.toString())
+                        val data = AES.encrypt(json.toString())
+                        e("Encrypted Data=>", data)
+                        getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                            it?.let { it1 ->
+                                val intent = Intent(activity, OtpVerificationActivity::class.java)
+                                intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
+                                startActivity(intent)
+                                EventBus.getDefault().postSticky(it1)
+                            }
+                        })
+                    },
+                    btnNegativeClick = {
+                        getViewModel().mobile.set(verifiedMobile)
+                    })
         }
+        /*if (validateMobile()) {
+
+        }*/
     }
 
     private fun openGallery() {

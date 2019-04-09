@@ -118,7 +118,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                 val json = JsonObject()
                 if (apiResponse.status?.code == 3) {
                     json.addProperty("access_token", getViewModel().socialId.get())
-                    json.addProperty("email", getViewModel().socialEmail.get())
+                    json.addProperty("email", "${getViewModel().socialEmail.get()}".toLowerCase())
                     json.addProperty("first_name", getViewModel().socialFName.get())
                     json.addProperty("last_name", getViewModel().socialLName.get())
                     json.addProperty("social_auth", apiResponse.status.message)

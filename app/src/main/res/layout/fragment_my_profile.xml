@@ -94,8 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/display_name"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/edtFName"
@@ -125,8 +125,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/pan_number"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <EditText
@@ -157,8 +157,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/pan_name"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.VISIBLE:View.GONE}' />
 
                 <EditText
@@ -188,10 +188,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/email_id"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -199,8 +199,6 @@
                     android:background="@{vm.isEdit?@drawable/shape_edt_gray_round:@drawable/shape_edt_disable_gray_round}"
                     android:enabled="@{vm.isEdit()}"
                     android:hint="@string/email_id"
-                    android:imeOptions="actionDone"
-                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
@@ -209,7 +207,8 @@
                     android:text="@={vm.email}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray" />
+                    android:textColorHint="@color/darker_gray"
+                    tools:background="@drawable/shape_edt_disable_gray_round" />
 
                 <TextView
                     android:id="@+id/tvMobile"
@@ -217,10 +216,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/mobile_number"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edtMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -229,8 +228,6 @@
                     android:drawableEnd="@drawable/ic_succeeded"
                     android:enabled="@{vm.isEdit()}"
                     android:hint="@string/mobile_number"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
@@ -239,7 +236,8 @@
                     android:text="@={vm.mobile}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray" />
+                    android:textColorHint="@color/darker_gray"
+                    tools:background="@drawable/shape_edt_disable_gray_round" />
 
                 <TextView
                     android:id="@+id/tvGuardian"
@@ -247,8 +245,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/name_of_guardian"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     android:visibility='@{TextUtils.isEmpty(vm.guardian)?View.GONE:View.VISIBLE}' />
 
                 <EditText
@@ -277,8 +275,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/guardian_pan"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     android:visibility='@{TextUtils.isEmpty(vm.guardianPANNumber)?View.GONE:View.VISIBLE}' />
 
                 <EditText
@@ -331,8 +329,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/address"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvAddressTitle" />
 
@@ -365,8 +363,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/_4sdp"
                     android:text="@string/city"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toStartOf="@id/tvPincodeL"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edtAddress" />
@@ -401,8 +399,8 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/pincode"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvCityL"
                     app:layout_constraintTop_toBottomOf="@id/edtAddress" />
@@ -416,6 +414,7 @@
                     android:enabled="@{vm.isEdit()}"
                     android:hint="@string/please_enter_your_pincode"
                     android:inputType="number"
+                    android:maxLength="6"
                     android:maxLines="1"
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
@@ -437,8 +436,8 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/_4sdp"
                     android:text="@string/state"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toStartOf="@id/tvCountryL"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edtCity" />
@@ -473,8 +472,8 @@
                     android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/country"
-                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvStateL"
                     app:layout_constraintTop_toBottomOf="@id/edtPincode" />
@@ -543,8 +542,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/nominee_name"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/edtNominee"
@@ -571,8 +570,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/nominee_relationship"
-                    android:textColor="@color/black"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
                 <EditText
                     android:id="@+id/edtNomineeRelationship"

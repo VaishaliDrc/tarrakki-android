@@ -8,8 +8,7 @@ import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.printResponse
 import com.tarrakki.api.model.toDecrypt
@@ -21,9 +20,6 @@ import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import java.util.regex.Pattern
 
 
@@ -254,7 +250,7 @@ fun saveKYCData(kycData: KYCData): MutableLiveData<ApiResponse> {
     json.addProperty("occ_code", kycData.OCCcode)
     json.addProperty("nominee_name", kycData.nomineeName)
     json.addProperty("nominee_relation", kycData.nomineeRelation)
-    json.addProperty("email", kycData.email)
+    json.addProperty("email", "${kycData.email}".toLowerCase())
     json.addProperty("full_name", kycData.fullName)
     json.addProperty("mobile_number", kycData.mobile)
     json.addProperty("birth_country", kycData.birthCountry)

@@ -41,7 +41,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         json.addProperty("mobile", mobile)
-        json.addProperty("email", email)
+        json.addProperty("email", "$email".toLowerCase())
         json.addProperty("type", type)
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())
@@ -165,15 +165,17 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     }
 
     fun forgotPasswordSendOTP(): MutableLiveData<ForgotPasswordEmailResponse> {
-        /*val json = JsonObject()
-        json.addProperty("email", email.get().toString())
+        val json = JsonObject()
+        json.addProperty("email", "${email.get()}".toLowerCase())
         json.addProperty("type", "forgot_password")
-        val data = json.toString().toEncrypt()*/
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        data.printRequest()
         val apiResponse = MutableLiveData<ForgotPasswordEmailResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java)
-                        .forgotPassword(email.get().toString(), "forgot_password"),
+                        .forgotPassword(data),
                 apiNames = WebserviceBuilder.ApiNames.forgotPassword,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

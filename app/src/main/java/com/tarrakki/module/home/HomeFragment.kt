@@ -15,6 +15,7 @@ import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
@@ -178,8 +179,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         btnIdle?.setOnClickListener {
-            context?.simpleAlert(getString(R.string.coming_soon))
-            //startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
+            //context?.simpleAlert(getString(R.string.coming_soon))
+            startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
         tvViewPortfolio?.setOnClickListener {

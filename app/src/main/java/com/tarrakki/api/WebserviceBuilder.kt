@@ -66,16 +66,12 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @PUT("cart/add_to_cart/{id}/")
     fun updateCartItem(@Path("id") id: String,
-                       @Field("fund_id_id") fund_id_id: String,
-                       @Field("lumpsum_amount") lumpsum_amount: String,
-                       @Field("day") day: String?,
-                       @Field("sip_amount") sip_amount: String
+                       @Field("data") data: String
     ): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("users/forgot-password/")
-    fun forgotPassword(@Field("email") email: String,
-                       @Field("type") type: String): Observable<ApiResponse>
+    fun forgotPassword(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("cart/add_to_cart/")

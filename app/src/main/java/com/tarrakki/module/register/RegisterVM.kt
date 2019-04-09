@@ -5,8 +5,7 @@ import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.AES
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.printResponse
 import org.greenrobot.eventbus.EventBus
@@ -16,9 +15,6 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class RegisterVM : ActivityViewModel() {
 
@@ -29,7 +25,7 @@ class RegisterVM : ActivityViewModel() {
 
     fun getSignUpData(): JsonObject {
         val json = JsonObject()
-        json.addProperty("email", "${email.get()}")
+        json.addProperty("email", "${email.get()}".toLowerCase())
         json.addProperty("mobile", "${mobile.get()}")
         json.addProperty("password", "${password.get()}")
         return json
@@ -72,7 +68,7 @@ class RegisterVM : ActivityViewModel() {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         json.addProperty("mobile", mobile)
-        json.addProperty("email", email)
+        json.addProperty("email", "$email".toLowerCase())
         json.addProperty("type", type)
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
+import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
 import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
 
@@ -38,6 +40,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     }
 
     override fun createReference() {
+
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {
                 getViewModel().whatIsTarrakkiZyaada.set(!it)
@@ -57,6 +60,14 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             binder.keyInfo = item
             binder.executePendingBindings()
         }
+        val imgs = arrayListOf(R.drawable.zyaada1, R.drawable.zyaada2, R.drawable.zyaada3)
+        mAutoPager?.setAutoWrapContentPageAdapter(R.layout.page_tarrakki_zyaada_item, imgs) { binder: PageTarrakkiZyaadaItemBinding, item: Int ->
+            binder.imgRes = item
+            binder.executePendingBindings()
+        }
+        pageIndicator?.setViewPager(mAutoPager)
+        mAutoPager?.interval = 4000
+        mAutoPager?.startAutoScroll()
     }
 
     companion object {

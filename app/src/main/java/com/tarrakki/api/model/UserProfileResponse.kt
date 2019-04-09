@@ -28,7 +28,17 @@ data class UserProfileResponse(
             @SerializedName("is_email_activated")
             val isEmailActivated: Boolean,
             @SerializedName("is_mobile_verified")
-            val isMobileVerified: Boolean
+            val isMobileVerified: Boolean,
+            @SerializedName("corr_address")
+            val address: String,
+            @SerializedName("corr_city")
+            val city: String,
+            @SerializedName("corr_pincode")
+            val pincode: String,
+            @SerializedName("corr_state")
+            val state: String,
+            @SerializedName("corr_country")
+            val country: String
     ) {
         data class KycDetail(
                 @SerializedName("full_name")

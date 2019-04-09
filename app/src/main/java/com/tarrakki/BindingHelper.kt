@@ -822,6 +822,70 @@ fun Context.signatureDialog(btnDigitally: (() -> Unit), btnPhysically: (() -> Un
     mDialog.show()
 }
 
+fun Context.updateEmailOrMobile(isEmailUpdate: Boolean = true, updateField: String = "", onUpdate: ((String) -> Unit)) {
+    val mBinder = DialogUpdateEmailPhoneBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.isEmailUpdate = isEmailUpdate
+    mBinder.email = updateField
+    mBinder.mobile = updateField
+    mBinder.executePendingBindings()
+    if (isEmailUpdate) {
+        mBinder.edtEmail.requestFocus()
+        mBinder.edtEmail.setSelection(mBinder.edtEmail.length())
+    } else {
+        mBinder.edtMobile.requestFocus()
+        mBinder.edtMobile.setSelection(mBinder.edtMobile.length())
+    }
+    mBinder.btnUpdate.setOnClickListener {
+        if (isEmailUpdate) {
+            when {
+                TextUtils.isEmpty(mBinder.edtEmail.text.trim()) -> simpleAlert(getString(R.string.pls_enter_email_address)) {
+                    Handler().postDelayed({
+                        mBinder.edtEmail.requestFocus()
+                        mBinder.edtEmail.setSelection(mBinder.edtEmail.length())
+                    }, 100)
+                }
+                !"${mBinder.edtEmail.text.trim()}".isEmail() -> simpleAlert(getString(R.string.pls_enter_valid_email_address)) {
+                    Handler().postDelayed({
+                        mBinder.edtEmail.requestFocus()
+                        mBinder.edtEmail.setSelection(mBinder.edtEmail.length())
+                    }, 100)
+                }
+                else -> {
+                    mDialog.dismiss()
+                    onUpdate.invoke("${mBinder.edtEmail.text.trim()}".toLowerCase())
+                }
+            }
+        } else {
+            when {
+                TextUtils.isEmpty(mBinder.edtMobile.text.trim()) -> simpleAlert(getString(R.string.pls_enter_mobile_number)) {
+                    Handler().postDelayed({
+                        mBinder.edtMobile.requestFocus()
+                        mBinder.edtMobile.setSelection(mBinder.edtMobile.length())
+                    }, 100)
+                }
+                "${mBinder.edtMobile.text.trim()}".length != 10 -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
+                    Handler().postDelayed({
+                        mBinder.edtMobile.requestFocus()
+                        mBinder.edtMobile.setSelection(mBinder.edtMobile.length())
+                    }, 100)
+                }
+                else -> {
+                    mDialog.dismiss()
+                    onUpdate.invoke("${mBinder.edtMobile.text.trim()}".toLowerCase())
+                }
+            }
+        }
+    }
+    mBinder.ivClose.setOnClickListener {
+        it.dismissKeyboard()
+        mDialog.dismiss()
+    }
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
 fun String.toYearWord(): String {
     return try {
         val n = this.toDoubleOrNull()

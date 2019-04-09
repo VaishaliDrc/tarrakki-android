@@ -6,6 +6,6 @@ import org.supportcompact.FragmentViewModel
 class TarrakkiZyaadaVM : FragmentViewModel() {
 
     val whatIsTarrakkiZyaada = ObservableField(true)
-    val whereIsMyMoney = ObservableField(true)
+    val whereIsMyMoney = ObservableField(false)
 
 }
