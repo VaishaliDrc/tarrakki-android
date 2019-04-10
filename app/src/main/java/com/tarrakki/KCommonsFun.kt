@@ -2,6 +2,7 @@ package com.tarrakki
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
@@ -204,6 +205,15 @@ fun Context.tableRowContent(text: String, textColor: Int? = null): View? {
     view.tvTableRowContent.text = text
     if (textColor != null) {
         view.tvTableRowContent.setTextColor(textColor)
+    }
+    return view
+}
+
+fun Context.tableRowContentWithDrawable(text: String = "", drawable: Drawable? = null): View? {
+    val view = LayoutInflater.from(this).inflate(R.layout.row_table_layout_content, null, false)
+    view.tvTableRowContent.text = text
+    if (drawable != null) {
+        view.tvTableRowContent.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
     }
     return view
 }

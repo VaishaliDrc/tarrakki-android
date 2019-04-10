@@ -161,7 +161,19 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                             }
                             getViewModel().dismissProgress()
                             LoginManager.getInstance().logOut()
-                            getViewModel().doSocialLogin(loginWith = "facebook")
+                            if (getViewModel().socialEmail.isEmpty()) {
+                                val json = JsonObject()
+                                json.addProperty("access_token", getViewModel().socialId.get())
+                                json.addProperty("email", "")
+                                json.addProperty("first_name", getViewModel().socialFName.get())
+                                json.addProperty("last_name", getViewModel().socialLName.get())
+                                json.addProperty("social_auth", "facebook")
+                                val intent = Intent(this@LoginActivity, SocialSignUpActivity::class.java)
+                                intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
+                                startActivity(intent)
+                            } else {
+                                getViewModel().doSocialLogin(loginWith = "facebook")
+                            }
                         }
                         val parameters = Bundle()
                         parameters.putString("fields", "id,email,first_name,last_name")
@@ -213,7 +225,19 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
             getViewModel().socialFName.set(fname)
             getViewModel().socialLName.set(lname)
             getViewModel().socialId.set(personId)
-            getViewModel().doSocialLogin(loginWith = "google")
+            if (getViewModel().socialEmail.isEmpty()) {
+                val json = JsonObject()
+                json.addProperty("access_token", getViewModel().socialId.get())
+                json.addProperty("email", "")
+                json.addProperty("first_name", getViewModel().socialFName.get())
+                json.addProperty("last_name", getViewModel().socialLName.get())
+                json.addProperty("social_auth", "google")
+                val intent = Intent(this@LoginActivity, SocialSignUpActivity::class.java)
+                intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
+                startActivity(intent)
+            } else {
+                getViewModel().doSocialLogin(loginWith = "google")
+            }
         }
     }
 }

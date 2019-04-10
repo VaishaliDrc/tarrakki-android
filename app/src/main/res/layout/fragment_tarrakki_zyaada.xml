@@ -119,6 +119,129 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <HorizontalScrollView
+                    android:id="@+id/hScrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:elevation="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TableLayout
+                        android:id="@+id/tblSchemeDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:divider="?android:attr/dividerHorizontal"
+                        android:orientation="horizontal"
+                        android:showDividers="middle" />
+
+
+                </HorizontalScrollView>
+
+                <TextView
+                    android:id="@+id/tvSymbol1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:gravity="center_vertical"
+                    android:text="@string/symbol_a"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hScrollView" />
+
+                <TextView
+                    android:id="@+id/tvSymbol2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/symbol_b"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvD1" />
+
+                <TextView
+                    android:id="@+id/tvSymbol3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/symbol_c"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvD2" />
+
+                <android.support.constraint.Barrier
+                    android:id="@+id/barrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="tvSymbol1,tvSymbol2,tvSymbol3" />
+
+                <TextView
+                    android:id="@+id/tvD1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/daily_purchase_limit_of_50"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tvSymbol1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_constraintStart_toEndOf="@id/tvSymbol1" />
+
+                <TextView
+                    android:id="@+id/tvD2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/upto_50_of_the_balance_or_up"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tvSymbol2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/tvD1"
+                    tools:layout_constraintStart_toEndOf="@id/tvSymbol2" />
+
+                <TextView
+                    android:id="@+id/tvD3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/upto_u20b950_000_or_90_of"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tvSymbol3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/tvD2"
+                    tools:layout_constraintStart_toEndOf="@id/tvSymbol3" />
+
+
+                <TextView
+                    android:id="@+id/tvPowered_by_tarrrakki"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/default_space"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/powered_by_tarrakki_reliance_mutual_fund_and_visa"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvD3" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
@@ -273,6 +396,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:dividerV="@{null}"
+                    app:enableNestedScrollView="@{false}"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/tvReturn"
                     tools:itemCount="5"
@@ -292,6 +416,15 @@
 
 
             </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:autoLink="web"
+                android:linksClickable="true"
+                android:text="@string/to_know_more_about_reliance_liquid_fund_click_here"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
             <Button
                 android:id="@+id/btnInvest"

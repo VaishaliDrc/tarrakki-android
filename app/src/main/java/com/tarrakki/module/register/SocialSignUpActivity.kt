@@ -2,6 +2,7 @@ package com.tarrakki.module.register
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivitySocialSignUpBinding
 import com.tarrakki.module.otp.OtpVerificationActivity
@@ -10,6 +11,8 @@ import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.dismissKeyboard
+import org.supportcompact.ktx.isEmail
+import org.supportcompact.ktx.isEmpty
 import org.supportcompact.ktx.simpleAlert
 
 const val SOACIAL_SIGNUP_DATA = "social_signup_data"
@@ -31,11 +34,25 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
 
     override fun createReference() {
         var data: JSONObject? = null
+        var hasEmail = false
         if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
+            hasEmail = data.optString("email").isNotEmpty()
+            edtEmail?.visibility = if (hasEmail) View.VISIBLE else View.GONE
         }
         btnSignUp?.setOnClickListener {
             when {
+
+                !hasEmail && getViewModel().email.isEmpty() -> {
+                    simpleAlert(getString(R.string.pls_enter_email_address)) {
+                        edtEmail.requestFocus()
+                    }
+                }
+                !hasEmail && !getViewModel().email.isEmail() -> {
+                    simpleAlert(getString(R.string.pls_enter_valid_email_address)) {
+                        edtEmail?.requestFocus()
+                    }
+                }
                 getViewModel().mobile.get()?.length == 0 -> simpleAlert(getString(R.string.pls_enter_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
@@ -50,6 +67,9 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                 else -> {
                     it.dismissKeyboard()
                     data?.let {
+                        if (!hasEmail) {
+                            it.put("email", "${getViewModel().email.get()}".toLowerCase())
+                        }
                         it.put("mobile", getViewModel().mobile.get())
                         getViewModel().socialSignUp(it).observe(this, Observer {
                             it?.let { it1 ->

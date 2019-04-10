@@ -2,7 +2,8 @@ package com.tarrakki.module.zyaada
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.tarrakki.R
+import android.widget.TableLayout
+import com.tarrakki.*
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
@@ -11,7 +12,9 @@ import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
+import org.supportcompact.ktx.toCurrency
 
 /**
  * A simple [Fragment]
@@ -68,6 +71,38 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         pageIndicator?.setViewPager(mAutoPager)
         mAutoPager?.interval = 4000
         mAutoPager?.startAutoScroll()
+        mAutoPager?.isNestedScrollingEnabled = false
+
+        /**Header View**/
+        val tableRowHeader = context?.tableRow()
+        tableRowHeader?.setBackgroundResource(R.color.bg_img_color)
+        tableRowHeader?.addView(context?.tableRowContent("", context?.color(R.color.black)))
+        tableRowHeader?.addView(context?.tableRowContent("Tarrakki\nZyaada", context?.color(R.color.black)))
+        tableRowHeader?.addView(context?.tableRowContent("Savings\nAccount", context?.color(R.color.black)))
+        tableRowHeader?.addView(context?.tableRowContent("Fixed\nDeposit", context?.color(R.color.black)))
+        tblSchemeDetails?.addView(tableRowHeader, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+        val names = arrayListOf("Liquidity", "Debit Card", "ATM Withdrawal", "Instant Withdrawal")
+        var start = ""
+        val drawableGreen = App.INSTANCE.getDrawable(R.drawable.iv_right_green)
+        val drawableRed = App.INSTANCE.getDrawable(R.drawable.iv_cross_red)
+        /**Body View**/
+        for (name in names) {
+            val tableRow = context?.tableRow()
+            tableRow?.addView(context?.tableRowContentWithDrawable(name))
+            tableRow?.addView(context?.tableRowContentWithDrawable(start, drawableGreen))
+            tableRow?.addView(context?.tableRowContentWithDrawable(drawable = drawableGreen))
+            tableRow?.addView(context?.tableRowContentWithDrawable(drawable = drawableRed))
+            tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+            start += "*"
+        }
+        /**Footer View**/
+        val tableRow = context?.tableRow()
+        tableRow?.addView(context?.tableRowContent("Minimum Investment"))
+        tableRow?.addView(context?.tableRowContent(500.toCurrency()))
+        tableRow?.addView(context?.tableRowContent("~${10000.toCurrency()}"))
+        tableRow?.addView(context?.tableRowContent("~${1000.toCurrency()}\nto ${10000.toCurrency()}"))
+        tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
     }
 
     companion object {
