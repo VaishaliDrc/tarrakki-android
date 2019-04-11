@@ -45,24 +45,25 @@
                 app:layout_constraintTop_toBottomOf="@id/ivLogin" />
 
             <EditText
-                android:id="@+id/edtEmail"
+                android:id="@+id/edtEmailMobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_32"
                 android:layout_marginTop="@dimen/space_32"
                 android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_edt_white_round"
                 android:drawableEnd="@drawable/ic_user"
-                android:hint="@string/email_address"
-                android:inputType="textEmailAddress"
+                android:hint="@string/email_id_or_mobile_number"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
                 android:text="@={vm.userName}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:background="@drawable/shape_edt_white_round"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvLoginLbl" />
@@ -84,11 +85,12 @@
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
                 android:text="@={vm.password}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+                app:layout_constraintTop_toBottomOf="@id/edtEmailMobile" />
 
             <CheckBox
                 android:id="@+id/cbKeepMeSignIn"

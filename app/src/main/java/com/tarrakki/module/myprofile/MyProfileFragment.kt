@@ -278,7 +278,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 }
                 false
             }
-            getViewModel().mobile.get()?.length != 10 -> {
+            !getViewModel().mobile.isValidMobile() -> {
                 context?.simpleAlert(context?.getString(R.string.pls_enter_valid_indian_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()
@@ -597,7 +597,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 }
                 false
             }
-            getViewModel().mobile.get()?.length != 10 -> {
+            !getViewModel().mobile.isValidMobile() -> {
                 context?.simpleAlert(context?.getString(R.string.pls_enter_valid_indian_mobile_number).toString()) {
                     Handler().postDelayed({
                         edtMobile?.requestFocus()

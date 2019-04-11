@@ -11,10 +11,7 @@ import com.tarrakki.module.otp.OtpVerificationActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreActivity
-import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.isValidPassword
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startActivity
+import org.supportcompact.ktx.*
 
 const val SIGNUP_DATA = "signup_data"
 const val SIGNUP_OTP_DATA = "signup_otp_data"
@@ -59,7 +56,7 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 simpleAlert(getString(R.string.pls_enter_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
-            } else if (getViewModel().mobile.get()?.length != 10) {
+            } else if (!getViewModel().mobile.isValidMobile()) {
                 simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
                     edtMobile?.requestFocus()
                 }

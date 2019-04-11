@@ -2,6 +2,7 @@ package com.tarrakki
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
@@ -17,11 +18,14 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.*
+import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -100,6 +104,11 @@ fun setDividerVertical(rv: RecyclerView, drawable: Drawable? = null) {
         divider.setDrawable(it)
     }
     rv.addItemDecoration(divider)
+}
+
+@BindingAdapter("hasLink")
+fun setHasLink(txt: TextView, hasLink: Boolean) {
+    txt.movementMethod = LinkMovementMethod.getInstance()
 }
 
 @BindingAdapter("enableNestedScrollView")
@@ -365,6 +374,64 @@ fun setHtml(txt: TextView, txtHtml: String?) {
 fun setWebviewData(txt: WebView, txtHtml: String?) {
     val txtHtmlNotNull = txtHtml ?: ""
     txt.loadDataWithBaseURL("file:///android_res/", txtHtmlNotNull.toHTMl("lato_regular.ttf"), "text/html", "utf-8", null)
+    txt.webViewClient = object : WebViewClient() {
+
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            return onPageRequest(view, "${url}")
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+            return onPageRequest(view, "${request.url}")
+        }
+
+        fun onPageRequest(view: WebView, url: String): Boolean {
+            return when {
+                url.startsWith("tel:") -> {
+                    view.context?.initiateCall(url)
+                    true
+                }
+                url.startsWith("mailto:") -> {
+                    view.context?.sendEmail(url.substring(7))
+                    true
+                }
+                else -> {
+                    // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                    try {
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                            view.context?.startActivity(this)
+                        }
+                    } catch (e: Exception) {
+                        EventBus.getDefault().post(ShowError("${e.message}"))
+                    }
+                    return true
+                }
+            }
+        }
+    }
+}
+
+private fun Context.sendEmail(add: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(add))
+    try {
+        startActivity(Intent.createChooser(intent, "Send mail..."))
+    } catch (ex: android.content.ActivityNotFoundException) {
+        EventBus.getDefault().post(ShowError("There are no email clients installed."))
+    }
+
+}
+
+private fun Context.initiateCall(url: String) {
+    try {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse(url)
+        startActivity(intent)
+    } catch (e: android.content.ActivityNotFoundException) {
+        EventBus.getDefault().post(ShowError("${e.message}"))
+    }
+
 }
 
 @BindingAdapter("onEditorAction")
@@ -864,7 +931,7 @@ fun Context.updateEmailOrMobile(isEmailUpdate: Boolean = true, updateField: Stri
                         mBinder.edtMobile.setSelection(mBinder.edtMobile.length())
                     }, 100)
                 }
-                "${mBinder.edtMobile.text.trim()}".length != 10 -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
+                !"${mBinder.edtMobile.text.trim()}".isValidMobile() -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
                     Handler().postDelayed({
                         mBinder.edtMobile.requestFocus()
                         mBinder.edtMobile.setSelection(mBinder.edtMobile.length())

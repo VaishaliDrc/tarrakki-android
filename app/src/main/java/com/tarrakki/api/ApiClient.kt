@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private val OKHTTP_TIMEOUT = 30 * 4 // seconds
+    private val OKHTTP_TIMEOUT = 30 * 1.5 // seconds
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
@@ -59,15 +59,15 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    /*private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
-    const val IMAGE_BASE_URL = "http://172.10.29.38:8000"*/
+    private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
+    const val IMAGE_BASE_URL = "http://172.10.29.38:8000"
 
 
     /**
      * Test Url
      **/
-    private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
+    /*private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url*/
 
     /**
      * Live Url

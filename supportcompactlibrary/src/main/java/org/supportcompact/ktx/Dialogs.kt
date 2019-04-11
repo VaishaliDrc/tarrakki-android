@@ -150,6 +150,16 @@ fun Context.showListDialog(title: String?, list: ArrayList<String>, onItemSelect
             .create().show()
 }
 
+fun Context.showListDialog(title: String?, data: Array<String>, onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle(title)
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which])
+            }
+            .create().show()
+}
+
 fun Context.showListDialog(@StringRes title: Int, @ArrayRes list: Int, onItemSelected: ((item: String) -> Unit)? = null) {
     val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
     val data = resources.getTextArray(list)
@@ -157,6 +167,16 @@ fun Context.showListDialog(@StringRes title: Int, @ArrayRes list: Int, onItemSel
             .setItems(list) { dialogInterface, which ->
                 dialogInterface.dismiss()
                 onItemSelected?.invoke(data[which] as String)
+            }
+            .create().show()
+}
+
+fun Context.showListDialog(@StringRes title: Int, data: Array<String>, onItemSelected: ((item: String) -> Unit)? = null) {
+    val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle(title)
+            .setItems(data) { dialogInterface, which ->
+                dialogInterface.dismiss()
+                onItemSelected?.invoke(data[which])
             }
             .create().show()
 }

@@ -1,9 +1,15 @@
 package com.tarrakki.module.zyaada
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.TableLayout
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.tarrakki.*
+import com.tarrakki.chartformaters.MyValueFormatter
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
@@ -14,7 +20,9 @@ import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
+import org.supportcompact.ktx.showListDialog
 import org.supportcompact.ktx.toCurrency
+
 
 /**
  * A simple [Fragment]
@@ -103,6 +111,52 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         tableRow?.addView(context?.tableRowContent("~${1000.toCurrency()}\nto ${10000.toCurrency()}"))
         tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
+        val durations = resources.getStringArray(R.array.duration_in_year)
+        tvDurations.text = durations[2]
+        tvDurations?.setOnClickListener {
+            context?.showListDialog(R.string.duration, durations) { item: String ->
+                tvDurations.text = item
+            }
+        }
+        setChartData(5)
+    }
+
+    fun setChartData(size: Int) {
+
+        val yVals1 = ArrayList<BarEntry>()
+
+        for (i in 0 until size) {
+            val mult = size + 1
+            val val1 = (Math.random() * mult).toFloat() + mult / 3
+            val val2 = (Math.random() * mult).toFloat() + mult / 3
+            yVals1.add(BarEntry(i.toFloat(), floatArrayOf(val1, val2), resources.getDrawable(R.drawable.checkbox_redeem_folio)))
+        }
+
+        val set1: BarDataSet
+
+        if (mBarChart.data != null && mBarChart.data.dataSetCount > 0) {
+            set1 = mBarChart.data.getDataSetByIndex(0) as BarDataSet
+            set1.values = yVals1
+            mBarChart.data.notifyDataChanged()
+            mBarChart.notifyDataSetChanged()
+        } else {
+            set1 = BarDataSet(yVals1, "Statistics Vienna 2014")
+            set1.setDrawIcons(false)
+            set1.colors = arrayListOf(Color.GREEN, Color.BLUE)
+            set1.stackLabels = arrayOf("Births", "Divorces")
+
+            val dataSets = ArrayList<IBarDataSet>()
+            dataSets.add(set1)
+
+            val data = BarData(dataSets)
+            data.setValueFormatter(MyValueFormatter())
+            data.setValueTextColor(Color.WHITE)
+
+            mBarChart.data = data
+        }
+
+        mBarChart.setFitBars(true)
+        mBarChart.invalidate()
     }
 
     companion object {

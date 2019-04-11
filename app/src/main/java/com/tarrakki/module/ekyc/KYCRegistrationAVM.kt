@@ -3,13 +3,12 @@ package com.tarrakki.module.ekyc
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.Observable
 import android.databinding.ObservableField
-import android.view.View
 import org.supportcompact.FragmentViewModel
 
 class KYCRegistrationAVM : FragmentViewModel() {
 
     var kycData = MutableLiveData<KYCData>()
-    val guardianVisibility = ObservableField(View.GONE)
+    val guardianVisibility = ObservableField(false)
     val isEdit = ObservableField(true)
     val alpha = ObservableField<Float>(1f)
     val ivEmailVerifiedVisibility = ObservableField(false)

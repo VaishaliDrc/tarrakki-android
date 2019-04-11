@@ -183,6 +183,20 @@
         <item>Month(s)</item>
     </string-array>
 
+    <string-array name="duration_in_year">
+        <item>1 Year</item>
+        <item>2 Years</item>
+        <item>3 Years</item>
+        <item>4 Years</item>
+        <item>5 Years</item>
+        <item>6 Years</item>
+        <item>7 Years</item>
+        <item>8 Years</item>
+        <item>9 Years</item>
+        <item>10 Years</item>
+        <item>Since Inception</item>
+    </string-array>
+
     <string-array name="risk_level">
         <item>LOW</item>
         <item>MODERATELY LOW</item>
@@ -902,6 +916,14 @@
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
     <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 90% of the current investment value, whichever is lower.</string>
     <string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, <font color='#4EB95D'><u><a href='https://www.google.com/'>click here.</a></u></font></string>
-
+    <string name="historical_returns">Historical Returns</string>
+    <string name="investment_amount">Investment Amount</string>
+    <string name="email_id_or_mobile_number">Email Id or Mobile Number*</string>
+    <string name="please_enter_emai_id_or_mobile_no">Please enter Email Id or Mobile Number.</string>
+    <string name="minor_s_date_of_birth_">Minor\'s Date of Birth*</string>
+    <string name="minors_full_name">Minor\'s Full Name*</string>
+    <string name="enter_minors_full_name">Enter Minor\'s Full Name</string>
+    <string name="alert_req_monors_full_name">Please Enter Minor\'s Full Name.</string>
+    <string name="alert_pls_select_minors_dob">Please select Minor\'s Date of Birth.</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

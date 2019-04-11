@@ -3,7 +3,6 @@ package com.tarrakki.module.ekyc
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
@@ -18,8 +17,8 @@ import java.util.*
  * A simple [Fragment] subclass.
  * Use the [KYCRegistrationAFragment.newInstance] factory method to
  * create an instance of this fragment.
- *s
  */
+
 class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycregistrationABinding>() {
 
     override val isBackEnabled: Boolean
@@ -44,16 +43,16 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         /*getViewModel().ivEmailVerifiedVisibility.set(context?.isEmailVerified() == true)
         if (getViewModel().ivEmailVerifiedVisibility.get() == false) {
         }*/
-        tvCertificate.text = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?"
+        /*tvCertificate.text = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?"
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
             isAdult(isChecked)
-        }
+        }*/
         getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
                 edtPAN?.setText(kycData.pan)
                 getBinding().executePendingBindings()
-                switchOnOff?.isChecked = kycData.guardianName.isEmpty()
+                //switchOnOff?.isChecked = kycData.guardianName.isEmpty()
                 isAdult(kycData.guardianName.isEmpty())
             }
         })
@@ -72,10 +71,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
              }
          }*/
 
-        edtDOB?.setOnClickListener {
-            if (switchOnOff.isChecked) {
-                return@setOnClickListener
-            }
+        edtGuardianDOB?.setOnClickListener {
             val now: Calendar = Calendar.getInstance()
             val minDate = getCalendar(18)
             minDate.add(Calendar.DAY_OF_YEAR, 1)
@@ -89,7 +85,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                     .callback { view, year, monthOfYear, dayOfMonth ->
                         date = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year)
                         getViewModel().kycData.value?.guardianDOB = date as String
-                        edtDOB?.text = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
+                        edtGuardianDOB?.text = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
                     }
                     .showTitle(true)
                     .minDate(minDate.get(Calendar.YEAR), minDate.get(Calendar.MONTH), minDate.get(Calendar.DAY_OF_MONTH))
@@ -119,9 +115,15 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
     }
 
     private fun isAdult(isChecked: Boolean) {
-        getViewModel().guardianVisibility.set(if (isChecked) View.GONE else View.VISIBLE)
+        getViewModel().guardianVisibility.set(!isChecked)
         getViewModel().isEdit.set(isChecked)
-        edtDOB?.alpha = if (isChecked) 0.8f else 1f
+        if (isChecked) {
+            edtDOB?.text = getViewModel().kycData.value?.dob?.toDate("dd/MM/yyyy")?.convertTo("dd MMM, yyyy")
+            getViewModel().kycData.value?.fullName = "" + getViewModel().kycData.value?.nameOfPANHolder
+        } else {
+            getViewModel().kycData.value?.fullName = ""
+        }
+        /*edtDOB?.alpha = if (isChecked) 0.8f else 1f
         edtDOB?.isEnabled = !isChecked
         if (isChecked) {
             edtDOB?.setBackgroundResource(R.drawable.shape_edt_disable_gray_round)
@@ -140,13 +142,13 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 edtDOB?.text = ""
                 getViewModel().kycData.value?.fullName = ""
             }
-        }
+        }*/
     }
 
     private fun isValid(kycData: KYCData): Boolean {
         return when {
             kycData.fullName.isEmpty() -> {
-                context?.simpleAlert(getString(R.string.alert_req_full_name))
+                context?.simpleAlert(getString(if (kycData.guardianName.isNotEmpty()) R.string.alert_req_monors_full_name else R.string.alert_req_full_name))
                 false
             }
             kycData.pan.isEmpty() -> {
@@ -157,8 +159,8 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert(getString(R.string.alert_valid_pan_number))
                 false
             }
-            !switchOnOff.isChecked && kycData.guardianDOB.isEmpty() -> {
-                context?.simpleAlert(getString(R.string.alert_req_date_of_birth))
+            kycData.guardianName.isNotEmpty() && kycData.guardianDOB.isEmpty() -> {
+                context?.simpleAlert(getString(R.string.alert_pls_select_minors_dob))
                 false
             }
             /*getViewModel().email.isEmpty() -> {
@@ -177,12 +179,12 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
                 context?.simpleAlert("Please enter valid mobile number")
                 false
             }*/
-            !switchOnOff.isChecked && kycData.guardianName.isEmpty() -> {
+            /*kycData.guardianName.isNotEmpty() && kycData.guardianName.isEmpty() -> {
                 context?.simpleAlert(getString(R.string.alert_req_guardian_name)) {
                     edtGuardian?.requestFocus()
                 }
                 false
-            }
+            }*/
             /*!getViewModel().isEdit.get()!! && getViewModel().guardianPANNumber.isEmpty() -> {
                 context?.simpleAlert("Please enter guardian PAN number")
                 false

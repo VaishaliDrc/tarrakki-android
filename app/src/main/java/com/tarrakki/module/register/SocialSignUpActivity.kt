@@ -10,10 +10,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
-import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.isEmail
-import org.supportcompact.ktx.isEmpty
-import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.*
 
 const val SOACIAL_SIGNUP_DATA = "social_signup_data"
 
@@ -56,7 +53,7 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                 getViewModel().mobile.get()?.length == 0 -> simpleAlert(getString(R.string.pls_enter_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
-                getViewModel().mobile.get()?.length != 10 -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
+                !getViewModel().mobile.isValidMobile() -> simpleAlert(getString(R.string.pls_enter_valid_indian_mobile_number)) {
                     edtMobile?.requestFocus()
                 }
                 cbTermsConditions?.isChecked == false -> {

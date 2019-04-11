@@ -155,13 +155,27 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     it?.let { password ->
                         getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
                             it?.let { kycStatus ->
-                                edtPanNo?.text?.clear()
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
                                         getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
-                                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                                postSticky(kyc)
+                                                context?.confirmationDialog(
+                                                        title = ""/*getString(R.string.complete_registration)*/,
+                                                        msg = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?",
+                                                        btnPositive = getString(R.string.yes),
+                                                        btnNegative = getString(R.string.no),
+                                                        btnPositiveClick = {
+                                                            edtPanNo?.text?.clear()
+                                                            startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                                            postSticky(kyc)
+                                                        },
+                                                        btnNegativeClick = {
+                                                            edtPanNo?.text?.clear()
+                                                            kyc.guardianName = "${kyc.nameOfPANHolder}"
+                                                            startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                                            postSticky(kyc)
+                                                        }
+                                                )
                                             }
                                         })
                                     }
