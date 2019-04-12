@@ -146,7 +146,7 @@
     <string name="forgot_password_">Forgot Password?</string>
     <string name="or">Or</string>
     <string name="login_with">Login with</string>
-    <string name="google_plus">Google Plus</string>
+    <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="don_t_have_an_account_yet_get_started">Don\'t have an account yet? <font color='#4EB95D'>Get Started</font></string>
     <string name="we_just_need_your_registered_email_id">We just need your registered Email ID to send you password reset instructions.</string>
@@ -899,11 +899,11 @@
     <string name="alert_otp_mandatory">Please Enter the OTP. Please do not share your OTP with anyone.</string>
     <string name="alert_resend_otp">The OTP has been sent to you again.</string>
     <string name="tarrakki_correspondence_address">Tarrakki Correspondence Address</string>
-    <string name="pls_entr_ur_adrs">Please enter your address</string>
-    <string name="pls_enter_your_city">Please enter your city</string>
-    <string name="please_enter_your_pincode">Please enter your pincode</string>
-    <string name="please_enter_your_state">Please enter your state</string>
-    <string name="please_select_your_country">Please select your country</string>
+    <string name="pls_entr_ur_adrs">Enter your address</string>
+    <string name="pls_enter_your_city">Enter your city</string>
+    <string name="please_enter_your_pincode">Enter your pincode</string>
+    <string name="please_enter_your_state">Enter your state</string>
+    <string name="please_select_your_country">Select your country</string>
     <string name="disclaimer_this_address_details">Disclaimer: This address details for your Mutual Fund investment will be as per your KYC records. In case you wish to change address for your KYC records, please send a request to support@tarrakki.com.</string>
     <string name="change_email_id">Change Email Id</string>
     <string name="change_mobile_number">Change Mobile Number</string>
@@ -915,7 +915,8 @@
     <string name="daily_purchase_limit_of_50">Daily purchase limit of 50% of the balance or ₹1,00,000 whichever is lower.</string>
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
     <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 90% of the current investment value, whichever is lower.</string>
-    <string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, <font color='#4EB95D'><u><a href='https://www.google.com/'>click here.</a></u></font></string>
+    <!--<string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, <font color='#4EB95D'><u><a href='https://www.google.com/'>click here.</a></u></font></string>-->
+    <string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, click here.</string>
     <string name="historical_returns">Historical Returns</string>
     <string name="investment_amount">Investment Amount</string>
     <string name="email_id_or_mobile_number">Email Id or Mobile Number*</string>

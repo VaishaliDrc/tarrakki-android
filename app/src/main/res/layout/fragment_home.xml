@@ -305,7 +305,6 @@
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
-                    android:layout_marginBottom="@dimen/default_space"
                     android:background="@drawable/shape_cart_view"
                     android:elevation="2dp"
                     android:orientation="vertical"
@@ -346,32 +345,153 @@
                     android:id="@+id/rvHomeItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="invisible"
+                    android:visibility="visible"
+                    android:layout_marginTop="@dimen/default_space"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llWhyTarrakki"
                     tools:listitem="@layout/row_section_investment_item" />
 
-                <Button
-                    android:id="@+id/btnIdle"
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
                     android:layout_marginBottom="@dimen/default_space"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:background="@drawable/shape_btn_idle_bg"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="@string/move_idle_money_from_your_bank_a_c"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintTop_toBottomOf="@id/rvHomeItem"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="@dimen/space_2"
+                    android:orientation="vertical"
+                    android:padding="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="1"
-                    tools:layout_marginTop="@dimen/default_space" />
+                    app:layout_constraintTop_toBottomOf="@id/rvHomeItem"
+                    app:layout_constraintVertical_bias="1">
 
+                    <ImageView
+                        android:id="@+id/tvKeyBenefits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginBottom="@dimen/default_space"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/tarrakki_zyaada_logo"
+                        app:layout_constraintBottom_toTopOf="@id/barrier2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/ivTarrakkiZyaada"
+                        android:layout_width="@dimen/_24sdp"
+                        android:layout_height="@dimen/_24sdp"
+                        android:background="@drawable/page_selected"
+                        android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/tvKeyBenefits"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvKeyBenefits" />
+
+                    <android.support.constraint.Barrier
+                        android:id="@+id/barrier2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tvKeyBenefits" />
+
+                    <ImageView
+                        android:id="@+id/ivB1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_72sdp"
+                        android:padding="@dimen/_16sdp"
+                        android:src="@drawable/key_benefits_1"
+                        app:layout_constraintEnd_toStartOf="@id/ivB2"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                    <TextView
+                        android:id="@+id/tvB1L"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingEnd="8dp"
+                        android:text="@string/higher_returns_than_your_bank"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivB1"
+                        app:layout_constraintStart_toStartOf="@id/ivB1"
+                        app:layout_constraintTop_toBottomOf="@id/ivB1" />
+
+                    <ImageView
+                        android:id="@+id/ivB2"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_72sdp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:padding="@dimen/_16sdp"
+                        android:src="@drawable/key_benefits_2"
+                        app:layout_constraintEnd_toStartOf="@id/ivB3"
+                        app:layout_constraintHorizontal_weight="3.5"
+                        app:layout_constraintStart_toEndOf="@id/ivB1"
+                        app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                    <TextView
+                        android:id="@+id/tvB2L"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:text="@string/debit_card_powered_by_hdfc_bank_amp_visa_towards_your_investment"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivB2"
+                        app:layout_constraintStart_toStartOf="@id/ivB2"
+                        app:layout_constraintTop_toBottomOf="@id/ivB2" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                        app:layout_constraintStart_toEndOf="@id/ivB1"
+                        app:layout_constraintTop_toTopOf="@id/ivB2" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvB2L"
+                        app:layout_constraintEnd_toStartOf="@id/ivB3"
+                        app:layout_constraintTop_toTopOf="@id/ivB2" />
+
+
+                    <ImageView
+                        android:id="@+id/ivB3"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_72sdp"
+                        android:padding="@dimen/_16sdp"
+                        android:src="@drawable/key_benefits_3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toEndOf="@id/ivB2"
+                        app:layout_constraintTop_toBottomOf="@id/barrier2" />
+
+                    <TextView
+                        android:id="@+id/tvB3L"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingStart="8dp"
+                        android:text="@string/instant_redemption_redemption"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivB3"
+                        app:layout_constraintStart_toStartOf="@id/ivB3"
+                        app:layout_constraintTop_toBottomOf="@id/ivB3" />
+
+
+                </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
 

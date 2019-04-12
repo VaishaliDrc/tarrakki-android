@@ -239,6 +239,9 @@ interface WebserviceBuilder {
     @GET("banks/get-default-bank/{user_id}")
     fun getDefaultBank(@Path("user_id") userId: String?): Observable<ApiResponse>
 
+    @GET("tarrakki/zyaada/return-funds/")
+    fun getTarrakkiZyaada(): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

@@ -1,27 +1,36 @@
 package com.tarrakki.module.zyaada
 
-import android.graphics.Color
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.res.ResourcesCompat
+import android.text.TextPaint
+import android.text.style.ClickableSpan
+import android.view.View
 import android.widget.TableLayout
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.tarrakki.*
-import com.tarrakki.chartformaters.MyValueFormatter
+import com.tarrakki.chartformaters.CustomXAxisRenderer
+import com.tarrakki.chartformaters.MyYAxisValueFormatter
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.funddetails.KeyInfo
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.color
-import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
-import org.supportcompact.ktx.showListDialog
-import org.supportcompact.ktx.toCurrency
+import org.supportcompact.events.Event
+import org.supportcompact.ktx.*
 
 
 /**
@@ -62,15 +71,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                 getViewModel().whereIsMyMoney.set(!it)
             }
         }
-        val returns = arrayListOf<KeyInfo>()
-        returns.add(KeyInfo("1 Year", parseAsNoZiroReturnOrNA("5.6")))
-        returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA("6.4")))
-        returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA("12.8")))
-        returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA("25.2")))
-        rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
-            binder.keyInfo = item
-            binder.executePendingBindings()
-        }
+
         val imgs = arrayListOf(R.drawable.zyaada1, R.drawable.zyaada2, R.drawable.zyaada3)
         mAutoPager?.setAutoWrapContentPageAdapter(R.layout.page_tarrakki_zyaada_item, imgs) { binder: PageTarrakkiZyaadaItemBinding, item: Int ->
             binder.imgRes = item
@@ -118,10 +119,92 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                 tvDurations.text = item
             }
         }
-        setChartData(5)
+        setChartData(3)
+        getViewModel().getTarrakkiZyaada().observe(this, Observer {
+            it?.data?.let { response ->
+                if (response.funds?.isNotEmpty() == true) {
+                    val fund = response.funds[0]
+                    val returns = arrayListOf<KeyInfo>()
+                    returns.add(KeyInfo("1 Year", parseAsNoZiroReturnOrNA(fund.ttrReturn1Yr)))
+                    returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn3Yr)))
+                    returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn5Yr)))
+                    returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn10Yr)))
+                    returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.ttrReturnSinceInception)))
+                    rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
+                        binder.keyInfo = item
+                        binder.executePendingBindings()
+                    }
+
+                    val fundDetails = object : ClickableSpan() {
+
+                        override fun onClick(widget: View) {
+                            startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                                putString(ITEM_ID, "${fund.id}")
+                            }), R.id.frmContainer)
+                        }
+
+                        override fun updateDrawState(ds: TextPaint) {
+                            super.updateDrawState(ds)
+                            ds.isUnderlineText = true
+                            context?.color(R.color.colorAccent)?.let { ds.color = it }
+                        }
+                    }
+                    tvFundDetails?.makeLinks(arrayOf("click here."), arrayOf(fundDetails))
+                }
+            }
+        })
     }
 
-    fun setChartData(size: Int) {
+    private fun setChartData(size: Int) {
+
+        /*Chart Settings*/
+        mBarChart.setPinchZoom(false)
+        mBarChart.setScaleEnabled(false)
+        mBarChart.setTouchEnabled(false)
+        mBarChart.description.isEnabled = false
+        mBarChart.legend.isEnabled = false
+        mBarChart.setDrawValueAboveBar(true)
+        mBarChart.extraBottomOffset = 24f
+        mBarChart.setXAxisRenderer(CustomXAxisRenderer(mBarChart.viewPortHandler, mBarChart.xAxis, mBarChart.getTransformer(YAxis.AxisDependency.LEFT)))
+        val typeface = context?.let { ResourcesCompat.getFont(it, R.font.lato_regular) }
+
+
+        val xAxis = mBarChart.xAxis
+        xAxis.isEnabled = true
+        xAxis.setDrawAxisLine(true)
+        xAxis.setDrawGridLines(false)
+        xAxis.labelCount = 3
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.typeface = typeface
+        xAxis.valueFormatter = IAxisValueFormatter { value, axis ->
+            try {
+                val index = value.toInt()
+                when (index) {
+                    0 -> "Savings\nAccount"
+                    1 -> "Fixed\nDeposit"
+                    else -> "Tarrakki\nZyaada"
+                }
+            } catch (e: Exception) {
+                ""
+            }
+        }
+        xAxis.textSize = 12f
+
+
+        val leftAxis = mBarChart.axisRight
+        leftAxis.isEnabled = false
+        leftAxis.labelCount = 3
+        leftAxis.axisMaximum = 7.75f
+        leftAxis.axisMinimum = 4f
+        leftAxis.setDrawAxisLine(false)
+        leftAxis.setDrawZeroLine(false)
+        leftAxis.setDrawGridLines(false)
+        leftAxis.valueFormatter = MyYAxisValueFormatter()
+        getColor(R.color.semi_black)?.let {
+            leftAxis.textColor = it
+        }
+        mBarChart.axisLeft.isEnabled = false
+        leftAxis.typeface = typeface
 
         val yVals1 = ArrayList<BarEntry>()
 
@@ -129,7 +212,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             val mult = size + 1
             val val1 = (Math.random() * mult).toFloat() + mult / 3
             val val2 = (Math.random() * mult).toFloat() + mult / 3
-            yVals1.add(BarEntry(i.toFloat(), floatArrayOf(val1, val2), resources.getDrawable(R.drawable.checkbox_redeem_folio)))
+            yVals1.add(BarEntry(i.toFloat() + 1, floatArrayOf(val1, val2)))
         }
 
         val set1: BarDataSet
@@ -140,22 +223,33 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             mBarChart.data.notifyDataChanged()
             mBarChart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(yVals1, "Statistics Vienna 2014")
+            set1 = BarDataSet(yVals1, "")
             set1.setDrawIcons(false)
-            set1.colors = arrayListOf(Color.GREEN, Color.BLUE)
-            set1.stackLabels = arrayOf("Births", "Divorces")
+            set1.colors = arrayListOf(App.INSTANCE.color(R.color.colorAccent), App.INSTANCE.color(R.color.bg_img_color))
+            //set1.stackLabels = arrayOf("Savings Account", "Fixed Deposit", "Tarrakki Zyaada")
 
             val dataSets = ArrayList<IBarDataSet>()
             dataSets.add(set1)
 
             val data = BarData(dataSets)
-            data.setValueFormatter(MyValueFormatter())
-            data.setValueTextColor(Color.WHITE)
-
+            data.setDrawValues(true)
+            var index = 1
+            data.setValueFormatter { value, entry, dataSetIndex, viewPortHandler ->
+                if (index % 2 == 0) {
+                    index++
+                    "$value"
+                } else {
+                    index++
+                    ""
+                }
+            }
+            data.setValueTextSize(12f)
+            data.setValueTextColor(App.INSTANCE.color(R.color.semi_black))
             mBarChart.data = data
         }
 
         mBarChart.setFitBars(true)
+        mBarChart.isClickable = false
         mBarChart.invalidate()
     }
 
