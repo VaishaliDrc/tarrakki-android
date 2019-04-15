@@ -43,6 +43,8 @@ data class CartData(
                 val piMinimumInitial: String?,
                 @SerializedName("goal")
                 val goal: Goal,
+                @SerializedName("tarrakki_zyaada")
+                val tarrakkiZyaada: TarrakkiZyaada?,
                 @SerializedName("folio_number")
                 val folioNumber: String
         ) : BaseObservable(), Serializable {
@@ -201,5 +203,12 @@ data class CartData(
             val id: Int?,
             @SerializedName("goal")
             val goal: String
+    )
+
+    data class TarrakkiZyaada(
+            @SerializedName("id")
+            val id: Int,
+            @SerializedName("name")
+            val name: String
     )
 }

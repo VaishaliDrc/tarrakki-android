@@ -288,7 +288,7 @@
                     android:gravity="center"
                     android:paddingEnd="8dp"
                     android:text="@string/higher_returns_than_your_bank"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@id/ivB1"
                     app:layout_constraintStart_toStartOf="@id/ivB1"
                     app:layout_constraintTop_toBottomOf="@id/ivB1" />
@@ -313,7 +313,7 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:gravity="center"
                     android:text="@string/debit_card_powered_by_hdfc_bank_amp_visa_towards_your_investment"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@id/ivB2"
                     app:layout_constraintStart_toStartOf="@id/ivB2"
                     app:layout_constraintTop_toBottomOf="@id/ivB2" />
@@ -356,7 +356,7 @@
                     android:gravity="center"
                     android:paddingStart="8dp"
                     android:text="@string/instant_redemption_redemption"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@id/ivB3"
                     app:layout_constraintStart_toStartOf="@id/ivB3"
                     app:layout_constraintTop_toBottomOf="@id/ivB3" />

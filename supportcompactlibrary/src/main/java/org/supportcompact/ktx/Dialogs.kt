@@ -171,12 +171,12 @@ fun Context.showListDialog(@StringRes title: Int, @ArrayRes list: Int, onItemSel
             .create().show()
 }
 
-fun Context.showListDialog(@StringRes title: Int, data: Array<String>, onItemSelected: ((item: String) -> Unit)? = null) {
+fun Context.showListDialog(@StringRes title: Int, data: Array<String>, onItemSelected: ((item: String, which: Int) -> Unit)? = null) {
     val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
     mDialog.setTitle(title)
             .setItems(data) { dialogInterface, which ->
                 dialogInterface.dismiss()
-                onItemSelected?.invoke(data[which])
+                onItemSelected?.invoke(data[which], which)
             }
             .create().show()
 }

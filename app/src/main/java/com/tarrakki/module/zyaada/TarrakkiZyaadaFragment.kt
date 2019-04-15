@@ -4,7 +4,9 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
+import android.text.Editable
 import android.text.TextPaint
+import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TableLayout
@@ -16,21 +18,22 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.tarrakki.*
+import com.tarrakki.chartformaters.BarChartCustomRenderer
 import com.tarrakki.chartformaters.CustomXAxisRenderer
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.funddetails.KeyInfo
-import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
+import java.util.*
 
 
 /**
@@ -60,6 +63,9 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     }
 
     override fun createReference() {
+
+        var investmebtAmount = 500000.0
+        var durations = 3.0
 
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {
@@ -112,14 +118,9 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         tableRow?.addView(context?.tableRowContent("~${1000.toCurrency()}\nto ${10000.toCurrency()}"))
         tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
-        val durations = resources.getStringArray(R.array.duration_in_year)
-        tvDurations.text = durations[2]
-        tvDurations?.setOnClickListener {
-            context?.showListDialog(R.string.duration, durations) { item: String ->
-                tvDurations.text = item
-            }
-        }
-        setChartData(3)
+        val durationsArr = resources.getStringArray(R.array.duration_in_year)
+        tvDurations.text = durationsArr[2]
+
         getViewModel().getTarrakkiZyaada().observe(this, Observer {
             it?.data?.let { response ->
                 if (response.funds?.isNotEmpty() == true) {
@@ -150,12 +151,100 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         }
                     }
                     tvFundDetails?.makeLinks(arrayOf("click here."), arrayOf(fundDetails))
+
+                    btnInvest?.setOnClickListener {
+                        val tarrakkiZyaadaId = response.tarrakkiZyaadaId
+                        val minSIPAmount = fund.validminSIPAmount
+                        val minLumpSumAmount = fund.validminlumpsumAmount
+                        if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
+                            context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, Id ->
+                                addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
+                                        android.arch.lifecycle.Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            }
+                        }
+                    }
+                    setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                    tvDurations?.setOnClickListener {
+                        context?.showListDialog(R.string.duration, durationsArr) { item: String, which: Int ->
+                            tvDurations.text = item
+                            if (which == 10) {//Since Inception
+                                val returnSince = fund.ttrReturnSinceInception?.toDoubleOrNull()
+                                        ?: 0.0
+                                val startDate = fund.returnsHistory?.minBy { it.date }?.date
+                                startDate?.let {
+                                    val months = it.monthsBetweenDates(Date())
+                                    durations = (months / 12.0)
+                                    setChartData(investmebtAmount, durations, returnSince)
+                                }
+                            } else {
+                                durations = (which + 1).toDouble()
+                                setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                            }
+                        }
+                    }
+                    edtInvestAmount?.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p: Editable?) {
+                            if (p != null && p.isNotEmpty()) {
+                                try {
+                                    investmebtAmount = p.toString().replace(",", "").toDouble()
+                                    setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            } else {
+                                resetChart()
+                            }
+                        }
+
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                        }
+
+                        private var current = ""
+
+                        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            if (s == null || s.isEmpty()) {
+                                current = ""
+                                return
+                            }
+                            if (s.toString() != current) {
+                                try {
+                                    edtInvestAmount?.removeTextChangedListener(this)
+                                    var cleanString = s.toString().replace(",", "")
+                                    if (cleanString.length > 16) {
+                                        cleanString = cleanString.dropLast(1)
+                                    }
+                                    val price = cleanString.toDouble()
+                                    if (price > 0) {
+                                        edtInvestAmount?.format(price)
+                                    } else {
+                                        edtInvestAmount?.text?.clear()
+                                    }
+                                    current = edtInvestAmount?.text.toString()
+                                    edtInvestAmount?.setSelection(current.length)
+                                    edtInvestAmount?.addTextChangedListener(this)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
+                        }
+                    })
                 }
             }
         })
     }
 
-    private fun setChartData(size: Int) {
+    var fundReturnsFormate = 0.0
+    private fun setChartData(investmentAmount: Double, durations: Double, fundReturns: Double) {
+
+        val yVals1 = ArrayList<BarEntry>()
+        val savingRate = 4.0
+        val fixedDepositRate = 6.5
+        fundReturnsFormate = fundReturns
 
         /*Chart Settings*/
         mBarChart.setPinchZoom(false)
@@ -163,6 +252,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mBarChart.setTouchEnabled(false)
         mBarChart.description.isEnabled = false
         mBarChart.legend.isEnabled = false
+        mBarChart.renderer = BarChartCustomRenderer(mBarChart, mBarChart.animator, mBarChart.viewPortHandler)
         mBarChart.setDrawValueAboveBar(true)
         mBarChart.extraBottomOffset = 24f
         mBarChart.setXAxisRenderer(CustomXAxisRenderer(mBarChart.viewPortHandler, mBarChart.xAxis, mBarChart.getTransformer(YAxis.AxisDependency.LEFT)))
@@ -180,8 +270,8 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             try {
                 val index = value.toInt()
                 when (index) {
-                    0 -> "Savings\nAccount"
-                    1 -> "Fixed\nDeposit"
+                    1 -> "Savings\nAccount"
+                    2 -> "Fixed\nDeposit"
                     else -> "Tarrakki\nZyaada"
                 }
             } catch (e: Exception) {
@@ -194,8 +284,8 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         val leftAxis = mBarChart.axisRight
         leftAxis.isEnabled = false
         leftAxis.labelCount = 3
-        leftAxis.axisMaximum = 7.75f
-        leftAxis.axisMinimum = 4f
+        leftAxis.axisMaximum = if (fixedDepositRate > fundReturns) fixedDepositRate.toFloat() else fundReturns.toFloat()
+        leftAxis.axisMinimum = savingRate.toFloat()
         leftAxis.setDrawAxisLine(false)
         leftAxis.setDrawZeroLine(false)
         leftAxis.setDrawGridLines(false)
@@ -206,13 +296,24 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mBarChart.axisLeft.isEnabled = false
         leftAxis.typeface = typeface
 
-        val yVals1 = ArrayList<BarEntry>()
-
-        for (i in 0 until size) {
-            val mult = size + 1
-            val val1 = (Math.random() * mult).toFloat() + mult / 3
-            val val2 = (Math.random() * mult).toFloat() + mult / 3
-            yVals1.add(BarEntry(i.toFloat() + 1, floatArrayOf(val1, val2)))
+        for (i in 1..3) {
+            when (i) {
+                1 -> {
+                    val val1 = investmentAmount.toFloat()
+                    val val2 = calculateReturns(investmentAmount, durations, savingRate).toFloat()
+                    yVals1.add(BarEntry(1f, floatArrayOf(val1, val2)))
+                }
+                2 -> {
+                    val val1 = investmentAmount.toFloat()
+                    val val2 = calculateReturns(investmentAmount, durations, fixedDepositRate).toFloat()
+                    yVals1.add(BarEntry(2f, floatArrayOf(val1, val2)))
+                }
+                3 -> {
+                    val val1 = investmentAmount.toFloat()
+                    val val2 = calculateReturns(investmentAmount, durations, fundReturns).toFloat()
+                    yVals1.add(BarEntry(3f, floatArrayOf(val1, val2)))
+                }
+            }
         }
 
         val set1: BarDataSet
@@ -233,17 +334,28 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
 
             val data = BarData(dataSets)
             data.setDrawValues(true)
+            data.barWidth = 0.5f
             var index = 1
             data.setValueFormatter { value, entry, dataSetIndex, viewPortHandler ->
                 if (index % 2 == 0) {
                     index++
-                    "$value"
+                    when (entry.x.toInt()) {
+                        1 -> {
+                            "${value.toDouble().toCurrency()}\n(${savingRate.toReturnAsPercentage()})"
+                        }
+                        2 -> {
+                            "${value.toDouble().toCurrency()}\n(${fixedDepositRate.toReturnAsPercentage()})"
+                        }
+                        else -> {
+                            "${value.toDouble().toCurrency()}\n(${fundReturnsFormate.toReturnAsPercentage()})"
+                        }
+                    }
                 } else {
                     index++
                     ""
                 }
             }
-            data.setValueTextSize(12f)
+            data.setValueTextSize(8f)
             data.setValueTextColor(App.INSTANCE.color(R.color.semi_black))
             mBarChart.data = data
         }
@@ -251,6 +363,22 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mBarChart.setFitBars(true)
         mBarChart.isClickable = false
         mBarChart.invalidate()
+    }
+
+    private fun resetChart() {
+        mBarChart.fitScreen()
+        mBarChart.data?.clearValues()
+        mBarChart.xAxis.valueFormatter = null
+        mBarChart.notifyDataSetChanged()
+        mBarChart.clear()
+        mBarChart.invalidate()
+    }
+
+    // Calculating the compount interest using formula A = P  (1 + r/n)^nt
+    private fun calculateReturns(amount: Double, durations: Double, rateOfInterest: Double = 5.0): Double {
+        val floatRateOfInterest = rateOfInterest / 100
+        val floatFirstValueOfPower = (1 + floatRateOfInterest)
+        return amount * Math.pow(floatFirstValueOfPower, durations)
     }
 
     companion object {

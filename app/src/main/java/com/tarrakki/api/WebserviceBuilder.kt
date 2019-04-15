@@ -77,6 +77,10 @@ interface WebserviceBuilder {
     @POST("cart/add_to_cart/")
     fun addtocart(@Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @PUT("tarrakki/zyaada/add_to_cart_zyaada/{tarrakkiZyaadaId}/")
+    fun addToCartTarrakkiZyaada(@Path("tarrakkiZyaadaId") id: String, @Field("data") data: String): Observable<ApiResponse>
+
     /*@Field("fund_id") fundId: Int,
     @Field("sip_amount") sipAmount: String?,
     @Field("lumpsum_amount") lumpsumAmount: String?

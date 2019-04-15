@@ -193,6 +193,13 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         } else {
                             binder.tvGoal.visibility = View.GONE
                         }
+                    } else if (item.tarrakkiZyaada != null) {
+                        if (item.tarrakkiZyaada.name.isNotEmpty()) {
+                            binder.tvGoal.visibility = View.VISIBLE
+                            binder.goal = getString(R.string.tarrakki_zyaada).toUpperCase()
+                        } else {
+                            binder.tvGoal.visibility = View.GONE
+                        }
                     } else {
                         binder.tvGoal.visibility = View.GONE
                     }
