@@ -259,9 +259,9 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
 
         val leftAxis = mBarChart.axisRight
         leftAxis.isEnabled = false
-        leftAxis.labelCount = 3
-        leftAxis.axisMaximum = if (fixedDepositRate > fundReturns) fixedDepositRate.toFloat() else fundReturns.toFloat()
-        leftAxis.axisMinimum = savingRate.toFloat()
+        leftAxis.labelCount = 10
+        leftAxis.axisMaximum = 10f//if (fixedDepositRate > fundReturns) fixedDepositRate.toFloat() else fundReturns.toFloat()
+        leftAxis.axisMinimum = 0f//savingRate.toFloat()
         leftAxis.setDrawAxisLine(false)
         leftAxis.setDrawZeroLine(false)
         leftAxis.setDrawGridLines(false)
@@ -275,19 +275,19 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         for (i in 1..3) {
             when (i) {
                 1 -> {
-                    val val1 = investmentAmount.toFloat()
-                    val val2 = calculateReturns(investmentAmount, durations, savingRate).toFloat()
-                    yVals1.add(BarEntry(1f, floatArrayOf(val1, val2)))
+                    val val1 = 3//investmentAmount.toFloat()
+                    val val2 = savingRate//calculateReturns(investmentAmount, durations, savingRate).toFloat()
+                    yVals1.add(BarEntry(1f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
                 2 -> {
-                    val val1 = investmentAmount.toFloat()
-                    val val2 = calculateReturns(investmentAmount, durations, fixedDepositRate).toFloat()
-                    yVals1.add(BarEntry(2f, floatArrayOf(val1, val2)))
+                    val val1 = 3//investmentAmount.toFloat()
+                    val val2 = fixedDepositRate//calculateReturns(investmentAmount, durations, fixedDepositRate).toFloat()
+                    yVals1.add(BarEntry(2f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
                 3 -> {
-                    val val1 = investmentAmount.toFloat()
-                    val val2 = calculateReturns(investmentAmount, durations, fundReturns).toFloat()
-                    yVals1.add(BarEntry(3f, floatArrayOf(val1, val2)))
+                    val val1 = 3//investmentAmount.toFloat()
+                    val val2 = fundReturns//calculateReturns(investmentAmount, durations, fundReturns).toFloat()
+                    yVals1.add(BarEntry(3f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
             }
         }
@@ -317,13 +317,13 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                     index++
                     when (entry.x.toInt()) {
                         1 -> {
-                            "${value.toDouble().toCurrency()}\n(${savingRate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${savingRate.toReturnAsPercentage()})"
                         }
                         2 -> {
-                            "${value.toDouble().toCurrency()}\n(${fixedDepositRate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${fixedDepositRate.toReturnAsPercentage()})"
                         }
                         else -> {
-                            "${value.toDouble().toCurrency()}\n(${fundReturnsFormate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${fundReturnsFormate.toReturnAsPercentage()})"
                         }
                     }
                 } else {
