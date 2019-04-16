@@ -15,7 +15,11 @@ data class TarrakkiZyaadaResponse(
             @SerializedName("funds")
             val funds: List<Fund>?,
             @SerializedName("tarrakki_zyaada_id")
-            val tarrakkiZyaadaId: Int?
+            val tarrakkiZyaadaId: Int?,
+            @SerializedName("bank_savings_return")
+            val bankSavingsReturn: String?,
+            @SerializedName("fixed_deposit_return")
+            val fixedDepositReturn: String?
     ) {
         data class Fund(
                 @SerializedName("dp_day_end_nav")

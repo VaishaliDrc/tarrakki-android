@@ -11,6 +11,8 @@ import com.github.mikephil.charting.interfaces.dataprovider.BarDataProvider;
 import com.github.mikephil.charting.renderer.BarChartRenderer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import org.supportcompact.utilise.ResourceUtils;
+
 public class BarChartCustomRenderer extends BarChartRenderer {
 
 
@@ -29,7 +31,7 @@ public class BarChartCustomRenderer extends BarChartRenderer {
             Paint paintStyleTwo = new Paint(mValuePaint);
             paintStyleOne.setColor(Color.BLACK);
             paintStyleTwo.setColor(Color.BLACK);
-            c.drawText(splitText[0], x, y - 40f, paintStyleOne);
+            c.drawText(splitText[0], x, y - ResourceUtils.dpToPx(16), paintStyleOne);
             c.drawText(splitText[1], x, y, paintStyleTwo);
         }
     }

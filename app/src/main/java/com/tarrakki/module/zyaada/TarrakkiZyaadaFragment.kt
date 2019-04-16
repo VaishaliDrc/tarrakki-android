@@ -9,7 +9,6 @@ import android.text.TextPaint
 import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.view.View
-import android.widget.TableLayout
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
@@ -17,13 +16,16 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.tarrakki.*
+import com.tarrakki.App
+import com.tarrakki.R
+import com.tarrakki.addToCartTarrakkiZyaada
 import com.tarrakki.chartformaters.BarChartCustomRenderer
 import com.tarrakki.chartformaters.CustomXAxisRenderer
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
+import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -33,6 +35,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
+import org.supportcompact.utilise.ResourceUtils
 import java.util.*
 
 
@@ -88,41 +91,13 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mAutoPager?.startAutoScroll()
         mAutoPager?.isNestedScrollingEnabled = false
 
-        /**Header View**/
-        val tableRowHeader = context?.tableRow()
-        tableRowHeader?.setBackgroundResource(R.color.bg_img_color)
-        tableRowHeader?.addView(context?.tableRowContent("", context?.color(R.color.black)))
-        tableRowHeader?.addView(context?.tableRowContent("Tarrakki\nZyaada", context?.color(R.color.black)))
-        tableRowHeader?.addView(context?.tableRowContent("Savings\nAccount", context?.color(R.color.black)))
-        tableRowHeader?.addView(context?.tableRowContent("Fixed\nDeposit", context?.color(R.color.black)))
-        tblSchemeDetails?.addView(tableRowHeader, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
-        val names = arrayListOf("Liquidity", "Debit Card", "ATM Withdrawal", "Instant Withdrawal")
-        var start = ""
-        val drawableGreen = App.INSTANCE.getDrawable(R.drawable.iv_right_green)
-        val drawableRed = App.INSTANCE.getDrawable(R.drawable.iv_cross_red)
-        /**Body View**/
-        for (name in names) {
-            val tableRow = context?.tableRow()
-            tableRow?.addView(context?.tableRowContentWithDrawable(name))
-            tableRow?.addView(context?.tableRowContentWithDrawable(start, drawableGreen))
-            tableRow?.addView(context?.tableRowContentWithDrawable(drawable = drawableGreen))
-            tableRow?.addView(context?.tableRowContentWithDrawable(drawable = drawableRed))
-            tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
-            start += "*"
-        }
-        /**Footer View**/
-        val tableRow = context?.tableRow()
-        tableRow?.addView(context?.tableRowContent("Minimum Investment"))
-        tableRow?.addView(context?.tableRowContent(500.toCurrency()))
-        tableRow?.addView(context?.tableRowContent("~${10000.toCurrency()}"))
-        tableRow?.addView(context?.tableRowContent("~${1000.toCurrency()}\nto ${10000.toCurrency()}"))
-        tblSchemeDetails?.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
-
         val durationsArr = resources.getStringArray(R.array.duration_in_year)
         tvDurations.text = durationsArr[2]
 
         getViewModel().getTarrakkiZyaada().observe(this, Observer {
             it?.data?.let { response ->
+                savingRate = response.bankSavingsReturn?.toDoubleOrNull() ?: 0.0
+                fixedDepositRate = response.fixedDepositReturn?.toDoubleOrNull() ?: 0.0
                 if (response.funds?.isNotEmpty() == true) {
                     val fund = response.funds[0]
                     val returns = arrayListOf<KeyInfo>()
@@ -239,11 +214,12 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     }
 
     var fundReturnsFormate = 0.0
+    var savingRate = 4.0
+    var fixedDepositRate = 6.5
+
     private fun setChartData(investmentAmount: Double, durations: Double, fundReturns: Double) {
 
         val yVals1 = ArrayList<BarEntry>()
-        val savingRate = 4.0
-        val fixedDepositRate = 6.5
         fundReturnsFormate = fundReturns
 
         /*Chart Settings*/
@@ -254,7 +230,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mBarChart.legend.isEnabled = false
         mBarChart.renderer = BarChartCustomRenderer(mBarChart, mBarChart.animator, mBarChart.viewPortHandler)
         mBarChart.setDrawValueAboveBar(true)
-        mBarChart.extraBottomOffset = 24f
+        mBarChart.extraBottomOffset = ResourceUtils.dpToPx(16).toFloat()
         mBarChart.setXAxisRenderer(CustomXAxisRenderer(mBarChart.viewPortHandler, mBarChart.xAxis, mBarChart.getTransformer(YAxis.AxisDependency.LEFT)))
         val typeface = context?.let { ResourcesCompat.getFont(it, R.font.lato_regular) }
 

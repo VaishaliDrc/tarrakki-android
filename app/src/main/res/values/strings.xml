@@ -926,5 +926,14 @@
     <string name="enter_minors_full_name">Enter Minor\'s Full Name</string>
     <string name="alert_req_monors_full_name">Please Enter Minor\'s Full Name.</string>
     <string name="alert_pls_select_minors_dob">Please select Minor\'s Date of Birth.</string>
+    <string name="tarrakki_zyaada_new_line">Tarrakki\nZyaada</string>
+    <string name="liquidity">Liquidity</string>
+    <string name="debit_cart">Debit Cart</string>
+    <string name="atm_withdrawal">ATM Withdrawal</string>
+    <string name="instant_withdrawal">Instant Withdrawal</string>
+    <string name="minimum_investment">Minimum Investment</string>
+    <string name="five_handred_500">\u20B9500</string>
+    <string name="ten_thousand_10_000">~\u20B910,000</string>
+    <string name="one_thousand_to_ten_thousand_1_000_to_10_000">~\u20B91,000\nto \u20B910,000</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>
