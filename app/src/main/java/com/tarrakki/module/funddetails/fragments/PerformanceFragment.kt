@@ -190,7 +190,12 @@ class PerformanceFragment : Fragment() {
                                 durations = p.toString().toDouble()
                                 itVM.earningBase.forEach { item ->
                                     if (itVM.earningBase.indexOf(item) == 0) {
-                                        item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
+                                        var r = fund.getReturn(durations.toInt(), getDurations())
+                                        if (r == 0.0) {
+                                            r = fund.getReturn()
+                                            durations = 1.0
+                                        }
+                                        item.percentageHolding = r
                                     }
                                     item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                         durations

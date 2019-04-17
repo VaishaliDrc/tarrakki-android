@@ -15,6 +15,7 @@ import com.tarrakki.databinding.RowAccountMenuItemBinding
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
+import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -96,6 +97,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     R.drawable.ic_terms_conditions -> {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
                         postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
+                    }
+                    R.drawable.ic_debit_cart -> {
+                        startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             }

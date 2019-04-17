@@ -67,9 +67,6 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
 
     override fun createReference() {
 
-        var investmebtAmount = 500000.0
-        var durations = 3.0
-
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {
                 getViewModel().whatIsTarrakkiZyaada.set(!it)
@@ -92,7 +89,6 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         mAutoPager?.isNestedScrollingEnabled = false
 
         val durationsArr = resources.getStringArray(R.array.duration_in_year)
-        tvDurations.text = durationsArr[2]
 
         getViewModel().getTarrakkiZyaada().observe(this, Observer {
             it?.data?.let { response ->
@@ -142,7 +138,13 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                             }
                         }
                     }
-                    setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                    var r = fund.getReturn(x = durations.toInt())
+                    if (r == 0.0) {
+                        r = fund.getReturn()
+                        durations = 1.0
+                    }
+                    setChartData(r)
+                    tvDurations.text = durationsArr[if (durations == 3.0) 2 else 0]
                     tvDurations?.setOnClickListener {
                         context?.showListDialog(R.string.duration, durationsArr) { item: String, which: Int ->
                             tvDurations.text = item
@@ -153,11 +155,17 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                                 startDate?.let {
                                     val months = it.monthsBetweenDates(Date())
                                     durations = (months / 12.0)
-                                    setChartData(investmebtAmount, durations, returnSince)
+                                    setChartData(returnSince)
                                 }
                             } else {
                                 durations = (which + 1).toDouble()
-                                setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                                var r = fund.getReturn(x = durations.toInt())
+                                if (r == 0.0) {
+                                    r = fund.getReturn()
+                                    durations = 1.0
+                                    tvDurations.text = durationsArr[0]
+                                }
+                                setChartData(r)
                             }
                         }
                     }
@@ -166,7 +174,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                             if (p != null && p.isNotEmpty()) {
                                 try {
                                     investmebtAmount = p.toString().replace(",", "").toDouble()
-                                    setChartData(investmebtAmount, durations, fund.getReturn(x = durations.toInt()))
+                                    setChartData(fundReturnsFormate)
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
@@ -216,11 +224,14 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     var fundReturnsFormate = 0.0
     var savingRate = 4.0
     var fixedDepositRate = 6.5
+    var investmebtAmount = 500000.0
+    var durations = 3.0
 
-    private fun setChartData(investmentAmount: Double, durations: Double, fundReturns: Double) {
+
+    private fun setChartData(returnsFormate: Double) {
 
         val yVals1 = ArrayList<BarEntry>()
-        fundReturnsFormate = fundReturns
+        fundReturnsFormate = returnsFormate
 
         /*Chart Settings*/
         mBarChart.setPinchZoom(false)
@@ -275,18 +286,18 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         for (i in 1..3) {
             when (i) {
                 1 -> {
-                    val val1 = 3//investmentAmount.toFloat()
+                    val val1 = 5//investmentAmount.toFloat()
                     val val2 = savingRate//calculateReturns(investmentAmount, durations, savingRate).toFloat()
                     yVals1.add(BarEntry(1f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
                 2 -> {
-                    val val1 = 3//investmentAmount.toFloat()
+                    val val1 = 5//investmentAmount.toFloat()
                     val val2 = fixedDepositRate//calculateReturns(investmentAmount, durations, fixedDepositRate).toFloat()
                     yVals1.add(BarEntry(2f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
                 3 -> {
-                    val val1 = 3//investmentAmount.toFloat()
-                    val val2 = fundReturns//calculateReturns(investmentAmount, durations, fundReturns).toFloat()
+                    val val1 = 5//investmentAmount.toFloat()
+                    val val2 = fundReturnsFormate//calculateReturns(investmentAmount, durations, fundReturns).toFloat()
                     yVals1.add(BarEntry(3f, floatArrayOf(val1.toFloat(), val2.toFloat())))
                 }
             }
@@ -317,13 +328,13 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                     index++
                     when (entry.x.toInt()) {
                         1 -> {
-                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${savingRate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmebtAmount, durations, value.toDouble()).toCurrency()}\n(${savingRate.toReturnAsPercentage()})"
                         }
                         2 -> {
-                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${fixedDepositRate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmebtAmount, durations, value.toDouble()).toCurrency()}\n(${fixedDepositRate.toReturnAsPercentage()})"
                         }
                         else -> {
-                            "${calculateReturns(investmentAmount, durations, value.toDouble()).toCurrency()}\n(${fundReturnsFormate.toReturnAsPercentage()})"
+                            "${calculateReturns(investmebtAmount, durations, value.toDouble()).toCurrency()}\n(${this.fundReturnsFormate.toReturnAsPercentage()})"
                         }
                     }
                 } else {
@@ -335,7 +346,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             data.setValueTextColor(App.INSTANCE.color(R.color.semi_black))
             mBarChart.data = data
         }
-
+        mBarChart.animateY(500)
         mBarChart.setFitBars(true)
         mBarChart.isClickable = false
         mBarChart.invalidate()

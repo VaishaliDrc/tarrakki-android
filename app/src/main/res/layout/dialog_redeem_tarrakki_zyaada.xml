@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -19,6 +20,10 @@
         <variable
             name="isSingleFolio"
             type="Boolean" />
+
+        <variable
+            name="isInstantRedeem"
+            type="boolean" />
 
         <import type="android.view.View" />
 
@@ -91,15 +96,45 @@
             app:layout_constraintTop_toBottomOf="@id/tvChooseFolio" />
 
         <TextView
+            android:id="@+id/tvCertificate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_8"
+            android:text="@string/do_you_want_insta_redeem"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintBaseline_toBaselineOf="@id/switchOnOff"
+            app:layout_constraintEnd_toStartOf="@+id/switchOnOff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtGuardian"
+            tools:text="@string/do_you_want_insta_redeem" />
+
+        <ToggleButton
+            android:id="@+id/switchOnOff"
+            android:layout_width="64dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="@dimen/default_space"
+            android:background="@drawable/shape_switch_bg"
+            android:button="@null"
+            android:checked="@{isInstantRedeem}"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtChooseFolio"
+            tools:checked="false" />
+
+        <TextView
             android:id="@+id/tvLumpsum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="@string/total_units"
+            android:text="@{isInstantRedeem?@string/total_redeemable_amount:@string/total_units}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtChooseFolio" />
+            app:layout_constraintTop_toBottomOf="@id/tvCertificate"
+            tools:text="@string/total_units" />
 
         <EditText
             android:id="@+id/edtTotalInvestedAmount"
@@ -129,21 +164,23 @@
             android:layout_marginStart="@dimen/default_space"
             android:text="@string/rs_symbol"
             android:textColor="@color/darker_gray"
-            android:visibility="gone"
+            android:visibility="@{isInstantRedeem?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/edtTotalInvestedAmount"
             app:layout_constraintStart_toStartOf="@id/edtTotalInvestedAmount"
-            app:layout_constraintTop_toTopOf="@id/edtTotalInvestedAmount" />
+            app:layout_constraintTop_toTopOf="@id/edtTotalInvestedAmount"
+            tools:visibility="gone" />
 
         <TextView
             android:id="@+id/tvAmountL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="@string/units_to_redeem"
+            android:text="@{isInstantRedeem?@string/amount_to_redeem:@string/units_to_redeem}"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtTotalInvestedAmount" />
+            app:layout_constraintTop_toBottomOf="@id/edtTotalInvestedAmount"
+            tools:text="@string/units_to_redeem" />
 
         <CheckBox
             android:id="@+id/chkAmount"
@@ -153,11 +190,12 @@
             android:button="@drawable/checkbox_redeem_folio"
             android:gravity="center_vertical"
             android:padding="8dp"
-            android:text="@string/withdraw_all_units"
+            android:text="@{isInstantRedeem?@string/withdraw_full_amount:@string/withdraw_all_units}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAmountL" />
+            app:layout_constraintTop_toBottomOf="@id/tvAmountL"
+            tools:text="@string/withdraw_all_units" />
 
         <TextView
             android:id="@+id/tvRSAmount"
@@ -166,10 +204,11 @@
             android:layout_marginStart="@dimen/default_space"
             android:text="@string/rs_symbol"
             android:textColor="@color/black"
-            android:visibility="gone"
+            android:visibility="@{isInstantRedeem?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@id/edtAmount"
             app:layout_constraintStart_toStartOf="@id/edtAmount"
-            app:layout_constraintTop_toTopOf="@id/edtAmount" />
+            app:layout_constraintTop_toTopOf="@id/edtAmount"
+            tools:visibility="gone" />
 
         <EditText
             android:id="@+id/edtAmount"
@@ -178,7 +217,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/shape_edt_gray_round"
-            android:hint="@string/enter_units"
+            android:hint="@{isInstantRedeem?@string/enter_amount:@string/enter_units}"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:maxLines="1"
@@ -194,24 +233,35 @@
             app:layout_constraintEnd_toStartOf="@+id/chkAmount"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAmountL" />
+            app:layout_constraintTop_toBottomOf="@id/tvAmountL"
+            tools:hint="@string/enter_units" />
 
         <Button
             android:id="@+id/btnInvest"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
             android:layout_marginTop="@dimen/default_space"
-            android:layout_marginBottom="@dimen/space_4"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:text="@string/redeem"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/edtAmount" />
+
+        <TextView
+            android:id="@+id/tvNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:text="@string/upto_rs_50_000_or_90_of_the_current_investment_values_whichever_is_lower"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/notes_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnInvest"
+            tools:text="Upto Rs.50,000 or 90% of the current investment values, whichever is lower." />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -46,7 +46,6 @@
                 android:paddingTop="@dimen/space_8"
                 android:paddingEnd="@dimen/default_space"
                 android:paddingBottom="@dimen/space_8"
-                android:text="@{vm.folioNo}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 android:textColorHint="@color/darker_gray" />

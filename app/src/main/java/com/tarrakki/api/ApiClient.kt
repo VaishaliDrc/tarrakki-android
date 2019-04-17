@@ -78,8 +78,8 @@ object ApiClient {
     /**
      * Live Url
      **/
-    /*private const val BASE_URL = "http://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakkilive.edx.drcsystems.com" /// Latest url*/
+    /*private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "https://tarrakkilive.edx.drcsystems.com" /// Latest url*/
 
     /**
      * @return [Retrofit] object its single-tone

@@ -935,5 +935,13 @@
     <string name="five_handred_500">\u20B9500</string>
     <string name="ten_thousand_10_000">~\u20B910,000</string>
     <string name="one_thousand_to_ten_thousand_1_000_to_10_000">~\u20B91,000\nto \u20B910,000</string>
+    <string name="withdraw_all_units">Withdraw All Units</string>
+    <string name="units_to_redeem">Units to Redeem</string>
+    <string name="total_units">Total Units</string>
+    <string name="do_you_want_insta_redeem">Do you want to insta-redeem?</string>
+    <string name="upto_rs_50_000_or_90_of_the_current_investment_values_whichever_is_lower">Upto Rs.50,000 or 90% of the current investment values, whichever is lower.</string>
+    <string name="total_redeemable_amount">Total Redeemable Amount</string>
+    <string name="amount_to_redeem">Amount To Redeem</string>
+    <string name="withdraw_full_amount">Withdraw Full Amount</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

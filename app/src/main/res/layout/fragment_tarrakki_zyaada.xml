@@ -534,7 +534,7 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginBottom="@dimen/space_8"
                     android:text="@string/disclaimer_expected_returns"
-                    android:textColor="#4185c9"
+                    android:textColor="@color/notes_color"
                     android:textSize="@dimen/sp9"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

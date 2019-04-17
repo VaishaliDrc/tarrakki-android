@@ -246,6 +246,10 @@ interface WebserviceBuilder {
     @GET("tarrakki/zyaada/return-funds/")
     fun getTarrakkiZyaada(): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("tarrakki/zyaada/apply-debit-card/{user_id}")
+    fun applyForDebitCart(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

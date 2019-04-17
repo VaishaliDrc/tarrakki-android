@@ -43,7 +43,8 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         edtChooseFolio?.setOnClickListener {
             context?.showListDialog("Select Folio", arrayListOf(
                     "15236 - Reliance Liquid Fund", "15237 - Reliance Liquid Fund")) { item ->
-                getViewModel().folioNo.set(item)
+                getViewModel().folioNo.set("1553581661")
+                edtChooseFolio?.text = item
             }
         }
 
@@ -57,7 +58,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             val dPicker = SpinnerDatePickerDialogBuilder()
                     .context(context)
                     .callback { view, year, monthOfYear, dayOfMonth ->
-                        date = String.format("%02d/%02d/%d", dayOfMonth, monthOfYear + 1, year)
+                        date = String.format("%02d/%02d/%d", monthOfYear + 1, dayOfMonth, year)
                         getViewModel().dob.set(date)
                         edtDOB?.text = String.format("%02d %s, %d", dayOfMonth, DateFormatSymbols().months[monthOfYear].substring(0, 3), year)
                     }
@@ -74,7 +75,15 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         }
 
         btnApply?.setOnClickListener {
-            isValid()
+            if (isValid()) {
+                getViewModel().applyForDebitCart().observe(this, android.arch.lifecycle.Observer {
+                    it?.let { apiResponse ->
+                        context?.simpleAlert("Your application for debit cart has been submitted successfully.") {
+                            onBack(2)
+                        }
+                    }
+                })
+            }
         }
     }
 
