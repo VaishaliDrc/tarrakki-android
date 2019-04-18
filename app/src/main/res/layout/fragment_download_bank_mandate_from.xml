@@ -16,9 +16,9 @@
         tools:context=".module.bankmandate.DownloadBankMandateFromFragment">
 
         <RelativeLayout
-            android:layout_above="@id/lyt_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@id/lyt_btn"
             android:background="@drawable/shape_cart_view"
             android:elevation="@dimen/space_2"
             android:orientation="vertical"
@@ -33,30 +33,30 @@
                 android:textColor="@color/black" />
 
             <FrameLayout
-                android:layout_marginTop="@dimen/default_space"
-                android:layout_below="@id/tvDownloadTitle"
-                android:layout_above="@id/lytDownloadContent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_above="@id/lytDownloadContent"
+                android:layout_below="@id/tvDownloadTitle"
+                android:layout_marginTop="@dimen/default_space">
 
                 <WebView
                     android:id="@+id/mWebView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </FrameLayout>
 
 
             <LinearLayout
                 android:id="@+id/lytDownloadContent"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -83,10 +83,17 @@
 
         <LinearLayout
             android:id="@+id/lyt_btn"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/instruction" />
 
             <Button
                 android:id="@+id/btnMandateSendEmail"
@@ -102,8 +109,8 @@
                 android:id="@+id/btnDownload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_3"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_3"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/download_nach_mandate_form"

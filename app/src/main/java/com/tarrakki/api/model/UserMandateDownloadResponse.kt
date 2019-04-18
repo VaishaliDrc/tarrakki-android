@@ -36,7 +36,9 @@ data class UserMandateDownloadResponse(
             @SerializedName("umr_no")
             val umrNo: Any?,
             @SerializedName("user")
-            val user: Int
+            val user: Int,
+            @SerializedName("instruction_url")
+            val instructionUrl: String?
     ) {
         data class BankDetails(
                 @SerializedName("account_number")

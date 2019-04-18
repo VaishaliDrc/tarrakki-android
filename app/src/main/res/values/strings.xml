@@ -943,5 +943,6 @@
     <string name="total_redeemable_amount">Total Redeemable Amount</string>
     <string name="amount_to_redeem">Amount To Redeem</string>
     <string name="withdraw_full_amount">Withdraw Full Amount</string>
+    <string name="instruction">Instruction</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

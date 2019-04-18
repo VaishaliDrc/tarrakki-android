@@ -121,7 +121,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                             context?.color(R.color.colorAccent)?.let { ds.color = it }
                         }
                     }
-                    tvFundDetails?.makeLinks(arrayOf("click here."), arrayOf(fundDetails))
+                    tvFundDetails?.makeLinksItalic(arrayOf("click here."), arrayOf(fundDetails))
 
                     btnInvest?.setOnClickListener {
                         val tarrakkiZyaadaId = response.tarrakkiZyaadaId

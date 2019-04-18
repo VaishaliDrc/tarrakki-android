@@ -783,8 +783,7 @@ fun Context.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: Muta
     if (folioList.isNotEmpty()) {
         mBinder.folio = folioList[0]
         val folio = portfolioList.find { it.folioNo == folioList[0] }
-        mBinder.investmentAmount = ((folio?.cValue?.toDouble()
-                ?: 0.0) / todayNAV).roundOff().toString()
+        mBinder.investmentAmount = "${folio?.cValue?.toDouble() ?: 0.0}"
         mBinder.isSingleFolio = folioList.size == 1
         val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 500.00
         mBinder.isInstantRedeem = hasMoreThenFiveHounred
@@ -819,7 +818,7 @@ fun Context.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: Muta
             mBinder.folio = item
             val selectedAmount = portfolioList.find { it.folioNo == item }
             if (selectedAmount != null) {
-                mBinder.investmentAmount = (selectedAmount.cValue.toDouble() / todayNAV).roundOff().toString()
+                mBinder.investmentAmount = "${selectedAmount.cValue.toDouble()}"
                 mBinder.chkAmount.isChecked = false
             }
         }

@@ -13,13 +13,13 @@ import android.support.v4.app.Fragment
 import android.view.View
 import android.webkit.*
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
 import com.tarrakki.databinding.FragmentWebViewBinding
 import kotlinx.android.synthetic.main.fragment_web_view.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
-import com.tarrakki.api.ApiClient
 
 
 /**
@@ -28,6 +28,8 @@ import com.tarrakki.api.ApiClient
  * create an instance of this fragment.
  *
  */
+const val PAGE_URL = "page_url"
+
 class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
 
     override val isBackEnabled: Boolean
@@ -134,6 +136,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                     Event.TERMS_AND_CONDITIONS_PAGE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.terms_and_condditions))
                         mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL + "/tos/")
+                    }
+                    Event.BANK_MANDATE_INSTRUCTIONS -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.bank_mandate))
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL + "${arguments?.getString(PAGE_URL)}")
                     }
                     else -> {
                     }

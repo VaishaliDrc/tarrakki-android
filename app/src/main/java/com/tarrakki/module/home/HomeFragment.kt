@@ -200,6 +200,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         tvViewPortfolio?.setOnClickListener {
             //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
             startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+            /*val folios: MutableList<FolioData> = mutableListOf()
+            folios.add(FolioData(1500.0, "1,500", "123456"))
+            folios.add(FolioData(15000.0, "15,000", "1234567"))
+            context?.redeemFundTarrakkiZyaadaDialog(10.0, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
+
+            }*/
         }
 
         mRefresh?.setOnRefreshListener {

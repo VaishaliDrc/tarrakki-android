@@ -17,20 +17,23 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.text.TextPaint
+import android.text.style.ClickableSpan
 import android.view.View
 import android.webkit.*
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentDownloadBankMandateFromBinding
+import com.tarrakki.module.webview.PAGE_URL
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_download_bank_mandate_from.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.simpleAlert
-import com.tarrakki.api.ApiClient
+import org.supportcompact.ktx.*
 import java.io.File
 
 /**
@@ -46,10 +49,11 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     override val title: String
         get() = getString(R.string.bank_mandate)
 
-    var url : String? = ""
-    var mandate_id : String? = ""
-    var refid : Long? = 0
+    var url: String? = ""
+    var mandate_id: String? = ""
+    var refid: Long? = 0
     var path = File(Environment.getExternalStorageDirectory().toString() + "/Tarrakki")
+    var instructionUrl = ""
 
     override fun getLayout(): Int {
         return R.layout.fragment_download_bank_mandate_from
@@ -66,7 +70,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
 
     override fun createReference() {
         val baseUrl = ApiClient.IMAGE_BASE_URL
-        url = baseUrl+arguments?.getString("download_url").toString()
+        url = baseUrl + arguments?.getString("download_url").toString()
         mandate_id = arguments?.getString("mandate_id").toString()
 
         loadPdf()
@@ -80,6 +84,22 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
                 context?.simpleAlert(getString(R.string.alert_nach_mandate_email_send))
             })
         }
+
+        val readMore = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                instructionUrl = "${getViewModel().mandateResponse.get()?.data?.instructionUrl}"
+                startFragment(WebViewFragment.newInstance(Bundle().apply { putString(PAGE_URL, instructionUrl) }), R.id.frmContainer)
+                postSticky(Event.BANK_MANDATE_INSTRUCTIONS)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = true
+                context?.color(R.color.colorAccent)?.let { ds.color = it }
+            }
+        }
+        tvInstruction?.makeLinks(arrayOf("Instruction"), arrayOf(readMore))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +113,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         context?.unregisterReceiver(onComplete)
     }
 
-    private fun onDownload(){
+    private fun onDownload() {
         if (!path.exists()) {
             path.mkdirs()
         }
@@ -105,29 +125,29 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         request.setTitle("Tarrakki Downloading " + download_Uri.lastPathSegment)
         request.setDescription("Downloading " + download_Uri.lastPathSegment)
         request.setVisibleInDownloadsUi(true)
-        request.setDestinationInExternalPublicDir("/Tarrakki",download_Uri.lastPathSegment)
+        request.setDestinationInExternalPublicDir("/Tarrakki", download_Uri.lastPathSegment)
         refid = downloadManager.enqueue(request)
     }
 
-    var onComplete: BroadcastReceiver = object:BroadcastReceiver() {
-        override fun onReceive(ctxt:Context, intent:Intent) {
+    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
             val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            if (refid == referenceId){
+            if (refid == referenceId) {
                 context?.simpleAlert(getString(R.string.alert_nach_mandate_download_success))
             }
         }
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private fun loadPdf(){
+    private fun loadPdf() {
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
-       // mWebView.settings.useWideViewPort = true
+        // mWebView.settings.useWideViewPort = true
         mWebView.settings.domStorageEnabled = true
         mWebView.settings.loadsImagesAutomatically = true
         //mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
-       // mWebView.settings.setAppCacheEnabled(true)
-      //  mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        // mWebView.settings.setAppCacheEnabled(true)
+        //  mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
         mWebView.settings.setSupportMultipleWindows(false)
 
         mWebView.webChromeClient = object : WebChromeClient() {
@@ -210,12 +230,13 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
 
     }
 
-    private fun downloadPdf(url : String?) {
+    private fun downloadPdf(url: String?) {
         val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         requestPermissionsIfRequired(permissions, object : PermissionCallBack {
             override fun permissionGranted() {
                 onDownload()
             }
+
             override fun permissionDenied() {
                 context?.confirmationDialog(
                         title = getString(R.string.permission),
