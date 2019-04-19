@@ -54,8 +54,11 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         return getOTP
     }
 
-    fun getNewOTP(data: String): MutableLiveData<ApiResponse> {
+    fun getNewOTP(encryptedData: String): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JSONObject(encryptedData.toDecrypt())
+        json.put("otp", otp.get())
+        val data = json.toString().toEncrypt()
         e("Plain Data=>", data.toDecrypt())
         e("Encrypted Data=>", data)
         subscribeToSingle(
@@ -66,8 +69,13 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         return getOTP
     }
 
-    fun verifyOTP(data: String): MutableLiveData<Boolean> {
+    fun verifyOTP(encryptedData: String): MutableLiveData<Boolean> {
         EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JSONObject(encryptedData.toDecrypt())
+        json.put("otp", otp.get())
+        val data = json.toString().toEncrypt()
+        e("Plain Data=>", data.toDecrypt())
+        e("Encrypted Data=>", data)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).verifyOTP(data),
                 apiNames = WebserviceBuilder.ApiNames.verifyOTP,
@@ -76,9 +84,14 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         return verifyOTP
     }
 
-    fun verifySocialOTP(data: String): MutableLiveData<SignUpresponse> {
+    fun verifySocialOTP(encryptedData: String): MutableLiveData<SignUpresponse> {
         val onSignUp = MutableLiveData<SignUpresponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JSONObject(encryptedData.toDecrypt())
+        json.put("otp", otp.get())
+        val data = json.toString().toEncrypt()
+        e("Plain Data=>", data.toDecrypt())
+        e("Encrypted Data=>", data)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).verifyOTP(data),
                 apiNames = WebserviceBuilder.ApiNames.verifyOTP,

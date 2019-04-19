@@ -3,6 +3,7 @@ package com.tarrakki
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
@@ -14,6 +15,7 @@ import android.os.Handler
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
+import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -768,91 +770,102 @@ fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableLi
     mDialog.show()
 }
 
-fun Context.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: MutableList<FolioData>,
-                                           onRedeem: ((portfolioNo: String,
-                                                       totalUnits: String,
-                                                       allRedeem: String,
-                                                       units: String) -> Unit)? = null) {
-    val mBinder = DialogRedeemTarrakkiZyaadaBinding.inflate(LayoutInflater.from(this))
-    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
-    mBinder.edtTotalInvestedAmount.applyCurrencyDecimalFormatPositiveOnly()
-    mBinder.edtAmount.applyCurrencyDecimalFormatPositiveOnly()
+fun Fragment.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: MutableList<FolioData>,
+                                            onRedeem: ((portfolioNo: String,
+                                                        totalUnits: String,
+                                                        allRedeem: String,
+                                                        units: String) -> Unit)? = null) {
+    context?.let { mContext ->
 
-    val folioList = portfolioList.map { it.folioNo } as ArrayList
+        val mBinder = DialogRedeemTarrakkiZyaadaBinding.inflate(LayoutInflater.from(mContext))
+        val mDialog = AlertDialog.Builder(mContext).setView(mBinder.root).create()
+        mBinder.edtTotalInvestedAmount.applyCurrencyDecimalFormatPositiveOnly()
+        mBinder.edtAmount.applyCurrencyDecimalFormatPositiveOnly()
 
-    if (folioList.isNotEmpty()) {
-        mBinder.folio = folioList[0]
-        val folio = portfolioList.find { it.folioNo == folioList[0] }
-        mBinder.investmentAmount = "${folio?.cValue?.toDouble() ?: 0.0}"
-        mBinder.isSingleFolio = folioList.size == 1
-        val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 500.00
-        mBinder.isInstantRedeem = hasMoreThenFiveHounred
-        mBinder.switchOnOff.isEnabled = hasMoreThenFiveHounred
-    } else {
-        mBinder.isSingleFolio = true
-    }
-    mBinder.executePendingBindings()
-    mBinder.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
-        mBinder.isInstantRedeem = isChecked
-        mBinder.executePendingBindings()
-    }
-
-    mBinder.edtAmount.setOnClickListener {
-        if (mBinder.chkAmount.isChecked) {
-            this.simpleAlert("Please uncheck the all withdraw option first.")
+        val folioData = Observer<ApiResponse> {
+            it?.let {
+                /*TODO*/
+            }
         }
-    }
-
-    mBinder.chkAmount.setOnCheckedChangeListener { buttonView, isChecked ->
-        mBinder.edtAmount.isFocusable = !isChecked
-        mBinder.edtAmount.isFocusableInTouchMode = !isChecked
-        if (isChecked) {
-            mBinder.edtAmount.setText(mBinder.investmentAmount)
+        val folioList = portfolioList.map { it.folioNo } as ArrayList
+        if (folioList.isNotEmpty()) {
+            mBinder.folio = folioList[0]
+            val folio = portfolioList.find { it.folioNo == folioList[0] }
+            mBinder.investmentAmount = "${folio?.cValue?.toDouble() ?: 0.0}"
+            mBinder.isSingleFolio = folioList.size == 1
+            val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 500.00
+            mBinder.isInstantRedeem = hasMoreThenFiveHounred
+            mBinder.switchOnOff.isEnabled = hasMoreThenFiveHounred
+            getFolioDetails("${folio?.folioNo}").observe(this, folioData)
         } else {
-            mBinder.edtAmount.setText("")
+            mBinder.isSingleFolio = true
         }
-    }
+        mBinder.executePendingBindings()
+        mBinder.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
+            mBinder.isInstantRedeem = isChecked
+            mBinder.executePendingBindings()
+        }
 
-    mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", folioList) { item ->
-            mBinder.folio = item
-            val selectedAmount = portfolioList.find { it.folioNo == item }
-            if (selectedAmount != null) {
-                mBinder.investmentAmount = "${selectedAmount.cValue.toDouble()}"
-                mBinder.chkAmount.isChecked = false
+        mBinder.edtAmount.setOnClickListener {
+            if (mBinder.chkAmount.isChecked) {
+                mContext.simpleAlert("Please uncheck the all withdraw option first.")
             }
         }
-    }
 
-    mBinder.btnInvest.setOnClickListener {
-        it.dismissKeyboard()
-        val units = mBinder.edtAmount.text.toString()
-        val folioNo = mBinder.edtChooseFolio.text.toString()
-
-        if (this.isAmountValid(units.toCurrencyBigDecimal())) {
-            if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
-                mDialog.dismiss()
-                val isRedeem = if (mBinder.chkAmount.isChecked) {
-                    "Y"
-                } else {
-                    "N"
-                }
-                onRedeem?.invoke(folioNo, (Math.round((units.toCurrencyBigDecimal() * todayNAV.toBigDecimal()).toDouble())).toString(), isRedeem, units)
+        mBinder.chkAmount.setOnCheckedChangeListener { buttonView, isChecked ->
+            mBinder.edtAmount.isFocusable = !isChecked
+            mBinder.edtAmount.isFocusableInTouchMode = !isChecked
+            if (isChecked) {
+                mBinder.edtAmount.setText(mBinder.investmentAmount)
             } else {
-                this.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
+                mBinder.edtAmount.setText("")
             }
         }
 
-    }
+        mBinder.edtChooseFolio.setOnClickListener {
+            mContext.showListDialog("Select Folio", folioList) { item ->
+                mBinder.folio = item
+                if (mBinder.switchOnOff.isChecked) {
+                    getFolioDetails("${item}").observe(this, folioData)
+                }
+                val selectedAmount = portfolioList.find { it.folioNo == item }
+                if (selectedAmount != null) {
+                    mBinder.investmentAmount = "${selectedAmount.cValue.toDouble()}"
+                    mBinder.chkAmount.isChecked = false
+                }
+            }
+        }
 
-    mBinder.tvClose.setOnClickListener {
-        mDialog.dismiss()
-        it.dismissKeyboard()
-    }
+        mBinder.btnInvest.setOnClickListener {
+            it.dismissKeyboard()
+            val units = mBinder.edtAmount.text.toString()
+            val folioNo = mBinder.edtChooseFolio.text.toString()
 
-    val v: View? = mDialog?.window?.decorView
-    v?.setBackgroundResource(android.R.color.transparent)
-    mDialog.show()
+            if (mContext.isAmountValid(units.toCurrencyBigDecimal())) {
+                if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
+                    mDialog.dismiss()
+                    val isRedeem = if (mBinder.chkAmount.isChecked) {
+                        "Y"
+                    } else {
+                        "N"
+                    }
+                    onRedeem?.invoke(folioNo, (Math.round((units.toCurrencyBigDecimal() * todayNAV.toBigDecimal()).toDouble())).toString(), isRedeem, units)
+                } else {
+                    mContext.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
+                }
+            }
+
+        }
+
+        mBinder.tvClose.setOnClickListener {
+            mDialog.dismiss()
+            it.dismissKeyboard()
+        }
+
+        val v: View? = mDialog?.window?.decorView
+        v?.setBackgroundResource(android.R.color.transparent)
+        mDialog.show()
+    }
 }
 
 fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,

@@ -485,6 +485,36 @@ fun getDefaultBank(): MutableLiveData<DefaultBankResponse> {
     return apiResponse
 }
 
+fun getFolioDetails(folioNo: String): MutableLiveData<ApiResponse> {
+
+    val response = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val json = JsonObject()
+    json.addProperty("folio_number", folioNo)
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    data.printRequest()
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+            .getSchemeDetails(App.INSTANCE.getUserId(), data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    o.printResponse()
+                    if (o.status?.code == 1) {
+                        response.postValue(o)
+                    } else {
+                        EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                    }
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                }
+            })
+    return response
+}
+
 fun redeemPortfolio(data: String)
         : MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()

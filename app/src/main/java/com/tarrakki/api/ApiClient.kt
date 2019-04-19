@@ -59,7 +59,7 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    /*private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
+   /* private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
     const val IMAGE_BASE_URL = "http://172.10.29.38:8000"*/
 
 

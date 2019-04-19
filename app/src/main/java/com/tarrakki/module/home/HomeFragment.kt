@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.tarrakki.*
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.ekyc.KYCData
@@ -203,7 +204,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             /*val folios: MutableList<FolioData> = mutableListOf()
             folios.add(FolioData(1500.0, "1,500", "123456"))
             folios.add(FolioData(15000.0, "15,000", "1234567"))
-            context?.redeemFundTarrakkiZyaadaDialog(10.0, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
+            redeemFundTarrakkiZyaadaDialog(10.0, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
 
             }*/
         }

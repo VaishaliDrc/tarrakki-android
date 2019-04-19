@@ -9,6 +9,7 @@ import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.printRequest
+import com.tarrakki.api.model.printResponse
 import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
@@ -42,6 +43,30 @@ class DebitCartInfoVM : FragmentViewModel() {
                 object : SingleCallback1<ApiResponse> {
                     override fun onSingleSuccess(o: ApiResponse) {
                         if (o.status?.code == 1) {
+                            response.postValue(o)
+                        } else {
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                        }
+                        dismissProgress()
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        dismissProgress()
+                        throwable.postError()
+                    }
+                })
+        return response
+    }
+
+    fun getFolioList(): MutableLiveData<ApiResponse> {
+        val response = MutableLiveData<ApiResponse>()
+        showProgress()
+        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                .getFolioList(App.INSTANCE.getUserId()),
+                object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        if (o.status?.code == 1) {
+                            o.printResponse()
                             response.postValue(o)
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))

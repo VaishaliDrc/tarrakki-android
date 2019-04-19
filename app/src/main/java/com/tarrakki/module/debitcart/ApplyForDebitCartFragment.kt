@@ -40,6 +40,12 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 
     override fun createReference() {
 
+        getViewModel().getFolioList().observe(this, android.arch.lifecycle.Observer {
+            it?.let {
+
+            }
+        })
+
         edtChooseFolio?.setOnClickListener {
             context?.showListDialog("Select Folio", arrayListOf(
                     "15236 - Reliance Liquid Fund", "15237 - Reliance Liquid Fund")) { item ->

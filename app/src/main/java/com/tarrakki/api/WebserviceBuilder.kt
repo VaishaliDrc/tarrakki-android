@@ -250,6 +250,12 @@ interface WebserviceBuilder {
     @POST("tarrakki/zyaada/apply-debit-card/{user_id}")
     fun applyForDebitCart(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @GET("tarrakki/zyaada/get-scheme-details/{user_id}")
+    fun getSchemeDetails(@Path("user_id") userId: String?, @Query("data") data: String): Observable<ApiResponse>
+
+    @GET("tarrakki/zyaada/get-folio-list/{user_id}")
+    fun getFolioList(@Path("user_id") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
