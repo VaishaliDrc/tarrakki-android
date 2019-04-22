@@ -1,11 +1,14 @@
 package com.tarrakki.module.home
 
 
+import android.app.KeyguardManager
 import android.arch.lifecycle.Observer
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import com.tarrakki.*
-import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.ekyc.KYCData
@@ -53,6 +56,31 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     override fun onResume() {
         super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+        if (context?.isAskForSecureLock() == false && !getViewModel().isShowingSecurityDialog) {
+            getViewModel().isShowingSecurityDialog = true
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            if (km.isKeyguardSecure && getViewModel().isAskedForSecurityLock) {
+                App.INSTANCE.setAppIsLock(true)
+                App.INSTANCE.setAskForSecureLock(true)
+                return
+            }
+            context?.confirmationDialog("Do you want enable security lock?",
+                    btnPositiveClick = {
+                        getViewModel().isShowingSecurityDialog = false
+                        getViewModel().isAskedForSecurityLock = true
+                        if (!km.isKeyguardSecure) {
+                            val intent = Intent(Settings.ACTION_SECURITY_SETTINGS)
+                            startActivity(intent)
+                        } else {
+                            App.INSTANCE.setAppIsLock(true)
+                            App.INSTANCE.setAskForSecureLock(true)
+                        }
+                    },
+                    btnNegativeClick = {
+                        App.INSTANCE.setAskForSecureLock(true)
+                    }
+            )
+        }
     }
 
     @Subscribe(sticky = true)

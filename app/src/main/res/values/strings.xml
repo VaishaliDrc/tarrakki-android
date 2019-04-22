@@ -944,5 +944,8 @@
     <string name="amount_to_redeem">Amount To Redeem</string>
     <string name="withdraw_full_amount">Withdraw Full Amount</string>
     <string name="instruction">Instruction</string>
+    <string name="queries">Queries</string>
+    <string name="view_tickets">View Tickets</string>
+    <string name="select_your_query">Select your query</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

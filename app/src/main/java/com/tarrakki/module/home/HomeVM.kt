@@ -5,19 +5,19 @@ import android.databinding.ObservableField
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class HomeVM : FragmentViewModel() {
 
@@ -25,6 +25,8 @@ class HomeVM : FragmentViewModel() {
     var homeSections = ArrayList<WidgetsViewModel>()
     var portfolioVisibility = ObservableField(View.VISIBLE)
     var portfolioDetails = ObservableField<HomeData.Data.PortfolioDetails>()
+    var isAskedForSecurityLock = false
+    var isShowingSecurityDialog = false
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()

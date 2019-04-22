@@ -20,6 +20,7 @@ import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
+import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -100,6 +101,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_debit_cart -> {
                         startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
+                    }
+                    R.drawable.ic_support -> {
+                        startFragment(SupportFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             }

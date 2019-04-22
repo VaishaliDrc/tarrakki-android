@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.support.fragments.SubQueriesFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/default_space"
+                android:text="AutoPay"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dark" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvSubQueries"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                app:dividerV="@{null}"
+                app:enableNestedScrollView="@{false}"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:context=".module.support.fragments.QueriesFragment" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</layout>
