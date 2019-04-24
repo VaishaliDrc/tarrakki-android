@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/default_space"
+        android:paddingTop="@dimen/default_space"
+        android:paddingEnd="@dimen/default_space"
+        tools:context=".module.support.fragments.ViewTicketsFragment">
+
+        <RadioGroup
+            android:id="@+id/rgTicketType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/view_ticket_bg"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RadioButton
+                android:id="@+id/rbAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/view_ticket_bg_selector"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/all"
+                android:textColor="@color/view_tickets_selector" />
+
+            <RadioButton
+                android:id="@+id/rbOpen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/view_ticket_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/open"
+                android:textColor="@color/view_tickets_selector" />
+
+            <RadioButton
+                android:id="@+id/rbClosed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/view_ticket_bg_selector"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/closed"
+                android:textColor="@color/view_tickets_selector" />
+
+        </RadioGroup>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvTickets"
+            dividerV="@{@drawable/shape_transferant_divider_16dp}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:layout_marginTop="@dimen/default_space"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+</layout>

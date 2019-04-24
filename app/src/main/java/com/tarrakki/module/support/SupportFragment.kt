@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentSupportBinding
 import com.tarrakki.module.support.fragments.QueriesFragment
+import com.tarrakki.module.support.fragments.ViewTicketsFragment
 import kotlinx.android.synthetic.main.fragment_support.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -40,7 +41,7 @@ class SupportFragment : CoreFragment<SupportVM, FragmentSupportBinding>() {
     override fun createReference() {
         val pages = arrayListOf(
                 Page(getString(R.string.queries), QueriesFragment.newInstance()),
-                Page(getString(R.string.view_tickets), QueriesFragment.newInstance())
+                Page(getString(R.string.view_tickets), ViewTicketsFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.offscreenPageLimit = 2

@@ -870,7 +870,7 @@
         \n\n\u2022 Lowest interest risk compared to other classes of debt funds
         \n\u2022 Invests in fixed income securities with short maturity periods
         \n\u2022 No Lock-in, No Entry and Exit Load
-        \n\u2022 Minimum Investment of 2500 ONLY!
+        \n\u2022 Minimum Investment of 100 ONLY!
     </string>
     <string name="tarrakki_zyaada">Tarrakki Zyaada</string>
     <string name="invest_and_save_now">Invest and save now</string>
@@ -933,6 +933,7 @@
     <string name="instant_withdrawal">Instant Withdrawal</string>
     <string name="minimum_investment">Minimum Investment</string>
     <string name="five_handred_500">\u20B9500</string>
+    <string name="one_handred_100">\u20B9100</string>
     <string name="ten_thousand_10_000">~\u20B910,000</string>
     <string name="one_thousand_to_ten_thousand_1_000_to_10_000">~\u20B91,000\nto \u20B910,000</string>
     <string name="withdraw_all_units">Withdraw All Units</string>
@@ -947,5 +948,22 @@
     <string name="queries">Queries</string>
     <string name="view_tickets">View Tickets</string>
     <string name="select_your_query">Select your query</string>
+    <string name="still_not_sure">Still Not Sure?</string>
+    <string name="get_in_touch">Get In Touch</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="query_ref_no_">Query Ref No :</string>
+    <string name="raise_a_ticket">Raise a Ticket</string>
+    <string name="choose_transaction">Choose Transaction</string>
+    <string name="select_transaction">Select Transaction</string>
+    <string name="issue_description_">Issue Description*</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="upload_a_picture_optional">Upload a Picture (Optional)</string>
+    <string name="hint_mydoc_jpg">mydoc.jpg</string>
+    <string name="raise_ticket">Raise Ticket</string>
+    <string name="savings_naccount">Savings\nAccount</string>
+    <string name="fixed_ndeposit">Fixed\nDeposit</string>
+    <string name="write_your_reply_here">Write your reply here..</string>
+    <string name="ticket_conversation">Ticket Conversation</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

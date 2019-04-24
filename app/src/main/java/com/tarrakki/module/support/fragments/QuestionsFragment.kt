@@ -9,9 +9,11 @@ import com.tarrakki.databinding.RowQuestionsListItemBinding
 import com.tarrakki.databinding.RowSubqueryListItemBinding
 import com.tarrakki.module.support.QuestionsVM
 import com.tarrakki.module.support.SubQueriesVM
+import com.tarrakki.module.support.raiseticket.RaiseTicketFragment
 import kotlinx.android.synthetic.main.fragment_sub_queries.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -42,6 +44,13 @@ class QuestionsFragment : CoreFragment<QuestionsVM, FragmentSubQueriesBinding>()
         rvSubQueries?.setUpRecyclerView(R.layout.row_questions_list_item, getViewModel().questions) { item: String, binder: RowQuestionsListItemBinding, position: Int ->
             binder.item = item
             binder.executePendingBindings()
+            binder.root.setOnClickListener {
+                if (position == getViewModel().questions.size - 1) {
+                    startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
+                    return@setOnClickListener
+                }
+                startFragment(QuestionDetailsFragment.newInstance(), R.id.frmContainer)
+            }
         }
     }
 

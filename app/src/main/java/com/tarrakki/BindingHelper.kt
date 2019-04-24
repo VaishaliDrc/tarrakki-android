@@ -793,7 +793,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: Mut
             val folio = portfolioList.find { it.folioNo == folioList[0] }
             mBinder.investmentAmount = "${folio?.cValue?.toDouble() ?: 0.0}"
             mBinder.isSingleFolio = folioList.size == 1
-            val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 500.00
+            val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 100.00
             mBinder.isInstantRedeem = hasMoreThenFiveHounred
             mBinder.switchOnOff.isEnabled = hasMoreThenFiveHounred
             getFolioDetails("${folio?.folioNo}").observe(this, folioData)

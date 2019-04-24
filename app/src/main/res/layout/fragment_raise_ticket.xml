@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.support.raiseticket.RaiseTicketVM" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.support.raiseticket.RaiseTicketFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:padding="@dimen/default_space"
+                android:text="@string/raise_a_ticket"
+                android:textColor="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/choose_transaction"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvChooseTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+                    android:gravity="center_vertical"
+                    android:hint="@string/select_transaction"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:singleLine="true"
+                    android:text="@{vm.transaction}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/issue_description_"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_multiline"
+                    android:gravity="start|top"
+                    android:hint="@string/enter_description"
+                    android:inputType="textMultiLine"
+                    android:minLines="8"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:text="@={vm.description}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/upload_a_picture_optional"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvUploadPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:gravity="center_vertical"
+                    android:hint="@string/hint_mydoc_jpg"
+                    android:maxLines="1"
+                    android:padding="@dimen/_8sdp"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:singleLine="true"
+                    android:text="@{vm.imgName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <ImageView
+                    android:id="@+id/ivUploadPic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:adjustViewBounds="true"
+                    tools:src="@drawable/temp_fpi" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/submit"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
