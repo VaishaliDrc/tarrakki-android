@@ -50,6 +50,7 @@
             android:background="@drawable/selector_view_tickite_status_bg"
             android:button="@null"
             android:elevation="2dp"
+            android:enabled="false"
             android:checked="@{ticket.open}"
             android:fontFamily="@font/lato_semibold"
             android:gravity="center"

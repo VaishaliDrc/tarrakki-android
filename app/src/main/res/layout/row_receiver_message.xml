@@ -10,33 +10,53 @@
             type="com.tarrakki.module.support.chat.ChatMessage" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/default_space">
+        android:paddingStart="@dimen/default_space"
+        android:paddingTop="@dimen/default_space"
+        android:paddingEnd="@dimen/_56sdp"
+        android:paddingBottom="@dimen/default_space">
 
         <TextView
             android:id="@+id/tvDateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/ivTriangle"
             android:text="@{msg.dateTime}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="25-03-2019 04:54PM" />
+
+        <ImageView
+            android:id="@+id/ivTriangle"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_below="@id/tvDateTime"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:adjustViewBounds="true"
+            android:elevation="2dp"
+            android:rotation="180"
+            android:src="@drawable/ic_triangle_right"
+            android:tint="@color/white" />
 
         <TextView
             android:id="@+id/tvMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_4sdp"
+            android:layout_below="@id/tvDateTime"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:layout_toEndOf="@id/ivTriangle"
             android:background="@drawable/shape_cart_view"
             android:elevation="2dp"
             android:padding="@dimen/_8sdp"
             android:text="@{msg.message}"
             android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDateTime"
-            tools:text="Dear Customer, You can setup your AutoPay under the User Profile section. Select AutoPay under Payments section and follow This process" />
+            android:textIsSelectable="true"
+            app:copyToClipBoard="@{true}"
+            tools:text="Dear Customer, " />
 
-    </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
 </layout>

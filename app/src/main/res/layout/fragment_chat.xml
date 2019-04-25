@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toTopOf="@+id/mDivider1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mDivider"
-            app:reverseLayout="true"
+            app:reverseLayout="false"
             app:stackFromEnd="true" />
 
         <View
@@ -58,28 +58,44 @@
             app:layout_constraintBottom_toTopOf="@+id/edtMessage"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider1" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivSend"
+            app:layout_constraintStart_toEndOf="@id/ivGallery"
+            app:layout_constraintTop_toBottomOf="@id/mDivider1" />
+
         <EditText
             android:id="@+id/edtMessage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:background="@color/white"
             android:hint="@string/write_your_reply_here"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
             android:padding="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
+            app:layout_constraintEnd_toStartOf="@+id/ivGallery"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/ivGallery"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginEnd="1dp"
             android:padding="@dimen/_8sdp"
             android:src="@drawable/ic_camera_alt"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
-            app:layout_constraintEnd_toStartOf="@id/ivSend"
-            app:layout_constraintTop_toTopOf="@id/edtMessage" />
+            app:layout_constraintEnd_toStartOf="@id/ivSend" />
 
         <ImageView
             android:id="@+id/ivSend"
@@ -89,8 +105,7 @@
             android:src="@drawable/ic_send_black_24dp"
             android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/edtMessage" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

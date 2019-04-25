@@ -1,5 +1,6 @@
 package com.tarrakki.module.support.chat
 
+import android.net.Uri
 import com.tarrakki.R
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -7,6 +8,9 @@ import org.supportcompact.adapters.WidgetsViewModel
 class ChatVM : FragmentViewModel() {
 
     val chats = arrayListOf<ChatMessage>()
+    val IMAGE_RQ_CODE = 101
+    val ICAMERA_RQ_CODE = 181
+    val cvPhotoName = "profilePick"
 
     init {
         chats.add(ChatMessage(
@@ -25,8 +29,12 @@ class ChatVM : FragmentViewModel() {
 
 }
 
-data class ChatMessage(val message: String, val dateTime: String, var isSender: Boolean = true) : WidgetsViewModel {
+data class ChatMessage(
+        val message: String,
+        val dateTime: String,
+        var isSender: Boolean = true,
+        var imgUri: Uri? = null) : WidgetsViewModel {
     override fun layoutId(): Int {
-        return if (isSender) R.layout.row_sender_message else R.layout.row_receiver_message
+        return if (isSender) if (imgUri == null) R.layout.row_sender_message else R.layout.row_sender_image else R.layout.row_receiver_message
     }
 }

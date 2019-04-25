@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.arch.lifecycle.Observer
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
@@ -144,6 +145,13 @@ fun setIndicator(img: ImageView, url: String?) {
     }
 }
 
+@BindingAdapter("imgUrl")
+fun setIndicator(img: ImageView, url: Uri?) {
+    url?.let {
+        Glide.with(img).load(it).into(img)
+    }
+}
+
 @BindingAdapter("expanded")
 fun setIndicator(view: ExpandableLayout, value: Boolean) {
     if (value) {
@@ -157,6 +165,18 @@ fun setIndicator(view: ExpandableLayout, value: Boolean) {
 fun setVisibility(view: View, visibility: Boolean) {
     Log.e("E", "Notify2=$visibility")
     view.visibility = if (visibility) View.VISIBLE else View.GONE
+}
+
+@BindingAdapter(value = ["copyToClipBoard"], requireAll = false)
+fun applyCurrencyFormat(txt: TextView, enable: Boolean?) {
+    if (enable == true)
+        txt.setOnLongClickListener {
+            val clipboard = txt.context?.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager?
+            val clip = ClipData.newPlainText("Message copied", txt.text)
+            clipboard?.primaryClip = clip
+            txt.context?.toast("Message copied")
+            return@setOnLongClickListener true
+        }
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
