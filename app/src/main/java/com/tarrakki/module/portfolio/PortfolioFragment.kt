@@ -9,6 +9,7 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPortfolioBinding
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.module.portfolio.fragments.GoalBasedInvestmentFragment
+import com.tarrakki.module.portfolio.fragments.TarrakkiZyaadaPortfolioFragment
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -52,8 +53,9 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
         getViewModel().getUserPortfolio()
 
         val pages = arrayListOf(
-                Page("Goal Based Investment", GoalBasedInvestmentFragment.newInstance()),
-                Page("Direct Investment", DirectInvestmentFragment.newInstance())
+                Page(getString(R.string.goal_base_investment), GoalBasedInvestmentFragment.newInstance()),
+                Page(getString(R.string.direct_investment), DirectInvestmentFragment.newInstance()),
+                Page(getString(R.string.tarrakki_zyaada_investment), TarrakkiZyaadaPortfolioFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)

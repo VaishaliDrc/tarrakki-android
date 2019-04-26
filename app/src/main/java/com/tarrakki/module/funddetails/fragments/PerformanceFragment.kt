@@ -311,7 +311,7 @@ class PerformanceFragment : Fragment() {
                 if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
                     context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
                         addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                android.arch.lifecycle.Observer { response ->
+                                Observer { response ->
                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                     }

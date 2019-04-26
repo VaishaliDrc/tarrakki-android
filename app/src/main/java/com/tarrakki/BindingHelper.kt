@@ -681,7 +681,7 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mBinder.rbCurrent.isChecked = true
 
     mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", folioList) { item ->
+        this.showCustomListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
         }
     }
@@ -725,8 +725,7 @@ fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableLi
     if (folioList.isNotEmpty()) {
         mBinder.folio = folioList[0]
         val folio = portfolioList.find { it.folioNo == folioList[0] }
-        mBinder.investmentAmount = ((folio?.cValue?.toDouble()
-                ?: 0.0) / todayNAV).roundOff().toString()
+        mBinder.investmentAmount = folio?.units
         mBinder.isSingleFolio = folioList.size == 1
     } else {
         mBinder.isSingleFolio = true
@@ -749,11 +748,11 @@ fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableLi
     }
 
     mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", folioList) { item ->
+        this.showCustomListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
             val selectedAmount = portfolioList.find { it.folioNo == item }
             if (selectedAmount != null) {
-                mBinder.investmentAmount = (selectedAmount.cValue.toDouble() / todayNAV).roundOff().toString()
+                mBinder.investmentAmount = selectedAmount.units/*(selectedAmount.cValue.toDouble() / todayNAV).roundOff().toString()*/
                 mBinder.chkAmount.isChecked = false
             }
         }
@@ -843,7 +842,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(todayNAV: Double, portfolioList: Mut
         }
 
         mBinder.edtChooseFolio.setOnClickListener {
-            mContext.showListDialog("Select Folio", folioList) { item ->
+            mContext.showCustomListDialog("Select Folio", folioList) { item ->
                 mBinder.folio = item
                 if (mBinder.switchOnOff.isChecked) {
                     getFolioDetails("${item}").observe(this, folioData)
@@ -924,7 +923,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     }
 
     mBinder.edtChooseFolio.setOnClickListener {
-        this.showListDialog("Select Folio", folioList) { item ->
+        this.showCustomListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
             val selectedFolio = portfolioList.find { it.folioNo == item }
             if (selectedFolio != null) {

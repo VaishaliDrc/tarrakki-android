@@ -85,13 +85,14 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                             /**Body View**/
                             for (folioList in item.folioList) {
-                                totalInvesment += folioList.amount.toDoubleOrNull() ?: 0.0
+                                totalInvesment += folioList.amount?.toDoubleOrNull() ?: 0.0
                                 totalCurrent += folioList.currentValue
                                 totalUnites += (folioList.currentValue / item.nav).decimalFormat().toCurrencyBigDecimal().toDouble()
                                 totalReturns += folioList.xirr.toDoubleOrNull() ?: 0.0
                                 val tableRow = context?.tableRow()
                                 tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-                                tableRow?.addView(context?.tableRowContent(folioList.amount.toDouble().toCurrency()))
+                                tableRow?.addView(context?.tableRowContent((folioList.amount?.toDoubleOrNull()
+                                        ?: 0.0).toDouble().toCurrency()))
                                 tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
                                 tableRow?.addView(context?.tableRowContent((folioList.currentValue / item.nav).decimalFormat()))
                                 tableRow?.addView(context?.tableRowContent(folioList.xiRR))
@@ -107,19 +108,19 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             tableRow?.addView(context?.tableRowContent(totalReturns.toReturnAsPercentage(), context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
-                           // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
+                            // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
                         }
 
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue, folio.units, folio.folioNo))
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                                     item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
                                 addToCartPortfolio(item.fundId, amountSIP.toString(),
                                         amountLumpsum.toString(), portfolio).observe(this,
-                                        android.arch.lifecycle.Observer { response ->
+                                        Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                             }
@@ -130,38 +131,60 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvRedeem.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo))
+                                folios.add(FolioData(folio.currentValue, folio.units, folio.folioNo))
                             }
-                            context?.redeemFundPortfolioDialog(item.nav, folios) { portfolioNo, totalAmount, allRedeem, amount ->
-                                val json = JsonObject()
-                                json.addProperty("user_id", App.INSTANCE.getUserId())
-                                json.addProperty("fund_id", item.fundId)
-                                json.addProperty("all_redeem", allRedeem)
-                                json.addProperty("amount", totalAmount)
-                                json.addProperty("folio_number", portfolioNo)
-                                item.redeemRequest = json
-                                item.redeemUnits = amount
-                                getDefaultBank().observe(this, Observer {
-                                    it?.let { bank ->
-                                        json.printRequest()
-                                        item.bank = bank.data
-                                        startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                        postSticky(item)
-                                    }
-                                })
-                                /*val json = JsonObject()
-                                json.addProperty("user_id", App.INSTANCE.getUserId())
-                                json.addProperty("fund_id", item.fundId)
-                                json.addProperty("all_redeem", allRedeem)
-                                json.addProperty("amount", totalAmount)
-                                json.addProperty("folio_number", portfolioNo)
-                                val data = json.toString().toEncrypt()
-                                redeemPortfolio(data).observe(this, Observer {
-                                    context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
-                                        vm.getUserPortfolio()
-                                    }
-                                })*/
+                            if (item.instaRedeem == true) {
+                                redeemFundTarrakkiZyaadaDialog(item.nav, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
+                                    val json = JsonObject()
+                                    json.addProperty("user_id", App.INSTANCE.getUserId())
+                                    json.addProperty("fund_id", item.fundId)
+                                    json.addProperty("all_redeem", allRedeem)
+                                    json.addProperty("amount", units)
+                                    json.addProperty("folio_number", portfolioNo)
+                                    item.redeemRequest = json
+                                    item.redeemUnits = units
+                                    getDefaultBank().observe(this, Observer {
+                                        it?.let { bank ->
+                                            json.printRequest()
+                                            item.bank = bank.data
+                                            startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                            postSticky(item)
+                                        }
+                                    })
+                                }
+                            } else {
+                                context?.redeemFundPortfolioDialog(item.nav, folios) { portfolioNo, totalAmount, allRedeem, amount ->
+                                    val json = JsonObject()
+                                    json.addProperty("user_id", App.INSTANCE.getUserId())
+                                    json.addProperty("fund_id", item.fundId)
+                                    json.addProperty("all_redeem", allRedeem)
+                                    json.addProperty("amount", totalAmount)
+                                    json.addProperty("folio_number", portfolioNo)
+                                    item.redeemRequest = json
+                                    item.redeemUnits = amount
+                                    getDefaultBank().observe(this, Observer {
+                                        it?.let { bank ->
+                                            json.printRequest()
+                                            item.bank = bank.data
+                                            startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                            postSticky(item)
+                                        }
+                                    })
+                                    /*val json = JsonObject()
+                                    json.addProperty("user_id", App.INSTANCE.getUserId())
+                                    json.addProperty("fund_id", item.fundId)
+                                    json.addProperty("all_redeem", allRedeem)
+                                    json.addProperty("amount", totalAmount)
+                                    json.addProperty("folio_number", portfolioNo)
+                                    val data = json.toString().toEncrypt()
+                                    redeemPortfolio(data).observe(this, Observer {
+                                        context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
+                                            vm.getUserPortfolio()
+                                        }
+                                    })*/
+                                }
                             }
+
                         }
 
                         binder.tvStopPortfolio.setOnClickListener {
@@ -176,7 +199,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                             context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                                 stopPortfolio(transactionId).observe(this, Observer {
-                                    context?.simpleAlert(alertStopPortfolio(folio,date)) {
+                                    context?.simpleAlert(alertStopPortfolio(folio, date)) {
                                         vm.getUserPortfolio()
                                     }
                                 })

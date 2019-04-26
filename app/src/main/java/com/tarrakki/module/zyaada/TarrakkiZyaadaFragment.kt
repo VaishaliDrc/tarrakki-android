@@ -130,7 +130,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
                             context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, Id ->
                                 addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
-                                        android.arch.lifecycle.Observer { response ->
+                                        Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                             }

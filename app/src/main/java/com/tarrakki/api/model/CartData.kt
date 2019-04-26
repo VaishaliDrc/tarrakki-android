@@ -74,15 +74,13 @@ data class CartData(
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
-                        val aipAip = iaipAip.firstOrNull { it ->
+                        val aipAip = iaipAip.filter { it ->
                             "SIP".equals(it.siType, true)
                                     && "Monthly".equals(it.frequency, true)
                         }
-                        if (aipAip != null) {
-                            val maxTenure = iaipAip.maxBy { it.minTenure }
-                            if (maxTenure != null) {
-                                sipAmount = maxTenure.minAmount?.toBigInteger() ?: BigInteger.ZERO
-                            }
+                        val maxTenure = aipAip.maxBy { it.minTenure }
+                        if (maxTenure != null) {
+                            sipAmount = maxTenure.minAmount?.toBigInteger() ?: BigInteger.ZERO
                         }
                     }
                     return sipAmount
@@ -116,7 +114,11 @@ data class CartData(
                 get() {
                     val dateList = arrayListOf<String>()
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
-                        val aipData12M = iaipAip.firstOrNull {
+                        val aipAipTemp = iaipAip.filter {
+                            "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                        }
+                        val maxTenure = aipAipTemp.maxBy { it.minTenure }
+                        /*val aipData12M = iaipAip.firstOrNull {
                             "SIP".equals(it.siType, true)
                                     && "Monthly".equals(it.frequency, true)
                                     && it.minTenure == 12
@@ -125,23 +127,9 @@ data class CartData(
                             "SIP".equals(it.siType, true)
                                     && "Monthly".equals(it.frequency, true)
                                     && it.minTenure == 6
-                        }
-                        if (aipData12M != null) {
-                            val dates = aipData12M.frequencyDate.split("|")
-                            val isDay = dates.find { it.contains("day", false) }
-                            if (isDay != null) {
-                                dateList.addAll(getDummyDates())
-                            } else {
-                                try {
-                                    for (date in dates) {
-                                        dateList.add(getOrdinalFormat(date.toInt()))
-                                    }
-                                } catch (e: Exception) {
-
-                                }
-                            }
-                        } else if (aipData6M != null) {
-                            val dates = aipData6M.frequencyDate.split("|")
+                        }*/
+                        if (maxTenure != null) {
+                            val dates = maxTenure.frequencyDate.split("|")
                             val isDay = dates.find { it.contains("day", false) }
                             if (isDay != null) {
                                 dateList.addAll(getDummyDates())

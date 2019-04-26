@@ -52,15 +52,12 @@ data class TarrakkiZyaadaResponse(
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
-                        val aipAip = iaipAip.firstOrNull { it ->
-                            "SIP".equals(it.siType, true)
-                                    && "Monthly".equals(it.frequency, true)
+                        val aipAip = iaipAip.filter {
+                            "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                         }
-                        if (aipAip != null) {
-                            val maxTenure = iaipAip.maxBy { it.minTenure }
-                            if (maxTenure != null) {
-                                sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
-                            }
+                        val maxTenure = aipAip.maxBy { it.minTenure }
+                        if (maxTenure != null) {
+                            sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
                         }
                     }
                     return sipAmount
