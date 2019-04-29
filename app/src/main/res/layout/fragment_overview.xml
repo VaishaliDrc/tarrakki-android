@@ -134,6 +134,7 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:layout_marginBottom="@dimen/space_8"
                     android:max="100"
+                    android:progressTint="@{fund.riskProgressColor}"
                     android:progress="@{fund.riskProgress}"
                     android:progressDrawable="@drawable/progress_horisental"
                     app:layout_constraintBottom_toBottomOf="parent"

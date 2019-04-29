@@ -2,16 +2,12 @@ package com.tarrakki.module.exploreallinvestfunds
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
-import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentExploreAllInvestFundsBinding
-import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.HomeSection
@@ -19,14 +15,13 @@ import com.tarrakki.module.invest.InvestFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
+import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.Event
-import org.supportcompact.ktx.cartCount
-import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -52,8 +47,6 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
     val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
-            btnIdle?.visibility = View.VISIBLE
-            btnExploreFunds?.visibility = View.VISIBLE
             mRefresh?.isRefreshing = false
             rvMutualFunds.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                 binder.setVariable(BR.section, item)
@@ -93,8 +86,8 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
         setHasOptionsMenu(true)
 
-        btnIdle?.setOnClickListener {
-            context?.simpleAlert(getString(R.string.coming_soon))
+        ivTarrakkiZyaada?.setOnClickListener {
+            startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
         btnExploreFunds?.setOnClickListener {

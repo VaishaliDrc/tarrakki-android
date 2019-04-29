@@ -3,7 +3,9 @@ package com.tarrakki.module.funddetails.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.res.ColorStateList
 import android.databinding.DataBindingUtil
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +24,16 @@ import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
+import android.graphics.drawable.Drawable
+import android.graphics.PorterDuff
+import android.R.color
+import android.support.v4.content.ContextCompat
+import android.graphics.drawable.LayerDrawable
+
+
+
+
+
 
 class OverviewFragment : Fragment() {
 
@@ -65,6 +77,7 @@ class OverviewFragment : Fragment() {
                     binder?.fund = fundDetails.fundsDetails
                     binder?.executePendingBindings()
                     binder?.root?.visibility = View.VISIBLE
+
                     val keysInfo = arrayListOf<KeyInfo>()
                     keysInfo.add(KeyInfo("AMC Name", fundDetails.fundsDetails?.amcName))
                     keysInfo.add(KeyInfo("Fund Type", fundDetails.fundsDetails?.fscbiLegalStructure))

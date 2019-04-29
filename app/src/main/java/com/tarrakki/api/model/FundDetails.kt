@@ -1,5 +1,6 @@
 package com.tarrakki.api.model
 
+import android.graphics.Color
 import android.text.TextUtils
 import com.google.gson.*
 import com.google.gson.annotations.SerializedName
@@ -246,12 +247,22 @@ data class FundsDetails(
 
     var riskProgress = 20
         get() = when {
-            "Low Risk".equals(fscbiIndianRiskLevel, true) -> 15
-            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 30
-            "Medium Risk".equals(fscbiIndianRiskLevel, true) -> 50
-            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 70
-            "High Risk".equals(fscbiIndianRiskLevel, true) -> 85
+            "Low Risk".equals(fscbiIndianRiskLevel, true) -> 20
+            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 40
+            "Medium Risk".equals(fscbiIndianRiskLevel, true) -> 60
+            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 80
+            "High Risk".equals(fscbiIndianRiskLevel, true) -> 100
             else -> 20
+        }
+
+    val riskProgressColor
+        get() = when {
+            "Low Risk".equals(fscbiIndianRiskLevel, true) -> Color.parseColor("#00CB00")
+            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> Color.parseColor("#5DFE5D")
+            "Medium Risk".equals(fscbiIndianRiskLevel, true) -> Color.parseColor("#FDDD18")
+            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> Color.parseColor("#FE860D")
+            "High Risk".equals(fscbiIndianRiskLevel, true) -> Color.parseColor("#FC0000")
+            else -> Color.parseColor("#00CB00")
         }
 
     var benchmark = ""

@@ -341,33 +341,20 @@
 
                 </LinearLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvHomeItem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    android:layout_marginTop="@dimen/default_space"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llWhyTarrakki"
-                    tools:listitem="@layout/row_section_investment_item" />
-
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/clTarrakkiZyaada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
-                    android:layout_marginBottom="@dimen/default_space"
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rvHomeItem"
-                    app:layout_constraintVertical_bias="1">
+                    app:layout_constraintTop_toBottomOf="@+id/llWhyTarrakki">
 
                     <ImageView
                         android:id="@+id/tvKeyBenefits"
@@ -492,6 +479,18 @@
 
 
                 </android.support.constraint.ConstraintLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvHomeItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clTarrakkiZyaada"
+                    tools:listitem="@layout/row_section_investment_item" />
 
             </android.support.constraint.ConstraintLayout>
 

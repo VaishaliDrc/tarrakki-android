@@ -68,10 +68,6 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.executePendingBindings()
                         if (item.folioList.size > 1) {
                             binder.tlfolio.removeAllViews()
-                            var totalInvesment = 0.0
-                            var totalCurrent = 0.0
-                            var totalUnites = 0.0
-                            var totalReturns = 0.0
 
                             /**Header View**/
                             val tableRowHeader = context?.tableRow()
@@ -85,16 +81,11 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
                             /**Body View**/
                             for (folioList in item.folioList) {
-                                totalInvesment += folioList.amount?.toDoubleOrNull() ?: 0.0
-                                totalCurrent += folioList.currentValue
-                                totalUnites += (folioList.currentValue / item.nav).decimalFormat().toCurrencyBigDecimal().toDouble()
-                                totalReturns += folioList.xirr.toDoubleOrNull() ?: 0.0
                                 val tableRow = context?.tableRow()
                                 tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-                                tableRow?.addView(context?.tableRowContent((folioList.amount?.toDoubleOrNull()
-                                        ?: 0.0).toDouble().toCurrency()))
-                                tableRow?.addView(context?.tableRowContent(folioList.currentValue.toCurrency()))
-                                tableRow?.addView(context?.tableRowContent((folioList.currentValue / item.nav).decimalFormat()))
+                                tableRow?.addView(context?.tableRowContent((folioList.totalInvestment?: 0.0).toDouble().toCurrency()))
+                                tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toCurrency()}"))
+                                tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat()))
                                 tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                                 binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                             }
@@ -102,10 +93,10 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             /**Footer View**/
                             val tableRow = context?.tableRow()
                             tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent(totalInvesment.toCurrency(), context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent(totalCurrent.toCurrency(), context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent(totalUnites.decimalFormat(), context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent(totalReturns.toReturnAsPercentage(), context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toCurrency()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.currentValue?.toCurrency()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(item.xiRR, context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
                             // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
@@ -114,7 +105,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvAddPortfolio.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue, folio.units, folio.folioNo))
+                                folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
                                     item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
@@ -131,7 +122,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                         binder.tvRedeem.setOnClickListener {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folio in item.folioList) {
-                                folios.add(FolioData(folio.currentValue, folio.units, folio.folioNo))
+                                folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
                             if (item.instaRedeem == true) {
                                 redeemFundTarrakkiZyaadaDialog(item.nav, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
@@ -153,15 +144,16 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                     })
                                 }
                             } else {
-                                context?.redeemFundPortfolioDialog(item.nav, folios) { portfolioNo, totalAmount, allRedeem, amount ->
+                                context?.redeemFundPortfolioDialog(folios) { portfolioNo, folioId, allRedeem, units ->
                                     val json = JsonObject()
                                     json.addProperty("user_id", App.INSTANCE.getUserId())
                                     json.addProperty("fund_id", item.fundId)
                                     json.addProperty("all_redeem", allRedeem)
-                                    json.addProperty("amount", totalAmount)
+                                    json.addProperty("qty", units)
                                     json.addProperty("folio_number", portfolioNo)
+                                    json.addProperty("folio_id", folioId)
                                     item.redeemRequest = json
-                                    item.redeemUnits = amount
+                                    item.redeemUnits = units
                                     getDefaultBank().observe(this, Observer {
                                         it?.let { bank ->
                                             json.printRequest()
@@ -170,18 +162,6 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                             postSticky(item)
                                         }
                                     })
-                                    /*val json = JsonObject()
-                                    json.addProperty("user_id", App.INSTANCE.getUserId())
-                                    json.addProperty("fund_id", item.fundId)
-                                    json.addProperty("all_redeem", allRedeem)
-                                    json.addProperty("amount", totalAmount)
-                                    json.addProperty("folio_number", portfolioNo)
-                                    val data = json.toString().toEncrypt()
-                                    redeemPortfolio(data).observe(this, Observer {
-                                        context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
-                                            vm.getUserPortfolio()
-                                        }
-                                    })*/
                                 }
                             }
 
@@ -194,7 +174,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 for (sipDetail in folio.sipDetails) {
                                     sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
                                 }
-                                folios.add(FolioData(folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
+                                folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                             }
 
                             context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->

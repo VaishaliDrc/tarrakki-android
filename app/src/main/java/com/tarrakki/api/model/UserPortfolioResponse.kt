@@ -41,7 +41,7 @@ data class UserPortfolioResponse(
                     @SerializedName("insta_redeem")
                     val instaRedeem: Boolean?,
                     @SerializedName("current_value")
-                    val currentValue: Double,
+                    val currentValue: Double?,
                     @SerializedName("folio_list")
                     val folioList: List<Folio>,
                     @SerializedName("fund_id")
@@ -49,7 +49,7 @@ data class UserPortfolioResponse(
                     @SerializedName("fund_name")
                     val fundName: String,
                     @SerializedName("total_investment")
-                    val totalInvestment: BigInteger,
+                    val totalInvestment: BigInteger?,
                     @SerializedName("xirr")
                     val xirr: String,
                     @SerializedName("pi_minimum_initial")
@@ -61,7 +61,9 @@ data class UserPortfolioResponse(
                     @SerializedName("dp_day_end_nav")
                     val todayNAV: String?,
                     @SerializedName("defer_loads")
-                    val deferLoads: List<ExitLoad>?
+                    val deferLoads: List<ExitLoad>?,
+                    @SerializedName("units")
+                    val totalUnits: Double?
             ) {
 
                 var bank: DefaultBankResponse.DefaultBank? = null
@@ -131,16 +133,22 @@ data class UserPortfolioResponse(
                     get() = parseAsReturn(xirr)
 
                 data class Folio(
+                        @SerializedName("folio_id")
+                        val folioId: String?,
                         @SerializedName("current_value")
-                        val currentValue: Double,
+                        val currentValue: Double?,
                         @SerializedName("amount")
                         val amount: String,
+                        @SerializedName("total_investment")
+                        val totalInvestment: Double?,
+                        @SerializedName("units")
+                        val units: String?,
                         @SerializedName("folio_no")
                         val folioNo: String,
                         @SerializedName("sip_details")
                         val sipDetails: List<SipDetail>,
                         @SerializedName("xirr")
-                        val xirr: String
+                        val xirr: String?
                 ) {
                     var xiRR: String = ""
                         get() = parseAsReturn(xirr)
@@ -191,7 +199,7 @@ data class UserPortfolioResponse(
 
         data class TarrakkiZyaadaInvestment(
                 @SerializedName("current_value")
-                val currentValue: Double,
+                val currentValue: Double?,
                 @SerializedName("folio_list")
                 val folioList: List<Folio>,
                 @SerializedName("fund_id")
@@ -199,7 +207,7 @@ data class UserPortfolioResponse(
                 @SerializedName("fund_name")
                 val fundName: String,
                 @SerializedName("total_investment")
-                val totalInvestment: BigInteger,
+                val totalInvestment: BigInteger?,
                 @SerializedName("xirr")
                 val xirr: String,
                 @SerializedName("pi_minimum_initial")
@@ -211,7 +219,9 @@ data class UserPortfolioResponse(
                 @SerializedName("dp_day_end_nav")
                 val todayNAV: String?,
                 @SerializedName("defer_loads")
-                val deferLoads: List<ExitLoad>?
+                val deferLoads: List<ExitLoad>?,
+                @SerializedName("units")
+                val totalUnits: Double?
         ) {
 
             var redeemRequest: JsonObject? = null
@@ -280,16 +290,22 @@ data class UserPortfolioResponse(
                 get() = parseAsReturn(xirr)
 
             data class Folio(
+                    @SerializedName("folio_id")
+                    val folioId: String?,
                     @SerializedName("current_value")
-                    val currentValue: Double,
+                    val currentValue: Double?,
                     @SerializedName("amount")
                     val amount: String,
+                    @SerializedName("total_investment")
+                    val totalInvestment: Double?,
+                    @SerializedName("units")
+                    val units: String?,
                     @SerializedName("folio_no")
                     val folioNo: String,
                     @SerializedName("sip_details")
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
-                    val xirr: String
+                    val xirr: String?
             ) {
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
@@ -343,7 +359,7 @@ data class UserPortfolioResponse(
                 @SerializedName("insta_redeem")
                 val instaRedeem: Boolean?,
                 @SerializedName("current_value")
-                val currentValue: Double,
+                val currentValue: Double?,
                 @SerializedName("folio_list")
                 val folioList: List<Folio>,
                 @SerializedName("fund_id")
@@ -351,7 +367,7 @@ data class UserPortfolioResponse(
                 @SerializedName("fund_name")
                 val fundName: String,
                 @SerializedName("total_investment")
-                val totalInvestment: BigInteger,
+                val totalInvestment: BigInteger?,
                 @SerializedName("xirr")
                 val xirr: String,
                 @SerializedName("pi_minimum_initial")
@@ -363,7 +379,9 @@ data class UserPortfolioResponse(
                 @SerializedName("dp_day_end_nav")
                 val todayNAV: String?,
                 @SerializedName("defer_loads")
-                val deferLoads: List<ExitLoad>?
+                val deferLoads: List<ExitLoad>?,
+                @SerializedName("units")
+                val totalUnits: Double?
         ) {
 
             var redeemRequest: JsonObject? = null
@@ -432,8 +450,12 @@ data class UserPortfolioResponse(
                 get() = parseAsReturn(xirr)
 
             data class Folio(
+                    @SerializedName("folio_id")
+                    val folioId: String?,
                     @SerializedName("current_value")
-                    val currentValue: Double,
+                    val currentValue: Double?,
+                    @SerializedName("total_investment")
+                    val totalInvestment: Double?,
                     @SerializedName("amount")
                     val amount: String?,
                     @SerializedName("units")
@@ -443,7 +465,7 @@ data class UserPortfolioResponse(
                     @SerializedName("sip_details")
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
-                    val xirr: String
+                    val xirr: String?
             ) {
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
@@ -495,7 +517,8 @@ data class UserPortfolioResponse(
 }
 
 data class FolioData(
-        val currentValue: Double,
+        val folioId: String?,
+        val currentValue: Double?,
         val units: String?,
         val folioNo: String?,
         val sipDetails: List<SIPDetails>? = null

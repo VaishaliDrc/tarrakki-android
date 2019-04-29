@@ -17,10 +17,10 @@ import org.supportcompact.ktx.*
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    /*val userName = ObservableField("vinay.tiwari@ia.ooo")
-    val password = ObservableField("Drc@1234")*/
-    val userName = ObservableField("")
-    val password = ObservableField("")
+    val userName = ObservableField("saumya.shah@gmail.com")
+    val password = ObservableField("Drc@1234")
+    /*val userName = ObservableField("")
+    val password = ObservableField("")*/
     val onLogin = MutableLiveData<LoginResponse>()
     val onSocialLogin = MutableLiveData<ApiResponse>()
     val socialId = ObservableField("")

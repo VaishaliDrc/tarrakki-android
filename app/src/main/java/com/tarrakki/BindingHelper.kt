@@ -238,11 +238,12 @@ fun returns(progressBar: CircularProgressBar, returnpercentage: Int) {
     progressBar.backgroundProgressBarWidth = App.INSTANCE.resources.getDimension(R.dimen.space_8)
     if (returnpercentage >= 0) {
         progressBar.color = App.INSTANCE.color(R.color.colorAccent)
-        progressBar.setProgressWithAnimation(returnpercentage.toFloat(), 1000)
+        //progressBar.setProgressWithAnimation(returnpercentage.toFloat(), 1000)
     } else {
         progressBar.color = App.INSTANCE.color(R.color.red)
-        progressBar.setProgressWithAnimation(returnpercentage.toFloat() * -1, 1000)
+        //progressBar.setProgressWithAnimation(returnpercentage.toFloat() * -1, 1000)
     }
+    progressBar.setProgressWithAnimation(100f, 500)
 }
 
 @BindingAdapter("isCurrency")
@@ -494,7 +495,7 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     valueAnimator.duration = 1500
     val returnType = if (finalValue >= 0) "+" else ""
 
-    textview.setTextColor(textview.context.color(if (finalValue >= 0) R.color.colorAccent else R.color.red))
+    textview.setTextColor(textview.context.color(if (finalValue >= 0) R.color.colorAccent else R.color.white))
 
     valueAnimator.addUpdateListener { it ->
         textview.text = returnType + it.animatedValue.toString().toDouble().toReturnAsPercentage()
@@ -710,9 +711,9 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mDialog.show()
 }
 
-fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableList<FolioData>,
+fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                                       onRedeem: ((portfolioNo: String,
-                                                  totalUnits: String,
+                                                  folioId: String,
                                                   allRedeem: String,
                                                   units: String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
@@ -762,7 +763,7 @@ fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableLi
         it.dismissKeyboard()
         val units = mBinder.edtAmount.text.toString()
         val folioNo = mBinder.edtChooseFolio.text.toString()
-
+        val folioId = portfolioList.find { it.folioNo == folioNo }?.folioId
         if (this.isAmountValid(units.toCurrencyBigDecimal())) {
             if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
                 mDialog.dismiss()
@@ -771,7 +772,7 @@ fun Context.redeemFundPortfolioDialog(todayNAV: Double, portfolioList: MutableLi
                 } else {
                     "N"
                 }
-                onRedeem?.invoke(folioNo, (Math.round((units.toCurrencyBigDecimal() * todayNAV.toBigDecimal()).toDouble())).toString(), isRedeem, units)
+                onRedeem?.invoke(folioNo, "$folioId", isRedeem, units)
             } else {
                 this.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
             }
