@@ -134,10 +134,57 @@ fun EditText.applyCurrencyDecimalFormatPositiveOnly() {
     })
 }
 
+fun EditText.applyCurrencyDecimalFormatPositiveOnly3D() {
+
+    addTextChangedListener(object : TextWatcher {
+        private var current = ""
+        override fun afterTextChanged(p0: Editable?) {
+
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            if (s == null || s.isEmpty()) {
+                current = ""
+                return
+            }
+            if (s.toString() != current) {
+                try {
+                    this@applyCurrencyDecimalFormatPositiveOnly3D.removeTextChangedListener(this)
+                    var cleanString = s.toString().replace(",", "")
+                    if (cleanString.length > 16 || (cleanString.contains(".") && cleanString.split(".")[1].length > 3)) {
+                        cleanString = cleanString.dropLast(1)
+                    }
+                    val amount = cleanString.toDouble()
+                    if (amount > 0) {
+                        if (cleanString.contains(".")/* && cleanString.split(".")[1].isEmpty()*/) {
+                            this@applyCurrencyDecimalFormatPositiveOnly3D.setText(cleanString.substringBefore(".").toDouble().format())
+                            this@applyCurrencyDecimalFormatPositiveOnly3D.append(cleanString.substring(cleanString.indexOf(".")))
+                        } else {
+                            this@applyCurrencyDecimalFormatPositiveOnly3D.setText(amount.format())
+                        }
+                    } else {
+                        this@applyCurrencyDecimalFormatPositiveOnly3D.setText(cleanString)
+                    }
+                    current = this@applyCurrencyDecimalFormatPositiveOnly3D.text.toString()
+                    this@applyCurrencyDecimalFormatPositiveOnly3D.setSelection(current.length)
+                    this@applyCurrencyDecimalFormatPositiveOnly3D.addTextChangedListener(this)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    })
+}
+
 
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
 val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
 val dFormatter = DecimalFormat("##,##,##,##,##,##,##,###.##")
+val dFormatter3D = DecimalFormat("##,##,##,##,##,##,##,###.###")
 
 fun TextView.decimalFormat(amount: Double) {
     this.text = dFormatter.format(amount)//String.format(locale, "%,.2f", amount)
@@ -152,6 +199,8 @@ fun Double.roundOff() = Math.round(this * 100).toDouble() / 100
 fun Double.format() = formatter.format(Math.round(this))
 
 fun Double.decimalFormat() = dFormatter.format(this)
+
+fun Double.decimalFormat3D() = dFormatter3D.format(this)
 
 fun Double.toDecimalCurrency() = "\u20B9".plus(dFormatter.format(this))//String.format(locale, "\u20B9%,.2f", this)
 

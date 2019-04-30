@@ -256,6 +256,10 @@ interface WebserviceBuilder {
     @GET("tarrakki/zyaada/get-folio-list/{user_id}")
     fun getFolioList(@Path("user_id") userId: String?): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("tarrakki/zyaada/redemption/{user_id}")
+    fun instaRedeem(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

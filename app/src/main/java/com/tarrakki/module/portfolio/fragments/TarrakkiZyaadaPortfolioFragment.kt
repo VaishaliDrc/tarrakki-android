@@ -78,9 +78,11 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         for (folioList in item.folioList) {
                             val tableRow = context?.tableRow()
                             tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-                            tableRow?.addView(context?.tableRowContent((folioList.totalInvestment?: 0.0).toDouble().toCurrency()))
+                            tableRow?.addView(context?.tableRowContent((folioList.totalInvestment
+                                    ?: 0.0).toDouble().toCurrency()))
                             tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toCurrency()}"))
-                            tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat()))
+                            tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()
+                                    ?: 0.0).decimalFormat()))
                             tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                         }
@@ -100,11 +102,10 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         for (folio in item.folioList) {
                             folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
                         }
-                        context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
-                                item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
-                            addToCartPortfolio(item.fundId, amountSIP.toString(),
-                                    amountLumpsum.toString(), portfolio).observe(this,
-                                    android.arch.lifecycle.Observer { response ->
+                        context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
+                            addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio).observe(
+                                    this,
+                                    Observer { response ->
                                         context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                             startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                         }
@@ -115,17 +116,19 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                     binder.tvRedeem.setOnClickListener {
                         val folios: MutableList<FolioData> = mutableListOf()
                         for (folio in item.folioList) {
-                            folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
+                            folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                         }
-                        redeemFundTarrakkiZyaadaDialog(item.nav, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
+                        val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units ->
                             val json = JsonObject()
                             json.addProperty("user_id", App.INSTANCE.getUserId())
                             json.addProperty("fund_id", item.fundId)
                             json.addProperty("all_redeem", allRedeem)
-                            json.addProperty("amount", units)
+                            json.addProperty("qty", units.toCurrencyBigDecimal().toString())
                             json.addProperty("folio_number", portfolioNo)
+                            json.addProperty("folio_id", folioId)
                             item.redeemRequest = json
                             item.redeemUnits = units
+                            item.isInstaRedeem = false
                             getDefaultBank().observe(this, Observer {
                                 it?.let { bank ->
                                     json.printRequest()
@@ -134,18 +137,24 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                                     postSticky(item)
                                 }
                             })
-                            /*val json = JsonObject()
-                            json.addProperty("user_id", App.INSTANCE.getUserId())
-                            json.addProperty("fund_id", item.fundId)
-                            json.addProperty("all_redeem", allRedeem)
-                            json.addProperty("amount", totalAmount)
+                        }
+                        redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, amount: String, allRedeem: String ->
+                            val json = JsonObject()
                             json.addProperty("folio_number", portfolioNo)
-                            val data = json.toString().toEncrypt()
-                            redeemPortfolio(data).observe(this, Observer {
-                                context?.simpleAlert("Your redemption of amount ${amount.toCurrencyBigInt().toCurrency()} is successful.") {
-                                    vm.getUserPortfolio()
+                            json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
+                            json.addProperty("redemption_flag", allRedeem)
+                            item.redeemRequest = json
+                            item.redeemUnits = amount
+                            item.isInstaRedeem = true
+                            getDefaultBank().observe(this, Observer {
+                                it?.let { bank ->
+                                    json.addProperty("bank", bank.data?.bankName)
+                                    json.printRequest()
+                                    item.bank = bank.data
+                                    startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                    postSticky(item)
                                 }
-                            })*/
+                            })
                         }
                     }
 

@@ -485,9 +485,9 @@ fun getDefaultBank(): MutableLiveData<DefaultBankResponse> {
     return apiResponse
 }
 
-fun getFolioDetails(folioNo: String): MutableLiveData<ApiResponse> {
+fun getFolioDetails(folioNo: String): MutableLiveData<SchemeDetails> {
 
-    val response = MutableLiveData<ApiResponse>()
+    val response = MutableLiveData<SchemeDetails>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     val json = JsonObject()
     json.addProperty("folio_number", folioNo)
@@ -498,13 +498,16 @@ fun getFolioDetails(folioNo: String): MutableLiveData<ApiResponse> {
             .getSchemeDetails(App.INSTANCE.getUserId(), data),
             object : SingleCallback1<ApiResponse> {
                 override fun onSingleSuccess(o: ApiResponse) {
-                    o.printResponse()
-                    if (o.status?.code == 1) {
-                        response.postValue(o)
-                    } else {
-                        EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                    thread {
+                        o.printResponse()
+                        if (o.status?.code == 1) {
+                            val schemeDetails = o.data?.parseTo<SchemeDetails>()
+                            response.postValue(schemeDetails)
+                        } else {
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                        }
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
                     }
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
                 }
 
                 override fun onFailure(throwable: Throwable) {
@@ -519,9 +522,43 @@ fun redeemPortfolio(data: String)
         : MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
+    data.toDecrypt().printRequest()
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                     .redeemPortfolio(data),
+            apiNames = WebserviceBuilder.ApiNames.addtocart,
+            singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o is ApiResponse) {
+                        e("Api Response=>${o.data?.toDecrypt()}")
+                        if (o.status?.code == 1) {
+                            apiResponse.value = o
+                            //EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                        } else {
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                        }
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    EventBus.getDefault().post(ShowError("${throwable.message}"))
+                }
+            }
+    )
+    return apiResponse
+}
+
+fun instaRedeemPortfolio(data: String): MutableLiveData<ApiResponse> {
+    val apiResponse = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    data.toDecrypt().printRequest()
+    subscribeToSingle(
+            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                    .instaRedeem(App.INSTANCE.getUserId(), data),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

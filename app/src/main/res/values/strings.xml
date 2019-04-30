@@ -740,7 +740,7 @@
     <string name="woops">Woops!</string>
     <string name="your_cart_is_empty">Your cart is Empty</string>
     <string name="number_of_unites_redeemed">Number of Units redeemed</string>
-    <string name="amount_will_be_credited_in_2_4_business_days_depending_on_the_amc">Amount will be credited in 2-4 business days depending on the AMC.</string>
+    <string name="amount_will_be_credited_in_2_4_business_days_depending_on_the_amc">Amount will be credited in 1-4 business days depending on the AMC.</string>
     <string name="withdraw_to_your_bank_account">Withdraw to your Bank Account:</string>
     <string name="exit_load">Exit Load</string>
     <string name="final_amount_will_depend_on_nav_applicable_at_the_time_of_redemption_request_as_confirmed_by_the_amc">Final amount will depend on NAV applicable at the time of redemption request (as confirmed by the AMC.)</string>
@@ -752,7 +752,7 @@
     <string name="will_be_credited_to">Will be credited to:</string>
     <string name="amount_">Amount:</string>
     <string name="redeem_status">Redemption Status</string>
-    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 2-4 business days to complete the redemption.</string>
+    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 1-4 business days to complete the redemption.</string>
     <string name="how_are_returns_calculated">How are returns calculated?</string>
     <string name="when_does_my_portfolio_update_here">When does my portfolio get updated?</string>
     <string name="pls_enter_email_address">Please enter Email Address.</string>
@@ -816,6 +816,7 @@
     <string name="alert_valid_multiple_sip">The SIP amount should be a multiple of 10.</string>
     <string name="alert_valid_multiple_lumpsum">The lumpsum amount should be a multiple of 10.</string>
     <string name="alert_req_units">Please enter Units.</string>
+    <string name="alert_req_amount">Please enter Amount.</string>
     <string name="alert_req_utr">Please Enter the UTR Number.</string>
     <string name="alert_req_bank_mandate">Please Select the Bank to Continue</string>
     <string name="alert_warn_uncheck_mandate">Your Bank Mandate is Pending Approval. You will not be able to uncheck this option as of now.</string>
@@ -968,5 +969,7 @@
     <string name="ticket_conversation">Ticket Conversation</string>
     <string name="direct_investment">Direct Investment</string>
     <string name="goal_base_investment">Goal Based Investment</string>
+    <string name="amount_credited_to">Amount credited to</string>
+    <string name="redeemed_amount">Redeemed amount</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

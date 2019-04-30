@@ -83,9 +83,11 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             for (folioList in item.folioList) {
                                 val tableRow = context?.tableRow()
                                 tableRow?.addView(context?.tableRowContent(folioList.folioNo))
-                                tableRow?.addView(context?.tableRowContent((folioList.totalInvestment?: 0.0).toDouble().toCurrency()))
+                                tableRow?.addView(context?.tableRowContent((folioList.totalInvestment
+                                        ?: 0.0).toDouble().toCurrency()))
                                 tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toCurrency()}"))
-                                tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat()))
+                                tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()
+                                        ?: 0.0).decimalFormat3D()))
                                 tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                                 binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                             }
@@ -95,7 +97,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toCurrency()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.currentValue?.toCurrency()}", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat3D()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent(item.xiRR, context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
@@ -107,10 +109,9 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             for (folio in item.folioList) {
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
-                            context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount,
-                                    item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
-                                addToCartPortfolio(item.fundId, amountSIP.toString(),
-                                        amountLumpsum.toString(), portfolio).observe(this,
+                            context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
+                                addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio).observe(
+                                        this,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -124,18 +125,38 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             for (folio in item.folioList) {
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
+                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units ->
+                                val json = JsonObject()
+                                json.addProperty("user_id", App.INSTANCE.getUserId())
+                                json.addProperty("fund_id", item.fundId)
+                                json.addProperty("all_redeem", allRedeem)
+                                json.addProperty("qty", units.toCurrencyBigDecimal().toString())
+                                json.addProperty("folio_number", portfolioNo)
+                                json.addProperty("folio_id", folioId)
+                                item.redeemRequest = json
+                                item.redeemUnits = units
+                                item.isInstaRedeem = false
+                                getDefaultBank().observe(this, Observer {
+                                    it?.let { bank ->
+                                        json.printRequest()
+                                        item.bank = bank.data
+                                        startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                        postSticky(item)
+                                    }
+                                })
+                            }
                             if (item.instaRedeem == true) {
-                                redeemFundTarrakkiZyaadaDialog(item.nav, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
+                                redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, amount: String, allRedeem: String ->
                                     val json = JsonObject()
-                                    json.addProperty("user_id", App.INSTANCE.getUserId())
-                                    json.addProperty("fund_id", item.fundId)
-                                    json.addProperty("all_redeem", allRedeem)
-                                    json.addProperty("amount", units)
                                     json.addProperty("folio_number", portfolioNo)
+                                    json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
+                                    json.addProperty("redemption_flag", allRedeem)
                                     item.redeemRequest = json
-                                    item.redeemUnits = units
+                                    item.redeemUnits = amount
+                                    item.isInstaRedeem = true
                                     getDefaultBank().observe(this, Observer {
                                         it?.let { bank ->
+                                            json.addProperty("bank", bank.data?.bankName)
                                             json.printRequest()
                                             item.bank = bank.data
                                             startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
@@ -144,27 +165,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                     })
                                 }
                             } else {
-                                context?.redeemFundPortfolioDialog(folios) { portfolioNo, folioId, allRedeem, units ->
-                                    val json = JsonObject()
-                                    json.addProperty("user_id", App.INSTANCE.getUserId())
-                                    json.addProperty("fund_id", item.fundId)
-                                    json.addProperty("all_redeem", allRedeem)
-                                    json.addProperty("qty", units)
-                                    json.addProperty("folio_number", portfolioNo)
-                                    json.addProperty("folio_id", folioId)
-                                    item.redeemRequest = json
-                                    item.redeemUnits = units
-                                    getDefaultBank().observe(this, Observer {
-                                        it?.let { bank ->
-                                            json.printRequest()
-                                            item.bank = bank.data
-                                            startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                            postSticky(item)
-                                        }
-                                    })
-                                }
+                                context?.redeemFundPortfolioDialog(folios, onRedeem)
                             }
-
                         }
 
                         binder.tvStopPortfolio.setOnClickListener {
@@ -176,7 +178,6 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 }
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                             }
-
                             context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
                                 stopPortfolio(transactionId).observe(this, Observer {
                                     context?.simpleAlert(alertStopPortfolio(folio, date)) {

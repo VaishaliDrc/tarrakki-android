@@ -44,6 +44,7 @@
                     tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
                 <TextView
+                    android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
@@ -52,7 +53,8 @@
                     android:text="@string/number_of_unites_redeemed"
                     android:textAllCaps="true"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:text="@string/redeemed_amount" />
 
                 <TextView
                     android:id="@+id/tvUnits"

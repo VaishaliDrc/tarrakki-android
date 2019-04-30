@@ -90,7 +90,6 @@
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"
             android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
-            app:layout_constraintEnd_toStartOf="@id/edtLName"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvChooseFolio" />
@@ -107,7 +106,6 @@
             app:layout_constraintBaseline_toBaselineOf="@id/switchOnOff"
             app:layout_constraintEnd_toStartOf="@+id/switchOnOff"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtGuardian"
             tools:text="@string/do_you_want_insta_redeem" />
 
         <ToggleButton
@@ -118,6 +116,7 @@
             android:background="@drawable/shape_switch_bg"
             android:button="@null"
             android:checked="@{isInstantRedeem}"
+            android:enabled="false"
             android:textOff=""
             android:textOn=""
             app:layout_constraintEnd_toEndOf="parent"
@@ -190,8 +189,8 @@
             android:gravity="center_vertical"
             android:padding="8dp"
             android:text="@{isInstantRedeem?@string/withdraw_full_amount:@string/withdraw_all_units}"
-            android:textSize="@dimen/_9ssp"
             android:textColor="@color/darker_gray"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintBottom_toTopOf="@id/edtAmount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="0.85"

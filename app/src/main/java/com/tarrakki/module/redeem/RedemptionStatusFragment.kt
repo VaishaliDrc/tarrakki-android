@@ -45,26 +45,9 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
 
     override fun createReference() {
         setHasOptionsMenu(true)
-        getViewModel().directRedeemFund.observe(this, Observer {
-            it?.let { fund ->
-                tvName?.text = fund.fundName
-                tvUnits?.text = fund.redeemUnits
-                getBinding().bank = fund.bank
-                getBinding().executePendingBindings()
-            }
-        })
-        getViewModel().goalBasedRedeemFund.observe(this, Observer {
-            it?.let { fund ->
-                tvName?.text = fund.fundName
-                tvUnits?.text = fund.redeemUnits
-                getBinding().bank = fund.bank
-                getBinding().executePendingBindings()
-            }
-        })
         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
         statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "12 Mar 2019, 01:34 PM", "completed"))
         statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "In progress"))
-        statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "Pending"))
         val adapter = rvTransactionStatus?.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist)
         { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
             binder2.widget = item2
@@ -75,6 +58,35 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 binder2.verticalDivider.visibility = View.VISIBLE
             }
         }
+        getViewModel().directRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
+                tvName?.text = fund.fundName
+                tvUnits?.text = fund.redeemUnits
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
+            }
+        })
+        getViewModel().goalBasedRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
+                tvName?.text = fund.fundName
+                tvUnits?.text = fund.redeemUnits
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
+            }
+        })
+        getViewModel().tarrakkiZyaadaRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
+                tvName?.text = fund.fundName
+                tvUnits?.text = fund.redeemUnits
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "Pending"))
+                adapter?.notifyDataSetChanged()
+            }
+        })
         rvTransactionStatus?.adapter = adapter
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
@@ -115,6 +127,13 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
             getViewModel().goalBasedRedeemFund.value = item
         }
         removeStickyEvent(item)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReemFund(item: UserPortfolioResponse.Data.TarrakkiZyaadaInvestment) {
+        if (getViewModel().tarrakkiZyaadaRedeemFund.value == null) {
+            getViewModel().tarrakkiZyaadaRedeemFund.value = item
+        }
     }
 
     companion object {

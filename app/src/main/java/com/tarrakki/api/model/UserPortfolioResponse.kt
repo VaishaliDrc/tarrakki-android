@@ -72,6 +72,9 @@ data class UserPortfolioResponse(
 
                 var redeemUnits: String? = null
 
+                var isInstaRedeem = false
+
+
                 var exitLoad: String = ""
                     get() = if (deferLoads != null && deferLoads.isNotEmpty()) {
                         val result = StringBuilder()
@@ -227,6 +230,8 @@ data class UserPortfolioResponse(
             var redeemRequest: JsonObject? = null
 
             var redeemUnits: String? = null
+
+            var isInstaRedeem = false
 
             var bank: DefaultBankResponse.DefaultBank? = null
 
@@ -387,6 +392,8 @@ data class UserPortfolioResponse(
             var redeemRequest: JsonObject? = null
 
             var redeemUnits: String? = null
+
+            var isInstaRedeem = false
 
             var bank: DefaultBankResponse.DefaultBank? = null
 

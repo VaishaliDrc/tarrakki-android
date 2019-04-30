@@ -85,7 +85,6 @@
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"
             android:visibility="@{isSingleFolio?View.GONE:View.VISIBLE}"
-            app:layout_constraintEnd_toStartOf="@id/edtLName"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvChooseFolio" />
@@ -182,6 +181,7 @@
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:maxLines="1"
+            android:maxLength="16"
             android:paddingStart="@dimen/space_30"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"

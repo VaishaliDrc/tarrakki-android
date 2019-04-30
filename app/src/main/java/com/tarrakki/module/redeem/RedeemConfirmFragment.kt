@@ -13,14 +13,15 @@ import android.view.View
 import android.widget.TextView
 import com.tarrakki.R
 import com.tarrakki.api.model.UserPortfolioResponse
+import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentRedeemConfirmBinding
 import com.tarrakki.module.webview.WebViewFragment
+import com.tarrakki.redeemPortfolio
 import kotlinx.android.synthetic.main.fragment_redeem_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.color
-import org.supportcompact.ktx.getColor
 import org.supportcompact.ktx.startFragment
 
 
@@ -48,6 +49,7 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
         getViewModel().directRedeemFund.observe(this, Observer {
             it?.let { fund ->
                 tvName?.text = fund.fundName
+                tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
                 tvUnits?.text = fund.redeemUnits
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank
@@ -57,6 +59,17 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
         getViewModel().goalBasedRedeemFund.observe(this, Observer {
             it?.let { fund ->
                 tvName?.text = fund.fundName
+                tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
+                tvUnits?.text = fund.redeemUnits
+                tvExit?.text = fund.exitLoad
+                getBinding().bank = fund.bank
+                getBinding().executePendingBindings()
+            }
+        })
+        getViewModel().tarrakkiZyaadaRedeemFund.observe(this, Observer {
+            it?.let { fund ->
+                tvName?.text = fund.fundName
+                tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
                 tvUnits?.text = fund.redeemUnits
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank
@@ -66,24 +79,36 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
         btnProceed?.setOnClickListener {
             getViewModel().directRedeemFund.value?.let { fund ->
                 fund.redeemRequest?.let { json ->
-                    startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                    postSticky(fund)
-                    /*val data = json.toString().toEncrypt()
+                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                    postSticky(fund)*/
+                    val data = json.toString().toEncrypt()
                     redeemPortfolio(data).observe(this, Observer {
                         startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
                         postSticky(fund)
-                    })*/
+                    })
                 }
             }
             getViewModel().goalBasedRedeemFund.value?.let { fund ->
                 fund.redeemRequest?.let { json ->
-                    startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                    postSticky(fund)
-                    /*val data = json.toString().toEncrypt()
+                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                    postSticky(fund)*/
+                    val data = json.toString().toEncrypt()
                     redeemPortfolio(data).observe(this, Observer {
                         startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
                         postSticky(fund)
-                    })*/
+                    })
+                }
+            }
+
+            getViewModel().tarrakkiZyaadaRedeemFund.value?.let { fund ->
+                fund.redeemRequest?.let { json ->
+                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                    postSticky(fund)*/
+                    val data = json.toString().toEncrypt()
+                    redeemPortfolio(data).observe(this, Observer {
+                        startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                        postSticky(fund)
+                    })
                 }
             }
 
@@ -149,6 +174,13 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
     fun onReemFund(item: UserPortfolioResponse.Data.GoalBasedInvestment.Fund) {
         if (getViewModel().goalBasedRedeemFund.value == null) {
             getViewModel().goalBasedRedeemFund.value = item
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReemFund(item: UserPortfolioResponse.Data.TarrakkiZyaadaInvestment) {
+        if (getViewModel().tarrakkiZyaadaRedeemFund.value == null) {
+            getViewModel().tarrakkiZyaadaRedeemFund.value = item
         }
     }
 

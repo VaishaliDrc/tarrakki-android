@@ -114,7 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="start"
-                        app:constraint_referenced_ids="tvAmount,tvDate" />
+                        app:constraint_referenced_ids="tvAmount,tvUnits" />
 
                     <TextView
                         android:id="@+id/tvAmount"
@@ -209,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/space_4"
                     android:paddingEnd="@dimen/space_4"
-                    android:text="@string/will_be_credited_to"
+                    android:text="@string/amount_credited_to"
                     android:textAllCaps="true"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
