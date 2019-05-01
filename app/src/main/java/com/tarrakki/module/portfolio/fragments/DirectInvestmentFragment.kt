@@ -141,7 +141,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                         json.printRequest()
                                         item.bank = bank.data
                                         startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                        postSticky(item)
+                                        repostSticky(item)
                                     }
                                 })
                             }
@@ -160,7 +160,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                             json.printRequest()
                                             item.bank = bank.data
                                             startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                            postSticky(item)
+                                            repostSticky(item)
                                         }
                                     })
                                 }

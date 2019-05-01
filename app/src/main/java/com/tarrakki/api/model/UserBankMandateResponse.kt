@@ -1,10 +1,8 @@
 package com.tarrakki.api.model
 
-import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
-import com.tarrakki.getBankMandateStatus
 
 data class UserBankMandateResponse(
         @SerializedName("data")

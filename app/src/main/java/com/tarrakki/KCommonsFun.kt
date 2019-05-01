@@ -84,35 +84,6 @@ fun getReturnLevel(returnType: String?): String {
     }
 }
 
-fun String.getBankMandateStatus(): String {
-    /* return when (this) {
-             "0" -> "REGISTERED BY MEMBER"
-             "1" -> "APPROVED"
-             "2" -> "REJECTED"
-             "3" -> "INITIAL REJECTION"
-             "4" -> "UNDER PROCESSING"
-             "5" -> "RETURNED BY EXCHANGE"
-             "6" -> "RECEIVED BY SPONSOR BANK"
-             "7" -> "REJECTION AT NPCI PRIOR TO DESTINATION BANK"
-             "8" -> "CANCELLED BY INVESTOR"
-             "9" -> "APPROVED BY SPONSOR BANK"
-             "10" -> "REJECTED BY SPONSOR BANK"
-             "11" -> "CANCELLED"
-             "12" -> "FAILED"
-             "13" -> "RECEIVED BY EXCHANGE"
-             "14" -> "PENDING"
-             "15" -> "SCAN IMAGE NOT UPLOADED"
-             "16" -> "WAITING FOR CLIENT AUTHENTICATION"
-             "17" -> "NEW"
-             else -> ""
-         }*/
-    return when (this) {
-        "2", "11", "12" -> "FAILED"
-        "1" -> "SUCCESS"
-        else -> "PENDING"
-    }
-}
-
 fun FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.SecondLevelCategory) {
     if (!item.isGoal) {
         if (item.isThematic) {

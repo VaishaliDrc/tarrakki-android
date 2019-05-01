@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.math.RoundingMode
 import java.text.DecimalFormat
 
 fun EditText.applyCurrencyFormat() {
@@ -184,7 +185,10 @@ fun EditText.applyCurrencyDecimalFormatPositiveOnly3D() {
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
 val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
 val dFormatter = DecimalFormat("##,##,##,##,##,##,##,###.##")
-val dFormatter3D = DecimalFormat("##,##,##,##,##,##,##,###.###")
+val dFormatter3D = DecimalFormat("##,##,##,##,##,##,##,###.###").apply {
+    roundingMode = RoundingMode.FLOOR
+}
+
 
 fun TextView.decimalFormat(amount: Double) {
     this.text = dFormatter.format(amount)//String.format(locale, "%,.2f", amount)

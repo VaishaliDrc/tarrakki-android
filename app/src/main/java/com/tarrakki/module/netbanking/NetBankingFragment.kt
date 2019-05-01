@@ -92,7 +92,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
             fun onPageRequest(view: WebView, url: String): Boolean {
                 e("URL=>$url")
                 return when {
-                    url.startsWith(ApiClient.BANK_REDIRECT_URL) -> {
+                    url.contains(ApiClient.BANK_REDIRECT_URL) -> {
                         val bundle = Bundle().apply {
                             arguments?.getString(SUCCESSTRANSACTION)?.let { it1 -> putString(SUCCESSTRANSACTION, it1) }
                             arguments?.getBoolean(ISFROMTRANSACTIONMODE)?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
@@ -159,7 +159,12 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
 
     private fun onBackPress() {
         context?.confirmationDialog(App.INSTANCE.getString(R.string.go_back_from_bank), btnPositiveClick = {
-            onBack()
+            App.INSTANCE.needToLoadTransactionScreen = 0
+            val isFromTransaction = arguments?.getBoolean(ISFROMTRANSACTIONMODE)
+            if (isFromTransaction == true)
+                onBack(2)
+            else
+                onBack(3)
         })
     }
 

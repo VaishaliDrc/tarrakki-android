@@ -15,6 +15,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.api.model.toEncrypt
 import com.tarrakki.databinding.FragmentRedeemConfirmBinding
+import com.tarrakki.instaRedeemPortfolio
 import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.redeemPortfolio
 import kotlinx.android.synthetic.main.fragment_redeem_confirm.*
@@ -79,36 +80,57 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
         btnProceed?.setOnClickListener {
             getViewModel().directRedeemFund.value?.let { fund ->
                 fund.redeemRequest?.let { json ->
-                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                    postSticky(fund)*/
                     val data = json.toString().toEncrypt()
-                    redeemPortfolio(data).observe(this, Observer {
-                        startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                        postSticky(fund)
-                    })
+                    if (fund.isInstaRedeem) {
+                        instaRedeemPortfolio(data).observe(this, Observer {
+                            fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    } else {
+                        redeemPortfolio(data).observe(this, Observer {
+                            fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    }
                 }
             }
             getViewModel().goalBasedRedeemFund.value?.let { fund ->
                 fund.redeemRequest?.let { json ->
-                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                    postSticky(fund)*/
                     val data = json.toString().toEncrypt()
-                    redeemPortfolio(data).observe(this, Observer {
-                        startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                        postSticky(fund)
-                    })
+                    if (fund.isInstaRedeem) {
+                        instaRedeemPortfolio(data).observe(this, Observer {
+                            fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    } else {
+                        redeemPortfolio(data).observe(this, Observer {
+                            fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    }
                 }
             }
 
             getViewModel().tarrakkiZyaadaRedeemFund.value?.let { fund ->
                 fund.redeemRequest?.let { json ->
-                    /*startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                    postSticky(fund)*/
                     val data = json.toString().toEncrypt()
-                    redeemPortfolio(data).observe(this, Observer {
-                        startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
-                        postSticky(fund)
-                    })
+                    if (fund.isInstaRedeem) {
+                        instaRedeemPortfolio(data).observe(this, Observer {
+                            //fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    } else {
+                        redeemPortfolio(data).observe(this, Observer {
+                            fund.redeemedStatus = it
+                            startFragment(RedemptionStatusFragment.newInstance(), R.id.frmContainer)
+                            postSticky(fund)
+                        })
+                    }
                 }
             }
 

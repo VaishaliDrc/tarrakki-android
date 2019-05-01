@@ -971,5 +971,6 @@
     <string name="goal_base_investment">Goal Based Investment</string>
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>
+    <string name="insta_redeem_is_not_availble">Insta-Redemption is not available for this folio now.</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

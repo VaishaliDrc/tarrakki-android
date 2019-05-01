@@ -1,5 +1,6 @@
 package com.tarrakki.api.model
 
+import android.view.View
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.*
@@ -27,7 +28,7 @@ data class UserPortfolioResponse(
                 @SerializedName("goal_name")
                 val goalName: String,
                 @SerializedName("total_investment")
-                val totalInvestment: BigInteger,
+                val totalInvestment: Double?,
                 @SerializedName("xirr")
                 val xirr: String
         ) {
@@ -49,7 +50,7 @@ data class UserPortfolioResponse(
                     @SerializedName("fund_name")
                     val fundName: String,
                     @SerializedName("total_investment")
-                    val totalInvestment: BigInteger?,
+                    val totalInvestment: Double?,
                     @SerializedName("xirr")
                     val xirr: String,
                     @SerializedName("pi_minimum_initial")
@@ -63,8 +64,15 @@ data class UserPortfolioResponse(
                     @SerializedName("defer_loads")
                     val deferLoads: List<ExitLoad>?,
                     @SerializedName("units")
-                    val totalUnits: Double?
+                    val totalUnits: Double?,
+                    @SerializedName("reliance_debit_fund")
+                    val relianceDebitFund: Boolean?
             ) {
+
+                var redeemedStatus: RedeemedStatus? = null
+
+                val applyForDebitCartBtnVisibility
+                    get() = if (relianceDebitFund == true) View.VISIBLE else View.GONE
 
                 var bank: DefaultBankResponse.DefaultBank? = null
 
@@ -210,7 +218,7 @@ data class UserPortfolioResponse(
                 @SerializedName("fund_name")
                 val fundName: String,
                 @SerializedName("total_investment")
-                val totalInvestment: BigInteger?,
+                val totalInvestment: Double?,
                 @SerializedName("xirr")
                 val xirr: String,
                 @SerializedName("pi_minimum_initial")
@@ -224,8 +232,17 @@ data class UserPortfolioResponse(
                 @SerializedName("defer_loads")
                 val deferLoads: List<ExitLoad>?,
                 @SerializedName("units")
-                val totalUnits: Double?
+                val totalUnits: Double?,
+                @SerializedName("tz_id")
+                val tzId: String?,
+                @SerializedName("reliance_debit_fund")
+                val relianceDebitFund: Boolean?
         ) {
+
+            var redeemedStatus: RedeemedStatus? = null
+
+            val applyForDebitCartBtnVisibility
+                get() = if (relianceDebitFund == true) View.VISIBLE else View.GONE
 
             var redeemRequest: JsonObject? = null
 
@@ -372,7 +389,7 @@ data class UserPortfolioResponse(
                 @SerializedName("fund_name")
                 val fundName: String,
                 @SerializedName("total_investment")
-                val totalInvestment: BigInteger?,
+                val totalInvestment: Double?,
                 @SerializedName("xirr")
                 val xirr: String,
                 @SerializedName("pi_minimum_initial")
@@ -386,8 +403,15 @@ data class UserPortfolioResponse(
                 @SerializedName("defer_loads")
                 val deferLoads: List<ExitLoad>?,
                 @SerializedName("units")
-                val totalUnits: Double?
+                val totalUnits: Double?,
+                @SerializedName("reliance_debit_fund")
+                val relianceDebitFund: Boolean?
         ) {
+
+            var redeemedStatus: RedeemedStatus? = null
+
+            val applyForDebitCartBtnVisibility
+                get() = if (relianceDebitFund == true) View.VISIBLE else View.GONE
 
             var redeemRequest: JsonObject? = null
 

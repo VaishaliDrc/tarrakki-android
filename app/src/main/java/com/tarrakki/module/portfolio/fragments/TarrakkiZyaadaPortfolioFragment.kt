@@ -103,7 +103,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
                         }
                         context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
-                            addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio).observe(
+                            addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, item.tzId).observe(
                                     this,
                                     Observer { response ->
                                         context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -134,7 +134,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                                     json.printRequest()
                                     item.bank = bank.data
                                     startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(item)
+                                    repostSticky(item)
                                 }
                             })
                         }
@@ -148,11 +148,11 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             item.isInstaRedeem = true
                             getDefaultBank().observe(this, Observer {
                                 it?.let { bank ->
-                                    json.addProperty("bank", bank.data?.bankName)
+                                    //json.addProperty("bank", bank.data?.bankName)
                                     json.printRequest()
                                     item.bank = bank.data
                                     startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(item)
+                                    repostSticky(item)
                                 }
                             })
                         }

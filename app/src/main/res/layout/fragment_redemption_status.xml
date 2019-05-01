@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.tarrakki.module.redeem.RedeemConfirmVM" />
@@ -10,6 +12,10 @@
         <variable
             name="bank"
             type="com.tarrakki.api.model.DefaultBankResponse.DefaultBank" />
+
+        <variable
+            name="isFailed"
+            type="boolean" />
 
     </data>
 
@@ -85,6 +91,7 @@
                 android:layout_marginTop="@dimen/space_16"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
+                android:layout_marginBottom="2dp"
                 android:orientation="vertical">
 
 
@@ -143,6 +150,7 @@
                         android:layout_marginTop="@dimen/space_16"
                         android:text="@string/amount_"
                         android:textSize="@dimen/_9ssp"
+                        android:visibility="@{isFailed?View.GONE:View.VISIBLE}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -155,6 +163,7 @@
                         android:text="To be confirmed"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_9ssp"
+                        android:visibility="@{isFailed?View.GONE:View.VISIBLE}"
                         app:layout_constraintStart_toEndOf="@id/tvTypeL"
                         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
@@ -181,7 +190,47 @@
 
                 </android.support.constraint.ConstraintLayout>
 
+                <View
+                    android:id="@+id/mDividerRemark"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:background="@color/lighter_gray"
+                    android:visibility="@{isFailed?View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvType" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:visibility="@{isFailed?View.VISIBLE:View.GONE}">
+
+                    <TextView
+                        android:id="@+id/tvRemarkL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remarks_"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <TextView
+                        android:id="@+id/tvRemark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/lato_semibold"
+                        android:maxLines="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/black"
+                        tools:text="We have refunded the amount to your Bank for your failed order" />
+
+                </LinearLayout>
+
+
                 <TextView
+                    android:id="@+id/tvNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_goal_summary_bg"
@@ -189,11 +238,13 @@
                     android:padding="8dp"
                     android:text="@string/we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/semi_white" />
+                    android:textColor="@color/semi_white"
+                    android:visibility="@{isFailed?View.GONE:View.VISIBLE}" />
 
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/clBankDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
@@ -201,7 +252,8 @@
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:visibility="@{isFailed?View.GONE:View.VISIBLE}">
 
                 <TextView
                     android:id="@+id/tvTitleW"

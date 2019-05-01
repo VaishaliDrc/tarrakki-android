@@ -150,8 +150,7 @@ fun addToCartGoalPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String
     return apiResponse
 }
 
-fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo: String)
-        : MutableLiveData<ApiResponse> {
+fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo: String, tzId: String? = null): MutableLiveData<ApiResponse> {
     val json = JsonObject()
     json.addProperty("fund_id", fundId)
     if (sipAmount != BigInteger.ZERO.toString()) {
@@ -163,9 +162,11 @@ fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, fo
     if (folioNo.isNotEmpty()) {
         json.addProperty("folio_number", folioNo)
     }
+    if (tzId != null) {
+        json.addProperty("tz_id", tzId)
+    }
     json.printRequest()
     val data = json.toString().toEncrypt()
-
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(
@@ -505,6 +506,7 @@ fun getFolioDetails(folioNo: String): MutableLiveData<SchemeDetails> {
                             response.postValue(schemeDetails)
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            response.postValue(null)
                         }
                         EventBus.getDefault().post(DISMISS_PROGRESS)
                     }
@@ -513,19 +515,18 @@ fun getFolioDetails(folioNo: String): MutableLiveData<SchemeDetails> {
                 override fun onFailure(throwable: Throwable) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     throwable.postError()
+                    response.postValue(null)
                 }
             })
     return response
 }
 
-fun redeemPortfolio(data: String)
-        : MutableLiveData<ApiResponse> {
-    val apiResponse = MutableLiveData<ApiResponse>()
+fun redeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
+    val apiResponse = MutableLiveData<RedeemedStatus>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     data.toDecrypt().printRequest()
     subscribeToSingle(
-            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                    .redeemPortfolio(data),
+            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).redeemPortfolio(data),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
             singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
@@ -533,7 +534,7 @@ fun redeemPortfolio(data: String)
                     if (o is ApiResponse) {
                         e("Api Response=>${o.data?.toDecrypt()}")
                         if (o.status?.code == 1) {
-                            apiResponse.value = o
+                            apiResponse.value = o.data?.parseTo<RedeemedStatus>()
                             //EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
@@ -552,8 +553,8 @@ fun redeemPortfolio(data: String)
     return apiResponse
 }
 
-fun instaRedeemPortfolio(data: String): MutableLiveData<ApiResponse> {
-    val apiResponse = MutableLiveData<ApiResponse>()
+fun instaRedeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
+    val apiResponse = MutableLiveData<RedeemedStatus>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     data.toDecrypt().printRequest()
     subscribeToSingle(
@@ -564,10 +565,9 @@ fun instaRedeemPortfolio(data: String): MutableLiveData<ApiResponse> {
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ApiResponse) {
-                        e("Api Response=>${o.data?.toDecrypt()}")
+                        o.printResponse()
                         if (o.status?.code == 1) {
-                            apiResponse.value = o
-                            //EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            //apiResponse.value = o
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }

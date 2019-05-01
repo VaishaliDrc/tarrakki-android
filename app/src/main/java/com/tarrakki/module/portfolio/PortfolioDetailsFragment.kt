@@ -143,7 +143,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                                 json.printRequest()
                                 item.bank = bank.data
                                 startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                postSticky(item)
+                                repostSticky(item)
                             }
                         })
                     }
@@ -162,7 +162,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                                     json.printRequest()
                                     item.bank = bank.data
                                     startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(item)
+                                    repostSticky(item)
                                 }
                             })
                         }

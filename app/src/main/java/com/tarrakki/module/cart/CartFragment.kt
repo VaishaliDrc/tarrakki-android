@@ -143,12 +143,12 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
     override fun onStart() {
         super.onStart()
-        if (App.INSTANCE.needToLoadTransactionScreen) {
-            val selectPageNo = 4
+        if (App.INSTANCE.needToLoadTransactionScreen >= 0) {
+            val selectPageNo = App.INSTANCE.needToLoadTransactionScreen
             startFragment(TransactionsFragment.newInstance(Bundle().apply {
                 putInt(SET_SELECTED_PAGE, selectPageNo)
             }), R.id.frmContainer)
-            App.INSTANCE.needToLoadTransactionScreen = false
+            App.INSTANCE.needToLoadTransactionScreen = -1
         }
     }
 

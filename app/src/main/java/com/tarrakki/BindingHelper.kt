@@ -19,6 +19,7 @@ import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.constraint.Guideline
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -39,6 +40,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
+import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -116,6 +118,16 @@ fun setHasLink(txt: TextView, hasLink: Boolean) {
     txt.movementMethod = LinkMovementMethod.getInstance()
 }
 
+@BindingAdapter("applyForDebitCart")
+fun applyForDebitCart(txt: TextView, applyForDebitCart: Boolean) {
+    txt.setOnClickListener {
+        val mContext = txt.context
+        if (mContext is FragmentActivity) {
+            mContext.startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
+        }
+    }
+}
+
 @BindingAdapter("enableNestedScrollView")
 fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
     rv.isNestedScrollingEnabled = enable
@@ -184,6 +196,11 @@ fun applyCurrencyFormat(txt: TextView, enable: Boolean?) {
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
 fun applyCurrencyFormat(txt: TextView, amount: BigInteger?, anim: Boolean?) {
     applyCurrencyFormat(txt, amount?.toString()?.toDouble(), anim)
+}
+
+@BindingAdapter(value = ["price", "anim"], requireAll = false)
+fun applyCurrencyFormatDouble(txt: TextView, amount: Double?, anim: Boolean?) {
+    applyCurrencyFormat(txt, amount, anim)
 }
 
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
@@ -809,11 +826,16 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
         mBinder.edtAmount.applyCurrencyDecimalFormatPositiveOnly3D()
         val folioData = Observer<SchemeDetails> {
             it?.data?.let {
-                val instaRedeemEligible = true//it.instaRedeemEligible == "k" && (it.instaAmount?.toDoubleOrNull()?: 0.0) <= 100.00
+                val instaRedeemEligible = it.instaRedeemEligible == "Y" && (it.instaAmount?.toDoubleOrNull()
+                        ?: 0.0) > 0.0
                 mBinder.isInstantRedeem = instaRedeemEligible
                 mBinder.switchOnOff.isEnabled = instaRedeemEligible
                 mBinder.switchOnOff.isChecked = instaRedeemEligible
+                mContext?.let {
+                    it.simpleAlert(it.getString(R.string.insta_redeem_is_not_availble))
+                }
             }
+            mBinder.mProgress.visibility = View.GONE
         }
         val folioList = portfolioList.map { it.folioNo } as ArrayList
         if (folioList.isNotEmpty()) {
@@ -821,11 +843,11 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
             val folio = portfolioList.find { it.folioNo == folioList[0] }
             mBinder.investmentAmount = folio?.units
             mBinder.isSingleFolio = folioList.size == 1
-            val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) > 100.00
+            //val hasMoreThenFiveHounred = (folio?.cValue?.toDouble() ?: 0.0) >= 100.00
             mBinder.isInstantRedeem = false
             mBinder.switchOnOff.isEnabled = false
-            if (hasMoreThenFiveHounred)
-                getFolioDetails("${folio?.folioNo}").observe(this, folioData)
+            mBinder.mProgress.visibility = View.VISIBLE
+            getFolioDetails("${folio?.folioNo}").observe(this, folioData)
         } else {
             mBinder.isSingleFolio = true
         }
@@ -862,13 +884,12 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 mBinder.folio = item
                 val selectedAmount = portfolioList.find { it.folioNo == item }
                 if (selectedAmount != null) {
-                    mBinder.investmentAmount = "${selectedAmount.cValue.toDouble()}"
+                    mBinder.investmentAmount = selectedAmount.cValue.toDouble().decimalFormat3D()
                     mBinder.chkAmount.isChecked = false
-                    val hasMoreThenFiveHounred = (selectedAmount.cValue.toDouble() ?: 0.0) > 100.00
                     mBinder.isInstantRedeem = false
                     mBinder.switchOnOff.isEnabled = false
-                    if (hasMoreThenFiveHounred)
-                        getFolioDetails("${selectedAmount.folioNo}").observe(this, folioData)
+                    mBinder.mProgress.visibility = View.VISIBLE
+                    getFolioDetails("${selectedAmount.folioNo}").observe(this, folioData)
                 }
             }
         }

@@ -10,17 +10,16 @@ class App : CoreApp() {
 
     val cartCount = MutableLiveData<Int>()
     val isAuthorise = MutableLiveData<Boolean>().apply { value = false }
-    //val isLoggedIn = MutableLiveData<Boolean>().apply { value = false }
     val widgetsViewModel = MutableLiveData<WidgetsViewModel>()
     val widgetsViewModelB = MutableLiveData<WidgetsViewModel>()
     val signatureFile = MutableLiveData<File>()
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
     var homeData: HomeData? = null
-    var needToLoadTransactionScreen = false
+    var needToLoadTransactionScreen = -1
 
     override fun onCreate() {
         super.onCreate()
-        App.INSTANCE = this
+        INSTANCE = this
         cartCount.value = 0
     }
 

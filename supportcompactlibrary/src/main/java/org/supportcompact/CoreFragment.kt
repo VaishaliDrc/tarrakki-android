@@ -111,6 +111,11 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
         EventBus.getDefault().postSticky(data)
     }
 
+    fun repostSticky(data: Any) {
+        EventBus.getDefault().removeAllStickyEvents()
+        EventBus.getDefault().postSticky(data)
+    }
+
     fun removeStickyEvent(data: Any) {
         EventBus.getDefault().removeStickyEvent(data)
     }

@@ -46,8 +46,6 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
     override fun createReference() {
         setHasOptionsMenu(true)
         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-        statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "12 Mar 2019, 01:34 PM", "completed"))
-        statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "In progress"))
         val adapter = rvTransactionStatus?.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist)
         { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
             binder2.widget = item2
@@ -60,30 +58,61 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
         }
         getViewModel().directRedeemFund.observe(this, Observer {
             it?.let { fund ->
+                val isFailed = "Failed".equals(fund.redeemedStatus?.data?.withdrawalSent, true)
+                tvRemark?.text = fund.redeemedStatus?.data?.remarks
                 tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
                 tvName?.text = fund.fundName
                 tvUnits?.text = fund.redeemUnits
                 getBinding().bank = fund.bank
+                getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
+                statuslist.clear()
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed)
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
+                if (fund.isInstaRedeem) {
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                }
+                adapter?.notifyDataSetChanged()
             }
         })
         getViewModel().goalBasedRedeemFund.observe(this, Observer {
             it?.let { fund ->
+                val isFailed = "Failed".equals(fund.redeemedStatus?.data?.withdrawalSent, true)
+                tvRemark?.text = fund.redeemedStatus?.data?.remarks
                 tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
                 tvName?.text = fund.fundName
                 tvUnits?.text = fund.redeemUnits
                 getBinding().bank = fund.bank
+                getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
+                statuslist.clear()
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed)
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
+                if (fund.isInstaRedeem) {
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                }
+                adapter?.notifyDataSetChanged()
             }
         })
         getViewModel().tarrakkiZyaadaRedeemFund.observe(this, Observer {
             it?.let { fund ->
+                val isFailed = "Failed".equals(fund.redeemedStatus?.data?.withdrawalSent, true)
+                tvRemark?.text = fund.redeemedStatus?.data?.remarks
                 tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
                 tvName?.text = fund.fundName
                 tvUnits?.text = fund.redeemUnits
                 getBinding().bank = fund.bank
+                getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "Pending"))
+                statuslist.clear()
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed)
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
+                if (fund.isInstaRedeem) {
+                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                }
                 adapter?.notifyDataSetChanged()
             }
         })

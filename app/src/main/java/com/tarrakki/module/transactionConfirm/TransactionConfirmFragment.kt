@@ -48,7 +48,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         return R.layout.fragment_transaction_confirm
     }
 
-    var transactionList: List<TransactionStatus> = arrayListOf<TransactionStatus>()
+    var transactionList: List<TransactionStatus> = arrayListOf()
 
     override fun createReference() {
         setHasOptionsMenu(true)
@@ -111,7 +111,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             onBack(2 + temp)
             postSticky(Event.ISFROMTRANSACTIONSUCCESS)
         } else {
-            App.INSTANCE.needToLoadTransactionScreen = true
+            App.INSTANCE.needToLoadTransactionScreen = 4
             if (isFromPaymentMode == true) {
                 onBack(3 + temp)
             } else {
