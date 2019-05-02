@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
 
-    private val OKHTTP_TIMEOUT = 30 * 1.5 // seconds
+    private val OKHTTP_TIMEOUT = 30 * 10 // seconds
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient

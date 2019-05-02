@@ -874,7 +874,7 @@
         \n\u2022 Minimum Investment of 100 ONLY!
     </string>
     <string name="tarrakki_zyaada">Tarrakki Zyaada</string>
-    <string name="tarrakki_zyaada_investment">Tarrakki Zyaada Investment</string>
+    <string name="tarrakki_zyaada_investment">Tarrakki Zyaada</string>
     <string name="invest_and_save_now">Invest and save now</string>
     <string name="faqs">FAQs</string>
     <string name="reliance_liquid_fund_performance">Reliance Liquid Fund Performance</string>
@@ -911,9 +911,9 @@
     <string name="change_mobile_number">Change Mobile Number</string>
     <string name="enter_email_id">Enter Email Id</string>
     <string name="powered_by_tarrakki_reliance_mutual_fund_and_visa">➡ Powered by Tarrakki, Reliance Mutual Fund, and Visa</string>
-    <string name="symbol_a">∗ -</string>
-    <string name="symbol_b">∗∗ -</string>
-    <string name="symbol_c">∗∗∗ -</string>
+    <string name="symbol_a">∗\u0020\u0020\u0020\u0020\u0020-</string>
+    <string name="symbol_b">∗∗\u0020\u0020\u0020-</string>
+    <string name="symbol_c">∗∗∗\u0020-</string>
     <string name="daily_purchase_limit_of_50">Daily purchase limit of 50% of the balance or ₹1,00,000 whichever is lower.</string>
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
     <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 90% of the current investment value, whichever is lower.</string>
@@ -972,5 +972,8 @@
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>
     <string name="insta_redeem_is_not_availble">Insta-Redemption is not available for this folio now.</string>
+    <string name="do_you_want_to_enable_app_security">Do you want to enable the screen lock for the app security?</string>
+    <string name="debit_cart_request_sent">We have received your request for a debit card.</string>
+    <string name="success_">Success!</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

@@ -118,7 +118,7 @@
                     android:id="@+id/tvRiskLevel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{fund.fscbiIndianRiskLevel}"
+                    android:text="@{fund.fscbiIndianRiskLevelName}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintBaseline_toBaselineOf="@+id/tvRiskLevelL"
                     app:layout_constraintEnd_toEndOf="parent"

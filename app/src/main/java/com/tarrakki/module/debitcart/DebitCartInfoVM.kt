@@ -7,10 +7,7 @@ import com.tarrakki.App
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.printRequest
-import com.tarrakki.api.model.printResponse
-import com.tarrakki.api.model.toEncrypt
+import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -26,6 +23,7 @@ class DebitCartInfoVM : FragmentViewModel() {
     val cardHolerName = ObservableField<String>()
     val mothersName = ObservableField<String>()
     val dob = ObservableField<String>()
+    val folioData = arrayListOf<FolioData>()
 
     fun applyForDebitCart(): MutableLiveData<ApiResponse> {
         val response = MutableLiveData<ApiResponse>()

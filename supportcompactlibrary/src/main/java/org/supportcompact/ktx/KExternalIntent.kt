@@ -9,7 +9,8 @@ import android.net.Uri
 
 //opens up a browser given a url
 fun Context.openUrl(url: String) {
-    startActivity(Intent(Intent.ACTION_VIEW).apply { data = Uri.parse(url) })
+    val chooser = Intent(ACTION_VIEW).apply { data = Uri.parse(url) }
+    startActivity(createChooser(chooser, "Open With"))
 }
 
 /**
@@ -17,7 +18,7 @@ fun Context.openUrl(url: String) {
  */
 fun Context.browse(url: String, newTask: Boolean = false): Boolean {
     try {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
+        val intent = Intent(ACTION_VIEW).apply {
             data = Uri.parse(url)
             if (newTask) addFlags(FLAG_ACTIVITY_NEW_TASK)
         }
@@ -32,7 +33,7 @@ fun Context.browse(url: String, newTask: Boolean = false): Boolean {
  * Extension method to share for Context.
  */
 fun Context.share(text: String, subject: String = ""): Boolean {
-    val intent = Intent(Intent.ACTION_VIEW).apply {
+    val intent = Intent(ACTION_VIEW).apply {
         type = "text/plain"
         putExtra(EXTRA_SUBJECT, subject)
         putExtra(EXTRA_TEXT, text)
@@ -64,9 +65,9 @@ fun Context.email(email: String, subject: String = "", text: String = ""): Boole
 }
 
 @SuppressLint("MissingPermission")
- /**
- * Extension method to make call for Context.
- */
+        /**
+         * Extension method to make call for Context.
+         */
 fun Context.makeCall(number: String): Boolean {
     return try {
         val intent = Intent(ACTION_CALL, Uri.parse("tel:$number"))

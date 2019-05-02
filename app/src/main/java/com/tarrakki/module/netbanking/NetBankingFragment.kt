@@ -159,12 +159,13 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
 
     private fun onBackPress() {
         context?.confirmationDialog(App.INSTANCE.getString(R.string.go_back_from_bank), btnPositiveClick = {
-            App.INSTANCE.needToLoadTransactionScreen = 0
             val isFromTransaction = arguments?.getBoolean(ISFROMTRANSACTIONMODE)
-            if (isFromTransaction == true)
+            if (isFromTransaction == true) {
                 onBack(2)
-            else
+            } else {
+                App.INSTANCE.needToLoadTransactionScreen = 0
                 onBack(3)
+            }
         })
     }
 

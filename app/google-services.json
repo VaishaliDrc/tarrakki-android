@@ -1,39 +1,44 @@
 {
   "project_info": {
-    "project_number": "890740840004",
-    "firebase_url": "https://test-fcm-3f5a7.firebaseio.com",
-    "project_id": "test-fcm-3f5a7",
-    "storage_bucket": "test-fcm-3f5a7.appspot.com"
+    "project_number": "13719606046",
+    "firebase_url": "https://tarrakki-1545041292942.firebaseio.com",
+    "project_id": "tarrakki-1545041292942",
+    "storage_bucket": "tarrakki-1545041292942.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:890740840004:android:d3fa7c37efd7abe2",
+        "mobilesdk_app_id": "1:13719606046:android:d3fa7c37efd7abe2",
         "android_client_info": {
           "package_name": "com.tarrakki"
         }
       },
       "oauth_client": [
         {
-          "client_id": "890740840004-4gujv0i71t21pc8op606nq02vkteq09f.apps.googleusercontent.com",
+          "client_id": "13719606046-120nhpf8ajfk9oqrq15k5t2hh6k9j4ro.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAUOq3WhkpMBQLDwODPQ6jwfv7b1hSIuqU"
+          "current_key": "AIzaSyDHCQGeatO4znpK8Uu-qyr3FUFb1q_aDGI"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13719606046-120nhpf8ajfk9oqrq15k5t2hh6k9j4ro.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "13719606046-aee4qffd5l39ro1khcqg1e6q7mvjpc5i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.plutonomic.tarrakki"
+              }
+            }
+          ]
         }
       }
     }

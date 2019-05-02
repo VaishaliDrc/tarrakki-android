@@ -265,6 +265,9 @@ data class FundsDetails(
             else -> Color.parseColor("#00CB00")
         }
 
+    val fscbiIndianRiskLevelName
+        get() = if ("Medium Risk".equals("$fscbiIndianRiskLevel", true)) "Moderate Risk" else fscbiIndianRiskLevel
+
     var benchmark = ""
         get() = if (benchmarks != null && benchmarks.isNotEmpty()) {
             var name = ""

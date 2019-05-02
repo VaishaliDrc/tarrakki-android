@@ -76,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:src="@{data.isSelected ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+            android:visibility="@{data.expandBtnVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_arrow_down" />
@@ -281,6 +282,7 @@
             expanded="@{data.isSelected}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{data.expandBtnVisibility}"
             app:el_duration="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

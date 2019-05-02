@@ -136,25 +136,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!--<HorizontalScrollView
-                    android:id="@+id/hScrollView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:elevation="2dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TableLayout
-                        android:id="@+id/tblSchemeDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:divider="?android:attr/dividerHorizontal"
-                        android:orientation="horizontal"
-                        android:showDividers="middle" />
-
-                </HorizontalScrollView>-->
-
                 <TextView
                     android:id="@+id/tvSymbol1"
                     android:layout_width="wrap_content"

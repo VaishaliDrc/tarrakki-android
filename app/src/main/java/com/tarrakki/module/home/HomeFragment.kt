@@ -64,7 +64,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 App.INSTANCE.setAskForSecureLock(true)
                 return
             }
-            context?.confirmationDialog("Do you want enable security lock?",
+            context?.confirmationDialog(getString(R.string.do_you_want_to_enable_app_security),
                     btnPositiveClick = {
                         getViewModel().isShowingSecurityDialog = false
                         getViewModel().isAskedForSecurityLock = true

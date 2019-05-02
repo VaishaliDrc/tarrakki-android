@@ -67,11 +67,13 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
                 statuslist.clear()
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
-                if (!isFailed)
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime
+                        ?: ""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
-                if (fund.isInstaRedeem) {
-                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    if (fund.isInstaRedeem) {
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    }
                 }
                 adapter?.notifyDataSetChanged()
             }
@@ -87,11 +89,13 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
                 statuslist.clear()
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
-                if (!isFailed)
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime
+                        ?: ""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
-                if (fund.isInstaRedeem) {
-                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    if (fund.isInstaRedeem) {
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    }
                 }
                 adapter?.notifyDataSetChanged()
             }
@@ -107,11 +111,13 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()
                 statuslist.clear()
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime?:""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
-                if (!isFailed)
+                statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "".plus(fund.redeemedStatus?.data?.dateTime
+                        ?: ""), "${fund.redeemedStatus?.data?.withdrawalSent}"))
+                if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
-                if (fund.isInstaRedeem) {
-                    statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    if (fund.isInstaRedeem) {
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
+                    }
                 }
                 adapter?.notifyDataSetChanged()
             }
@@ -139,7 +145,7 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
     }
 
     private fun onBackPress() {
-        onBack(2)
+        onBack(if (getViewModel().goalBasedRedeemFund.value == null) 2 else 3)
     }
 
     @Subscribe(sticky = true)

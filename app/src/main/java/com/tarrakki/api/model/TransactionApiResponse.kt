@@ -4,6 +4,7 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.annotation.StringDef
 import android.text.TextUtils
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R
@@ -45,7 +46,7 @@ data class TransactionApiResponse(
             @SerializedName("order_id")
             val orderId: String,
             @SerializedName("order_number")
-            val orderNumber: String?,
+            val orderNo: String?,
             @SerializedName("order_type")
             val orderType: String?,
             @SerializedName("remarks")
@@ -55,9 +56,33 @@ data class TransactionApiResponse(
             @SerializedName("type")
             val type: String,
             @SerializedName("payment_mode", alternate = ["payment_method"])
-            val paymentMode: String
+            val paymentMode: String,
+            @SerializedName("payment")
+            val payment: String?,
+            @SerializedName("order_placed")
+            val orderPlaced: String?,
+            @SerializedName("units_alloted")
+            val unitsAllocated: String?,
+            @SerializedName("display_status")
+            val displayStatus: Boolean,
+            @SerializedName("withdrawal_confirm")
+            val withdrawalConfirm: String?,
+            @SerializedName("withdrawal_sent")
+            val withdrawalSent: String?,
+            @SerializedName("amount_creadited")
+            val amountCreadited: String?,
+            @SerializedName("is_reliance_redemption")
+            val isRelianceRedemption: Boolean?,
+            @SerializedName("buy_sell")
+            val buySell: String?
 
     ) : BaseObservable(), WidgetsViewModel {
+
+        var orderNumber: String? = null
+            get() = if (TextUtils.isEmpty(orderNo)) orderId else orderNo
+
+        val expandBtnVisibility
+            get() = if (displayStatus) View.VISIBLE else View.GONE
 
         @SerializedName("units")
         val units: String? = null
@@ -84,30 +109,30 @@ data class TransactionApiResponse(
             }
 
         override fun layoutId(): Int {
-            return when ("$status") {
-                IN_PROGRESS -> R.layout.row_inprogress_transactions
-                COMPLETED -> R.layout.row_completed_transactions
-                UPCOMING -> R.layout.row_upcoming_transactions
-                UNPAID -> R.layout.row_unpaid_transactions
-                FAILED -> R.layout.row_failed_transactions
+            return when {
+                IN_PROGRESS.equals("$status", true) -> R.layout.row_inprogress_transactions
+                COMPLETED.equals("$status", true) -> R.layout.row_completed_transactions
+                UPCOMING.equals("$status", true) -> R.layout.row_upcoming_transactions
+                UNPAID.equals("$status", true) -> R.layout.row_unpaid_transactions
+                FAILED.equals("$status", true) -> R.layout.row_failed_transactions
                 else -> R.layout.row_inprogress_transactions
             }
         }
 
         fun getStringRes(): Int {
-            return when ("$status") {
-                IN_PROGRESS -> R.string.in_progress
-                COMPLETED -> R.string.completed
-                UPCOMING -> R.string.upcoming
-                UNPAID -> R.string.unpaid
-                FAILED -> R.string.failed
+            return when {
+                IN_PROGRESS.equals("$status", true) -> R.string.in_progress
+                COMPLETED.equals("$status", true) -> R.string.completed
+                UPCOMING.equals("$status", true) -> R.string.upcoming
+                UNPAID.equals("$status", true) -> R.string.unpaid
+                FAILED.equals("$status", true) -> R.string.failed
                 else -> R.string.in_progress
             }
         }
 
         fun getTextColorRes(): Int {
-            return when ("$status") {
-                FAILED -> App.INSTANCE.color(R.color.red)
+            return when {
+                FAILED.equals("$status", true) -> App.INSTANCE.color(R.color.red)
                 /*IN_PROGRESS -> R.string.in_progress
                 COMPLETED -> R.string.completed
                 UPCOMING -> R.string.upcoming

@@ -76,6 +76,19 @@ data class UserPortfolioResponse(
 
                 var bank: DefaultBankResponse.DefaultBank? = null
 
+                var folioData: ArrayList<FolioData>? = null
+                    get() = if (field == null) {
+                        field = arrayListOf()
+                        folioList?.forEach { folio ->
+                            if (folio.isApplyDebitCard == false) {
+                                field?.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
+                            }
+                        }
+                        field
+                    } else {
+                        field
+                    }
+
                 var redeemRequest: JsonObject? = null
 
                 var redeemUnits: String? = null
@@ -159,7 +172,9 @@ data class UserPortfolioResponse(
                         @SerializedName("sip_details")
                         val sipDetails: List<SipDetail>,
                         @SerializedName("xirr")
-                        val xirr: String?
+                        val xirr: String?,
+                        @SerializedName("is_apply_debit_card")
+                        val isApplyDebitCard: Boolean?
                 ) {
                     var xiRR: String = ""
                         get() = parseAsReturn(xirr)
@@ -252,6 +267,19 @@ data class UserPortfolioResponse(
 
             var bank: DefaultBankResponse.DefaultBank? = null
 
+            var folioData: ArrayList<FolioData>? = null
+                get() = if (field == null) {
+                    field = arrayListOf()
+                    folioList?.forEach { folio ->
+                        if (folio.isApplyDebitCard == false) {
+                            field?.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
+                        }
+                    }
+                    field
+                } else {
+                    field
+                }
+
             var exitLoad: String = ""
                 get() = if (deferLoads != null && deferLoads.isNotEmpty()) {
                     val result = StringBuilder()
@@ -327,7 +355,9 @@ data class UserPortfolioResponse(
                     @SerializedName("sip_details")
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
-                    val xirr: String?
+                    val xirr: String?,
+                    @SerializedName("is_apply_debit_card")
+                    val isApplyDebitCard: Boolean?
             ) {
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
@@ -421,6 +451,19 @@ data class UserPortfolioResponse(
 
             var bank: DefaultBankResponse.DefaultBank? = null
 
+            var folioData: ArrayList<FolioData>? = null
+                get() = if (field == null) {
+                    field = arrayListOf()
+                    folioList?.forEach { folio ->
+                        if (folio.isApplyDebitCard == false) {
+                            field?.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
+                        }
+                    }
+                    field
+                } else {
+                    field
+                }
+
             var exitLoad: String = ""
                 get() = if (deferLoads != null && deferLoads.isNotEmpty()) {
                     val result = StringBuilder()
@@ -496,7 +539,9 @@ data class UserPortfolioResponse(
                     @SerializedName("sip_details")
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
-                    val xirr: String?
+                    val xirr: String?,
+                    @SerializedName("is_apply_debit_card")
+                    val isApplyDebitCard: Boolean?
             ) {
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
@@ -563,6 +608,10 @@ data class FolioData(
             }
             return value.toString()
         }
+
+    override fun toString(): String {
+        return folioNo ?: ""
+    }
 }
 
 data class SIPDetails(

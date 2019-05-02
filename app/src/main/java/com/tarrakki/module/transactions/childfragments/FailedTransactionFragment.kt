@@ -50,7 +50,7 @@ class FailedTransactionFragment : CoreParentFragment<TransactionsVM, FragmentFai
         val failedTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        response = Observer<TransactionApiResponse> {
+        response = Observer {
             it?.let { data ->
                 failedTransactions.remove(loadMore)
                 loadMore.isLoading = false

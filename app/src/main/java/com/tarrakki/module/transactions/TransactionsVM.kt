@@ -5,8 +5,11 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
+import com.tarrakki.api.subscribeToSingle
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -15,9 +18,6 @@ import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import kotlin.concurrent.thread
 
 class TransactionsVM : FragmentViewModel() {
@@ -104,40 +104,17 @@ class TransactionsVM : FragmentViewModel() {
         return apiResponse
     }
 
-    //TODO static data
-    fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, status: String, paymentType: String) {
-        when (status) {
-            "1" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-            "2" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-            "3" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "In progress"))
-            }
-            "4" -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "completed"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "completed"))
-            }
-            else -> {
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, "In progress"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", "Pending"))
-                statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", "Pending"))
-            }
-        }
+    fun setData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, payment: String, orderPlaced: String, unitsAllocated: String, paymentType: String) {
+        statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", paymentType, payment))
+        statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", orderPlaced))
+        statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Alloted", "", unitsAllocated))
+    }
+
+    fun setRedeemData(statuslist: ArrayList<TransactionConfirmVM.TranscationStatuss>, withdrawalSent: String, withdrawalConfirm: String, amountCreadited: String, isRelianceRedemption: Boolean) {
+        statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Sent to AMC", "", withdrawalSent))
+        statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", withdrawalConfirm))
+        if (isRelianceRedemption)
+            statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", amountCreadited))
     }
 
 }

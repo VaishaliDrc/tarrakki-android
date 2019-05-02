@@ -138,13 +138,14 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                                 }
                             })
                         }
-                        redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, amount: String, allRedeem: String ->
+                        redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, folioId: String, amount: String, allRedeem: String ->
                             val json = JsonObject()
                             json.addProperty("folio_number", portfolioNo)
                             json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
                             json.addProperty("redemption_flag", allRedeem)
+                            json.addProperty("folio_id", folioId)
                             item.redeemRequest = json
-                            item.redeemUnits = amount
+                            item.redeemUnits = amount.toCurrency().toDecimalCurrency()
                             item.isInstaRedeem = true
                             getDefaultBank().observe(this, Observer {
                                 it?.let { bank ->

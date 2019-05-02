@@ -521,10 +521,11 @@ fun getFolioDetails(folioNo: String): MutableLiveData<SchemeDetails> {
     return response
 }
 
-fun redeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
+fun redeemPortfolio(json: JsonObject): MutableLiveData<RedeemedStatus> {
     val apiResponse = MutableLiveData<RedeemedStatus>()
     EventBus.getDefault().post(SHOW_PROGRESS)
-    data.toDecrypt().printRequest()
+    val data = json.toString().toEncrypt()
+    json.printRequest()
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).redeemPortfolio(data),
             apiNames = WebserviceBuilder.ApiNames.addtocart,
@@ -553,10 +554,11 @@ fun redeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
     return apiResponse
 }
 
-fun instaRedeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
+fun instaRedeemPortfolio(json: JsonObject): MutableLiveData<RedeemedStatus> {
     val apiResponse = MutableLiveData<RedeemedStatus>()
     EventBus.getDefault().post(SHOW_PROGRESS)
-    data.toDecrypt().printRequest()
+    val data = json.toString().toEncrypt()
+    json.printRequest()
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                     .instaRedeem(App.INSTANCE.getUserId(), data),
@@ -567,7 +569,7 @@ fun instaRedeemPortfolio(data: String): MutableLiveData<RedeemedStatus> {
                     if (o is ApiResponse) {
                         o.printResponse()
                         if (o.status?.code == 1) {
-                            //apiResponse.value = o
+                            apiResponse.value = o.data?.parseTo<RedeemedStatus>()
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }

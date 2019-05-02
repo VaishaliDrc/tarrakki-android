@@ -17,7 +17,7 @@ import org.supportcompact.ktx.*
 
 class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    /*val userName = ObservableField("suhanee@tarrakki.com")
+    /*val userName = ObservableField("saumya.shah@gmail.com")
     val password = ObservableField("Drc@1234")*/
     val userName = ObservableField("")
     val password = ObservableField("")

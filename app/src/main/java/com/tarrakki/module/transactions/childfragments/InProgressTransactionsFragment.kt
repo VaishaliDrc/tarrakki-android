@@ -19,13 +19,11 @@ import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.module.transactions.TransactionsVM
 import kotlinx.android.synthetic.main.fragment_in_progress_transactions.*
-import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -35,7 +33,7 @@ import org.supportcompact.events.Event
  */
 class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.tarrakki.databinding.FragmentInProgressTransactionsBinding>() {
 
-    lateinit var response : Observer<TransactionApiResponse>
+    lateinit var response: Observer<TransactionApiResponse>
 
     override fun getLayout(): Int {
         return R.layout.fragment_in_progress_transactions
@@ -71,12 +69,16 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
                     rvInProgressTransactions?.setUpMultiViewRecyclerAdapter(inProgressTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
-                        if (binder is RowInprogressTransactionsBinding && item is TransactionApiResponse.Transaction) {
+                        if (binder is RowInprogressTransactionsBinding && item is TransactionApiResponse.Transaction && item.displayStatus) {
                             binder.imgArrow.setOnClickListener {
                                 item.isSelected = !item.isSelected
                             }
                             val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                            getViewModel().setData(statuslist, "${item.orderOperation}", item.paymentType)
+                            if ("R".equals(item.buySell, true)) {
+                                getViewModel().setRedeemData(statuslist, "${item.withdrawalSent}", "${item.withdrawalConfirm}", "${item.amountCreadited}", item.isRelianceRedemption == true)
+                            } else {
+                                getViewModel().setData(statuslist, "${item.payment}", "${item.orderPlaced}", "${item.unitsAllocated}", item.paymentType)
+                            }
                             binder.rvTransactionStatus.setUpRecyclerView(R.layout.row_transaction_list_status, statuslist) { item2: TransactionConfirmVM.TranscationStatuss, binder2: RowTransactionListStatusBinding, position2: Int ->
                                 binder2.widget = item2
                                 binder2.executePendingBindings()
@@ -127,7 +129,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         })
     }
 
-    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+    val refreshListener = SwipeRefreshLayout.OnRefreshListener {
         getViewModel().getTransactions(
                 transactionType = TransactionApiResponse.IN_PROGRESS,
                 mRefresh = true).observe(this, response)

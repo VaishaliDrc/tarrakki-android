@@ -69,7 +69,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         if (!("N".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)))
                             statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", funds.orderPlaced))
-                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", funds.investmentConfirmation))
+                        //statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", funds.investmentConfirmation))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Allotted", "", funds.unitsAlloted))
                         transactionStatus.add(TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>))
                         if ("Failed".equals(funds.payment, true)) {

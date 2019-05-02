@@ -78,7 +78,11 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
             }
         }
 
-        val imgs = arrayListOf(R.drawable.zyaada1, R.drawable.zyaada2, R.drawable.zyaada3)
+        tvFAQs?.setOnClickListener {
+            context?.openUrl("https://www.reliancemutual.com/investor-services/innovative-products/reliance-any-time-money-card")
+        }
+
+        val imgs = arrayListOf(R.drawable.zyaada1, R.drawable.zyaada2, R.drawable.zyaada3, R.drawable.zyaada4)
         mAutoPager?.setAutoWrapContentPageAdapter(R.layout.page_tarrakki_zyaada_item, imgs) { binder: PageTarrakkiZyaadaItemBinding, item: Int ->
             binder.imgRes = item
             binder.executePendingBindings()

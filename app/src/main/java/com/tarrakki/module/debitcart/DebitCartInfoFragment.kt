@@ -4,10 +4,13 @@ package com.tarrakki.module.debitcart
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentDebitCartInfoBinding
 import kotlinx.android.synthetic.main.fragment_debit_cart_info.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.startFragment
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -38,6 +41,14 @@ class DebitCartInfoFragment : CoreFragment<DebitCartInfoVM, FragmentDebitCartInf
     override fun createReference() {
         btnPayNow?.setOnClickListener {
             startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
+            postSticky(getViewModel().folioData)
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReemFund(items: ArrayList<FolioData>) {
+        if (getViewModel().folioData.isEmpty()) {
+            getViewModel().folioData.addAll(items)
         }
     }
 

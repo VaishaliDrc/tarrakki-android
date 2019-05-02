@@ -3,10 +3,13 @@ package com.tarrakki.module.debitcart
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_apply_for_debit_cart.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import java.text.DateFormatSymbols
@@ -40,17 +43,16 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 
     override fun createReference() {
 
-        getViewModel().getFolioList().observe(this, android.arch.lifecycle.Observer {
+        /*getViewModel().getFolioList().observe(this, android.arch.lifecycle.Observer {
             it?.let {
 
             }
-        })
+        })*/
 
         edtChooseFolio?.setOnClickListener {
-            context?.showListDialog("Select Folio", arrayListOf(
-                    "15236 - Reliance Liquid Fund", "15237 - Reliance Liquid Fund")) { item ->
-                getViewModel().folioNo.set("1553581661")
-                edtChooseFolio?.text = item
+            context?.showCustomListDialog("Select Folio", getViewModel().folioData) { item ->
+                getViewModel().folioNo.set(item.folioNo)
+                edtChooseFolio?.text = item.folioNo
             }
         }
 
@@ -84,7 +86,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             if (isValid()) {
                 getViewModel().applyForDebitCart().observe(this, android.arch.lifecycle.Observer {
                     it?.let { apiResponse ->
-                        context?.simpleAlert("Your application for debit cart has been submitted successfully.") {
+                        context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
                             onBack(2)
                         }
                     }
@@ -115,6 +117,13 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         }
     }
 
+    @Subscribe(sticky = true)
+    fun onReemFund(items: ArrayList<FolioData>) {
+        if (getViewModel().folioData.isEmpty()) {
+            getViewModel().folioData.addAll(items)
+        }
+        removeStickyEvent(items)
+    }
 
     companion object {
         /**
