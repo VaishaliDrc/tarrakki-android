@@ -74,7 +74,9 @@ data class TransactionApiResponse(
             @SerializedName("is_reliance_redemption")
             val isRelianceRedemption: Boolean?,
             @SerializedName("buy_sell")
-            val buySell: String?
+            val buySell: String?,
+            @SerializedName("next_sip_date")
+            val nextSIPDate: String
 
     ) : BaseObservable(), WidgetsViewModel {
 
@@ -110,7 +112,8 @@ data class TransactionApiResponse(
 
         override fun layoutId(): Int {
             return when {
-                IN_PROGRESS.equals("$status", true) -> R.layout.row_inprogress_transactions
+                IN_PROGRESS.equals("$status", true)
+                        || IN_PROGRESS1.equals("$status", true) -> R.layout.row_inprogress_transactions
                 COMPLETED.equals("$status", true) -> R.layout.row_completed_transactions
                 UPCOMING.equals("$status", true) -> R.layout.row_upcoming_transactions
                 UNPAID.equals("$status", true) -> R.layout.row_unpaid_transactions
@@ -121,7 +124,8 @@ data class TransactionApiResponse(
 
         fun getStringRes(): Int {
             return when {
-                IN_PROGRESS.equals("$status", true) -> R.string.in_progress
+                IN_PROGRESS.equals("$status", true)
+                        || IN_PROGRESS1.equals("$status", true) -> R.string.in_progress
                 COMPLETED.equals("$status", true) -> R.string.completed
                 UPCOMING.equals("$status", true) -> R.string.upcoming
                 UNPAID.equals("$status", true) -> R.string.unpaid
@@ -146,12 +150,13 @@ data class TransactionApiResponse(
     companion object {
         const val ALL = "all"
         const val IN_PROGRESS = "in_progress"
+        const val IN_PROGRESS1 = "In Progress"
         const val COMPLETED = "completed"
         const val UPCOMING = "upcoming"
         const val UNPAID = "unpaid"
         const val FAILED = "failed"
 
-        @StringDef(ALL, IN_PROGRESS, COMPLETED, UPCOMING, UNPAID, FAILED)
+        @StringDef(ALL, IN_PROGRESS, IN_PROGRESS1, COMPLETED, UPCOMING, UNPAID, FAILED)
         @Retention(value = AnnotationRetention.SOURCE)
         annotation class TransactionType
     }

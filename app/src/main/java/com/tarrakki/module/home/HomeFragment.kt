@@ -21,10 +21,8 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -62,6 +60,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             if (km.isKeyguardSecure && getViewModel().isAskedForSecurityLock) {
                 App.INSTANCE.setAppIsLock(true)
                 App.INSTANCE.setAskForSecureLock(true)
+                App.INSTANCE.isAuthorise.value = true
                 return
             }
             context?.confirmationDialog(getString(R.string.do_you_want_to_enable_app_security),
@@ -74,6 +73,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                         } else {
                             App.INSTANCE.setAppIsLock(true)
                             App.INSTANCE.setAskForSecureLock(true)
+                            App.INSTANCE.isAuthorise.value = true
                         }
                     },
                     btnNegativeClick = {
@@ -83,13 +83,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
     }
 
-    @Subscribe(sticky = true)
-    fun onEventData(event: Event) {
-        when (event) {
-            Event.ISGOALADDED -> {
-                getViewModel().getHomeData().observe(this, observerHomeData)
-            }
-        }
+    override fun onStart() {
+        super.onStart()
+        getViewModel().getHomeData().observe(this, observerHomeData)
     }
 
     val observerHomeData = Observer<HomeData> {
@@ -140,7 +136,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
             if (edtPanNo.length() == 0) {
-                //startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
                 context?.simpleAlert(getString(R.string.alert_req_pan_number))
             } else if (!isPANCard(edtPanNo.text.toString())) {
                 context?.simpleAlert(getString(R.string.alert_valid_pan_number))
@@ -192,26 +187,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                         })
                     }
                 })
-                /*checkKYCStatus(kyc).observe(this, Observer {
-                    it?.let { html ->
-                        //<input type='hidden' name='result' value='N|AJNPV8599B|KS101|The KYC for this PAN is not complete' />
-                        try {
-                            val doc = Jsoup.parse(html)
-                            val values = doc.select("input[name=result]").attr("value").split("|")
-                            if (values.isNotEmpty() && values.contains("N") && values.contains("KS101")) {
-                                startFragment(EKYCFragment.newInstance(), R.id.frmContainer)
-                                postSticky(kyc)
-                            } else {
-                                //post(ShowError(values[3]))
-                                startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                postSticky(kyc)
-                            }
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                        edtPanNo?.text?.clear()
-                    }
-                })*/
             }
         }
 
@@ -222,19 +197,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         ivTarrakkiZyaada?.setOnClickListener {
-            //context?.simpleAlert(getString(R.string.coming_soon))
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
         tvViewPortfolio?.setOnClickListener {
-            //context?.simpleAlert("Portfolio is still under development so you will be able to test it in the next build.")
             startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
-            /*val folios: MutableList<FolioData> = mutableListOf()
-            folios.add(FolioData(1500.0, "1,500", "123456"))
-            folios.add(FolioData(15000.0, "15,000", "1234567"))
-            redeemFundTarrakkiZyaadaDialog(10.0, folios) { portfolioNo: String, totalUnits: String, allRedeem: String, units: String ->
-
-            }*/
         }
 
         mRefresh?.setOnRefreshListener {
@@ -247,7 +214,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 App.INSTANCE.isRefreshing.value = null
             }
         })
-        getViewModel().getHomeData().observe(this, observerHomeData)
     }
 
     companion object {

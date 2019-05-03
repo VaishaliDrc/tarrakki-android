@@ -41,7 +41,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
         val getOtp = Observer<ApiResponse> { apiResponse ->
             apiResponse?.let { response ->
                 val json = JSONObject(response.data?.toDecrypt())
-                getViewModel().otp.set(json.optString("otp"))
+                //getViewModel().otp.set(json.optString("otp"))
                 edtOtp?.length()?.let { edtOtp?.setSelection(0, it) }
             }
         }
@@ -62,7 +62,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             data = JSONObject(intent.getStringExtra(FORGOTPASSWORD_DATA))
             getViewModel().email.set(data?.optString("email").toString())
             getViewModel().otpId.set(data?.optString("otp_id").toString())
-            getViewModel().otp.set(data?.optString("otp").toString())
+            //getViewModel().otp.set(data?.optString("otp").toString())
         }
         btnSummit?.setOnClickListener {
             if (getViewModel().otp.get()?.length == 0) {
@@ -187,7 +187,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
                 getViewModel().forgotPasswordSendOTP().observe(this, Observer { apiResponse ->
                     getViewModel().otpId.set(apiResponse?.otpId.toString())
-                    getViewModel().otp.set(apiResponse?.otp.toString())
+                    //getViewModel().otp.set(apiResponse?.otp.toString())
                 })
             }
         }

@@ -52,7 +52,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:padding="@dimen/space_8"
-                        android:src="@drawable/ic_successful" />
+                        android:src="@{vm.isFailed?@drawable/ic_faild:@drawable/ic_successful}"
+                        tools:src="@drawable/ic_successful" />
 
                 </android.support.v7.widget.CardView>
 
@@ -61,19 +62,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="Thank you!"
+                    android:text="@string/thank_you"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:visibility="@{vm.isFailed?View.INVISIBLE:View.VISIBLE}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="Your purchase request has been received."
+                    android:text="@{vm.isFailed?@string/failed_transaction_msg:@string/your_purchase_request_has_been_received}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/darker_gray" />
+                    android:textColor="@color/darker_gray"
+                    tools:text="@string/your_purchase_request_has_been_received" />
 
             </LinearLayout>
 

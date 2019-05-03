@@ -90,7 +90,7 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
-        btnExploreFunds?.setOnClickListener {
+        llExploreFunds?.setOnClickListener {
             val bundle = Bundle().apply {
                 putBoolean("isEnableBack", true)
             }

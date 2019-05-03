@@ -13,8 +13,8 @@ import com.tarrakki.api.model.printResponse
 import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
+import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
-import org.supportcompact.events.ShowErrorDialog
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.showProgress
 import java.math.BigInteger
@@ -47,20 +47,16 @@ class PaymentModeVM : FragmentViewModel() {
                                 apiResponse.value = o
                             } else if (o.status?.code == 5) {
                                 EventBus.getDefault().post(
-                                        ShowErrorDialog(
+                                        ShowECutOffTimeDialog(
                                                 title = App.INSTANCE.getString(R.string.cut_of_time_title),
-                                                error = App.INSTANCE.getString(R.string.cut_of_desc_code_5)
-                                                        .plus("\n")
-                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
-                                        ))
+                                                error = App.INSTANCE.getString(R.string.cut_of_desc_code_5),
+                                                msg = "${o.status.message}"))
                             } else if (o.status?.code == 6) {
                                 EventBus.getDefault().post(
-                                        ShowErrorDialog(
+                                        ShowECutOffTimeDialog(
                                                 title = App.INSTANCE.getString(R.string.cut_of_time_title),
-                                                error = App.INSTANCE.getString(R.string.cut_of_msg_code_6)
-                                                        .plus("\n")
-                                                        .plus("-${o.status?.message}".replace(",", "\n-"))
-                                        ))
+                                                error = App.INSTANCE.getString(R.string.cut_of_msg_code_6),
+                                                msg = "${o.status.message}"))
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

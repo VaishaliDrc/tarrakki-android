@@ -35,7 +35,7 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
         if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
             hasEmail = data.optString("email").isNotEmpty()
-            edtEmail?.visibility = if (hasEmail) View.VISIBLE else View.GONE
+            edtEmail?.visibility = if (hasEmail) View.GONE else View.VISIBLE
         }
         btnSignUp?.setOnClickListener {
             when {

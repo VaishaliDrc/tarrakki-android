@@ -84,6 +84,8 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     setOrderItemsAdapter(transactionStatus)
                 }
             })
+        } else {
+            getViewModel().isFailed.set(false)
         }
 
         btnExploreAllFunds?.setOnClickListener {
@@ -147,6 +149,8 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     }
 
     private fun setOrderItemsAdapter(list: List<TransactionStatus>) {
+        val temp = list.filter { it.isSuccess }
+        getViewModel().isFailed.set(temp.isEmpty())
         val adapter = setUpAdapter(list as MutableList<TransactionStatus>,
                 ChoiceMode.NONE,
                 R.layout.row_transaction_confirm,

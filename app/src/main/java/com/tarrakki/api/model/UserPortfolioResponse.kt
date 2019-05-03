@@ -141,7 +141,7 @@ data class UserPortfolioResponse(
                         }
                         result.toString()
                     } else {
-                        0.0.toReturnAsPercentage()
+                        "N/A"//0.0.toReturnAsPercentage()
                     }
 
                 val nav
@@ -325,7 +325,7 @@ data class UserPortfolioResponse(
                     }
                     result.toString()
                 } else {
-                    0.0.toReturnAsPercentage()
+                    "N/A"//0.0.toReturnAsPercentage()
                 }
 
             val nav
@@ -509,7 +509,7 @@ data class UserPortfolioResponse(
                     }
                     result.toString()
                 } else {
-                    0.0.toReturnAsPercentage()
+                    "N/A"//0.0.toReturnAsPercentage()
                 }
 
             val nav

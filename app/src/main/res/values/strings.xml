@@ -852,7 +852,7 @@
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
     <string name="debit_cart_info">When you make an investment in Tarrakki Zyaada, you are eligible to apply for a Reliance Anytime Money Card, powered by Tarrakki, Reliance Mutual Fund, and Visa.\n\nThis card is linked to the Reliance Liquid Fund, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.</string>
-    <string name="apply_for_debit_cart">Apply for debit card</string>
+    <string name="apply_for_debit_cart">Apply for Debit Card</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply">Apply</string>
     <string name="choose_folio_">Choose Folio*</string>
@@ -885,8 +885,8 @@
     <string name="sip_start_date">Your SIP will start on April</string>
     <string name="go_to_unpaid_transactions">Go to unpaid transactions</string>
     <string name="cut_of_time_title">CUT OFF TIME HAS PASSED</string>
-    <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can still place orders for the remaining funds by removing the below fund(s) from the cart.\n</string>
-    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm.\n</string>
+    <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later or you can still place orders for the remaining funds by removing the below mentioned fund(s) from the checkout cart.</string>
+    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 1.30pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later.</string>
     <string name="folio_">Folio:</string>
     <string name="alert_alert_non_resident">This app is currently only available for use to residents of India.</string>
     <string name="alert_try_later">Something went wrong. We\'re looking into it. Please try again later.</string>
@@ -975,5 +975,9 @@
     <string name="do_you_want_to_enable_app_security">Do you want to enable the screen lock for the app security?</string>
     <string name="debit_cart_request_sent">We have received your request for a debit card.</string>
     <string name="success_">Success!</string>
+    <string name="to_be_confirmed">To be confirmed</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="failed_transaction_msg">Unfortunately, your transactions have failed. Please try again.</string>
+    <string name="your_purchase_request_has_been_received">Your purchase request has been received.</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

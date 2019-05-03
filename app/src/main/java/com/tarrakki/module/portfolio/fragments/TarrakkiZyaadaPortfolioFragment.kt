@@ -126,6 +126,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             json.addProperty("qty", units.toCurrencyBigDecimal().toString())
                             json.addProperty("folio_number", portfolioNo)
                             json.addProperty("folio_id", folioId)
+                            json.addProperty("tz_id", item.tzId)
                             item.redeemRequest = json
                             item.redeemUnits = units
                             item.isInstaRedeem = false
@@ -144,6 +145,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
                             json.addProperty("redemption_flag", allRedeem)
                             json.addProperty("folio_id", folioId)
+                            json.addProperty("tz_id", item.tzId)
                             item.redeemRequest = json
                             item.redeemUnits = amount.toCurrency().toDecimalCurrency()
                             item.isInstaRedeem = true

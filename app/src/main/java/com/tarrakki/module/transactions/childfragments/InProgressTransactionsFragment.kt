@@ -24,6 +24,7 @@ import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.toast
 
 /**
  * A simple [Fragment] subclass.
@@ -51,7 +52,7 @@ class InProgressTransactionsFragment : CoreParentFragment<TransactionsVM, com.ta
         val inProgressTransactions = arrayListOf<WidgetsViewModel>()
         val loadMoreObservable = MutableLiveData<Int>()
         val loadMore = LoadMore()
-        response = Observer<TransactionApiResponse> {
+        response = Observer {
             it?.let { data ->
                 inProgressTransactions.remove(loadMore)
                 loadMore.isLoading = false

@@ -47,6 +47,8 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 import org.supportcompact.widgets.DividerItemDecorationNoLast
@@ -93,6 +95,20 @@ fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
     manager.orientation = RecyclerView.VERTICAL
     view.layoutManager = manager
     view.adapter = adapter
+}
+
+
+@BindingAdapter(value = ["setAdapterV"], requireAll = false)
+fun setAdapterV(view: RecyclerView, itemList: ArrayList<String>?) {
+    itemList?.let {
+        val manager = LinearLayoutManager(view.context)
+        manager.orientation = RecyclerView.VERTICAL
+        view.layoutManager = manager
+        view.setUpRecyclerView(R.layout.row_cut_off_time_fund_list_item, it) { item: String, binder: RowCutOffTimeFundListItemBinding, position: Int ->
+            binder.fund = item
+            binder.executePendingBindings()
+        }
+    }
 }
 
 @BindingAdapter("dividerH", requireAll = false)
@@ -523,6 +539,19 @@ fun returns(initialValue: Double, finalValue: Double, textview: TextView) {
     valueAnimator.start()
 }
 
+fun Context.showCutOffTimeDialog(data: ShowECutOffTimeDialog) {
+    val mBinder = DialoCutOffTimeAlertBinding.inflate(LayoutInflater.from(this))
+    mBinder.data = data
+    mBinder.executePendingBindings()
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+    }
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+
 fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amountLumpsum: String, amountSIP: String, duration: String) -> Unit)? = null) {
     val mBinder = DialogInvestGoalBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
@@ -919,16 +948,20 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 val folioNo = mBinder.edtChooseFolio.text.toString()
                 val folioId = portfolioList.find { it.folioNo == folioNo }?.folioId
                 if (isAmountValid(amount.toCurrencyBigDecimal())) {
-                    if (amount.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
-                        mDialog.dismiss()
-                        val isRedeem = if (mBinder.chkAmount.isChecked) {
-                            "F"
+                    if (amount.toCurrencyBigDecimal().toDouble() >= 100.00) {
+                        if (amount.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
+                            mDialog.dismiss()
+                            val isRedeem = if (mBinder.chkAmount.isChecked) {
+                                "F"
+                            } else {
+                                "P"
+                            }
+                            onInstaRedeem?.invoke(folioNo, "$folioId", amount, isRedeem)
                         } else {
-                            "P"
+                            mContext.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
                         }
-                        onInstaRedeem?.invoke(folioNo, "$folioId", amount, isRedeem)
                     } else {
-                        mContext.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
+                        mContext.simpleAlert("The redemption amount must be greater than or equal to 100")
                     }
                 } else {
                     mContext.simpleAlert(getString(R.string.alert_req_amount))

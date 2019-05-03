@@ -1,6 +1,7 @@
 package com.tarrakki.module.transactionConfirm
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
 import com.tarrakki.App
 import com.tarrakki.R
@@ -22,17 +23,7 @@ import java.util.*
 class TransactionConfirmVM : FragmentViewModel() {
 
     val list = ArrayList<TransactionConfirm>()
-
-    init {
-        val statuslist = arrayListOf<TranscationStatus>()
-        statuslist.add(TranscationStatus("Mutual Fund Payment", "via Net Banking", 1))
-        statuslist.add(TranscationStatus("Order Placed with AMC", "", 2))
-        statuslist.add(TranscationStatus("Investment Confirmation", "", 3))
-        statuslist.add(TranscationStatus("Units Allotted", "", 3))
-
-        list.add(TransactionConfirm("HDFC GOLD Fund Direct Growth", "Lumpsump", "10000", true, statuslist))
-        list.add(TransactionConfirm("HDFC GOLD Fund Direct Growth", "SIP", "20000", false, statuslist))
-    }
+    val isFailed = ObservableField(true)
 
     fun getTransactionStatus(dataRequest: String): MutableLiveData<TransactionStatusResponse> {
         val apiResponse = MutableLiveData<TransactionStatusResponse>()
@@ -119,7 +110,7 @@ class TransactionConfirmVM : FragmentViewModel() {
             get() = when {
                 "completed".equals(status, true) -> R.drawable.ic_round_completed
                 "In progress".equals(status, true) -> R.drawable.in_round_progress
-                "Failed".equals(status, true)->  R.drawable.ic_round_failed
+                "Failed".equals(status, true) -> R.drawable.ic_round_failed
                 else -> R.drawable.ic_round_pending
             }
     }

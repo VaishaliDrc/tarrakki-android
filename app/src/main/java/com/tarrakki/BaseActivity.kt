@@ -25,13 +25,12 @@ import com.tarrakki.module.redeem.RedemptionStatusFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.activity_base.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
+import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.inputclasses.keyboardListener
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.ONLOGOUT
-import org.supportcompact.ktx.hasAppLock
-import org.supportcompact.ktx.startActivity
+import org.supportcompact.ktx.*
 
 const val ACTION_FINISH_ALL_TASK = "ACTION_FINISH_ALL_TASK"
 
@@ -154,6 +153,11 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         super.showDialog(show)
     }
 
+    @Subscribe
+    fun showError(error: ShowECutOffTimeDialog) {
+        showCutOffTimeDialog(error)
+    }
+
     /**
      * setting the toolbar
      */
@@ -196,7 +200,6 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                 finish()
             }
         }
-
     }
 
     @RequiresApi(api = android.os.Build.VERSION_CODES.LOLLIPOP)

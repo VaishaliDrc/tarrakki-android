@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ForgotPasswordEmailResponse(
         @SerializedName("otp")
-        val otp: Int,
+        val otp: String?,
         @SerializedName("otp_id")
-        val otpId: Int
+        val otpId: String?
 )

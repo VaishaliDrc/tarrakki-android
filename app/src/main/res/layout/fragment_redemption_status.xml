@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="isFailed"
+            type="boolean" />
 
         <import type="android.view.View" />
 
@@ -13,14 +19,9 @@
             name="bank"
             type="com.tarrakki.api.model.DefaultBankResponse.DefaultBank" />
 
-        <variable
-            name="isFailed"
-            type="boolean" />
-
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.redeem.RedemptionStatusFragment">
@@ -57,7 +58,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:padding="@dimen/space_8"
-                        android:src="@drawable/ic_successful" />
+                        android:src="@{isFailed?@drawable/ic_faild:@drawable/ic_successful}"
+                        tools:src="@drawable/ic_successful" />
 
                 </android.support.v7.widget.CardView>
 
@@ -66,22 +68,26 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="Thank you!"
+                    android:text="@string/thank_you"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:visibility="@{isFailed?View.INVISIBLE:View.VISIBLE}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:paddingStart="@dimen/_16sdp"
                     android:paddingEnd="@dimen/_16sdp"
-                    android:text="@string/we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company"
+                    android:text="@{isFailed?@string/failed_transaction_msg:@string/we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/darker_gray" />
+                    android:textColor="@color/darker_gray"
+                    tools:text="@string/we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company" />
 
             </LinearLayout>
 
@@ -89,9 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
+                android:layout_marginBottom="2dp"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:layout_marginBottom="2dp"
                 android:orientation="vertical">
 
 
@@ -160,7 +166,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_4sdp"
                         android:layout_marginTop="@dimen/space_16"
-                        android:text="To be confirmed"
+                        android:text="@string/to_be_confirmed"
                         android:textColor="@color/black"
                         android:textSize="@dimen/_9ssp"
                         android:visibility="@{isFailed?View.GONE:View.VISIBLE}"
@@ -194,19 +200,23 @@
                     android:id="@+id/mDividerRemark"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/space_16"
                     android:background="@color/lighter_gray"
                     android:visibility="@{isFailed?View.VISIBLE:View.GONE}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvType" />
+                    app:layout_constraintTop_toBottomOf="@id/rvTransactionStatus"
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:visibility="@{isFailed?View.VISIBLE:View.GONE}">
+                    android:padding="@dimen/_8sdp"
+                    android:visibility="@{isFailed?View.VISIBLE:View.GONE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mDividerRemark"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/tvRemarkL"
@@ -227,7 +237,6 @@
                         tools:text="We have refunded the amount to your Bank for your failed order" />
 
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/tvNote"

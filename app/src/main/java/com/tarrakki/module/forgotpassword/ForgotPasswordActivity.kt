@@ -61,7 +61,7 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
         }
     }
 
-    fun getOtpData(otp: Int?, otp_id: Int?): JsonObject {
+    private fun getOtpData(otp: String?, otp_id: String?): JsonObject {
         val json = JsonObject()
         json.addProperty("otp", otp)
         json.addProperty("otp_id", otp_id)

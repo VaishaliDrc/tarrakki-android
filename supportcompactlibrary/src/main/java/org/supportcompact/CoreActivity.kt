@@ -12,8 +12,8 @@ import android.view.WindowManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
-import org.supportcompact.events.ShowErrorDialog
 import org.supportcompact.ktx.*
 
 abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppCompatActivity() {
@@ -85,11 +85,6 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
     @Subscribe
     fun showError(error: ShowError) {
         binding.root.snackBar(error.error)
-    }
-
-    @Subscribe
-    fun showError(error: ShowErrorDialog) {
-        simpleAlert(error.title, error.error)
     }
 
     protected fun requestPermissionsIfRequired(permissions: ArrayList<String>, permissionCallBack: PermissionCallBack?) {
