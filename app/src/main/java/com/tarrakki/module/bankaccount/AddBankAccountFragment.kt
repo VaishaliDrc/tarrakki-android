@@ -96,7 +96,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
 
     }
 
-    private fun isIFSCCode(IFSCCode: String) = Pattern.compile("[A-Z|a-z]{4}[0][\\d]{6}\$").matcher(IFSCCode).matches()
+    private fun isIFSCCode(IFSCCode: String) = IFSCCode.length == 11//Pattern.compile("[A-Z|a-z]{4}[0][\\d]{6}\$").matcher(IFSCCode).matches()
 
     companion object {
         @JvmStatic

@@ -73,6 +73,7 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
                             } else if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<LoginResponse>()
                                 onLogin.value = data
+                                App.INSTANCE.setSocialLogin(data != null)
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

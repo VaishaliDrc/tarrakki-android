@@ -17,6 +17,7 @@ import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
+import com.tarrakki.module.confirmorder.IS_FROM_CONFIRM_ORDER
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
@@ -66,14 +67,20 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                     val transactionStatus: MutableList<TransactionStatus> = arrayListOf()
                     for (funds in it.data) {
                         val statuslist = arrayListOf<TransactionConfirmVM.TranscationStatuss>()
-                        if (!("N".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)))
-                            statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
+                        //if (!("Y".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)))
+                        statuslist.add(TransactionConfirmVM.TranscationStatuss("Mutual Fund Payment", funds.paymentType, funds.payment))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", funds.orderPlaced))
-                        //statuslist.add(TransactionConfirmVM.TranscationStatuss("Investment Confirmation", "", funds.investmentConfirmation))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Allotted", "", funds.unitsAlloted))
-                        transactionStatus.add(TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>))
+                        transactionStatus.add(
+                                TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>).apply {
+                                    btnExpandableVisibility = if ("N".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)) View.GONE else View.VISIBLE
+                                }
+                        )
                         if ("Failed".equals(funds.payment, true)) {
                             btnToTransactionScreen?.visibility = View.VISIBLE
+                            if (arguments?.getBoolean(IS_FROM_CONFIRM_ORDER) == true) {
+                                isFromPaymentMode = false
+                            }
                         }
                     }
                     if (transactionList.isNotEmpty()) {
@@ -163,7 +170,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         binder.isExpanded = binder.expStatus.isExpanded
                     }
 
-                    if (item.isSuccess) {
+                    if (item.isSuccess && item.btnExpandableVisibility == View.VISIBLE) {
                         val transactionAdapter = setUpAdapter(item.status as
                                 MutableList<TransactionConfirmVM.TranscationStatuss>,
                                 ChoiceMode.NONE,
@@ -179,6 +186,9 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
 
                         })
                         binder?.rvTransactionStatus?.adapter = transactionAdapter
+                    } else {
+                        binder?.imgArrow?.visibility = item.btnExpandableVisibility
+                        binder?.rvTransactionStatus?.visibility = item.btnExpandableVisibility
                     }
                 }, { item, position, adapter ->
         }, false)

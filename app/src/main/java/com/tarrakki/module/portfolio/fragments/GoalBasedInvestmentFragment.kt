@@ -9,12 +9,14 @@ import com.tarrakki.R
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.databinding.FragmentGoalBasedInvestmentBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentListItemBinding
+import com.tarrakki.module.home.HomeFragment
 import com.tarrakki.module.portfolio.PortfolioDetailsFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import kotlinx.android.synthetic.main.fragment_goal_based_investment.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*

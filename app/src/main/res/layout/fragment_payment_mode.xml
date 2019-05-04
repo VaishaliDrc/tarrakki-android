@@ -256,7 +256,7 @@
                     android:background="@drawable/shape_edt_gray_round"
                     android:hint="@string/utr_number"
                     android:imeOptions="actionDone"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:paddingStart="@dimen/space_16"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/space_16"
@@ -276,8 +276,9 @@
                 android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
-                android:text="@string/pay_now"
-                android:textColor="@color/white" />
+                android:text="@{vm.isNetBanking?@string/pay_now:@string/submit}"
+                android:textColor="@color/white"
+                tools:text="@string/pay_now" />
 
         </LinearLayout>
 

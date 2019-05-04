@@ -9,6 +9,7 @@ import android.preference.PreferenceManager
 
 
 const val IS_LOGIN = "is_login"
+const val IS_SOACIAL_LOGIN = "is_social_login"
 const val LOGIN_TOKEN = "login_token"
 const val APP_LOCK = "app_lock"
 const val USERID = "user_id"
@@ -20,6 +21,7 @@ const val MOBILE_VERIFIED = "mobile_verified"
 const val KYC_VERIFIED = "kyc_verified"
 const val COMPLETED_REGISTRATION = "completed_registration"
 const val ASK_FOR_SECURITY_LOCK = "askForSecurityLock"
+
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -95,6 +97,14 @@ private fun SharedPreferences.getEditor(): SharedPreferences.Editor {
 
 private fun SharedPreferences.apply(editor: SharedPreferences.Editor) {
     editor.apply()
+}
+
+fun Context.setSocialLogin(has: Boolean) {
+    return getPreferences.putBoolean(IS_SOACIAL_LOGIN, has)
+}
+
+fun Context.isSocialLogin(): Boolean {
+    return getPreferences.getBoolean(IS_SOACIAL_LOGIN, false)
 }
 
 fun Context.setIsLogin(has: Boolean) {
@@ -195,6 +205,7 @@ fun Context.isAskForSecureLock(): Boolean {
 
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
+    getPreferences.remove(IS_SOACIAL_LOGIN)
     getPreferences.remove(LOGIN_TOKEN)
     getPreferences.remove(APP_LOCK)
     getPreferences.remove(USERID)

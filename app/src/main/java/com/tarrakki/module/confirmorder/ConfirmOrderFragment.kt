@@ -17,6 +17,7 @@ import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.bankmandate.ISFROMCONFIRMORDER
 import com.tarrakki.module.bankmandate.MANDATEID
 import com.tarrakki.module.paymentmode.PaymentModeFragment
+import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
 import org.greenrobot.eventbus.Subscribe
@@ -26,6 +27,9 @@ import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import java.math.BigInteger
+
+const val IS_FROM_CONFIRM_ORDER = "is_from_confirm_order"
 
 class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBinding>() {
 
@@ -83,11 +87,30 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         } else {
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
-                                if (!it?.data?.orders.isNullOrEmpty()) {
+                                if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                     it?.let { it2 -> postSticky(it2) }
                                     if (it?.data?.failedTransactions?.isNotEmpty() == true) {
                                         val failed = FailedTransactions(it.data.failedTransactions)
+                                        postSticky(failed)
+                                    }
+                                } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                    val transaction = arrayListOf<Int>()
+                                    for (funds in it.data.orders) {
+                                        if (funds.lumpsumTransactionId != 0) {
+                                            transaction.add(funds.lumpsumTransactionId)
+                                        }
+                                        if (funds.sipTransactionId != 0) {
+                                            transaction.add(funds.sipTransactionId)
+                                        }
+                                    }
+                                    val bundle = Bundle().apply {
+                                        putString(SUCCESSTRANSACTION, transaction.toString())
+                                        putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                    }
+                                    startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                    it.data.failedTransactions?.let { list ->
+                                        val failed = FailedTransactions(list)
                                         postSticky(failed)
                                     }
                                 } else {
@@ -102,11 +125,30 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     } else {
                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
                             App.INSTANCE.cartCount.value = it?.data?.cartCount
-                            if (!it?.data?.orders.isNullOrEmpty()) {
+                            if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                 it?.let { it2 -> postSticky(it2) }
                                 if (it?.data?.failedTransactions?.isNotEmpty() == true) {
                                     val failed = FailedTransactions(it.data.failedTransactions)
+                                    postSticky(failed)
+                                }
+                            } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                val transaction = arrayListOf<Int>()
+                                for (funds in it.data.orders) {
+                                    if (funds.lumpsumTransactionId != 0) {
+                                        transaction.add(funds.lumpsumTransactionId)
+                                    }
+                                    if (funds.sipTransactionId != 0) {
+                                        transaction.add(funds.sipTransactionId)
+                                    }
+                                }
+                                val bundle = Bundle().apply {
+                                    putString(SUCCESSTRANSACTION, transaction.toString())
+                                    putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                }
+                                startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                it.data.failedTransactions?.let { list ->
+                                    val failed = FailedTransactions(list)
                                     postSticky(failed)
                                 }
                             } else {

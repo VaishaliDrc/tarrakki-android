@@ -2,17 +2,22 @@ package com.tarrakki.api.model
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.os.Bundle
 import android.support.annotation.StringDef
+import android.support.v4.app.FragmentActivity
 import android.text.TextUtils
 import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
 import org.supportcompact.ktx.parseAsReturnOrNA
+import org.supportcompact.ktx.startFragment
 
 
 data class TransactionApiResponse(
@@ -144,6 +149,16 @@ data class TransactionApiResponse(
                 else -> App.INSTANCE.color(R.color.pdlg_color_green)
             }
         }
+
+        val openFundDetails: View.OnClickListener
+            get() = View.OnClickListener { v ->
+                val mContext = v.context
+                if (mContext is FragmentActivity) {
+                    mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                        putString(ITEM_ID, "${fundId}")
+                    }), R.id.frmContainer)
+                }
+            }
 
     }
 

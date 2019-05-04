@@ -104,6 +104,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                     signUpResponse.userId?.let { it1 -> setUserId(it1) }
                                     signUpResponse.email?.let { it1 -> setEmail(it1) }
                                     signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                    setSocialLogin(true)
                                     setIsLogin(true)
                                     startActivity<HomeActivity>()
                                     finishAffinity()

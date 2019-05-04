@@ -1,5 +1,6 @@
 package com.tarrakki.api.model
 
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 
@@ -17,6 +18,9 @@ data class TransactionStatus(
         val isSuccess: Boolean = false,
         val status: List<TransactionConfirmVM.TranscationStatuss>? = null
 ) {
+
+    var btnExpandableVisibility = View.VISIBLE
+
     var type: String = ""
         get() = if (orderType == "1") {
             "Lumpsum"

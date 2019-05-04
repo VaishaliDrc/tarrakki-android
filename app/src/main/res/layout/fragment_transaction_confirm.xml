@@ -68,12 +68,13 @@
                     android:visibility="@{vm.isFailed?View.INVISIBLE:View.VISIBLE}" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/space_8"
                     android:layout_marginEnd="@dimen/_8sdp"
                     android:layout_marginBottom="@dimen/space_8"
+                    android:gravity="center"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@{vm.isFailed?@string/failed_transaction_msg:@string/your_purchase_request_has_been_received}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
