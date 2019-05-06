@@ -1,9 +1,11 @@
 package com.tarrakki.module.support.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.databinding.FragmentQueriesBinding
 import com.tarrakki.databinding.RowQueryListItemBinding
 import com.tarrakki.module.support.SupportVM
@@ -33,11 +35,17 @@ class QueriesFragment : CoreParentFragment<SupportVM, FragmentQueriesBinding>() 
     }
 
     override fun createReference() {
-        rvQueries?.setUpRecyclerView(R.layout.row_query_list_item, getViewModel().queries) { item: String, binder: RowQueryListItemBinding, position: Int ->
-            binder.root.setOnClickListener {
-                startFragment(SubQueriesFragment.newInstance(), R.id.frmContainer)
+        getViewModel().getQueryList().observe(this, Observer {
+            it?.data?.let { queries ->
+                rvQueries?.setUpRecyclerView(R.layout.row_query_list_item, queries) { item: SupportQueryListResponse.Data, binder: RowQueryListItemBinding, position: Int ->
+                    binder.query = item
+                    binder.executePendingBindings()
+                    binder.root.setOnClickListener {
+                        startFragment(SubQueriesFragment.newInstance(), R.id.frmContainer)
+                    }
+                }
             }
-        }
+        })
     }
 
 

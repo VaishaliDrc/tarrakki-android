@@ -79,6 +79,7 @@
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivItem"
                     tools:text="AGGRESSIVE" />
 
@@ -262,7 +263,7 @@
 
                 <View
                     android:id="@+id/mDivider"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/default_space"
                     android:background="@color/lighter_gray"

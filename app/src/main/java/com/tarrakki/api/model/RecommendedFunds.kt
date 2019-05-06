@@ -1,10 +1,10 @@
 package com.tarrakki.api.model
 
 import android.support.annotation.ColorRes
-import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.toCurrency
 
 data class RecommendedFundsData(
@@ -51,16 +51,7 @@ data class Fund(
         get() = "$schemeType-$fscbiCategoryName"
 
     var returns: String = ""
-        get() = if (!TextUtils.isEmpty(ttrReturn5Yr)) {
-            try {
-                String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                "N/A"
-            }
-        } else {
-            "N/A"
-        }
+        get() = parseToPercentageOrNA(ttrReturn5Yr)
 
     val sipAmount
         get() = amount?.toDoubleOrNull()?.toCurrency()

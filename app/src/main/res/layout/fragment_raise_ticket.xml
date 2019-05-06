@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -58,9 +59,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_marginTop="@dimen/space_4"
-                    android:drawablePadding="@dimen/_8sdp"
                     android:background="@drawable/shape_edt_gray_round"
                     android:drawableEnd="@drawable/ic_transaction_selection"
+                    android:drawablePadding="@dimen/_8sdp"
                     android:gravity="center_vertical"
                     android:hint="@string/select_transaction"
                     android:maxLines="1"
@@ -118,9 +119,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_marginTop="@dimen/space_4"
-                    android:drawablePadding="@dimen/_8sdp"
                     android:background="@drawable/shape_edt_gray_round"
                     android:drawableEnd="@drawable/ic_action_img_icon"
+                    android:drawablePadding="@dimen/_8sdp"
                     android:gravity="center_vertical"
                     android:hint="@string/hint_mydoc_jpg"
                     android:maxLines="1"
@@ -146,16 +147,31 @@
 
             </LinearLayout>
 
-            <Button
+            <FrameLayout
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/default_space"
+                android:padding="@dimen/_10sdp"
                 android:background="@drawable/shape_btn_idle_bg"
-                android:fontFamily="@font/lato_semibold"
-                android:text="@string/submit"
-                android:textColor="@color/white" />
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:fontFamily="@font/lato_semibold"
+                    android:drawableStart="@drawable/ic_submit_query"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:text="@string/submit"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/white" />
+
+            </FrameLayout>
+
 
         </LinearLayout>
 

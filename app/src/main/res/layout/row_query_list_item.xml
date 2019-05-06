@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="query"
+            type="com.tarrakki.api.model.SupportQueryListResponse.Data" />
+    </data>
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,9 +21,10 @@
             android:id="@+id/ivLogoQuery"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/ic_invite_friends"
+            app:imgUrl="@{query.queryLogo}"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_invite_friends" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -24,12 +32,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
-            android:text="Investment Options"
+            android:text="@{query.name}"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ivLogoQuery"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivLogoQuery"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Investment Options" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -37,11 +46,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:layout_marginTop="@dimen/_8sdp"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text"
+            android:text="@{query.description}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivLogoQuery"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

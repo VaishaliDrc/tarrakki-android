@@ -81,10 +81,6 @@ interface WebserviceBuilder {
     @PUT("tarrakki/zyaada/add_to_cart_zyaada/{tarrakkiZyaadaId}/")
     fun addToCartTarrakkiZyaada(@Path("tarrakkiZyaadaId") id: String, @Field("data") data: String): Observable<ApiResponse>
 
-    /*@Field("fund_id") fundId: Int,
-    @Field("sip_amount") sipAmount: String?,
-    @Field("lumpsum_amount") lumpsumAmount: String?
-    */
     @FormUrlEncoded
     @POST("users/get_otp/")
     fun verifyForgotOTP(@Field("data") data: String): Observable<ApiResponse>
@@ -259,6 +255,8 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("tarrakki/zyaada/redemption/{user_id}")
     fun instaRedeem(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
+
 
     /**
      * ApiNames to differentiate APIs

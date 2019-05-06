@@ -25,6 +25,9 @@ class ChatVM : FragmentViewModel() {
                                 "Write your reply here"),
                 "25-03-2019 04:54PM",
                 false))
+        chats.add(ChatMessage(
+                "Can I do ISIP mandate registration is rejected.",
+                "25-03-2019 04:54PM"))
     }
 
 }

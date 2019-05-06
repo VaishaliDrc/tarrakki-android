@@ -84,7 +84,7 @@ class RecommendedBaseOnRiskLevelFragment : CoreFragment<RecommendedVM, FragmentR
                 investmentRecommendationToCart(it1, viewModel.sipAmount.get()!!,
                         viewModel.lumpsumAmount.get()!!, 1, false
                 ).observe(this,
-                        android.arch.lifecycle.Observer { response ->
+                        Observer { response ->
                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                             }

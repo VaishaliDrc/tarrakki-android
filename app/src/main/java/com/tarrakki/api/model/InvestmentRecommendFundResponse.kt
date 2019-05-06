@@ -1,10 +1,10 @@
 package com.tarrakki.api.model
 
 import android.support.annotation.ColorRes
-import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.toCurrency
 
 data class InvestmentRecommendFundResponse(
@@ -32,15 +32,6 @@ data class InvestmentRecommendFundResponse(
             val lumpsumWeightage: Int = 0
     ) {
 
-        /* var lumpsumAmount : String = ""
-         get() {
-             if (lumpsum.isNullOrEmpty()){
-                 return "0".toCurrency()
-             }else{
-
-             }
-         }*/
-
         val SIPAmount
             get() = toCurrency(sipAmount)
         val LumpsumAmount
@@ -64,16 +55,7 @@ data class InvestmentRecommendFundResponse(
             }
 
         var returns: String = ""
-            get() = if (!TextUtils.isEmpty(ttrReturn5Yr)) {
-                try {
-                    String.format("%.2f", ttrReturn5Yr.toDouble()).plus("%")
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    "N/A"
-                }
-            } else {
-                "N/A"
-            }
+            get() = parseToPercentageOrNA(ttrReturn5Yr)
 
         @ColorRes
         var fundColor: Int = R.color.balanced_fund_color

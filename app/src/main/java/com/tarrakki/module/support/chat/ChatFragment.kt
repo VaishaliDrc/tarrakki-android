@@ -56,26 +56,31 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     override fun createReference() {
         activity?.keyboardListener { isOpen ->
             coreActivityVM?.footerVisibility?.set(View.GONE)
-            if (isOpen)
-                rvChat?.post {
-                    rvChat?.smoothScrollToPosition(getViewModel().chats.size - 1)
-                }
+            if (isOpen) {
+                Handler().postDelayed({
+                    rvChat?.scrollToPosition(getViewModel().chats.size - 1)
+                }, 300)
+            }
         }
         rvChat?.setUpMultiViewRecyclerAdapter(getViewModel().chats) { item: ChatMessage, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.msg, item)
             binder.executePendingBindings()
         }
+        rvChat?.post {
+            rvChat?.scrollToPosition(getViewModel().chats.size - 1)
+        }
         ivSend?.setOnClickListener {
             if (edtMessage.text.toString().isNotBlank()) {
                 getViewModel().chats.add(ChatMessage(
                         "${edtMessage.text}",
-                        "${Date().convertTo("dd-MM-yyyy hh:mma")}"))
+                        "${Date().convertTo("dd-MM-yyyy hh:mma")}",
+                        getViewModel().chats.size % 2 == 0))
                 edtMessage?.text?.clear()
                 rvChat?.adapter?.notifyItemInserted(getViewModel().chats.size)
                 edtMessage?.dismissKeyboard()
-                rvChat?.post {
-                    rvChat?.smoothScrollToPosition(getViewModel().chats.size - 1)
-                }
+                Handler().postDelayed({
+                    rvChat?.scrollToPosition(getViewModel().chats.size - 1)
+                }, 300)
             }
         }
         ivGallery?.setOnClickListener {
