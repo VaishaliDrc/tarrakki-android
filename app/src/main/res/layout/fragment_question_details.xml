@@ -24,8 +24,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/lato_bold"
                 android:padding="@dimen/default_space"
-                android:text="What is an AutoPay?"
-                android:textColor="@color/black" />
+                android:text="@{vm.question.question}"
+                android:textColor="@color/black"
+                tools:text="What is an AutoPay?" />
 
             <View
                 android:layout_width="match_parent"
@@ -36,11 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_space"
-                android:elevation="2dp"
                 android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
                 android:padding="@dimen/_8sdp"
-                android:text="AutoPay is a one-time registration process of seting a payment instruction with your verified Bank Account, where you authorize Tarrakki Zyaada to automate your payments/investments."
-                android:textColor="@color/semi_black" />
+                android:text="@{vm.question.answer}"
+                android:textColor="@color/semi_black"
+                tools:text="AutoPay is a one-time registration process of seting a payment instruction with your verified Bank Account, where you authorize Tarrakki Zyaada to automate your payments/investments." />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.tarrakki.module.support.SubQueriesVM" />
+            type="com.tarrakki.module.support.QuestionsVM" />
     </data>
 
     <android.support.v4.widget.NestedScrollView
@@ -35,7 +35,7 @@
                 android:background="@color/dark" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvSubQueries"
+                android:id="@+id/rvQuestions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_space"

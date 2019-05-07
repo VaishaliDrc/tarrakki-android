@@ -1,14 +1,13 @@
 package com.tarrakki.module.support
 
+import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
+import com.tarrakki.api.model.SupportQueryListResponse
 import org.supportcompact.FragmentViewModel
 
 class SubQueriesVM : FragmentViewModel() {
 
-    val subQueries = arrayListOf(
-            "AutoPay",
-            "Add/Setup AutoPay",
-            "Change/Modify AutoPay",
-            "My AutoPay got rejected",
-            "My Question is not listed here")
+    val query = MutableLiveData<SupportQueryListResponse.Data>()
+    val queryTitle = ObservableField<String>()
 
 }

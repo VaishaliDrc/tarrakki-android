@@ -4,8 +4,10 @@ package com.tarrakki.module.support.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportQuestionListResponse
 import com.tarrakki.databinding.FragmentQuestionDetailsBinding
 import com.tarrakki.module.support.QuestionsVM
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 
 /**
@@ -37,6 +39,12 @@ class QuestionDetailsFragment : CoreFragment<QuestionsVM, FragmentQuestionDetail
 
     }
 
+    @Subscribe(sticky = true)
+    fun onReceived(data: SupportQuestionListResponse.Question) {
+        if (getViewModel().question.get() == null) {
+            getViewModel().question.set(data)
+        }
+    }
 
     companion object {
         /**

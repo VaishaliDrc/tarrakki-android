@@ -24,7 +24,7 @@ import com.tarrakki.api.subscribeToSingle
 
 class YourGoalVM : FragmentViewModel() {
 
-    val goalVM: MutableLiveData<com.tarrakki.api.model.Goal.Data.GoalData> = MutableLiveData()
+    val goalVM: MutableLiveData<Goal.Data.GoalData> = MutableLiveData()
     val yourGoalSteps = arrayListOf<YourGoalSteps>()
     val whyInflationMatter = ObservableField(true)
     val tmpFor = ObservableField<Spanned>()
@@ -90,7 +90,7 @@ class YourGoalVM : FragmentViewModel() {
         )
     }
 
-    fun calculatePMT(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<PMTResponse> {
+    fun calculatePMT(goal: Goal.Data.GoalData): MutableLiveData<PMTResponse> {
         val pmtResponse = MutableLiveData<PMTResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
@@ -120,7 +120,7 @@ class YourGoalVM : FragmentViewModel() {
         return pmtResponse
     }
 
-    fun addGoal(goal: com.tarrakki.api.model.Goal.Data.GoalData): MutableLiveData<RecommendedFunds> {
+    fun addGoal(goal: Goal.Data.GoalData): MutableLiveData<RecommendedFunds> {
         val apiResponse = MutableLiveData<RecommendedFunds>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(

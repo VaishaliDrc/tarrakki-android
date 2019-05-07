@@ -42,6 +42,7 @@ class QueriesFragment : CoreParentFragment<SupportVM, FragmentQueriesBinding>() 
                     binder.executePendingBindings()
                     binder.root.setOnClickListener {
                         startFragment(SubQueriesFragment.newInstance(), R.id.frmContainer)
+                        postSticky(item)
                     }
                 }
             }

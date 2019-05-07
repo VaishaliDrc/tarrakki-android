@@ -1,14 +1,17 @@
 package com.tarrakki.module.support.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.databinding.FragmentSubQueriesBinding
 import com.tarrakki.databinding.RowSubqueryListItemBinding
 import com.tarrakki.module.support.SubQueriesVM
 import com.tarrakki.module.support.raiseticket.RaiseTicketFragment
 import kotlinx.android.synthetic.main.fragment_sub_queries.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.startFragment
@@ -35,23 +38,38 @@ class SubQueriesFragment : CoreFragment<SubQueriesVM, FragmentSubQueriesBinding>
     }
 
     override fun setVM(binding: FragmentSubQueriesBinding) {
-
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
     }
 
     override fun createReference() {
-        rvSubQueries?.setUpRecyclerView(R.layout.row_subquery_list_item, getViewModel().subQueries) { item: String, binder: RowSubqueryListItemBinding, position: Int ->
-            binder.item = item
-            binder.executePendingBindings()
-            binder.root.setOnClickListener {
-                if (position == getViewModel().subQueries.size - 1) {
-                    startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
-                    return@setOnClickListener
+        getViewModel().query.observe(this, Observer { query ->
+            query?.subquery?.let { subQueries ->
+                rvSubQueries?.setUpRecyclerView(R.layout.row_subquery_list_item, subQueries) { item: SupportQueryListResponse.Data.Subquery, binder: RowSubqueryListItemBinding, position: Int ->
+                    binder.item = item
+                    binder.executePendingBindings()
+                    binder.root.setOnClickListener {
+                        query.subqueryId = item.id
+                        query.subqueryName = item.name
+                        if (position == subQueries.size - 1) {
+                            startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
+                        } else {
+                            startFragment(QuestionsFragment.newInstance(), R.id.frmContainer)
+                        }
+                        postSticky(query)
+                    }
                 }
-                startFragment(QuestionsFragment.newInstance(), R.id.frmContainer)
             }
-        }
+        })
     }
 
+    @Subscribe(sticky = true)
+    fun onReceived(data: SupportQueryListResponse.Data) {
+        if (getViewModel().query.value == null) {
+            getViewModel().query.value = data
+            getViewModel().queryTitle.set(data.name)
+        }
+    }
 
     companion object {
         /**

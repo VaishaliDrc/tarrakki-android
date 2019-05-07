@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="String" />
+            type="com.tarrakki.api.model.SupportQuestionListResponse.Question" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -25,7 +25,7 @@
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
             android:drawablePadding="@dimen/_8sdp"
             android:gravity="center_vertical"
-            android:text="@{item}"
+            android:text="@{item.question}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
             app:layout_constraintEnd_toEndOf="parent"

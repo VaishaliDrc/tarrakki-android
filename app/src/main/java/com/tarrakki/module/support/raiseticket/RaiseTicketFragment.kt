@@ -11,10 +11,12 @@ import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.databinding.FragmentRaiseTicketBinding
 import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_raise_ticket.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
@@ -202,6 +204,13 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
         }
     }
 
+    @Subscribe(sticky = true)
+    fun onReceived(data: SupportQueryListResponse.Data) {
+        if (getViewModel().query.value == null) {
+            getViewModel().query.value = data
+        }
+        removeStickyEvent(data)
+    }
 
     companion object {
         /**

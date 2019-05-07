@@ -221,7 +221,7 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: BigInteger,
     json.addProperty("add_to_cart", addToCart)
     json.addProperty("sip_amount", sip)
     val data = json.toString().toEncrypt()
-
+    json.printRequest()
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                     .investmentStrageyRecommeded(data),
@@ -276,6 +276,7 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
     json.addProperty("add_to_cart", addToCart)
     json.addProperty("sip_amount", sip)
     val data = json.toString().toEncrypt()
+    json.printRequest()
     subscribeToSingle(
             observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
                     .investmentStrageyRecommeded(data),

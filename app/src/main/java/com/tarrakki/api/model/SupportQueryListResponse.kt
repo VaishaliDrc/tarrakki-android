@@ -11,19 +11,22 @@ data class SupportQueryListResponse(
             @SerializedName("description")
             val description: String?,
             @SerializedName("id")
-            val id: Int?,
+            val id: String?,
             @SerializedName("name")
             val name: String?,
             @SerializedName("query_logo")
             val queryLogo: String?,
             @SerializedName("subquery")
-            val subquery: List<Subquery?>?
+            val subquery: ArrayList<Subquery>?
     ) {
+        var subqueryName: String? = ""
+        var subqueryId: String? = ""
+
         data class Subquery(
                 @SerializedName("description")
                 val description: Any?,
                 @SerializedName("id")
-                val id: Int?,
+                val id: String?,
                 @SerializedName("name")
                 val name: String?
         )
