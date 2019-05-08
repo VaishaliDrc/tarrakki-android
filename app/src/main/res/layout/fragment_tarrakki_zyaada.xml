@@ -100,17 +100,25 @@
                     tools:drawableEnd="@drawable/ic_arrow_up" />
 
                 <net.cachapa.expandablelayout.ExpandableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:el_duration="500"
                     app:el_expanded="false"
                     app:expanded="@{vm.whereIsMyMoney}">
 
+                    <!--<WebView
+                        android:id="@+id/mWebViewWhereInvest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:lineSpacingExtra="@dimen/space_4" />-->
+
                     <TextView
+                        android:id="@+id/tvWhereInvest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/where_is_my_money"
+                        android:text="@string/where_is_my_money_html"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 </net.cachapa.expandablelayout.ExpandableLayout>

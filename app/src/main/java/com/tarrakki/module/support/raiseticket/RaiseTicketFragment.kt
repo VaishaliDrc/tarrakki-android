@@ -3,6 +3,7 @@ package com.tarrakki.module.support.raiseticket
 
 import android.Manifest
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -10,10 +11,12 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.view.View
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.databinding.FragmentRaiseTicketBinding
 import com.tarrakki.getCustomUCropOptions
+import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_raise_ticket.*
 import org.greenrobot.eventbus.Subscribe
@@ -65,21 +68,31 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                     }
             )
         }
-        btnSubmit?.setOnClickListener {
-            when {
-                getViewModel().transaction.isEmpty() -> {
-                    context?.simpleAlert("Please select transaction")
-                }
-                getViewModel().description.isEmpty() -> {
-                    context?.simpleAlert("Please enter description")
-                }
-                else -> {
-                    context?.simpleAlert("Your query has been raised successfully. We will contact you soon.") {
-                        onBack()
+        getViewModel().query.observe(this, Observer { query ->
+            query?.let {
+                getViewModel().checkTransactionStatus(query)
+                btnSubmit?.setOnClickListener {
+                    when {
+                        getViewModel().transactionVisibility.get() == View.VISIBLE && getViewModel().transaction.isEmpty() -> {
+                            context?.simpleAlert("Please select transaction")
+                        }
+                        getViewModel().description.isEmpty() -> {
+                            context?.simpleAlert("Please enter description")
+                        }
+                        else -> {
+                            getViewModel().submitTicket(query).observe(this, Observer {
+                                it?.let {
+                                    context?.simpleAlert("Your query has been raised successfully. We will contact you soon.") {
+                                        onBackExclusive(SupportFragment::class.java)
+                                    }
+                                }
+                            })
+                        }
                     }
                 }
             }
-        }
+        })
+
     }
 
     private fun openGallery() {
@@ -197,6 +210,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                             val mFile = File(getPath(it))
                             getViewModel().imgName.set(mFile.name)
                             ivUploadPic?.setImageURI(it)
+                            getViewModel().issueImage = it
                         }
                     }
                 }

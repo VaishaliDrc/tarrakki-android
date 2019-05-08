@@ -16,16 +16,13 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
-import com.tarrakki.App
-import com.tarrakki.R
-import com.tarrakki.addToCartTarrakkiZyaada
+import com.tarrakki.*
 import com.tarrakki.chartformaters.BarChartCustomRenderer
 import com.tarrakki.chartformaters.CustomXAxisRenderer
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
 import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
-import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -66,6 +63,19 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     }
 
     override fun createReference() {
+
+        /*val investInfoHtml = resources.openRawResource(R.raw.invest).bufferedReader().use { it.readText() }
+        mWebViewWhereInvest?.let { setWebviewData(it, investInfoHtml) }*/
+        /*val investInfoHtml = ""
+                .plus("<p>")
+                .plus("Your money will be invested in a Liquid Fund.Liquid Funds invest in money market instruments such as certificates of deposits, treasury bills, commercial papers, and term deposits with maturities up to 90 days.")
+                .plus("</p>")
+                .plus("<ul>")
+                .plus("<li>")
+                .plus("Lowest interest risk compared to other classes of debt funds")
+                .plus("</li>")
+                .plus("</ul>")
+        mWebViewWhereInvest?.let { setWebviewData(it, investInfoHtml) }*/
 
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {

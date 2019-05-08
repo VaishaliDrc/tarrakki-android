@@ -303,6 +303,8 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                             if (e.code() == 401) {
                                 App.INSTANCE.isRefreshing.value = false
                                 EventBus.getDefault().postSticky(ONLOGOUT)
+                            } else if (e.code() == 500) {
+                                singleCallback?.onFailure(e, apiNames)
                             } else {
                                 App.INSTANCE.isRefreshing.value = false
                                 e.postError(R.string.server_connection)
@@ -340,6 +342,8 @@ fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallb
                         is HttpException -> {
                             if (e.code() == 401) {
                                 EventBus.getDefault().postSticky(ONLOGOUT)
+                            } else if (e.code() == 500) {
+                                singleCallback?.onFailure(e)
                             } else {
                                 App.INSTANCE.isRefreshing.value = false
                                 e.postError(R.string.server_connection)

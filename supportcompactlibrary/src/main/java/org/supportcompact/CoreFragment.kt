@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.annotation.IntRange
 import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,6 +96,14 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Frag
 
     protected fun onBack() {
         activity?.onBackPressed()
+    }
+
+    protected fun onBackExclusive(fragment: Class<out Fragment>) {
+        activity?.supportFragmentManager?.popBackStackImmediate(fragment.name, 0)
+    }
+
+    protected fun onBackInclusive(fragment: Class<out Fragment>) {
+        activity?.supportFragmentManager?.popBackStackImmediate(fragment.name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {

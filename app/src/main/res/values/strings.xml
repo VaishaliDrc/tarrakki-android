@@ -873,6 +873,14 @@
         \n\u2022 No Lock-in, No Entry and Exit Load
         \n\u2022 Minimum Investment of 100 ONLY!
     </string>
+
+    <string name="where_is_my_money_html" formatted="false">Your money will be invested in a Liquid Fund. Liquid Funds invest in money market instruments such as certificates of deposits, treasury bills, commercial papers, and term deposits with maturities up to 90 days.\n\n
+    • Lowest interest risk compared to other classes of debt funds\n
+    • Invests in fixed income securities with short maturity periods\n
+    • No Lock-in, No Entry and Exit Load\n
+    • Minimum Investment of 100 ONLY!
+    </string>
+
     <string name="tarrakki_zyaada">Tarrakki Zyaada</string>
     <string name="tarrakki_zyaada_investment">Tarrakki Zyaada</string>
     <string name="invest_and_save_now">Invest and save now</string>
