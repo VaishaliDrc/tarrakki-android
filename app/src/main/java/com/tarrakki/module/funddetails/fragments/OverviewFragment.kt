@@ -3,16 +3,16 @@ package com.tarrakki.module.funddetails.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.res.ColorStateList
 import android.databinding.DataBindingUtil
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tarrakki.R
+import com.tarrakki.addFundPortfolioDialog
 import com.tarrakki.addToCart
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.TopTenHolding
 import com.tarrakki.databinding.FragmentOverviewBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
@@ -24,15 +24,6 @@ import com.tarrakki.module.funddetails.KeyInfo
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
-import android.graphics.drawable.Drawable
-import android.graphics.PorterDuff
-import android.R.color
-import android.support.v4.content.ContextCompat
-import android.graphics.drawable.LayerDrawable
-
-
-
-
 
 
 class OverviewFragment : Fragment() {
@@ -101,15 +92,30 @@ class OverviewFragment : Fragment() {
                         val fund_id = fundDetailsResponse.fundsDetails?.id
                         val minSIPAmount = fundDetailsResponse.fundsDetails?.validminSIPAmount
                         val minLumpSumAmount = fundDetailsResponse.fundsDetails?.validminlumpsumAmount
-
+                        val foliosList = fundDetailsResponse.folios
                         if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
-                            context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
-                                addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                        android.arch.lifecycle.Observer { response ->
-                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                            }
-                                        })
+                            if (foliosList?.isNotEmpty() == true) {
+                                val folios: MutableList<FolioData> = mutableListOf()
+                                for (folioNo in foliosList) {
+                                    folios.add(FolioData(null, null, null, folioNo))
+                                }
+                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                                    addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                            Observer { response ->
+                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                }
+                                            })
+                                }
+                            } else {
+                                context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                                    addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                            Observer { response ->
+                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                }
+                                            })
+                                }
                             }
                         }
                     }

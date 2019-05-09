@@ -16,7 +16,7 @@ import java.math.BigInteger
 import java.util.*
 import kotlin.concurrent.thread
 
-fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
+fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo: String? = null)
         : MutableLiveData<ApiResponse> {
     val json = JsonObject()
     json.addProperty("fund_id", fundId)
@@ -25,6 +25,9 @@ fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
     }
     if (lumpsumAmount != BigInteger.ZERO.toString()) {
         json.addProperty("lumpsum_amount", lumpsumAmount)
+    }
+    if (folioNo?.isNotEmpty() == true) {
+        json.addProperty("folio_number", folioNo)
     }
     json.printRequest()
     val data = json.toString().toEncrypt()
@@ -59,7 +62,7 @@ fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String)
     return apiResponse
 }
 
-fun addToCartTarrakkiZyaada(tarrakkiZyaadaId: String, sipAmount: String, lumpsumAmount: String)
+fun addToCartTarrakkiZyaada(tarrakkiZyaadaId: String, sipAmount: String, lumpsumAmount: String, folioNo: String? = null)
         : MutableLiveData<ApiResponse> {
     val json = JsonObject()
     json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -68,6 +71,9 @@ fun addToCartTarrakkiZyaada(tarrakkiZyaadaId: String, sipAmount: String, lumpsum
     }
     if (lumpsumAmount != BigInteger.ZERO.toString()) {
         json.addProperty("lumpsum_amount", lumpsumAmount)
+    }
+    if (folioNo?.isNotEmpty() == true) {
+        json.addProperty("folio_number", folioNo)
     }
     json.printRequest()
     val data = json.toString().toEncrypt()

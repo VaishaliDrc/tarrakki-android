@@ -19,7 +19,9 @@ data class TarrakkiZyaadaResponse(
             @SerializedName("bank_savings_return")
             val bankSavingsReturn: String?,
             @SerializedName("fixed_deposit_return")
-            val fixedDepositReturn: String?
+            val fixedDepositReturn: String?,
+            @SerializedName("folio_list")
+            val folios: List<String>?
     ) {
         data class Fund(
                 @SerializedName("dp_day_end_nav")

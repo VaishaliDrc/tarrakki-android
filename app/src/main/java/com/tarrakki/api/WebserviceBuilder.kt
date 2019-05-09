@@ -55,7 +55,7 @@ interface WebserviceBuilder {
     fun getFunds(@Query("data") data: String): Observable<ApiResponse>
 
     @GET("fund-details/{id}/")
-    fun getFundDetails(@Path("id") id: String): Observable<ApiResponse>
+    fun getFundDetails(@Path("id") id: String, @Query("data") data: String): Observable<ApiResponse>
 
     @GET("cart/")
     fun getCartItem(): Observable<ApiResponse>
@@ -255,7 +255,6 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("tarrakki/zyaada/redemption/{user_id}")
     fun instaRedeem(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
-
 
 
     /**

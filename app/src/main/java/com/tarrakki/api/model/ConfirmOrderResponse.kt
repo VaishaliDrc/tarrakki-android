@@ -36,10 +36,10 @@ data class ConfirmOrderResponse(
             @SerializedName("is_sip")
             val isSIP: Boolean
     ) {
-        val isApproveBank : Boolean?
-            get() = if ("APPROVED"==mandateStatus){
+        val isApproveBank: Boolean?
+            get() = if ("APPROVED" == mandateStatus) {
                 true
-            }else{
+            } else {
                 false
             }
 
@@ -68,15 +68,15 @@ data class ConfirmOrderResponse(
             var sipAmount: String? = null
                 get() = field?.toDoubleOrNull()?.toCurrency()
 
-            var isGuideline : Boolean? = false
+            var isGuideline: Boolean? = false
                 get() {
-                    if (hasSIP == View.VISIBLE){
-                        if (hasLumpsum == View.VISIBLE){
+                    if (hasSIP == View.VISIBLE) {
+                        if (hasLumpsum == View.VISIBLE) {
                             return true
-                        }else{
+                        } else {
                             return false
                         }
-                    }else{
+                    } else {
                         return false
                     }
                 }

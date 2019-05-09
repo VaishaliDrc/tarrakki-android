@@ -142,9 +142,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             } else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
+                getEncryptedPasswordForCAMPSApi().observe(this, Observer {
                     it?.let { password ->
-                        getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
+                        getPANeKYCStatus(password, kyc.pan).observe(this, Observer {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {

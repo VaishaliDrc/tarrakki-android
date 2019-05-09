@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.tarrakki.*
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.chartformaters.BarChartCustomRenderer
 import com.tarrakki.chartformaters.CustomXAxisRenderer
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
@@ -141,14 +142,30 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         val tarrakkiZyaadaId = response.tarrakkiZyaadaId
                         val minSIPAmount = fund.validminSIPAmount
                         val minLumpSumAmount = fund.validminlumpsumAmount
+                        val foliosList = response.folios
                         if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
-                            context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, Id ->
-                                addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
-                                        Observer { response ->
-                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                            }
-                                        })
+                            if (foliosList?.isNotEmpty() == true) {
+                                val folios: MutableList<FolioData> = mutableListOf()
+                                for (folioNo in foliosList) {
+                                    folios.add(FolioData(null, null, null, folioNo))
+                                }
+                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                                    addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                            Observer { response ->
+                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                }
+                                            })
+                                }
+                            } else {
+                                context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                                    addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
+                                            Observer { response ->
+                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                }
+                                            })
+                                }
                             }
                         }
                     }

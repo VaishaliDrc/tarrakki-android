@@ -25,7 +25,9 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tarrakki.R
+import com.tarrakki.addFundPortfolioDialog
 import com.tarrakki.addToCart
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.ReturnsHistory
 import com.tarrakki.chartformaters.MyMarkerView
 import com.tarrakki.chartformaters.MyYAxisValueFormatter
@@ -307,15 +309,30 @@ class PerformanceFragment : Fragment() {
                 val fund_id = itVM.fundDetailsResponse.value?.fundsDetails?.id
                 val minSIPAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminSIPAmount
                 val minLumpSumAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminlumpsumAmount
-
+                val foliosList = itVM.fundDetailsResponse.value?.folios
                 if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
-                    context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
-                        addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                Observer { response ->
-                                    context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                    }
-                                })
+                    if (foliosList?.isNotEmpty() == true) {
+                        val folios: MutableList<FolioData> = mutableListOf()
+                        for (folioNo in foliosList) {
+                            folios.add(FolioData(null, null, null, folioNo))
+                        }
+                        context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                            addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                    Observer { response ->
+                                        context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                        }
+                                    })
+                        }
+                    } else {
+                        context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                            addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                    Observer { response ->
+                                        context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                        }
+                                    })
+                        }
                     }
                 }
             }

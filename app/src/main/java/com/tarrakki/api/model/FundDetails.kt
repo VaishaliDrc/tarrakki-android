@@ -21,7 +21,9 @@ data class FundDetails(
         @SerializedName("funds_details")
         val fundsDetails: FundsDetails?,
         @SerializedName("top_ten_holdings")
-        val topTenHolding: Any?
+        val topTenHolding: Any?,
+        @SerializedName("folio_list")
+        val folios: List<String>?
 ) {
 
     var topTenHoldings: ArrayList<TopTenHolding>? = null

@@ -2,23 +2,22 @@ package com.tarrakki.module.funddetails
 
 import android.arch.lifecycle.MutableLiveData
 import android.support.annotation.IntRange
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.FundDetails
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.model.*
+import com.tarrakki.api.subscribeToSingle
 import com.tarrakki.module.invest.FundType
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
+import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.parseToPercentageOrNA
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import kotlin.concurrent.thread
 
 class FundDetailsVM : FragmentViewModel() {
@@ -37,8 +36,11 @@ class FundDetailsVM : FragmentViewModel() {
 
     fun getFundDetails(id: String) {
         EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JsonObject()
+        json.addProperty("user_id", App.INSTANCE.getUserId())
+        val data = json.toString().toEncrypt()
         subscribeToSingle(
-                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getFundDetails(id),
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getFundDetails(id, data),
                 apiNames = WebserviceBuilder.ApiNames.getFundDetails,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

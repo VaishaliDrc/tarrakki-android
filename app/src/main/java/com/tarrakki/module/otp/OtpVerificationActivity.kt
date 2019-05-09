@@ -83,7 +83,12 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                                 signUpResponse.userId?.let { it1 -> setUserId(it1) }
                                                 signUpResponse.email?.let { it1 -> setEmail(it1) }
                                                 signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                                signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                                                signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                                                signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                                                signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                                                 setIsLogin(true)
+                                                setSocialLogin(false)
                                                 startActivity<HomeActivity>()
                                                 finishAffinity()
                                             }
@@ -104,6 +109,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                     signUpResponse.userId?.let { it1 -> setUserId(it1) }
                                     signUpResponse.email?.let { it1 -> setEmail(it1) }
                                     signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                    signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                                    signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                                    signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                                    signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                                     setSocialLogin(true)
                                     setIsLogin(true)
                                     startActivity<HomeActivity>()

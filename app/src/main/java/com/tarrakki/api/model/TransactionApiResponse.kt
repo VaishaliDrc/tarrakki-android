@@ -99,7 +99,11 @@ data class TransactionApiResponse(
             get() = parseAsReturnOrNA(nav)
 
         val folioNumber
-            get() = if (TextUtils.isEmpty(folioNo)) "N/A" else folioNo
+            get() = if ((IN_PROGRESS.equals("$status", true) || IN_PROGRESS1.equals("$status", true)) && TextUtils.isEmpty(folioNo)) {
+                "Under Process"
+            } else {
+                if (TextUtils.isEmpty(folioNo)) "N/A" else folioNo
+            }
 
         val paymentType
             get() = if (paymentMode == "DIRECT") {

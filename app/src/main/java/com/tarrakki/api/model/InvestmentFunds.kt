@@ -53,7 +53,9 @@ data class InvestmentFunds(
             @SerializedName("iaip_aip")
             val iaipAip: List<IaipAip>?,
             @SerializedName("pi_minimum_initial")
-            val piMinimumInitial: String?
+            val piMinimumInitial: String?,
+            @SerializedName("folio_list")
+            val folios: List<String>?
     ) {
         var FDReturn: String? = null
         //get() = parseToPercentageOrNA(fixedDepositReturn)

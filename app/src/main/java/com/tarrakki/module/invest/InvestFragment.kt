@@ -15,12 +15,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import com.tarrakki.App
-import com.tarrakki.R
-import com.tarrakki.addToCart
+import com.tarrakki.*
+import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
-import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -94,15 +92,38 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.fund = item
                     binder.executePendingBindings()
                     binder.btnInvest.setOnClickListener {
-                        context?.investDialog(item.id, item.validminSIPAmount,
-                                item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
+                        val foliosList = item.folios
+                        if (foliosList?.isNotEmpty() == true) {
+                            val folios: MutableList<FolioData> = mutableListOf()
+                            for (folioNo in foliosList) {
+                                folios.add(FolioData(null, null, null, folioNo))
+                            }
+                            context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                                addToCart(item.id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            }
+                        } else {
+                            context?.investDialog(item.id, item.validminSIPAmount, item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
+                                addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            }
+                        }
+                        /*context?.investDialog(item.id, item.validminSIPAmount, item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
                             addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                    android.arch.lifecycle.Observer { response ->
+                                    Observer { response ->
                                         context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                             startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                         }
                                     })
-                        }
+                        }*/
                     }
                     binder.root.setOnClickListener {
                         startFragment(FundDetailsFragment.newInstance(Bundle().apply { putString(ITEM_ID, "${item.id}") }), R.id.frmContainer)

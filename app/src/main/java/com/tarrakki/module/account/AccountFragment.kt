@@ -104,7 +104,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_support -> {
                         //context?.simpleAlert(getString(R.string.coming_soon))
-                        startFragment(SupportFragment.newInstance(), R.id.frmContainer)
+                        //startFragment(SupportFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             }
