@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: ru.bullyboo.animation:text_counter:1.0.2@aar">
     <ANNOTATIONS>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/text_counter-1.0.2.aar/1f5e3504a50cbe9c51de2ac695628f7e/annotations.zip!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d31f2bbd504732e0f9b79d063b4dfc4/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/text_counter-1.0.2.aar/1f5e3504a50cbe9c51de2ac695628f7e/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/text_counter-1.0.2.aar/1f5e3504a50cbe9c51de2ac695628f7e/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d31f2bbd504732e0f9b79d063b4dfc4/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/9d31f2bbd504732e0f9b79d063b4dfc4/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

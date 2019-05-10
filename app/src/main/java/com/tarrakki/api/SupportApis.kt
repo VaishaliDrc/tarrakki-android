@@ -24,15 +24,15 @@ interface SupportApis {
     fun checkTransactionStatus(@Query("data") data: String): Observable<ApiResponse>
 
     /***
-     * two params query_id, issue_description, issue_image & transaction_id as encrypted data
+     * Three params limit, offset & state as encrypted data
      * */
+    @GET("support/get-all-ticket/")
+    fun getTickets(@Query("data") data: String): Observable<ApiResponse>
+
     @Multipart
     @POST("support/raise-ticket/{id}/")
     fun createTicket(@Path("id") userId: String?, @Part("data") data: RequestBody, @Part file: MultipartBody.Part?): Observable<ApiResponse>
 
-    /***
-     * two params query_id, issue_description, issue_image & transaction_id as encrypted data
-     * */
     @GET("support/conversation/{id}")
     fun getConversation(@Path("id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 

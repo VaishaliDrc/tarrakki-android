@@ -76,7 +76,7 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
                     }
                 }
             }
-            context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
+            context?.string(R.string.no_data_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
             mRefresh?.isRefreshing = false
         }
         getViewModel().getBlogs().observe(this, blogObservable)
@@ -89,7 +89,7 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
         })
         App.INSTANCE.isRefreshing.observe(this, Observer {
             it?.let { isRefreshing ->
-                context?.string(R.string.no_goals_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
+                context?.string(R.string.no_data_found)?.let { coreActivityVM?.emptyView(blogs.isEmpty(), it) }
                 mRefresh?.isRefreshing = false
                 App.INSTANCE.isRefreshing.value = null
             }

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.otaliastudios:zoomlayout:1.5.0@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/zoomlayout-1.5.0.aar/b067eecc92949f69b8544f530447971e/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/zoomlayout-1.5.0.aar/b067eecc92949f69b8544f530447971e/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/673d8293ed242ec1cebb7151faa6308c/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/673d8293ed242ec1cebb7151faa6308c/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

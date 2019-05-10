@@ -7,7 +7,7 @@
 
         <variable
             name="ticket"
-            type="com.tarrakki.module.support.Ticket" />
+            type="com.tarrakki.api.model.SupportViewTicketResponse.Data.Conversation" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -34,7 +34,7 @@
             android:layout_margin="@dimen/_8sdp"
             android:fontFamily="@font/lato_bold"
             android:paddingBottom="@dimen/_8sdp"
-            android:text="@{ticket.query}"
+            android:text="@{ticket.question}"
             android:textColor="@color/black"
             app:layout_constraintBaseline_toBaselineOf="@id/cbStatus"
             app:layout_constraintEnd_toStartOf="@id/cbStatus"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:text="@{@string/query_ref_no_ + ` `+ ticket.referenceNo}"
+            android:text="@{@string/query_ref_no_ + ` `+ ticket.ticketRef}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toEndOf="@id/mIndicator"
             app:layout_constraintTop_toBottomOf="@id/tvQuery"
@@ -95,7 +95,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:text="@{ticket.dateTime}"
+            android:text="@{ticket.time}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/mIndicator"
             app:layout_constraintTop_toBottomOf="@id/tvDateL"

@@ -15,7 +15,7 @@ import com.tarrakki.module.funddetails.ITEM_ID
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.color
-import org.supportcompact.ktx.parseAsNoZiroReturnOrNA
+import org.supportcompact.ktx.format
 import org.supportcompact.ktx.parseAsReturnOrNA
 import org.supportcompact.ktx.startFragment
 
@@ -93,7 +93,24 @@ data class TransactionApiResponse(
 
         @SerializedName("units")
         val units: String? = null
-            get() = parseAsNoZiroReturnOrNA("$field")
+            get() = if (TextUtils.isEmpty(field)) {
+                "N/A"
+            } else {
+                try {
+                    val temp: Double? = field?.toDoubleOrNull()
+                    if (temp == null || temp == 0.0) {
+                        "N/A"
+                    } else {
+                        if (field.contains(".")) {
+                            "${field.substringBefore(".").toDouble().format()}${field.substring(field.indexOf("."))}"
+                        } else {
+                            temp.format()
+                        }
+                    }
+                } catch (e: java.lang.Exception) {
+                    "N/A"
+                }
+            }
 
         val todayNAV
             get() = parseAsReturnOrNA(nav)

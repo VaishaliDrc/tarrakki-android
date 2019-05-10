@@ -43,10 +43,42 @@
                 android:orientation="vertical"
                 android:padding="@dimen/_8sdp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp">
+
+                    <TextView
+                        android:id="@+id/tvQ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_toStartOf="@id/switchOnOff"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@string/do_you_want_to_raise_the_ticket_for_the_transaction"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/black" />
+
+                    <ToggleButton
+                        android:id="@+id/switchOnOff"
+                        android:layout_width="64dp"
+                        android:layout_height="26dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:background="@drawable/shape_switch_bg"
+                        android:button="@null"
+                        android:checked="@={vm.transactionVisibiSwitch}"
+                        android:textOff=""
+                        android:textOn=""
+                        tools:checked="true" />
+
+                </RelativeLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/choose_transaction"
                     android:textAllCaps="true"
@@ -79,7 +111,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/issue_description_"
                     android:textAllCaps="true"
@@ -108,7 +139,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_4sdp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/upload_a_picture_optional"
                     android:textAllCaps="true"

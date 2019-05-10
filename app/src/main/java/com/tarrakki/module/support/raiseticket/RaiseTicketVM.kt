@@ -24,7 +24,8 @@ class RaiseTicketVM : FragmentViewModel() {
 
     val query = MutableLiveData<SupportQueryListResponse.Data>()
 
-    val transactionVisibility = ObservableField(View.GONE)
+    val transactionVisibility = ObservableField(View.VISIBLE)
+    val transactionVisibiSwitch = ObservableField(true)
     val transaction = ObservableField("")
     val description = ObservableField("")
     val imgName = ObservableField("")

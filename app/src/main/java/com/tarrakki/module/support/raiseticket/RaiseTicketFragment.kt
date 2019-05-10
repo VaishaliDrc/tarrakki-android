@@ -68,6 +68,9 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                     }
             )
         }
+        switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
+            getViewModel().transactionVisibility.set(if (isChecked) View.VISIBLE else View.GONE)
+        }
         getViewModel().query.observe(this, Observer { query ->
             query?.let {
                 getViewModel().checkTransactionStatus(query)

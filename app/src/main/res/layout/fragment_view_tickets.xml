@@ -65,8 +65,8 @@
             dividerV="@{@drawable/shape_transferant_divider_16dp}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
             android:layout_marginTop="@dimen/default_space"
+            android:overScrollMode="never"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     </LinearLayout>

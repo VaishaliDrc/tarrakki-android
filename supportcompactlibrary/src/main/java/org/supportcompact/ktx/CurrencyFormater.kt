@@ -379,12 +379,12 @@ fun BigInteger.toCurrency(): String {
     return try {
         val temp: Double? = this.toDouble()
         if (temp != null) {
-            temp.toCurrency().toString()
+            temp.toCurrency()
         } else {
-            0.0.toCurrency().toString()
+            0.0.toCurrency()
         }
     } catch (e: java.lang.Exception) {
-        0.0.toCurrency().toString()
+        0.0.toCurrency()
     }
 }
 
