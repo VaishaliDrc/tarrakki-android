@@ -2,15 +2,16 @@ package com.tarrakki.module.zyaada
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
+import com.google.gson.JsonObject
+import com.tarrakki.App
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.TarrakkiZyaadaResponse
-import com.tarrakki.api.model.parseTo
+import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
 import kotlin.concurrent.thread
@@ -23,7 +24,11 @@ class TarrakkiZyaadaVM : FragmentViewModel() {
     fun getTarrakkiZyaada(): MutableLiveData<TarrakkiZyaadaResponse> {
         showProgress()
         val response = MutableLiveData<TarrakkiZyaadaResponse>()
-        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTarrakkiZyaada(), object : SingleCallback1<ApiResponse> {
+        val json = JsonObject()
+        json.addProperty("user_id", App.INSTANCE.getUserId())
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTarrakkiZyaada(data), object : SingleCallback1<ApiResponse> {
 
             override fun onSingleSuccess(o: ApiResponse) {
                 thread {

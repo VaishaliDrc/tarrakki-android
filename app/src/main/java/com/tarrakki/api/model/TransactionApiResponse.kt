@@ -12,8 +12,10 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.color
 import org.supportcompact.ktx.format
 import org.supportcompact.ktx.parseAsReturnOrNA
@@ -175,6 +177,7 @@ data class TransactionApiResponse(
             get() = View.OnClickListener { v ->
                 val mContext = v.context
                 if (mContext is FragmentActivity) {
+                    EventBus.getDefault().post(Event.RESET_OPTION_MENU)
                     mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                         putString(ITEM_ID, "${fundId}")
                     }), R.id.frmContainer)

@@ -58,7 +58,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 getViewModel().transaction.set(item)
             }
         }
-        tvUploadPicture?.setOnClickListener {
+        openGallery?.setOnClickListener {
             context?.takePick(
                     onGallery = {
                         openGallery()
@@ -67,6 +67,9 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                         openCamera()
                     }
             )
+        }
+        openFile?.setOnClickListener {
+            openDocumentFile()
         }
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
             getViewModel().transactionVisibility.set(if (isChecked) View.VISIBLE else View.GONE)
@@ -112,6 +115,52 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 startActivityForResult(Intent.createChooser(intent, "Select File"), getViewModel().IMAGE_RQ_CODE)
                 /*val pickPhoto = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(Intent.createChooser(pickPhoto, "Select File"), getViewModel().IMAGE_RQ_CODE)*/
+            }
+
+            override fun permissionDenied() {
+                context?.confirmationDialog(
+                        title = getString(R.string.permission),
+                        msg = getString(R.string.write_external_storage_title),
+                        btnPositive = getString(R.string.allow),
+                        btnNegative = getString(R.string.dont_allow),
+                        btnPositiveClick = {
+                            openGallery()
+                        }
+                )
+            }
+
+            override fun onPermissionDisabled() {
+                context?.confirmationDialog(
+                        title = getString(R.string.permission),
+                        msg = getString(R.string.write_external_storage_title),
+                        btnPositive = getString(R.string.settings),
+                        btnNegative = getString(R.string.cancel),
+                        btnPositiveClick = {
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts("package", context?.packageName, null)
+                            intent.data = uri
+                            startActivity(intent)
+                        }
+                )
+            }
+        })
+    }
+
+    private fun openDocumentFile() {
+        val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        requestPermissionsIfRequired(permissions, object : PermissionCallBack {
+            override fun permissionGranted() {
+                val mimeTypes = arrayOf("application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
+                        "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
+                        "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                        "text/plain", "application/pdf", "application/zip")
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                        .setType("*/*")
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
+                startActivityForResult(Intent.createChooser(intent, "Select File"), getViewModel().FILE_RQ_CODE)
             }
 
             override fun permissionDenied() {
@@ -204,6 +253,13 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                     val selectedUri = data?.data
                     if (selectedUri != null) {
                         startCrop(selectedUri)
+                    }
+                }
+                getViewModel().FILE_RQ_CODE -> {
+                    val selectedUri = data?.data
+                    if (selectedUri != null) {
+                        val mFile = File(getPath(selectedUri))
+                        getViewModel().imgName.set(mFile.name)
                     }
                 }
                 UCrop.REQUEST_CROP -> {

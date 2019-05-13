@@ -93,56 +93,6 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:layout_marginStart="@dimen/default_space"
-                android:layout_marginEnd="@dimen/default_space"
-                android:background="@drawable/shape_cart_view"
-                android:elevation="@dimen/space_2"
-                android:padding="8dp">
-
-                <TextView
-                    android:id="@+id/tvRiskLevelL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="@string/risk_level"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@android:color/black"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvRiskLevel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{fund.fscbiIndianRiskLevelName}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvRiskLevelL"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Moderately High" />
-
-                <ProgressBar
-                    android:id="@+id/progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:layout_marginBottom="@dimen/space_8"
-                    android:max="100"
-                    android:progressTint="@{fund.riskProgressColor}"
-                    android:progress="@{fund.riskProgress}"
-                    android:progressDrawable="@drawable/progress_horisental"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRiskLevel"
-                    tools:progress="75" />
-
-            </android.support.constraint.ConstraintLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -246,6 +196,56 @@
                     tools:visibility="visible" />
 
             </LinearLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvRiskLevelL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/risk_level"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvRiskLevel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{fund.fscbiIndianRiskLevelName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvRiskLevelL"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Moderately High" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:max="100"
+                    android:progressTint="@{fund.riskProgressColor}"
+                    android:progress="@{fund.riskProgress}"
+                    android:progressDrawable="@drawable/progress_horisental"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRiskLevel"
+                    tools:progress="75" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <TextView
                 android:id="@+id/txt_fund_offer"

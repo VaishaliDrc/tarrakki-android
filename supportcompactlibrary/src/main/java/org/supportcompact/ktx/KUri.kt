@@ -59,16 +59,20 @@ fun getPath(uri: Uri): String? {
             val selectionArgs = arrayOf(split[1])
 
             return getDataColumn(contentUri, selection, selectionArgs)
-        }// MediaProvider
+        } else if (isGooglePhotosUri(uri))
+            return uri.lastPathSegment// MediaProvider
         // DownloadsProvider
     } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
+        // Return the remote address
+        if (isGooglePhotosUri(uri))
+            return uri.lastPathSegment
         return getDataColumn(uri, null, null)
     } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
         return uri.path
     }// File
     // MediaStore (and general)
 
-    return null
+    return uri.toString()
 }
 
 /**
@@ -93,6 +97,14 @@ private fun isDownloadsDocument(uri: Uri): Boolean {
  */
 private fun isMediaDocument(uri: Uri): Boolean {
     return "com.android.providers.media.documents" == uri.authority
+}
+
+/**
+ * @param uri The Uri to check.
+ * @return Whether the Uri authority is Google Photos.
+ */
+fun isGooglePhotosUri(uri: Uri): Boolean {
+    return "com.google.android.apps.photos.content" == uri.authority || "com.google.android.apps.docs.storage" == uri.authority
 }
 
 /**

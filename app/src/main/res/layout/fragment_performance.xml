@@ -17,8 +17,10 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fillViewport="false"
+        android:focusableInTouchMode="false"
         android:visibility="gone"
-        android:fillViewport="false">
+        tools:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,8 +30,8 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -94,8 +96,8 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -159,11 +161,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    tools:text="17.85%"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
                     app:layout_constraintStart_toStartOf="@id/tvYDRLabel"
-                    app:layout_constraintTop_toBottomOf="@+id/tvYDRLabel" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvYDRLabel"
+                    tools:text="17.85%" />
 
 
                 <com.github.mikephil.charting.charts.LineChart
@@ -195,8 +197,8 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -250,8 +252,8 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -411,10 +413,10 @@
                 android:id="@+id/btn_invest_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:layout_marginBottom="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
+                android:layout_marginBottom="@dimen/default_space"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/invest_now"

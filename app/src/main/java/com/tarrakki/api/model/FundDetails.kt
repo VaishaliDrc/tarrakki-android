@@ -365,6 +365,9 @@ data class FundsDetails(
     var lumpsumAmount: String = ""
         get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "N/A"
 
+    var expenseRatio: String? = null
+        get() = parseAsNoZiroReturnOrNA("")
+
     /*var validminSIPAmount = 0.00
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {
             iaipAip.firstOrNull { it -> "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true) && (it.minTenure == 12 || it.minTenure == 6) }?.minAmount

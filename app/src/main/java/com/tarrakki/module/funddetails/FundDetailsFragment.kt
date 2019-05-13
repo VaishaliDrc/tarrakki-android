@@ -51,8 +51,8 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
             }
         }
         val pages = arrayListOf(
-                Page("Overview", OverviewFragment.newInstance()),
-                Page("Performance", PerformanceFragment.newInstance())
+                Page(getString(R.string.overview), OverviewFragment.newInstance()),
+                Page(getString(R.string.performance), PerformanceFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)

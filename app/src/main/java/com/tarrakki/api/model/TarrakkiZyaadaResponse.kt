@@ -19,9 +19,7 @@ data class TarrakkiZyaadaResponse(
             @SerializedName("bank_savings_return")
             val bankSavingsReturn: String?,
             @SerializedName("fixed_deposit_return")
-            val fixedDepositReturn: String?,
-            @SerializedName("folio_list")
-            val folios: List<String>?
+            val fixedDepositReturn: String?
     ) {
         data class Fund(
                 @SerializedName("dp_day_end_nav")
@@ -47,7 +45,9 @@ data class TarrakkiZyaadaResponse(
                 @SerializedName("iaip_aip")
                 val iaipAip: List<IaipAip>?,
                 @SerializedName("pi_minimum_initial")
-                val piMinimumInitial: String?
+                val piMinimumInitial: String?,
+                @SerializedName("folio_list")
+                val folios: List<String>?
         ) {
 
             var validminSIPAmount = BigInteger.ZERO

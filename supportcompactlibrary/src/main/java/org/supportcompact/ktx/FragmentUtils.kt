@@ -8,63 +8,83 @@ import android.support.v7.app.AppCompatActivity
 
 fun AppCompatActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = supportFragmentManager
-    fm.beginTransaction()
-            .replace(container, fragment, fragment::class.java.name)
-            .addToBackStack(fragment::class.java.name)
-            .commit()
+    val transaction = fm?.beginTransaction()
+    try {
+        transaction?.replace(container, fragment, fragment::class.java.name)
+                ?.addToBackStack(fragment::class.java.name)
+                ?.commit()
+    } catch (e: IllegalStateException) {
+        transaction?.commitAllowingStateLoss()
+    }
 }
 
 fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment, requestCode: Int, @IdRes container: Int) {
     fragment.setTargetFragment(targetFragment, requestCode)
     val fm = supportFragmentManager
-    fm.beginTransaction()
-            .replace(container, fragment, fragment::class.java.name)
-            .addToBackStack(fragment::class.java.name)
-            .commit()
+    val transaction = fm?.beginTransaction()
+    try {
+        transaction?.replace(container, fragment, fragment::class.java.name)
+                ?.addToBackStack(fragment::class.java.name)
+                ?.commit()
+    } catch (e: IllegalStateException) {
+        transaction?.commitAllowingStateLoss()
+    }
 }
 
 fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
-    fm?.beginTransaction()
-            ?.replace(container, fragment, fragment::class.java.name)
-            ?.addToBackStack(fragment::class.java.name)
-            ?.commit()
+    val transaction = fm?.beginTransaction()
+    try {
+        transaction?.replace(container, fragment, fragment::class.java.name)
+                ?.addToBackStack(fragment::class.java.name)
+                ?.commit()
+    } catch (e: IllegalStateException) {
+        transaction?.commitAllowingStateLoss()
+    }
 }
 
 fun FragmentActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     val fm = this.supportFragmentManager
-    fm?.beginTransaction()
-            ?.replace(container, fragment, fragment::class.java.name)
-            ?.addToBackStack(fragment::class.java.name)
-            ?.commit()
+    val transaction = fm?.beginTransaction()
+    try {
+        transaction?.replace(container, fragment, fragment::class.java.name)
+                ?.addToBackStack(fragment::class.java.name)
+                ?.commit()
+    } catch (e: IllegalStateException) {
+        transaction?.commitAllowingStateLoss()
+    }
 }
 
 fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
-    fm?.beginTransaction()
-            ?.replace(container, fragment, fragment::class.java.name)
-            ?.addToBackStack(null)
-            ?.commit()
-}
-
-fun Fragment.letShow(@IdRes container: Int) {
-    val fm = activity?.supportFragmentManager
-    fm?.beginTransaction()
-            ?.replace(container, this)
-            ?.addToBackStack(this::class.java.name)
-            ?.commit()
+    val transaction = fm?.beginTransaction()
+    try {
+        transaction?.replace(container, fragment, fragment::class.java.name)
+                ?.addToBackStack(fragment::class.java.name)
+                ?.commit()
+    } catch (e: IllegalStateException) {
+        transaction?.commitAllowingStateLoss()
+    }
 }
 
 fun AppCompatActivity.startFragment(fragment: Fragment, backStrackFlag: Boolean, @IdRes container: Int) {
     val fm = supportFragmentManager
     if (backStrackFlag) {
-        fm.beginTransaction()
-                .replace(container, fragment, fragment::class.java.name)
-                .addToBackStack(fragment::class.java.name)
-                .commit()
+        val transaction = fm?.beginTransaction()
+        try {
+            transaction?.replace(container, fragment, fragment::class.java.name)
+                    ?.addToBackStack(fragment::class.java.name)
+                    ?.commit()
+        } catch (e: IllegalStateException) {
+            transaction?.commitAllowingStateLoss()
+        }
     } else {
-        fm.beginTransaction()
-                .replace(container, fragment, fragment::class.java.name)
-                .commit()
+        val transaction = fm?.beginTransaction()
+        try {
+            transaction?.replace(container, fragment, fragment::class.java.name)
+                    ?.commit()
+        } catch (e: IllegalStateException) {
+            transaction?.commitAllowingStateLoss()
+        }
     }
 }

@@ -240,7 +240,7 @@ interface WebserviceBuilder {
     fun getDefaultBank(@Path("user_id") userId: String?): Observable<ApiResponse>
 
     @GET("tarrakki/zyaada/return-funds/")
-    fun getTarrakkiZyaada(): Observable<ApiResponse>
+    fun getTarrakkiZyaada(@Query("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
     @POST("tarrakki/zyaada/apply-debit-card/{user_id}")

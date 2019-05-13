@@ -988,5 +988,7 @@
     <string name="failed_transaction_msg">Unfortunately, your transactions have failed. Please try again.</string>
     <string name="your_purchase_request_has_been_received">Your purchase request has been received.</string>
     <string name="do_you_want_to_raise_the_ticket_for_the_transaction">Do you want to raise the ticket for the transaction?</string>
+    <string name="overview">Overview</string>
+    <string name="performance">Performance</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

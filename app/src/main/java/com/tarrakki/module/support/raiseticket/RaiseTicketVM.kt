@@ -31,7 +31,8 @@ class RaiseTicketVM : FragmentViewModel() {
     val imgName = ObservableField("")
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
-    val cvPhotoName = "profilePick"
+    val FILE_RQ_CODE = 111
+    val cvPhotoName = "my_ticket_file"
     var issueImage: Uri? = null
 
     fun checkTransactionStatus(query: SupportQueryListResponse.Data) {

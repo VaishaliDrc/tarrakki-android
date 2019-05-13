@@ -80,6 +80,7 @@ class OverviewFragment : Fragment() {
                     keysInfo.add(KeyInfo("Asset Date", fundDetails.fundsDetails?.assetsDate))
                     keysInfo.add(KeyInfo("Minimum Investment SIP", fundDetails.fundsDetails?.minSIPAmount))
                     keysInfo.add(KeyInfo("Minimum Investment Lump sum", fundDetails.fundsDetails?.lumpsumAmount))
+                    keysInfo.add(KeyInfo("Expense Ratio", fundDetails.fundsDetails?.expenseRatio))
                     keysInfo.add(KeyInfo("Fund Manger", fundDetails.fundsDetails?.fundManagers))
                     keysInfo.add(KeyInfo("Exit Load", fundDetails.fundsDetails?.exitLoad))
                     keysInfo.add(KeyInfo("Standard Deviation(5yr)", fundDetails.fundsDetails?.vol))

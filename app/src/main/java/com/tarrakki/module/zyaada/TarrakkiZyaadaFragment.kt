@@ -142,7 +142,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         val tarrakkiZyaadaId = response.tarrakkiZyaadaId
                         val minSIPAmount = fund.validminSIPAmount
                         val minLumpSumAmount = fund.validminlumpsumAmount
-                        val foliosList = response.folios
+                        val foliosList = fund.folios
                         if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
                             if (foliosList?.isNotEmpty() == true) {
                                 val folios: MutableList<FolioData> = mutableListOf()

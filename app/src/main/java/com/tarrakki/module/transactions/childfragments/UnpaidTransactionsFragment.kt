@@ -27,6 +27,7 @@ import org.supportcompact.BR
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -235,6 +236,15 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
             }
         }
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onEvent(event: Event) {
+        when (event) {
+            Event.RESET_OPTION_MENU -> {
+                getViewModel().hasOptionMenu.value = false
+            }
+            else -> super.onEvent(event)
+        }
     }
 
     companion object {
