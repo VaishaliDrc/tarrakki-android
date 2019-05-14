@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentTransactionskBinding
+import com.tarrakki.module.support.raiseticket.IS_FROM_RAISE_TICKET
 import com.tarrakki.module.transactions.childfragments.*
 import kotlinx.android.synthetic.main.fragment_transactionsk.*
 import org.greenrobot.eventbus.Subscribe
@@ -46,6 +47,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
 
     override fun createReference() {
         setHasOptionsMenu(true)
+        getViewModel().isFromRaiseTicket = arguments?.getBoolean(IS_FROM_RAISE_TICKET) == true
         val pages = arrayListOf(
                 Page(getString(R.string.all), AllTransactionsFragment.newInstance()),
                 Page(getString(R.string.in_progress), InProgressTransactionsFragment.newInstance()),
@@ -76,7 +78,6 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         mTab?.setupWithViewPager(mPager, true)
         mTab?.tabMode = TabLayout.MODE_SCROLLABLE
         getBinding().root.isFocusableInTouchMode = true
-        getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 if (mPager.currentItem == 4) {
@@ -88,6 +89,11 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
             }
             return@setOnKeyListener false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getBinding().root.requestFocus()
     }
 
 

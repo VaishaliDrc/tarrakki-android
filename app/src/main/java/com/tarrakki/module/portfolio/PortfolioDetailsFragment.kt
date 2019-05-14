@@ -154,6 +154,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                             json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
                             json.addProperty("redemption_flag", allRedeem)
                             json.addProperty("folio_id", folioId)
+                            json.addProperty("goal_id", getViewModel().goalInvestment.get()?.goalId)
                             item.redeemRequest = json
                             item.redeemUnits = amount.toCurrency().toDecimalCurrency()
                             item.isInstaRedeem = true

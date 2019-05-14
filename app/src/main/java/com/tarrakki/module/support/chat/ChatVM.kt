@@ -10,7 +10,8 @@ class ChatVM : FragmentViewModel() {
     val chats = arrayListOf<ChatMessage>()
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
-    val cvPhotoName = "profilePick"
+    val FILE_RQ_CODE = 111
+    val cvPhotoName = "my_ticket_file"
 
     init {
         chats.add(ChatMessage(

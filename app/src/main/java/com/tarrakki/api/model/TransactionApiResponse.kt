@@ -87,6 +87,8 @@ data class TransactionApiResponse(
 
     ) : BaseObservable(), WidgetsViewModel {
 
+        var isFromRaiseTicket: Boolean? = false
+
         var orderNumber: String? = null
             get() = if (TextUtils.isEmpty(orderNo)) orderId else orderNo
 
@@ -173,14 +175,26 @@ data class TransactionApiResponse(
             }
         }
 
+        val onSelected: View.OnClickListener
+            get() = View.OnClickListener { v ->
+                val mContext = v.context
+                if (mContext is FragmentActivity && isFromRaiseTicket == true) {
+                    EventBus.getDefault().post(Event.RESET_OPTION_MENU)
+                    EventBus.getDefault().postSticky(this@Transaction)
+                    mContext.onBackPressed()
+                }
+            }
+
         val openFundDetails: View.OnClickListener
             get() = View.OnClickListener { v ->
                 val mContext = v.context
-                if (mContext is FragmentActivity) {
+                if (mContext is FragmentActivity && isFromRaiseTicket == false) {
                     EventBus.getDefault().post(Event.RESET_OPTION_MENU)
                     mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                         putString(ITEM_ID, "${fundId}")
                     }), R.id.frmContainer)
+                } else if (isFromRaiseTicket == true) {
+                    onSelected.onClick(v)
                 }
             }
 

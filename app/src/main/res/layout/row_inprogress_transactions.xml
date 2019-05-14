@@ -21,6 +21,7 @@
         android:layout_marginEnd="@dimen/space_16"
         android:background="@drawable/shape_cart_view"
         android:elevation="@dimen/space_2"
+        android:onClick="@{data.onSelected}"
         android:padding="@dimen/space_8"
         tools:background="@drawable/shape_cart_view">
 

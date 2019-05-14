@@ -2,7 +2,6 @@ package com.tarrakki.module.support.raiseticket
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
-import android.net.Uri
 import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App
@@ -16,13 +15,18 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.json.JSONObject
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.showProgress
 import java.io.File
 import kotlin.concurrent.thread
 
 class RaiseTicketVM : FragmentViewModel() {
 
     val query = MutableLiveData<SupportQueryListResponse.Data>()
+    val question = ObservableField<SupportQuestionListResponse.Question>()
+    val transactionData = ObservableField<TransactionApiResponse.Transaction>()
 
     val transactionVisibility = ObservableField(View.VISIBLE)
     val transactionVisibiSwitch = ObservableField(true)
@@ -33,7 +37,7 @@ class RaiseTicketVM : FragmentViewModel() {
     val ICAMERA_RQ_CODE = 181
     val FILE_RQ_CODE = 111
     val cvPhotoName = "my_ticket_file"
-    var issueImage: Uri? = null
+    var sendFile: Pair<Int, File>? = null
 
     fun checkTransactionStatus(query: SupportQueryListResponse.Data) {
         showProgress()
@@ -70,12 +74,22 @@ class RaiseTicketVM : FragmentViewModel() {
         showProgress()
         var fileData: MultipartBody.Part? = null
         val userId = App.INSTANCE.getUserId()
-        issueImage?.let {
-            val file = File(getPath(it))
-            val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
-            fileData = MultipartBody.Part.createFormData("issue_image", file.name, requestFile)
+        sendFile?.let {
+            fileData = if (it.first == 0) {
+                val requestFile = RequestBody.create(MediaType.parse("image/*"), it.second)
+                MultipartBody.Part.createFormData("issue_image", it.second.name, requestFile)
+            } else {
+                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), it.second)
+                MultipartBody.Part.createFormData("ticket_file", it.second.name, requestFile)
+            }
         }
         val json = JsonObject()
+        question.get()?.let {
+            json.addProperty("question_id", it.id)
+        }
+        if (transactionVisibiSwitch.get() == true) {
+            transactionData.let { json.addProperty("transaction_id", it.get()?.id) }
+        }
         json.addProperty("query_id", query.id)
         json.addProperty("issue_description", description.get())
         json.addProperty("sub_query_id", query.subqueryId)

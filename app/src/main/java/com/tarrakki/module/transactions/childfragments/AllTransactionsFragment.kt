@@ -68,7 +68,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                 if (rvAllTransactions?.adapter == null) {
                     rvAllTransactions?.setUpMultiViewRecyclerAdapter(allTransactions) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                         binder.setVariable(BR.data, item)
-                        binder.setVariable(BR.statusVisibility, View.VISIBLE)
+                        binder.setVariable(BR.statusVisibility, if (getViewModel().isFromRaiseTicket) View.GONE else View.VISIBLE)
 
                         if (binder is RowUnpaidTransactionsBinding) {
                             binder.setVariable(BR.paynow, View.OnClickListener {

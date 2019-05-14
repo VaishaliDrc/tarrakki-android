@@ -14,12 +14,16 @@ import android.support.v4.app.Fragment
 import android.view.View
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
+import com.tarrakki.api.model.SupportQuestionListResponse
+import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentRaiseTicketBinding
 import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.module.support.SupportFragment
+import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_raise_ticket.*
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
@@ -31,6 +35,9 @@ import java.io.File
  * create an instance of this fragment.
  *
  */
+
+const val IS_FROM_RAISE_TICKET = "is_from_raise_ticket"
+
 class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBinding>() {
 
     override val isBackEnabled: Boolean
@@ -52,11 +59,12 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     }
 
     override fun createReference() {
-        val transactions = arrayListOf("154782 - SBI Banking and Financial Services")
+        //val transactions = arrayListOf("154782 - SBI Banking and Financial Services")
         tvChooseTransaction?.setOnClickListener {
-            context?.showCustomListDialog(getString(R.string.choose_transaction), transactions) { item ->
+            startFragment(TransactionsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_RAISE_TICKET, true) }), R.id.frmContainer)
+            /*context?.showCustomListDialog(getString(R.string.choose_transaction), transactions) { item ->
                 getViewModel().transaction.set(item)
-            }
+            }*/
         }
         openGallery?.setOnClickListener {
             context?.takePick(
@@ -76,7 +84,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
         }
         getViewModel().query.observe(this, Observer { query ->
             query?.let {
-                getViewModel().checkTransactionStatus(query)
+                //getViewModel().checkTransactionStatus(query)
                 btnSubmit?.setOnClickListener {
                     when {
                         getViewModel().transactionVisibility.get() == View.VISIBLE && getViewModel().transaction.isEmpty() -> {
@@ -241,6 +249,10 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
         uCrop.start(context!!, this)
     }
 
+    private fun createFile(@NonNull uri: Uri) {
+        context?.contentResolver?.openInputStream(uri)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -259,7 +271,8 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                     val selectedUri = data?.data
                     if (selectedUri != null) {
                         val mFile = File(getPath(selectedUri))
-                        getViewModel().imgName.set(mFile.name)
+                        getViewModel().sendFile = Pair(1, mFile)
+                        getViewModel().imgName.set(selectedUri.getFileName() ?: mFile.name)
                     }
                 }
                 UCrop.REQUEST_CROP -> {
@@ -267,9 +280,9 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val mFile = File(getPath(it))
-                            getViewModel().imgName.set(mFile.name)
+                            getViewModel().imgName.set(imageUri.getFileName() ?: mFile.name)
                             ivUploadPic?.setImageURI(it)
-                            getViewModel().issueImage = it
+                            getViewModel().sendFile = Pair(0, mFile)
                         }
                     }
                 }
@@ -281,6 +294,23 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     fun onReceived(data: SupportQueryListResponse.Data) {
         if (getViewModel().query.value == null) {
             getViewModel().query.value = data
+        }
+        removeStickyEvent(data)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceived(data: SupportQuestionListResponse.Question) {
+        if (getViewModel().question.get() == null) {
+            getViewModel().question.set(data)
+        }
+        removeStickyEvent(data)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    fun onReceive(data: TransactionApiResponse.Transaction) {
+        if (getViewModel().transactionData.get() == null) {
+            getViewModel().transactionData.set(data)
+            getViewModel().transaction.set(data.name)
         }
         removeStickyEvent(data)
     }

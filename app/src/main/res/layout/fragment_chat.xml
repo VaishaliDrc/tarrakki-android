@@ -87,24 +87,36 @@
             android:maxLines="5"
             android:padding="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ivGallery"
+            app:layout_constraintEnd_toStartOf="@+id/openFile"
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:id="@+id/openFile"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:padding="@dimen/_6sdp"
+            android:rotation="60"
+            android:src="@drawable/ic_file_attachment"
+            app:layout_constraintTop_toTopOf="@id/ivGallery"
+            app:layout_constraintBottom_toBottomOf="@id/edtMessage"
+            app:layout_constraintEnd_toStartOf="@id/ivGallery" />
+
+        <ImageView
             android:id="@+id/ivGallery"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
             android:layout_marginEnd="1dp"
-            android:padding="@dimen/_8sdp"
+            android:padding="@dimen/_6sdp"
             android:src="@drawable/ic_camera_black"
+            app:layout_constraintTop_toTopOf="@id/ivSend"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
             app:layout_constraintEnd_toStartOf="@id/ivSend" />
 
         <ImageView
             android:id="@+id/ivSend"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:padding="@dimen/_8sdp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:padding="@dimen/_6sdp"
             android:src="@drawable/ic_send_msg"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
             app:layout_constraintEnd_toEndOf="parent"

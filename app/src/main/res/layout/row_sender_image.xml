@@ -10,7 +10,7 @@
             type="com.tarrakki.module.support.chat.ChatMessage" />
     </data>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/_56sdp"
@@ -18,74 +18,42 @@
         android:paddingEnd="@dimen/default_space"
         android:paddingBottom="@dimen/default_space">
 
-        <!--<TextView
-            android:id="@+id/tvDateTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@{msg.dateTime}"
-            tools:text="25-03-2019 04:54PM" />
-
-        <ImageView
-            android:id="@+id/ivTriangle"
-            android:layout_width="@dimen/_12sdp"
-            android:layout_height="@dimen/_12sdp"
-            android:layout_below="@id/tvDateTime"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:adjustViewBounds="true"
-            android:elevation="2dp"
-            android:src="@drawable/ic_triangle_right"
-            android:tint="@color/colorAccent" />
-
-        <ImageView
-            android:id="@+id/ivMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDateTime"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:adjustViewBounds="true"
-            android:elevation="2dp"
-            app:imgUrl="@{msg.imgUri}"
-            tools:src="@drawable/temp_article_details" />-->
         <TextView
             android:id="@+id/tvDateTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@id/ivTriangle"
             android:text="@{msg.dateTime}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="25-03-2019 04:54PM" />
 
         <ImageView
-            android:id="@+id/ivTriangle"
-            android:layout_width="@dimen/_12sdp"
-            android:layout_height="@dimen/_12sdp"
-            android:layout_below="@id/tvDateTime"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:adjustViewBounds="true"
-            android:elevation="2dp"
-            android:src="@drawable/ic_triangle_right"
-            android:tint="@color/colorAccent" />
-
-        <ImageView
             android:id="@+id/tvMessage"
-            android:layout_width="wrap_content"
+            imgUrl="@{msg.imgUri}"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDateTime"
             android:layout_marginStart="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
-            android:layout_toStartOf="@id/ivTriangle"
             android:adjustViewBounds="true"
-            android:background="@drawable/shape_sender_round_gren_bg"
+            android:background="@drawable/shape_cart_view"
             android:elevation="2dp"
-            imgUrl="@{msg.imgUri}"
             android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline8"
+            app:layout_constraintTop_toBottomOf="@id/tvDateTime"
             tools:src="@drawable/temp_article_details" />
 
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
 
-    </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

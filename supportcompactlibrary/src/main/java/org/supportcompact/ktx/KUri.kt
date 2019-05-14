@@ -8,7 +8,9 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import org.supportcompact.CoreApp
+
 
 /**
  * Get a file path from a Uri. This will get the the path for Storage Access
@@ -132,4 +134,23 @@ private fun getDataColumn(uri: Uri?, selection: String?, selectionArgs: Array<St
         cursor?.close()
     }
     return null
+}
+
+fun Uri.getFileName(): String? {
+    var ret: String? = null
+    val scheme = scheme
+    if (scheme == "file") {
+        ret = lastPathSegment
+    } else if (scheme == "content") {
+        try {
+            val cursor = CoreApp.getInstance().contentResolver.query(this, null, null, null, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                ret = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+            }
+            cursor?.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+    return ret
 }

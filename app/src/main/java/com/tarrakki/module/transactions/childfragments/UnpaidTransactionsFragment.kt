@@ -95,7 +95,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                         binder.setVariable(BR.data, item)
                         binder.setVariable(BR.statusVisibility, View.GONE)
                         binder.root.setOnLongClickListener { v: View? ->
-                            if (item is TransactionApiResponse.Transaction) {
+                            if (item is TransactionApiResponse.Transaction && !getViewModel().isFromRaiseTicket) {
                                 item.isSelected = !item.isSelected
                                 hasSelectedItem()
                                 true
@@ -103,15 +103,17 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                                 false
                             }
                         }
-                        binder.root.setOnClickListener {
-                            if (item is TransactionApiResponse.Transaction) {
-                                if (getViewModel().hasOptionMenu.value == true) {
-                                    item.isSelected = !item.isSelected
-                                }
-                            }
-                            hasSelectedItem()
-                        }
                         binder.executePendingBindings()
+                        if (!getViewModel().isFromRaiseTicket) {
+                            binder.root.setOnClickListener {
+                                if (item is TransactionApiResponse.Transaction) {
+                                    if (getViewModel().hasOptionMenu.value == true) {
+                                        item.isSelected = !item.isSelected
+                                    }
+                                }
+                                hasSelectedItem()
+                            }
+                        }
                         if (item is LoadMore && !item.isLoading) {
                             loadMore.isLoading = true
                             loadMoreObservable.value = position
@@ -121,7 +123,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                     rvUnpaidTransactions?.adapter?.notifyDataSetChanged()
                 }
                 tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
-                btnPayment?.visibility = if (unpaidTransactions.isEmpty()) View.GONE else View.VISIBLE
+                btnPayment?.visibility = if (unpaidTransactions.isEmpty() || getViewModel().isFromRaiseTicket) View.GONE else View.VISIBLE
             }
         }
         getViewModel().getTransactions(transactionType = TransactionApiResponse.UNPAID).observe(this, response)
@@ -139,7 +141,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
             it?.let {
                 mRefresh?.isRefreshing = false
                 tvNoItem?.visibility = if (unpaidTransactions.isEmpty()) View.VISIBLE else View.GONE
-                btnPayment?.visibility = if (unpaidTransactions.isEmpty()) View.GONE else View.VISIBLE
+                btnPayment?.visibility = if (unpaidTransactions.isEmpty() || getViewModel().isFromRaiseTicket) View.GONE else View.VISIBLE
             }
         })
 

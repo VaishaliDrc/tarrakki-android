@@ -57,8 +57,8 @@ class QuestionsFragment : CoreFragment<QuestionsVM, FragmentQuestionsBinding>() 
                                     postSticky(query)
                                 } else {
                                     startFragment(QuestionDetailsFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(item)
                                 }
+                                postSticky(item)
                             }
                         }
                     }

@@ -25,6 +25,7 @@ class TransactionsVM : FragmentViewModel() {
     val hasOptionMenu = MutableLiveData<Boolean>()
     val onBack = MutableLiveData<Boolean>()
     val onRefresh = MutableLiveData<Boolean>()
+    var isFromRaiseTicket = false
 
     fun getTransactions(transactionType: String = TransactionApiResponse.ALL, offset: Int = 0, mRefresh: Boolean = false): MutableLiveData<TransactionApiResponse> {
         if (offset == 0 && !mRefresh)
@@ -46,6 +47,7 @@ class TransactionsVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 thread {
                                     val response = o.data?.parseTo<TransactionApiResponse>()
+                                    response?.transactions?.forEach { it.isFromRaiseTicket = isFromRaiseTicket }
                                     apiResponse.postValue(response)
                                     if (!mRefresh && TransactionApiResponse.ALL == transactionType)
                                         dismissProgress()
