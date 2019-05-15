@@ -80,7 +80,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     val profileObserver: android.arch.lifecycle.Observer<UserProfileResponse> = android.arch.lifecycle.Observer { response ->
         response?.let {
             getBinding().root.visibility = View.VISIBLE
-
+            getViewModel().signatureBtnVisibility.set(if (response.data.isAOFUploaded == true) View.GONE else View.VISIBLE)
             getViewModel().profileUrl.set(response.data.userProfileImage)
             getViewModel().PANName.set(response.data.kycDetail.panName)
             getViewModel().PANNumber.set(response.data.kycDetail.pan)

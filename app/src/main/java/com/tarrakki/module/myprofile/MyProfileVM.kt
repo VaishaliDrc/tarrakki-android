@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.Observable
 import android.databinding.ObservableField
 import android.net.Uri
+import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -41,11 +42,12 @@ class MyProfileVM : FragmentViewModel() {
     val state = ObservableField("")
     val country = ObservableField("")
     val isEdit = ObservableField(false)
-
     val alpha = ObservableField<Float>(0.4f)
     val cvPhotoName = "profilePick"
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
+    val signatureBtnVisibility = ObservableField(View.VISIBLE)
+
 
     init {
         isEdit.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

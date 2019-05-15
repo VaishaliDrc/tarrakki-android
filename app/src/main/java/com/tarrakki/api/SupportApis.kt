@@ -33,7 +33,11 @@ interface SupportApis {
     @POST("support/raise-ticket/{id}/")
     fun createTicket(@Path("id") userId: String?, @Part("data") data: RequestBody, @Part file: MultipartBody.Part?): Observable<ApiResponse>
 
-    @GET("support/conversation/{id}")
+    @GET("support/conversation/{id}/")
     fun getConversation(@Path("id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("support/get-user-token/{id}/")
+    fun sendDeviceDetails(@Path("id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
 }

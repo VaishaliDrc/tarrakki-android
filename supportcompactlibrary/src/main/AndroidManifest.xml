@@ -14,8 +14,9 @@
     <application
         android:name=".CoreApp"
         android:allowBackup="false"
-        tools:replace="android:allowBackup"
-        android:supportsRtl="true">
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        tools:replace="android:allowBackup">
 
         <provider
             android:name="android.support.v4.content.FileProvider"

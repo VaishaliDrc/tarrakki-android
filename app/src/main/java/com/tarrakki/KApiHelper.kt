@@ -1,6 +1,8 @@
 package com.tarrakki
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.MutableLiveData
+import android.provider.Settings
 import com.google.gson.JsonObject
 import com.tarrakki.api.*
 import com.tarrakki.api.ApiClient.CAMS_PASSWORD
@@ -372,7 +374,7 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
                 override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     if (o is ResponseKYCStates) {
-                        val data = o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq;
+                        val data = o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq
                         val kycStates: List<String> = arrayListOf(
                                 "${data?.camskra}",
                                 "${data?.cvlkra}",
@@ -625,4 +627,27 @@ fun stopPortfolio(transactionId: Int)
             }
     )
     return apiResponse
+}
+
+@SuppressLint("HardwareIds")
+fun sendDeviceDetails() {
+    val deviceId = Settings.Secure.getString(App.INSTANCE.contentResolver, Settings.Secure.ANDROID_ID)
+    val json = JsonObject()
+    json.addProperty("token", App.INSTANCE.getPushToken())
+    json.addProperty("device_id", deviceId)
+    json.addProperty("device_type", "A")
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    subscribeToSingle(
+            ApiClient.getHeaderClient().create(SupportApis::class.java).sendDeviceDetails(App.INSTANCE.getUserId(), data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    o.printResponse()
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    throwable.printStackTrace()
+                }
+            }
+    )
 }

@@ -21,7 +21,7 @@ const val MOBILE_VERIFIED = "mobile_verified"
 const val KYC_VERIFIED = "kyc_verified"
 const val COMPLETED_REGISTRATION = "completed_registration"
 const val ASK_FOR_SECURITY_LOCK = "askForSecurityLock"
-
+const val PUSH_TOKEN = "push_token"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -201,6 +201,14 @@ fun Context.setAskForSecureLock(isAskForSecureLock: Boolean) {
 
 fun Context.isAskForSecureLock(): Boolean {
     return getPreferences.getBoolean(ASK_FOR_SECURITY_LOCK, false)
+}
+
+fun Context.setPushToken(pushToken: String) {
+    return getPreferences.putString(PUSH_TOKEN, pushToken)
+}
+
+fun Context.getPushToken(): String? {
+    return getPreferences.getString(PUSH_TOKEN, "")
 }
 
 fun Context.clearUserData() {

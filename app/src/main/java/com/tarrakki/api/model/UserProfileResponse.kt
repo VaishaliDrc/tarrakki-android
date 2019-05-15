@@ -38,7 +38,9 @@ data class UserProfileResponse(
             @SerializedName("corr_state")
             val state: String,
             @SerializedName("corr_country")
-            val country: String
+            val country: String,
+            @SerializedName("is_aof_uploaded")
+            val isAOFUploaded: Boolean?
     ) {
         data class KycDetail(
                 @SerializedName("full_name")

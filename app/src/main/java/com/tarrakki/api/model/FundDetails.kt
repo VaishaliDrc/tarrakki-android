@@ -235,7 +235,13 @@ data class FundsDetails(
         @SerializedName("ttr_return_since_inception")
         val ttrReturnSinceInception: String?,
         @SerializedName("investment_strategy")
-        val investmentStrategy: String?
+        val investmentStrategy: String?,
+        @SerializedName("interim_net_expense_ratio")
+        val interimNetExpenseRatio: String?,
+        @SerializedName("interim_net_expense_ratio_date")
+        val interimNetExpenseRatioDate: String?,
+        @SerializedName("net_expense_ratio")
+        val netExpenseRatio: String?
 ) {
 
     var fundObjective = ""
@@ -366,7 +372,7 @@ data class FundsDetails(
         get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "N/A"
 
     var expenseRatio: String? = null
-        get() = parseAsNoZiroReturnOrNA("")
+        get() = parseToPercentageOrNA(interimNetExpenseRatio)
 
     /*var validminSIPAmount = 0.00
         get() = if (iaipAip != null && iaipAip.isNotEmpty()) {

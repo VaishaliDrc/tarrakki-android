@@ -18,6 +18,8 @@ import com.tarrakki.R
 import com.tarrakki.module.home.HomeActivity
 import org.json.JSONObject
 import org.supportcompact.ktx.e
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.setPushToken
 
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -25,7 +27,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         super.onMessageReceived(remoteMessage)
         val data = remoteMessage?.data
-        if (data?.contains("data") == true) {
+        if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
                 sendNotification(JSONObject(it))
             }
@@ -35,6 +37,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String?) {
         super.onNewToken(token)
         e("Toke=>$token")
+        token?.let { setPushToken(it) }
     }
 
     /**

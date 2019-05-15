@@ -12,6 +12,8 @@ import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
+import com.google.android.gms.common.util.IOUtils
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.api.model.SupportQuestionListResponse
@@ -24,10 +26,12 @@ import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_raise_ticket.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.supportcompact.CoreApp
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
-import java.io.File
+import java.io.*
+import kotlin.concurrent.thread
 
 /**
  * A simple [Fragment] subclass.
@@ -249,8 +253,45 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
         uCrop.start(context!!, this)
     }
 
-    private fun createFile(@NonNull uri: Uri) {
-        context?.contentResolver?.openInputStream(uri)
+    private fun createFile(@NonNull uri: Uri, outputFile: File) {
+        val inputStream = context?.contentResolver?.openInputStream(uri)
+        try {
+            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream) }
+        } catch (e: FileNotFoundException) {
+            // handle exception here
+            e.printStackTrace()
+        } catch (e: IOException) {
+            // handle exception here
+            e.printStackTrace()
+        }
+        e("File Size=>")
+        /*inputStream?.use { inputStream ->
+            val output = FileOutputStream(outputFile)
+            output.use {
+                thread {
+                    getViewModel().showProgress()
+                    try {
+                        val buffer = ByteArray(4 * 1024) // buffer size
+                        while (true) {
+                            val byteCount = inputStream.read(buffer)
+                            if (byteCount < 0) break
+                            it.write(buffer, 0, byteCount)
+                        }
+                        it.flush()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    } finally {
+                        getViewModel().dismissProgress()
+                        try {
+                            it.close()
+                            inputStream.close()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -270,9 +311,10 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        val mFile = File(getPath(selectedUri))
+                        getViewModel().imgName.set(selectedUri.getFileName() ?: "")
+                        val mFile = File(App.INSTANCE.cacheDir, "${getViewModel().imgName.get()}")
                         getViewModel().sendFile = Pair(1, mFile)
-                        getViewModel().imgName.set(selectedUri.getFileName() ?: mFile.name)
+                        createFile(selectedUri, mFile)
                     }
                 }
                 UCrop.REQUEST_CROP -> {

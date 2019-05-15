@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import android.view.Menu
 import android.widget.TextView
-import com.tarrakki.ACTION_FINISH_ALL_TASK
-import com.tarrakki.App
-import com.tarrakki.BaseActivity
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.module.cart.CartFragment
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.confirmationDialog
@@ -19,6 +16,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        sendDeviceDetails()
         startFragment(HomeFragment.newInstance(), R.id.frmContainer)
     }
 

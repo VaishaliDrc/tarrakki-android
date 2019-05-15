@@ -611,11 +611,11 @@
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/space_16"
-                android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/update_signature"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="@{vm.signatureBtnVisibility}" />
 
             <Button
                 android:id="@+id/btnEdit"
@@ -623,6 +623,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/space_16"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_16"
                 android:background="@drawable/shape_btn_idle_bg"

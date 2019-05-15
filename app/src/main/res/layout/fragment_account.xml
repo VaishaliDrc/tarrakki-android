@@ -28,7 +28,7 @@
             <LinearLayout
                 android:id="@+id/ll_complete_verification"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_128sdp"
                 android:layout_marginStart="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:layout_marginBottom="@dimen/default_space"
@@ -85,6 +85,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/default_space"
+                        android:layout_marginBottom="2dp"
                         android:background="@drawable/shape_btn_idle_bg"
                         android:fontFamily="@font/lato_bold"
                         android:text="@string/txtcontinue"
@@ -193,12 +194,12 @@
                     android:layout_width="64dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="@dimen/space_16"
-                    android:layout_marginEnd="@dimen/space_16"
                     android:adjustViewBounds="true"
                     android:elevation="@dimen/space_2"
                     android:src="@{vm.appLock ? @drawable/switch_on :  @drawable/switch_off}"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:src="@drawable/shape_switch_bg" />
 
             </android.support.constraint.ConstraintLayout>
@@ -252,6 +253,7 @@
                     android:layout_height="32dp"
                     android:layout_marginTop="@dimen/space_8"
                     android:src="@drawable/ic_bank_mandate"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/mDivider" />
 
                 <TextView
