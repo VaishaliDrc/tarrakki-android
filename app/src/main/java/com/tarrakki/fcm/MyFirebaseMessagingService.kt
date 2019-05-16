@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -15,12 +16,15 @@ import android.support.v4.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.tarrakki.R
+import com.tarrakki.closeTicketApi
 import com.tarrakki.module.home.HomeActivity
 import org.json.JSONObject
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.setPushToken
 
+const val ACTION_CLOSE_TICKET = "com.tarrakki.ACTION_CLOSE_TICKET"
+const val ACTION_CANCEL_CLOSE_TICKET = "com.tarrakki.ACTION_CANCEL_CLOSE_TICKET"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -29,7 +33,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val data = remoteMessage?.data
         if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
-                sendNotification(JSONObject(it))
+                val json = JSONObject(it)
+                if (json.optString("type").equals("close ticket", true)) {
+                    fireCloseTicketNotification(json)
+                } else {
+                    sendNotification(json)
+                }
             }
         }
     }
@@ -38,6 +47,45 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         e("Toke=>$token")
         token?.let { setPushToken(it) }
+    }
+
+    private fun fireCloseTicketNotification(messageBody: JSONObject) {
+
+        val intentCloseTicket = Intent(ACTION_CLOSE_TICKET)
+        intentCloseTicket.putExtra("ticketId", messageBody.optString("reference"))
+        val pendingIntentCloseTicket = PendingIntent.getBroadcast(this, 0 /* Request code */, intentCloseTicket, PendingIntent.FLAG_ONE_SHOT)
+
+        val intentCancelCloseTicket = Intent(ACTION_CANCEL_CLOSE_TICKET)
+        val pendingIntentCancelCloseTicket = PendingIntent.getBroadcast(this, 0 /* Request code */, intentCancelCloseTicket, PendingIntent.FLAG_ONE_SHOT)
+
+        var channelId = getString(R.string.app_name)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channelId = createNotificationChannel()
+        }
+        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .setContentTitle(messageBody.optString("title"))
+                .setAutoCancel(true)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(messageBody.optString("detail")))
+                .setSound(defaultSoundUri)
+                .addAction(0, getString(R.string.close), pendingIntentCloseTicket)
+                .addAction(0, getString(R.string.cancel), pendingIntentCancelCloseTicket)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.notify(1, notificationBuilder.build())
+    }
+
+    class TicketNotification : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.action == ACTION_CLOSE_TICKET) {
+                intent.getStringExtra("ticketId")?.let {
+                    closeTicketApi(it)
+                }
+            }
+            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?
+            notificationManager?.cancel(1)
+        }
     }
 
     /**
@@ -59,7 +107,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setContentTitle(messageBody.optString("title"))
-                .setContentText(messageBody.optString("detail"))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(messageBody.optString("detail")))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
         if (pendingIntent != null) {

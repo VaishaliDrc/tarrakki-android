@@ -40,8 +40,8 @@
             android:src="@drawable/ic_triangle_right"
             android:tint="@color/colorAccent" />
 
-        <TextView
-            android:id="@+id/tvMessage"
+        <LinearLayout
+            android:id="@+id/llFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDateTime"
@@ -51,12 +51,35 @@
             android:layout_toStartOf="@id/ivTriangle"
             android:background="@drawable/shape_sender_round_gren_bg"
             android:elevation="2dp"
-            android:padding="@dimen/_8sdp"
-            android:text="@{msg.msg}"
-            android:textColor="@color/white"
-            android:textIsSelectable="true"
-            app:copyToClipBoard="@{true}"
-            tools:text="Dear Customer Dear Customer Dear Customer Dear Customer" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="@dimen/_8sdp"
+                android:text="@{msg.fileName}"
+                android:textColor="@color/white"
+                tools:text="file.txt" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@color/white" />
+
+            <TextView
+                android:id="@+id/tvOpen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/_8sdp"
+                android:text="@string/open"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 </layout>

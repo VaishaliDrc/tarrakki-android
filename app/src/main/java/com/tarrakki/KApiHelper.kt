@@ -651,3 +651,22 @@ fun sendDeviceDetails() {
             }
     )
 }
+
+fun closeTicketApi(ticketId: String) {
+    val json = JsonObject()
+    json.addProperty("ticket_ref", ticketId)
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    subscribeToSingle(
+            ApiClient.getHeaderClient().create(SupportApis::class.java).closeTicket(data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    o.printResponse()
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    throwable.printStackTrace()
+                }
+            }
+    )
+}

@@ -1,44 +1,57 @@
 package com.tarrakki.module.support.chat
 
-import android.net.Uri
-import com.tarrakki.R
+import android.arch.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback1
+import com.tarrakki.api.SupportApis
+import com.tarrakki.api.model.*
+import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.showProgress
+import java.io.File
+import kotlin.concurrent.thread
 
 class ChatVM : FragmentViewModel() {
 
-    val chats = arrayListOf<ChatMessage>()
+    val ticket = MutableLiveData<SupportViewTicketResponse.Data.Conversation>()
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
     val FILE_RQ_CODE = 111
     val cvPhotoName = "my_ticket_file"
+    var sendFile: File? = null
+    val chatData = MutableLiveData<SupportChatResponse>()
 
-    init {
-        chats.add(ChatMessage(
-                "My nach mandate registration is rejected.",
-                "25-03-2019 04:54PM"))
-        chats.add(ChatMessage(
-                "Dear Customer, You can setup your AutoPay under the User Profile section. Select AutoPay under Payments section and follow This process:"
-                        .plus("- Click on \"Add new AutoPay\"\n" +
-                                "- Select the Maximum Transaction Limit for your Mandate - Provide Signature\n" +
-                                " \n" +
-                                "You can request for a physical mandate. Wherein, you can sign and upload on image of the mandate by \n" +
-                                "Write your reply here"),
-                "25-03-2019 04:54PM",
-                false))
-        chats.add(ChatMessage(
-                "Can I do ISIP mandate registration is rejected.",
-                "25-03-2019 04:54PM"))
-    }
+    fun getConversation(ticket: SupportViewTicketResponse.Data.Conversation): MutableLiveData<SupportChatResponse> {
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("ticket_ref", ticket.ticketRef)
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        subscribeToSingle(
+                ApiClient.getHeaderClient().create(SupportApis::class.java).getConversation(data),
+                object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        thread {
+                            if (o.status?.code == 1) {
+                                o.printResponse()
+                                val res = o.data?.parseTo<SupportChatResponse>()
+                                chatData.postValue(res)
+                            } else {
+                                postError("${o.status?.message}")
+                            }
+                            dismissProgress()
+                        }
+                    }
 
-}
-
-data class ChatMessage(
-        val message: String,
-        val dateTime: String,
-        var isSender: Boolean = true,
-        var imgUri: Uri? = null) : WidgetsViewModel {
-    override fun layoutId(): Int {
-        return if (isSender) if (imgUri == null) R.layout.row_sender_message else R.layout.row_sender_image else R.layout.row_receiver_message
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return chatData
     }
 }

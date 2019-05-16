@@ -3,28 +3,40 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
+import com.google.android.gms.common.util.IOUtils
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportChatResponse
+import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.databinding.FragmentChatBinding
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.inputclasses.keyboardListener
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.PermissionCallBack
+import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.getFileName
+import org.supportcompact.ktx.takePick
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
-import java.util.*
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.ArrayList
 
 /**
  * A simple [Fragment] subclass.
@@ -55,20 +67,13 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         activity?.keyboardListener { isOpen ->
             coreActivityVM?.footerVisibility?.set(View.GONE)
             if (isOpen) {
-                Handler().postDelayed({
+                /*Handler().postDelayed({
                     rvChat?.scrollToPosition(getViewModel().chats.size - 1)
-                }, 300)
+                }, 300)*/
             }
         }
-        rvChat?.setUpMultiViewRecyclerAdapter(getViewModel().chats) { item: ChatMessage, binder: ViewDataBinding, position: Int ->
-            binder.setVariable(BR.msg, item)
-            binder.executePendingBindings()
-        }
-        rvChat?.post {
-            rvChat?.scrollToPosition(getViewModel().chats.size - 1)
-        }
         ivSend?.setOnClickListener {
-            if (edtMessage.text.toString().isNotBlank()) {
+            /*if (edtMessage.text.toString().isNotBlank()) {
                 getViewModel().chats.add(ChatMessage(
                         "${edtMessage.text}",
                         "${Date().convertTo("dd-MM-yyyy hh:mma")}",
@@ -79,7 +84,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 Handler().postDelayed({
                     rvChat?.scrollToPosition(getViewModel().chats.size - 1)
                 }, 300)
-            }
+            }*/
         }
         ivGallery?.setOnClickListener {
             context?.takePick(
@@ -96,6 +101,21 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
             openDocumentFile()
         }
 
+        getViewModel().ticket.observe(this, Observer { it ->
+            it?.let { ticket ->
+                getViewModel().getConversation(ticket).observe(this, Observer {
+                    it?.data?.conversation?.let { chats ->
+                        rvChat?.setUpMultiViewRecyclerAdapter(chats) { item: SupportChatResponse.Data.Conversation, binder: ViewDataBinding, position: Int ->
+                            binder.setVariable(BR.msg, item)
+                            binder.executePendingBindings()
+                        }
+                        rvChat?.post {
+                            rvChat?.scrollToPosition(chats.size - 1)
+                        }
+                    }
+                })
+            }
+        })
     }
 
     private fun openDocumentFile() {
@@ -231,7 +251,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
 
     private fun startCrop(@NonNull uri: Uri) {
 
-        getViewModel().chats.add(ChatMessage(
+        /*getViewModel().chats.add(ChatMessage(
                 "",
                 "${Date().convertTo("dd-MM-yyyy hh:mma")}",
                 true,
@@ -241,13 +261,26 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         edtMessage?.dismissKeyboard()
         Handler().postDelayed({
             rvChat?.smoothScrollToPosition(getViewModel().chats.size - 1)
-        }, 750)
+        }, 750)*/
         /*val mFile = File(getPath(uri))
         //var destinationFileName = mFile.nameWithoutExtension
         //destinationFileName += ".${mFile.extension}"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, mFile.name)))
         context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)*/
+    }
+
+    private fun createFile(@NonNull uri: Uri, outputFile: File) {
+        val inputStream = context?.contentResolver?.openInputStream(uri)
+        try {
+            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
+        } catch (e: FileNotFoundException) {
+            // handle exception here
+            e.printStackTrace()
+        } catch (e: IOException) {
+            // handle exception here
+            e.printStackTrace()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -267,8 +300,10 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        val mFile = File(getPath(selectedUri))
-                        //getViewModel().imgName.set(mFile.name)
+                        val fileName = selectedUri.getFileName()
+                        val mFile = File(App.INSTANCE.cacheDir, "$fileName")
+                        getViewModel().sendFile = mFile
+                        createFile(selectedUri, mFile)
                     }
                 }
                 UCrop.REQUEST_CROP -> {
@@ -289,6 +324,14 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     override fun onStop() {
         super.onStop()
         coreActivityVM?.footerVisibility?.set(View.VISIBLE)
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceive(data: SupportViewTicketResponse.Data.Conversation) {
+        if (getViewModel().ticket.value == null) {
+            getViewModel().ticket.value = data
+        }
+        removeStickyEvent(data)
     }
 
     companion object {

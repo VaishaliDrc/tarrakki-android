@@ -43,6 +43,8 @@
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_space"
+            android:paddingBottom="@dimen/default_space"
+            dividerV="@{@drawable/shape_transferant_divider_16dp}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/mDivider1"
             app:layout_constraintStart_toStartOf="parent"

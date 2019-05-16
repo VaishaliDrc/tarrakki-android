@@ -112,6 +112,7 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
             binder.executePendingBindings()
             binder.root.setOnClickListener {
                 startFragment(ChatFragment.newInstance(), R.id.frmContainer)
+                postSticky(item)
             }
         }
     }

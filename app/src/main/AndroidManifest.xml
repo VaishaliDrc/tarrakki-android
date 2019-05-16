@@ -118,6 +118,13 @@
             </intent-filter>
         </service>
 
+        <receiver android:name=".fcm.MyFirebaseMessagingService$TicketNotification">
+            <intent-filter>
+                <action android:name="com.tarrakki.ACTION_CLOSE_TICKET" />
+                <action android:name="com.tarrakki.ACTION_CANCEL_CLOSE_TICKET" />
+            </intent-filter>
+        </receiver>
+
         <!--Facebook Details-->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

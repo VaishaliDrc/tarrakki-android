@@ -26,12 +26,13 @@ import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_raise_ticket.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.supportcompact.CoreApp
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
-import java.io.*
-import kotlin.concurrent.thread
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 
 /**
  * A simple [Fragment] subclass.
@@ -256,7 +257,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     private fun createFile(@NonNull uri: Uri, outputFile: File) {
         val inputStream = context?.contentResolver?.openInputStream(uri)
         try {
-            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream) }
+            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
         } catch (e: FileNotFoundException) {
             // handle exception here
             e.printStackTrace()
@@ -264,34 +265,6 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
             // handle exception here
             e.printStackTrace()
         }
-        e("File Size=>")
-        /*inputStream?.use { inputStream ->
-            val output = FileOutputStream(outputFile)
-            output.use {
-                thread {
-                    getViewModel().showProgress()
-                    try {
-                        val buffer = ByteArray(4 * 1024) // buffer size
-                        while (true) {
-                            val byteCount = inputStream.read(buffer)
-                            if (byteCount < 0) break
-                            it.write(buffer, 0, byteCount)
-                        }
-                        it.flush()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    } finally {
-                        getViewModel().dismissProgress()
-                        try {
-                            it.close()
-                            inputStream.close()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            }
-        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
