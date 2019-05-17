@@ -29,12 +29,13 @@
 
         <ImageView
             android:id="@+id/tvMessage"
+            imageDialog="@{msg.img}"
             imgUrl="@{msg.img}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvDateTime"
-            android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
             android:adjustViewBounds="true"
             android:background="@drawable/shape_cart_view"

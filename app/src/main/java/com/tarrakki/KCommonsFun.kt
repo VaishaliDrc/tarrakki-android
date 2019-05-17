@@ -1,5 +1,6 @@
 package com.tarrakki
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
@@ -9,10 +10,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TableRow
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.HomeData
+import com.tarrakki.databinding.DialogZoomInOutImageBinding
 import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -135,6 +139,20 @@ fun FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.Second
     } else {
         this?.startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.redirectTo}") }), R.id.frmContainer)
     }
+}
+
+fun Context.showImageDialog(imgUrl: String) {
+    val mDialog = Dialog(this, android.R.style.Theme_Translucent_NoTitleBar)
+    mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    mDialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT)
+    val mBinder = DialogZoomInOutImageBinding.inflate(LayoutInflater.from(this))
+    mBinder.imgUrl = imgUrl
+    mBinder.ivBack.setOnClickListener {
+        mDialog.dismiss()
+    }
+    mBinder.executePendingBindings()
+    mDialog.setContentView(mBinder.root)
+    mDialog.show()
 }
 
 fun Context.getUCropOptions(): UCrop.Options {

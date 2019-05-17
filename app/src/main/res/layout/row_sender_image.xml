@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/_56sdp"
-        tools:paddingTop="@dimen/default_space"
         android:paddingEnd="@dimen/default_space"
-        tools:paddingBottom="@dimen/default_space">
+        tools:paddingBottom="@dimen/default_space"
+        tools:paddingTop="@dimen/default_space">
 
         <TextView
             android:id="@+id/tvDateTime"
@@ -30,6 +30,7 @@
 
         <ImageView
             android:id="@+id/tvMessage"
+            imageDialog="@{msg.img}"
             imgUrl="@{msg.img}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -10,10 +10,12 @@ import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Environment
 import android.os.Handler
 import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
@@ -36,6 +38,12 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.davemorrissey.labs.subscaleview.ImageSource
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
@@ -53,6 +61,7 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 import org.supportcompact.widgets.DividerItemDecorationNoLast
 import org.supportcompact.widgets.InputFilterMinMax
+import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -180,6 +189,31 @@ fun setIndicator(img: ImageView, url: String?) {
 fun setIndicator(img: ImageView, url: Uri?) {
     url?.let {
         Glide.with(img).load(it).into(img)
+    }
+}
+
+@BindingAdapter("imgUrl")
+fun setIndicator(img: SubsamplingScaleImageView, url: String?) {
+    url?.let {
+        Glide.with(img).asBitmap().load(ApiClient.IMAGE_BASE_URL.plus(it)).listener(object : RequestListener<Bitmap> {
+            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
+                return true
+            }
+
+            override fun onResourceReady(resource: Bitmap?, model: Any?, target: Target<Bitmap>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                resource?.let { img.setImage(ImageSource.bitmap(it)) }
+                return false
+            }
+        }).submit()
+    }
+}
+
+@BindingAdapter("imageDialog")
+fun showImageDialog(img: ImageView, imgUrl: String?) {
+    img.setOnClickListener {
+        imgUrl?.let {
+            img.context?.showImageDialog(it)
+        }
     }
 }
 
@@ -336,6 +370,57 @@ fun setPANCard(edt: EditText, isPANCard: Boolean) {
 fun setIFSCCode(edt: EditText, isIFSCCode: Boolean) {
     if (isIFSCCode) {
         edt.applyIFSCCode()
+    }
+}
+
+/*fun getFileSendDir(): String {
+    val root = Environment.getExternalStorageDirectory().toString() + "/${App.INSTANCE.getString(R.string.app_name)}/Sent"
+    val mFile = File(root)
+    if (!mFile.exists()) {
+        mFile.mkdirs()
+    }
+    return mFile.absolutePath
+}*/
+
+fun getFileDownloadDir(): String {
+    val root = Environment.getExternalStorageDirectory().absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}/Download"
+    val mFile = File(root)
+    if (!mFile.exists()) {
+        mFile.mkdirs()
+    }
+    return mFile.absolutePath
+}
+
+@BindingAdapter(value = ["openSentFile"])
+fun openSentFile(txt: TextView, fileName: String?) {
+    txt.setOnClickListener { v ->
+        try {
+            val file = File(getFileDownloadDir(), fileName)
+            // Get URI and MIME type of file
+            val uri = Uri.fromFile(file)
+            val mime = App.INSTANCE.contentResolver.getType(uri)
+            // Open file with user selected app
+            val intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.setDataAndType(uri, mime)
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            v.context?.startActivity(Intent.createChooser(intent, "Open With"))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            v.context?.toast(e.message ?: "")
+        }
+    }
+}
+
+@BindingAdapter(value = ["openDownloadedFile"])
+fun openDownloadedFile(txt: TextView, fileName: String?) {
+    txt.setOnClickListener { v ->
+        try {
+            v.context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getFileDownloadDir().plus("/").plus(fileName))))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            v.context?.toast(e.message ?: "")
+        }
     }
 }
 
@@ -865,7 +950,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 mBinder.switchOnOff.isEnabled = instaRedeemEligible
                 mBinder.switchOnOff.isChecked = instaRedeemEligible
                 if (!instaRedeemEligible) {
-                    mContext?.let {
+                    mContext.let {
                         it.simpleAlert(it.getString(R.string.insta_redeem_is_not_availble))
                     }
                 }

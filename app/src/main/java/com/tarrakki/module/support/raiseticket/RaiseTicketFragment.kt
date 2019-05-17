@@ -13,13 +13,13 @@ import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
 import com.google.android.gms.common.util.IOUtils
-import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.api.model.SupportQuestionListResponse
 import com.tarrakki.api.model.TransactionApiResponse
 import com.tarrakki.databinding.FragmentRaiseTicketBinding
 import com.tarrakki.getCustomUCropOptions
+import com.tarrakki.getFileDownloadDir
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.ucrop.UCrop
@@ -257,6 +257,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     private fun createFile(@NonNull uri: Uri, outputFile: File) {
         val inputStream = context?.contentResolver?.openInputStream(uri)
         try {
+            getViewModel().showProgress()
             FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
         } catch (e: FileNotFoundException) {
             // handle exception here
@@ -264,6 +265,8 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
         } catch (e: IOException) {
             // handle exception here
             e.printStackTrace()
+        } finally {
+            getViewModel().dismissProgress()
         }
     }
 
@@ -284,8 +287,9 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        getViewModel().imgName.set(selectedUri.getFileName() ?: "")
-                        val mFile = File(App.INSTANCE.cacheDir, "${getViewModel().imgName.get()}")
+                        getViewModel().imgName.set(selectedUri.getFileName()?.replace(" ", "_")
+                                ?: "")
+                        val mFile = File(getFileDownloadDir(), "${getViewModel().imgName.get()}")
                         getViewModel().sendFile = Pair(1, mFile)
                         createFile(selectedUri, mFile)
                     }

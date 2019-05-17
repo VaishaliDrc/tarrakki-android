@@ -105,11 +105,6 @@ class RaiseTicketVM : FragmentViewModel() {
                             o.printResponse()
                             if (o.status?.code == 1) {
                                 apiResponse.postValue(o)
-                                try {
-                                    sendFile?.second?.deleteOnExit()
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
                             } else {
                                 postError("${o.status?.message}")
                             }

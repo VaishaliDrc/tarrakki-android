@@ -3,8 +3,12 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
+import android.app.DownloadManager
 import android.arch.lifecycle.Observer
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.os.Build
@@ -27,10 +31,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.inputclasses.keyboardListener
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.getFileName
-import org.supportcompact.ktx.takePick
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 import java.io.FileNotFoundException
@@ -116,6 +117,22 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 })
             }
         })
+        context?.registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        context?.unregisterReceiver(onComplete)
+    }
+
+    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
+            val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            if (referenceId != -1L) {
+                val temp = getViewModel().chatData.value?.data?.conversation?.first { it.downloadReference == referenceId }
+                temp?.txtOpen = R.string.open
+            }
+        }
     }
 
     private fun openDocumentFile() {

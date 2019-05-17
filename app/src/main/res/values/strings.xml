@@ -572,6 +572,7 @@
     <string name="selft_authorize_to_bank">Self-authorize your bank to auto-invest in SIPs of your choice. Login to your net-banking account online, and self-authorize your bank to auto-invest in SIPs of your choice at pre-determined intervals.</string>
     <string name="nach_mandate">NACH Mandate</string>
     <string name="we_provide_easiest_way_to">We provide the easiest way to do the NACH Mandate by generating the pre-filled e-Mandate form for you. All you need to do is take a print, sign the form, and upload it on the app. It will take 10 to 45 days for the approval but you can choose any maximum mandate limit.</string>
+    <string name="download">Download</string>
     <string name="download_mandate_form">Download Mandate Form</string>
     <string name="download_bank_form_description">Download the bank mandate form and fill out your details to set up Auto- Payments. This form allows secure auto-debiting of a specified amount of money towards your SIP, to create an easier investment experience for you.</string>
     <string name="upload_scanned_form">Upload Scanned Mandate</string>
@@ -991,5 +992,6 @@
     <string name="overview">Overview</string>
     <string name="performance">Performance</string>
     <string name="close">Close</string>
+    <string name="file">File</string>
     <!--<string name="select_country">Select Country</string>-->
 </resources>

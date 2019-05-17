@@ -38,7 +38,7 @@
             android:adjustViewBounds="true"
             android:elevation="2dp"
             android:src="@drawable/ic_triangle_right"
-            android:tint="@color/colorAccent" />
+            android:tint="@color/white" />
 
         <LinearLayout
             android:id="@+id/llFile"
@@ -49,7 +49,7 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
             android:layout_toStartOf="@id/ivTriangle"
-            android:background="@drawable/shape_sender_round_gren_bg"
+            android:background="@drawable/shape_cart_view"
             android:elevation="2dp"
             android:orientation="vertical">
 
@@ -57,27 +57,39 @@
                 android:id="@+id/tvMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:padding="@dimen/_8sdp"
                 android:text="@{msg.fileName}"
-                android:textColor="@color/white"
                 tools:text="file.txt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:drawableStart="@drawable/ic_file"
+                android:drawablePadding="@dimen/_4sdp"
+                android:gravity="center_vertical"
+                android:text="@string/file" />
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="1dp"
                 android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:background="@color/white" />
+                android:background="@color/darker_gray" />
 
             <TextView
                 android:id="@+id/tvOpen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
                 android:gravity="center"
+                android:onClick="@{msg.onOpen}"
                 android:padding="@dimen/_8sdp"
-                android:text="@string/open"
-                android:textColor="@color/white" />
+                android:text="@{msg.txtOpen}"
+                android:textColor="@color/black"
+                tools:text="@string/open" />
 
         </LinearLayout>
 
