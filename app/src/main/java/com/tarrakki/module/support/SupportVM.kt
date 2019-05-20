@@ -2,6 +2,7 @@ package com.tarrakki.module.support
 
 import android.arch.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
+import com.tarrakki.App
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.SupportApis
@@ -9,6 +10,7 @@ import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
 import kotlin.concurrent.thread
@@ -26,6 +28,7 @@ class SupportVM : FragmentViewModel() {
         json.addProperty("limit", 10)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
+        json.addProperty("user_id", App.INSTANCE.getUserId())
         val data = json.toString().toEncrypt()
         json.printRequest()
         subscribeToSingle(
@@ -68,6 +71,7 @@ class SupportVM : FragmentViewModel() {
         json.addProperty("limit", 10)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
+        json.addProperty("user_id", App.INSTANCE.getUserId())
         val data = json.toString().toEncrypt()
         json.printRequest()
         subscribeToSingle(
@@ -110,6 +114,7 @@ class SupportVM : FragmentViewModel() {
         json.addProperty("limit", 10)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
+        json.addProperty("user_id", App.INSTANCE.getUserId())
         val data = json.toString().toEncrypt()
         json.printRequest()
         subscribeToSingle(

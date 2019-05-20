@@ -16,8 +16,11 @@ import android.support.v4.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.closeTicketApi
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.home.HomeActivity
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
@@ -25,6 +28,7 @@ import org.supportcompact.ktx.setPushToken
 
 const val ACTION_CLOSE_TICKET = "com.tarrakki.ACTION_CLOSE_TICKET"
 const val ACTION_CANCEL_CLOSE_TICKET = "com.tarrakki.ACTION_CANCEL_CLOSE_TICKET"
+const val IS_FROM_NOTIFICATION = "is_from_notifications"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -33,12 +37,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val data = remoteMessage?.data
         if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
-                val json = JSONObject(it)
-                if (json.optString("type").equals("close ticket", true)) {
-                    fireCloseTicketNotification(json)
-                } else {
-                    sendNotification(json)
-                }
+                sendNotification(JSONObject(it))
             }
         }
     }
@@ -95,7 +94,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendNotification(messageBody: JSONObject) {
 
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent: Intent =
+                if ("Support Ticket".equals(messageBody.optString("type"), true)) {
+                    val tiket = SupportViewTicketResponse.Data.Conversation(
+                            null,
+                            null,
+                            messageBody.optString("reference"),
+                            null,
+                            null
+                    )
+                    EventBus.getDefault().postSticky(tiket)
+                    Intent(this, AccountActivity::class.java).apply {
+                        putExtra("reference", messageBody.optString("reference"))
+                        putExtra(IS_FROM_NOTIFICATION, true)
+                    }
+                } else {
+                    Intent(this, HomeActivity::class.java)
+                }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT)
         var channelId = getString(R.string.app_name)

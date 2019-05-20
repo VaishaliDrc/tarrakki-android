@@ -3,16 +3,13 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
-import android.app.DownloadManager
 import android.arch.lifecycle.Observer
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.databinding.ViewDataBinding
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -24,11 +21,11 @@ import com.tarrakki.R
 import com.tarrakki.api.model.SupportChatResponse
 import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.databinding.FragmentChatBinding
+import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.*
@@ -37,7 +34,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.ArrayList
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -68,24 +65,35 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         activity?.keyboardListener { isOpen ->
             coreActivityVM?.footerVisibility?.set(View.GONE)
             if (isOpen) {
-                /*Handler().postDelayed({
-                    rvChat?.scrollToPosition(getViewModel().chats.size - 1)
-                }, 300)*/
+                val chatData = getViewModel().chatData.value?.data?.conversation
+                chatData?.let { chats ->
+                    Handler().postDelayed({
+                        rvChat?.scrollToPosition(chats.size - 1)
+                    }, 300)
+                }
             }
         }
         ivSend?.setOnClickListener {
-            /*if (edtMessage.text.toString().isNotBlank()) {
-                getViewModel().chats.add(ChatMessage(
-                        "${edtMessage.text}",
-                        "${Date().convertTo("dd-MM-yyyy hh:mma")}",
-                        getViewModel().chats.size % 2 == 0))
-                edtMessage?.text?.clear()
-                rvChat?.adapter?.notifyItemInserted(getViewModel().chats.size)
-                edtMessage?.dismissKeyboard()
-                Handler().postDelayed({
-                    rvChat?.scrollToPosition(getViewModel().chats.size - 1)
-                }, 300)
-            }*/
+            if (edtMessage.text.toString().isNotBlank() && getViewModel().chatData.value?.data?.conversation?.isNotEmpty() == true) {
+                getViewModel().sendData("${edtMessage.text}").observe(this, Observer {
+                    val chatData = getViewModel().chatData.value?.data?.conversation
+                    chatData?.let { chats ->
+                        chats.add(SupportChatResponse.Data.Conversation(
+                                file = null,
+                                img = null,
+                                msg = "${edtMessage.text}",
+                                isAdminReply = false,
+                                time = "${Date().convertTo("dd-MM-yyyy hh:mma")}",
+                                type = "message"))
+                        edtMessage?.text?.clear()
+                        rvChat?.adapter?.notifyItemInserted(chats.size)
+                        edtMessage?.dismissKeyboard()
+                        Handler().postDelayed({
+                            rvChat?.scrollToPosition(chats.size - 1)
+                        }, 300)
+                    }
+                })
+            }
         }
         ivGallery?.setOnClickListener {
             context?.takePick(
@@ -104,6 +112,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
 
         getViewModel().ticket.observe(this, Observer { it ->
             it?.let { ticket ->
+                getViewModel().reference.set(ticket.ticketRef)
                 getViewModel().getConversation(ticket).observe(this, Observer {
                     it?.data?.conversation?.let { chats ->
                         rvChat?.setUpMultiViewRecyclerAdapter(chats) { item: SupportChatResponse.Data.Conversation, binder: ViewDataBinding, position: Int ->
@@ -117,23 +126,8 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 })
             }
         })
-        context?.registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        context?.unregisterReceiver(onComplete)
-    }
-
-    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(ctxt: Context, intent: Intent) {
-            val referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            if (referenceId != -1L) {
-                val temp = getViewModel().chatData.value?.data?.conversation?.first { it.downloadReference == referenceId }
-                temp?.txtOpen = R.string.open
-            }
-        }
-    }
 
     private fun openDocumentFile() {
         val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -267,29 +261,16 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-
-        /*getViewModel().chats.add(ChatMessage(
-                "",
-                "${Date().convertTo("dd-MM-yyyy hh:mma")}",
-                true,
-                uri))
-        edtMessage?.text?.clear()
-        rvChat?.adapter?.notifyItemInserted(getViewModel().chats.size)
-        edtMessage?.dismissKeyboard()
-        Handler().postDelayed({
-            rvChat?.smoothScrollToPosition(getViewModel().chats.size - 1)
-        }, 750)*/
-        /*val mFile = File(getPath(uri))
-        //var destinationFileName = mFile.nameWithoutExtension
-        //destinationFileName += ".${mFile.extension}"
+        val mFile = File(getPath(uri))
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, mFile.name)))
         context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
-        uCrop.start(context!!, this)*/
+        uCrop.start(context!!, this)
     }
 
     private fun createFile(@NonNull uri: Uri, outputFile: File) {
         val inputStream = context?.contentResolver?.openInputStream(uri)
         try {
+            getViewModel().showProgress()
             FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
         } catch (e: FileNotFoundException) {
             // handle exception here
@@ -297,6 +278,25 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         } catch (e: IOException) {
             // handle exception here
             e.printStackTrace()
+        } finally {
+            getViewModel().sendData(outputFile.name).observe(this, Observer {
+                val chatData = getViewModel().chatData.value?.data?.conversation
+                chatData?.let { chats ->
+                    chats.add(SupportChatResponse.Data.Conversation(
+                            file = outputFile.name,
+                            img = null,
+                            msg = null,
+                            isAdminReply = false,
+                            time = "${Date().convertTo("dd-MM-yyyy hh:mma")}",
+                            type = "file"))
+                    edtMessage?.text?.clear()
+                    rvChat?.adapter?.notifyItemInserted(chats.size)
+                    edtMessage?.dismissKeyboard()
+                    Handler().postDelayed({
+                        rvChat?.scrollToPosition(chats.size - 1)
+                    }, 300)
+                }
+            })
         }
     }
 
@@ -317,16 +317,24 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        val fileName = selectedUri.getFileName()
-                        val mFile = File(App.INSTANCE.cacheDir, "$fileName")
-                        getViewModel().sendFile = mFile
+                        val fileName = selectedUri.getFileName()?.replace(" ", "_") ?: ""
+                        val mFile = File(App.INSTANCE.cacheDir, fileName)
+                        getViewModel().sendFile = Pair(1, mFile)
                         createFile(selectedUri, mFile)
                     }
                 }
                 UCrop.REQUEST_CROP -> {
                     if (data != null) {
                         val imageUri = UCrop.getOutput(data)
-                        imageUri?.let {}
+                        imageUri?.let {
+                            val mFile = File(getPath(it))
+                            getViewModel().sendFile = Pair(0, mFile)
+                            edtMessage?.text?.clear()
+                            edtMessage?.dismissKeyboard()
+                            getViewModel().sendData(mFile.name).observe(this, Observer {
+                                getViewModel().ticket.value?.let { getViewModel().getConversation(it) }
+                            })
+                        }
                     }
                 }
             }
@@ -346,6 +354,8 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     @Subscribe(sticky = true)
     fun onReceive(data: SupportViewTicketResponse.Data.Conversation) {
         if (getViewModel().ticket.value == null) {
+            getViewModel().ticket.value = data
+        } else if (getViewModel().ticket.value?.ticketRef == data.ticketRef) {
             getViewModel().ticket.value = data
         }
         removeStickyEvent(data)

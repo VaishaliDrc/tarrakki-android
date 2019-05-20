@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_bold"
             android:padding="@dimen/default_space"
-            android:text="@{@string/query_ref_no_+` 123456789`}"
+            android:text="@{@string/query_ref_no_+` `+vm.reference}"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -39,12 +39,12 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvChat"
+            dividerV="@{@drawable/shape_transferant_divider_16dp}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_space"
             android:paddingBottom="@dimen/default_space"
-            dividerV="@{@drawable/shape_transferant_divider_16dp}"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/mDivider1"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,9 +99,9 @@
             android:padding="@dimen/_6sdp"
             android:rotation="60"
             android:src="@drawable/ic_file_attachment"
-            app:layout_constraintTop_toTopOf="@id/ivGallery"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
-            app:layout_constraintEnd_toStartOf="@id/ivGallery" />
+            app:layout_constraintEnd_toStartOf="@id/ivGallery"
+            app:layout_constraintTop_toTopOf="@id/ivGallery" />
 
         <ImageView
             android:id="@+id/ivGallery"
@@ -110,9 +110,9 @@
             android:layout_marginEnd="1dp"
             android:padding="@dimen/_6sdp"
             android:src="@drawable/ic_camera_black"
-            app:layout_constraintTop_toTopOf="@id/ivSend"
             app:layout_constraintBottom_toBottomOf="@id/edtMessage"
-            app:layout_constraintEnd_toStartOf="@id/ivSend" />
+            app:layout_constraintEnd_toStartOf="@id/ivSend"
+            app:layout_constraintTop_toTopOf="@id/ivSend" />
 
         <ImageView
             android:id="@+id/ivSend"

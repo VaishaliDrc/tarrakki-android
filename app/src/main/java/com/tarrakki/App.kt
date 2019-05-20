@@ -6,6 +6,7 @@ import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.File
 
+
 class App : CoreApp() {
 
     val cartCount = MutableLiveData<Int>()

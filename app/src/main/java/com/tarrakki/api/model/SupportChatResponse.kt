@@ -1,22 +1,28 @@
 package com.tarrakki.api.model
 
 
-import android.app.DownloadManager
-import android.content.Context
 import android.content.Intent
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.net.Uri
 import android.view.View
+import com.google.android.gms.common.util.IOUtils
 import com.google.gson.annotations.SerializedName
-import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback1
+import com.tarrakki.api.SupportApis
+import com.tarrakki.api.subscribeToSingle
 import com.tarrakki.getFileDownloadDir
+import okhttp3.ResponseBody
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.toast
 import java.io.File
+import java.io.FileOutputStream
+import kotlin.concurrent.thread
+
 
 data class SupportChatResponse(
         @SerializedName("data")
@@ -52,7 +58,12 @@ data class SupportChatResponse(
                     notifyPropertyChanged(BR.txtOpen)
                 }
 
-            var downloadReference = -1L
+            @get:Bindable
+            var downloadProgressVisibility = false
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.downloadProgressVisibility)
+                }
 
             val onOpen: View.OnClickListener
                 get() = View.OnClickListener { v ->
@@ -75,16 +86,32 @@ data class SupportChatResponse(
                             }
                         }
                     } else {
-                        val downloadManager = App.INSTANCE.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                        val download_Uri = Uri.parse(ApiClient.IMAGE_BASE_URL.plus(file ?: ""))
-                        val request = DownloadManager.Request(download_Uri)
-                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                        request.setAllowedOverRoaming(false)
-                        request.setTitle("Tarrakki Downloading " + download_Uri.lastPathSegment)
-                        request.setDescription("Downloading " + download_Uri.lastPathSegment)
-                        request.setVisibleInDownloadsUi(true)
-                        request.setDestinationInExternalPublicDir("/${App.INSTANCE.getString(R.string.app_name)}/Download", download_Uri.lastPathSegment)
-                        downloadReference = downloadManager.enqueue(request)
+                        downloadProgressVisibility = true
+                        subscribeToSingle(
+                                ApiClient.getHeaderClient().create(SupportApis::class.java).download(ApiClient.IMAGE_BASE_URL.plus(file
+                                        ?: "")),
+                                object : SingleCallback1<ResponseBody> {
+                                    override fun onSingleSuccess(response: ResponseBody) {
+                                        thread {
+                                            try {
+                                                val file = File(getFileDownloadDir(), fileName)
+                                                val fileOutputStream = FileOutputStream(file)
+                                                IOUtils.copyStream(response.byteStream(), fileOutputStream, true, DEFAULT_BUFFER_SIZE)
+                                                txtOpen = R.string.open
+                                            } catch (ex: Exception) {
+                                                ex.printStackTrace()
+                                            } finally {
+                                                downloadProgressVisibility = false
+                                            }
+                                        }
+                                    }
+
+                                    override fun onFailure(throwable: Throwable) {
+                                        throwable.printStackTrace()
+                                        throwable.postError()
+                                        downloadProgressVisibility = false
+                                    }
+                                })
                     }
                 }
 
@@ -93,7 +120,7 @@ data class SupportChatResponse(
                     when {
                         "message".equals("$type", true) -> R.layout.row_admin_message
                         "img".equals("$type", true) -> R.layout.row_admin_image
-                        "file".equals("$type", true) -> R.layout.row_admin_message
+                        "file".equals("$type", true) -> R.layout.row_admin_file
                         else -> R.layout.row_admin_message
                     }
                 else

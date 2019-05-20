@@ -4,6 +4,7 @@ import com.tarrakki.api.model.ApiResponse
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface SupportApis {
@@ -43,4 +44,6 @@ interface SupportApis {
     @GET("support/close-ticket/")
     fun closeTicket(@Query("data") data: String): Observable<ApiResponse>
 
+    @GET
+    fun download(@Url fileUrl: String): Observable<ResponseBody>
 }
