@@ -15,6 +15,7 @@ import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.SupportApis
 import com.tarrakki.api.subscribeToSingle
 import com.tarrakki.getFileDownloadDir
+import com.tarrakki.getMimeType
 import okhttp3.ResponseBody
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.postError
@@ -30,7 +31,13 @@ data class SupportChatResponse(
 ) {
     data class Data(
             @SerializedName("conversation")
-            val conversation: ArrayList<Conversation>?
+            val conversation: ArrayList<Conversation>?,
+            @SerializedName("limit")
+            val limit: Int?,
+            @SerializedName("offset")
+            var offset: Int?,
+            @SerializedName("totalCount")
+            val totalCount: Int?
     ) {
         data class Conversation(
                 @SerializedName("file")
@@ -59,7 +66,7 @@ data class SupportChatResponse(
                 }
 
             @get:Bindable
-            var downloadProgressVisibility = false
+            var downloadProgressVisibility: Boolean? = false
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.downloadProgressVisibility)
@@ -74,6 +81,7 @@ data class SupportChatResponse(
                                 // Get URI and MIME type of file
                                 val uri = Uri.fromFile(file)
                                 val mime = mContext.contentResolver.getType(uri)
+                                        ?: getMimeType(uri.toString())
                                 // Open file with user selected app
                                 val intent = Intent()
                                 intent.action = Intent.ACTION_VIEW
@@ -85,18 +93,18 @@ data class SupportChatResponse(
                                 mContext.toast(e.message ?: "")
                             }
                         }
-                    } else {
+                    } else if (downloadProgressVisibility == null || downloadProgressVisibility == false) {
                         downloadProgressVisibility = true
                         subscribeToSingle(
                                 ApiClient.getHeaderClient().create(SupportApis::class.java).download(ApiClient.IMAGE_BASE_URL.plus(file
                                         ?: "")),
                                 object : SingleCallback1<ResponseBody> {
-                                    override fun onSingleSuccess(response: ResponseBody) {
+                                    override fun onSingleSuccess(o: ResponseBody) {
                                         thread {
                                             try {
                                                 val file = File(getFileDownloadDir(), fileName)
                                                 val fileOutputStream = FileOutputStream(file)
-                                                IOUtils.copyStream(response.byteStream(), fileOutputStream, true, DEFAULT_BUFFER_SIZE)
+                                                IOUtils.copyStream(o.byteStream(), fileOutputStream, true, DEFAULT_BUFFER_SIZE)
                                                 txtOpen = R.string.open
                                             } catch (ex: Exception) {
                                                 ex.printStackTrace()

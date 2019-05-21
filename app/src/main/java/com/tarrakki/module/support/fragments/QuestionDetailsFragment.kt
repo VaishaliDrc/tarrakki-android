@@ -4,11 +4,15 @@ package com.tarrakki.module.support.fragments
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.api.model.SupportQuestionListResponse
 import com.tarrakki.databinding.FragmentQuestionDetailsBinding
 import com.tarrakki.module.support.QuestionsVM
+import com.tarrakki.module.support.raiseticket.RaiseTicketFragment
+import kotlinx.android.synthetic.main.fragment_question_details.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -36,13 +40,24 @@ class QuestionDetailsFragment : CoreFragment<QuestionsVM, FragmentQuestionDetail
     }
 
     override fun createReference() {
-
+        frmGetInTouch?.setOnClickListener {
+            startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
+            getViewModel().query.value?.let { postSticky(it) }
+            getViewModel().question.get()?.let { postSticky(it) }
+        }
     }
 
     @Subscribe(sticky = true)
     fun onReceived(data: SupportQuestionListResponse.Question) {
         if (getViewModel().question.get() == null) {
             getViewModel().question.set(data)
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceived(data: SupportQueryListResponse.Data) {
+        if (getViewModel().query.value == null) {
+            getViewModel().query.value = data
         }
     }
 

@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
+import com.tarrakki.R
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.SupportApis
@@ -31,10 +32,12 @@ class ChatVM : FragmentViewModel() {
     var sendFile: Pair<Int, File>? = null
     val chatData = MutableLiveData<SupportChatResponse>()
 
-    fun getConversation(ticket: SupportViewTicketResponse.Data.Conversation): MutableLiveData<SupportChatResponse> {
-        showProgress()
+    fun getConversation(ticket: SupportViewTicketResponse.Data.Conversation, offset: Int = 0, showProcess: Boolean = true): MutableLiveData<SupportChatResponse> {
+        if (offset == 0 && showProcess) showProgress()
         val json = JsonObject()
         json.addProperty("ticket_ref", ticket.ticketRef)
+        json.addProperty("limit", 10)
+        json.addProperty("offset", offset)
         val data = json.toString().toEncrypt()
         json.printRequest()
         subscribeToSingle(
@@ -45,7 +48,18 @@ class ChatVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 o.printResponse()
                                 val res = o.data?.parseTo<SupportChatResponse>()
-                                chatData.postValue(res)
+                                if (offset == 0) {
+                                    res?.data?.conversation?.forEach {
+                                        it.downloadProgressVisibility = false
+                                        it.txtOpen = R.string.open
+                                    }
+                                    chatData.postValue(res)
+                                } else {
+                                    res?.data?.conversation?.let {
+                                        chatData.value?.data?.conversation?.addAll(it)
+                                    }
+                                    chatData.postValue(chatData.value)
+                                }
                             } else {
                                 postError("${o.status?.message}")
                             }

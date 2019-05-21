@@ -52,6 +52,7 @@
                 android:text="@string/still_not_sure" />
 
             <FrameLayout
+                android:id="@+id/frmGetInTouch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"

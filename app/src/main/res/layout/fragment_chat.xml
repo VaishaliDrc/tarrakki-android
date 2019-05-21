@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toTopOf="@+id/mDivider1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mDivider"
-            app:reverseLayout="false"
+            app:reverseLayout="true"
             app:stackFromEnd="true"
             tools:itemCount="5"
             tools:listitem="@layout/row_sender_message" />

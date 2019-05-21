@@ -10,7 +10,6 @@ import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.databinding.BindingAdapter
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -31,6 +30,7 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.webkit.MimeTypeMap
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -38,12 +38,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-import com.davemorrissey.labs.subscaleview.ImageSource
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import com.github.chrisbanes.photoview.PhotoView
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
@@ -192,10 +187,11 @@ fun setIndicator(img: ImageView, url: Uri?) {
     }
 }
 
-@BindingAdapter("imgUrl")
-fun setIndicator(img: SubsamplingScaleImageView, url: String?) {
+/*@BindingAdapter("imgUrl")
+fun setIndicator(img: PhotoView, url: String?) {
     url?.let {
-        Glide.with(img).asBitmap().load(ApiClient.IMAGE_BASE_URL.plus(it)).listener(object : RequestListener<Bitmap> {
+        //Glide.with(img).load(it).into(img)
+        *//*Glide.with(img).asBitmap().load(ApiClient.IMAGE_BASE_URL.plus(it)).listener(object : RequestListener<Bitmap> {
             override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean): Boolean {
                 return true
             }
@@ -204,9 +200,9 @@ fun setIndicator(img: SubsamplingScaleImageView, url: String?) {
                 resource?.let { img.setImage(ImageSource.bitmap(it)) }
                 return false
             }
-        }).submit()
+        }).submit()*//*
     }
-}
+}*/
 
 @BindingAdapter("imageDialog")
 fun showImageDialog(img: ImageView, imgUrl: String?) {
@@ -389,6 +385,16 @@ fun getFileDownloadDir(): String {
         mFile.mkdirs()
     }
     return mFile.absolutePath
+}
+
+// url = file path or whatever suitable URL you want.
+fun getMimeType(url: String): String? {
+    var type: String? = null
+    val extension = MimeTypeMap.getFileExtensionFromUrl(url)
+    if (extension != null) {
+        type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    }
+    return type
 }
 
 @BindingAdapter(value = ["openSentFile"])

@@ -23,9 +23,9 @@ class SupportVM : FragmentViewModel() {
     val closeTicket = MutableLiveData<SupportViewTicketResponse>()
 
     fun getTicketsList(offset: Int = 0, state: String = "all"): MutableLiveData<SupportViewTicketResponse> {
-        showProgress()
+        if (offset == 0) showProgress()
         val json = JsonObject()
-        json.addProperty("limit", 10)
+        json.addProperty("limit", 5)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
         json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -48,6 +48,7 @@ class SupportVM : FragmentViewModel() {
                                         }
                                         data.offset?.let { allTicket.value?.data?.offset = it }
                                     }
+                                    allTicket.postValue(allTicket.value)
                                 }
                             } else {
                                 postError("${o.status?.message}")
@@ -66,9 +67,9 @@ class SupportVM : FragmentViewModel() {
     }
 
     fun getOpenTicketsList(offset: Int = 0, state: String = "open"): MutableLiveData<SupportViewTicketResponse> {
-        showProgress()
+        if (offset == 0) showProgress()
         val json = JsonObject()
-        json.addProperty("limit", 10)
+        json.addProperty("limit", 5)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
         json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -91,6 +92,7 @@ class SupportVM : FragmentViewModel() {
                                         }
                                         data.offset?.let { openTicket.value?.data?.offset = it }
                                     }
+                                    openTicket.postValue(openTicket.value)
                                 }
                             } else {
                                 postError("${o.status?.message}")
@@ -109,9 +111,9 @@ class SupportVM : FragmentViewModel() {
     }
 
     fun getClosedTicketsList(offset: Int = 0, state: String = "closed"): MutableLiveData<SupportViewTicketResponse> {
-        showProgress()
+        if (offset == 0) showProgress()
         val json = JsonObject()
-        json.addProperty("limit", 10)
+        json.addProperty("limit", 5)
         json.addProperty("offset", offset)
         json.addProperty("state", state)
         json.addProperty("user_id", App.INSTANCE.getUserId())
@@ -134,6 +136,7 @@ class SupportVM : FragmentViewModel() {
                                         }
                                         data.offset?.let { closeTicket.value?.data?.offset = it }
                                     }
+                                    closeTicket.postValue(closeTicket.value)
                                 }
                             } else {
                                 postError("${o.status?.message}")

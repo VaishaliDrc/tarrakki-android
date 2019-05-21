@@ -14,7 +14,7 @@ class AccountActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startFragment(AccountFragment.newInstance(), R.id.frmContainer)
-        if (intent.hasExtra(IS_FROM_NOTIFICATION)) {
+        if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
             openChat()
         }
     }
@@ -30,7 +30,7 @@ class AccountActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        if (getIntent().hasExtra(IS_FROM_NOTIFICATION)) {
+        if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
             openChat()
         } else {
             supportFragmentManager?.let {
@@ -45,6 +45,8 @@ class AccountActivity : BaseActivity() {
         val fm = supportFragmentManager?.findFragmentById(R.id.frmContainer)
         if (fm is SupportFragment) {
             startFragment(ChatFragment.newInstance(), R.id.frmContainer)
+        } else if (fm !is ChatFragment) {
+            startFragment(SupportFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_NOTIFICATION, true) }), R.id.frmContainer)
         }
     }
 }

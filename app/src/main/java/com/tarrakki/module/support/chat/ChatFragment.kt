@@ -22,16 +22,17 @@ import com.tarrakki.api.model.SupportChatResponse
 import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.databinding.FragmentChatBinding
 import com.tarrakki.getCustomUCropOptions
+import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.inputclasses.keyboardListener
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
@@ -62,13 +63,17 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     }
 
     override fun createReference() {
+
+        val loadMore = LoadMore()
+        val allData = ArrayList<WidgetsViewModel>()
+
         activity?.keyboardListener { isOpen ->
             coreActivityVM?.footerVisibility?.set(View.GONE)
             if (isOpen) {
                 val chatData = getViewModel().chatData.value?.data?.conversation
                 chatData?.let { chats ->
                     Handler().postDelayed({
-                        rvChat?.scrollToPosition(chats.size - 1)
+                        rvChat?.scrollToPosition(0)
                     }, 300)
                 }
             }
@@ -78,7 +83,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 getViewModel().sendData("${edtMessage.text}").observe(this, Observer {
                     val chatData = getViewModel().chatData.value?.data?.conversation
                     chatData?.let { chats ->
-                        chats.add(SupportChatResponse.Data.Conversation(
+                        chats.add(0, SupportChatResponse.Data.Conversation(
                                 file = null,
                                 img = null,
                                 msg = "${edtMessage.text}",
@@ -89,7 +94,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                         rvChat?.adapter?.notifyItemInserted(chats.size)
                         edtMessage?.dismissKeyboard()
                         Handler().postDelayed({
-                            rvChat?.scrollToPosition(chats.size - 1)
+                            rvChat?.scrollToPosition(0)
                         }, 300)
                     }
                 })
@@ -113,15 +118,64 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         getViewModel().ticket.observe(this, Observer { it ->
             it?.let { ticket ->
                 getViewModel().reference.set(ticket.ticketRef)
-                getViewModel().getConversation(ticket).observe(this, Observer {
-                    it?.data?.conversation?.let { chats ->
-                        rvChat?.setUpMultiViewRecyclerAdapter(chats) { item: SupportChatResponse.Data.Conversation, binder: ViewDataBinding, position: Int ->
-                            binder.setVariable(BR.msg, item)
-                            binder.executePendingBindings()
-                        }
-                        rvChat?.post {
-                            rvChat?.scrollToPosition(chats.size - 1)
-                        }
+                val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requestPermissionsIfRequired(permissions, object : PermissionCallBack {
+                    override fun permissionGranted() {
+                        getViewModel().getConversation(ticket).observe(this@ChatFragment, Observer {
+                            it?.data?.conversation?.let { chats ->
+                                loadMore.isLoading = false
+                                allData.clear()
+                                allData.addAll(chats)
+                                if (allData.size >= 10 && it.data.totalCount ?: allData.size > allData.size) {
+                                    allData.add(loadMore)
+                                }
+                                if (rvChat?.adapter == null) {
+                                    rvChat?.setUpMultiViewRecyclerAdapter(allData) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+                                        binder.setVariable(BR.msg, item)
+                                        binder.executePendingBindings()
+                                        if (item is LoadMore && !item.isLoading) {
+                                            loadMore.isLoading = true
+                                            Handler().postDelayed({
+                                                getViewModel().getConversation(ticket, position)
+                                            }, 1500)
+                                        }
+                                    }
+                                    rvChat?.post {
+                                        rvChat?.scrollToPosition(0)
+                                    }
+                                } else {
+                                    rvChat?.adapter?.notifyDataSetChanged()
+                                }
+                            }
+                        })
+                    }
+
+                    override fun permissionDenied() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.allow),
+                                btnNegative = getString(R.string.dont_allow),
+                                btnPositiveClick = {
+                                    getViewModel().ticket.postValue(ticket)
+                                }
+                        )
+                    }
+
+                    override fun onPermissionDisabled() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.settings),
+                                btnNegative = getString(R.string.cancel),
+                                btnPositiveClick = {
+                                    val intent = Intent()
+                                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                    val uri = Uri.fromParts("package", context?.packageName, null)
+                                    intent.data = uri
+                                    startActivity(intent)
+                                }
+                        )
                     }
                 })
             }
@@ -272,17 +326,17 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         try {
             getViewModel().showProgress()
             FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
-        } catch (e: FileNotFoundException) {
+        } catch (e: IOException) {
             // handle exception here
             e.printStackTrace()
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             // handle exception here
             e.printStackTrace()
         } finally {
             getViewModel().sendData(outputFile.name).observe(this, Observer {
                 val chatData = getViewModel().chatData.value?.data?.conversation
                 chatData?.let { chats ->
-                    chats.add(SupportChatResponse.Data.Conversation(
+                    chats.add(0, SupportChatResponse.Data.Conversation(
                             file = outputFile.name,
                             img = null,
                             msg = null,
@@ -293,7 +347,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                     rvChat?.adapter?.notifyItemInserted(chats.size)
                     edtMessage?.dismissKeyboard()
                     Handler().postDelayed({
-                        rvChat?.scrollToPosition(chats.size - 1)
+                        rvChat?.scrollToPosition(0)
                     }, 300)
                 }
             })
@@ -355,10 +409,10 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     fun onReceive(data: SupportViewTicketResponse.Data.Conversation) {
         if (getViewModel().ticket.value == null) {
             getViewModel().ticket.value = data
+            removeStickyEvent(data)
         } else if (getViewModel().ticket.value?.ticketRef == data.ticketRef) {
-            getViewModel().ticket.value = data
+            getViewModel().ticket.postValue(data)
         }
-        removeStickyEvent(data)
     }
 
     companion object {

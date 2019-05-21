@@ -122,6 +122,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setContentTitle(messageBody.optString("title"))
+                .setContentText(messageBody.optString("detail"))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(messageBody.optString("detail")))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

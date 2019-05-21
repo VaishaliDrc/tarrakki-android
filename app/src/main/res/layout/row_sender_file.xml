@@ -83,7 +83,7 @@
                 android:layout_width="10dp"
                 android:layout_height="13dp"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:visibility="@{msg.downloadProgressVisibility?View.INVISIBLE:View.GONE}"
+                android:visibility="@{msg.downloadProgressVisibility?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="@id/tvFileImg"
                 app:layout_constraintStart_toEndOf="@id/tvFileImg"
                 app:layout_constraintTop_toBottomOf="@id/tvMessage"
@@ -101,10 +101,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
+            <Button
                 android:id="@+id/tvOpen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@null"
                 android:fontFamily="@font/lato_semibold"
                 android:gravity="center"
                 android:onClick="@{msg.onOpen}"
