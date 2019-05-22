@@ -1,6 +1,7 @@
 package com.tarrakki.module.account
 
 
+import android.Manifest
 import android.app.KeyguardManager
 import android.arch.lifecycle.Observer
 import android.content.Context
@@ -28,6 +29,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
+import java.io.File
 
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
@@ -131,6 +133,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             context?.let { context ->
                 context.confirmationDialog(getString(R.string.are_you_sure_you_want_logout), btnPositiveClick = {
                     getViewModel().doLogout().observe(this, Observer {
+                        val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        if (checkSelfPermissions(permissions)) {
+                            val mFile = getTarrakkiDir()
+                            mFile.deleteRecursively()
+                        }
                         context.onLogout()
                     })
                 })
@@ -138,7 +145,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
         edtPanNo?.applyPAN()
         btnContinue?.setOnClickListener {
-            getKYCData().observe(this, android.arch.lifecycle.Observer {
+            getKYCData().observe(this, Observer {
                 it?.let { kycData ->
                     when (kycData.pageNo) {
                         2 -> {
@@ -163,9 +170,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             } else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                getEncryptedPasswordForCAMPSApi().observe(this, android.arch.lifecycle.Observer {
+                getEncryptedPasswordForCAMPSApi().observe(this, Observer {
                     it?.let { password ->
-                        getPANeKYCStatus(password, kyc.pan).observe(this, android.arch.lifecycle.Observer {
+                        getPANeKYCStatus(password, kyc.pan).observe(this, Observer {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {

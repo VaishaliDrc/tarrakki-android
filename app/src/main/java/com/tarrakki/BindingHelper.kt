@@ -369,14 +369,14 @@ fun setIFSCCode(edt: EditText, isIFSCCode: Boolean) {
     }
 }
 
-/*fun getFileSendDir(): String {
-    val root = Environment.getExternalStorageDirectory().toString() + "/${App.INSTANCE.getString(R.string.app_name)}/Sent"
+fun getTarrakkiDir(): File {
+    val root = Environment.getExternalStorageDirectory().absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}"
     val mFile = File(root)
     if (!mFile.exists()) {
         mFile.mkdirs()
     }
-    return mFile.absolutePath
-}*/
+    return mFile
+}
 
 fun getFileDownloadDir(): String {
     val root = Environment.getExternalStorageDirectory().absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}/Download"

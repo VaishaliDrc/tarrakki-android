@@ -82,9 +82,14 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
         EventBus.getDefault().removeStickyEvent(show)
     }
 
+    var isShowing = false
     @Subscribe
     fun showError(error: ShowError) {
-        binding.root.snackBar(error.error)
+        if (!isShowing) {
+            isShowing = true
+            simpleAlert(error.error) { isShowing = false }
+        }
+        //binding.root.snackBar(error.error)
     }
 
     protected fun requestPermissionsIfRequired(permissions: ArrayList<String>, permissionCallBack: PermissionCallBack?) {

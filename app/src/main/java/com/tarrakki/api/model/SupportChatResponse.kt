@@ -3,12 +3,11 @@ package com.tarrakki.api.model
 
 import android.content.Intent
 import android.databinding.BaseObservable
-import android.databinding.Bindable
+import android.databinding.ObservableField
 import android.net.Uri
 import android.view.View
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.annotations.SerializedName
-import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1
@@ -57,24 +56,23 @@ data class SupportChatResponse(
             val fileName: String
                 get() = File("$file").name
 
-            @get:Bindable
-            var txtOpen: Int = R.string.open
-                get() = if (File(getFileDownloadDir(), fileName).exists()) R.string.open else R.string.download
-                set(value) {
-                    field = value
-                    notifyPropertyChanged(BR.txtOpen)
-                }
 
-            @get:Bindable
-            var downloadProgressVisibility: Boolean? = false
-                set(value) {
-                    field = value
-                    notifyPropertyChanged(BR.downloadProgressVisibility)
-                }
+            var txtOpen: ObservableField<Int>? = null
+            //get() = if (File(getFileDownloadDir(), fileName).exists()) R.string.open else R.string.download
+            /*set(value) {
+                field = value
+                notifyPropertyChanged(BR.txtOpen)
+            }*/
+
+            var downloadProgressVisibility: ObservableField<Boolean>? = null
+            /*set(value) {
+                field = value
+                notifyPropertyChanged(BR.downloadProgressVisibility)
+            }*/
 
             val onOpen: View.OnClickListener
                 get() = View.OnClickListener { v ->
-                    if (txtOpen == R.string.open) {
+                    if (txtOpen?.get() == R.string.open) {
                         v.context?.let { mContext ->
                             try {
                                 val file = File(getFileDownloadDir(), fileName)
@@ -93,8 +91,8 @@ data class SupportChatResponse(
                                 mContext.toast(e.message ?: "")
                             }
                         }
-                    } else if (downloadProgressVisibility == null || downloadProgressVisibility == false) {
-                        downloadProgressVisibility = true
+                    } else if (downloadProgressVisibility == null || downloadProgressVisibility?.get() == false) {
+                        downloadProgressVisibility?.set(true)
                         subscribeToSingle(
                                 ApiClient.getHeaderClient().create(SupportApis::class.java).download(ApiClient.IMAGE_BASE_URL.plus(file
                                         ?: "")),
@@ -105,11 +103,11 @@ data class SupportChatResponse(
                                                 val file = File(getFileDownloadDir(), fileName)
                                                 val fileOutputStream = FileOutputStream(file)
                                                 IOUtils.copyStream(o.byteStream(), fileOutputStream, true, DEFAULT_BUFFER_SIZE)
-                                                txtOpen = R.string.open
+                                                txtOpen?.set(R.string.open)
                                             } catch (ex: Exception) {
                                                 ex.printStackTrace()
                                             } finally {
-                                                downloadProgressVisibility = false
+                                                downloadProgressVisibility?.set(false)
                                             }
                                         }
                                     }
@@ -117,7 +115,7 @@ data class SupportChatResponse(
                                     override fun onFailure(throwable: Throwable) {
                                         throwable.printStackTrace()
                                         throwable.postError()
-                                        downloadProgressVisibility = false
+                                        downloadProgressVisibility?.set(false)
                                     }
                                 })
                     }

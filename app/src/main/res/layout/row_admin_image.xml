@@ -13,6 +13,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:paddingStart="@dimen/default_space"
         android:paddingTop="@dimen/default_space"
         android:paddingEnd="@dimen/default_space"
@@ -27,33 +29,31 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="25-03-2019 04:54PM" />
 
-        <ImageView
-            android:id="@+id/tvMessage"
-            imageDialog="@{msg.img}"
-            imgUrl="@{msg.img}"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvDateTime"
+        <FrameLayout
+            android:layout_width="@dimen/_172sdp"
+            android:layout_height="@dimen/_172sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_4sdp"
-            android:adjustViewBounds="true"
             android:background="@drawable/shape_cart_view"
             android:elevation="2dp"
             android:padding="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDateTime"
-            tools:src="@drawable/temp_article_details" />
+            app:layout_constraintTop_toBottomOf="@id/tvDateTime">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.7" />
+            <ImageView
+                android:id="@+id/tvMessage"
+                imageDialog="@{msg.img}"
+                imgUrl="@{msg.img}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:scaleType="center"
+                tools:src="@drawable/temp_article_details" />
 
+        </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -13,6 +13,7 @@ import org.supportcompact.R
 fun Context.simpleAlert(msg: String, positiveButton: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(getString(R.string.app_name))
             .setMessage(msg)
@@ -20,7 +21,6 @@ fun Context.simpleAlert(msg: String, positiveButton: (() -> Unit)? = null) {
                 positiveButton?.invoke()
                 mDialog.dismiss()
             }.show()
-
     /*val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
     mDialog.setTitle(getString(R.string.app_name))
             .setMessage(msg)
@@ -33,6 +33,7 @@ fun Context.simpleAlert(msg: String, positiveButton: (() -> Unit)? = null) {
 fun Context.simpleAlert(title: String, msg: String, positiveButton: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)
@@ -52,6 +53,7 @@ fun Context.simpleAlert(title: String, msg: String, positiveButton: (() -> Unit)
 fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(getString(R.string.app_name))
             .setMessage(msg)
@@ -73,6 +75,7 @@ fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = nu
 fun Context.confirmationDialog(title: String, msg: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)
@@ -94,6 +97,7 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositiveClick: (()
 fun Context.confirmationDialog(title: String, msg: String, btnPositive: String, btnNegative: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
     mDialog.setIcon(R.drawable.ic_info_white)
             .setTitle(title)
             .setMessage(msg)

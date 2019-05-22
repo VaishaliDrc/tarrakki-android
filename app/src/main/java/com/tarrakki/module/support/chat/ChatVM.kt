@@ -2,6 +2,7 @@ package com.tarrakki.module.support.chat
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
+import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -10,6 +11,7 @@ import com.tarrakki.api.SingleCallback1
 import com.tarrakki.api.SupportApis
 import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.getFileDownloadDir
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -31,6 +33,7 @@ class ChatVM : FragmentViewModel() {
     val cvPhotoName = "my_ticket_file"
     var sendFile: Pair<Int, File>? = null
     val chatData = MutableLiveData<SupportChatResponse>()
+    val btnAttahcmentVisibility = ObservableField(View.VISIBLE)
 
     fun getConversation(ticket: SupportViewTicketResponse.Data.Conversation, offset: Int = 0, showProcess: Boolean = true): MutableLiveData<SupportChatResponse> {
         if (offset == 0 && showProcess) showProgress()
@@ -48,11 +51,11 @@ class ChatVM : FragmentViewModel() {
                             if (o.status?.code == 1) {
                                 o.printResponse()
                                 val res = o.data?.parseTo<SupportChatResponse>()
+                                res?.data?.conversation?.forEach {
+                                    it.downloadProgressVisibility = ObservableField(false)
+                                    it.txtOpen = ObservableField(if (File(getFileDownloadDir(), it.fileName).exists()) R.string.open else R.string.download)
+                                }
                                 if (offset == 0) {
-                                    res?.data?.conversation?.forEach {
-                                        it.downloadProgressVisibility = false
-                                        it.txtOpen = R.string.open
-                                    }
                                     chatData.postValue(res)
                                 } else {
                                     res?.data?.conversation?.let {
@@ -94,7 +97,8 @@ class ChatVM : FragmentViewModel() {
             json.addProperty("ticket_ref", it.ticketRef)
         }
         //json.addProperty("query_id", query.id)
-        json.addProperty("issue_description", message)
+        if (!message.isNullOrBlank())
+            json.addProperty("issue_description", message)
         //json.addProperty("sub_query_id", query.subqueryId)
         val data = json.toString().toEncrypt()
         json.printRequest()
@@ -105,6 +109,7 @@ class ChatVM : FragmentViewModel() {
                 singleCallback = object : SingleCallback1<ApiResponse> {
                     override fun onSingleSuccess(o: ApiResponse) {
                         thread {
+                            sendFile = null
                             o.printResponse()
                             if (o.status?.code == 1) {
                                 apiResponse.postValue(o)
@@ -116,6 +121,7 @@ class ChatVM : FragmentViewModel() {
                     }
 
                     override fun onFailure(throwable: Throwable) {
+                        sendFile = null
                         dismissProgress()
                         throwable.postError()
                     }
