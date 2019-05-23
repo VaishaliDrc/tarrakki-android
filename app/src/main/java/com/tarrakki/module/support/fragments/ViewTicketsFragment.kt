@@ -6,6 +6,8 @@ import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.view.View
+import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentViewTicketsBinding
@@ -26,6 +28,8 @@ import org.supportcompact.ktx.startFragment
  */
 class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBinding>() {
 
+    var mUserVisibleHint: Boolean = true
+
     override fun getLayout(): Int {
         return R.layout.fragment_view_tickets
     }
@@ -35,11 +39,13 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
     }
 
     override fun setVM(binding: FragmentViewTicketsBinding) {
-
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
+        this.mUserVisibleHint = isVisibleToUser
         if (isVisibleToUser) {
             when (rgTicketType?.checkedRadioButtonId) {
                 R.id.rbAll -> {
@@ -122,6 +128,36 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
                 }
             }
         }
+
+        App.INSTANCE.isRefreshing.observe(this, Observer {
+            if (mUserVisibleHint)
+                when (rgTicketType?.checkedRadioButtonId) {
+                    R.id.rbAll -> {
+                        getViewModel().tvNoDataFoundVisibility.set(
+                                if (getViewModel().allTicket.value?.data?.conversation?.isNotEmpty() == true)
+                                    View.GONE
+                                else
+                                    View.VISIBLE
+                        )
+                    }
+                    R.id.rbOpen -> {
+                        getViewModel().tvNoDataFoundVisibility.set(
+                                if (getViewModel().openTicket.value?.data?.conversation?.isNotEmpty() == true)
+                                    View.GONE
+                                else
+                                    View.VISIBLE
+                        )
+                    }
+                    R.id.rbClosed -> {
+                        getViewModel().tvNoDataFoundVisibility.set(
+                                if (getViewModel().closeTicket.value?.data?.conversation?.isNotEmpty() == true)
+                                    View.GONE
+                                else
+                                    View.VISIBLE
+                        )
+                    }
+                }
+        })
     }
 
     fun setData(tickets: ArrayList<WidgetsViewModel>, loadMore: LoadMore) {

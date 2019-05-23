@@ -46,12 +46,15 @@ data class SupportChatResponse(
                 @SerializedName("is_admin_reply")
                 val isAdminReply: Boolean?,
                 @SerializedName("msg")
-                val msg: String?,
+                val message: String?,
                 @SerializedName("time")
                 val time: String?,
                 @SerializedName("type")
                 val type: String?
         ) : BaseObservable(), WidgetsViewModel {
+
+            val msg: String?
+                get() = message?.trim()
 
             val fileName: String
                 get() = File("$file").name

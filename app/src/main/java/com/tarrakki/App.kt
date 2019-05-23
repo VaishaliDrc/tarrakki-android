@@ -17,6 +17,7 @@ class App : CoreApp() {
     val isRefreshing = MutableLiveData<Boolean>().apply { value = false }
     var homeData: HomeData? = null
     var needToLoadTransactionScreen = -1
+    var openChat: Pair<Boolean, String>? = null
 
     override fun onCreate() {
         super.onCreate()

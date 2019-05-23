@@ -28,7 +28,9 @@ data class SupportQueryListResponse(
                 @SerializedName("id")
                 val id: String?,
                 @SerializedName("name")
-                val name: String?
+                val name: String?,
+                @SerializedName("is_my_question")
+                val isMyQuestion: Boolean?
         )
     }
 }

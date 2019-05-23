@@ -25,7 +25,6 @@ import kotlin.concurrent.thread
 
 class ChatVM : FragmentViewModel() {
 
-    val ticket = MutableLiveData<SupportViewTicketResponse.Data.Conversation>()
     val reference = ObservableField("")
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
@@ -79,7 +78,7 @@ class ChatVM : FragmentViewModel() {
         return chatData
     }
 
-    fun sendData(message: String? = null): MutableLiveData<ApiResponse> {
+    fun sendData(ticket: SupportViewTicketResponse.Data.Conversation, message: String? = null): MutableLiveData<ApiResponse> {
         showProgress()
         var fileData: MultipartBody.Part? = null
         val userId = App.INSTANCE.getUserId()
@@ -93,9 +92,7 @@ class ChatVM : FragmentViewModel() {
             }
         }
         val json = JsonObject()
-        ticket.value?.let {
-            json.addProperty("ticket_ref", it.ticketRef)
-        }
+        json.addProperty("ticket_ref", ticket.ticketRef)
         //json.addProperty("query_id", query.id)
         if (!message.isNullOrBlank())
             json.addProperty("issue_description", message)

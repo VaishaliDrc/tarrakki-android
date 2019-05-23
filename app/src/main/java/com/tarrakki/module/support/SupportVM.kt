@@ -1,6 +1,8 @@
 package com.tarrakki.module.support
 
 import android.arch.lifecycle.MutableLiveData
+import android.databinding.ObservableField
+import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.api.ApiClient
@@ -21,6 +23,7 @@ class SupportVM : FragmentViewModel() {
     val allTicket = MutableLiveData<SupportViewTicketResponse>()
     val openTicket = MutableLiveData<SupportViewTicketResponse>()
     val closeTicket = MutableLiveData<SupportViewTicketResponse>()
+    val tvNoDataFoundVisibility = ObservableField(View.GONE)
 
     fun getTicketsList(offset: Int = 0, state: String = "all"): MutableLiveData<SupportViewTicketResponse> {
         if (offset == 0) showProgress()

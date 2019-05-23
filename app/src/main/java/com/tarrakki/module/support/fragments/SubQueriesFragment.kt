@@ -51,7 +51,7 @@ class SubQueriesFragment : CoreFragment<SubQueriesVM, FragmentSubQueriesBinding>
                     binder.root.setOnClickListener {
                         query.subqueryId = item.id
                         query.subqueryName = item.name
-                        if (position == subQueries.size - 1) {
+                        if (item.isMyQuestion == true) {
                             startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
                         } else {
                             startFragment(QuestionsFragment.newInstance(), R.id.frmContainer)

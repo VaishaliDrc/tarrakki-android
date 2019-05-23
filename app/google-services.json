@@ -1,38 +1,38 @@
 {
   "project_info": {
-    "project_number": "13719606046",
-    "firebase_url": "https://tarrakki-1545041292942.firebaseio.com",
-    "project_id": "tarrakki-1545041292942",
-    "storage_bucket": "tarrakki-1545041292942.appspot.com"
+    "project_number": "1044643224192",
+    "firebase_url": "https://tarrakki.firebaseio.com",
+    "project_id": "tarrakki",
+    "storage_bucket": "tarrakki.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:13719606046:android:d3fa7c37efd7abe2",
+        "mobilesdk_app_id": "1:1044643224192:android:d3fa7c37efd7abe2",
         "android_client_info": {
           "package_name": "com.tarrakki"
         }
       },
       "oauth_client": [
         {
-          "client_id": "13719606046-120nhpf8ajfk9oqrq15k5t2hh6k9j4ro.apps.googleusercontent.com",
+          "client_id": "1044643224192-13nsptlc7cj78on861hvreg3eu6knisg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDHCQGeatO4znpK8Uu-qyr3FUFb1q_aDGI"
+          "current_key": "AIzaSyDM_POzBOHtgJmwhHrcGxqPDwv1Tg07AqY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "13719606046-120nhpf8ajfk9oqrq15k5t2hh6k9j4ro.apps.googleusercontent.com",
+              "client_id": "1044643224192-13nsptlc7cj78on861hvreg3eu6knisg.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "13719606046-aee4qffd5l39ro1khcqg1e6q7mvjpc5i.apps.googleusercontent.com",
+              "client_id": "1044643224192-5lu8uukb6d5vc8ju2d41q7isneoo34n3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.plutonomic.tarrakki"

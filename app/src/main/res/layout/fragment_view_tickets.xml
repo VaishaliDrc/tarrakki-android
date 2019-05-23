@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.support.SupportVM" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -19,7 +26,10 @@
             android:background="@drawable/view_ticket_bg"
             android:elevation="2dp"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <RadioButton
                 android:id="@+id/rbAll"
@@ -67,7 +77,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:overScrollMode="never"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/rgTicketType" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvNoDataFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_space"
+            android:text="@string/no_data_found"
+            android:textColor="@color/black"
+            android:visibility="@{vm.tvNoDataFoundVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rvTickets" />
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

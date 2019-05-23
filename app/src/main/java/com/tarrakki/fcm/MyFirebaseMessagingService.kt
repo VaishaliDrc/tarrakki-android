@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.closeTicketApi
@@ -37,7 +38,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val data = remoteMessage?.data
         if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
-                sendNotification(JSONObject(it))
+                val messageBody = JSONObject(it)
+                if ("Support Ticket".equals(messageBody.optString("type"), true) && App.INSTANCE.openChat?.second == messageBody.optString("reference")) {
+                    val tiket = SupportViewTicketResponse.Data.Conversation(
+                            null,
+                            null,
+                            messageBody.optString("reference"),
+                            null,
+                            null
+                    )
+                    EventBus.getDefault().postSticky(tiket)
+                } else {
+                    sendNotification(messageBody)
+                }
             }
         }
     }
@@ -94,23 +107,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendNotification(messageBody: JSONObject) {
 
-        val intent: Intent =
-                if ("Support Ticket".equals(messageBody.optString("type"), true)) {
-                    val tiket = SupportViewTicketResponse.Data.Conversation(
-                            null,
-                            null,
-                            messageBody.optString("reference"),
-                            null,
-                            null
-                    )
-                    EventBus.getDefault().postSticky(tiket)
-                    Intent(this, AccountActivity::class.java).apply {
-                        putExtra("reference", messageBody.optString("reference"))
-                        putExtra(IS_FROM_NOTIFICATION, true)
-                    }
-                } else {
-                    Intent(this, HomeActivity::class.java)
-                }
+        val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true)) {
+            Intent(this, AccountActivity::class.java).apply {
+                putExtra("reference", messageBody.optString("reference"))
+                putExtra(IS_FROM_NOTIFICATION, true)
+            }
+        } else {
+            Intent(this, HomeActivity::class.java)
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT)
         var channelId = getString(R.string.app_name)

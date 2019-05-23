@@ -3,6 +3,7 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.databinding.ViewDataBinding
@@ -43,6 +44,8 @@ import java.util.*
  */
 class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
 
+    val ticket = MutableLiveData<SupportViewTicketResponse.Data.Conversation>()
+
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -61,6 +64,11 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        ticket.value?.let { App.INSTANCE.openChat = Pair(true, it.ticketRef ?: "") }
+    }
+
     val allData = ArrayList<WidgetsViewModel>()
     val loadMore = LoadMore()
 
@@ -73,11 +81,14 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         }
         ivSend?.setOnClickListener {
             if (edtMessage.text.toString().isNotBlank() && getViewModel().chatData.value?.data?.conversation?.isNotEmpty() == true) {
-                getViewModel().sendData("${edtMessage.text}").observe(this, Observer {
-                    getViewModel().ticket.value?.let { getViewModel().getConversation(it) }
-                    edtMessage?.text?.clear()
-                    edtMessage?.dismissKeyboard()
-                })
+                ticket.value?.let { ticket ->
+                    getViewModel().sendData(ticket, "${edtMessage.text}".trim()).observe(this, Observer {
+                        getViewModel().getConversation(ticket)
+                        edtMessage?.text?.clear()
+                        edtMessage?.dismissKeyboard()
+                    })
+                }
+
             }
         }
         ivGallery?.setOnClickListener {
@@ -95,7 +106,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
             openDocumentFile()
         }
 
-        getViewModel().ticket.observe(this, Observer { it ->
+        ticket.observe(this, Observer { it ->
             it?.let { ticket ->
                 getViewModel().reference.set(ticket.ticketRef)
                 val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -147,7 +158,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                                 btnPositive = getString(R.string.allow),
                                 btnNegative = getString(R.string.dont_allow),
                                 btnPositiveClick = {
-                                    getViewModel().ticket.postValue(ticket)
+                                    this@ChatFragment.ticket.postValue(ticket)
                                 }
                         )
                     }
@@ -320,11 +331,14 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
             // handle exception here
             e.printStackTrace()
         } finally {
-            getViewModel().sendData().observe(this, Observer {
-                getViewModel().ticket.value?.let { getViewModel().getConversation(it) }
-                edtMessage?.text?.clear()
-                edtMessage?.dismissKeyboard()
-            })
+            ticket.value?.let { ticket ->
+                getViewModel().sendData(ticket).observe(this, Observer {
+                    getViewModel().getConversation(ticket)
+                    edtMessage?.text?.clear()
+                    edtMessage?.dismissKeyboard()
+                })
+            }
+
         }
     }
 
@@ -359,9 +373,11 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                             getViewModel().sendFile = Pair(0, mFile)
                             edtMessage?.text?.clear()
                             edtMessage?.dismissKeyboard()
-                            getViewModel().sendData().observe(this, Observer {
-                                getViewModel().ticket.value?.let { getViewModel().getConversation(it) }
-                            })
+                            ticket.value?.let { ticket ->
+                                getViewModel().sendData(ticket).observe(this, Observer {
+                                    getViewModel().getConversation(ticket)
+                                })
+                            }
                         }
                     }
                 }
@@ -379,14 +395,19 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         coreActivityVM?.footerVisibility?.set(View.VISIBLE)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        App.INSTANCE.openChat = null
+    }
+
     @Subscribe(sticky = true)
     fun onReceive(data: SupportViewTicketResponse.Data.Conversation) {
-        if (getViewModel().ticket.value == null) {
-            getViewModel().ticket.value = data
-            removeStickyEvent(data)
-        } else if (getViewModel().ticket.value?.ticketRef == data.ticketRef) {
-            getViewModel().ticket.postValue(data)
+        if (ticket.value == null) {
+            ticket.value = data
+        } else if (ticket.value?.ticketRef == data.ticketRef) {
+            ticket.postValue(data)
         }
+        //removeStickyEvent(data)
     }
 
     companion object {
