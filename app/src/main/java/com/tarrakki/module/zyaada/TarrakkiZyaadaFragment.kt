@@ -43,6 +43,9 @@ import java.util.*
  * create an instance of this fragment.
  *
  */
+
+const val TARRAKKI_ZYAADA_ID = "tarrakki_zyaada_id"
+
 class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZyaadaBinding>() {
 
     override val isBackEnabled: Boolean
@@ -64,19 +67,6 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
     }
 
     override fun createReference() {
-
-        /*val investInfoHtml = resources.openRawResource(R.raw.invest).bufferedReader().use { it.readText() }
-        mWebViewWhereInvest?.let { setWebviewData(it, investInfoHtml) }*/
-        /*val investInfoHtml = ""
-                .plus("<p>")
-                .plus("Your money will be invested in a Liquid Fund.Liquid Funds invest in money market instruments such as certificates of deposits, treasury bills, commercial papers, and term deposits with maturities up to 90 days.")
-                .plus("</p>")
-                .plus("<ul>")
-                .plus("<li>")
-                .plus("Lowest interest risk compared to other classes of debt funds")
-                .plus("</li>")
-                .plus("</ul>")
-        mWebViewWhereInvest?.let { setWebviewData(it, investInfoHtml) }*/
 
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {
@@ -127,6 +117,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         override fun onClick(widget: View) {
                             startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                                 putString(ITEM_ID, "${fund.id}")
+                                putString(TARRAKKI_ZYAADA_ID, "${response.tarrakkiZyaadaId}")
                             }), R.id.frmContainer)
                         }
 

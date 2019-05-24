@@ -57,7 +57,7 @@ data class TransactionApiResponse(
             @SerializedName("order_type")
             val orderType: String?,
             @SerializedName("remarks")
-            val remarks: String,
+            val remarksTxt: String?,
             @SerializedName("status")
             val status: String?,
             @SerializedName("type")
@@ -86,6 +86,10 @@ data class TransactionApiResponse(
             val nextSIPDate: String
 
     ) : BaseObservable(), WidgetsViewModel {
+
+        val remarks: String?
+            get() = if (TextUtils.isEmpty(remarksTxt)) "N/A" else remarksTxt
+
 
         var isFromRaiseTicket: Boolean? = false
 

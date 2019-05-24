@@ -53,29 +53,30 @@
 
             <TextView
                 android:id="@+id/tvMandate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
-                android:layout_marginEnd="@dimen/space_8"
                 android:text="@string/sip_bank_mandate"
                 android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
                 app:layout_constraintBaseline_toBaselineOf="@id/tvBankMandateAccount"
-                app:layout_constraintEnd_toStartOf="@id/tvBankMandateAccount"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvTotalL" />
 
             <TextView
                 android:id="@+id/tvBankMandateAccount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/space_16"
                 android:drawableEnd="@drawable/ic_bank_mandate_edit"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|end"
                 android:onClick="@{onBankMandateChange}"
                 android:text="@{widget.bank}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorAccent"
                 android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvMandate"
                 app:layout_constraintTop_toBottomOf="@id/tvTotalL"
                 tools:text="ICICI Bank" />
 

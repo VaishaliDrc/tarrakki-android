@@ -105,8 +105,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_support -> {
-                        //context?.simpleAlert(getString(R.string.coming_soon))
-                        startFragment(SupportFragment.newInstance(), R.id.frmContainer)
+                        context?.simpleAlert(getString(R.string.coming_soon))
+                        //startFragment(SupportFragment.newInstance(), R.id.frmContainer)
                     }
                 }
             }

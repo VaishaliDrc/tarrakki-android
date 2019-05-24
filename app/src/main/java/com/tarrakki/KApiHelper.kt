@@ -74,9 +74,7 @@ fun addToCartTarrakkiZyaada(tarrakkiZyaadaId: String, sipAmount: String, lumpsum
     if (lumpsumAmount != BigInteger.ZERO.toString()) {
         json.addProperty("lumpsum_amount", lumpsumAmount)
     }
-    if (folioNo?.isNotEmpty() == true) {
-        json.addProperty("folio_number", folioNo)
-    }
+
     json.printRequest()
     val data = json.toString().toEncrypt()
 

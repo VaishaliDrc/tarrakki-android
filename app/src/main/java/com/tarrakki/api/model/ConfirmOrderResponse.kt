@@ -5,6 +5,7 @@ import android.databinding.Bindable
 import android.text.TextUtils
 import android.view.View
 import com.google.gson.annotations.SerializedName
+import com.tarrakki.App
 import com.tarrakki.R
 import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
@@ -22,7 +23,7 @@ data class ConfirmOrderResponse(
             @SerializedName("mandate_id")
             val mandateId: Int?,
             @SerializedName("bank_name")
-            val bankName: String?,
+            val bank: String?,
             @SerializedName("order_lines")
             val orderLines: ArrayList<OrderLine>,
             @SerializedName("total_lumpsum")
@@ -34,8 +35,21 @@ data class ConfirmOrderResponse(
             @SerializedName("mandate_status")
             val mandateStatus: String,
             @SerializedName("is_sip")
-            val isSIP: Boolean
+            val isSIP: Boolean,
+            @SerializedName("mandate_type")
+            val typeOfMandate: String?
     ) {
+
+        val bankName: String?
+            get() = "$mandateType-".plus(bank ?: "")
+
+        val mandateType: String?
+            get() = if ("X".equals(typeOfMandate, true)) {
+                App.INSTANCE.getString(R.string.nach_mandate)
+            } else {
+                App.INSTANCE.getString(R.string.sip_mandate)
+            }
+
         val isApproveBank: Boolean?
             get() = if ("APPROVED" == mandateStatus) {
                 true

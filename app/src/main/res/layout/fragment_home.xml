@@ -172,6 +172,19 @@
                     tools:text="@string/dummy2" />
 
                 <TextView
+                    android:id="@+id/tvXIRRL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="(XIRR)"
+                    android:textColor="@color/home_title_color"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTotalReturnValue"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/tvTotalReturnValue"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTotalReturnValue" />
+
+                <TextView
                     android:id="@+id/tvTotalReturnInPercentage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

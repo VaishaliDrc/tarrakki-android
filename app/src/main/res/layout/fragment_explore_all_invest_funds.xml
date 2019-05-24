@@ -32,7 +32,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_72sdp"
+                    android:layout_height="@dimen/_82sdp"
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
@@ -65,8 +65,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lato_bold"
+                        android:gravity="center"
                         android:padding="@dimen/_8sdp"
-                        android:text="@string/explore_all_funds"
+                        android:text="@string/tap_to_explore_all_mutual_funds"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textColor="@android:color/white" />
 
                 </LinearLayout>

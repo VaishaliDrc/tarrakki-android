@@ -24,9 +24,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.formatter.IFillFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.tarrakki.R
-import com.tarrakki.addFundPortfolioDialog
-import com.tarrakki.addToCart
+import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.ReturnsHistory
 import com.tarrakki.chartformaters.MyMarkerView
@@ -35,7 +33,6 @@ import com.tarrakki.databinding.FragmentPerformanceBinding
 import com.tarrakki.databinding.RowDurationListItemBinding
 import com.tarrakki.databinding.RowEarningBaseReturnsListItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
-import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
@@ -317,21 +314,39 @@ class PerformanceFragment : Fragment() {
                             folios.add(FolioData(null, null, null, folioNo))
                         }
                         context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
-                            addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
-                                    Observer { response ->
-                                        context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                        }
-                                    })
+                            if (itVM.tarrakkiZyaadaId.isNullOrBlank()) {
+                                addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            } else {
+                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            }
                         }
                     } else {
                         context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
-                            addToCart(fundId, amountSIP, amountLumpsum).observe(this,
-                                    Observer { response ->
-                                        context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                            startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                        }
-                                    })
+                            if (itVM.tarrakkiZyaadaId.isNullOrBlank()) {
+                                addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            } else {
+                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP, amountLumpsum).observe(this,
+                                        Observer { response ->
+                                            context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                            }
+                                        })
+                            }
                         }
                     }
                 }
