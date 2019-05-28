@@ -62,6 +62,13 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             json.put("success_transaction_ids", JSONArray(success_transactions))
             val authData = AES.encrypt(json.toString())
             json.toString().printRequest()
+            App.INSTANCE.isRefreshing.value = null
+            App.INSTANCE.isRefreshing.observe(this, Observer {
+                it?.let {
+                    getBinding().root.visibility = View.VISIBLE
+                }
+            })
+            getBinding().root.visibility = View.GONE
             getViewModel().getTransactionStatus(authData).observe(this, Observer {
                 if (it?.data?.isNotEmpty() == true) {
                     val transactionStatus: MutableList<TransactionStatus> = arrayListOf()
@@ -106,7 +113,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onBackPress()
                 return@setOnKeyListener true
             }
@@ -203,7 +210,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         e("Failed Data", transactionList.toString())
     }
 
-    fun onBackPress() {
+    private fun onBackPress() {
         val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
         if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) == true) {
             onBack(2 + temp)

@@ -35,10 +35,12 @@ class QueriesFragment : CoreParentFragment<SupportVM, FragmentQueriesBinding>() 
     }
 
     override fun createReference() {
+        val imgResources = arrayListOf(R.drawable.icon_1, R.drawable.icon_2, R.drawable.icon_3, R.drawable.icon_4, R.drawable.icon_5)
         getViewModel().getQueryList().observe(this, Observer {
             it?.data?.let { queries ->
                 rvQueries?.setUpRecyclerView(R.layout.row_query_list_item, queries) { item: SupportQueryListResponse.Data, binder: RowQueryListItemBinding, position: Int ->
                     binder.query = item
+                    binder.imgRes = imgResources[position % 5]
                     binder.executePendingBindings()
                     binder.root.setOnClickListener {
                         startFragment(SubQueriesFragment.newInstance(), R.id.frmContainer)

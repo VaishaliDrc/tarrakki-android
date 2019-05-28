@@ -19,8 +19,11 @@ import android.view.View
 import android.webkit.*
 import com.tarrakki.BR
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentBankMandateFormBinding
+import com.tarrakki.getCustomUCropOptions
+import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_mandate_form.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -33,15 +36,12 @@ import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.takePick
-import com.tarrakki.api.ApiClient
-import com.tarrakki.getCustomUCropOptions
-import com.tarrakki.ucrop.UCrop
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
 class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMandateFormBinding>() {
 
-    private var isFromMainBankMandate : Boolean ?= true
+    private var isFromMainBankMandate: Boolean? = true
 
     private var mandateId = ""
     private var mandate_Id = ""
@@ -121,7 +121,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onBankMandate()
                 return@setOnKeyListener true
             }
@@ -375,7 +375,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         }
     }
 
-    fun onBankMandate(){
+    fun onBankMandate() {
         if (getViewModel().isIMandate.get() == false) {
             val isFromUpload = arguments?.getBoolean(ISFROMDIRECTBANKMANDATE, false)
             if (isFromUpload == true) {
@@ -387,7 +387,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                     onBack(3)
                 }
             }
-        }else{
+        } else {
             onBack(4)
         }
     }

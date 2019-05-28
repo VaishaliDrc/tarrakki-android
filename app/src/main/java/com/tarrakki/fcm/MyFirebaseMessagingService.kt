@@ -42,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 if ("Support Ticket".equals(messageBody.optString("type"), true) && App.INSTANCE.openChat?.second == messageBody.optString("reference")) {
                     val tiket = SupportViewTicketResponse.Data.Conversation(
                             null,
-                            null,
+                            "open",
                             messageBody.optString("reference"),
                             null,
                             null
@@ -123,7 +123,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
                 .setContentTitle(messageBody.optString("title"))
                 .setContentText(messageBody.optString("detail"))

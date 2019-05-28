@@ -8,6 +8,11 @@
         <variable
             name="query"
             type="com.tarrakki.api.model.SupportQueryListResponse.Data" />
+
+        <variable
+            name="imgRes"
+            type="int" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -21,7 +26,7 @@
             android:id="@+id/ivLogoQuery"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:imgUrl="@{query.queryLogo}"
+            app:imgUrl="@{imgRes}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_invite_friends" />

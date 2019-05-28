@@ -126,7 +126,7 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onBackPress()
                 return@setOnKeyListener true
             }

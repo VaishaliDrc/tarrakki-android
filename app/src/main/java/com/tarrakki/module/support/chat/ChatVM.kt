@@ -33,6 +33,7 @@ class ChatVM : FragmentViewModel() {
     var sendFile: Pair<Int, File>? = null
     val chatData = MutableLiveData<SupportChatResponse>()
     val btnAttahcmentVisibility = ObservableField(View.VISIBLE)
+    val btnSendVisibility = ObservableField(true)
 
     fun getConversation(ticket: SupportViewTicketResponse.Data.Conversation, offset: Int = 0, showProcess: Boolean = true): MutableLiveData<SupportChatResponse> {
         if (offset == 0 && showProcess) showProgress()

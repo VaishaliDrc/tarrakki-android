@@ -104,7 +104,18 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
         rgTicketType?.setOnCheckedChangeListener { group, checkedId ->
             allData.clear()
             rvTickets?.adapter?.notifyDataSetChanged()
-            when (checkedId) {
+            when (rgTicketType?.checkedRadioButtonId) {
+                R.id.rbAll -> {
+                    getViewModel().getTicketsList()
+                }
+                R.id.rbOpen -> {
+                    getViewModel().getOpenTicketsList()
+                }
+                R.id.rbClosed -> {
+                    getViewModel().getClosedTicketsList()
+                }
+            }
+            /*when (checkedId) {
                 R.id.rbAll -> {
                     if (getViewModel().allTicket.value == null) {
                         getViewModel().getTicketsList()
@@ -126,7 +137,7 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
                         getViewModel().closeTicket.postValue(getViewModel().closeTicket.value)
                     }
                 }
-            }
+            }*/
         }
 
         App.INSTANCE.isRefreshing.observe(this, Observer {

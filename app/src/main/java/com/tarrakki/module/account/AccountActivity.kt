@@ -53,7 +53,7 @@ class AccountActivity : BaseActivity() {
         intent?.getStringExtra("reference")?.let { ticketId ->
             val tiket = SupportViewTicketResponse.Data.Conversation(
                     null,
-                    null,
+                    "open",
                     ticketId,
                     null,
                     null

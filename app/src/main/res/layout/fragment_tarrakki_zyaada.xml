@@ -106,20 +106,18 @@
                     app:el_expanded="false"
                     app:expanded="@{vm.whereIsMyMoney}">
 
-                    <!--<WebView
+                    <WebView
                         android:id="@+id/mWebViewWhereInvest"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:lineSpacingExtra="@dimen/space_4" />-->
+                        android:layout_height="wrap_content" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/tvWhereInvest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/where_is_my_money_html"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                        android:text="@string/where_is_my_money"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />-->
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
 

@@ -57,6 +57,7 @@ class QuestionsFragment : CoreFragment<QuestionsVM, FragmentQuestionsBinding>() 
                                     postSticky(query)
                                 } else {
                                     startFragment(QuestionDetailsFragment.newInstance(), R.id.frmContainer)
+                                    getViewModel().query.value?.let { postSticky(it) }
                                 }
                                 postSticky(item)
                             }

@@ -40,6 +40,7 @@ class QuestionDetailsFragment : CoreFragment<QuestionsVM, FragmentQuestionDetail
     }
 
     override fun createReference() {
+        mWebView?.setBackgroundColor(0)
         frmGetInTouch?.setOnClickListener {
             startFragment(RaiseTicketFragment.newInstance(), R.id.frmContainer)
             getViewModel().query.value?.let { postSticky(it) }

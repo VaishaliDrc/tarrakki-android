@@ -1,12 +1,12 @@
 package com.tarrakki.module.zyaada
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
-import android.text.Editable
-import android.text.TextPaint
-import android.text.TextWatcher
+import android.text.*
+import android.text.style.BulletSpan
 import android.text.style.ClickableSpan
 import android.view.View
 import com.github.mikephil.charting.components.XAxis
@@ -66,8 +66,15 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         binding.executePendingBindings()
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
-
+        //setWhereInvestText()
+        val htmlData = resources.openRawResource(R.raw.invest).bufferedReader().use { it.readText() }
+        /*mWebViewWhereInvest?.setInitialScale(1)
+        mWebViewWhereInvest?.settings?.javaScriptEnabled = true
+        mWebViewWhereInvest?.settings?.loadWithOverviewMode = true
+        mWebViewWhereInvest?.settings?.useWideViewPort = true*/
+        mWebViewWhereInvest?.loadDataWithBaseURL("file:///android_res/", htmlData, "text/html", "UTF-8", null)
         tvWhatTarrakkii?.setOnClickListener {
             getViewModel().whatIsTarrakkiZyaada.get()?.let {
                 getViewModel().whatIsTarrakkiZyaada.set(!it)

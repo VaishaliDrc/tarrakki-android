@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -33,6 +34,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import kotlin.concurrent.thread
 
 /**
  * A simple [Fragment] subclass.
@@ -255,18 +257,20 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     }
 
     private fun createFile(@NonNull uri: Uri, outputFile: File) {
-        val inputStream = context?.contentResolver?.openInputStream(uri)
-        try {
+        thread {
             getViewModel().showProgress()
-            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
-        } catch (e: FileNotFoundException) {
-            // handle exception here
-            e.printStackTrace()
-        } catch (e: IOException) {
-            // handle exception here
-            e.printStackTrace()
-        } finally {
-            getViewModel().dismissProgress()
+            try {
+                val inputStream = context?.contentResolver?.openInputStream(uri)
+                FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
+            } catch (e: FileNotFoundException) {
+                // handle exception here
+                e.printStackTrace()
+            } catch (e: IOException) {
+                // handle exception here
+                e.printStackTrace()
+            } finally {
+                getViewModel().dismissProgress()
+            }
         }
     }
 
@@ -287,11 +291,34 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        getViewModel().imgName.set(selectedUri.getFileName()?.replace(" ", "_")
+                        try {
+                            val cursor = context?.contentResolver?.query(selectedUri, null, null, null, null)
+                            cursor?.moveToFirst()
+                            val size = cursor?.getLong(cursor.getColumnIndex(OpenableColumns.SIZE))
+                            cursor?.close()
+                            size?.let {
+                                val filesize = it
+                                val filesizeInKB = filesize / 1024
+                                val filesizeinMB = filesizeInKB / 1024
+                                if (filesizeinMB < 25) {
+                                    val fileName = selectedUri.getFileName()?.replace(" ", "_")
+                                            ?: ""
+                                    getViewModel().imgName.set(fileName)
+                                    val mFile = File(getFileDownloadDir(), fileName)
+                                    getViewModel().sendFile = Pair(1, mFile)
+                                    createFile(selectedUri, mFile)
+                                } else {
+                                    context?.simpleAlert(getString(R.string.max_file_size_msg))
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                        /*getViewModel().imgName.set(selectedUri.getFileName()?.replace(" ", "_")
                                 ?: "")
                         val mFile = File(getFileDownloadDir(), "${getViewModel().imgName.get()}")
                         getViewModel().sendFile = Pair(1, mFile)
-                        createFile(selectedUri, mFile)
+                        createFile(selectedUri, mFile)*/
                     }
                 }
                 UCrop.REQUEST_CROP -> {

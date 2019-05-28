@@ -3,7 +3,6 @@ package com.tarrakki.module.login
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -14,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.gson.JsonObject
+import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityLoginBinding
@@ -162,7 +162,8 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                             getViewModel().dismissProgress()
                             LoginManager.getInstance().logOut()
                             if (getViewModel().socialEmail.isEmpty()) {
-                                val json = JsonObject()
+                                simpleAlert(App.INSTANCE.getString(R.string.we_could_not_retrieve))
+                                /*val json = JsonObject()
                                 json.addProperty("access_token", getViewModel().socialId.get())
                                 json.addProperty("email", "")
                                 json.addProperty("first_name", getViewModel().socialFName.get())
@@ -170,7 +171,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                                 json.addProperty("social_auth", "facebook")
                                 val intent = Intent(this@LoginActivity, SocialSignUpActivity::class.java)
                                 intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
-                                startActivity(intent)
+                                startActivity(intent)*/
                             } else {
                                 getViewModel().doSocialLogin(loginWith = "facebook")
                             }
@@ -226,7 +227,8 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
             getViewModel().socialLName.set(lname)
             getViewModel().socialId.set(personId)
             if (getViewModel().socialEmail.isEmpty()) {
-                val json = JsonObject()
+                simpleAlert(App.INSTANCE.getString(R.string.we_could_not_retrieve))
+                /*val json = JsonObject()
                 json.addProperty("access_token", getViewModel().socialId.get())
                 json.addProperty("email", "")
                 json.addProperty("first_name", getViewModel().socialFName.get())
@@ -234,7 +236,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                 json.addProperty("social_auth", "google")
                 val intent = Intent(this@LoginActivity, SocialSignUpActivity::class.java)
                 intent.putExtra(SOACIAL_SIGNUP_DATA, json.toString())
-                startActivity(intent)
+                startActivity(intent)*/
             } else {
                 getViewModel().doSocialLogin(loginWith = "google")
             }

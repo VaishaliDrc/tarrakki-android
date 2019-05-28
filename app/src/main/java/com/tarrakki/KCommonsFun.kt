@@ -215,7 +215,7 @@ fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.Investme
                     "Investments of one year and above reflect XIRR returns (annualised returns)."))
     options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
             "When does my portfolio get updated?",
-            "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 9:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen."))
+            "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 10:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen."))
     return options
 }
 

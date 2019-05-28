@@ -21,7 +21,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
     override val title: String
         get() = getString(R.string.bank_mandate)
 
-    var isFromNew : Boolean ? = null
+    var isFromNew: Boolean? = null
 
     override fun getLayout(): Int {
         return R.layout.fragment_bank_mandate_success
@@ -53,7 +53,7 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onCheckStatus()
                 return@setOnKeyListener true
             }
@@ -63,18 +63,18 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
 
     private fun onCheckStatus() {
         if (getViewModel().isIMandate.get() == true) {
-            if (isFromNew == true){
+            if (isFromNew == true) {
                 onBack(5)
-            }else{
+            } else {
                 onBack(4)
             }
         } else {
             if (arguments?.getBoolean(ISFROMDIRECTBANKMANDATE) == true) {
                 onBack(3)
             } else {
-                if (isFromNew == true){
+                if (isFromNew == true) {
                     onBack(6)
-                }else{
+                } else {
                     onBack(5)
                 }
             }

@@ -969,7 +969,7 @@
     <string name="select_transaction">Select Transaction</string>
     <string name="issue_description_">Issue Description*</string>
     <string name="enter_description">Enter Description</string>
-    <string name="upload_a_picture_optional">Upload a Picture (Optional)</string>
+    <string name="upload_a_picture_optional">UPLOAD A PICTURE/FILE(OPTIONAL)</string>
     <string name="hint_mydoc_jpg">mydoc.jpg</string>
     <string name="raise_ticket">Raise Ticket</string>
     <string name="savings_naccount">Savings\nAccount</string>
@@ -994,5 +994,8 @@
     <string name="close">Close</string>
     <string name="file">File</string>
     <string name="tap_to_explore_all_mutual_funds">Tap To Explore All Mutual Funds</string>
+    <string name="we_could_not_retrieve">We couldn’t retrieve the email from your social account so please change the privacy settings of your social account first and try again.</string>
+    <string name="max_file_size_msg">File size can not be greater than 25 MB</string>
     <!--<string name="select_country">Select Country</string>-->
+
 </resources>

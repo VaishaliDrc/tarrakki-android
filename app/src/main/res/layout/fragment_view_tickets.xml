@@ -74,11 +74,14 @@
             android:id="@+id/rvTickets"
             dividerV="@{@drawable/shape_transferant_divider_16dp}"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/default_space"
+            android:layout_marginBottom="8dp"
             android:overScrollMode="never"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/rgTicketType" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rgTicketType"
+            tools:layout_editor_absoluteX="16dp" />
 
         <TextView
             android:id="@+id/tvNoDataFound"

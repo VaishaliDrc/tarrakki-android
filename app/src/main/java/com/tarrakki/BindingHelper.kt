@@ -513,11 +513,13 @@ fun watchYoutubeVideo(view: View, videoUrl: String) {
 fun setHtml(txt: TextView, txtHtml: String?) {
     val txtHtmlNotNull = txtHtml ?: ""
     val html = "<!DOCTYPE html><html><body>$txtHtmlNotNull</body></html>"
+    txt.movementMethod = LinkMovementMethod.getInstance()
     txt.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT)
     } else {
         Html.fromHtml(html)
     }
+    //txt.movementMethod = LinkMovementMethod.getInstance()
 }
 
 @BindingAdapter("HTML")

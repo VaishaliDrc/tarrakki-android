@@ -11,17 +11,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.OpenableColumns
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
 import com.google.android.gms.common.util.IOUtils
-import com.tarrakki.App
-import com.tarrakki.BR
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.SupportViewTicketResponse
 import com.tarrakki.databinding.FragmentChatBinding
-import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
@@ -36,12 +34,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.concurrent.thread
 
 /**
  * A simple [Fragment] subclass.
  * Use the [ChatFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
 
     val ticket = MutableLiveData<SupportViewTicketResponse.Data.Conversation>()
@@ -109,6 +109,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         ticket.observe(this, Observer { it ->
             it?.let { ticket ->
                 getViewModel().reference.set(ticket.ticketRef)
+                getViewModel().btnSendVisibility.set(ticket.open)
                 val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 requestPermissionsIfRequired(permissions, object : PermissionCallBack {
                     override fun permissionGranted() {
@@ -320,25 +321,26 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     }
 
     private fun createFile(@NonNull uri: Uri, outputFile: File) {
-        val inputStream = context?.contentResolver?.openInputStream(uri)
-        try {
+        thread {
             getViewModel().showProgress()
-            FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
-        } catch (e: IOException) {
-            // handle exception here
-            e.printStackTrace()
-        } catch (e: Exception) {
-            // handle exception here
-            e.printStackTrace()
-        } finally {
-            ticket.value?.let { ticket ->
-                getViewModel().sendData(ticket).observe(this, Observer {
-                    getViewModel().getConversation(ticket)
-                    edtMessage?.text?.clear()
-                    edtMessage?.dismissKeyboard()
-                })
+            try {
+                val inputStream = context?.contentResolver?.openInputStream(uri)
+                FileOutputStream(outputFile).use { outputStream -> IOUtils.copyStream(inputStream, outputStream, true, DEFAULT_BUFFER_SIZE) }
+            } catch (e: IOException) {
+                // handle exception here
+                e.printStackTrace()
+            } catch (e: Exception) {
+                // handle exception here
+                e.printStackTrace()
+            } finally {
+                ticket.value?.let { ticket ->
+                    getViewModel().sendData(ticket).observe(this, Observer {
+                        getViewModel().getConversation(ticket)
+                        edtMessage?.text?.clear()
+                        edtMessage?.dismissKeyboard()
+                    })
+                }
             }
-
         }
     }
 
@@ -359,10 +361,28 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 getViewModel().FILE_RQ_CODE -> {
                     val selectedUri = data?.data
                     if (selectedUri != null) {
-                        val fileName = selectedUri.getFileName()?.replace(" ", "_") ?: ""
-                        val mFile = File(App.INSTANCE.cacheDir, fileName)
-                        getViewModel().sendFile = Pair(1, mFile)
-                        createFile(selectedUri, mFile)
+                        try {
+                            val cursor = context?.contentResolver?.query(selectedUri, null, null, null, null)
+                            cursor?.moveToFirst()
+                            val size = cursor?.getLong(cursor.getColumnIndex(OpenableColumns.SIZE))
+                            cursor?.close()
+                            size?.let {
+                                val filesize = it
+                                val filesizeInKB = filesize / 1024
+                                val filesizeinMB = filesizeInKB / 1024
+                                if (filesizeinMB < 25) {
+                                    val fileName = selectedUri.getFileName()?.replace(" ", "_")
+                                            ?: ""
+                                    val mFile = File(getFileDownloadDir(), fileName)
+                                    getViewModel().sendFile = Pair(1, mFile)
+                                    createFile(selectedUri, mFile)
+                                } else {
+                                    context?.simpleAlert(getString(R.string.max_file_size_msg))
+                                }
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
                 UCrop.REQUEST_CROP -> {

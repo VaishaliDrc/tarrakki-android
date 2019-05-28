@@ -57,7 +57,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 if (arguments?.getBoolean(ISFROMGOALRECOMMEDED, false) == true) {
                     onBack(2)
                 } else {
