@@ -38,7 +38,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
-import com.github.chrisbanes.photoview.PhotoView
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
@@ -1000,6 +999,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
             mBinder.edtAmount.setText("")
             mBinder.chkAmount.isChecked = false
             mBinder.isInstantRedeem = isChecked
+            mBinder.tvNote.visibility = if (isChecked) View.VISIBLE else View.GONE
             mBinder.executePendingBindings()
         }
 

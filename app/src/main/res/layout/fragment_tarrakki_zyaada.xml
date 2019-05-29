@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/what_is_tarrakki_zyaada_details"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 </net.cachapa.expandablelayout.ExpandableLayout>
 

@@ -26,7 +26,7 @@
             android:drawablePadding="@dimen/_8sdp"
             android:gravity="center_vertical"
             android:text="@{item.question}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/semi_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

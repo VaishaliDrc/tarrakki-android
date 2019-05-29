@@ -629,7 +629,7 @@
     <string name="req_reset_password">All the fields are mandatory so please enter the required fields first to reset the password.</string>
     <string name="req_match_confirm_password">The \'Confirm Password\' field does not match the \'New Password\'. Please Re-enter.</string>
 
-    <string name="cart_delete">Are you sure you want to Delete this Fund from your cart?</string>
+    <string name="cart_delete">Are you sure you want to delete this fund from the cart ?</string>
     <string name="cart_fund_added">The fund has been added to your cart successfully.</string>
     <string name="cart_goal_added">The goal has been added to your cart successfully.</string>
 

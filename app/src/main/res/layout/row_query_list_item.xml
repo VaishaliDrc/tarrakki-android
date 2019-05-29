@@ -38,6 +38,7 @@
             android:layout_marginStart="@dimen/space_8"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
             android:text="@{query.name}"
+            android:fontFamily="@font/lato_semibold"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ivLogoQuery"
             app:layout_constraintEnd_toEndOf="parent"
