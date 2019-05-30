@@ -261,7 +261,7 @@ class PerformanceFragment : Fragment() {
                                     now.add(Calendar.YEAR, -1)
                                     val date = now.time.toDate()
                                     if (fund.returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 } == null) {
-                                        EventBus.getDefault().post(ShowError("Data not found"))
+                                        EventBus.getDefault().post(ShowError(getString(R.string.no_performance_data_available_for_one_year, "1")))
                                         return@setOnClickListener
                                     }
                                     val filter = fund.returnsHistory?.filter { r -> date.before(r.date) } as ArrayList<ReturnsHistory>?
@@ -271,7 +271,7 @@ class PerformanceFragment : Fragment() {
                                     now.add(Calendar.YEAR, -5)
                                     val date = now.time.toDate()
                                     if (fund.returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 } == null) {
-                                        EventBus.getDefault().post(ShowError("Data not found"))
+                                        EventBus.getDefault().post(ShowError(getString(R.string.no_performance_data_available, "5")))
                                         return@setOnClickListener
                                     }
                                     val filter = fund.returnsHistory?.filter { r -> date.before(r.date) } as ArrayList<ReturnsHistory>?
@@ -281,7 +281,7 @@ class PerformanceFragment : Fragment() {
                                     now.add(Calendar.YEAR, -10)
                                     val date = now.time.toDate()
                                     if (fund.returnsHistory?.firstOrNull { r -> date.compareTo(r.date) == 0 } == null) {
-                                        EventBus.getDefault().post(ShowError("Data not found"))
+                                        EventBus.getDefault().post(ShowError(getString(R.string.no_performance_data_available, "10")))
                                         return@setOnClickListener
                                     }
                                     val filter = fund.returnsHistory?.filter { r -> date.before(r.date) } as ArrayList<ReturnsHistory>?

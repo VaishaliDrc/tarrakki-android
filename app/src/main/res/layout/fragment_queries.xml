@@ -35,7 +35,6 @@
                 android:paddingStart="@dimen/_8sdp"
                 android:paddingEnd="@dimen/_8sdp"
                 app:dividerV="@{null}"
-                app:enableNestedScrollView="@{false}"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 tools:context=".module.support.fragments.QueriesFragment" />
 

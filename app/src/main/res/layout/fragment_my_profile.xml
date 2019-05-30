@@ -49,13 +49,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <android.support.v7.widget.CardView
+                    <!--<android.support.v7.widget.CardView
                         android:id="@+id/view2"
                         android:layout_width="108dp"
                         android:layout_height="108dp"
+                        android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/default_space"
                         android:elevation="12dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        android:visibility="gone"
                         app:cardCornerRadius="54dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +73,17 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/ic_profile_default" />
 
-                    </android.support.v7.widget.CardView>
+                    </android.support.v7.widget.CardView>-->
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="108dp"
+                        android:layout_height="108dp"
+                        android:src="@drawable/ic_profile_default"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginTop="@dimen/space_8" />
 
                     <ImageView
                         android:id="@+id/ivEditProfilePick"
@@ -79,11 +94,11 @@
                         android:padding="@dimen/space_6"
                         android:src="@drawable/ic_photo_camera_black_24dp"
                         android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/view2"
+                        app:layout_constraintBottom_toBottomOf="@id/ivProfile"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.68"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/view2"
+                        app:layout_constraintTop_toTopOf="@id/ivProfile"
                         app:layout_constraintVertical_bias="0.9" />
 
                 </android.support.constraint.ConstraintLayout>

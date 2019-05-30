@@ -37,14 +37,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_8"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
-            android:text="@{query.name}"
             android:fontFamily="@font/lato_semibold"
+            android:text="@{query.name}"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="@id/ivLogoQuery"
+            app:layout_constraintBottom_toBottomOf="@+id/ivLogoQuery"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.666"
             app:layout_constraintStart_toEndOf="@+id/ivLogoQuery"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Investment Options" />
+            app:layout_constraintTop_toTopOf="@+id/ivLogoQuery"
+            tools:text="Lorem Ipsum " />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -54,6 +55,7 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:text="@{query.description}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="@{query.descriptionVisibility}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivLogoQuery"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"

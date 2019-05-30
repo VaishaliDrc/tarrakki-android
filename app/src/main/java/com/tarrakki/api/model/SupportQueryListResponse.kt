@@ -1,6 +1,8 @@
 package com.tarrakki.api.model
 
 
+import android.text.TextUtils
+import android.view.View
 import com.google.gson.annotations.SerializedName
 
 data class SupportQueryListResponse(
@@ -21,6 +23,8 @@ data class SupportQueryListResponse(
     ) {
         var subqueryName: String? = ""
         var subqueryId: String? = ""
+        val descriptionVisibility: Int
+            get() = if (TextUtils.isEmpty(description)) View.GONE else View.VISIBLE
 
         data class Subquery(
                 @SerializedName("description")
