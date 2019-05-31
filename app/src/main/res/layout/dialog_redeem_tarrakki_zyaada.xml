@@ -257,13 +257,14 @@
             android:id="@+id/tvNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/upto_rs_50_000_or_90_of_the_current_investment_values_whichever_is_lower"
+            android:text="@string/upto_rs_50_000_or_90"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/notes_color"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnInvest" />
+            app:layout_constraintTop_toBottomOf="@id/btnInvest"
+            tools:visibility="visible" />
 
         <FrameLayout
             android:id="@+id/mProgress"

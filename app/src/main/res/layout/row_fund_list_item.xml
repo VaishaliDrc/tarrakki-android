@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_cart_view"
         android:elevation="@dimen/space_2"
-        android:padding="@dimen/space_8">
+        android:padding="@dimen/space_8"
+        tools:layout_margin="@dimen/_16sdp">
 
         <TextView
             android:id="@+id/tvName"
@@ -181,7 +182,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv3YFundL"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
-            tools:text="5.2%" />
+            tools:text="52.20%" />
 
 
         <TextView
@@ -210,7 +211,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv3YFDL"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
-            tools:text="5.2%" />
+            tools:text="10.85%" />
 
         <Button
             android:id="@+id/btnInvest"
@@ -218,10 +219,10 @@
             android:layout_height="32dp"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
+            android:layout_marginBottom="@dimen/space_1"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
             android:text="@string/invest"
-            android:layout_marginBottom="@dimen/space_1"
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/white"

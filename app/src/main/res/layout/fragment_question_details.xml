@@ -42,7 +42,7 @@
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
                 android:nestedScrollingEnabled="false"
-                app:HTML="@{vm.question.answer}" />
+                app:setQuestionDetails="@{vm.question.answer}" />
             <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

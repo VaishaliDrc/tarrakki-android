@@ -562,6 +562,49 @@ fun setWebviewData(txt: WebView, txtHtml: String?) {
     }
 }
 
+@BindingAdapter("setQuestionDetails")
+fun setQuestionDetails(txt: WebView, txtHtml: String?) {
+    val txtHtmlNotNull = txtHtml ?: ""
+    var htmlData = App.INSTANCE.resources.openRawResource(R.raw.question_details).bufferedReader().use { it.readText() }
+    htmlData = htmlData.replace("%s", txtHtmlNotNull)
+    txt.loadDataWithBaseURL("file:///android_res/", htmlData, "text/html", "utf-8", null)
+    txt.webViewClient = object : WebViewClient() {
+
+        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            return onPageRequest(view, "${url}")
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+            return onPageRequest(view, "${request.url}")
+        }
+
+        fun onPageRequest(view: WebView, url: String): Boolean {
+            return when {
+                url.startsWith("tel:") -> {
+                    view.context?.initiateCall(url)
+                    true
+                }
+                url.startsWith("mailto:") -> {
+                    view.context?.sendEmail(url.substring(7))
+                    true
+                }
+                else -> {
+                    // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+                    try {
+                        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                            view.context?.startActivity(this)
+                        }
+                    } catch (e: Exception) {
+                        EventBus.getDefault().post(ShowError("${e.message}"))
+                    }
+                    return true
+                }
+            }
+        }
+    }
+}
+
 private fun Context.sendEmail(add: String) {
     val intent = Intent(Intent.ACTION_SEND)
     intent.type = "text/plain"
@@ -990,9 +1033,11 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                     //mBinder?.edtTotalInvestedAmount.applyCurrencyDecimalFormatPositiveOnlyWithoutRoundOff()
                     //mBinder?.edtAmount.applyCurrencyDecimalFormatPositiveOnlyWithoutRoundOff()
                     mBinder.investmentAmount = "$instaAmount"
+                    val currentAmount = (folio.currentValue ?: 0.0) / 2
+                    mBinder.tvNote.setText(if (instaAmount > currentAmount) R.string.upto_rs_50_000_or_90 else R.string.upto_rs_50_000_or_50)
                 } else {
                     //mBinder.edtTotalInvestedAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()
-                    //mBinder.edtAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()
+                    //mBinder.edtAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()s
                     mBinder.investmentAmount = folio.units
                 }
             }

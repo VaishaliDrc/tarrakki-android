@@ -39,7 +39,7 @@ object ApiClient {
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
-    const val BUILD_TYPE_DEBUG = false
+    const val BUILD_TYPE_DEBUG = true
 
     /***
      * CAMS api base url Test Url
@@ -59,9 +59,9 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
+    /*private const val BASE_URL = "http://172.10.29.38:8000/api/v1/"
     const val IMAGE_BASE_URL = "http://172.10.29.38:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.29.38:8000/api/v1/transactions/payment-status/"
+    const val BANK_REDIRECT_URL = "http://172.10.29.38:8000/api/v1/transactions/payment-status/"*/
 
     /*private const val BASE_URL = "http://172.10.29.36:8002/api/v1/"
     const val IMAGE_BASE_URL = "http://172.10.29.36:8002"
@@ -84,9 +84,9 @@ object ApiClient {
     /**
      * Live Url
      **/
-    /*private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "https://tarrakkilive.edx.drcsystems.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url*/
+    const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone

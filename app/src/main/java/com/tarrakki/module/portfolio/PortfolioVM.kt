@@ -4,20 +4,20 @@ import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.getUserId
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 import kotlin.concurrent.thread
 
 class PortfolioVM : FragmentViewModel() {
@@ -60,5 +60,6 @@ class PortfolioVM : FragmentViewModel() {
                 }
         )
     }
-
 }
+
+data class StopSIP(val transactionId: Int, val folioNo: String, val date: String)

@@ -124,7 +124,7 @@
                     android:layout_marginTop="@dimen/space_4"
                     android:background="@drawable/shape_edt_gray_multiline"
                     android:gravity="start|top"
-                    android:hint="@string/enter_description"
+                    android:hint="@string/tell_us_more"
                     android:inputType="textMultiLine"
                     android:minLines="8"
                     android:paddingStart="@dimen/default_space"

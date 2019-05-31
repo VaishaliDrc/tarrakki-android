@@ -10,7 +10,7 @@
             type="com.tarrakki.module.redeem.RedeemConfirmVM" />
     </data>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -40,7 +40,8 @@
                     android:adjustViewBounds="true"
                     android:paddingStart="@dimen/_32sdp"
                     android:paddingEnd="@dimen/_32sdp"
-                    android:src="@drawable/redeem_img" />
+                    android:src="@{vm.isRedeemReq?@drawable/redeem_img:@drawable/ic_stop_sip}"
+                    tools:src="@drawable/redeem_img" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -97,5 +98,5 @@
 
         </android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </layout>

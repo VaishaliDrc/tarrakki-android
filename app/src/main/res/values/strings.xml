@@ -566,20 +566,6 @@
         \n\nIt\'s like parking your idle money in a Savings Bank Account, but with the opportunity to earn almost double the returns.
     </string>
     <string name="where_is_my_money_invested">Where is my money invested?</string>
-    <string name="where_is_my_money">
-        Your money will be invested in a Liquid Fund. Liquid Funds invest in money market instruments such as certificates of deposits, treasury bills, commercial papers, and term deposits with maturities up to 90 days.
-        \n\n\u2022 Lowest interest risk compared to other classes of debt funds
-        \n\u2022 Invests in fixed income securities with short maturity periods
-        \n\u2022 No Lock-in, No Entry and Exit Load
-        \n\u2022 Minimum Investment of 100 ONLY!
-    </string>
-
-    <string name="where_is_my_money_html" formatted="false">Your money will be invested in a Liquid Fund. Liquid Funds invest in money market instruments such as certificates of deposits, treasury bills, commercial papers, and term deposits with maturities up to 90 days.\n\n
-    • Lowest interest risk compared to other classes of debt funds\n
-    • Invests in fixed income securities with short maturity periods\n
-    • No Lock-in, No Entry and Exit Load\n
-    • Minimum Investment of 100 ONLY!
-    </string>
 
     <string name="tarrakki_zyaada">Tarrakki Zyaada</string>
     <string name="tarrakki_zyaada_investment">Tarrakki Zyaada</string>
@@ -624,7 +610,7 @@
     <string name="symbol_c">∗∗∗\u0020-</string>
     <string name="daily_purchase_limit_of_50">Daily purchase limit of 50% of the balance or ₹1,00,000 whichever is lower.</string>
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
-    <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 90% of the current investment value, whichever is lower.</string>
+    <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 50% of the current investment value, whichever is lower.</string>
     <!--<string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, <font color='#4EB95D'><u><a href='https://www.google.com/'>click here.</a></u></font></string>-->
     <string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Reliance Liquid Fund, click here.</string>
     <string name="historical_returns">Historical Returns</string>
@@ -650,7 +636,8 @@
     <string name="units_to_redeem">Units to Redeem</string>
     <string name="total_units">Total Units</string>
     <string name="do_you_want_insta_redeem">Do you want to insta-redeem?</string>
-    <string name="upto_rs_50_000_or_90_of_the_current_investment_values_whichever_is_lower">Upto Rs.50,000 or 90% of the current investment values, whichever is lower.</string>
+    <string name="upto_rs_50_000_or_90">Upto Rs.50,000 or 90% of the current investment values, whichever is lower.</string>
+    <string name="upto_rs_50_000_or_50">Upto Rs.50,000 or 50% of the current investment values, whichever is lower.</string>
     <string name="total_redeemable_amount">Total Redeemable Amount</string>
     <string name="amount_to_redeem">Amount To Redeem</string>
     <string name="withdraw_full_amount">Withdraw Full Amount</string>
@@ -687,7 +674,7 @@
     <string name="thank_you">Thank you!</string>
     <string name="failed_transaction_msg">Unfortunately, your transactions have failed. Please try again.</string>
     <string name="your_purchase_request_has_been_received">Your purchase request has been received.</string>
-    <string name="do_you_want_to_raise_the_ticket_for_the_transaction">Do you want to raise the ticket for the transaction?</string>
+    <string name="do_you_want_to_raise_the_ticket_for_the_transaction">Do you want to raise a ticket related to a recent transaction ?</string>
     <string name="overview">Overview</string>
     <string name="performance">Performance</string>
     <string name="close">Close</string>
@@ -703,6 +690,7 @@
         Those who redeemed or stopped their investments because of market dips, simply missed the bus.
     </string>
     <string name="are_you_sure">Are You Sure</string>
+    <string name="tell_us_more">Tell Us More</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

@@ -77,16 +77,16 @@ class KSelectionAdapter<ITEM, U : ViewDataBinding>(
     class ViewHolder<out V : ViewDataBinding>(internal val binding: V?) : RecyclerView.ViewHolder(binding?.root!!)
 
     fun addItems(items: MutableList<ITEM>) {
-        val lastPostion = items.size-1
+        val lastPostion = items.size - 1
         addItemsInternal(items)
-        notifyItemRangeChanged(lastPostion,items.size)
+        notifyItemRangeChanged(lastPostion, items.size)
     }
 
     fun addItem(item: ITEM) {
         addItemInternal(item)
-        if (items.isEmpty()){
+        if (items.isEmpty()) {
             notifyItemInserted(0)
-        }else{
+        } else {
             notifyItemInserted(items.size)
         }
     }
@@ -111,8 +111,10 @@ class KSelectionAdapter<ITEM, U : ViewDataBinding>(
 
     fun getSelectedItems(): MutableList<ITEM> {
         val items: MutableList<ITEM> = ArrayList()
-        for (it in getSelectedItemViews()) {
-            items.add(this.items[it])
+        if (this.items?.isNotEmpty() == true && getSelectedItemViews().size <= this.items.size) {
+            for (it in getSelectedItemViews()) {
+                items.add(this.items[it])
+            }
         }
         return items
     }

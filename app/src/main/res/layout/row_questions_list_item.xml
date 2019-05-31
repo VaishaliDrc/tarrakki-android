@@ -16,12 +16,11 @@
         android:paddingTop="@dimen/_8sdp"
         android:paddingBottom="@dimen/_8sdp"
         tools:padding="@dimen/_8sdp">
-
+        <!--android:drawableStart="@drawable/ic_question"-->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_question"
             android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
             android:drawablePadding="@dimen/_8sdp"
             android:gravity="center_vertical"
