@@ -14,7 +14,8 @@ import com.tarrakki.databinding.FragmentDirectInvestmentBinding
 import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.portfolio.PortfolioVM
-import com.tarrakki.module.redeem.RedeemConfirmFragment
+import com.tarrakki.module.portfolio.StopSIP
+import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import kotlinx.android.synthetic.main.fragment_direct_investment.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -140,7 +141,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                     it?.let { bank ->
                                         json.printRequest()
                                         item.bank = bank.data
-                                        startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                        startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
                                         repostSticky(item)
                                     }
                                 })
@@ -160,7 +161,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                             json.addProperty("bank", bank.data?.bankName)
                                             json.printRequest()
                                             item.bank = bank.data
-                                            startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                            startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
                                             repostSticky(item)
                                         }
                                     })
@@ -180,11 +181,14 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                             }
                             context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
-                                stopPortfolio(transactionId).observe(this, Observer {
+                                val data = StopSIP(transactionId, folio, date)
+                                startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = false), R.id.frmContainer)
+                                repostSticky(data)
+                                /*stopPortfolio(transactionId).observe(this, Observer {
                                     context?.simpleAlert(alertStopPortfolio(folio, date)) {
                                         vm.getUserPortfolio()
                                     }
-                                })
+                                })*/
                             }
                         }
                     }

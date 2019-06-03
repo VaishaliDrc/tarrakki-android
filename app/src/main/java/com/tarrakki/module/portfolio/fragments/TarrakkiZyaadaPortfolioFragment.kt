@@ -15,7 +15,8 @@ import com.tarrakki.databinding.FragmentTarrakkiZyaadaPortfolioBinding
 import com.tarrakki.databinding.RowTarrakkiZyaadaInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.portfolio.PortfolioVM
-import com.tarrakki.module.redeem.RedeemConfirmFragment
+import com.tarrakki.module.portfolio.StopSIP
+import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada_portfolio.*
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -134,7 +135,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                                 it?.let { bank ->
                                     json.printRequest()
                                     item.bank = bank.data
-                                    startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                    startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
                                     repostSticky(item)
                                 }
                             })
@@ -154,7 +155,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                                     //json.addProperty("bank", bank.data?.bankName)
                                     json.printRequest()
                                     item.bank = bank.data
-                                    startFragment(RedeemConfirmFragment.newInstance(), R.id.frmContainer)
+                                    startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
                                     repostSticky(item)
                                 }
                             })
@@ -172,11 +173,14 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         }
 
                         context?.stopFundPortfolioDialog(folios) { transactionId, folio, date ->
-                            stopPortfolio(transactionId).observe(this, Observer {
+                            val data = StopSIP(transactionId, folio, date)
+                            startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = false), R.id.frmContainer)
+                            repostSticky(data)
+                            /*stopPortfolio(transactionId).observe(this, Observer {
                                 context?.simpleAlert(alertStopPortfolio(folio, date)) {
                                     vm.getUserPortfolio()
                                 }
-                            })
+                            })*/
                         }
                     }
                 }

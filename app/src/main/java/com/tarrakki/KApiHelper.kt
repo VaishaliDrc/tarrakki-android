@@ -594,8 +594,7 @@ fun instaRedeemPortfolio(json: JsonObject): MutableLiveData<RedeemedStatus> {
     return apiResponse
 }
 
-fun stopPortfolio(transactionId: Int)
-        : MutableLiveData<ApiResponse> {
+fun stopPortfolio(transactionId: Int): MutableLiveData<ApiResponse> {
     val apiResponse = MutableLiveData<ApiResponse>()
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(

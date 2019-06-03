@@ -145,8 +145,8 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
     }
 
     private fun onBackPress() {
-        onBack(if (getViewModel().goalBasedRedeemFund.value == null) 2 else 3)
-        //onBack(if (getViewModel().goalBasedRedeemFund.value == null) 3 else 4)
+        //onBack(if (getViewModel().goalBasedRedeemFund.value == null) 2 else 3)
+        onBack(if (getViewModel().goalBasedRedeemFund.value == null) 3 else 4)
     }
 
     @Subscribe(sticky = true)

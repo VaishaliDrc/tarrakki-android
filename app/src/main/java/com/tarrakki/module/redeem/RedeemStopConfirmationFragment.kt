@@ -126,5 +126,10 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
          */
         @JvmStatic
         fun newInstance(basket: Bundle) = RedeemStopConfirmationFragment().apply { arguments = basket }
+
+        @JvmStatic
+        fun newInstance(isRedeemReq: Boolean) = RedeemStopConfirmationFragment().apply {
+            arguments = Bundle().apply { putBoolean(IS_REDEEM_REQ, isRedeemReq) }
+        }
     }
 }

@@ -11,7 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:src="@drawable/ic_action_cart" />
+        android:src="@drawable/ic_action_cart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvCartCount"
@@ -24,6 +28,8 @@
         android:textColor="@android:color/white"
         app:layout_constraintCircle="@id/ivCart"
         app:layout_constraintCircleAngle="45"
-        app:layout_constraintCircleRadius="16dp" />
+        app:layout_constraintCircleRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

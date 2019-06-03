@@ -45,8 +45,8 @@
                 <com.mikhaellopez.circularprogressbar.CircularProgressBar
                     android:id="@+id/cpPortfolio"
                     returnpercentage="@{vm.portfolioDetails.totalReturnPercentage}"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="@dimen/_140sdp"
+                    android:layout_height="@dimen/_140sdp"
                     android:visibility="@{vm.portfolioVisibility}"
                     app:cpb_progressbar_width="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/homeView"
@@ -89,7 +89,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.45"
                     app:price="@{vm.portfolioDetails.currentValue}"
-                    tools:text="@string/dummy" />
+                    tools:text="@string/dummy1" />
 
                 <TextView
                     android:id="@+id/tvViewPortfolio"
@@ -200,7 +200,7 @@
                 <LinearLayout
                     android:id="@+id/ll_complete_verification"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
@@ -301,6 +301,7 @@
                                 android:paddingTop="@dimen/space_8"
                                 android:paddingEnd="@dimen/space_8"
                                 android:paddingBottom="@dimen/space_8"
+                                android:singleLine="true"
                                 android:text="Check Now"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                                 android:textColor="@color/white" />
