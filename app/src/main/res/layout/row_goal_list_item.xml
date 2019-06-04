@@ -21,32 +21,29 @@
         <ImageView
             android:id="@+id/ivItem"
             imgUrl="@{goal.goalImage}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:adjustViewBounds="true"
-            android:paddingBottom="@dimen/space_20"
+            app:layout_constraintBottom_toTopOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/emergency_fund" />
-
+        <!--android:textAppearance="@style/TextAppearance.AppCompat.Caption"-->
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
             android:gravity="center"
             android:maxLines="2"
             android:minLines="2"
             android:text="@{goal.goal}"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/semi_black"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivItem"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1"
             tools:text="Wealth creation" />
 
     </android.support.constraint.ConstraintLayout>

@@ -46,9 +46,7 @@ class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBi
     }
 
     private fun setAdapter() {
-        pager_intro?.setPageAdapter(R.layout.layout_introducation_item,
-                getViewModel().getIntroductionList()) { binder: LayoutIntroducationItemBinding,
-                                                        item: IntroducationVM.Introduction ->
+        pager_intro?.setPageAdapter(R.layout.layout_introducation_item, getViewModel().getIntroductionList()) { binder: LayoutIntroducationItemBinding, item: IntroducationVM.Introduction ->
             binder.vm = item
             binder.executePendingBindings()
         }

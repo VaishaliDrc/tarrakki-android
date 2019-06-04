@@ -98,13 +98,15 @@
 
         <TextView
             android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
+            android:gravity="start"
             android:text="@{widget.startDate}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:visibility="@{widget.hasSIP}"
+            app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toEndOf="@id/tvDateL"
             app:layout_constraintTop_toBottomOf="@+id/tvSIP"
             tools:text="30/03/2019" />
@@ -137,9 +139,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="50"
             app:percentageGuideline="@{widget.isGuideline==true?0.5f:1.0f}"
-            tools:percentageGuideline="0.5" />
+            tools:layout_constraintGuide_percent="0.5" />
 
 
         <TextView
@@ -148,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_16"
             android:background="@drawable/shape_edt_gray_round"
-            android:paddingStart="@dimen/space_12"
+            android:paddingStart="@dimen/_8sdp"
             android:paddingTop="@dimen/space_4"
             android:paddingEnd="@dimen/space_12"
             android:paddingBottom="@dimen/space_4"
@@ -156,17 +157,18 @@
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:visibility="@{widget.haveSIPAndLumpsum}"
-            app:layout_constraintStart_toEndOf="@id/guideline6"
+            app:layout_constraintStart_toStartOf="@id/tvLumpsumAmount"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
         <TextView
             android:id="@+id/tvLumpsumAmount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/space_8"
             android:fontFamily="@string/returns_sysmbol"
-            android:paddingStart="@dimen/space_4"
-            android:paddingEnd="@dimen/space_4"
+            android:paddingStart="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_8sdp"
             android:text="@{widget.lumpsumAmount}"
             android:textAllCaps="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
@@ -180,7 +182,6 @@
         <View
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="@dimen/space_8"
             android:background="@color/darker_gray"
             android:visibility="@{widget.haveSIPAndLumpsum}"
             app:layout_constraintBottom_toBottomOf="@id/cbSIP"

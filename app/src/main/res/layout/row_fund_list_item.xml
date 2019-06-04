@@ -80,10 +80,12 @@
 
         <TextView
             android:id="@+id/tvReturnSinceLaunchL"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:text="@string/since_launch_sl"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvReturnSinceLaunch"
             tools:text="Since Launch (SL)" />
@@ -164,7 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:text="@string/three_y_fund"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
@@ -172,18 +174,19 @@
 
         <TextView
             android:id="@+id/tv3YFund"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:text="@{fund.threeYearOfFundReturn}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintStart_toEndOf="@id/tv3YFundL"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
             tools:text="52.20%" />
-
 
         <TextView
             android:id="@+id/tv3YFDL"
@@ -191,41 +194,40 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:text="@string/three_y_fd"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.41"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
             tools:text="Fixed Deposit:" />
 
         <TextView
             android:id="@+id/tv3YFD"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
             android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:text="@{fund.FDReturn}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/black"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnInvest"
             app:layout_constraintStart_toEndOf="@id/tv3YFDL"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"
             tools:text="10.85%" />
 
         <Button
             android:id="@+id/btnInvest"
-            android:layout_width="72dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="@dimen/space_4"
+            android:layout_width="@dimen/_66sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_1"
             android:background="@drawable/shape_btn_idle_bg"
             android:fontFamily="@font/lato_semibold"
             android:text="@string/invest"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@android:color/white"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mDivider"

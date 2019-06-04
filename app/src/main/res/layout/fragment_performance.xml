@@ -278,6 +278,7 @@
                     android:text="@string/if_you_had_invested"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/semi_black"
+                    app:layout_constraintEnd_toStartOf="@id/tvOverL"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvCalculateL" />
 
