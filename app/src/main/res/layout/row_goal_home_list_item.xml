@@ -20,22 +20,23 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="8dp"
-            tools:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_marginEnd="8dp">
 
             <ImageView
                 android:id="@+id/ivItem"
                 imgUrl="@{widget.goalImage}"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
-                android:paddingBottom="@dimen/space_20"
+                app:layout_constraintBottom_toTopOf="@id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/wealth_creation" />
 
             <TextView
@@ -52,8 +53,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1"
                 tools:text="Wealth creation" />
 
         </android.support.constraint.ConstraintLayout>

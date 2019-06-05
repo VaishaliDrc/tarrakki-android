@@ -14,16 +14,16 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="@dimen/default_space"
             tools:context=".module.bankmandate.DownloadBankMandateFromFragment">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@id/lyt_btn"
+                android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:orientation="vertical"
@@ -39,89 +39,71 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@id/lytDownloadContent"
-                    android:layout_below="@id/tvDownloadTitle"
+                    android:layout_height="@dimen/_188sdp"
                     android:layout_marginTop="@dimen/default_space">
 
                     <WebView
                         android:id="@+id/mWebView"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_188sdp" />
+                        android:layout_height="match_parent" />
 
                     <ProgressBar
                         android:id="@+id/progressBar"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
                 </FrameLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/lytDownloadContent"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_8"
-                        android:fontFamily="@font/lato_semibold"
-                        android:text="@string/please_look_at_the_pre_filled"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_12"
-                        android:fontFamily="@font/lato_semibold"
-                        android:text="@string/sign_scan_and_upload"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:id="@+id/lyt_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                    android:layout_marginTop="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/please_look_at_the_pre_filled"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <TextView
-                    android:id="@+id/tvInstruction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/instruction" />
-
-                <Button
-                    android:id="@+id/btnMandateSendEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:background="@drawable/shape_btn_idle_bg"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="@string/send_nach_mandate_form_email"
-                    android:textColor="@color/white" />
+                    android:layout_marginTop="@dimen/space_12"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/sign_scan_and_upload"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
-                <Button
-                    android:id="@+id/btnDownload"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginBottom="@dimen/space_3"
-                    android:background="@drawable/shape_btn_idle_bg"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="@string/download_nach_mandate_form"
-                    android:textColor="@color/white" />
             </LinearLayout>
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/tvInstruction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:text="@string/instruction" />
+
+            <Button
+                android:id="@+id/btnMandateSendEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="@dimen/_12sdp"
+                android:text="@string/send_nach_mandate_form_email"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btnDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_3"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:textSize="@dimen/_12sdp"
+                android:text="@string/download_nach_mandate_form"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
     </ScrollView>
 </layout>

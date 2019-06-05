@@ -29,7 +29,7 @@ class RaiseTicketVM : FragmentViewModel() {
     val transactionData = ObservableField<TransactionApiResponse.Transaction>()
 
     val transactionVisibility = ObservableField(View.VISIBLE)
-    val transactionVisibiSwitch = ObservableField(true)
+    val transactionVisibiSwitch = ObservableField(false)
     val transaction = ObservableField("")
     val description = ObservableField("")
     val imgName = ObservableField("")

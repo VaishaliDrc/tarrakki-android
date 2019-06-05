@@ -72,7 +72,7 @@
                         android:checked="@={vm.transactionVisibiSwitch}"
                         android:textOff=""
                         android:textOn=""
-                        tools:checked="true" />
+                        tools:checked="false" />
 
                 </RelativeLayout>
 

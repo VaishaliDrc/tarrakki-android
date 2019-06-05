@@ -40,8 +40,8 @@
                 <ImageView
                     android:id="@+id/ivItem"
                     imgUrl="@{vm.secondaryCategoryImage}"
-                    android:layout_width="108dp"
-                    android:layout_height="108dp"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/shape_section_item_bg"
                     android:paddingBottom="@dimen/space_32"
@@ -79,8 +79,8 @@
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivItem"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="AGGRESSIVE" />
 
                 <TextView
@@ -98,24 +98,25 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivItem"
                     app:layout_constraintTop_toBottomOf="@id/tvRiskDetails">
 
                     <TextView
                         android:id="@+id/tvRiskLevel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_8"
-                        android:layout_marginTop="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_4"
+                        android:layout_weight="1"
                         android:background="@drawable/shape_risk_level_bg"
                         android:drawablePadding="@dimen/space_8"
                         android:fontFamily="@font/lato_semibold"
                         android:gravity="center_vertical"
-                        android:minWidth="94dp"
                         android:paddingStart="@dimen/_8sdp"
                         android:paddingTop="@dimen/_4sdp"
                         android:paddingEnd="@dimen/_8sdp"
@@ -127,19 +128,19 @@
 
                     <TextView
                         android:id="@+id/tvReturnLevel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/space_4"
-                        android:layout_marginTop="@dimen/space_8"
+                        android:layout_weight="1"
                         android:background="@drawable/shape_risk_to_revord_level_bg"
                         android:drawablePadding="@dimen/space_8"
                         android:fontFamily="@font/lato_semibold"
                         android:gravity="center_vertical"
-                        android:minWidth="94dp"
                         android:paddingStart="@dimen/_8sdp"
                         android:paddingTop="@dimen/_4sdp"
                         android:paddingEnd="@dimen/_8sdp"
                         android:paddingBottom="@dimen/_4sdp"
+                        android:singleLine="false"
                         android:textColor="@color/pdlg_color_green"
                         android:textSize="@dimen/_8ssp"
                         tools:drawableStart="@drawable/ic_green_up"
@@ -300,8 +301,8 @@
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_16"
-                android:elevation="2dp"
                 android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
                 android:orientation="vertical">
 
                 <TextView

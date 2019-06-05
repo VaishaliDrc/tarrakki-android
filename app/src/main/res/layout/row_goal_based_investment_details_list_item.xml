@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/space_4"
         android:paddingBottom="@dimen/space_8"
-        tools:layout_marginBottom="@dimen/space_16">
+        tools:layout_margin="@dimen/default_space">
 
         <TextView
             android:id="@+id/tvName"
@@ -96,9 +96,9 @@
                 android:fontFamily="@font/lato_semibold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
+                app:dprice="@{investment.totalInvestment}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvLastPriceL"
-                app:dprice="@{investment.totalInvestment}"
                 tools:text="\u20B939.55" />
 
             <TextView
@@ -120,9 +120,9 @@
                 android:fontFamily="@font/lato_semibold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
+                app:dprice="@{investment.currentValue}"
                 app:layout_constraintStart_toStartOf="@id/tvDayChangeL"
                 app:layout_constraintTop_toBottomOf="@+id/tvDayChangeL"
-                app:dprice="@{investment.currentValue}"
                 tools:text="@string/dummy3" />
 
             <TextView
@@ -187,8 +187,8 @@
                 android:drawablePadding="@dimen/space_4"
                 android:gravity="center"
                 android:text="@string/add"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_9sdp" />
 
             <TextView
                 android:id="@+id/tvRedeem"
@@ -199,8 +199,8 @@
                 android:drawablePadding="@dimen/space_4"
                 android:gravity="center"
                 android:text="@string/redeem"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_9sdp" />
 
             <TextView
                 android:id="@+id/tvStopPortfolio"
@@ -211,8 +211,8 @@
                 android:drawablePadding="@dimen/space_4"
                 android:gravity="center"
                 android:text="@string/stop"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_9sdp"
                 android:visibility="@{investment.isSIP?View.VISIBLE:View.GONE}" />
 
             <TextView
@@ -223,8 +223,8 @@
                 android:drawablePadding="@dimen/space_4"
                 android:gravity="center"
                 android:text="@string/apply_for_debit_cart"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                 android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_9sdp"
                 android:visibility="@{investment.applyForDebitCartBtnVisibility}"
                 app:applyForDebitCart="@{investment.folioData}" />
 

@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_16"
         android:layout_marginBottom="@dimen/space_16"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_margin="@dimen/default_space">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -131,8 +132,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:text="@{widget.sipStartMsg}"
-            android:visibility="@{widget.sipFirstMsgVisibility}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:visibility="@{widget.sipFirstMsgVisibility}"
             tools:text="Your SIP will start on April 28, 2019"
             tools:visibility="visible" />
 

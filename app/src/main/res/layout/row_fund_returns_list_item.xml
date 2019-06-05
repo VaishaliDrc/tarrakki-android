@@ -16,7 +16,7 @@
         android:background="@{fundType.selected ? @drawable/shape_fund_return_selected_bg : @drawable/shape_fund_return_unselected_bg}"
         android:gravity="center"
         android:text="@{fundType.name}"
-        android:textSize="@dimen/sp10"
+        android:textSize="@dimen/_9ssp"
         android:textColor="@android:color/white"
         tools:background="@drawable/shape_fund_return_selected_bg"
         tools:layout_marginEnd="4dp"
