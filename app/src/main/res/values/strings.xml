@@ -691,6 +691,8 @@
     </string>
     <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
+    <string name="redeem_disclaimer">Disclaimer: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Reliance AMC\'s Website (Link to the italics - <a>https://www.reliancemutual.com/ )</a></string>
+    <string name="are_you_sure_you_want_to_redeem">Are you sure you want to redeem ?</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

@@ -56,13 +56,26 @@
                     android:layout_marginStart="@dimen/space_16"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="@dimen/space_16"
-                    android:layout_marginBottom="@dimen/space_16"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/when_does_my_portfolio_update_here"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorAccent"
                     android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvWhen"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_16"
+                    android:layout_marginBottom="@dimen/space_16"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:text="@string/redeem_disclaimer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/notes_color"
+                    android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
 
                 <TextView
                     android:layout_width="wrap_content"

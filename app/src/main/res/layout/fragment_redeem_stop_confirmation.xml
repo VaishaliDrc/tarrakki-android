@@ -58,9 +58,10 @@
                 android:layout_margin="@dimen/_16sdp"
                 android:fontFamily="@font/lato_semibold"
                 android:gravity="center"
-                android:text="@string/are_you_sure"
+                android:text="@{vm.isRedeemReq?@string/are_you_sure_you_want_to_redeem:@string/are_you_sure}"
                 android:textColor="@color/black"
-                app:layout_constraintBottom_toTopOf="@id/btnYes" />
+                app:layout_constraintBottom_toTopOf="@id/btnYes"
+                tools:text="@string/are_you_sure" />
 
             <Button
                 android:id="@+id/btnYes"

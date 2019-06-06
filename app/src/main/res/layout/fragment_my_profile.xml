@@ -585,7 +585,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/nominee_relationship"
+                    android:text="@string/relationship"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black" />
 
