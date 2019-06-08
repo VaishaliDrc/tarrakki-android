@@ -1,8 +1,11 @@
 package com.tarrakki.module.intro
 
+import android.arch.lifecycle.Observer
 import android.content.Intent
+import com.tarrakki.BuildConfig
 import com.tarrakki.IS_FROM_INTRO
 import com.tarrakki.R
+import com.tarrakki.checkAppUpdate
 import com.tarrakki.databinding.ActivityInroductionBinding
 import com.tarrakki.databinding.LayoutIntroducationItemBinding
 import com.tarrakki.module.login.LoginActivity
@@ -10,8 +13,7 @@ import com.tarrakki.module.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_inroduction.*
 import org.supportcompact.CoreActivity
 import org.supportcompact.adapters.setPageAdapter
-import org.supportcompact.ktx.setFirsttimeInstalled
-import org.supportcompact.ktx.startActivity
+import org.supportcompact.ktx.*
 
 class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBinding>() {
 
@@ -43,6 +45,24 @@ class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBi
             startActivity(i)
             finish()
         }
+        checkAppUpdate(true).observe(this, Observer {
+            it?.data?.let {
+                val versionName = BuildConfig.VERSION_NAME
+                if (!versionName.equals(it.version, true)) {
+                    if (it.forceUpdate == true) {
+                        appForceUpdate(getString(R.string.app_update), "${it.message}", getString(R.string.update)) {
+                            openPlayStore()
+                        }
+                    } else {
+                        confirmationDialog(getString(R.string.app_update), "${it.message}", btnNegative = getString(R.string.cancel), btnPositive = getString(R.string.update),
+                                btnPositiveClick = {
+                                    openPlayStore()
+                                }
+                        )
+                    }
+                }
+            }
+        })
     }
 
     private fun setAdapter() {

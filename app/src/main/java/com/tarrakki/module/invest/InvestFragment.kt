@@ -8,24 +8,27 @@ import android.os.Handler
 import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import com.tarrakki.*
+import com.tarrakki.R
+import com.tarrakki.addFundPortfolioDialog
+import com.tarrakki.addToCart
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
+import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.dismissKeyboard
+import org.supportcompact.ktx.parseToPercentageOrNA
+import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
 
@@ -98,7 +101,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                             for (folioNo in foliosList) {
                                 folios.add(FolioData(null, null, null, folioNo))
                             }
-                            context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                            context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { folioNo, amountLumpsum, amountSIP ->
                                 addToCart(item.id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -107,7 +110,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                                         })
                             }
                         } else {
-                            context?.investDialog(item.id, item.validminSIPAmount, item.validminlumpsumAmount) { amountLumpsum, amountSIP, fundId ->
+                            context?.investDialog(item.id, item.validminSIPAmount, item.validminlumpsumAmount, item.bseData) { amountLumpsum, amountSIP, fundId ->
                                 addToCart(fundId, amountSIP, amountLumpsum).observe(this,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {

@@ -225,7 +225,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.ivDelete.setOnClickListener {
                         context?.confirmationDialog(getString(R.string.cart_delete), btnPositiveClick = {
                             getViewModel().deleteGoalFromCart(item.id.toString()).observe(this, Observer { apiResponse ->
-                                getViewModel().funds.removeAt(position)
+                                getViewModel().funds.remove(item)
                                 App.INSTANCE.cartCount.value = getViewModel().funds.size
                                 getViewModel().cartUpdate.value = null
                                 updateCartUI()

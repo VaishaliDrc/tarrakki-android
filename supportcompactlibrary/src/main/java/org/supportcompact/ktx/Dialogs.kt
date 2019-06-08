@@ -50,6 +50,45 @@ fun Context.simpleAlert(title: String, msg: String, positiveButton: (() -> Unit)
     mDialog.create().show()*/
 }
 
+fun Context.simpleAlert(title: String, msg: String, btnTitle: String, positiveButton: (() -> Unit)? = null) {
+    val mDialog = PrettyDialog(this)
+    mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
+    mDialog.setIcon(R.drawable.ic_info_white)
+            .setTitle(title)
+            .setMessage(msg)
+            .addButton(btnTitle, R.color.white, R.color.btn_bg_color) {
+                positiveButton?.invoke()
+                mDialog.dismiss()
+            }.show()
+    /*val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(getString(R.string.ok)) { _: DialogInterface, _: Int ->
+                positiveButton?.invoke()
+            }
+    mDialog.create().show()*/
+}
+
+fun Context.appForceUpdate(title: String, msg: String, btnTitle: String, positiveButton: (() -> Unit)? = null) {
+    val mDialog = PrettyDialog(this)
+    mDialog.setCanceledOnTouchOutside(false)
+    mDialog.setCancelable(false)
+    mDialog.setIcon(R.drawable.ic_info_white)
+            .setTitle(title)
+            .setMessage(msg)
+            .addButton(btnTitle, R.color.white, R.color.btn_bg_color) {
+                positiveButton?.invoke()
+            }.show()
+    /*val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(getString(R.string.ok)) { _: DialogInterface, _: Int ->
+                positiveButton?.invoke()
+            }
+    mDialog.create().show()*/
+}
+
 fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)

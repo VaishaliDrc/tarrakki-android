@@ -46,7 +46,9 @@ data class CartData(
                 @SerializedName("tarrakki_zyaada")
                 val tarrakkiZyaada: TarrakkiZyaada?,
                 @SerializedName("folio_number")
-                val folioNumber: String
+                val folioNumber: String,
+                @SerializedName("bse_data")
+                val bseData: BSEData?
         ) : BaseObservable(), Serializable {
 
             @SerializedName("lumpsum_amount")

@@ -66,7 +66,9 @@ data class UserPortfolioResponse(
                     @SerializedName("units")
                     val totalUnits: Double?,
                     @SerializedName("reliance_debit_fund")
-                    val relianceDebitFund: Boolean?
+                    val relianceDebitFund: Boolean?,
+                    @SerializedName("bse_data")
+                    val bseData: BSEData?
             ) {
 
                 var redeemedStatus: RedeemedStatus? = null
@@ -251,7 +253,9 @@ data class UserPortfolioResponse(
                 @SerializedName("tz_id")
                 val tzId: String?,
                 @SerializedName("reliance_debit_fund")
-                val relianceDebitFund: Boolean?
+                val relianceDebitFund: Boolean?,
+                @SerializedName("bse_data")
+                val bseData: BSEData?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null
@@ -435,7 +439,9 @@ data class UserPortfolioResponse(
                 @SerializedName("units")
                 val totalUnits: Double?,
                 @SerializedName("reliance_debit_fund")
-                val relianceDebitFund: Boolean?
+                val relianceDebitFund: Boolean?,
+                @SerializedName("bse_data")
+                val bseData: BSEData?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null

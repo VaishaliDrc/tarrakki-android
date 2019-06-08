@@ -145,6 +145,8 @@ class BankAccountsVM : FragmentViewModel() {
             json.addProperty("address_type", kycData.addressType)
             json.addProperty("source_of_income", kycData.sourceOfIncome)
             json.addProperty("income_slab", kycData.taxSlab)
+            json.addProperty("kyc_mode", kycData.kycMode)
+            json.addProperty("in_person_verification", kycData.inPersonVerification)
             e("Plain Data=>", json.toString())
             val data = AES.encrypt(json.toString())
             e("Encrypted Data=>", data)

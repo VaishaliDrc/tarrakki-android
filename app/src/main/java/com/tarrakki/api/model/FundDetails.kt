@@ -23,7 +23,9 @@ data class FundDetails(
         @SerializedName("top_ten_holdings")
         val topTenHolding: Any?,
         @SerializedName("folio_list")
-        val folios: List<String>?
+        val folios: List<String>?,
+        @SerializedName("bse_data")
+        val bseData: BSEData?
 ) {
 
     var topTenHoldings: ArrayList<TopTenHolding>? = null
@@ -553,3 +555,42 @@ data class ReturnsHistory(
         @SerializedName("v")
         val value: Double?
 )
+
+data class BSEData(
+        @SerializedName("lumpsum_allowed")
+        val lumpsumAllowed: String?,
+        @SerializedName("lumpsum_check_flag")
+        val lumpsumCheckFlag: Boolean?,
+        @SerializedName("lumpsum_list")
+        val lumpsumList: List<Lumpsum>?,
+        @SerializedName("sip_allowed")
+        val sipAllowed: String?,
+        @SerializedName("sip_check_flag")
+        val sipCheckFlag: Boolean?,
+        @SerializedName("sip_list")
+        val sipList: List<Sip>?
+) {
+    var isAdditional: Boolean? = false
+
+    data class Sip(
+            @SerializedName("max_amount")
+            val maxAmount: BigInteger?,
+            @SerializedName("min_amount")
+            val minAmount: BigInteger?,
+            @SerializedName("sip_additional_min_amount")
+            val sipAdditionalMinAmount: BigInteger?,
+            @SerializedName("sip_allowed")
+            val sipAllowed: String?
+    )
+
+    data class Lumpsum(
+            @SerializedName("lumpsum_additional_min_amount")
+            val lumpsumAdditionalMinAmount: BigInteger?,
+            @SerializedName("lumpsum_allowed")
+            val lumpsumAllowed: String?,
+            @SerializedName("max_amount")
+            val maxAmount: BigInteger?,
+            @SerializedName("min_amount")
+            val minAmount: BigInteger?
+    )
+}

@@ -47,7 +47,9 @@ data class TarrakkiZyaadaResponse(
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("folio_list")
-                val folios: List<String>?
+                val folios: List<String>?,
+                @SerializedName("bse_data")
+                val bseData: BSEData?
         ) {
 
             var validminSIPAmount = BigInteger.ZERO

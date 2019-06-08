@@ -192,10 +192,6 @@
         <item>4 Years</item>
         <item>5 Years</item>
         <item>6 Years</item>
-        <item>7 Years</item>
-        <item>8 Years</item>
-        <item>9 Years</item>
-        <item>10 Years</item>
         <item>Since Inception</item>
     </string-array>
 
@@ -493,7 +489,7 @@
     <string name="alert_req_place_birth">Please Enter your Place of Birth.</string>
     <string name="alert_req_source_income">Please Select your Primary Source of Income.</string>
     <string name="alert_req_income_slab">Please Select your Income Slab.</string>
-    <string name="alert_only_india">We allowing only resident of India.</string>
+    <string name="alert_only_india">Currently, the Tarrakki app is only available for Indian Residents.</string>
     <string name="alert_req_email">Please enter Email Address.</string>
     <string name="alert_valid_email">Please enter a valid Email Address.</string>
     <string name="alert_req_otp">Please enter the OTP first for Verification.</string>
@@ -507,7 +503,7 @@
     <string name="alert_profile_success">Your Profile Picture has been Updated Successfully.</string>
     <string name="alert_signtuare_success">Your Signature has been Updated Successfully.</string>
     <string name="alert_req_answers">All the questions are mandatory. Please answer them to continue.</string>
-    <string name="alert_valid_above">Please enter a valid number above</string>
+    <string name="alert_valid_above">Please enter a valid number equal to or greater than</string>
     <string name="alert_valid_percentage">Please enter a valid percentage between</string>
     <string name="alert_valid_years">Please enter a valid number of years between</string>
     <string name="alert_valid_goal_lumpsum">The lumpsum amount can not be equal to or greater than the goal\'s target amount.</string>
@@ -691,8 +687,11 @@
     </string>
     <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
-    <string name="redeem_disclaimer">Disclaimer: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Reliance AMC\'s Website (Link to the italics - <a>https://www.reliancemutual.com/ )</a></string>
-    <string name="are_you_sure_you_want_to_redeem">Are you sure you want to redeem ?</string>
+    <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Reliance AMC\'s Website (Link to the italics - <a>https://www.reliancemutual.com/ )</a></string>
+    <string name="are_you_sure_you_want_to_redeem">Are you sure you want to redeem?</string>
+    <string name="are_you_sure_you_want_to_stop">Are you sure you want to stop?</string>
+    <string name="redemption">Redemption</string>
+    <string name="app_update">App Update</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

@@ -103,7 +103,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         for (folio in item.folioList) {
                             folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
                         }
-                        context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
+                        context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
                             addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, item.tzId).observe(
                                     this,
                                     Observer { response ->

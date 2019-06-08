@@ -197,6 +197,9 @@ data class KYCData(var pan: String) : BaseObservable() {
             notifyPropertyChanged(BR.countryOfIssue3)
         }
 
+    var kycMode: String = ""
+    var inPersonVerification: String = ""
+
     constructor(pan: String, email: String, mobile: String) : this(pan) {
         this.email = email
         this.mobile = mobile
@@ -265,6 +268,8 @@ fun saveKYCData(kycData: KYCData): MutableLiveData<ApiResponse> {
     json.addProperty("address_type", kycData.addressType)
     json.addProperty("source_of_income", kycData.sourceOfIncome)
     json.addProperty("income_slab", kycData.taxSlab)
+    json.addProperty("kyc_mode", kycData.kycMode)
+    json.addProperty("in_person_verification", kycData.inPersonVerification)
     e("Plain Data=>", json.toString())
     val data = AES.encrypt(json.toString())
     e("Encrypted Data=>", data)
@@ -336,6 +341,8 @@ fun getKYCData(): MutableLiveData<KYCData> {
                             kycData.countryOfIssue3 = jsonData.optString("country_of_issue3")
                             kycData.pincode = jsonData.optString("pincode")
                             kycData.nomineeName = jsonData.optString("nominee_name")
+                            kycData.kycMode = jsonData.optString("kyc_mode")
+                            kycData.inPersonVerification = jsonData.optString("in_person_verification")
                             apiResponse.value = kycData
                         } catch (e: Exception) {
                             e.printStackTrace()

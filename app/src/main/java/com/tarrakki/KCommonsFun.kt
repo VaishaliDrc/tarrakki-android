@@ -235,6 +235,14 @@ fun alertLumpsumMin(amount: String): String {
     return "The lumpsum amount must be greater than or equal to $amount."
 }
 
+fun alertLumpsumBetween(min: String, max: String): String {
+    return "The lumpsum amount must be between $min to $max."
+}
+
+fun alertSIPBetween(min: String, max: String): String {
+    return "The SIP amount must be between $min to $max."
+}
+
 fun alertBankMandateMinLimit(): String {
     return "Please enter an amount that is greater than or equal to ${1000.0.toCurrency()}."
 }

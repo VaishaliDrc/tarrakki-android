@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import com.crashlytics.android.Crashlytics
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
@@ -213,6 +212,25 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             it?.let { isRefreshing ->
                 mRefresh?.isRefreshing = false
                 App.INSTANCE.isRefreshing.value = null
+            }
+        })
+
+        checkAppUpdate().observe(this, Observer {
+            it?.data?.let {
+                val versionName = BuildConfig.VERSION_NAME
+                if (!versionName.equals(it.version, true)) {
+                    if (it.forceUpdate == true) {
+                        context?.appForceUpdate(getString(R.string.app_update), "${it.message}", getString(R.string.update)) {
+                            context?.openPlayStore()
+                        }
+                    } else {
+                        context?.confirmationDialog(getString(R.string.app_update), "${it.message}", btnNegative = getString(R.string.cancel), btnPositive = getString(R.string.update),
+                                btnPositiveClick = {
+                                    context?.openPlayStore()
+                                }
+                        )
+                    }
+                }
             }
         })
     }

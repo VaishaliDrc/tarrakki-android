@@ -97,7 +97,7 @@ class OverviewFragment : Fragment() {
                                 for (folioNo in foliosList) {
                                     folios.add(FolioData(null, null, null, folioNo))
                                 }
-                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fundDetailsResponse.bseData) { folioNo, amountLumpsum, amountSIP ->
                                     if (vm.tarrakkiZyaadaId.isNullOrBlank()) {
                                         addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
                                                 Observer { response ->
@@ -115,7 +115,7 @@ class OverviewFragment : Fragment() {
                                     }
                                 }
                             } else {
-                                context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                                context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount, fundDetailsResponse.bseData) { amountLumpsum, amountSIP, fundId ->
                                     if (vm.tarrakkiZyaadaId.isNullOrBlank()) {
                                         addToCart(fundId, amountSIP, amountLumpsum).observe(this,
                                                 Observer { response ->

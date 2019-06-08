@@ -256,6 +256,8 @@ interface WebserviceBuilder {
     @POST("tarrakki/zyaada/redemption/{user_id}")
     fun instaRedeem(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @GET("configurations/get-version-details/android/")
+    fun checkAppUpdate(): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

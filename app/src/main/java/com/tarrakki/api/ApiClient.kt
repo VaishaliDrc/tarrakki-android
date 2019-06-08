@@ -63,9 +63,9 @@ object ApiClient {
     const val IMAGE_BASE_URL = "http://172.10.29.38:8000"
     const val BANK_REDIRECT_URL = "http://172.10.29.38:8000/api/v1/transactions/payment-status/"*/
 
-    /*private const val BASE_URL = "http://172.10.29.36:8002/api/v1/"
-    const val IMAGE_BASE_URL = "http://172.10.29.36:8002"
-    const val BANK_REDIRECT_URL = "http://172.10.29.36:8002/api/v1/transactions/payment-status/"*/
+    /*private const val BASE_URL = "http://172.10.29.36:8005/api/v1/"
+    const val IMAGE_BASE_URL = "http://172.10.29.36:8005"
+    const val BANK_REDIRECT_URL = "http://172.10.29.36:8005/api/v1/transactions/payment-status/"*/
 
     /**
      * Test Url
@@ -93,14 +93,8 @@ object ApiClient {
      **/
     private const val BASE_URL = "https://www.tarrakki.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://www.tarrakki.com/api/v1/transactions/payment-status/" /// Latest url
+    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v1/transactions/payment-status/" /// Latest url
 
-    /**
-     * Live Url
-     **/
-    /*private const val BASE_URL = "http://13.126.236.209:8000/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://13.126.236.209:8000" /// Latest url
-    const val BANK_REDIRECT_URL = "http://13.126.236.209:8000/api/v1/transactions/payment-status/" /// Latest url*/
 
     /**
      * @return [Retrofit] object its single-tone

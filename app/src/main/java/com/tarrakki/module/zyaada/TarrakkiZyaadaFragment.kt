@@ -112,7 +112,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                     returns.add(KeyInfo("1 Year", parseAsNoZiroReturnOrNA(fund.ttrReturn1Yr)))
                     returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn3Yr)))
                     returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn5Yr)))
-                    returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn10Yr)))
+                    //returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn10Yr)))
                     returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.ttrReturnSinceInception)))
                     rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
                         binder.keyInfo = item
@@ -147,7 +147,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                                 for (folioNo in foliosList) {
                                     folios.add(FolioData(null, null, null, folioNo))
                                 }
-                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount) { folioNo, amountLumpsum, amountSIP ->
+                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fund.bseData) { folioNo, amountLumpsum, amountSIP ->
                                     addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
                                             Observer { response ->
                                                 context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -156,7 +156,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                                             })
                                 }
                             } else {
-                                context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount) { amountLumpsum, amountSIP, fundId ->
+                                context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount, fund.bseData) { amountLumpsum, amountSIP, fundId ->
                                     addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
                                             Observer { response ->
                                                 context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -177,7 +177,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                     tvDurations?.setOnClickListener {
                         context?.showListDialog(R.string.duration, durationsArr) { item: String, which: Int ->
                             tvDurations.text = item
-                            if (which == 10) {//Since Inception
+                            if (which == 6) {//Since Inception
                                 val returnSince = fund.ttrReturnSinceInception?.toDoubleOrNull()
                                         ?: 0.0
                                 val startDate = fund.returnsHistory?.minBy { it.date }?.date

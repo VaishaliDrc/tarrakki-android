@@ -735,18 +735,20 @@ fun Context.investGoalDialog(goal: Goal.Data.GoalData? = null, onInvest: ((amoun
     mDialog.show()
 }
 
-fun Context.investDialog(fundId: Int, minSIPAmount: BigInteger,
-                         minLumsumpAmount: BigInteger,
-                         onInvest: ((amountLumpsum: String, amountSIP: String, fundId: Int) -> Unit)? = null) {
+fun Context.investDialog(fundId: Int, minSIPAmount: BigInteger, minLumsumpAmount: BigInteger, bseData: BSEData?, onInvest: ((amountLumpsum: String, amountSIP: String, fundId: Int) -> Unit)? = null) {
     val mBinder = DialogInvestBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
+    bseData?.let {
+        mBinder.enableLumpsum = "Y".equals(it.lumpsumAllowed, true)
+        mBinder.enableSIP = "Y".equals(it.sipAllowed, true)
+    }
     mBinder.btnInvest.setOnClickListener {
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
-        if (this.isInvestDialogValid(minSIPAmount, minLumsumpAmount, sipAmount, lumpsumAmount)) {
+        if (this.isInvestDialogValid(minSIPAmount, minLumsumpAmount, sipAmount, lumpsumAmount, bseData)) {
             mDialog.dismiss()
             onInvest?.invoke(lumpsumAmount.toString(),
                     sipAmount.toString(),
@@ -774,6 +776,13 @@ fun Context.investCartDialog(item: CartData.Data.OrderLine, onInvest: ((amountLu
     mBinder.edtLumpsum.applyCurrencyFormatPositiveOnly()
     mBinder.edtSIPAmount.applyCurrencyFormatPositiveOnly()
     mBinder.edtLumpsum.setSelection(mBinder.edtLumpsum.length())
+    if (item.bseData != null) {
+        mBinder.enableSIP = "Y".equals(item.bseData.sipAllowed, true)
+        mBinder.enableLumpsum = "Y".equals(item.bseData.lumpsumAllowed, true)
+    } else {
+        mBinder.enableSIP = true
+        mBinder.enableLumpsum = true
+    }
 
     mBinder.btnInvest.setText(R.string.update)
     mBinder.btnInvest.setOnClickListener {
@@ -781,7 +790,7 @@ fun Context.investCartDialog(item: CartData.Data.OrderLine, onInvest: ((amountLu
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
         if (isLumpsumAndSIPAmountValid(sipAmount, lumpsumAmount)) {
-            if (this.isInvestDialogValid(item.validminSIPAmount, item.validminlumpsumAmount, sipAmount, lumpsumAmount)) {
+            if (this.isInvestDialogValid(item.validminSIPAmount, item.validminlumpsumAmount, sipAmount, lumpsumAmount, item.bseData)) {
                 mDialog.dismiss()
                 onInvest?.invoke(lumpsumAmount.toString(), sipAmount.toString())
             }
@@ -836,7 +845,7 @@ fun Context.investmentStragiesDialog(
 }
 
 fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
-                                   minAmountLumpsum: BigInteger, minAmountSIP: BigInteger,
+                                   minAmountLumpsum: BigInteger, minAmountSIP: BigInteger, bseData: BSEData?,
                                    onAdd: ((portfolio: String, amountLumpsum: BigInteger,
                                             amountSIP: BigInteger) -> Unit)? = null) {
     val mBinder = DialogAddFundPortfolioBinding.inflate(LayoutInflater.from(this))
@@ -875,7 +884,8 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
-        if (this.isInvestDialogValid(minAmountSIP, minAmountLumpsum, sipAmount, lumpsumAmount)) {
+        bseData?.isAdditional = mBinder.rbCurrent.isChecked
+        if (this.isInvestDialogValid(minAmountSIP, minAmountLumpsum, sipAmount, lumpsumAmount, bseData)) {
             mDialog.dismiss()
             val folioNo = if (!mBinder.rbNew.isChecked) {
                 mBinder.edtChooseFolio.text.toString()
@@ -1335,25 +1345,94 @@ fun String.toYearWord(): String {
 fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                                 minLumsumpAmount: BigInteger,
                                 sipAmount: BigInteger,
-                                lumpsumAmount: BigInteger): Boolean {
+                                lumpsumAmount: BigInteger,
+                                bseData: BSEData? = null): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
         this.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump))
         return false
     }
     if (lumpsumAmount != BigInteger.ZERO) {
-        if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
-            if (lumpsumAmount < minLumsumpAmount) {
-                this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
+        val amountRange = bseData?.lumpsumList?.filter { "Y".equals(it.lumpsumAllowed, true) }
+        if ("Y".equals(bseData?.lumpsumAllowed, true) && bseData?.lumpsumCheckFlag == true && amountRange?.isNotEmpty() == true) {
+            if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+                val minLumpsum = if (bseData.isAdditional == true) {
+                    amountRange.minBy {
+                        it.lumpsumAdditionalMinAmount ?: BigInteger.ZERO
+                    }?.lumpsumAdditionalMinAmount
+                } else {
+                    amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount
+                }
+                val maxLumpsumUnlimited = amountRange.find { it.maxAmount ?: BigInteger.ZERO == BigInteger.ZERO }?.maxAmount
+                val maxLumpsum = amountRange.maxBy { it.maxAmount ?: BigInteger.ZERO }?.maxAmount
+                if (minLumpsum != null && maxLumpsum != null) {
+                    if (maxLumpsum == BigInteger.ZERO || maxLumpsumUnlimited == BigInteger.ZERO) {
+                        if (lumpsumAmount < minLumpsum) {
+                            this.simpleAlert(alertLumpsumMin(minLumpsum.toDouble().toCurrency()))
+                            return false
+                        }
+                    } else {
+                        if (lumpsumAmount < minLumpsum || lumpsumAmount > maxLumpsum) {
+                            this.simpleAlert(alertLumpsumBetween(minLumpsum.toDouble().toCurrency(), maxLumpsum.toDouble().toCurrency()))
+                            return false
+                        }
+                    }
+                } else if (lumpsumAmount < minLumsumpAmount) {
+                    this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
+                    return false
+                }
+            } else {
+                this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
                 return false
             }
         } else {
-            this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
-            return false
+            if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+                if (lumpsumAmount < minLumsumpAmount) {
+                    this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
+                    return false
+                }
+            } else {
+                this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
+                return false
+            }
         }
 
     }
     if (sipAmount != BigInteger.ZERO) {
-        if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+        val amountRange = bseData?.sipList?.filter { "Y".equals(it.sipAllowed, true) }
+        if ("Y".equals(bseData?.sipAllowed, true) && bseData?.sipCheckFlag == true && amountRange?.isNotEmpty() == true) {
+
+            if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+                val minSip = if (bseData.isAdditional == true) {
+                    amountRange.minBy {
+                        it.sipAdditionalMinAmount ?: BigInteger.ZERO
+                    }?.sipAdditionalMinAmount
+                } else {
+                    amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount
+                }
+                val maxSipUnlimited = amountRange.find { it.maxAmount ?: BigInteger.ZERO == BigInteger.ZERO }?.maxAmount
+                val maxSip = amountRange.maxBy { it.maxAmount ?: BigInteger.ZERO }?.maxAmount
+                if (minSip != null && maxSip != null) {
+                    if (maxSip == BigInteger.ZERO || maxSipUnlimited == BigInteger.ZERO) {
+                        if (sipAmount < minSip) {
+                            this.simpleAlert(alertSIPMin(minSip.toDouble().toCurrency()))
+                            return false
+                        }
+                    } else {
+                        if (sipAmount < minSip || sipAmount > maxSip) {
+                            this.simpleAlert(alertSIPBetween(minSip.toDouble().toCurrency(), maxSip.toDouble().toCurrency()))
+                            return false
+                        }
+                    }
+                } else if (sipAmount < minSIPAmount) {
+                    this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
+                    return false
+                }
+            } else {
+                this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
+                return false
+            }
+
+        } else if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
             if (sipAmount < minSIPAmount) {
                 this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
                 return false

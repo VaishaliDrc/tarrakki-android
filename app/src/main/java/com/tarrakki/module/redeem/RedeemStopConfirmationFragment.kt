@@ -32,7 +32,7 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
         get() = true
 
     override val title: String
-        get() = getString(R.string.redeem)
+        get() = getString(R.string.redemption)
 
     override fun getLayout(): Int {
         return R.layout.fragment_redeem_stop_confirmation

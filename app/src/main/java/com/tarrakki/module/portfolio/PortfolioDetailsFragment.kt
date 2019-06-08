@@ -110,7 +110,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                     for (folio in item.folioList) {
                         folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
                     }
-                    context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount) { portfolio, amountLumpsum, amountSIP ->
+                    context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
                         addToCartGoalPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, getViewModel().goalInvestment.get()?.goalId).observe(
                                 this,
                                 Observer { response ->

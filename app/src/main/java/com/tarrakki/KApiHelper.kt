@@ -449,6 +449,8 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.state = data.appperstate
                             kycData.country = data.appperctry
                             kycData.addressType = "01"
+                            kycData.kycMode = data.appkycmode
+                            kycData.inPersonVerification = data.appipvflag
                             apiResponse.value = kycData
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
@@ -666,4 +668,29 @@ fun closeTicketApi(ticketId: String) {
                 }
             }
     )
+}
+
+fun checkAppUpdate(showProcess: Boolean = false): MutableLiveData<AppUpdateResponse> {
+    if (showProcess)
+        EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<AppUpdateResponse>()
+    subscribeToSingle(ApiClient.getApiClient().create(WebserviceBuilder::class.java).checkAppUpdate(),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    if (showProcess)
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o.status?.code == 1) {
+                        o.printResponse()
+                        val apiClient = o.data?.parseTo<AppUpdateResponse>()
+                        apiResponse.postValue(apiClient)
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    if (showProcess)
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.printStackTrace()
+                }
+            })
+    return apiResponse
 }
