@@ -25,8 +25,13 @@ data class FundDetails(
         @SerializedName("folio_list")
         val folios: List<String>?,
         @SerializedName("bse_data")
-        val bseData: BSEData?
+        val bseData: BSEData?,
+        @SerializedName("lumpsum_additional_min_amount")
+        val lumpsumAdditionalMinAmount: String?
 ) {
+
+    val additionalMinLumpsum: BigInteger
+        get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
 
     var topTenHoldings: ArrayList<TopTenHolding>? = null
         get() = if (field == null) {
@@ -370,6 +375,22 @@ data class FundsDetails(
             return sipAmount
         }
 
+    var additionalSIPAmount: BigInteger = BigInteger.ZERO
+        get() {
+            var sipAmount = BigInteger.valueOf(100)
+            if (iaipAip != null && iaipAip.isNotEmpty()) {
+                val aipAip = iaipAip.filter {
+                    "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                }
+                val maxTenure = aipAip.maxBy { it.minTenure }
+                if (maxTenure != null) {
+                    sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
+                            ?: BigInteger.valueOf(1)
+                }
+            }
+            return sipAmount
+        }
+
     var lumpsumAmount: String = ""
         get() = piMinimumInitial?.toDoubleOrNull()?.toCurrency() ?: "N/A"
 
@@ -455,7 +476,7 @@ data class IaipAip(
         @SerializedName("si_type")
         val siType: String,
         @SerializedName("subsquent_amount")
-        val subsquentAmount: Int
+        val subsquentAmount: String?
 )
 
 data class Benchmark(

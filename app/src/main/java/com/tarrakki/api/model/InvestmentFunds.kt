@@ -57,7 +57,9 @@ data class InvestmentFunds(
             @SerializedName("folio_list")
             val folios: List<String>?,
             @SerializedName("bse_data")
-            val bseData: BSEData?
+            val bseData: BSEData?,
+            @SerializedName("lumpsum_additional_min_amount")
+            val lumpsumAdditionalMinAmount: String?
     ) {
         var FDReturn: String? = null
         //get() = parseToPercentageOrNA(fixedDepositReturn)
@@ -112,8 +114,27 @@ data class InvestmentFunds(
                 return sipAmount
             }
 
+        var additionalSIPAmount: BigInteger = BigInteger.ZERO
+            get() {
+                var sipAmount = BigInteger.valueOf(100)
+                if (iaipAip != null && iaipAip.isNotEmpty()) {
+                    val aipAip = iaipAip.filter {
+                        "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                    }
+                    val maxTenure = aipAip.maxBy { it.minTenure }
+                    if (maxTenure != null) {
+                        sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
+                                ?: BigInteger.valueOf(1)
+                    }
+                }
+                return sipAmount
+            }
+
         var validminlumpsumAmount = BigInteger.ZERO
             get() = piMinimumInitial?.toCurrencyBigInt()
+
+        val additionalMinLumpsum: BigInteger
+            get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
     }
 
     data class FscbiCategory(

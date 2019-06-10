@@ -84,6 +84,7 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
                                 onBack(2)
                         }
                     })
+
                 }
             }
         }

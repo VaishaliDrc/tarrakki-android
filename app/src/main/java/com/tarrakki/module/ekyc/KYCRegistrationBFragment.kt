@@ -4,6 +4,7 @@ package com.tarrakki.module.ekyc
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
 import com.tarrakki.api.model.Country
@@ -51,6 +52,11 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
                 getBinding().kycData = kycData
                 getBinding().executePendingBindings()
                 edtCountry?.text = countries?.firstOrNull { it.code == kycData.birthCountry }?.name
+                if (TextUtils.isEmpty(edtCountry?.text)) {
+                    val item = countries?.first { it.name == "India" }
+                    getViewModel().kycData.value?.birthCountry = item?.code ?: ""
+                    edtCountry?.text = item?.name
+                }
                 getViewModel().sourceOfIncome.set(getViewModel().sourcesOfIncomes.firstOrNull { it.key == kycData.sourceOfIncome }?.value)
                 getViewModel().TAXSlab.set(getViewModel().incomeSlabs.firstOrNull { it.key == kycData.taxSlab }?.value)
             }
@@ -100,7 +106,7 @@ class KYCRegistrationBFragment : CoreFragment<KYCRegistrationBVM, FragmentKycreg
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
                     kycData.pageNo = 3
-                    saveKYCData(kycData).observe(this, android.arch.lifecycle.Observer {
+                    saveKYCData(kycData).observe(this, Observer {
                         startFragment(BankAccountsFragment.newInstance(Bundle().apply { putBoolean(IS_FROM_COMLETE_REGISTRATION, true) }), R.id.frmContainer)
                         post(kycData)
                     })

@@ -311,7 +311,15 @@ class PerformanceFragment : Fragment() {
                     if (foliosList?.isNotEmpty() == true) {
                         val folios: MutableList<FolioData> = mutableListOf()
                         for (folioNo in foliosList) {
-                            folios.add(FolioData(null, null, null, folioNo))
+                            val fData = FolioData(null, null, null, folioNo).apply {
+                                itVM.fundDetailsResponse.value?.fundsDetails?.let {
+                                    additionalSIPMinAmt = it.additionalSIPAmount
+                                }
+                                itVM.fundDetailsResponse.value?.let {
+                                    additionalLumpsumMinAmt = it.additionalMinLumpsum
+                                }
+                            }
+                            folios.add(fData)
                         }
                         context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, itVM.fundDetailsResponse.value?.bseData) { folioNo, amountLumpsum, amountSIP ->
                             if (itVM.tarrakkiZyaadaId.isNullOrBlank()) {

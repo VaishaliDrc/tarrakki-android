@@ -95,7 +95,11 @@ class OverviewFragment : Fragment() {
                             if (foliosList?.isNotEmpty() == true) {
                                 val folios: MutableList<FolioData> = mutableListOf()
                                 for (folioNo in foliosList) {
-                                    folios.add(FolioData(null, null, null, folioNo))
+                                    val fData = FolioData(null, null, null, folioNo).apply {
+                                        additionalSIPMinAmt = fundDetailsResponse.fundsDetails.additionalSIPAmount
+                                        additionalLumpsumMinAmt = fundDetailsResponse.additionalMinLumpsum
+                                    }
+                                    folios.add(fData)
                                 }
                                 context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fundDetailsResponse.bseData) { folioNo, amountLumpsum, amountSIP ->
                                     if (vm.tarrakkiZyaadaId.isNullOrBlank()) {

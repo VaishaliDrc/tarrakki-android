@@ -63,6 +63,7 @@
                     android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
 
                 <TextView
+                    android:id="@+id/tvNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvWhen"
@@ -71,7 +72,6 @@
                     android:layout_marginEnd="@dimen/space_16"
                     android:layout_marginBottom="@dimen/space_16"
                     android:autoLink="web"
-                    android:linksClickable="true"
                     android:text="@string/redeem_disclaimer"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/notes_color"

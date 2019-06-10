@@ -95,15 +95,15 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                 btnSubmit?.setOnClickListener {
                     when {
                         getViewModel().transactionVisibility.get() == View.VISIBLE && getViewModel().transaction.isEmpty() -> {
-                            context?.simpleAlert("Please select transaction")
+                            context?.simpleAlert(getString(R.string.alert_ticket_issue_transaction))
                         }
                         getViewModel().description.isEmpty() -> {
-                            context?.simpleAlert("Please enter description")
+                            context?.simpleAlert(getString(R.string.alert_ticket_issue_description))
                         }
                         else -> {
                             getViewModel().submitTicket(query).observe(this, Observer {
                                 it?.let {
-                                    context?.simpleAlert("Your query has been raised successfully. We will contact you soon.") {
+                                    context?.simpleAlert(getString(R.string.alert_ticket_issued)) {
                                         onBackExclusive(SupportFragment::class.java)
                                     }
                                 }

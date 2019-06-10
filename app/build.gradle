@@ -10,6 +10,14 @@ apply plugin: 'io.fabric'
 
 android {
 
+    signingConfigs {
+        release {
+            storeFile file('/home/jayeshparkariya/JAYESH_BACKUP/Projects/Tarrakki/key/Tarrakki.jks')
+            storePassword 'Tarrakki'
+            keyAlias = 'Tarrakki'
+            keyPassword 'Tarrakki'
+        }
+    }
     compileSdkVersion COMPILE_SDK_VERSION
     buildToolsVersion BUILD_TOOLS_VERSION
     defaultConfig {
@@ -25,6 +33,7 @@ android {
         release {
             minifyEnabled MINIFY_ENABLE
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled MINIFY_ENABLE
@@ -55,6 +64,13 @@ android {
 
     packagingOptions {
         exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 
 }

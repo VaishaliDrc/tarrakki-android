@@ -33,7 +33,7 @@ data class UserPortfolioResponse(
                 val xirr: String
         ) {
             var xirrLabel: String = "Abs.:"
-                get() = "Return:"
+                get() = "Return:(XIRR)"
 
             var xiRR: String = ""
                 get() = parseAsReturn(xirr)
@@ -68,7 +68,9 @@ data class UserPortfolioResponse(
                     @SerializedName("reliance_debit_fund")
                     val relianceDebitFund: Boolean?,
                     @SerializedName("bse_data")
-                    val bseData: BSEData?
+                    val bseData: BSEData?,
+                    @SerializedName("lumpsum_additional_min_amount")
+                    val lumpsumAdditionalMinAmount: String?
             ) {
 
                 var redeemedStatus: RedeemedStatus? = null
@@ -153,7 +155,7 @@ data class UserPortfolioResponse(
                     get() = folioList.size > 1
 
                 var xirrLabel: String = "Return:"
-                    get() = "Return:"
+                    get() = "Return:(XIRR)"
 
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
@@ -220,6 +222,25 @@ data class UserPortfolioResponse(
                         return sipAmount
                     }
 
+                var additionalSIPAmount: BigInteger = BigInteger.ZERO
+                    get() {
+                        var sipAmount = BigInteger.valueOf(100)
+                        if (iaipAip != null && iaipAip.isNotEmpty()) {
+                            val aipAip = iaipAip.filter {
+                                "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                            }
+                            val maxTenure = aipAip.maxBy { it.minTenure }
+                            if (maxTenure != null) {
+                                sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
+                                        ?: BigInteger.valueOf(1)
+                            }
+                        }
+                        return sipAmount
+                    }
+
+                val additionalMinLumpsum: BigInteger
+                    get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
+
                 var validminlumpsumAmount = BigInteger.ZERO
                     get() = piMinimumInitial?.toCurrencyBigInt()
             }
@@ -255,7 +276,9 @@ data class UserPortfolioResponse(
                 @SerializedName("reliance_debit_fund")
                 val relianceDebitFund: Boolean?,
                 @SerializedName("bse_data")
-                val bseData: BSEData?
+                val bseData: BSEData?,
+                @SerializedName("lumpsum_additional_min_amount")
+                val lumpsumAdditionalMinAmount: String?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null
@@ -406,8 +429,28 @@ data class UserPortfolioResponse(
                     return sipAmount
                 }
 
+            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+                get() {
+                    var sipAmount = BigInteger.valueOf(100)
+                    if (iaipAip != null && iaipAip.isNotEmpty()) {
+                        val aipAip = iaipAip.filter {
+                            "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                        }
+                        val maxTenure = aipAip.maxBy { it.minTenure }
+                        if (maxTenure != null) {
+                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
+                                    ?: BigInteger.valueOf(1)
+                        }
+                    }
+                    return sipAmount
+                }
+
+            val additionalMinLumpsum: BigInteger
+                get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
+
             var validminlumpsumAmount = BigInteger.ZERO
                 get() = piMinimumInitial?.toCurrencyBigInt()
+
         }
 
 
@@ -441,7 +484,9 @@ data class UserPortfolioResponse(
                 @SerializedName("reliance_debit_fund")
                 val relianceDebitFund: Boolean?,
                 @SerializedName("bse_data")
-                val bseData: BSEData?
+                val bseData: BSEData?,
+                @SerializedName("lumpsum_additional_min_amount")
+                val lumpsumAdditionalMinAmount: String?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null
@@ -591,6 +636,24 @@ data class UserPortfolioResponse(
                     }
                     return sipAmount
                 }
+            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+                get() {
+                    var sipAmount = BigInteger.valueOf(100)
+                    if (iaipAip != null && iaipAip.isNotEmpty()) {
+                        val aipAip = iaipAip.filter {
+                            "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
+                        }
+                        val maxTenure = aipAip.maxBy { it.minTenure }
+                        if (maxTenure != null) {
+                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
+                                    ?: BigInteger.valueOf(1)
+                        }
+                    }
+                    return sipAmount
+                }
+
+            val additionalMinLumpsum: BigInteger
+                get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
 
             var validminlumpsumAmount = BigInteger.ZERO
                 get() = piMinimumInitial?.toCurrencyBigInt()
@@ -606,6 +669,8 @@ data class FolioData(
         val sipDetails: List<SIPDetails>? = null
 ) {
     val amount: String? = null
+    var additionalLumpsumMinAmt = BigInteger.ZERO
+    var additionalSIPMinAmt = BigInteger.ONE
     var cValue: String = ""
         get() {
             var value = currentValue

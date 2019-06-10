@@ -107,7 +107,6 @@
                     android:id="@+id/tvYDRLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@{vm.goalInvestment.xirrLabel}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -134,14 +133,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.42" />
+                    app:layout_constraintGuide_percent="0.39" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/gdlEnd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.80" />
+                    app:layout_constraintGuide_percent="0.75" />
 
 
             </android.support.constraint.ConstraintLayout>

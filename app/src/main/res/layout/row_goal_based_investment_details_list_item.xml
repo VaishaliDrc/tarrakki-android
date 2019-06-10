@@ -129,13 +129,13 @@
                 android:id="@+id/tvXIRRL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:text="@{investment.xirrLabel}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/gdlEnd"
-                app:layout_constraintTop_toTopOf="@+id/tvDayChangeL" />
+                app:layout_constraintTop_toTopOf="@+id/tvDayChangeL"
+                tools:text="Return:(XIRR)" />
 
             <TextView
                 android:id="@+id/tvXIRRNo"
@@ -156,14 +156,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.42" />
+                app:layout_constraintGuide_percent="0.39" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/gdlEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.80" />
+                app:layout_constraintGuide_percent="0.74" />
 
         </android.support.constraint.ConstraintLayout>
 

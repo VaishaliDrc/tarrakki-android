@@ -881,11 +881,22 @@ fun Context.addFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     }
 
     mBinder.btnInvest.setOnClickListener {
+        val folioData = portfolioList.firstOrNull { it.folioNo == mBinder.folio }
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
+        val minLumpsum = if (mBinder.rbCurrent.isChecked && folioData != null) {
+            folioData.additionalLumpsumMinAmt
+        } else {
+            minAmountLumpsum
+        }
+        val minSIPAmount = if (mBinder.rbCurrent.isChecked && folioData != null) {
+            folioData.additionalSIPMinAmt
+        } else {
+            minAmountSIP
+        }
         it.dismissKeyboard()
         bseData?.isAdditional = mBinder.rbCurrent.isChecked
-        if (this.isInvestDialogValid(minAmountSIP, minAmountLumpsum, sipAmount, lumpsumAmount, bseData)) {
+        if (this.isInvestDialogValid(minSIPAmount, minLumpsum, sipAmount, lumpsumAmount, bseData)) {
             mDialog.dismiss()
             val folioNo = if (!mBinder.rbNew.isChecked) {
                 mBinder.edtChooseFolio.text.toString()
@@ -968,7 +979,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                 }
                 onRedeem?.invoke(folioNo, "$folioId", isRedeem, units)
             } else {
-                this.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
+                this.simpleAlert(getString(R.string.greater_units))
             }
         } else {
             this.simpleAlert(getString(R.string.alert_req_units))
@@ -1109,7 +1120,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                             mContext.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
                         }
                     } else {
-                        mContext.simpleAlert("The redemption amount must be greater than or equal to 100")
+                        mContext.simpleAlert(mContext.getString(R.string.lower_amount_for_insta_redeem))
                     }
                 } else {
                     mContext.simpleAlert(getString(R.string.alert_req_amount))
@@ -1128,7 +1139,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                         }
                         onRedeem?.invoke(folioNo, "$folioId", isRedeem, units)
                     } else {
-                        mContext.simpleAlert("The redemption units can not be greater than the total units of the selected folio.")
+                        mContext.simpleAlert(mContext.getString(R.string.greater_units))
                     }
                 } else {
                     mContext.simpleAlert(getString(R.string.alert_req_units))

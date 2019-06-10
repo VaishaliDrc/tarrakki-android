@@ -92,19 +92,19 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
     private fun isValid(): Boolean {
         return when {
             getViewModel().folioNo.isEmpty() -> {
-                context?.simpleAlert("Please choose folio number.")
+                context?.simpleAlert(getString(R.string.alert_chhoose_folio_number))
                 false
             }
             getViewModel().cardHolerName.isEmpty() -> {
-                context?.simpleAlert("Please enter the name.")
+                context?.simpleAlert(getString(R.string.alert_card_name_on_card))
                 false
             }
             getViewModel().mothersName.isEmpty() -> {
-                context?.simpleAlert("Please enter mothers maiden name.")
+                context?.simpleAlert(getString(R.string.alert_card_mothers_name))
                 false
             }
             getViewModel().dob.isEmpty() -> {
-                context?.simpleAlert("Please enter date of birth.")
+                context?.simpleAlert(getString(R.string.alert_card_date_of_birth))
                 false
             }
             else -> true

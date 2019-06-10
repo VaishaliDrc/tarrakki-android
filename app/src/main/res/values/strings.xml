@@ -174,7 +174,7 @@
     <string name="verify_your_pan">Verify Your PAN</string>
     <string name="read_more">Read More</string>
     <string name="volatility_">Volatility (Vol)</string>
-    <string name="standard_deviation">Standard Deviation</string>
+    <string name="standard_deviation">Standard Deviation(5yr)</string>
     <string name="share">Share</string>
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
     <string name="no_performance_data_available">No performance data available for %1$s years.</string>
@@ -511,7 +511,7 @@
     <string name="alert_mismatch_reg_password">The \'Confirm Password\' field does not match the \'Password\'. Please Re-enter.</string>
     <string name="alert_valid_multiple_sip">The SIP amount should be a multiple of 10.</string>
     <string name="alert_valid_multiple_lumpsum">The lumpsum amount should be a multiple of 10.</string>
-    <string name="alert_req_units">Please enter Units.</string>
+    <string name="alert_req_units">Please enter a valid unit.</string>
     <string name="alert_req_amount">Please enter Amount.</string>
     <string name="alert_req_utr">Please Enter the UTR Number.</string>
     <string name="alert_req_bank_mandate">Please Select the Bank to Continue</string>
@@ -547,7 +547,7 @@
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
-    <string name="debit_cart_info">When you make an investment in Tarrakki Zyaada, you are eligible to apply for a Reliance Anytime Money Card, powered by Tarrakki, Reliance Mutual Fund, and Visa.\n\nThis card is linked to the Reliance Liquid Fund, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.</string>
+    <string name="debit_cart_info">When you make an investment in Reliance Liquid Fund using Tarrakki, you are eligible to apply for a Reliance Anytime Money Card, powered by Tarrakki, Reliance Mutual Fund, and Visa.\n\nThis card is linked to the Reliance Mutual Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.</string>
     <string name="apply_for_debit_cart">Apply for Debit Card</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply">Apply</string>
@@ -662,7 +662,7 @@
     <string name="goal_base_investment">Goal Based Investment</string>
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>
-    <string name="insta_redeem_is_not_availble">Insta-Redemption is not available for this folio now.</string>
+    <string name="insta_redeem_is_not_availble">Insta-Redemption is currently not available for this folio.</string>
     <string name="do_you_want_to_enable_app_security">Do you want to enable screen lock?</string>
     <string name="debit_cart_request_sent">We have received your request for a debit card.</string>
     <string name="success_">Success!</string>
@@ -676,7 +676,7 @@
     <string name="close">Close</string>
     <string name="file">File</string>
     <string name="tap_to_explore_all_mutual_funds">Tap To Explore All Mutual Funds</string>
-    <string name="we_could_not_retrieve">We couldn’t retrieve the email from your social account so please change the privacy settings of your social account first and try again.</string>
+    <string name="we_could_not_retrieve">We couldn’t retrieve the username from your social media account. Please change the privacy settings of your social media account and try again.</string>
     <string name="max_file_size_msg">File size can not be greater than 25 MB</string>
     <string name="redeem_confirm_msg">
         In the last 25 years, markets have gone through many ups and downs. They have fallen and recovered multiple times.
@@ -687,11 +687,20 @@
     </string>
     <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
-    <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Reliance AMC\'s Website (Link to the italics - <a>https://www.reliancemutual.com/ )</a></string>
-    <string name="are_you_sure_you_want_to_redeem">Are you sure you want to redeem?</string>
-    <string name="are_you_sure_you_want_to_stop">Are you sure you want to stop?</string>
+    <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Reliance AMC\'s Website</a></i></string>
+    <string name="are_you_sure_you_want_to_redeem">Are you sure you would like to redeem ?</string>
+    <string name="are_you_sure_you_want_to_stop">Are you sure you would like to stop your SIP ?</string>
     <string name="redemption">Redemption</string>
     <string name="app_update">App Update</string>
+    <string name="alert_chhoose_folio_number">Please choose a folio number.</string>
+    <string name="alert_card_name_on_card">Please enter your name as it is on the card.</string>
+    <string name="alert_card_mothers_name">Please enter your mother\'s maiden name. (This is your mother\'s name before her marriage.)</string>
+    <string name="alert_card_date_of_birth">Please enter your date of birth.</string>
+    <string name="alert_ticket_issue_transaction">Please select the transaction.</string>
+    <string name="alert_ticket_issue_description">Please describe your issue.</string>
+    <string name="alert_ticket_issued">Your ticket has been raised successfully.</string>
+    <string name="greater_units">The redemption unit cannot be greater than the Current Value of the Selected Folio.</string>
+    <string name="lower_amount_for_insta_redeem">You have a very low amount remaining. You cannot use the insta redemption facility at this point, in order to keep your investment intact.</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

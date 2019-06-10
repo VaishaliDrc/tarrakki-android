@@ -99,7 +99,11 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                         if (foliosList?.isNotEmpty() == true) {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folioNo in foliosList) {
-                                folios.add(FolioData(null, null, null, folioNo))
+                                val fData = FolioData(null, null, null, folioNo).apply {
+                                    additionalSIPMinAmt = item.additionalSIPAmount
+                                    additionalLumpsumMinAmt = item.additionalMinLumpsum
+                                }
+                                folios.add(fData)
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { folioNo, amountLumpsum, amountSIP ->
                                 addToCart(item.id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,

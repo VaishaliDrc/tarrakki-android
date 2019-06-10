@@ -5,8 +5,9 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.res.ResourcesCompat
-import android.text.*
-import android.text.style.BulletSpan
+import android.text.Editable
+import android.text.TextPaint
+import android.text.TextWatcher
 import android.text.style.ClickableSpan
 import android.view.View
 import com.github.mikephil.charting.components.XAxis
@@ -145,7 +146,11 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                             if (foliosList?.isNotEmpty() == true) {
                                 val folios: MutableList<FolioData> = mutableListOf()
                                 for (folioNo in foliosList) {
-                                    folios.add(FolioData(null, null, null, folioNo))
+                                    val fData = FolioData(null, null, null, folioNo).apply {
+                                        additionalSIPMinAmt = fund.additionalSIPAmount
+                                        additionalLumpsumMinAmt = fund.additionalMinLumpsum
+                                    }
+                                    folios.add(fData)
                                 }
                                 context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fund.bseData) { folioNo, amountLumpsum, amountSIP ->
                                     addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,

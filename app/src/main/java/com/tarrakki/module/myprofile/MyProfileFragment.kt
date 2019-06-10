@@ -99,6 +99,10 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             if (!TextUtils.isEmpty(response.data.country)) {
                 val country = countries?.find { it.code == response.data.country }
                 country?.let { edtCountry?.setText(it.name) }
+            } else {
+                val item = countries?.first { it.name == "India" }
+                edtCountry?.text = item?.name
+                getViewModel().country.set(item?.code)
             }
 
             isEmailVerified = response.data.isEmailActivated

@@ -108,7 +108,11 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 binder.tvAddPortfolio.setOnClickListener {
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
-                        folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
+                        val fData = FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo).apply {
+                            additionalSIPMinAmt = item.additionalSIPAmount
+                            additionalLumpsumMinAmt = item.additionalMinLumpsum
+                        }
+                        folios.add(fData)
                     }
                     context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
                         addToCartGoalPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, getViewModel().goalInvestment.get()?.goalId).observe(

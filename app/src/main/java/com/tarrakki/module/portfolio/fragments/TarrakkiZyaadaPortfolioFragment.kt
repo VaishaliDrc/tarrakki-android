@@ -2,9 +2,18 @@ package com.tarrakki.module.portfolio.fragments
 
 
 import android.arch.lifecycle.Observer
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.method.MovementMethod
+import android.text.style.ClickableSpan
+import android.view.View
 import android.widget.TableLayout
+import android.widget.TextView
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
@@ -17,9 +26,11 @@ import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada_portfolio.*
 import org.supportcompact.CoreParentFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
@@ -45,9 +56,42 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
         binding.executePendingBindings()
     }
 
+    private fun makeLinks(textView: TextView, links: Array<String>, clickableSpans: Array<ClickableSpan>) {
+        val spannableString = SpannableString(textView.text)
+        for (i in links.indices) {
+            val clickableSpan = clickableSpans[i]
+            val link = links[i]
+            val startIndexOfLink = textView.text.toString().indexOf(link)
+            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        textView.highlightColor = Color.TRANSPARENT // prevent TextView change background when highlight
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        textView.setText(spannableString, TextView.BufferType.SPANNABLE)
+    }
+
     override fun createReference() {
         rvDInvests?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
+        val webClickLink = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                widget.context?.browse("https://www.reliancemutual.com/")
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                context?.color(R.color.colorAccent)?.let { ds.color = it }
+            }
+        }
+
+        tvNote?.let {
+            makeLinks(
+                    it,
+                    arrayOf("Reliance AMC's Website"),
+                    arrayOf(webClickLink)
+            )
+        }
         val vm = getViewModel()
 
         vm.isRefreshing.observe(this, Observer {
@@ -101,7 +145,11 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                     binder.tvAddPortfolio.setOnClickListener {
                         val folios: MutableList<FolioData> = mutableListOf()
                         for (folio in item.folioList) {
-                            folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo))
+                            val fData = FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo).apply {
+                                additionalSIPMinAmt = item.additionalSIPAmount
+                                additionalLumpsumMinAmt = item.additionalMinLumpsum
+                            }
+                            folios.add(fData)
                         }
                         context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
                             addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, item.tzId).observe(

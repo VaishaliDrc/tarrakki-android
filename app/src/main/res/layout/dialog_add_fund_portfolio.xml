@@ -18,11 +18,11 @@
 
         <variable
             name="isNew"
-            type="Boolean"/>
+            type="Boolean" />
 
         <variable
             name="isSingleFolio"
-            type="Boolean"/>
+            type="Boolean" />
 
     </data>
 
@@ -120,18 +120,18 @@
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
             android:background="@drawable/shape_edt_gray_round"
+            android:clickable="@{isSingleFolio?false:true}"
             android:completionThreshold="1"
-            android:drawableEnd="@{isSingleFolio?null:@drawable/ic_drop_down_dark_gray_24dp}"
-            android:hint="@string/choose_folio"
             android:drawableStart="@drawable/ic_folio_number"
+            android:drawableEnd="@{isSingleFolio?null:@drawable/ic_drop_down_dark_gray_24dp}"
             android:drawablePadding="@dimen/space_8"
+            android:hint="@string/choose_folio"
             android:maxLines="1"
             android:paddingStart="@dimen/default_space"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/default_space"
             android:paddingBottom="@dimen/space_8"
             android:text="@={folio}"
-            android:clickable="@{isSingleFolio?false:true}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
             android:textColorHint="@color/darker_gray"
