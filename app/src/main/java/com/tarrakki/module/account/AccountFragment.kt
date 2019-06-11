@@ -122,7 +122,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     .setType("text/plain")
                     .setChooserTitle("Share link")
                     .setText(App.INSTANCE.getString(R.string.invite_your_friend)
-                            .plus(" https://www.tarrakki.com/"))
+                            .plus(" ").plus("http://play.google.com/store/apps/details?id=${activity?.packageName}"))
                     .startChooser()
             /*.setText(App.INSTANCE.getString(R.string.invite_your_friend)
                     .plus("\n\n")
