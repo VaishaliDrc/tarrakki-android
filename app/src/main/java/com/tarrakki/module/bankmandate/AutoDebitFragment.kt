@@ -80,6 +80,9 @@ class AutoDebitFragment : CoreFragment<AutoMandateVM, FragmentAutoDebitBinding>(
             }
         }
         edtInvestAmount?.applyCurrencyFormatPositiveOnly()
+        ivInfo?.setOnClickListener {
+            context?.simpleAlert(getString(R.string.mandate_max_amt))
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

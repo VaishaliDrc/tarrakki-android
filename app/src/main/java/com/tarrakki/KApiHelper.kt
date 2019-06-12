@@ -432,25 +432,23 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                         if (data != null && "R".equals(data.appresstatus, true)) {
                             //kyc.mobile = data.appmobno
                             //kyc.email = data.appemail
-                            kycData.nameOfPANHolder = data.appname
-                            kycData.fullName = data.appname
-                            kycData.OCCcode = data.appocc
+                            kycData.nameOfPANHolder = data.appname ?: ""
+                            kycData.fullName = data.appname ?: ""
+                            kycData.OCCcode = data.appocc ?: ""
                             if ("${data.appdobdt}".contains("-")) {
-                                kycData.dob = data.appdobdt.toDate("dd-MM-yyyy").convertTo("dd/MM/yyyy")
-                                        ?: ""
+                                kycData.dob = data.appdobdt?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")?: ""
                             } else {
-                                kycData.dob = data.appdobdt//.toDate("dd/MM/yyyy").convertTo("dd MMM, yyyy")
-                                        ?: ""
+                                kycData.dob = data.appdobdt ?: ""
                             }
-                            kycData.gender = data.appgen
+                            kycData.gender = data.appgen ?: ""
                             kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
-                            kycData.pincode = data.appperpincd
-                            kycData.city = data.apppercity
-                            kycData.state = data.appperstate
-                            kycData.country = data.appperctry
+                            kycData.pincode = data.appperpincd ?: ""
+                            kycData.city = data.apppercity ?: ""
+                            kycData.state = data.appperstate ?: ""
+                            kycData.country = data.appperctry ?: ""
                             kycData.addressType = "01"
-                            kycData.kycMode = data.appkycmode
-                            kycData.inPersonVerification = data.appipvflag
+                            kycData.kycMode = data.appkycmode ?: ""
+                            kycData.inPersonVerification = data.appipvflag ?: ""
                             apiResponse.value = kycData
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))

@@ -34,7 +34,7 @@
     <string name="view_portfolio">View Portfolio</string>
     <string name="total_investment">Total Investment</string>
     <string name="total_investment_value">Total Investment Value</string>
-    <string name="total_return">Total Return</string>
+    <string name="total_return">Total Return (XIRR)</string>
     <string name="cart">Cart</string>
     <string name="financial_goals_assist">
         Financial goals assist you in making small, regular investments towards fulfilling your dreams.
@@ -701,6 +701,7 @@
     <string name="alert_ticket_issued">Your ticket has been raised successfully.</string>
     <string name="greater_units">The redemption unit cannot be greater than the Current Value of the Selected Folio.</string>
     <string name="lower_amount_for_insta_redeem">You have a very low amount remaining. You cannot use the insta redemption facility at this point, in order to keep your investment intact.</string>
+    <string name="mandate_max_amt">Your mandate limit is the maximum amount of money you can invest on any given day of a month.</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

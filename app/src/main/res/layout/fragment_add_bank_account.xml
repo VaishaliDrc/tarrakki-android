@@ -230,7 +230,7 @@
                 android:layout_marginTop="@dimen/space_4"
                 android:background="@drawable/shape_edt_gray_round"
                 android:hint="@string/enter_ifsc_code"
-                android:inputType="text"
+                android:inputType="textCapCharacters"
                 android:maxLength="11"
                 android:maxLines="1"
                 android:paddingStart="@dimen/default_space"

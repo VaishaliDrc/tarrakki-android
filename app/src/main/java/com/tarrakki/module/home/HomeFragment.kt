@@ -133,7 +133,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 App.INSTANCE.widgetsViewModel.value = null
             }
         })
-        edtPanNo?.applyPAN()
+        //edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
             if (edtPanNo.length() == 0) {
                 context?.simpleAlert(getString(R.string.alert_req_pan_number))

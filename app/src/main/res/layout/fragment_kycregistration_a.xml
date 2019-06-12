@@ -83,10 +83,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edtFName"
                     tools:visibility="invisible" />
-
+                <!--isPANCard="@{true}"-->
                 <EditText
                     android:id="@+id/edtPAN"
-                    isPANCard="@{true}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_4"

@@ -143,7 +143,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 })
             }
         }
-        edtPanNo?.applyPAN()
+        //edtPanNo?.applyPAN()
         btnContinue?.setOnClickListener {
             getKYCData().observe(this, Observer {
                 it?.let { kycData ->

@@ -49,6 +49,7 @@ object ApiClient {
     const val CAMS_USER_ID = "PLUTOWS"
     const val CAMS_PASSWORD = "kra\$36369"*/
 
+
     /***
      * CAMS api base url Live Url
      * */
@@ -297,7 +298,11 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
             .subscribeOn(Schedulers.io())
             .subscribe(object : SingleObserver<T> {
                 override fun onSuccess(t: T) {
-                    singleCallback?.onSingleSuccess(t, apiNames)
+                    try {
+                        singleCallback?.onSingleSuccess(t, apiNames)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 override fun onSubscribe(d: Disposable) {
@@ -337,7 +342,11 @@ fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallb
             .subscribeOn(Schedulers.io())
             .subscribe(object : SingleObserver<T> {
                 override fun onSuccess(t: T) {
-                    singleCallback?.onSingleSuccess(t)
+                    try {
+                        singleCallback?.onSingleSuccess(t)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
 
                 override fun onSubscribe(d: Disposable) {

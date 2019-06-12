@@ -177,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
                     android:text="(XIRR)"
+                    android:visibility="gone"
                     android:textColor="@color/home_title_color"
                     app:layout_constraintBottom_toTopOf="@+id/tvTotalReturnValue"
                     app:layout_constraintEnd_toEndOf="parent"
