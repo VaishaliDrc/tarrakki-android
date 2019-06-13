@@ -18,10 +18,10 @@
         android:name=".App"
         android:allowBackup="false"
         android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:hardwareAccelerated="false"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -29,6 +29,7 @@
         tools:ignore="GoogleAppIndexingWarning,HardcodedDebugMode"
         tools:replace="android:allowBackup,android:name,android:appComponentFactory"
         tools:targetApi="p">
+
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -112,6 +113,10 @@
             android:name=".module.webviewActivity.WebviewActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.webviewActivity.CMSPagesActivity"
+            android:screenOrientation="portrait" />
+
         <service android:name=".fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -123,9 +128,7 @@
                 <action android:name="com.tarrakki.ACTION_CLOSE_TICKET" />
                 <action android:name="com.tarrakki.ACTION_CANCEL_CLOSE_TICKET" />
             </intent-filter>
-        </receiver>
-
-        <!--Facebook Details-->
+        </receiver> <!-- Facebook Details -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -134,7 +137,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -147,7 +149,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

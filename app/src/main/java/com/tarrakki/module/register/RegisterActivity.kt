@@ -2,12 +2,16 @@ package com.tarrakki.module.register
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.text.TextPaint
+import android.text.style.ClickableSpan
 import android.util.Patterns
+import android.view.View
 import com.tarrakki.IS_FROM_INTRO
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityRegisterBinding
 import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.otp.OtpVerificationActivity
+import com.tarrakki.module.webviewActivity.CMSPagesActivity
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreActivity
@@ -41,6 +45,21 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                 onBackPressed()
             }
         }
+
+        val termsAndCondditionClickSpan = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                startActivity<CMSPagesActivity>()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                color(R.color.colorAccent).let { ds.color = it }
+            }
+        }
+
+        cbTermsConditions?.makeLinks(arrayOf("Terms and Conditions"), arrayOf(termsAndCondditionClickSpan))
 
         btnSignUp?.setOnClickListener {
 

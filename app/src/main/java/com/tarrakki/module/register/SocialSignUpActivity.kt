@@ -2,11 +2,14 @@ package com.tarrakki.module.register
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
+import android.text.TextPaint
+import android.text.style.ClickableSpan
 import android.view.View
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivitySocialSignUpBinding
 import com.tarrakki.module.otp.OtpVerificationActivity
-import kotlinx.android.synthetic.main.activity_register.*
+import com.tarrakki.module.webviewActivity.CMSPagesActivity
+import kotlinx.android.synthetic.main.activity_social_sign_up.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
@@ -37,6 +40,22 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
             hasEmail = data.optString("email").isNotEmpty()
             edtEmail?.visibility = if (hasEmail) View.GONE else View.VISIBLE
         }
+
+        val termsAndCondditionClickSpan = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                startActivity<CMSPagesActivity>()
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                color(R.color.colorAccent).let { ds.color = it }
+            }
+        }
+
+        cbTermsConditions?.makeLinks(arrayOf("Terms and Conditions"), arrayOf(termsAndCondditionClickSpan))
+
         btnSignUp?.setOnClickListener {
             when {
 
@@ -57,9 +76,7 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                     edtMobile?.requestFocus()
                 }
                 cbTermsConditions?.isChecked == false -> {
-                    simpleAlert(getString(R.string.alert_req_terms)) {
-                        edtConfirmPassword?.requestFocus()
-                    }
+                    simpleAlert(getString(R.string.alert_req_terms))
                 }
                 else -> {
                     it.dismissKeyboard()
