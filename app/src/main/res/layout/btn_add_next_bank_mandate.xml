@@ -3,6 +3,7 @@
 
     <data>
 
+
         <variable
             name="widget"
             type="org.supportcompact.adapters.WidgetsViewModel" />
@@ -46,6 +47,7 @@
             android:onClick="@{onNext}"
             android:text="@string/next"
             android:textColor="@color/white" />
+
     </LinearLayout>
 
 

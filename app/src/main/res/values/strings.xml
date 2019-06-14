@@ -543,7 +543,7 @@
     <string name="choose_source_of_income">Choose Source of Income</string>
     <string name="source_of_income_">Source of Income*</string>
     <string name="choose_income_slab">Choose Income Slab</string>
-    <string name="income_slab_">Income Slab*</string>
+    <string name="income_slab_">Annual Income*</string>
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
@@ -702,6 +702,7 @@
     <string name="greater_units">The redemption unit cannot be greater than the Current Value of the Selected Folio.</string>
     <string name="lower_amount_for_insta_redeem">You have a very low amount remaining. You cannot use the insta redemption facility at this point, in order to keep your investment intact.</string>
     <string name="mandate_max_amt">Your mandate limit is the maximum amount of money you can invest on any given day of a month.</string>
+    <string name="tarrakki_is_a_bank_grade_secure_portal_your_bank_information_is_completely_safe">Tarrakki is a bank-grade secure portal. All of your banking information is completely safe and secure.</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

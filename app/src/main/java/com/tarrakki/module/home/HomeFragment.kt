@@ -13,6 +13,7 @@ import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.KYCRegistrationAFragment
+import com.tarrakki.module.ekyc.eventKYCDataLog
 import com.tarrakki.module.ekyc.isPANCard
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -170,16 +171,41 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                             }
                                         })
                                     }
-                                    kycStatus.contains("03") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
-                                    kycStatus.contains("04") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
-                                    kycStatus.contains("05") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
-                                    kycStatus.contains("06") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
-                                    kycStatus.contains("12") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
-                                    kycStatus.contains("11") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
-                                    kycStatus.contains("13") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
-                                    kycStatus.contains("99") -> context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                    kycStatus.contains("03") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
+                                        eventKYCDataLog("Status Code:03, message=${App.INSTANCE.getString(R.string.alert_kyc_on_hold)}")
+                                    }
+                                    kycStatus.contains("04") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
+                                        eventKYCDataLog("Status Code:04, message=${App.INSTANCE.getString(R.string.alert_kyc_rejected)}")
+                                    }
+                                    kycStatus.contains("05") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
+                                        eventKYCDataLog("Status Code:05, message=${App.INSTANCE.getString(R.string.alert_not_available)}")
+                                    }
+                                    kycStatus.contains("06") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
+                                        eventKYCDataLog("Status Code:06, message=${App.INSTANCE.getString(R.string.alert_kyc_deactivated)}")
+                                    }
+                                    kycStatus.contains("12") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
+                                        eventKYCDataLog("Status Code:12, message=${App.INSTANCE.getString(R.string.alert_kyc_registered)}")
+                                    }
+                                    kycStatus.contains("11") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
+                                        eventKYCDataLog("Status Code:11, message=${App.INSTANCE.getString(R.string.alert_under_process)}")
+                                    }
+                                    kycStatus.contains("13") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
+                                        eventKYCDataLog("Status Code:13, message=${App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete)}")
+                                    }
+                                    kycStatus.contains("99") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                        eventKYCDataLog("Status Code:99, message=${App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable)}")
+                                    }
                                     else -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                        eventKYCDataLog("Status Code:unknown, message=${App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable)}")
                                     }
                                 }
                             }

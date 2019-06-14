@@ -189,7 +189,9 @@ data class UserPortfolioResponse(
                             @SerializedName("start_date")
                             val startDate: String?,
                             @SerializedName("trans_id")
-                            val transId: Int
+                            val transId: Int,
+                            @SerializedName("sip_day")
+                            val sipDay: String
                     )
                 }
 
@@ -396,7 +398,9 @@ data class UserPortfolioResponse(
                         @SerializedName("start_date")
                         val startDate: String?,
                         @SerializedName("trans_id")
-                        val transId: Int
+                        val transId: Int,
+                        @SerializedName("sip_day")
+                        val sipDay: String
                 )
             }
 
@@ -604,7 +608,9 @@ data class UserPortfolioResponse(
                         @SerializedName("start_date")
                         val startDate: String?,
                         @SerializedName("trans_id")
-                        val transId: Int
+                        val transId: Int,
+                        @SerializedName("sip_day")
+                        val sipDay: String
                 )
             }
 
@@ -668,6 +674,7 @@ data class FolioData(
         val folioNo: String?,
         val sipDetails: List<SIPDetails>? = null
 ) {
+
     val amount: String? = null
     var additionalLumpsumMinAmt = BigInteger.ZERO
     var additionalSIPMinAmt = BigInteger.ONE
@@ -693,10 +700,11 @@ data class SIPDetails(
         @SerializedName("trans_id")
         val transId: Int
 ) {
+    var sipDay: String = ""
     var convertedDate = ""
         get() = startDate?.toDate()?.convertTo().toString()
 
     override fun toString(): String {
-        return convertedDate
+        return sipDay
     }
 }

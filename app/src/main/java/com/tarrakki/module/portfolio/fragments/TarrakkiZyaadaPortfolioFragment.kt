@@ -215,7 +215,9 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         for (folio in item.folioList) {
                             val sipDetailsList: MutableList<SIPDetails> = mutableListOf()
                             for (sipDetail in folio.sipDetails) {
-                                sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId))
+                                sipDetailsList.add(SIPDetails(sipDetail.amount, sipDetail.startDate, sipDetail.transId).apply {
+                                    sipDay = sipDetail.sipDay
+                                })
                             }
                             folios.add(FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo, sipDetailsList))
                         }

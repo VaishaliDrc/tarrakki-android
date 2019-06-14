@@ -94,6 +94,12 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     banks.add(SingleButton(R.string.add_new_bank_account))
                 }
 
+                banks.add(object : WidgetsViewModel {
+                    override fun layoutId(): Int {
+                        return R.layout.row_bank_account_note
+                    }
+                })
+
                 rvBanks?.setUpMultiViewRecyclerAdapter(banks) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                     binder.setVariable(BR.widget, item)
                     binder.setVariable(BR.onAdd, View.OnClickListener {

@@ -1,6 +1,7 @@
 package com.tarrakki
 
 import android.arch.lifecycle.MutableLiveData
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.HomeData
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
@@ -18,10 +19,13 @@ class App : CoreApp() {
     var homeData: HomeData? = null
     var needToLoadTransactionScreen = -1
     var openChat: Pair<Boolean, String>? = null
+    lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         cartCount.value = 0
     }
 

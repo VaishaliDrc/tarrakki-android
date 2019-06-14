@@ -11,6 +11,7 @@ import com.tarrakki.api.ApiClient.PASSKEY
 import com.tarrakki.api.model.*
 import com.tarrakki.api.soapmodel.*
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.eventKYCDataLog
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
@@ -73,6 +74,10 @@ fun addToCartTarrakkiZyaada(tarrakkiZyaadaId: String, sipAmount: String, lumpsum
     }
     if (lumpsumAmount != BigInteger.ZERO.toString()) {
         json.addProperty("lumpsum_amount", lumpsumAmount)
+    }
+
+    if (folioNo?.isNotEmpty() == true) {
+        json.addProperty("folio_number", folioNo)
     }
 
     json.printRequest()
@@ -436,7 +441,8 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                             kycData.fullName = data.appname ?: ""
                             kycData.OCCcode = data.appocc ?: ""
                             if ("${data.appdobdt}".contains("-")) {
-                                kycData.dob = data.appdobdt?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")?: ""
+                                kycData.dob = data.appdobdt?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")
+                                        ?: ""
                             } else {
                                 kycData.dob = data.appdobdt ?: ""
                             }
@@ -453,6 +459,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
                         } else {
+                            eventKYCDataLog("Status Code:01|02, message=${App.INSTANCE.getString(R.string.alert_alert_non_resident)}")
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_alert_non_resident)))
                         }
                     }

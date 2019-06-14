@@ -1175,7 +1175,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             if (selectedFolio.sipDetails?.isNotEmpty() == true) {
                 startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
                 if (startDateList.isNotEmpty()) {
-                    mBinder.startDate = startDateList[0].convertedDate
+                    mBinder.startDate = startDateList[0].sipDay
                 }
                 sipDetail = selectedFolio.sipDetails[0]
                 if (sipDetail != null) {
@@ -1201,7 +1201,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             if (selectedFolio != null) {
                 startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
                 if (startDateList.isNotEmpty()) {
-                    mBinder.startDate = startDateList[0].convertedDate
+                    mBinder.startDate = startDateList[0].sipDay
                     if (selectedFolio.sipDetails.isNotEmpty()) {
                         sipDetail = selectedFolio.sipDetails[0]
                         if (sipDetail != null) {
@@ -1222,7 +1222,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 
     mBinder.edtStartDate.setOnClickListener {
         this.showCustomListDialog("Select StartDate", startDateList) { item ->
-            mBinder.startDate = item.convertedDate
+            mBinder.startDate = item.sipDay
             val folioNo = mBinder.edtChooseFolio.text.toString()
             val selectedFolio = portfolioList.find { it.folioNo == folioNo }
             if (selectedFolio != null) {
@@ -1245,7 +1245,7 @@ fun Context.stopFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
         val folio = mBinder.edtChooseFolio.text.toString()
-        val date = mBinder.edtStartDate.text.toString()
+        val date = sipDetail?.convertedDate ?: ""//mBinder.edtStartDate.text.toString()
 
         if (sipDetail != null) {
             mDialog?.dismiss()

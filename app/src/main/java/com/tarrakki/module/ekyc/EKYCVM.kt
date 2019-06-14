@@ -3,7 +3,9 @@ package com.tarrakki.module.ekyc
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.os.Bundle
 import android.util.Log.e
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
@@ -22,6 +24,7 @@ import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import java.util.regex.Pattern
 
+const val KYCNOTVERIFIEDUSERS = "kycNotVerifiedUsers"
 
 class EKYCVM : FragmentViewModel() {
 
@@ -208,6 +211,17 @@ data class KYCData(var pan: String) : BaseObservable() {
 }
 
 fun isPANCard(pan: String) = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(pan).matches()
+
+fun eventKYCDataLog(msg: String) {
+    try {
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, App.INSTANCE.getUserId())
+        bundle.putString(FirebaseAnalytics.Param.VALUE, msg.substringBefore(","))
+        App.INSTANCE.firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
 
 fun checkKYCStatus(data: KYCData): MutableLiveData<String> {
     val apiResponse = MutableLiveData<String>()
