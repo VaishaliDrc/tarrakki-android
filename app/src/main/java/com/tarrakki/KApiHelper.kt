@@ -459,7 +459,7 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                         } else if (data == null) {
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
                         } else {
-                            eventKYCDataLog("Status Code:01|02, message=${App.INSTANCE.getString(R.string.alert_alert_non_resident)}")
+                            eventKYCDataLog(kycData, "01|02")
                             EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_alert_non_resident)))
                         }
                     }

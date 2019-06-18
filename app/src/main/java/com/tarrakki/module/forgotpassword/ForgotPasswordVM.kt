@@ -23,7 +23,7 @@ class ForgotPasswordVM : ActivityViewModel() {
     val email = ObservableField("")
     fun forgotPassword(): MutableLiveData<ForgotPasswordEmailResponse> {
         val json = JsonObject()
-        json.addProperty("email", "${email.get()}".toLowerCase())
+        json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("type", "forgot_password")
         val data = json.toString().toEncrypt()
         json.printRequest()

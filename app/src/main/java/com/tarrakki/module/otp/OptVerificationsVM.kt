@@ -41,7 +41,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         json.addProperty("mobile", mobile)
-        json.addProperty("email", "$email".toLowerCase())
+        json.addProperty("email", "$email".toLowerCase().trim())
         json.addProperty("type", type)
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())
@@ -179,7 +179,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
 
     fun forgotPasswordSendOTP(): MutableLiveData<ForgotPasswordEmailResponse> {
         val json = JsonObject()
-        json.addProperty("email", "${email.get()}".toLowerCase())
+        json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("type", "forgot_password")
         val data = json.toString().toEncrypt()
         json.printRequest()

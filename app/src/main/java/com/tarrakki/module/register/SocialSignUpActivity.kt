@@ -82,7 +82,7 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                     it.dismissKeyboard()
                     data?.let {
                         if (!hasEmail) {
-                            it.put("email", "${getViewModel().email.get()}".toLowerCase())
+                            it.put("email", "${getViewModel().email.get()}".toLowerCase().trim())
                         }
                         it.put("mobile", getViewModel().mobile.get())
                         getViewModel().socialSignUp(it).observe(this, Observer {

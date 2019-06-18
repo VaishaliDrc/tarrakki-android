@@ -39,7 +39,7 @@ object ApiClient {
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
-    const val BUILD_TYPE_DEBUG = false
+    const val BUILD_TYPE_DEBUG = true
 
     /***
      * CAMS api base url Test Url

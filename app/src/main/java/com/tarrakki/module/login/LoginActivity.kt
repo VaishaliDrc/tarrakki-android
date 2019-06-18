@@ -17,6 +17,7 @@ import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityLoginBinding
+import com.tarrakki.fcm.onLoginEventFire
 import com.tarrakki.module.forgotpassword.ForgotPasswordActivity
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.otp.OtpVerificationActivity
@@ -100,7 +101,10 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
         getViewModel().onLogin.observe(this, Observer { loginResponse ->
             loginResponse?.let {
                 loginResponse.token?.let { it1 -> setLoginToken(it1) }
-                loginResponse.userId?.let { it1 -> setUserId(it1) }
+                loginResponse.userId?.let { it1 ->
+                    setUserId(it1)
+                    onLoginEventFire(it1)
+                }
                 loginResponse.email?.let { it1 -> setEmail(it1) }
                 loginResponse.mobile?.let { it1 -> setMobile(it1) }
                 loginResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
@@ -118,7 +122,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                 val json = JsonObject()
                 if (apiResponse.status?.code == 3) {
                     json.addProperty("access_token", getViewModel().socialId.get())
-                    json.addProperty("email", "${getViewModel().socialEmail.get()}".toLowerCase())
+                    json.addProperty("email", "${getViewModel().socialEmail.get()}".toLowerCase().trim())
                     json.addProperty("first_name", getViewModel().socialFName.get())
                     json.addProperty("last_name", getViewModel().socialLName.get())
                     json.addProperty("social_auth", apiResponse.status.message)

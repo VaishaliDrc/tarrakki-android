@@ -5,7 +5,6 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.os.Bundle
 import android.util.Log.e
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
@@ -25,6 +24,7 @@ import org.supportcompact.ktx.postError
 import java.util.regex.Pattern
 
 const val KYCNOTVERIFIEDUSERS = "kycNotVerifiedUsers"
+const val USERSCOULDNOTREGISTER = "usersCouldNotRegister"
 
 class EKYCVM : FragmentViewModel() {
 
@@ -212,12 +212,27 @@ data class KYCData(var pan: String) : BaseObservable() {
 
 fun isPANCard(pan: String) = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(pan).matches()
 
-fun eventKYCDataLog(msg: String) {
+fun eventKYCDataLog(kycData: KYCData, errorCode: String) {
     try {
         val bundle = Bundle()
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, App.INSTANCE.getUserId())
-        bundle.putString(FirebaseAnalytics.Param.VALUE, msg.substringBefore(","))
-        App.INSTANCE.firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+        bundle.putString("user_id", App.INSTANCE.getUserId())
+        bundle.putString("email_id", kycData.email)
+        bundle.putString("mobile_number", kycData.mobile)
+        bundle.putString("error_code", errorCode)
+        App.INSTANCE.firebaseAnalytics.logEvent(KYCNOTVERIFIEDUSERS, bundle)
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+fun eventKYCBSEErrorDataLog(kycData: KYCData, errorCode: String) {
+    try {
+        val bundle = Bundle()
+        bundle.putString("user_id", App.INSTANCE.getUserId())
+        bundle.putString("email_id", kycData.email)
+        bundle.putString("mobile_number", kycData.mobile)
+        bundle.putString("error_code", errorCode)
+        App.INSTANCE.firebaseAnalytics.logEvent(USERSCOULDNOTREGISTER, bundle)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -267,7 +282,7 @@ fun saveKYCData(kycData: KYCData): MutableLiveData<ApiResponse> {
     json.addProperty("occ_code", kycData.OCCcode)
     json.addProperty("nominee_name", kycData.nomineeName)
     json.addProperty("nominee_relation", kycData.nomineeRelation)
-    json.addProperty("email", "${kycData.email}".toLowerCase())
+    json.addProperty("email", "${kycData.email}".toLowerCase().trim())
     json.addProperty("full_name", kycData.fullName)
     json.addProperty("mobile_number", kycData.mobile)
     json.addProperty("birth_country", kycData.birthCountry)

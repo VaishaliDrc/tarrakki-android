@@ -8,6 +8,7 @@ import com.tarrakki.R
 import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.ekyc.eventKYCBSEErrorDataLog
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -130,7 +131,7 @@ class BankAccountsVM : FragmentViewModel() {
             json.addProperty("nominee_name", kycData.nomineeName)
             json.addProperty("nominee_relation", kycData.nomineeRelation)
             json.addProperty("user_id", "${App.INSTANCE.getUserId()}")
-            json.addProperty("email", "${kycData.email}".toLowerCase())
+            json.addProperty("email", "${kycData.email}".toLowerCase().trim())
             json.addProperty("full_name", kycData.fullName)
             json.addProperty("mobile_number", kycData.mobile)
             json.addProperty("birth_country", kycData.birthCountry)
@@ -163,6 +164,8 @@ class BankAccountsVM : FragmentViewModel() {
                                 if (o.status?.code == 1) {
                                     App.INSTANCE.setCompletedRegistration(true)
                                     App.INSTANCE.setKYClVarified(true)
+                                } else {
+                                    eventKYCBSEErrorDataLog(kycData, "0")
                                 }
                                 apiResponse.value = o
                             } else {

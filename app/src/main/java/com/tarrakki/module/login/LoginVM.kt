@@ -53,7 +53,7 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
          * */
         showProgress()
         val json = JsonObject()
-        json.addProperty("email", "${socialEmail.get()}".toLowerCase())
+        json.addProperty("email", "${socialEmail.get()}".toLowerCase().trim())
         json.addProperty("access_token", socialId.get())
         json.addProperty("social_auth", loginWith)
         e("Plain Data=>", json.toString())

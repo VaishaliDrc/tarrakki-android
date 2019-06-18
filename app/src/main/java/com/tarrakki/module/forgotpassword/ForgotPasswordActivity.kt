@@ -65,7 +65,7 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
         val json = JsonObject()
         json.addProperty("otp", otp)
         json.addProperty("otp_id", otp_id)
-        json.addProperty("email", "${getViewModel().email.get()}".toLowerCase())
+        json.addProperty("email", "${getViewModel().email.get()}".toLowerCase().trim())
         return json
     }
 }

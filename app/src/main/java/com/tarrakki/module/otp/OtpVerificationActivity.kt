@@ -6,6 +6,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.ActivityOtpVerificationBinding
+import com.tarrakki.fcm.onSignUpEventFire
 import com.tarrakki.module.forgotpassword.FORGOTPASSWORD_DATA
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.myprofile.PROFILE_EMAIL_DATA
@@ -80,7 +81,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                         getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
                                             signUpResponse?.let {
                                                 signUpResponse.token?.let { it1 -> setLoginToken(it1) }
-                                                signUpResponse.userId?.let { it1 -> setUserId(it1) }
+                                                signUpResponse.userId?.let { it1 ->
+                                                    setUserId(it1)
+                                                    onSignUpEventFire(it1)
+                                                }
                                                 signUpResponse.email?.let { it1 -> setEmail(it1) }
                                                 signUpResponse.mobile?.let { it1 -> setMobile(it1) }
                                                 signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
@@ -106,7 +110,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                             getViewModel().verifySocialOTP(it1).observe(this, Observer { signUpResponse ->
                                 signUpResponse?.let {
                                     signUpResponse.token?.let { it1 -> setLoginToken(it1) }
-                                    signUpResponse.userId?.let { it1 -> setUserId(it1) }
+                                    signUpResponse.userId?.let { it1 ->
+                                        setUserId(it1)
+                                        onSignUpEventFire(it1)
+                                    }
                                     signUpResponse.email?.let { it1 -> setEmail(it1) }
                                     signUpResponse.mobile?.let { it1 -> setMobile(it1) }
                                     signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }

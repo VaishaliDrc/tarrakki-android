@@ -182,7 +182,7 @@ class MyProfileVM : FragmentViewModel() {
         val json = JsonObject()
         json.addProperty("full_name", fName.get())
         json.addProperty("mobile_number", mobile.get())
-        json.addProperty("email", "${email.get()}".toLowerCase())
+        json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("nominee_name", nominiName.get())
         json.addProperty("nominee_relationship", nominiRelationship.get())
 

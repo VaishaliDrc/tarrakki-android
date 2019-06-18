@@ -324,7 +324,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                     btnPositiveClick = {
                         val json = JsonObject()
                         json.addProperty("user_id", App.INSTANCE.getUserId())
-                        json.addProperty("email", "$verifiedEmail".toLowerCase())
+                        json.addProperty("email", "$verifiedEmail".toLowerCase().trim())
                         json.addProperty("type", "update_email")
                         e("Plain Data=>", json.toString())
                         val data = AES.encrypt(json.toString())
