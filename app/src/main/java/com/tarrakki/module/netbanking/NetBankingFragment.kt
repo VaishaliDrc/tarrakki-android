@@ -21,6 +21,7 @@ import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_net_banking.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
@@ -52,6 +53,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
 
     }
 
+    var isRedirecting = false
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
         setHasOptionsMenu(true)
@@ -93,13 +95,10 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
                 e("URL=>$url")
                 return when {
                     url.contains(ApiClient.BANK_REDIRECT_URL) -> {
-                        val bundle = Bundle().apply {
-                            arguments?.getString(SUCCESSTRANSACTION)?.let { it1 -> putString(SUCCESSTRANSACTION, it1) }
-                            arguments?.getBoolean(ISFROMTRANSACTIONMODE)?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
-                            putBoolean(NET_BANKING_PAGE, true)
-                        }
-                        startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
                         view.loadUrl(url)
+                        if (!isRedirecting) {
+                            redirectTo()
+                        }
                         true
                     }
                     else -> {
@@ -167,6 +166,28 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
                 onBack(3)
             }
         })
+    }
+
+    private fun redirectTo() {
+        isRedirecting = true
+        val bundle = Bundle().apply {
+            arguments?.getString(SUCCESSTRANSACTION)?.let { it1 -> putString(SUCCESSTRANSACTION, it1) }
+            arguments?.getBoolean(ISFROMTRANSACTIONMODE)?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+            putBoolean(NET_BANKING_PAGE, true)
+        }
+        startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+    }
+
+    override fun onEvent(event: Event) {
+        when (event) {
+            Event.ON_PAYMENT_REDIRECTED -> {
+                if (!isRedirecting) {
+                    redirectTo()
+                }
+            }
+            else -> super.onEvent(event)
+        }
+
     }
 
     companion object {

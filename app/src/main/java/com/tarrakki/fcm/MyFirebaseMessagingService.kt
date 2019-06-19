@@ -23,6 +23,7 @@ import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.home.HomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.setPushToken
@@ -48,6 +49,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                             null
                     )
                     EventBus.getDefault().postSticky(tiket)
+                } else if ("payment_success".equals(messageBody.optString("type"), true)) {
+                    EventBus.getDefault().post(Event.ON_PAYMENT_REDIRECTED)
                 } else {
                     sendNotification(messageBody)
                 }
