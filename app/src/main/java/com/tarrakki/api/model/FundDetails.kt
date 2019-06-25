@@ -592,6 +592,7 @@ data class BSEData(
         val sipList: List<Sip>?
 ) {
     var isAdditional: Boolean? = false
+    var isTarrakkiZyaada: Boolean? = false
 
     data class Sip(
             @SerializedName("max_amount")

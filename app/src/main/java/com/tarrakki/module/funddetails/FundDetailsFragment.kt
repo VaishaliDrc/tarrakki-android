@@ -4,13 +4,11 @@ package com.tarrakki.module.funddetails
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tarrakki.R
-import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.FragmentFundDetailsBinding
 import com.tarrakki.module.funddetails.fragments.OverviewFragment
 import com.tarrakki.module.funddetails.fragments.PerformanceFragment
 import com.tarrakki.module.zyaada.TARRAKKI_ZYAADA_ID
 import kotlinx.android.synthetic.main.fragment_fund_details.*
-import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
 import org.supportcompact.adapters.setFragmentPagerAdapter
@@ -46,14 +44,14 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
 
     override fun createReference() {
         arguments?.let { it ->
-            val id = it.getString(ITEM_ID)
-            id?.let {
-                getViewModel().getFundDetails(it)
-            }
             it.getString(TARRAKKI_ZYAADA_ID)?.let {
                 if (it.isNotBlank()) {
                     getViewModel().tarrakkiZyaadaId = it
                 }
+            }
+            val id = it.getString(ITEM_ID)
+            id?.let {
+                getViewModel().getFundDetails(it)
             }
         }
         val pages = arrayListOf(

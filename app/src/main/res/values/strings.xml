@@ -703,6 +703,8 @@
     <string name="lower_amount_for_insta_redeem">You have a very low amount remaining. You cannot use the insta redemption facility at this point, in order to keep your investment intact.</string>
     <string name="mandate_max_amt">Your mandate limit is the maximum amount of money you can invest on any given day of a month.</string>
     <string name="tarrakki_is_a_bank_grade_secure_portal_your_bank_information_is_completely_safe">Tarrakki is a bank-grade secure portal. All of your banking information is completely safe and secure.</string>
+    <string name="current_value">Current Value</string>
+    <string name="tarrakki_zyaada_investment_alert">You can either do a one-time Lumpsum or SIP investment with Tarrakki Zyaada.</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

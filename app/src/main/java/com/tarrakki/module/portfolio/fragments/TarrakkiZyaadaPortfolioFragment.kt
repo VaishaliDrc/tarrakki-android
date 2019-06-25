@@ -151,6 +151,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             }
                             folios.add(fData)
                         }
+                        item.bseData?.isTarrakkiZyaada = true
                         context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
                             addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, item.tzId).observe(
                                     this,

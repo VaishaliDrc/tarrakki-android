@@ -55,7 +55,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvPortfolio"
                     android:layout_width="136dp"
                     android:layout_height="15dp"
@@ -64,14 +64,15 @@
                     android:text="@string/portfolio_value"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/home_title_color"
-                    android:visibility="@{vm.portfolioVisibility}"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/homeView"
                     app:layout_constraintEnd_toEndOf="@+id/cpPortfolio"
                     app:layout_constraintStart_toStartOf="@+id/cpPortfolio"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.3" />
+                    app:layout_constraintVertical_bias="0.3"
+                    tools:visibility="@{vm.portfolioVisibility}" />-->
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/tvPortfolioValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -81,7 +82,7 @@
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@android:color/white"
-                    android:visibility="@{vm.portfolioVisibility}"
+                    android:visibility="gone"
                     app:anim="@{true}"
                     app:layout_constraintBottom_toBottomOf="@+id/homeView"
                     app:layout_constraintEnd_toEndOf="@+id/cpPortfolio"
@@ -89,7 +90,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.45"
                     app:price="@{vm.portfolioDetails.currentValue}"
-                    tools:text="@string/dummy1" />
+                    tools:text="@string/dummy1"
+                    tools:visibility="@{vm.portfolioVisibility}" />-->
 
                 <TextView
                     android:id="@+id/tvViewPortfolio"
@@ -102,11 +104,10 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"
                     android:visibility="@{vm.portfolioVisibility}"
-                    app:layout_constraintBottom_toBottomOf="@+id/homeView"
-                    app:layout_constraintEnd_toEndOf="@+id/tvPortfolioValue"
-                    app:layout_constraintStart_toStartOf="@+id/tvPortfolioValue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.7" />
+                    app:layout_constraintBottom_toBottomOf="@id/cpPortfolio"
+                    app:layout_constraintEnd_toEndOf="@id/cpPortfolio"
+                    app:layout_constraintStart_toStartOf="@id/cpPortfolio"
+                    app:layout_constraintTop_toTopOf="@id/cpPortfolio" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guideline"
@@ -147,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/total_return"
+                    android:text="@string/current_value"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/home_title_color"
                     android:visibility="@{vm.portfolioVisibility}"
@@ -163,40 +164,13 @@
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/white"
                     android:visibility="@{vm.portfolioVisibility}"
                     app:anim="@{true}"
                     app:layout_constraintStart_toEndOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@+id/tvTotalReturn"
-                    app:returns="@{vm.portfolioDetails.totalReturn}"
-                    tools:text="@string/dummy2" />
-
-                <TextView
-                    android:id="@+id/tvXIRRL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:text="(XIRR)"
-                    android:visibility="gone"
-                    android:textColor="@color/home_title_color"
-                    app:layout_constraintBottom_toTopOf="@+id/tvTotalReturnValue"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/tvTotalReturnValue"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTotalReturnValue" />
-
-                <TextView
-                    android:id="@+id/tvTotalReturnInPercentage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:text="(+0%)"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toEndOf="@id/guideline"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTotalReturnValue" />
+                    app:price="@{vm.portfolioDetails.currentValue}"
+                    tools:text="@string/dummy1" />
 
                 <LinearLayout
                     android:id="@+id/ll_complete_verification"

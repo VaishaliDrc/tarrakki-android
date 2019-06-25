@@ -97,7 +97,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
                     url.contains(ApiClient.BANK_REDIRECT_URL) -> {
                         view.loadUrl(url)
                         if (!isRedirecting) {
-                            redirectTo()
+                            //redirectTo()
                         }
                         true
                     }

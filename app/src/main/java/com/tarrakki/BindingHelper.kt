@@ -1359,9 +1359,13 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                                 lumpsumAmount: BigInteger,
                                 bseData: BSEData? = null): Boolean {
     if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
-        this.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump))
+        simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump))
+        return false
+    } else if (bseData?.isAdditional == false && bseData?.isTarrakkiZyaada == true && lumpsumAmount != BigInteger.ZERO && sipAmount != BigInteger.ZERO) {
+        simpleAlert(getString(R.string.tarrakki_zyaada_investment_alert))
         return false
     }
+
     if (lumpsumAmount != BigInteger.ZERO) {
         val amountRange = bseData?.lumpsumList?.filter { "Y".equals(it.lumpsumAllowed, true) }
         if ("Y".equals(bseData?.lumpsumAllowed, true) && bseData?.lumpsumCheckFlag == true && amountRange?.isNotEmpty() == true) {

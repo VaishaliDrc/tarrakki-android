@@ -4,23 +4,18 @@ package com.tarrakki.module.goal
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
-import android.widget.TextView
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.Goal
 import com.tarrakki.databinding.FragmentGoalBinding
 import com.tarrakki.databinding.RowGoalListItemBinding
-import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import kotlinx.android.synthetic.main.fragment_goal.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
-import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
 

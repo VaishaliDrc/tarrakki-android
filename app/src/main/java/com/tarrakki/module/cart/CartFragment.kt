@@ -213,6 +213,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
 
                     binder.tvAddOneTimeAmount.setOnClickListener {
+                        item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
+                        item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
                             if ("0" != amountLumpsum) {
                                 item.lumpsumAmount = amountLumpsum
@@ -233,6 +235,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         })
                     }
                     binder.tvSIPAmount.setOnClickListener {
+                        item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
+                        item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
                             item.lumpsumAmount = amountLumpsum
                             item.sipAmount = amountSIP
@@ -240,6 +244,8 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                     }
                     binder.tvLumpsumAmount.setOnClickListener {
+                        item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
+                        item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
                             item.lumpsumAmount = amountLumpsum
                             item.sipAmount = amountSIP

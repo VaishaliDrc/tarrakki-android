@@ -52,6 +52,7 @@ class FundDetailsVM : FragmentViewModel() {
                                     val fundDetails = o.data?.parseTo<FundDetails>()
                                     fundDetails?.topTenHoldings
                                     fundDetails?.returnsHistory
+                                    fundDetails?.bseData?.isTarrakkiZyaada = !tarrakkiZyaadaId.isNullOrBlank()
                                     fundDetailsResponse.postValue(fundDetails)
                                     EventBus.getDefault().post(DISMISS_PROGRESS)
                                 }
