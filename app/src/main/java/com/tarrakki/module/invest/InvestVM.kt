@@ -5,6 +5,7 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
 import android.graphics.Color
+import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
@@ -28,8 +29,8 @@ class InvestVM : FragmentViewModel() {
     var fundReturns = arrayListOf<FundType>()
     var arrRiskLevel = arrayListOf<RiskLevel>()
     val loadMore = ObservableField(false)
-    val filter = ObservableField<Boolean>(true)
-
+    val filter = ObservableField(true)
+    val tvNoDataFoundVisibility = ObservableField(View.GONE)
     val response = MutableLiveData<InvestmentFunds>()
     var isInit = true
 

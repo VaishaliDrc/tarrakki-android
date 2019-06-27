@@ -18,6 +18,7 @@ import com.tarrakki.api.ApiClient
 import com.tarrakki.databinding.FragmentNetBankingBinding
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
+import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_net_banking.*
 import org.supportcompact.CoreFragment
@@ -97,7 +98,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
                     url.contains(ApiClient.BANK_REDIRECT_URL) -> {
                         view.loadUrl(url)
                         if (!isRedirecting) {
-                            //redirectTo()
+                            redirectTo()
                         }
                         true
                     }
@@ -171,6 +172,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
     private fun redirectTo() {
         isRedirecting = true
         val bundle = Bundle().apply {
+            arguments?.getString(SUCCESS_ORDERS)?.let { it1 -> putString(SUCCESS_ORDERS, it1) }
             arguments?.getString(SUCCESSTRANSACTION)?.let { it1 -> putString(SUCCESSTRANSACTION, it1) }
             arguments?.getBoolean(ISFROMTRANSACTIONMODE)?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
             putBoolean(NET_BANKING_PAGE, true)

@@ -50,6 +50,7 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
             it?.let { fund ->
                 tvName?.text = fund.fundName
                 tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
+                getViewModel().isInstaRedeem.set(fund.isInstaRedeem)
                 tvUnits?.text = fund.redeemUnits
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank
@@ -60,6 +61,7 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
             it?.let { fund ->
                 tvName?.text = fund.fundName
                 tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
+                getViewModel().isInstaRedeem.set(fund.isInstaRedeem)
                 tvUnits?.text = fund.redeemUnits
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank
@@ -70,6 +72,7 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
             it?.let { fund ->
                 tvName?.text = fund.fundName
                 tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
+                getViewModel().isInstaRedeem.set(fund.isInstaRedeem)
                 tvUnits?.text = fund.redeemUnits
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank

@@ -89,7 +89,8 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         val observerFundsData = Observer<InvestmentFunds> { response ->
             mRefresh?.isRefreshing = false
             response?.let {
-                coreActivityVM?.emptyView(response.funds.isEmpty())
+                getViewModel().tvNoDataFoundVisibility.set(if (response.funds.isEmpty()) View.VISIBLE else View.GONE)
+                //coreActivityVM?.emptyView(response.funds.isEmpty())
                 rvFunds?.setUpRecyclerView(R.layout.row_fund_list_item, response.funds) { item: InvestmentFunds.Fund, binder: RowFundListItemBinding, position ->
                     item.FDReturn = parseToPercentageOrNA(response.fixedDepositReturn)
                     binder.fund = item

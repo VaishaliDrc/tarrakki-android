@@ -193,11 +193,7 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         val data = StopSIP(transactionId, folio, date)
                         startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = false), R.id.frmContainer)
                         repostSticky(data)
-                        /*stopPortfolio(transactionId).observe(this, Observer {
-                            context?.simpleAlert(alertStopPortfolio(folio, date)) {
-                                getViewModel().getUserPortfolio()
-                            }
-                        })*/
+                        repostSticky(item)
                     }
                 }
             }

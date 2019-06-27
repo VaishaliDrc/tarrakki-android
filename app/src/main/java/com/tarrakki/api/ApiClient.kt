@@ -18,10 +18,7 @@ import org.simpleframework.xml.convert.AnnotationStrategy
 import org.simpleframework.xml.core.Persister
 import org.supportcompact.CoreApp
 import org.supportcompact.R
-import org.supportcompact.ktx.ONLOGOUT
-import org.supportcompact.ktx.getLoginToken
-import org.supportcompact.ktx.isNetworkConnected
-import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.*
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -39,7 +36,7 @@ object ApiClient {
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
-    const val BUILD_TYPE_DEBUG = true
+    //const val BUILD_TYPE_DEBUG = true
 
     /***
      * CAMS api base url Test Url

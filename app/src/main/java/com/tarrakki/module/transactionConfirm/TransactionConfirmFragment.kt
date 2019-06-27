@@ -23,6 +23,7 @@ import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
+import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -55,17 +56,28 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         setHasOptionsMenu(true)
 
         val success_transactions = arguments?.getString(SUCCESSTRANSACTION, "")
+        val successOrders = arguments?.getString(SUCCESS_ORDERS, "")
         if (!success_transactions.isNullOrEmpty()) {
             isFromPaymentMode = true
             val json = JSONObject()
             json.put("user_id", context?.getUserId())
             json.put("success_transaction_ids", JSONArray(success_transactions))
+            json.put("orders", JSONArray(successOrders))
             val authData = AES.encrypt(json.toString())
             json.toString().printRequest()
             App.INSTANCE.isRefreshing.value = null
             App.INSTANCE.isRefreshing.observe(this, Observer {
                 it?.let {
                     getBinding().root.visibility = View.VISIBLE
+                    getBinding().root.isFocusableInTouchMode = true
+                    getBinding().root.requestFocus()
+                    getBinding().root.setOnKeyListener { v, keyCode, event ->
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                            onBackPress()
+                            return@setOnKeyListener true
+                        }
+                        return@setOnKeyListener false
+                    }
                 }
             })
             getBinding().root.visibility = View.GONE
@@ -109,9 +121,6 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         btnToTransactionScreen?.setOnClickListener {
             onTransactionScreen()
         }
-
-        getBinding().root.isFocusableInTouchMode = true
-        getBinding().root.requestFocus()
         getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onBackPress()
@@ -119,6 +128,12 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             }
             return@setOnKeyListener false
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getBinding().root.isFocusableInTouchMode = true
+        getBinding().root.requestFocus()
     }
 
     private fun onTransactionScreen() {
@@ -193,10 +208,12 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
 
                         })
                         binder?.rvTransactionStatus?.adapter = transactionAdapter
-                    } else {
+                    } /*else {
                         binder?.imgArrow?.visibility = item.btnExpandableVisibility
                         binder?.rvTransactionStatus?.visibility = item.btnExpandableVisibility
-                    }
+                    }*/
+                    binder?.imgArrow?.visibility = item.btnExpandableVisibility
+                    binder?.rvTransactionStatus?.visibility = item.btnExpandableVisibility
                 }, { item, position, adapter ->
         }, false)
         rvOrderItems?.adapter = adapter
@@ -204,10 +221,13 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: ConfirmOrderFragment.FailedTransactions) {
-        transactionList = data.transactions
-        setOrderItemsAdapter(data.transactions)
-        removeStickyEvent(data)
-        e("Failed Data", transactionList.toString())
+        data.transactions?.let {
+            it.forEach { it.btnExpandableVisibility = View.GONE }
+            transactionList = data.transactions
+            setOrderItemsAdapter(data.transactions)
+            removeStickyEvent(data)
+            e("Failed Data", transactionList.toString())
+        }
     }
 
     private fun onBackPress() {

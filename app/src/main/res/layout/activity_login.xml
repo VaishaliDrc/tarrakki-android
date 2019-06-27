@@ -211,45 +211,50 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/llGpl"
-                android:layout_width="@dimen/_118sdp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_38ssp"
+                android:layout_marginStart="@dimen/space_32"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
                 android:background="@drawable/shape_g_plus_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="@dimen/space_8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@id/llFB"
                 app:layout_constraintTop_toBottomOf="@id/tvLoginWith">
 
                 <ImageView
-                    android:layout_width="0dp"
+                    android:id="@+id/ivGLogo"
+                    android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/_8sdp"
                     android:layout_marginStart="@dimen/space_8"
-                    android:layout_weight="2"
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_google" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_toEndOf="@id/ivGLogo"
                     android:background="#BE3610" />
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_centerInParent="true"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:fontFamily="@font/lato_bold"
                     android:text="@string/google"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/white" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:id="@+id/mDivider"

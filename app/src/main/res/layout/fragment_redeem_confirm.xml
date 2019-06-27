@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.tarrakki.module.redeem.RedeemConfirmVM" />
@@ -73,7 +75,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="16dp"
-                    android:background="@color/darker_gray" />
+                    android:background="@color/darker_gray"
+                    android:visibility="@{vm.isInstaRedeem?View.GONE:View.VISIBLE}" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -81,7 +84,8 @@
                     android:paddingTop="@dimen/space_8"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@string/amount_will_be_credited_in_2_4_business_days_depending_on_the_amc"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:visibility="@{vm.isInstaRedeem?View.GONE:View.VISIBLE}" />
 
             </LinearLayout>
 

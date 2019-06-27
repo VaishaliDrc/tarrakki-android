@@ -41,6 +41,7 @@ import java.math.BigInteger
 const val BANKACCOUNTNUMBER = "bankaccountnumber"
 const val ISFROMPAYMENTMODE = "isFromPaymentMode"
 const val SUCCESSTRANSACTION = "successtransactions"
+const val SUCCESS_ORDERS = "success_orders"
 const val ISFROMTRANSACTIONMODE = "isFromTransactionMode"
 
 class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBinding>() {
@@ -139,15 +140,10 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                 startFragment(NetBankingFragment.newInstance(Bundle().apply {
                                     putSerializable(NET_BANKING_PAGE, jsonObject.optString("data"))
                                     putString(SUCCESSTRANSACTION, transaction.toString())
+                                    putString(SUCCESS_ORDERS, items.toJson())
                                     isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
                                 }), R.id.frmContainer)
                             }
-                            /*it?.printResponse()
-                            val bundle = Bundle().apply {
-                                putString(SUCCESSTRANSACTION, transaction.toString())
-                                isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
-                            }
-                            startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)*/
                         })
                     } else {
                         if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
@@ -157,6 +153,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                             getViewModel().paymentOrder(authData).observe(this, Observer {
                                 it?.printResponse()
                                 val bundle = Bundle().apply {
+                                    putString(SUCCESS_ORDERS, items.toJson())
                                     putString(SUCCESSTRANSACTION, transaction.toString())
                                     isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
                                 }

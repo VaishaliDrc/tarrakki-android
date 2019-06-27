@@ -11,6 +11,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.ConfirmOrderResponse
 import com.tarrakki.api.model.TransactionStatus
 import com.tarrakki.api.model.UserBankMandateResponse
+import com.tarrakki.api.model.toJson
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
 import com.tarrakki.module.bankaccount.SingleButton
@@ -19,6 +20,7 @@ import com.tarrakki.module.bankmandate.ISFROMCONFIRMORDER
 import com.tarrakki.module.bankmandate.MANDATEID
 import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
+import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
 import org.greenrobot.eventbus.Subscribe
@@ -88,7 +90,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         } else {
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
-                                if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                    if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                     it?.let { it2 -> postSticky(it2) }
                                     if (it?.data?.failedTransactions?.isNotEmpty() == true) {
@@ -107,6 +109,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                     }
                                     val bundle = Bundle().apply {
                                         putString(SUCCESSTRANSACTION, transaction.toString())
+                                        putString(SUCCESS_ORDERS, it.data.orders.toJson())
                                         putBoolean(IS_FROM_CONFIRM_ORDER, true)
                                     }
                                     startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
@@ -144,6 +147,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                     }
                                 }
                                 val bundle = Bundle().apply {
+                                    putString(SUCCESS_ORDERS, it.data.orders.toJson())
                                     putString(SUCCESSTRANSACTION, transaction.toString())
                                     putBoolean(IS_FROM_CONFIRM_ORDER, true)
                                 }
@@ -216,6 +220,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
         fun newInstance(basket: Bundle? = null) = ConfirmOrderFragment().apply { arguments = basket }
     }
 
-    class FailedTransactions(val transactions: List<TransactionStatus>)
+    class FailedTransactions(val transactions: List<TransactionStatus>?)
 
 }

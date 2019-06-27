@@ -2,6 +2,7 @@ package com.tarrakki.module.redeem
 
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
+import android.view.View
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.module.portfolio.StopSIP
 import org.supportcompact.FragmentViewModel
@@ -13,4 +14,5 @@ class RedeemConfirmVM : FragmentViewModel() {
     val tarrakkiZyaadaRedeemFund = MutableLiveData<UserPortfolioResponse.Data.TarrakkiZyaadaInvestment>()
     val isRedeemReq = ObservableField<Boolean>()
     var stopSIP: StopSIP? = null
+    val isInstaRedeem = ObservableField(false)
 }

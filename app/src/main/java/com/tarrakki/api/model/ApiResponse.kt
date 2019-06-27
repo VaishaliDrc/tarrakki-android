@@ -58,6 +58,18 @@ inline fun <reified T> String.parseArray(): T? {
     }
 }
 
+inline fun <reified T> T.toJson(): String? {
+    return try {
+        val listType = object : TypeToken<T>() {}.type
+        val mjson = Gson().toJson(this, listType)
+        this?.e("Response Array=>$mjson")
+        mjson
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 fun ApiResponse.printResponse() {
     e("Response=>", "${data?.toDecrypt()}")
 }
