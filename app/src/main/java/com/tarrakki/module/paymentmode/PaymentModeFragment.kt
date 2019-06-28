@@ -243,12 +243,12 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             ""
         }
         val sipTransactionId: Int = if (data.type == "SIP") {
-            data.id
+            data.id ?: 0
         } else {
             0
         }
         val lumpsumTransactionId: Int = if (data.type == "Lumpsum") {
-            data.id
+            data.id ?: 0
         } else {
             0
         }
@@ -257,7 +257,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 sipTransactionId, data.name, lumpsumTransactionId
                 , lumpsumAmount, sipAmount
         )
-        transaction.isFirstSIP = "Y"
+        transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
         orderList.add(transaction)
 
         val ConfirmResponseData = data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
@@ -290,12 +290,12 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 ""
             }
             val sipTransactionId: Int = if (data.type == "SIP") {
-                data.id
+                data.id ?: 0
             } else {
                 0
             }
             val lumpsumTransactionId: Int = if (data.type == "Lumpsum") {
-                data.id
+                data.id ?: 0
             } else {
                 0
             }
@@ -304,7 +304,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                     sipTransactionId, data.name, lumpsumTransactionId
                     , lumpsumAmount, sipAmount
             )
-            transaction.isFirstSIP = "Y"
+            transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
             orderList.add(transaction)
             data.amount?.let { BigDecimal.valueOf(it).toBigInteger() }?.let {
                 totalPayableAmount += it

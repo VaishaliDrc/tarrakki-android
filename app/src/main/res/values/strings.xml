@@ -503,7 +503,8 @@
     <string name="alert_profile_success">Your Profile Picture has been Updated Successfully.</string>
     <string name="alert_signtuare_success">Your Signature has been Updated Successfully.</string>
     <string name="alert_req_answers">All the questions are mandatory. Please answer them to continue.</string>
-    <string name="alert_valid_above">Please enter a valid number equal to or greater than</string>
+    <string name="alert_valid_above">Please enter an amount equal to or greater than</string>
+
     <string name="alert_valid_percentage">Please enter a valid percentage between</string>
     <string name="alert_valid_years">Please enter a valid number of years between</string>
     <string name="alert_valid_goal_lumpsum">The lumpsum amount can not be equal to or greater than the goal\'s target amount.</string>

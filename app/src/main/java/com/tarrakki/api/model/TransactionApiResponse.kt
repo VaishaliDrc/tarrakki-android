@@ -45,7 +45,7 @@ data class TransactionApiResponse(
             @SerializedName("fund_id")
             val fundId: Int,
             @SerializedName("id")
-            val id: Int,
+            val id: Int?,
             @SerializedName("name")
             val name: String,
             @SerializedName("nav")
@@ -109,11 +109,12 @@ data class TransactionApiResponse(
                     if (temp == null || temp == 0.0) {
                         "N/A"
                     } else {
-                        if (field.contains(".")) {
+                        "$field"
+                        /*if (field.contains(".")) {
                             "${field.substringBefore(".").toDouble().format()}${field.substring(field.indexOf("."))}"
                         } else {
                             temp.format()
-                        }
+                        }*/
                     }
                 } catch (e: java.lang.Exception) {
                     "N/A"

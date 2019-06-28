@@ -61,7 +61,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             isFromPaymentMode = true
             val json = JSONObject()
             json.put("user_id", context?.getUserId())
-            json.put("success_transaction_ids", JSONArray(success_transactions))
+            //json.put("success_transaction_ids", JSONArray(success_transactions))
             json.put("orders", JSONArray(successOrders))
             val authData = AES.encrypt(json.toString())
             json.toString().printRequest()
