@@ -1,20 +1,13 @@
 package com.tarrakki.module.investmentstrategies
 
-import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.databinding.ObservableField
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
-import android.text.style.BulletSpan
 import android.view.View
-import com.tarrakki.App
 import com.tarrakki.BR
-import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import org.supportcompact.FragmentViewModel
 import java.io.Serializable

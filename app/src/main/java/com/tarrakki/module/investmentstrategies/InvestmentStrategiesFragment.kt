@@ -15,15 +15,12 @@ import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
 import com.tarrakki.module.home.ISTHEMATICINVESTMENT
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
-import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
-import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_investment_strategies.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.widgets.ItemOffsetDecoration
 import java.util.*

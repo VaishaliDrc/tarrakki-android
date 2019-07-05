@@ -69,7 +69,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
         btnNext?.setOnClickListener {
             if (getViewModel().isMandateBankList.get() != true) {
-                if (userBankAdapter?.selectedItemViewCount != 0) {
+                if (userBankAdapter?.selectedItemViewCount ?: 0 > 0) {
                     startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
                     postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
                     postSticky(Event.ISFROMBANKMANDATE)
@@ -89,7 +89,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         }
 
         btnSelectBankMandate?.setOnClickListener {
-            if (mandateBankAdapter?.selectedItemViewCount != 0) {
+            if (mandateBankAdapter?.selectedItemViewCount ?: 0 > 0) {
                 onBack()
                 mandateBankAdapter?.getSelectedItems()?.get(0)?.let { it1 -> postSticky(it1) }
             } else {

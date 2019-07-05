@@ -100,6 +100,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
                         if (!isRedirecting) {
                             redirectTo()
                         }
+                        e("is redirect from onPageRequest.....")
                         true
                     }
                     else -> {
@@ -183,13 +184,13 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
     override fun onEvent(event: Event) {
         when (event) {
             Event.ON_PAYMENT_REDIRECTED -> {
+                e("is redirect from Push.....")
                 if (!isRedirecting) {
                     redirectTo()
                 }
             }
             else -> super.onEvent(event)
         }
-
     }
 
     companion object {

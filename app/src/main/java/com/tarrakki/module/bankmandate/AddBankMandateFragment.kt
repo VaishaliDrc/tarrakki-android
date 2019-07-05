@@ -70,7 +70,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         }
 
         btnSelectBankMandate?.setOnClickListener {
-            if (userBankAdapter?.selectedItemViewCount != 0) {
+            if (userBankAdapter?.selectedItemViewCount ?: 0 > 0) {
                 onBack()
                 postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
             } else {
@@ -79,7 +79,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         }
 
         btnNext?.setOnClickListener {
-            if (userBankAdapter?.selectedItemViewCount != 0) {
+            if (userBankAdapter?.selectedItemViewCount ?: 0 > 0) {
                 startFragment(AutoDebitFragment.newInstance(), R.id.frmContainer)
                 postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
                 postSticky(Event.ISFROMNEWBANKMANDATE)
@@ -106,7 +106,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
                 getViewModel().isNoBankAccount.set(false)
                 if (isFromPaymentMode == true) {
                     getViewModel().isNextVisible.set(false)
-                }else{
+                } else {
                     getViewModel().isNextVisible.set(true)
                 }
                 setUserBankAdapter(it1.data.bankDetails)

@@ -34,9 +34,10 @@ class HomeVM : FragmentViewModel() {
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()
         if (!isRefreshing) {
-            Handler().postDelayed({
-                showProgress()
-            }, 500)
+            showProgress()
+            /*Handler().postDelayed({
+
+            }, 500)*/
         }
 
         subscribeToSingle(
@@ -46,9 +47,10 @@ class HomeVM : FragmentViewModel() {
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         //EventBus.getDefault().post(DISMISS_PROGRESS)
-                        Handler().postDelayed({
+                        dismissProgress()
+                        /*Handler().postDelayed({
                             dismissProgress()
-                        }, 500)
+                        }, 500)*/
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
@@ -87,9 +89,10 @@ class HomeVM : FragmentViewModel() {
                     }
 
                     override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                        Handler().postDelayed({
+                        /*Handler().postDelayed({
                             dismissProgress()
-                        }, 500)
+                        }, 500)*/
+                        dismissProgress()
                         EventBus.getDefault().post(ShowError("${throwable.message}"))
                     }
                 }

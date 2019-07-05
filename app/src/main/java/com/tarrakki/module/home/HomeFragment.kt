@@ -89,6 +89,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         getViewModel().getHomeData().observe(this, observerHomeData)
     }
 
+
     val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
 

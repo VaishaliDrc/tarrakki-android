@@ -444,7 +444,8 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                                 kycData.dob = data.appdobdt?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")
                                         ?: ""
                             } else {
-                                kycData.dob = data.appdobdt ?: ""
+                                kycData.dob = data.appdobdt?.toDate("dd/MM/yyyy")?.convertTo("dd/MM/yyyy")
+                                        ?: ""//data.appdobdt ?: ""
                             }
                             kycData.gender = data.appgen ?: ""
                             kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"

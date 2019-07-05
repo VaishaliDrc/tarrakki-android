@@ -73,7 +73,7 @@ class AllTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentAllTr
                         if (binder is RowUnpaidTransactionsBinding) {
                             binder.setVariable(BR.paynow, View.OnClickListener {
                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                                postSticky(item as TransactionApiResponse.Transaction)
+                                repostSticky(item as TransactionApiResponse.Transaction)
                             })
                         }
                         if (item is TransactionApiResponse.Transaction && item.displayStatus) {

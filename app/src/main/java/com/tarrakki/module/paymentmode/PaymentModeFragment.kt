@@ -117,12 +117,17 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 if (!getViewModel().accountNumber.get().isNullOrEmpty()) {
 
                     val transaction = arrayListOf<Int>()
+                    val transaction1 = arrayListOf<Int>()
                     for (funds in items) {
                         if (funds.lumpsumTransactionId != 0) {
                             transaction.add(funds.lumpsumTransactionId)
+                            transaction1.add(funds.lumpsumTransactionId)
                         }
                         if (funds.sipTransactionId != 0) {
                             transaction.add(funds.sipTransactionId)
+                            if ("Y".equals(funds.isFirstSIP, true)) {
+                                transaction1.add(funds.sipTransactionId)
+                            }
                         }
                     }
                     val response = getViewModel().confirmOrder.value
@@ -130,7 +135,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                     json.put("user_id", context?.getUserId())
                     json.put("total_payable_amount", response?.data?.totalPayableAmount.toString())
                     json.put("account_number", "${getViewModel().accountNumber.get()}")
-                    json.put("transaction_ids", JSONArray(transaction))
+                    json.put("transaction_ids", JSONArray(transaction1))
                     if (getViewModel().isNetBanking.get() == true) {
                         json.put("payment_mode", "DIRECT")
                         val authData = AES.encrypt(json.toString())
@@ -254,8 +259,8 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         }
 
         val transaction = ConfirmTransactionResponse.Data.Order(
-                sipTransactionId, data.name, lumpsumTransactionId
-                , lumpsumAmount, sipAmount
+                sipTransactionId = sipTransactionId, schemeName = data.name, lumpsumTransactionId = lumpsumTransactionId
+                , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount
         )
         transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
         orderList.add(transaction)
@@ -301,8 +306,8 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             }
 
             val transaction = ConfirmTransactionResponse.Data.Order(
-                    sipTransactionId, data.name, lumpsumTransactionId
-                    , lumpsumAmount, sipAmount
+                    sipTransactionId = sipTransactionId, schemeName = data.name, lumpsumTransactionId = lumpsumTransactionId
+                    , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount
             )
             transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
             orderList.add(transaction)

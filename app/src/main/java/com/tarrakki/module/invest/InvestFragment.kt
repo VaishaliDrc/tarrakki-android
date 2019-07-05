@@ -139,12 +139,14 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 }
                 categories.clear()
                 categories.add(getString(R.string.all))
-                response.fscbiCategoryList?.forEach { item ->
+                //fscbiBroadCategoryList
+                response.fscbiBroadCategoryList?.forEach { item ->
                     categories.add(item.name)
                 }
                 subcategories.clear()
                 subcategories.add(getString(R.string.all))
-                response.fscbiBroadCategoryList?.forEach { item ->
+                //fscbiCategoryList
+                response.fscbiCategoryList?.forEach { item ->
                     subcategories.add(item.name)
                 }
                 adapter.notifyDataSetChanged()
@@ -225,7 +227,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                getViewModel().category.value = if (position == 0) 0 else getViewModel().response.value?.fscbiCategoryList?.firstOrNull { c -> c.name == categories[position] }?.id
+                getViewModel().category.value = if (position == 0) 0 else getViewModel().response.value?.fscbiBroadCategoryList?.firstOrNull { c -> c.name == categories[position] }?.id
                 if (!getViewModel().isInit) {
                     getViewModel().getFunds().observe(this@InvestFragment, observerFundsData)
                 }
@@ -237,7 +239,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                getViewModel().subcategory.value = if (position == 0) 0 else getViewModel().response.value?.fscbiBroadCategoryList?.firstOrNull { c -> c.name == categories[position] }?.id
+                getViewModel().subcategory.value = if (position == 0) 0 else getViewModel().response.value?.fscbiCategoryList?.firstOrNull { c -> c.name == subcategories[position] }?.id
                 if (!getViewModel().isInit) {
                     getViewModel().getFunds().observe(this@InvestFragment, observerFundsData)
                 }

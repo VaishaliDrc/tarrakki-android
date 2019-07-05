@@ -59,7 +59,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                     }
                 }
                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                postSticky(transactions)
+                repostSticky(transactions)
                 getViewModel().hasOptionMenu.value = false
             } else {
                 context?.simpleAlert(getString(R.string.please_select_fund_to_payment))

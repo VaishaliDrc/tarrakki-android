@@ -1,7 +1,6 @@
 package com.tarrakki.module.investmentstrategies
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import com.tarrakki.R
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentSelectInvestmentStrategiesBinding
@@ -16,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_select_investment_strategies.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
-import org.supportcompact.adapters.setPageAdapter
 import org.supportcompact.adapters.setWrapContentPageAdapter
 import org.supportcompact.ktx.startFragment
 import java.util.*

@@ -68,8 +68,15 @@ object ApiClient {
     /**
      * Test Url
      **/
+    /*private const val BASE_URL = "http://13.235.141.219/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://13.235.141.219" /// Latest url
+    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v1/transactions/payment-status/"*/
+
+    /**
+     * Test Url
+     **/
     /*private const val BASE_URL = "http://172.10.29.76:8005/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest url
+    const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest urls
     const val BANK_REDIRECT_URL = "http://172.10.29.76:8005/api/v1/transactions/payment-status/"*/
 
     /**
