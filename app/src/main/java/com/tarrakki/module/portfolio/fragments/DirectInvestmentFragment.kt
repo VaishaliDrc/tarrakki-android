@@ -85,8 +85,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 val tableRow = context?.tableRow()
                                 tableRow?.addView(context?.tableRowContent(folioList.folioNo))
                                 tableRow?.addView(context?.tableRowContent((folioList.totalInvestment
-                                        ?: 0.0).toDouble().toCurrency()))
-                                tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toCurrency()}"))
+                                        ?: 0.0).toDouble().toDecimalCurrencyWithoutRoundOff()))
+                                tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toDecimalCurrencyWithoutRoundOff()}"))
                                 tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()
                                         ?: 0.0).decimalFormat3D()))
                                 tableRow?.addView(context?.tableRowContent(folioList.xiRR))
@@ -96,8 +96,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             /**Footer View**/
                             val tableRow = context?.tableRow()
                             tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toCurrency()}", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent("${item.currentValue?.toCurrency()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${item.currentValue?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat3D()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent(item.xiRR + " (XIRR)", context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
