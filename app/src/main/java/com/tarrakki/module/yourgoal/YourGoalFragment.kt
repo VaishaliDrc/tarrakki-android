@@ -178,8 +178,14 @@ class YourGoalFragment : CoreFragment<YourGoalVM, FragmentYourGoalBinding>() {
                 }
             }
             if (isValidate && (dataList.size - 1) == position) {
-                startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
-                postSticky(goal)
+                getViewModel().calculatePMT(goal).observe(this, Observer {
+                    it?.let { pmtResponse ->
+                        startFragment(YourGoalSummaryFragment.newInstance(), R.id.frmContainer)
+                        goal.pmt = pmtResponse.pmt
+                        goal.futureValue = pmtResponse.futureValue
+                        postSticky(goal)
+                    }
+                })
             } else if (isValidate) {
                 mPager.setCurrentItem(position + 1, true)
             }

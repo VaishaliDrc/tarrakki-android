@@ -89,8 +89,8 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                         tableRow?.addView(context?.tableRowContent((folioList.totalInvestment
                                 ?: 0.0).toDouble().decimaldWithoutRoundOffFormat()))
                         tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.decimaldWithoutRoundOffFormat()}"))
-                        tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()
-                                ?: 0.0).decimalFormat()))
+                        tableRow?.addView(context?.tableRowContent(folioList.units
+                                ?: ""/*(folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat())*/))
                         tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                         binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                     }
@@ -100,7 +100,8 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                     tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
                     tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.decimaldWithoutRoundOffFormat()}", context?.color(R.color.black)))
                     tableRow?.addView(context?.tableRowContent("${item.currentValue?.decimaldWithoutRoundOffFormat()}", context?.color(R.color.black)))
-                    tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat()}", context?.color(R.color.black)))
+                    tableRow?.addView(context?.tableRowContent("${item.totalUnits
+                            ?: ""}", context?.color(R.color.black)))
                     tableRow?.addView(context?.tableRowContent(item.xiRR + " (XIRR)", context?.color(R.color.black)))
                     binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                 }

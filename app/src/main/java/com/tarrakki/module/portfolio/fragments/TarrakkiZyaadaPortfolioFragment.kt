@@ -126,8 +126,8 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                             tableRow?.addView(context?.tableRowContent((folioList.totalInvestment
                                     ?: 0.0).toDouble().toDecimalCurrencyWithoutRoundOff()))
                             tableRow?.addView(context?.tableRowContent("${folioList.currentValue?.toDecimalCurrencyWithoutRoundOff()}"))
-                            tableRow?.addView(context?.tableRowContent((folioList.units?.toDoubleOrNull()
-                                    ?: 0.0).decimalFormat()))
+                            tableRow?.addView(context?.tableRowContent(folioList.units
+                                    ?: ""/*(folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat())*/))
                             tableRow?.addView(context?.tableRowContent(folioList.xiRR))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                         }
@@ -137,7 +137,8 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
                         tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
                         tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
                         tableRow?.addView(context?.tableRowContent("${item.currentValue?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
-                        tableRow?.addView(context?.tableRowContent("${item.totalUnits?.decimalFormat()}", context?.color(R.color.black)))
+                        tableRow?.addView(context?.tableRowContent("${item.totalUnits
+                                ?: ""}", context?.color(R.color.black)))
                         tableRow?.addView(context?.tableRowContent(item.xiRR + " (XIRR)", context?.color(R.color.black)))
                         binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                     }

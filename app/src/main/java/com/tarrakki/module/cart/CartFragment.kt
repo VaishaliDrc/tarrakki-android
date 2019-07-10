@@ -382,8 +382,22 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             val item = cartItems?.get(i) as CartData.Data.OrderLine
             val sipAmount = item.sipAmount.toCurrencyBigInt()
             val lumpsumpAmount = item.lumpsumAmount.toCurrencyBigInt()
-            val minlumpsumpAmount = item.validminlumpsumAmount
-            val minsipAmount = item.validminSIPAmount
+
+            item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
+
+            val minlumpsumpAmount = if (item.bseData?.isAdditional == true) {
+                item.additionalMinLumpsum
+            } else {
+                item.validminlumpsumAmount
+            }
+            val minsipAmount = if (item.bseData?.isAdditional == true) {
+                item.additionalSIPAmount
+            } else {
+                item.validminSIPAmount
+            }
+
+            //val minlumpsumpAmount = item.validminlumpsumAmount
+            //val minsipAmount = item.validminSIPAmount
 
             if (context?.isLumpsumAndSIPAmountValid(sipAmount, lumpsumpAmount) == false) {
                 context?.simpleAlert(this.getString(R.string.alert_req_sip_or_lumpsump)) {
@@ -396,7 +410,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 isValid = false
                 break@loop
             } else {
-                if (context?.isLumpsumAmountValid(minlumpsumpAmount, lumpsumpAmount) == false) {
+                /*if (context?.isLumpsumAmountValid(minlumpsumpAmount, lumpsumpAmount) == false) {
                     Handler().postDelayed({
                         if (getViewModel().funds.isNotEmpty()) {
                             getViewModel().funds[i].reuestToEdit = true
@@ -404,7 +418,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     }, 100)
                     isValid = false
                     break@loop
-                }
+                }*/
 
                 if (context?.isSIPAmountValid(minsipAmount, sipAmount) == false) {
                     Handler().postDelayed({

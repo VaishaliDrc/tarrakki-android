@@ -149,7 +149,7 @@
     <string name="google">Google</string>
     <string name="facebook">Facebook</string>
     <string name="don_t_have_an_account_yet_get_started">Don\'t have an account yet? <font color='#4EB95D'>Get Started</font></string>
-    <string name="we_just_need_your_registered_email_id">We just need your registered Email ID to send you password reset instructions.</string>
+    <string name="we_just_need_your_registered_email_id">We just need your registered Email ID or Mobile Number to send you password reset instructions.</string>
     <string name="email_address">Email Address*</string>
     <string name="reset_password">Reset Password</string>
     <string name="back">Back</string>

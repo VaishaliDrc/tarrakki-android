@@ -790,7 +790,17 @@ fun Context.investCartDialog(item: CartData.Data.OrderLine, onInvest: ((amountLu
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
         it.dismissKeyboard()
         if (isLumpsumAndSIPAmountValid(sipAmount, lumpsumAmount)) {
-            if (this.isInvestDialogValid(item.validminSIPAmount, item.validminlumpsumAmount, sipAmount, lumpsumAmount, item.bseData)) {
+            val minLumpsum = if (item.bseData?.isAdditional == true) {
+                item.additionalMinLumpsum
+            } else {
+                item.validminlumpsumAmount
+            }
+            val minSIPAmount = if (item.bseData?.isAdditional == true) {
+                item.additionalSIPAmount
+            } else {
+                item.validminSIPAmount
+            }
+            if (this.isInvestDialogValid(minSIPAmount, minLumpsum, sipAmount, lumpsumAmount, item.bseData)) {
                 mDialog.dismiss()
                 onInvest?.invoke(lumpsumAmount.toString(), sipAmount.toString())
             }
@@ -1417,13 +1427,13 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         if ("Y".equals(bseData?.sipAllowed, true) && bseData?.sipCheckFlag == true && amountRange?.isNotEmpty() == true) {
 
             if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
-                val minSip = if (bseData.isAdditional == true) {
+                val minSip = amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount /*if (bseData.isAdditional == true) {
                     amountRange.minBy {
                         it.sipAdditionalMinAmount ?: BigInteger.ZERO
                     }?.sipAdditionalMinAmount
                 } else {
                     amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount
-                }
+                }*/
                 val maxSipUnlimited = amountRange.find { it.maxAmount ?: BigInteger.ZERO == BigInteger.ZERO }?.maxAmount
                 val maxSip = amountRange.maxBy { it.maxAmount ?: BigInteger.ZERO }?.maxAmount
                 if (minSip != null && maxSip != null) {

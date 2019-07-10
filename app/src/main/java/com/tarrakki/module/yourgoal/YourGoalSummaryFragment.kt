@@ -38,8 +38,6 @@ import org.supportcompact.ktx.*
  */
 class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummaryBinding>() {
 
-    var needToCalculatePMT = true
-
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -202,11 +200,12 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
                         getViewModel().calculatePMT(goal).observe(this, pmt)
                     }
                 }
-                if (needToCalculatePMT) {
+                /*if (needToCalculatePMT) {
                     getViewModel().calculatePMT(goal).observe(this, pmt)
                 } else {
                     pmt.onChanged(PMTResponse(goal.futureValue ?: 0.0, goal.pmt ?: 0.0))
-                }
+                }*/
+                pmt.onChanged(PMTResponse(goal.futureValue ?: 0.0, goal.pmt ?: 0.0))
             }
         })
 
@@ -273,7 +272,7 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    fun onReceive(goal: com.tarrakki.api.model.Goal.Data.GoalData) {
+    fun onReceive(goal: Goal.Data.GoalData) {
         if (getViewModel().goalVM.value == null) {
             goal.customPMT = null
             getViewModel().goalVM.value = goal
@@ -284,7 +283,6 @@ class YourGoalSummaryFragment : CoreFragment<YourGoalVM, FragmentYourGoalSummary
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(goal: GoalSavedResponse.Data) {
         if (getViewModel().goalVM.value == null) {
-            needToCalculatePMT = false
             getViewModel().goalVM.value = goal.getGoal()
         }
         removeStickyEvent(goal)

@@ -34,16 +34,20 @@ class ForgotPasswordActivity : CoreActivity<ForgotPasswordVM, ActivityForgotPass
             onBackPressed()
         }
         btnResetPassword?.setOnClickListener {
+
             if (getViewModel().email.get()?.length == 0) {
-                simpleAlert(getString(R.string.alert_req_email)) {
+                simpleAlert(getString(R.string.please_enter_emai_id_or_mobile_no)) {
                     edtEmail?.requestFocus()
                 }
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(getViewModel().email.get()).matches()) {
+                /*simpleAlert(getString(R.string.alert_req_email)) {
+                    edtEmail?.requestFocus()
+                }*/
+            } /*else if (!Patterns.EMAIL_ADDRESS.matcher(getViewModel().email.get()).matches()) {
                 simpleAlert(getString(R.string.alert_valid_email)) {
                     edtEmail?.requestFocus()
                     edtEmail?.selectAll()
                 }
-            } else {
+            }*/ else {
                 getViewModel().forgotPassword().observe(this, Observer { apiResponse ->
                     /*simpleAlert(apiResponse?.otp.toString()) {
                         edtEmail?.text?.clear()
