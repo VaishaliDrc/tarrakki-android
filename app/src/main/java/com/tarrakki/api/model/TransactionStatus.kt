@@ -6,15 +6,15 @@ import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
 
 data class TransactionStatus(
         @SerializedName("bse_remarks")
-        val bseRemarks: String,
+        val bseRemarks: String?,
         @SerializedName("amount")
-        val amount: Double,
+        val amount: Double?,
         @SerializedName("transaction_id")
-        val transactionId: Int,
+        val transactionId: String?,
         @SerializedName("order_type")
-        val orderType: String,
+        val orderType: String?,
         @SerializedName("scheme_name")
-        val schemeName: String,
+        val schemeName: String?,
         val isSuccess: Boolean = false,
         val status: List<TransactionConfirmVM.TranscationStatuss>? = null
 ) {

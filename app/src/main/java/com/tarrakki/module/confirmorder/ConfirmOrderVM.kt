@@ -33,7 +33,11 @@ class ConfirmOrderVM : FragmentViewModel() {
                             o.printResponse()
                             if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<ConfirmOrderResponse>()
-                                apiResponse.value = data
+                                if (data != null) {
+                                    apiResponse.value = data
+                                } else {
+                                    EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                                }
                             } else if (o.status?.code == 5) {
                                 EventBus.getDefault().post(
                                         ShowECutOffTimeDialog(
@@ -157,7 +161,11 @@ class ConfirmOrderVM : FragmentViewModel() {
                             o.printResponse()
                             if (o.status?.code == 1) {
                                 val data = o.data?.parseTo<ConfirmTransactionResponse>()
-                                confirmApiResponse.value = data
+                                if (data != null) {
+                                    confirmApiResponse.value = data
+                                } else {
+                                    EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                                }
                             } else if (o.status?.code == 5) {
                                 EventBus.getDefault().post(
                                         ShowECutOffTimeDialog(

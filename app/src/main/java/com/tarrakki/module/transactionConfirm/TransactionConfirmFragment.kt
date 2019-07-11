@@ -91,7 +91,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Order Placed with AMC", "", funds.orderPlaced))
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Units Allotted", "", funds.unitsAlloted))
                         transactionStatus.add(
-                                TransactionStatus("", funds.amount, 0, funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>).apply {
+                                TransactionStatus("", funds.amount, "0", funds.orderType, funds.schemeName, true, statuslist as MutableList<TransactionConfirmVM.TranscationStatuss>).apply {
                                     btnExpandableVisibility = if ("N".equals(funds.isFirstSIP, true) && "SIP".equals(funds.type, true)) View.GONE else View.VISIBLE
                                 }
                         )
