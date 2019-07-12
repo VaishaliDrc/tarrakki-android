@@ -44,7 +44,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
         getViewModel().isThematicInvestment.set(arguments?.getBoolean(ISTHEMATICINVESTMENT))
 
         btnContinue?.setOnClickListener {
-            if (getViewModel().isThematicInvestment.get()==true){
+            if (getViewModel().isThematicInvestment.get() == true) {
                 getViewModel().thirdlevel.get()?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
                         investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
@@ -61,7 +61,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                                 })
                     }
                 }
-            }else{
+            } else {
                 val category = getViewModel().secondlevel.get()
                 category?.thirdLevelCategory?.get(0)?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
