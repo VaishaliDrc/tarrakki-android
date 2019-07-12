@@ -166,7 +166,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
         rvBankMandate?.adapter = mandateBankAdapter
         if (isConfirmOrder == true) {
             getViewModel().isSelectBankVisible.set(true)
-            val bankIndex = bankDetails.indexOfFirst { it.id == arguments?.getInt(MANDATEID) }
+            val bankIndex = bankDetails.indexOfFirst { "${arguments?.getString(MANDATEID)}".equals("${it.id}", true) }
             mandateBankAdapter?.toggleItemView(bankIndex)
             mandateBankAdapter?.notifyItemChanged(bankIndex)
         } else {

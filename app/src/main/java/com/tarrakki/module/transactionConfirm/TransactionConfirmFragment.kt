@@ -96,7 +96,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                                 }
                         )
                         if ("Failed".equals(funds.payment, true)) {
-                            btnToTransactionScreen?.visibility = View.VISIBLE
+                            //btnToTransactionScreen?.visibility = View.VISIBLE
                             if (arguments?.getBoolean(IS_FROM_CONFIRM_ORDER) == true) {
                                 isFromPaymentMode = false
                             }

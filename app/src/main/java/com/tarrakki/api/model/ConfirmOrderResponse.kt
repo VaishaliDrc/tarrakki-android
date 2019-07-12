@@ -21,7 +21,7 @@ data class ConfirmOrderResponse(
             @SerializedName("id")
             val id: Int,
             @SerializedName("mandate_id")
-            val mandateId: Int?,
+            val mandateId: String?,
             @SerializedName("bank_name")
             val bank: String?,
             @SerializedName("order_lines")

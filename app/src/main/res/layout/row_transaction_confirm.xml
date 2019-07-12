@@ -139,7 +139,8 @@
             android:id="@+id/expStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:el_duration="500">
+            app:el_duration="500"
+            app:el_expanded="true">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvTransactionStatus"

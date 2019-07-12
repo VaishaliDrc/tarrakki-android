@@ -84,13 +84,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     if (confirmOrderResponse?.data?.isSIP == true) {
-                        if (confirmOrderResponse.data.mandateId == null) {
+                        if (TextUtils.isEmpty(confirmOrderResponse.data.mandateId)) {
                             context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
                             return@OnClickListener
                         } else {
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
-                                    if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                                     it?.let { it2 -> postSticky(it2) }
                                     if (it?.data?.failedTransactions?.isNotEmpty() == true) {
@@ -191,7 +191,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     if (confirmOrderResponse?.data?.isSIP == true) {
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMCONFIRMORDER, true)
-                            confirmOrderResponse.data.mandateId?.let { it1 -> putInt(MANDATEID, it1) }
+                            confirmOrderResponse.data.mandateId?.let { it1 -> putString(MANDATEID, it1) }
                         }
                         startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
                     }
