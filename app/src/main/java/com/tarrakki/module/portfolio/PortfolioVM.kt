@@ -62,4 +62,6 @@ class PortfolioVM : FragmentViewModel() {
     }
 }
 
-data class StopSIP(val transactionId: Int, val folioNo: String, val date: String)
+data class StopSIP(val transactionId: Int, val folioNo: String, val date: String) {
+    var item: UserPortfolioResponse.Data.GoalBasedInvestment.Fund? = null
+}

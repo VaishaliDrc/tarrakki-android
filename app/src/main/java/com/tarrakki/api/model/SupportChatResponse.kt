@@ -36,8 +36,14 @@ data class SupportChatResponse(
             @SerializedName("offset")
             var offset: Int?,
             @SerializedName("totalCount")
-            val totalCount: Int?
+            val totalCount: Int?,
+            @SerializedName("status")
+            val status: String?
     ) {
+
+        val open: Boolean
+            get() = "open".equals(status, true)
+
         data class Conversation(
                 @SerializedName("file")
                 val `file`: String?,

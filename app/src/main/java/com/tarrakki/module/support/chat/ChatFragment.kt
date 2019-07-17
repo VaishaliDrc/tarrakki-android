@@ -116,6 +116,8 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                         @Suppress("IMPLICIT_CAST_TO_ANY")
                         getViewModel().getConversation(ticket).observe(this@ChatFragment, Observer {
                             it?.data?.conversation?.let { chats ->
+                                ticket.status = it.data.status
+                                getViewModel().btnSendVisibility.set(ticket.open)
                                 loadMore.isLoading = false
                                 allData.clear()
                                 allData.addAll(chats)

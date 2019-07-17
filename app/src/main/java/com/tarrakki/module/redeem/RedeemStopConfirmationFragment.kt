@@ -115,6 +115,9 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
     fun onReemFund(item: StopSIP) {
         if (getViewModel().stopSIP == null) {
             getViewModel().stopSIP = item
+            getViewModel().stopSIP?.item?.let { it ->
+                getViewModel().goalBasedRedeemFund.value = it
+            }
         }
     }
 

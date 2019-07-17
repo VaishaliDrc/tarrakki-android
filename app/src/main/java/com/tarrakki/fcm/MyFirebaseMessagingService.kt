@@ -40,7 +40,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
                 val messageBody = JSONObject(it)
-                if ("Support Ticket".equals(messageBody.optString("type"), true) && App.INSTANCE.openChat?.second == messageBody.optString("reference")) {
+                if (("Support Ticket".equals(messageBody.optString("type"), true) || "Close Ticket".equals(messageBody.optString("type"), true)) && App.INSTANCE.openChat?.second == messageBody.optString("reference")) {
                     val tiket = SupportViewTicketResponse.Data.Conversation(
                             null,
                             "open",
@@ -110,7 +110,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendNotification(messageBody: JSONObject) {
 
-        val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true)) {
+        val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true) || "Close Ticket".equals(messageBody.optString("type"), true)) {
             Intent(this, AccountActivity::class.java).apply {
                 putExtra("reference", messageBody.optString("reference"))
                 putExtra(IS_FROM_NOTIFICATION, true)

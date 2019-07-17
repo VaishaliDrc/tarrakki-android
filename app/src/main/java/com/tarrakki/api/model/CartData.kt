@@ -179,7 +179,7 @@ data class CartData(
             private fun getDummyDates(): ArrayList<String> {
                 val dateList = arrayListOf<String>()
                 val dates = arrayListOf<String>()
-                for (date in 1..31) {
+                for (date in 1..28) {
                     dates.add(date.toString())
                 }
                 try {

@@ -23,7 +23,7 @@ data class SupportViewTicketResponse(
                 @SerializedName("question")
                 val question: String?,
                 @SerializedName("status")
-                val status: String?,
+                var status: String?,
                 @SerializedName("ticket_ref")
                 val ticketRef: String?,
                 @SerializedName("time")
