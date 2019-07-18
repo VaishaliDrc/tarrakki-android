@@ -181,7 +181,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
 
     private val finisAllTask = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            finishAndRemoveTask()
+            finishAffinity()
         }
     }
 

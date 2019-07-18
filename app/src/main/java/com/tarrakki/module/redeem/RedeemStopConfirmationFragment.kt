@@ -90,6 +90,11 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        coreActivityVM?.title?.set(if (getViewModel().isRedeemReq.get() == true) getString(R.string.redemption) else getString(R.string.stop_sip))
+    }
+
     @Subscribe(sticky = true)
     fun onReemFund(item: UserPortfolioResponse.Data.DirectInvestment) {
         if (getViewModel().directRedeemFund.value == null) {
