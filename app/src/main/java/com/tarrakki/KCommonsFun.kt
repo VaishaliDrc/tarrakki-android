@@ -246,3 +246,11 @@ fun alertSIPBetween(min: String, max: String): String {
 fun alertBankMandateMinLimit(): String {
     return "Please enter an amount that is greater than or equal to ${1000.0.toCurrency()}."
 }
+
+fun lumpsumMultiplier(amount: String): String {
+    return "The lumpsum amount should be a multiple of $amount."
+}
+
+fun SIPMultiplier(amount: String): String {
+    return "The SIP amount should be a multiple of $amount."
+}

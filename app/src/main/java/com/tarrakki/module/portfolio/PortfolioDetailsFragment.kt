@@ -107,10 +107,13 @@ class PortfolioDetailsFragment : CoreFragment<PortfolioDetailsVM, FragmentPortfo
                 }
 
                 binder.tvAddPortfolio.setOnClickListener {
+                    App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
+                    App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
+                    App.additionalSIPMultiplier = item.additionalSIPMultiplier
                     val folios: MutableList<FolioData> = mutableListOf()
                     for (folio in item.folioList) {
                         val fData = FolioData(folio.folioId, folio.currentValue, folio.amount, folio.folioNo).apply {
-                            additionalSIPMinAmt = item.additionalSIPAmount
+                            additionalSIPMinAmt = item.validminSIPAmount
                             additionalLumpsumMinAmt = item.additionalMinLumpsum
                         }
                         folios.add(fData)

@@ -1,6 +1,7 @@
 package com.tarrakki.api.model
 
 import com.google.gson.annotations.SerializedName
+import org.supportcompact.ktx.toBigInt
 import org.supportcompact.ktx.toCalendar
 import org.supportcompact.ktx.toCurrencyBigInt
 import org.supportcompact.ktx.toDate
@@ -51,7 +52,11 @@ data class TarrakkiZyaadaResponse(
                 @SerializedName("bse_data")
                 val bseData: BSEData?,
                 @SerializedName("lumpsum_additional_min_amount")
-                val lumpsumAdditionalMinAmount: String?
+                val lumpsumAdditionalMinAmount: String?,
+                @SerializedName("pi_minimum_initial_multiple")
+                val piMinimumInitialMultiple: String?,
+                @SerializedName("pi_minimum_subsequent_multiple")
+                val piMinimumSubsequentMultiple: String?
         ) {
 
             var validminSIPAmount = BigInteger.ZERO
@@ -63,7 +68,8 @@ data class TarrakkiZyaadaResponse(
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
+                            sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                                    ?: BigInteger.valueOf(100)
                         }
                     }
                     return sipAmount
@@ -75,17 +81,16 @@ data class TarrakkiZyaadaResponse(
             val additionalMinLumpsum: BigInteger
                 get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
 
-            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+            var additionalSIPMultiplier: BigInteger = BigInteger.ONE
                 get() {
-                    var sipAmount = BigInteger.valueOf(100)
+                    var sipAmount = BigInteger.valueOf(1)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
                         val aipAip = iaipAip.filter {
                             "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                    ?: BigInteger.valueOf(1)
+                            sipAmount = toBigInt(maxTenure.subsquentAmount)
                         }
                     }
                     return sipAmount

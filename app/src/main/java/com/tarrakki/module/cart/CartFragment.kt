@@ -213,6 +213,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     binder.startDayDisable = item.sipAmount != "" && item.sipAmount != "0"
 
                     binder.tvAddOneTimeAmount.setOnClickListener {
+
+                        App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
+                        App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
+                        App.additionalSIPMultiplier = item.additionalSIPMultiplier
+
                         item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
                         item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
@@ -235,6 +240,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         })
                     }
                     binder.tvSIPAmount.setOnClickListener {
+
+                        App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
+                        App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
+                        App.additionalSIPMultiplier = item.additionalSIPMultiplier
+
                         item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
                         item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
@@ -244,6 +254,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                     }
                     binder.tvLumpsumAmount.setOnClickListener {
+
+                        App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
+                        App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
+                        App.additionalSIPMultiplier = item.additionalSIPMultiplier
+
                         item.bseData?.isTarrakkiZyaada = (item.tarrakkiZyaada?.name?.isNotEmpty() == true) && "NEW".equals(item.actualfolioNumber, true)
                         item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
                         context?.investCartDialog(item) { amountLumpsum: String, amountSIP: String ->
@@ -391,7 +406,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 item.validminlumpsumAmount
             }
             val minsipAmount = if (item.bseData?.isAdditional == true) {
-                item.additionalSIPAmount
+                item.validminSIPAmount
             } else {
                 item.validminSIPAmount
             }

@@ -248,7 +248,11 @@ data class FundsDetails(
         @SerializedName("interim_net_expense_ratio_date")
         val interimNetExpenseRatioDate: String?,
         @SerializedName("net_expense_ratio")
-        val netExpenseRatio: String?
+        val netExpenseRatio: String?,
+        @SerializedName("pi_minimum_initial_multiple")
+        val piMinimumInitialMultiple: String?,
+        @SerializedName("pi_minimum_subsequent_multiple")
+        val piMinimumSubsequentMultiple: String?
 ) {
 
     var fundObjective = ""
@@ -369,23 +373,22 @@ data class FundsDetails(
                 }
                 val maxTenure = aipAip.maxBy { it.minTenure }
                 if (maxTenure != null) {
-                    sipAmount = maxTenure.minAmount?.toCurrency() ?: "N/A"
+                    sipAmount = maxTenure.minAmount?.toCurrency()?.toString() ?: "N/A"
                 }
             }
             return sipAmount
         }
 
-    var additionalSIPAmount: BigInteger = BigInteger.ZERO
+    var additionalSIPMultiplier: BigInteger = BigInteger.ZERO
         get() {
-            var sipAmount = BigInteger.valueOf(100)
+            var sipAmount = BigInteger.valueOf(1)
             if (iaipAip != null && iaipAip.isNotEmpty()) {
                 val aipAip = iaipAip.filter {
                     "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                 }
                 val maxTenure = aipAip.maxBy { it.minTenure }
                 if (maxTenure != null) {
-                    sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                            ?: BigInteger.valueOf(1)
+                    sipAmount = toBigInt(maxTenure.subsquentAmount)
                 }
             }
             return sipAmount
@@ -412,7 +415,8 @@ data class FundsDetails(
                 }
                 val maxTenure = aipAip.maxBy { it.minTenure }
                 if (maxTenure != null) {
-                    sipAmount = maxTenure.minAmount.toString().toCurrencyBigInt()
+                    sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                            ?: BigInteger.valueOf(100)
                 }
             }
             return sipAmount
@@ -470,7 +474,7 @@ data class IaipAip(
         @SerializedName("frequency_date")
         val frequencyDate: String,
         @SerializedName("min_amount")
-        val minAmount: Double?,
+        val minAmount: String?,
         @SerializedName("min_tenure")
         val minTenure: Int,
         @SerializedName("si_type")

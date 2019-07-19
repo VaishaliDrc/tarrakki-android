@@ -144,11 +144,14 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                         val foliosList = fund.folios
                         fund.bseData?.isTarrakkiZyaada = true
                         if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
+                            App.piMinimumInitialMultiple = toBigInt(fund.piMinimumInitialMultiple)
+                            App.piMinimumSubsequentMultiple = toBigInt(fund.piMinimumSubsequentMultiple)
+                            App.additionalSIPMultiplier = fund.additionalSIPMultiplier
                             if (foliosList?.isNotEmpty() == true) {
                                 val folios: MutableList<FolioData> = mutableListOf()
                                 for (folioNo in foliosList) {
                                     val fData = FolioData(null, null, null, folioNo).apply {
-                                        additionalSIPMinAmt = fund.additionalSIPAmount
+                                        additionalSIPMinAmt = fund.validminSIPAmount
                                         additionalLumpsumMinAmt = fund.additionalMinLumpsum
                                     }
                                     folios.add(fData)

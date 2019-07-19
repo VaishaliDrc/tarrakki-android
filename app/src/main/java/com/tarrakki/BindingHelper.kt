@@ -796,7 +796,7 @@ fun Context.investCartDialog(item: CartData.Data.OrderLine, onInvest: ((amountLu
                 item.validminlumpsumAmount
             }
             val minSIPAmount = if (item.bseData?.isAdditional == true) {
-                item.additionalSIPAmount
+                item.validminSIPAmount
             } else {
                 item.validminSIPAmount
             }
@@ -1375,11 +1375,11 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         simpleAlert(getString(R.string.tarrakki_zyaada_investment_alert))
         return false
     }
-
+    val lumpsumAmountMultipler = if (bseData?.isAdditional == true) App.piMinimumSubsequentMultiple else App.piMinimumInitialMultiple
     if (lumpsumAmount != BigInteger.ZERO) {
         val amountRange = bseData?.lumpsumList?.filter { "Y".equals(it.lumpsumAllowed, true) }
         if ("Y".equals(bseData?.lumpsumAllowed, true) && bseData?.lumpsumCheckFlag == true && amountRange?.isNotEmpty() == true) {
-            if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (lumpsumAmount % lumpsumAmountMultipler == BigInteger.ZERO) {
                 val minLumpsum = if (bseData.isAdditional == true) {
                     amountRange.minBy {
                         it.lumpsumAdditionalMinAmount ?: BigInteger.ZERO
@@ -1406,17 +1406,19 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                     return false
                 }
             } else {
-                this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
+                //this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
+                this.simpleAlert(lumpsumMultiplier("$lumpsumAmountMultipler"))
                 return false
             }
         } else {
-            if (lumpsumAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (lumpsumAmount % lumpsumAmountMultipler == BigInteger.ZERO) {
                 if (lumpsumAmount < minLumsumpAmount) {
                     this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
                     return false
                 }
             } else {
-                this.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
+                //his.simpleAlert(getString(R.string.alert_valid_multiple_lumpsum))
+                this.simpleAlert(lumpsumMultiplier("$lumpsumAmountMultipler"))
                 return false
             }
         }
@@ -1426,7 +1428,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         val amountRange = bseData?.sipList?.filter { "Y".equals(it.sipAllowed, true) }
         if ("Y".equals(bseData?.sipAllowed, true) && bseData?.sipCheckFlag == true && amountRange?.isNotEmpty() == true) {
 
-            if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+            if (sipAmount % App.additionalSIPMultiplier == BigInteger.ZERO) {
                 val minSip = amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount /*if (bseData.isAdditional == true) {
                     amountRange.minBy {
                         it.sipAdditionalMinAmount ?: BigInteger.ZERO
@@ -1453,17 +1455,19 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                     return false
                 }
             } else {
-                this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
+                //this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
+                this.simpleAlert(SIPMultiplier("${App.additionalSIPMultiplier}"))
                 return false
             }
 
-        } else if (sipAmount % BigInteger.valueOf(10) == BigInteger.ZERO) {
+        } else if (sipAmount % App.additionalSIPMultiplier == BigInteger.ZERO) {
             if (sipAmount < minSIPAmount) {
                 this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
                 return false
             }
         } else {
-            this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
+            //this.simpleAlert(getString(R.string.alert_valid_multiple_sip))
+            this.simpleAlert(SIPMultiplier("${App.additionalSIPMultiplier}"))
             return false
         }
     }

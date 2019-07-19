@@ -3,6 +3,7 @@ package com.tarrakki.api.model
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.parseToPercentageOrNA
+import org.supportcompact.ktx.toBigInt
 import org.supportcompact.ktx.toCurrencyBigInt
 import java.math.BigInteger
 
@@ -59,7 +60,11 @@ data class InvestmentFunds(
             @SerializedName("bse_data")
             val bseData: BSEData?,
             @SerializedName("lumpsum_additional_min_amount")
-            val lumpsumAdditionalMinAmount: String?
+            val lumpsumAdditionalMinAmount: String?,
+            @SerializedName("pi_minimum_initial_multiple")
+            val piMinimumInitialMultiple: String?,
+            @SerializedName("pi_minimum_subsequent_multiple")
+            val piMinimumSubsequentMultiple: String?
     ) {
         var FDReturn: String? = null
         //get() = parseToPercentageOrNA(fixedDepositReturn)
@@ -109,22 +114,22 @@ data class InvestmentFunds(
                     val maxTenure = aipAip.maxBy { it.minTenure }
                     if (maxTenure != null) {
                         sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                                ?: BigInteger.valueOf(100)
                     }
                 }
                 return sipAmount
             }
 
-        var additionalSIPAmount: BigInteger = BigInteger.ZERO
+        var additionalSIPMultiplier: BigInteger = BigInteger.ONE
             get() {
-                var sipAmount = BigInteger.valueOf(100)
+                var sipAmount = BigInteger.ONE
                 if (iaipAip != null && iaipAip.isNotEmpty()) {
                     val aipAip = iaipAip.filter {
                         "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                     }
                     val maxTenure = aipAip.maxBy { it.minTenure }
                     if (maxTenure != null) {
-                        sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                ?: BigInteger.valueOf(1)
+                        sipAmount = toBigInt(maxTenure.subsquentAmount)
                     }
                 }
                 return sipAmount

@@ -12,23 +12,17 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.tarrakki.R
-import com.tarrakki.addFundPortfolioDialog
-import com.tarrakki.addToCart
+import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.InvestmentFunds
 import com.tarrakki.databinding.*
-import com.tarrakki.investDialog
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import kotlinx.android.synthetic.main.fragment_invest.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.dismissKeyboard
-import org.supportcompact.ktx.parseToPercentageOrNA
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
 
@@ -97,11 +91,14 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                     binder.executePendingBindings()
                     binder.btnInvest.setOnClickListener {
                         val foliosList = item.folios
+                        App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
+                        App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
+                        App.additionalSIPMultiplier = item.additionalSIPMultiplier
                         if (foliosList?.isNotEmpty() == true) {
                             val folios: MutableList<FolioData> = mutableListOf()
                             for (folioNo in foliosList) {
                                 val fData = FolioData(null, null, null, folioNo).apply {
-                                    additionalSIPMinAmt = item.additionalSIPAmount
+                                    additionalSIPMinAmt = item.validminSIPAmount
                                     additionalLumpsumMinAmt = item.additionalMinLumpsum
                                 }
                                 folios.add(fData)

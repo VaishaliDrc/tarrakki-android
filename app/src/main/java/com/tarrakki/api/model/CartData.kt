@@ -6,6 +6,7 @@ import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR
 import com.tarrakki.getOrdinalFormat
+import org.supportcompact.ktx.toBigInt
 import org.supportcompact.ktx.toCurrency
 import org.supportcompact.ktx.toCurrencyBigInt
 import java.io.Serializable
@@ -51,21 +52,24 @@ data class CartData(
                 @SerializedName("bse_data")
                 val bseData: BSEData?,
                 @SerializedName("lumpsum_additional_min_amount")
-                val lumpsumAdditionalMinAmount: String?
+                val lumpsumAdditionalMinAmount: String?,
+                @SerializedName("pi_minimum_initial_multiple")
+                val piMinimumInitialMultiple: String?,
+                @SerializedName("pi_minimum_subsequent_multiple")
+                val piMinimumSubsequentMultiple: String?
 
         ) : BaseObservable(), Serializable {
 
-            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+            var additionalSIPMultiplier: BigInteger = BigInteger.ONE
                 get() {
-                    var sipAmount = BigInteger.valueOf(100)
+                    var sipAmount = BigInteger.ONE
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
                         val aipAip = iaipAip.filter {
                             "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                    ?: BigInteger.valueOf(1)
+                            sipAmount = toBigInt(maxTenure.subsquentAmount)
                         }
                     }
                     return sipAmount
@@ -95,7 +99,7 @@ data class CartData(
                     "NEW"
                 }
 
-            var validminSIPAmount = BigInteger.ZERO
+            var validminSIPAmount = BigInteger.valueOf(100)
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -105,7 +109,8 @@ data class CartData(
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.minAmount?.toBigInteger() ?: BigInteger.ZERO
+                            sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                                    ?: BigInteger.valueOf(100)
                         }
                     }
                     return sipAmount
@@ -202,7 +207,7 @@ data class CartData(
             @SerializedName("frequency_date")
             val frequencyDate: String,
             @SerializedName("min_amount")
-            val minAmount: Int?,
+            val minAmount: String?,
             @SerializedName("min_tenure")
             val minTenure: Int,
             @SerializedName("si_type")

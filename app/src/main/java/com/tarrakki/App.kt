@@ -6,6 +6,7 @@ import com.tarrakki.api.model.HomeData
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.File
+import java.math.BigInteger
 
 
 class App : CoreApp() {
@@ -31,5 +32,9 @@ class App : CoreApp() {
 
     companion object {
         lateinit var INSTANCE: App
+
+        var piMinimumInitialMultiple = BigInteger.ONE
+        var piMinimumSubsequentMultiple = BigInteger.ONE
+        var additionalSIPMultiplier = BigInteger.ONE
     }
 }

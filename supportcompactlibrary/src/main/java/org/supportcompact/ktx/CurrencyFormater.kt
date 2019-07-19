@@ -375,6 +375,13 @@ fun String.toCurrencyBigInt(): BigInteger = try {
     BigInteger.ZERO
 }
 
+fun toBigInt(amount: String?): BigInteger = try {
+    amount?.replace(",", "")?.replace("\u20B9", "")?.replace("₹", "")?.toBigIntegerOrNull()
+            ?: BigInteger.ONE
+} catch (e: java.lang.Exception) {
+    BigInteger.ONE
+}
+
 fun BigInteger.toCurrency(): String {
     return try {
         val temp: Double? = this.toDouble()

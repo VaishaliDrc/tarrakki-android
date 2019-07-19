@@ -92,11 +92,14 @@ class OverviewFragment : Fragment() {
                         val minLumpSumAmount = fundDetailsResponse.fundsDetails?.validminlumpsumAmount
                         val foliosList = fundDetailsResponse.folios
                         if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
+                            App.piMinimumInitialMultiple = toBigInt(fundDetailsResponse.fundsDetails.piMinimumInitialMultiple)
+                            App.piMinimumSubsequentMultiple = toBigInt(fundDetailsResponse.fundsDetails.piMinimumSubsequentMultiple)
+                            App.additionalSIPMultiplier = fundDetailsResponse.fundsDetails.additionalSIPMultiplier
                             if (foliosList?.isNotEmpty() == true) {
                                 val folios: MutableList<FolioData> = mutableListOf()
                                 for (folioNo in foliosList) {
                                     val fData = FolioData(null, null, null, folioNo).apply {
-                                        additionalSIPMinAmt = fundDetailsResponse.fundsDetails.additionalSIPAmount
+                                        additionalSIPMinAmt = fundDetailsResponse.fundsDetails.validminSIPAmount
                                         additionalLumpsumMinAmt = fundDetailsResponse.additionalMinLumpsum
                                     }
                                     folios.add(fData)

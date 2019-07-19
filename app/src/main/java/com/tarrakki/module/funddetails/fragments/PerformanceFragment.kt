@@ -44,6 +44,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.ShowError
 import org.supportcompact.inputclasses.InputFilterMinMax
 import org.supportcompact.ktx.*
+import java.math.BigInteger
 import java.util.*
 
 
@@ -308,12 +309,16 @@ class PerformanceFragment : Fragment() {
                 val minLumpSumAmount = itVM.fundDetailsResponse.value?.fundsDetails?.validminlumpsumAmount
                 val foliosList = itVM.fundDetailsResponse.value?.folios
                 if (fund_id != null && minSIPAmount != null && minLumpSumAmount != null) {
+                    App.piMinimumInitialMultiple = toBigInt(itVM.fundDetailsResponse.value?.fundsDetails?.piMinimumInitialMultiple)
+                    App.piMinimumSubsequentMultiple = toBigInt(itVM.fundDetailsResponse.value?.fundsDetails?.piMinimumSubsequentMultiple)
+                    App.additionalSIPMultiplier = itVM.fundDetailsResponse.value?.fundsDetails?.additionalSIPMultiplier
+                            ?: BigInteger.ONE
                     if (foliosList?.isNotEmpty() == true) {
                         val folios: MutableList<FolioData> = mutableListOf()
                         for (folioNo in foliosList) {
                             val fData = FolioData(null, null, null, folioNo).apply {
                                 itVM.fundDetailsResponse.value?.fundsDetails?.let {
-                                    additionalSIPMinAmt = it.additionalSIPAmount
+                                    additionalSIPMinAmt = it.validminSIPAmount
                                 }
                                 itVM.fundDetailsResponse.value?.let {
                                     additionalLumpsumMinAmt = it.additionalMinLumpsum

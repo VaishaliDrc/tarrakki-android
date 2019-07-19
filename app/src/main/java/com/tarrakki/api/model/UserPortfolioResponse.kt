@@ -70,7 +70,11 @@ data class UserPortfolioResponse(
                     @SerializedName("bse_data")
                     val bseData: BSEData?,
                     @SerializedName("lumpsum_additional_min_amount")
-                    val lumpsumAdditionalMinAmount: String?
+                    val lumpsumAdditionalMinAmount: String?,
+                    @SerializedName("pi_minimum_initial_multiple")
+                    val piMinimumInitialMultiple: String?,
+                    @SerializedName("pi_minimum_subsequent_multiple")
+                    val piMinimumSubsequentMultiple: String?
             ) {
 
                 var redeemedStatus: RedeemedStatus? = null
@@ -209,7 +213,7 @@ data class UserPortfolioResponse(
                         ""
                     }
 
-                var validminSIPAmount = BigInteger.ZERO
+                var validminSIPAmount = BigInteger.valueOf(100)
                     get() {
                         var sipAmount = BigInteger.valueOf(100)
                         if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -218,23 +222,23 @@ data class UserPortfolioResponse(
                             }
                             val maxTenure = aipAip.maxBy { it.minTenure }
                             if (maxTenure != null) {
-                                sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                                sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                                        ?: BigInteger.valueOf(100)
                             }
                         }
                         return sipAmount
                     }
 
-                var additionalSIPAmount: BigInteger = BigInteger.ZERO
+                var additionalSIPMultiplier: BigInteger = BigInteger.ONE
                     get() {
-                        var sipAmount = BigInteger.valueOf(100)
+                        var sipAmount = BigInteger.ONE
                         if (iaipAip != null && iaipAip.isNotEmpty()) {
                             val aipAip = iaipAip.filter {
                                 "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                             }
                             val maxTenure = aipAip.maxBy { it.minTenure }
                             if (maxTenure != null) {
-                                sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                        ?: BigInteger.valueOf(1)
+                                sipAmount = toBigInt(maxTenure.subsquentAmount)
                             }
                         }
                         return sipAmount
@@ -280,7 +284,11 @@ data class UserPortfolioResponse(
                 @SerializedName("bse_data")
                 val bseData: BSEData?,
                 @SerializedName("lumpsum_additional_min_amount")
-                val lumpsumAdditionalMinAmount: String?
+                val lumpsumAdditionalMinAmount: String?,
+                @SerializedName("pi_minimum_initial_multiple")
+                val piMinimumInitialMultiple: String?,
+                @SerializedName("pi_minimum_subsequent_multiple")
+                val piMinimumSubsequentMultiple: String?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null
@@ -418,7 +426,7 @@ data class UserPortfolioResponse(
                     ""
                 }
 
-            var validminSIPAmount = BigInteger.ZERO
+            var validminSIPAmount = BigInteger.valueOf(100)
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -427,13 +435,14 @@ data class UserPortfolioResponse(
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                            sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                                    ?: BigInteger.valueOf(100)
                         }
                     }
                     return sipAmount
                 }
 
-            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+            var additionalSIPMultiplier: BigInteger = BigInteger.ZERO
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -442,8 +451,7 @@ data class UserPortfolioResponse(
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                    ?: BigInteger.valueOf(1)
+                            sipAmount = toBigInt(maxTenure.subsquentAmount)
                         }
                     }
                     return sipAmount
@@ -490,7 +498,11 @@ data class UserPortfolioResponse(
                 @SerializedName("bse_data")
                 val bseData: BSEData?,
                 @SerializedName("lumpsum_additional_min_amount")
-                val lumpsumAdditionalMinAmount: String?
+                val lumpsumAdditionalMinAmount: String?,
+                @SerializedName("pi_minimum_initial_multiple")
+                val piMinimumInitialMultiple: String?,
+                @SerializedName("pi_minimum_subsequent_multiple")
+                val piMinimumSubsequentMultiple: String?
         ) {
 
             var redeemedStatus: RedeemedStatus? = null
@@ -628,7 +640,7 @@ data class UserPortfolioResponse(
                     ""
                 }
 
-            var validminSIPAmount = BigInteger.ZERO
+            var validminSIPAmount = BigInteger.valueOf(100)
                 get() {
                     var sipAmount = BigInteger.valueOf(100)
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
@@ -637,22 +649,22 @@ data class UserPortfolioResponse(
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.minAmount?.toBigDecimal()?.toBigInteger()
+                            sipAmount = maxTenure.minAmount?.toDoubleOrNull()?.toBigDecimal()?.toBigInteger()
+                                    ?: BigInteger.valueOf(100)
                         }
                     }
                     return sipAmount
                 }
-            var additionalSIPAmount: BigInteger = BigInteger.ZERO
+            var additionalSIPMultiplier: BigInteger = BigInteger.ONE
                 get() {
-                    var sipAmount = BigInteger.valueOf(100)
+                    var sipAmount = BigInteger.ONE
                     if (iaipAip != null && iaipAip.isNotEmpty()) {
                         val aipAip = iaipAip.filter {
                             "SIP".equals(it.siType, true) && "Monthly".equals(it.frequency, true)
                         }
                         val maxTenure = aipAip.maxBy { it.minTenure }
                         if (maxTenure != null) {
-                            sipAmount = maxTenure.subsquentAmount?.toCurrencyBigInt()
-                                    ?: BigInteger.valueOf(1)
+                            sipAmount = toBigInt(maxTenure.subsquentAmount)
                         }
                     }
                     return sipAmount
@@ -678,6 +690,11 @@ data class FolioData(
     val amount: String? = null
     var additionalLumpsumMinAmt = BigInteger.ZERO
     var additionalSIPMinAmt = BigInteger.ONE
+
+    /*var piMinimumInitialMultiple = BigInteger.ONE
+    var piMinimumSubsequentMultiple = BigInteger.ONE
+    var additionalSIPMultiplier = BigInteger.ONE*/
+
     var cValue: String = ""
         get() {
             var value = currentValue
