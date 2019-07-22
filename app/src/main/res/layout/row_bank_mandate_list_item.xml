@@ -28,10 +28,10 @@
 
         <ImageView
             android:id="@+id/ivBank"
+            imgUrl="@{widget.bankDetails.bankLogo}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/temp_icici"
-            imgUrl="@{widget.bankDetails.bankLogo}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,19 +71,19 @@
             tools:text="dfjhf" />
 
         <RadioButton
-            android:visibility="gone"
             android:id="@+id/tvDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
             android:checked="@{isSelected}"
+            android:clickable="false"
             android:textColor="@color/white"
             android:textSize="@dimen/sp10"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/ivBank"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@id/ivBank"
-            app:layout_constraintTop_toTopOf="@id/ivBank"  />
+            app:layout_constraintTop_toTopOf="@id/ivBank" />
 
         <View
             android:id="@+id/mDivider"
@@ -95,12 +95,12 @@
 
         <LinearLayout
             android:id="@+id/ll_bank_mandate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mDivider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mDivider">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -108,9 +108,9 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_weight="0.4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
                     android:orientation="vertical">
 
                     <TextView
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:text="@string/account_number"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                     <TextView
                         android:id="@+id/tvAccountNo"
@@ -134,9 +134,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_weight="0.6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:orientation="vertical">
 
                     <TextView
@@ -167,9 +167,9 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_weight="0.4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
                     android:orientation="vertical">
 
                     <TextView
@@ -195,9 +195,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_weight="0.6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
                     android:orientation="vertical">
 
                     <TextView
@@ -258,15 +258,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
-            android:background="@drawable/shape_btn_primary"
-            android:paddingStart="@dimen/space_16"
-            android:paddingEnd="@dimen/space_16"
-            android:fontFamily="@font/lato_bold"
-            android:gravity="center"
             android:layout_marginBottom="@dimen/space_1"
-            android:paddingTop="@dimen/space_8"
+            android:background="@drawable/shape_btn_primary"
             android:drawableStart="@drawable/ic_mandate_upload"
             android:drawablePadding="@dimen/space_8"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:paddingStart="@dimen/space_16"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/space_16"
             android:paddingBottom="@dimen/space_8"
             android:text="@string/complete_nach_mandate"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -275,6 +275,38 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/mDivider2" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/barrier5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="btnUploadSanned,tvInfo,mDivider2" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/barrier5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bank Mandate Amount"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semibold"
+                app:price="@{widget.amount}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/semi_black"
+                tools:text="@string/dummy1" />
+
+        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 
