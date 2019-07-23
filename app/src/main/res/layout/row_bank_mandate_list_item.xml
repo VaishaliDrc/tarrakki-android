@@ -222,6 +222,30 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/llAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mandate_amount"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:price="@{widget.amount}"
+                    tools:text="@string/dummy1" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <android.support.constraint.Guideline
@@ -275,38 +299,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/mDivider2" />
-
-        <android.support.constraint.Barrier
-            android:id="@+id/barrier5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="btnUploadSanned,tvInfo,mDivider2" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/barrier5">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bank Mandate Amount"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lato_semibold"
-                app:price="@{widget.amount}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/semi_black"
-                tools:text="@string/dummy1" />
-
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 

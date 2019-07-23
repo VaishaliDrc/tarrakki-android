@@ -22,6 +22,7 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
+import com.tarrakki.module.paymentmode.PAYMENT_MODE_NEFT_RTGS
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
@@ -57,6 +58,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
 
         val success_transactions = arguments?.getString(SUCCESSTRANSACTION, "")
         val successOrders = arguments?.getString(SUCCESS_ORDERS, "")
+        getViewModel().isFromNEFT_RTGS.set(if (arguments?.getBoolean(PAYMENT_MODE_NEFT_RTGS) == true) View.VISIBLE else View.GONE)
         if (!success_transactions.isNullOrEmpty()) {
             isFromPaymentMode = true
             val json = JSONObject()

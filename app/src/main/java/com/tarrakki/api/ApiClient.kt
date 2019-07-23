@@ -30,7 +30,7 @@ import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 
-object  ApiClient {
+object ApiClient {
 
     private val OKHTTP_TIMEOUT = 30 * 10 // seconds
     private var retrofit: Retrofit? = null
@@ -93,16 +93,16 @@ object  ApiClient {
     /**
      * Live Url
      **/
-    private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    /*private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "https://tarrakkilive.edx.drcsystems.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url
+    const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url*/
 
     /**
      * Live Url
      **/
-    /*private const val BASE_URL = "https://www.tarrakki.com/api/v1/" /// Latest url
+    private const val BASE_URL = "https://www.tarrakki.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v1/transactions/payment-status/" /// Latest url*/
+    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v1/transactions/payment-status/" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone

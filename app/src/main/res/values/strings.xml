@@ -706,6 +706,8 @@
     <string name="tarrakki_is_a_bank_grade_secure_portal_your_bank_information_is_completely_safe">Tarrakki is a bank-grade secure portal. All of your banking information is completely safe and secure.</string>
     <string name="current_value">Current Value</string>
     <string name="tarrakki_zyaada_investment_alert">You can either do a one-time Lumpsum or SIP investment with Tarrakki Zyaada.</string>
+    <string name="mandate_amount">Mandate Amount</string>
+    <string name="if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update">If you have transferred money using NEFT/RTGS, it can take up-to 24 hours to update the transaction from Unpaid to Paid</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

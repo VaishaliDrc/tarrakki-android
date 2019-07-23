@@ -3,6 +3,7 @@ package com.tarrakki.module.transactionConfirm
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import android.support.annotation.DrawableRes
+import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
@@ -24,6 +25,7 @@ class TransactionConfirmVM : FragmentViewModel() {
 
     val list = ArrayList<TransactionConfirm>()
     val isFailed = ObservableField(true)
+    val isFromNEFT_RTGS = ObservableField(View.GONE)
 
     fun getTransactionStatus(dataRequest: String): MutableLiveData<TransactionStatusResponse> {
         val apiResponse = MutableLiveData<TransactionStatusResponse>()

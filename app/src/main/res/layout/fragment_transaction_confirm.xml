@@ -81,6 +81,20 @@
                     android:textColor="@color/darker_gray"
                     tools:text="@string/your_purchase_request_has_been_received" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:text="@string/if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/darker_gray"
+                    android:visibility="@{vm.isFromNEFT_RTGS}"
+                    tools:text="@string/if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update" />
+
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

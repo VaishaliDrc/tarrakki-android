@@ -43,6 +43,7 @@ const val ISFROMPAYMENTMODE = "isFromPaymentMode"
 const val SUCCESSTRANSACTION = "successtransactions"
 const val SUCCESS_ORDERS = "success_orders"
 const val ISFROMTRANSACTIONMODE = "isFromTransactionMode"
+const val PAYMENT_MODE_NEFT_RTGS = "payment_mode_NEFT/RTGS"
 
 class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBinding>() {
 
@@ -158,6 +159,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                             getViewModel().paymentOrder(authData).observe(this, Observer {
                                 it?.printResponse()
                                 val bundle = Bundle().apply {
+                                    putBoolean(PAYMENT_MODE_NEFT_RTGS, true)
                                     putString(SUCCESS_ORDERS, items.toJson())
                                     putString(SUCCESSTRANSACTION, transaction.toString())
                                     isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
