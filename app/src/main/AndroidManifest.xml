@@ -113,9 +113,11 @@
         <activity
             android:name=".module.webviewActivity.WebviewActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".module.webviewActivity.CMSPagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.maintenance.MaintenanceActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".fcm.MyFirebaseMessagingService">
@@ -154,7 +156,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>

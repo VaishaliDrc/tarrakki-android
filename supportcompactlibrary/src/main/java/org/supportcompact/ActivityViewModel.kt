@@ -3,6 +3,8 @@ package org.supportcompact
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.view.View
 
 open class ActivityViewModel : ViewModel() {
@@ -11,10 +13,11 @@ open class ActivityViewModel : ViewModel() {
     val title = ObservableField<String>()
     val titleVisibility = ObservableField(true)
     val isBackEnabled = MutableLiveData<Boolean>()
-    val footerVisibility = ObservableField<Int>(View.VISIBLE)
+    val footerVisibility = ObservableField(View.VISIBLE)
     val isEmpty = MutableLiveData<Boolean>()
-    val isEmptyText = ObservableField<String>("No data found.")
+    val isEmptyText = ObservableField("No data found.")
     val onNewBank = MutableLiveData<Boolean>()
+    val timerValue = ObservableField<SpannableStringBuilder>()
 
     fun emptyView(isShow: Boolean, string: String = "No data found.") {
         isEmpty.value = isShow

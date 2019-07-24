@@ -708,6 +708,9 @@
     <string name="tarrakki_zyaada_investment_alert">You can either do a one-time Lumpsum or SIP investment with Tarrakki Zyaada.</string>
     <string name="mandate_amount">Mandate Amount</string>
     <string name="if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update">If you have transferred money using NEFT/RTGS, it can take up-to 24 hours to update the transaction from Unpaid to Paid</string>
+    <string name="down_for_maintenance">Down for Maintenance</string>
+    <string name="we_are_currently_undergoing_server_maintenance">We are Currently Undergoing\nServer maintenance.</string>
+    <string name="please_try_again_after">Please try again after</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>
