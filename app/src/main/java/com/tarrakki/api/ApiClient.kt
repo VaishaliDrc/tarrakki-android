@@ -3,6 +3,8 @@ package com.tarrakki.api
 import android.util.Log
 import com.google.gson.GsonBuilder
 import com.tarrakki.App
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.module.maintenance.MaintenanceActivity
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.SingleObserver
@@ -18,6 +20,7 @@ import org.simpleframework.xml.convert.AnnotationStrategy
 import org.simpleframework.xml.core.Persister
 import org.supportcompact.CoreApp
 import org.supportcompact.R
+import org.supportcompact.events.Maintenance
 import org.supportcompact.ktx.*
 import retrofit2.HttpException
 import retrofit2.Retrofit
@@ -306,7 +309,15 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
             .subscribe(object : SingleObserver<T> {
                 override fun onSuccess(t: T) {
                     try {
-                        singleCallback?.onSingleSuccess(t, apiNames)
+                        if (t is ApiResponse) {
+                            if (t.maintenanceDetails != null && t.status?.code == 503) {
+                                EventBus.getDefault().postSticky(Maintenance(MaintenanceActivity::class.java, t.maintenanceDetails.endTime))
+                            } else {
+                                singleCallback?.onSingleSuccess(t, apiNames)
+                            }
+                        } else {
+                            singleCallback?.onSingleSuccess(t, apiNames)
+                        }
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -350,7 +361,15 @@ fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallb
             .subscribe(object : SingleObserver<T> {
                 override fun onSuccess(t: T) {
                     try {
-                        singleCallback?.onSingleSuccess(t)
+                        if (t is ApiResponse) {
+                            if (t.maintenanceDetails != null && t.status?.code == 503) {
+                                EventBus.getDefault().postSticky(Maintenance(MaintenanceActivity::class.java, t.maintenanceDetails.endTime))
+                            } else {
+                                singleCallback?.onSingleSuccess(t)
+                            }
+                        } else {
+                            singleCallback?.onSingleSuccess(t)
+                        }
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

@@ -398,7 +398,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
             val sipAmount = item.sipAmount.toCurrencyBigInt()
             val lumpsumpAmount = item.lumpsumAmount.toCurrencyBigInt()
 
-            item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
+            /*item.bseData?.isAdditional = !"NEW".equals(item.actualfolioNumber, true)
 
             val minlumpsumpAmount = if (item.bseData?.isAdditional == true) {
                 item.additionalMinLumpsum
@@ -409,7 +409,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                 item.validminSIPAmount
             } else {
                 item.validminSIPAmount
-            }
+            }*/
 
             //val minlumpsumpAmount = item.validminlumpsumAmount
             //val minsipAmount = item.validminSIPAmount
@@ -435,27 +435,40 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                     break@loop
                 }*/
 
-                if (context?.isSIPAmountValid(minsipAmount, sipAmount) == false) {
-                    Handler().postDelayed({
-                        if (getViewModel().funds.isNotEmpty()) {
-                            getViewModel().funds[i].reuestToEdit = true
+                /* if (context?.isSIPAmountValid(minsipAmount, sipAmount) == false) {
+                     Handler().postDelayed({
+                         if (getViewModel().funds.isNotEmpty()) {
+                             getViewModel().funds[i].reuestToEdit = true
+                         }
+                     }, 100)
+                     isValid = false
+                     break@loop
+                 } else {
+                     if (sipAmount != BigInteger.ZERO) {
+                         if (item.day == null || item.day == "" || item.day == "0") {
+                             context?.simpleAlert(getString(R.string.alert_req_sip_date)) {
+                                 Handler().postDelayed({
+                                     if (getViewModel().funds.isNotEmpty()) {
+                                         getViewModel().funds[i].reuestToEdit = true
+                                     }
+                                 }, 100)
+                             }
+                             isValid = false
+                             break@loop
+                         }
+                     }
+                 }*/
+                if (sipAmount != BigInteger.ZERO) {
+                    if (item.day == null || item.day == "" || item.day == "0") {
+                        context?.simpleAlert(getString(R.string.alert_req_sip_date)) {
+                            Handler().postDelayed({
+                                if (getViewModel().funds.isNotEmpty()) {
+                                    getViewModel().funds[i].reuestToEdit = true
+                                }
+                            }, 100)
                         }
-                    }, 100)
-                    isValid = false
-                    break@loop
-                } else {
-                    if (sipAmount != BigInteger.ZERO) {
-                        if (item.day == null || item.day == "" || item.day == "0") {
-                            context?.simpleAlert(getString(R.string.alert_req_sip_date)) {
-                                Handler().postDelayed({
-                                    if (getViewModel().funds.isNotEmpty()) {
-                                        getViewModel().funds[i].reuestToEdit = true
-                                    }
-                                }, 100)
-                            }
-                            isValid = false
-                            break@loop
-                        }
+                        isValid = false
+                        break@loop
                     }
                 }
             }

@@ -3,14 +3,10 @@ package com.tarrakki.module.splash
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import com.crashlytics.android.Crashlytics
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.intro.IntroductionActivity
-import com.tarrakki.module.login.LoginActivity
-import com.tarrakki.module.maintenance.MaintenanceActivity
-import org.supportcompact.ktx.isFirsttimeInstalled
 import org.supportcompact.ktx.isLogin
 import org.supportcompact.ktx.printHasKey
 import org.supportcompact.ktx.startActivity
@@ -31,8 +27,8 @@ class SplashActivity : AppCompatActivity() {
                 //App.INSTANCE.isLoggedIn.value = isLogin()
                 startActivity<HomeActivity>()
             } else {
-                //startActivity<IntroductionActivity>()
-                startActivity<MaintenanceActivity>()
+                startActivity<IntroductionActivity>()
+                //startActivity<MaintenanceActivity>()
             }
             //  }
             finish()

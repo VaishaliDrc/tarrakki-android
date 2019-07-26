@@ -86,7 +86,7 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
         setHasOptionsMenu(true)
 
-        ivTarrakkiZyaada?.setOnClickListener {
+        clTarrakkiZyaada?.setOnClickListener {
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 

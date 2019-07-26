@@ -1,6 +1,8 @@
 package org.supportcompact
 
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
@@ -12,7 +14,7 @@ import android.view.WindowManager
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.supportcompact.events.ShowECutOffTimeDialog
+import org.supportcompact.events.Maintenance
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 
@@ -90,6 +92,12 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
             simpleAlert(error.error) { isShowing = false }
         }
         //binding.root.snackBar(error.error)
+    }
+
+    @Subscribe
+    fun <T : Activity> showMaintenance(m: Maintenance<T>) {
+        getViewModel().dismissProgress()
+        startActivity(Intent(this, m.aClass).putExtra(MAINTENANCE_END_TIME, m.endTime))
     }
 
     protected fun requestPermissionsIfRequired(permissions: ArrayList<String>, permissionCallBack: PermissionCallBack?) {

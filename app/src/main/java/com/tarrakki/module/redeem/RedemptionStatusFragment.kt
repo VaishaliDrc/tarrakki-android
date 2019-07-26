@@ -72,6 +72,9 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
                     if (fund.isInstaRedeem) {
+                        tvTypeL?.visibility = View.GONE
+                        tvType?.visibility = View.GONE
+                        tvNote?.setText(R.string.we_have_sent_you_withdrawal_request_tinsta_redemption)
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
                     }
                 }
@@ -94,6 +97,9 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
                     if (fund.isInstaRedeem) {
+                        tvTypeL?.visibility = View.GONE
+                        tvType?.visibility = View.GONE
+                        tvNote?.setText(R.string.we_have_sent_you_withdrawal_request_tinsta_redemption)
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
                     }
                 }
@@ -116,6 +122,9 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 if (!isFailed) {
                     statuslist.add(TransactionConfirmVM.TranscationStatuss("Withdrawal Confirmation", "", "${fund.redeemedStatus?.data?.withdrawalConfirm}"))
                     if (fund.isInstaRedeem) {
+                        tvTypeL?.visibility = View.GONE
+                        tvType?.visibility = View.GONE
+                        tvNote?.setText(R.string.we_have_sent_you_withdrawal_request_tinsta_redemption)
                         statuslist.add(TransactionConfirmVM.TranscationStatuss("Amount Credited", "", "${fund.redeemedStatus?.data?.amountCreadited}"))
                     }
                 }

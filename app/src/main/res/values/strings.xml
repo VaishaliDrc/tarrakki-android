@@ -448,7 +448,8 @@
     <string name="will_be_credited_to">Will be credited to:</string>
     <string name="amount_">Amount:</string>
     <string name="redeem_status">Redemption Status</string>
-    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 1-4 business days to complete the redemption.</string>
+    <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 1–4 business days to complete the redemption.</string>
+    <string name="we_have_sent_you_withdrawal_request_tinsta_redemption">We have sent your withdrawal request to the AMC. It might take 30 minutes to process the redemption payout.</string>
     <string name="how_are_returns_calculated">How are returns calculated?</string>
     <string name="when_does_my_portfolio_update_here">When does my portfolio get updated?</string>
     <string name="pls_enter_email_address">Please enter Email Address.</string>

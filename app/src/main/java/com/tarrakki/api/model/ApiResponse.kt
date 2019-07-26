@@ -14,7 +14,9 @@ data class ApiResponse(
         @SerializedName("data")
         val `data`: String?,
         @SerializedName("status")
-        val status: Status?
+        val status: Status?,
+        @SerializedName("maintenance_details")
+        val maintenanceDetails: MaintenanceDetails?
 ) {
     data class Status(
             @SerializedName("code")
@@ -23,6 +25,15 @@ data class ApiResponse(
             var message: String?
     )
 }
+
+data class MaintenanceDetails(
+        @SerializedName("end_time")
+        val endTime: String?,
+        @SerializedName("flag")
+        val flag: Boolean?,
+        @SerializedName("start_time")
+        val startTime: String?
+)
 
 fun String.toDecrypt() = AES.decrypt(this)
 

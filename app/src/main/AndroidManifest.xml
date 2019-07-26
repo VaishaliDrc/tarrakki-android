@@ -118,6 +118,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.maintenance.MaintenanceActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <service android:name=".fcm.MyFirebaseMessagingService">

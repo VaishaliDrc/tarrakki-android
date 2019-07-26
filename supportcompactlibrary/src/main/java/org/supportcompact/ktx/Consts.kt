@@ -3,6 +3,8 @@ package org.supportcompact.ktx
 import android.arch.lifecycle.ViewModel
 import org.greenrobot.eventbus.EventBus
 
+const val MAINTENANCE_END_TIME = "end_time"
+
 const val ONLOGOUT = "3"
 
 const val SHOW_PROGRESS = "1"

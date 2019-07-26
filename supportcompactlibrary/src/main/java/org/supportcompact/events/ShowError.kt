@@ -1,7 +1,10 @@
 package org.supportcompact.events
 
+import android.app.Activity
 import org.supportcompact.CoreApp
 import org.supportcompact.R
+
+data class Maintenance<T : Activity>(val aClass: Class<T>, val endTime: String?)
 
 data class ShowError(val error: String)
 

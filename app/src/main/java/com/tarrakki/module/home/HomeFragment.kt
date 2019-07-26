@@ -223,7 +223,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             }
         }
 
-        ivTarrakkiZyaada?.setOnClickListener {
+        clTarrakkiZyaada?.setOnClickListener {
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
