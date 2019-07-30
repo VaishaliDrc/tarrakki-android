@@ -618,6 +618,7 @@ fun stopPortfolio(transactionId: Int): MutableLiveData<ApiResponse> {
                             apiResponse.value = o
                             //EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         } else {
+                            //apiResponse.value = o
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }
                     } else {
