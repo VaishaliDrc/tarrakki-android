@@ -42,7 +42,7 @@
             android:layout_marginTop="@dimen/space_8"
             android:orientation="horizontal"
             android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ll_units"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvName">
@@ -63,6 +63,38 @@
                 android:maxLines="2"
                 android:paddingStart="@dimen/space_4"
                 android:text="@{investment.folioNoList}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:textColor="@color/semi_black"
+                tools:text="@string/dummy3" />
+        </android.support.v7.widget.LinearLayoutCompat>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:id="@+id/ll_units"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:orientation="horizontal"
+            android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/tvName">
+
+            <TextView
+                android:id="@+id/tvUnitsL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/units_"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/tvUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/lato_semibold"
+                android:maxLines="1"
+                android:paddingStart="@dimen/space_4"
+                android:text="@{investment.totalUnits.toString()}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
                 tools:text="@string/dummy3" />

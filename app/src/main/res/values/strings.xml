@@ -671,12 +671,14 @@
     <string name="to_be_confirmed">To be confirmed</string>
     <string name="thank_you">Thank you!</string>
     <string name="failed_transaction_msg">Unfortunately, your transactions have failed. Please try again.</string>
-    <string name="your_purchase_request_has_been_received">Your purchase request has been received.</string>
+    <string name="your_purchase_request_has_been_received">Your purchase request has been received.\n\n If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>
     <string name="do_you_want_to_raise_the_ticket_for_the_transaction">Do you want to raise a ticket related to a recent transaction ?</string>
     <string name="overview">Overview</string>
     <string name="performance">Performance</string>
     <string name="close">Close</string>
     <string name="file">File</string>
+    <string name="tap_to_explore">Tap To Explore</string>
+    <string name="all_mutual_funds">All Mutual Funds</string>
     <string name="tap_to_explore_all_mutual_funds">Tap To Explore All Mutual Funds</string>
     <string name="we_could_not_retrieve">We couldn’t retrieve the username from your social media account. Please change the privacy settings of your social media account and try again.</string>
     <string name="max_file_size_msg">File size can not be greater than 25 MB</string>

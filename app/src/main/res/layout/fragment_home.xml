@@ -358,8 +358,8 @@
 
                     <ImageView
                         android:id="@+id/ivTarrakkiZyaada"
-                        android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"

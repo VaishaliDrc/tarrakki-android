@@ -27,17 +27,32 @@
         android:padding="8dp">
 
         <TextView
+            android:layout_marginTop="8dp"
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/lato_semibold"
             android:text="@{section.title}"
             android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Investment Strategies" />
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:onClick="@{onViewAll}"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/page_selected"
+            android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:tint="@color/white" />
+
+        <!--<TextView
             android:id="@+id/tvViewAll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +61,7 @@
             android:textColor="@color/colorAccent"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvHomeItem"
@@ -61,7 +76,7 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintTop_toBottomOf="@+id/iv_arrow"
             app:setAdapterH="@{section.homeItems}"
             tools:listitem="@layout/row_investment_list_item" />
 

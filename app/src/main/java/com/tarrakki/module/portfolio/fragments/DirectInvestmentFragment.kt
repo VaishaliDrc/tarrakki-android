@@ -104,6 +104,8 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
                             // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
+                        } else{
+
                         }
 
                         binder.tvAddPortfolio.setOnClickListener {

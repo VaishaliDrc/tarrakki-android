@@ -36,7 +36,7 @@
                     android:layout_marginStart="@dimen/default_space"
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/default_space"
-                    android:background="@drawable/bg_pan_verification"
+                    android:background="@drawable/shape_cart_view"
                     android:elevation="2dp"
                     android:gravity="center"
                     android:orientation="horizontal"
@@ -56,20 +56,54 @@
                             android:layout_height="match_parent"
                             android:adjustViewBounds="true"
                             android:padding="@dimen/space_12"
-                            android:src="@drawable/ic_explore" />
+                            android:src="@drawable/ic_explore_funds_new" />
 
                     </android.support.v7.widget.CardView>
-                    <!--tools:textAppearance="@style/TextAppearance.AppCompat.Large"-->
-                    <TextView
-                        android:id="@+id/btnExploreFunds"
+
+                    <RelativeLayout
+                        android:paddingTop="@dimen/space_8"
+                        android:paddingStart="@dimen/space_8"
+                        android:paddingBottom="@dimen/space_8"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_bold"
-                        android:gravity="center"
-                        android:padding="@dimen/_8sdp"
-                        android:text="@string/tap_to_explore_all_mutual_funds"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                        android:textColor="@android:color/white" />
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@id/iv_arrow"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="start"
+                                android:text="@string/tap_to_explore"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                                android:textColor="@color/semi_black" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lato_bold"
+                                android:gravity="start"
+                                android:text="@string/all_mutual_funds"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:textColor="@color/black" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/iv_arrow"
+                            android:layout_alignParentEnd="true"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:background="@drawable/page_selected"
+                            android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
+                            android:tint="@color/white" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -101,8 +135,8 @@
 
                     <ImageView
                         android:id="@+id/ivTarrakkiZyaada"
-                        android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"
