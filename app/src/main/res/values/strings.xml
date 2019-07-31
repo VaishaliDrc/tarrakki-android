@@ -671,7 +671,7 @@
     <string name="to_be_confirmed">To be confirmed</string>
     <string name="thank_you">Thank you!</string>
     <string name="failed_transaction_msg">Unfortunately, your transactions have failed. Please try again.</string>
-    <string name="your_purchase_request_has_been_received">Your purchase request has been received.\n\n If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>
+    <string name="your_purchase_request_has_been_received">Your purchase request has been received.</string>
     <string name="do_you_want_to_raise_the_ticket_for_the_transaction">Do you want to raise a ticket related to a recent transaction ?</string>
     <string name="overview">Overview</string>
     <string name="performance">Performance</string>
@@ -714,6 +714,9 @@
     <string name="down_for_maintenance">Down for Maintenance</string>
     <string name="we_are_currently_undergoing_server_maintenance">We are Currently Undergoing\nServer maintenance.</string>
     <string name="please_try_again_after">Please try again after</string>
+    <string name="refresh">Refresh</string>
+    <string name="if_funds_were_debited_from_your_account_please_do_not_pay_again">If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>
+    <string name="min_insta_redeem_amount">The minimum amount for insta-redemption is ₹100. Please enter a sum equal to or greater than ₹100.</string>
     <!--<string name="select_country">Select Country</string>-->
 
 </resources>

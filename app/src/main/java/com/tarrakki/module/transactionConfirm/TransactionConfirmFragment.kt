@@ -71,8 +71,6 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             App.INSTANCE.isRefreshing.observe(this, Observer {
                 it?.let {
                     getBinding().root.visibility = View.VISIBLE
-                    getBinding().root.isFocusableInTouchMode = true
-                    getBinding().root.requestFocus()
                     getBinding().root.setOnKeyListener { v, keyCode, event ->
                         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                             onBackPress()
@@ -80,6 +78,8 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         }
                         return@setOnKeyListener false
                     }
+                    getBinding().root.isFocusableInTouchMode = true
+                    getBinding().root.requestFocus()
                 }
             })
             getBinding().root.visibility = View.GONE
@@ -102,6 +102,12 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                             if (arguments?.getBoolean(IS_FROM_CONFIRM_ORDER) == true) {
                                 isFromPaymentMode = false
                             }
+                        }
+                    }
+                    if (getViewModel().isFromNEFT_RTGS.get() == View.GONE) {
+                        val status = it.data.firstOrNull { t -> "Pending".equals(t.payment, true) }
+                        if (status != null) {
+                            getViewModel().hasPending.set(View.VISIBLE)
                         }
                     }
                     if (transactionList.isNotEmpty()) {
@@ -130,10 +136,6 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             }
             return@setOnKeyListener false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
         getBinding().root.isFocusableInTouchMode = true
         getBinding().root.requestFocus()
     }

@@ -89,6 +89,20 @@
                     android:layout_marginBottom="@dimen/space_8"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
+                    android:text="@string/if_funds_were_debited_from_your_account_please_do_not_pay_again"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/darker_gray"
+                    android:visibility="@{vm.hasPending}"
+                    tools:text="@string/if_funds_were_debited_from_your_account_please_do_not_pay_again" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
                     android:text="@string/if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/darker_gray"

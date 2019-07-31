@@ -170,3 +170,10 @@ fun Date.monthsBetweenDates(endDate: Date): Int {
     monthsBetween += (end.get(Calendar.YEAR) - start.get(Calendar.YEAR)) * 12
     return monthsBetween
 }
+
+fun String.hasTime(): Boolean {
+    val endDate = this.toDate("dd/MM/yyyy hh:mm a")
+    val currentDate = Date()
+    val duration = endDate.time - currentDate.time
+    return duration > 0
+}

@@ -1032,7 +1032,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 mBinder.switchOnOff.isChecked = instaRedeemEligible
                 if (!instaRedeemEligible) {
                     mContext.let {
-                        it.simpleAlert(it.getString(R.string.insta_redeem_is_not_availble))
+                        it.simpleAlert(it.getString(R.string.lower_amount_for_insta_redeem))
                     }
                 }
             }
@@ -1130,7 +1130,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                             mContext.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
                         }
                     } else {
-                        mContext.simpleAlert(mContext.getString(R.string.lower_amount_for_insta_redeem))
+                        mContext.simpleAlert(mContext.getString(R.string.min_insta_redeem_amount))
                     }
                 } else {
                     mContext.simpleAlert(getString(R.string.alert_req_amount))

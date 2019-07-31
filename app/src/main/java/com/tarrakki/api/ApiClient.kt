@@ -71,9 +71,9 @@ object ApiClient {
     /**
      * Test Url
      **/
-   /* private const val BASE_URL = "http://13.235.141.219/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://13.235.141.219" /// Latest url
-    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v1/transactions/payment-status/"*/
+    /* private const val BASE_URL = "http://13.235.141.219/api/v1/" /// Latest url
+     const val IMAGE_BASE_URL = "http://13.235.141.219" /// Latest url
+     const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v1/transactions/payment-status/"*/
 
     /**
      * Test Url
@@ -96,9 +96,14 @@ object ApiClient {
     /**
      * Live Url
      **/
-   /* private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
+    /*private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
     const val IMAGE_BASE_URL = "https://tarrakkilive.edx.drcsystems.com" /// Latest url
     const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url*/
+
+
+    /*private const val BASE_URL = "http://13.235.141.219/api/v1/" /// Latest url
+    const val IMAGE_BASE_URL = "http://13.235.141.219" /// Latest url
+    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v1/transactions/payment-status/" /// Latest url*/
 
     /**
      * Live Url
@@ -311,7 +316,7 @@ fun <T, A> subscribeToSingle(observable: Observable<T>, apiNames: A, singleCallb
                 override fun onSuccess(t: T) {
                     try {
                         if (t is ApiResponse) {
-                            if (t.maintenanceDetails != null && t.status?.code == 503) {
+                            if (t.maintenanceDetails != null && t.status?.code == 503 && t.maintenanceDetails.endTime?.hasTime() == true) {
                                 EventBus.getDefault().postSticky(Maintenance(MaintenanceActivity::class.java, t.maintenanceDetails.endTime))
                             } else {
                                 singleCallback?.onSingleSuccess(t, apiNames)
@@ -363,7 +368,7 @@ fun <T> subscribeToSingle(observable: Observable<T>, singleCallback: SingleCallb
                 override fun onSuccess(t: T) {
                     try {
                         if (t is ApiResponse) {
-                            if (t.maintenanceDetails != null && t.status?.code == 503) {
+                            if (t.maintenanceDetails != null && t.status?.code == 503 && t.maintenanceDetails.endTime?.hasTime() == true) {
                                 EventBus.getDefault().postSticky(Maintenance(MaintenanceActivity::class.java, t.maintenanceDetails.endTime))
                             } else {
                                 singleCallback?.onSingleSuccess(t)

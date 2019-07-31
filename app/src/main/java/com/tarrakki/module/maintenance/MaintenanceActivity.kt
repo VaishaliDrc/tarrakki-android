@@ -1,5 +1,6 @@
 package com.tarrakki.module.maintenance
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
@@ -9,10 +10,13 @@ import android.text.SpannableStringBuilder
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log.e
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityMaintenanceBinding
+import com.tarrakki.getMaintenanceDetails
 import org.supportcompact.ktx.MAINTENANCE_END_TIME
 import org.supportcompact.ktx.toDate
 import java.util.*
@@ -37,17 +41,35 @@ class MaintenanceActivity : BaseActivity() {
         getViewModel().footerVisibility.set(View.GONE)
         getViewModel().title.set(getString(R.string.down_for_maintenance))
         getViewModel().isBackEnabled.value = false
-        val endDate = intent.getStringExtra(MAINTENANCE_END_TIME)?.toDate("dd/MM/yyyy hh:mm a")
-        endDate?.let {
-            setTimer(endDate)
+        try {
+            val endDate = intent.getStringExtra(MAINTENANCE_END_TIME)?.toDate("dd/MM/yyyy hh:mm a")
+            endDate?.let {
+                this.endDate = it
+                mHandler.postDelayed(runnable, 100)
+            }
+        } catch (e: Exception) {
         }
     }
 
-    private fun setTimer(endDate: Date) {
-        val mHandler = Handler()
-        val runnable = object : Runnable {
-            override fun run() {
-                try {
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        try {
+            val endDate = intent?.getStringExtra(MAINTENANCE_END_TIME)?.toDate("dd/MM/yyyy hh:mm a")
+            endDate?.let {
+                mHandler.removeCallbacks(runnable)
+                this.endDate = it
+                mHandler.postDelayed(runnable, 100)
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    var endDate: Date? = null
+    val mHandler = Handler()
+    val runnable = object : Runnable {
+        override fun run() {
+            try {
+                endDate?.let { endDate ->
                     val spBuilder = SpannableStringBuilder()
                     val currentDate = Date()
                     val duration = endDate.time - currentDate.time
@@ -59,25 +81,48 @@ class MaintenanceActivity : BaseActivity() {
                     val diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration)
                     val diffInHours = TimeUnit.MILLISECONDS.toHours(duration)
                     val diffInDays = TimeUnit.MILLISECONDS.toDays(duration)
-                    e("Difference: ", "minutes: $diffInMinutes seconds: $diffInSeconds")
-                    spBuilder.append(SpannableString("$diffInMinutes").apply {
+                    e("Difference: ", "minutes: ${if (diffInMinutes == 0L) 1 else diffInMinutes} seconds: $diffInSeconds")
+                    spBuilder.append(SpannableString("${if (diffInMinutes == 0L) 1 else diffInMinutes}").apply {
                         setSpan(RelativeSizeSpan(1.5f), 0, "$diffInMinutes".length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         setSpan(StyleSpan(Typeface.BOLD), 0, "$diffInMinutes".length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                     })
                     spBuilder.append("\n")
-                    spBuilder.append("mn")
+                    spBuilder.append("mins")
                     getViewModel().timerValue.set(spBuilder)
                     mHandler.postDelayed(this, 1000)
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
-        mHandler.postDelayed(runnable, 100)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.maintenance, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.action_refresh) {
+            getMaintenanceDetails().observe(this, android.arch.lifecycle.Observer {
+                finish()
+            })
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        try {
+            mHandler.removeCallbacks(runnable)
+        } catch (e: Exception) {
+        }
     }
 }

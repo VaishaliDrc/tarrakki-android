@@ -701,3 +701,30 @@ fun checkAppUpdate(showProcess: Boolean = false): MutableLiveData<AppUpdateRespo
             })
     return apiResponse
 }
+
+
+fun getMaintenanceDetails(): MutableLiveData<ApiResponse> {
+    val apiResponse = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(
+            observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java)
+                    .getMaintenanceDetails(),
+            singleCallback = object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o.status?.code == 1) {
+                        apiResponse.value = o
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    EventBus.getDefault().post(ShowError("${throwable.message}"))
+                }
+            }
+    )
+    return apiResponse
+}
+
+
+

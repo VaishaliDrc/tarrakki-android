@@ -26,6 +26,7 @@ class TransactionConfirmVM : FragmentViewModel() {
     val list = ArrayList<TransactionConfirm>()
     val isFailed = ObservableField(true)
     val isFromNEFT_RTGS = ObservableField(View.GONE)
+    val hasPending = ObservableField(View.GONE)
 
     fun getTransactionStatus(dataRequest: String): MutableLiveData<TransactionStatusResponse> {
         val apiResponse = MutableLiveData<TransactionStatusResponse>()

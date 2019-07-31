@@ -259,6 +259,10 @@ interface WebserviceBuilder {
     @GET("configurations/get-version-details/android/")
     fun checkAppUpdate(): Observable<ApiResponse>
 
+    @GET("configurations/get-maintenance-details/")
+    fun getMaintenanceDetails(): Observable<ApiResponse>
+
+
     /**
      * ApiNames to differentiate APIs
      */
