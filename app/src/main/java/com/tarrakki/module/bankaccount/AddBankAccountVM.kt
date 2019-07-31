@@ -67,7 +67,7 @@ class AddBankAccountVM : FragmentViewModel() {
         val json = JsonObject()
         json.addProperty("account_number", accountNo.get())
         json.addProperty("ifsc_code", "${IFSCCode.get()}".toUpperCase())
-        json.addProperty("account_type", if (accountType.get() == "Saving Account") "SB" else "CB")
+        json.addProperty("account_type", if (accountType.get() == "Saving") "SB" else "CB")
         json.addProperty("bank_id", bankId)
         json.addProperty("user_id", App.INSTANCE.getUserId())
         //json.addProperty("holding_mode", "Single")
