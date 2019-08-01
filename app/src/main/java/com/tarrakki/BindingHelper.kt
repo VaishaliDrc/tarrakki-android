@@ -1119,13 +1119,17 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 if (isAmountValid(amount.toCurrencyBigDecimal())) {
                     if (amount.toCurrencyBigDecimal().toDouble() >= 100.00) {
                         if (amount.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
-                            mDialog.dismiss()
-                            val isRedeem = if (mBinder.chkAmount.isChecked) {
-                                "F"
-                            } else {
-                                "P"
+                            if (amount.toCurrencyBigDecimal().toDouble() % 1.00 == 0.00){
+                                mDialog.dismiss()
+                                val isRedeem = if (mBinder.chkAmount.isChecked) {
+                                    "F"
+                                } else {
+                                    "P"
+                                }
+                                onInstaRedeem?.invoke(folioNo, "$folioId", amount, isRedeem)
+                            }else{
+                                mContext.simpleAlert(mContext.getString(R.string.multi_insta_redeem_amount))
                             }
-                            onInstaRedeem?.invoke(folioNo, "$folioId", amount, isRedeem)
                         } else {
                             mContext.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
                         }

@@ -718,5 +718,6 @@
     <string name="if_funds_were_debited_from_your_account_please_do_not_pay_again">If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>
     <string name="min_insta_redeem_amount">The minimum amount for insta-redemption is ₹100. Please enter a sum equal to or greater than ₹100.</string>
     <!--<string name="select_country">Select Country</string>-->
+    <string name="multi_insta_redeem_amount">Please enter a number in multiples of ₹1.00.</string>
 
 </resources>
