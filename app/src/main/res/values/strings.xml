@@ -712,7 +712,7 @@
     <string name="mandate_amount">Mandate Amount</string>
     <string name="if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update">If you have transferred money using NEFT/RTGS, it can take up-to 24 hours to update the transaction from Unpaid to Paid</string>
     <string name="down_for_maintenance">Down for Maintenance</string>
-    <string name="we_are_currently_undergoing_server_maintenance">We are Currently Undergoing\nServer maintenance.</string>
+    <string name="we_are_currently_undergoing_server_maintenance">"Sorry, we'll be up and running in no time.\n\nJust making sure you're experience with Tarrakki is seamless."</string>
     <string name="please_try_again_after">Please try again after</string>
     <string name="refresh">Refresh</string>
     <string name="if_funds_were_debited_from_your_account_please_do_not_pay_again">If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>
