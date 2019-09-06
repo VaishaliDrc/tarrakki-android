@@ -112,7 +112,6 @@ object ApiClient {
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
     const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v1/transactions/payment-status/" /// Latest url
 
-
     /**
      * @return [Retrofit] object its single-tone
      */

@@ -44,6 +44,7 @@ import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
+import kotlinx.android.synthetic.main.dialog_stop_my_sip_transaction.view.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -642,6 +643,11 @@ fun requestToEdit(txt: EditText, requestToEdit: Boolean?) {
     }
 }
 
+@BindingAdapter("color")
+fun setFont(textView: TextView, color: Int) {
+    textView.setTextColor(textView.context.color(color))
+}
+
 fun handleTextView(initialValue: Int, finalValue: Int, textview: TextView) {
     val valueAnimator = ValueAnimator.ofInt(initialValue, finalValue)
     valueAnimator.duration = 1500
@@ -1119,7 +1125,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                 if (isAmountValid(amount.toCurrencyBigDecimal())) {
                     if (amount.toCurrencyBigDecimal().toDouble() >= 100.00) {
                         if (amount.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
-                            if (amount.toCurrencyBigDecimal().toDouble() % 1.00 == 0.00){
+                            if (amount.toCurrencyBigDecimal().toDouble() % 1.00 == 0.00) {
                                 mDialog.dismiss()
                                 val isRedeem = if (mBinder.chkAmount.isChecked) {
                                     "F"
@@ -1127,7 +1133,7 @@ fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData
                                     "P"
                                 }
                                 onInstaRedeem?.invoke(folioNo, "$folioId", amount, isRedeem)
-                            }else{
+                            } else {
                                 mContext.simpleAlert(mContext.getString(R.string.multi_insta_redeem_amount))
                             }
                         } else {
@@ -1551,4 +1557,106 @@ fun Context.portfolioIntro(list: MutableList<DirectInvestmentFragment.Investment
 
     }, R.style.AppBottomSheetDialogTheme)
     bottomSheetDialog.show()
+}
+
+fun Context.stopFundPortfolioDialog(mySipData: MySipData,
+                                    onStop: ((transactionId: Int, folio: String, startDate: String) -> Unit)? = null) {
+    val mBinder = DialogStopMySipTransactionBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+    mBinder.edtAmount.applyCurrencyFormatPositiveOnly()
+//    val folioList = portfolioList.filter { it.sipDetails?.isNotEmpty() == true }.map { it.folioNo } as ArrayList
+//    var startDateList = arrayListOf<SIPDetails>()
+//    var sipDetail: SIPDetails? = null
+
+//    if (folioList.isNotEmpty()) {
+//        mBinder.folio = folioList[0]
+//        val selectedFolio = portfolioList.find { it.folioNo == folioList[0] }
+//        if (selectedFolio != null) {
+//            if (selectedFolio.sipDetails?.isNotEmpty() == true) {
+//                startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
+//                if (startDateList.isNotEmpty()) {
+//                    mBinder.startDate = startDateList[0].sipDay
+//                }
+//                sipDetail = selectedFolio.sipDetails[0]
+//                if (sipDetail != null) {
+//                    if (sipDetail.amount != null) {
+//                        mBinder.amount = sipDetail.amount
+//                    } else {
+//                        mBinder.amount = "0"
+//                    }
+//                } else {
+//                    mBinder.amount = "0"
+//                }
+//            }
+//        }
+//        mBinder.isSingleFolio = folioList.size == 1
+//    } else {
+//        mBinder.isSingleFolio = true
+//    }
+    mBinder.startDate = mySipData.sipStartDate?.toDate()?.day()?.let {
+        getOrdinalFormat(it) + " of every month"
+    }
+    mBinder.amount = "" + mySipData.amount
+
+//    mBinder.edtChooseFolio.setOnClickListener {
+//        this.showCustomListDialog("Select Folio", folioList) { item ->
+//            mBinder.folio = item
+//            val selectedFolio = portfolioList.find { it.folioNo == item }
+//            if (selectedFolio != null) {
+//                startDateList = selectedFolio.sipDetails as ArrayList<SIPDetails>
+//                if (startDateList.isNotEmpty()) {
+//                    mBinder.startDate = startDateList[0].sipDay
+//                    if (selectedFolio.sipDetails.isNotEmpty()) {
+//                        sipDetail = selectedFolio.sipDetails[0]
+//                        if (sipDetail != null) {
+//                            if (sipDetail?.amount != null) {
+//                                mBinder.amount = sipDetail?.amount
+//                            } else {
+//                                mBinder.amount = "0"
+//                            }
+//                        } else {
+//                            mBinder.amount = "0"
+//                        }
+//                    }
+//
+//                }
+//            }
+//        }
+//    }
+
+//    mBinder.edtStartDate.setOnClickListener {
+//        this.showCustomListDialog("Select StartDate", startDateList) { item ->
+//            mBinder.startDate = item.sipDay
+//            val folioNo = mBinder.edtChooseFolio.text.toString()
+//            val selectedFolio = portfolioList.find { it.folioNo == folioNo }
+//            if (selectedFolio != null) {
+//                if (selectedFolio.sipDetails?.isNotEmpty() == true) {
+//                    sipDetail = selectedFolio.sipDetails.find { it.startDate == item.startDate }
+//                    if (sipDetail != null) {
+//                        if (sipDetail?.amount != null) {
+//                            mBinder.amount = sipDetail?.amount
+//                        } else {
+//                            mBinder.amount = "0"
+//                        }
+//                    } else {
+//                        mBinder.amount = "0"
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    mBinder.btnInvest.setOnClickListener {
+        mDialog?.dismiss()
+        mySipData.id?.let { it1 -> mySipData.folioNo?.let { it2 -> mySipData.sipStartDate?.let { it3 -> onStop?.invoke(it1, it2, it3) } } }
+    }
+
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
 }

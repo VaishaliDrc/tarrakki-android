@@ -40,4 +40,9 @@
         <item>#FC0000</item>
     </string-array>
 
+    <color name="active">#4EBA5D</color>
+    <color name="stopped">#FD8D50</color>
+    <color name="auto_cancel">#8C8C8C</color>
+
+
 </resources>

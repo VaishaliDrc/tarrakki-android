@@ -78,9 +78,10 @@ class RedeemStopConfirmationFragment : CoreFragment<RedeemConfirmVM, FragmentRed
                 getViewModel().stopSIP?.let { stopSIP ->
                     stopPortfolio(stopSIP.transactionId).observe(this, Observer {
                         context?.simpleAlert(alertStopPortfolio(stopSIP.folioNo, stopSIP.date)) {
-                            if (getViewModel().goalBasedRedeemFund.value == null)
+                            if (getViewModel().goalBasedRedeemFund.value == null) {
+                                App.INSTANCE.needToLoadTransactionScreen = 1
                                 onBack()
-                            else
+                            } else
                                 onBack(2)
                         }
                     })

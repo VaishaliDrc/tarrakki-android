@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.ShareCompat
 import android.view.View
+import android.widget.Toast
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
@@ -18,6 +19,7 @@ import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.ekyc.*
+import com.tarrakki.module.my_sip.MySipFragment
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
@@ -85,6 +87,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_my_portfolio -> {
                         startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
+                    }
+                    R.drawable.ic_my_sip -> {
+                        startFragment(MySipFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)

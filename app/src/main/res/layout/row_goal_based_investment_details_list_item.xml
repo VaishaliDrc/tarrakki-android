@@ -245,7 +245,7 @@
                 android:text="@string/stop"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_9sdp"
-                android:visibility="@{investment.isSIP?View.VISIBLE:View.GONE}" />
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvApplyForDebitCart"

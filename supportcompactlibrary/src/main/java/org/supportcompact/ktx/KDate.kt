@@ -53,6 +53,17 @@ fun Date.convertTo(format: String = "dd MMM yyyy"): String? {
     return dateStr
 }
 
+fun Date.convertToWithComma(format: String = "dd MMM, yyyy"): String? {
+    var dateStr: String? = ""
+    val df = SimpleDateFormat(format, Locale.US)
+    try {
+        dateStr = df.format(this)
+    } catch (ex: Exception) {
+        Log.d("date", ex.toString())
+    }
+    return dateStr
+}
+
 // Converts current date to Calendar
 fun Date.toCalendar(): Calendar {
     val cal = Calendar.getInstance()

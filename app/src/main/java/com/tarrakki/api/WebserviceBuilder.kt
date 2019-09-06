@@ -262,6 +262,10 @@ interface WebserviceBuilder {
     @GET("configurations/get-maintenance-details/")
     fun getMaintenanceDetails(): Observable<ApiResponse>
 
+    @GET("transactions/my-sip/{userId}/")
+    fun getMySip(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
+
+
 
     /**
      * ApiNames to differentiate APIs

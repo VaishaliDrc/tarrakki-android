@@ -224,6 +224,7 @@
     <string name="my_profile">My Profile</string>
     <string name="transactions">Transactions</string>
     <string name="my_portfolio">My Portfolio</string>
+    <string name="my_sip">MY SIPs</string>
     <string name="saved_goal">Saved Goals</string>
     <string name="support">Support</string>
     <string name="notifications">Notifications</string>
@@ -622,7 +623,7 @@
     <string name="alert_pls_select_minors_dob">Please select Minor\'s Date of Birth.</string>
     <string name="tarrakki_zyaada_new_line">Tarrakki\nZyaada</string>
     <string name="liquidity">Liquidity</string>
-    <string name="debit_cart">Debit Cart</string>
+    <string name="debit_cart">Debit Card</string>
     <string name="atm_withdrawal">ATM Withdrawal</string>
     <string name="instant_withdrawal">Instant Withdrawal</string>
     <string name="minimum_investment">Minimum Investment</string>
@@ -719,5 +720,13 @@
     <string name="min_insta_redeem_amount">The minimum amount for insta-redemption is ₹100. Please enter a sum equal to or greater than ₹100.</string>
     <!--<string name="select_country">Select Country</string>-->
     <string name="multi_insta_redeem_amount">Please enter a number in multiples of ₹1.00.</string>
-
+    <string name="folio_no_dot">Folio No. </string>
+    <string name="mandate">Mandate</string>
+    <string name="mandate_id">Mandate ID</string>
+    <string name="registration_date">Registration Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="active">Active</string>
+    <string name="stopped">Stopped</string>
+    <string name="auto_cancel">Auto Cancelled</string>
+    <string name="NA">N/A</string>
 </resources>
