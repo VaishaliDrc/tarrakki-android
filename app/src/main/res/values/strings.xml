@@ -661,7 +661,7 @@
     <string name="fixed_ndeposit">Fixed\nDeposit</string>
     <string name="write_your_reply_here">Write your reply here..</string>
     <string name="ticket_conversation">Ticket Conversation</string>
-    <string name="direct_investment">Direct Investment</string>
+    <string name="direct_investment">Direct\nInvestment</string>
     <string name="goal_base_investment">Goal Based Investment</string>
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>

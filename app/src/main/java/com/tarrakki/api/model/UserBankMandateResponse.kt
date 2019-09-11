@@ -44,32 +44,38 @@ data class UserBankMandateResponse(
     ) {
         var info: Int = R.string.normally_take_
             get() {
-                return if (mandateType == "X"){
+                return if (mandateType == "X") {
                     R.string.normally_take_
-                }else{
+                } else {
                     R.string.normally_take_nach
                 }
             }
 
         var type: Int = R.string.bank_mandate_type
             get() {
-                return if (mandateType == "X"){
+                return if (mandateType == "X") {
                     R.string.nach_mandate
-                }else{
+                } else {
                     R.string.sip_mandate
                 }
             }
 
-        @DrawableRes var statuscolor: Int = R.drawable.shape_success_bg
-            get() =  when (status) {
-                "CANCELLED","FAILED" -> R.drawable.shape_failed_bg
+        @DrawableRes
+        var statuscolor: Int = R.drawable.shape_success_bg
+            get() = when ("$status".toUpperCase()) {
+
+                "CANCELLED" -> R.drawable.shape_failed_bg
+                "FAILED" -> R.drawable.shape_failed_bg
+                "REJECTED" -> R.drawable.shape_failed_bg
                 "APPROVED" -> R.drawable.shape_success_bg
                 else -> R.drawable.shape_pending_bg
             }
 
         var actualStatus: String = ""
-            get() =  when (status) {
-                "CANCELLED","FAILED" -> "FAILED"
+            get() = when ("$status".toUpperCase()) {
+                "CANCELLED" -> "CANCELLED"
+                "FAILED" -> "FAILED"
+                "REJECTED" -> "REJECTED"
                 "APPROVED" -> "APPROVED"
                 else -> "PENDING"
             }
