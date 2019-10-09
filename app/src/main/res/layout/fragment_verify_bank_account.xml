@@ -139,6 +139,7 @@
             <ImageView
                 android:id="@+id/icPreviewDoc"
                 android:visibility="gone"
+                imgUrl="@{vm.uploadImage}"
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_150sdp"
                 app:layout_constraintBottom_toBottomOf="parent"

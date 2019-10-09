@@ -13,6 +13,8 @@ import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.View
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.gson.Gson
 import com.tarrakki.R
 import com.tarrakki.api.model.UserBanksResponse
@@ -26,6 +28,7 @@ import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.takePick
 import org.supportcompact.utilise.ImageChooserUtil
+import org.supportcompact.utilise.ResourceUtils
 import java.io.File
 
 /**
@@ -42,6 +45,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
         get() = getString(R.string.add_bank_account)
     private var doc_Id = ""
     var userBankData: UserBanksResponse? = null
+    var bankId: String? = ""
 
     override fun getLayout(): Int {
         return R.layout.fragment_verify_bank_account
@@ -58,6 +62,11 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
 
     override fun createReference() {
         arguments?.let {
+            if (!userBankData?.data?.bankDetail?.verificationDocument?.toString().equals("")) {
+                coreActivityVM?.title?.set(ResourceUtils.getString(R.string.update_bank_account))
+                icPreviewDoc.visibility = View.VISIBLE
+                getViewModel().uploadImage.set(userBankData?.data?.bankDetail?.verificationDocument?.toString())
+            }
         }
 
         lluploadStatement.setOnClickListener {
@@ -90,7 +99,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                 }
             } else {
                 if (userBankData != null)
-                    getViewModel().uploadBankDoc(userBankData).observe(this, Observer {
+                    getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
                         context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
                             onBack(2)
                             coreActivityVM?.onNewBank?.value = true
@@ -208,7 +217,14 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                         val imageUri = UCrop.getOutput(data)
                         getViewModel()?.uploadUri.set(imageUri.toString())
                         icPreviewDoc.visibility = View.VISIBLE
-                        Glide.with(icPreviewDoc).load(imageUri).into(icPreviewDoc)
+
+                        val requestOptions = RequestOptions()
+                        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        requestOptions.skipMemoryCache(true)
+                        Glide.with(icPreviewDoc)
+                                .setDefaultRequestOptions(requestOptions)
+                                .load(imageUri)
+                                .into(icPreviewDoc)
                     }
                 }
             }
@@ -216,7 +232,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = doc_Id
+        var destinationFileName = "IMG_" + System.currentTimeMillis()
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(3f, 2f)
@@ -232,6 +248,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
             arguments = basket
             if (basket != null && basket.size() > 0) {
                 userBankData = Gson().fromJson<UserBanksResponse>(basket.getString("userBankData"), UserBanksResponse::class.java)
+                bankId = basket.getString("bankId")
             }
 
         }

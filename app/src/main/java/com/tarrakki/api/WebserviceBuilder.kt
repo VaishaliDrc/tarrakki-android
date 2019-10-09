@@ -271,8 +271,18 @@ interface WebserviceBuilder {
                               @Part("ifsc_code") ifsc_code: RequestBody?,
                               @Part("account_type") account_type: RequestBody?,
                               @Part("user_id") user_id: RequestBody?,
-                              @Path("bank_id") bank_id: String?,
+                              @Part("bank_id") bank_id: RequestBody?,
+                              @Path("bank_id") bank_user_id: String?,
                               @Part verification_document: MultipartBody.Part): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @PUT("banks/user-banks/update/{bank_id}/")
+    fun updateUserBank(@Field("account_number") account_number: String?,
+                       @Field("ifsc_code") ifsc_code: String?,
+                       @Field("account_type") account_type: String?,
+                       @Field("user_id") user_id: String?,
+                       @Field("bank_id") bank_id: String?,
+                       @Path("bank_id") user_bank_id: String?): Observable<ApiResponse>
 
 
     /**

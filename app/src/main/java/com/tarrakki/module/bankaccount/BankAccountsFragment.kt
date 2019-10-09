@@ -14,6 +14,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.view.View
+import android.widget.TextView
+import com.google.gson.Gson
 import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
@@ -130,6 +132,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                 })
                     })
                     binder.setVariable(BR.setDefault, View.OnClickListener {
+                        it.findViewById<TextView>(R.id.btnUpdate).setOnClickListener {
+                            val bundle = Bundle()
+                            r.data.bankDetail = item as BankDetail
+                            bundle.putString("userBankData", Gson().toJson(r))
+                            startFragment(AddBankAccountFragment.newInstance(bundle.apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
+                        }
+
                         if (item is BankDetail && !item.isDefault) {
                             context?.let {
                                 it.confirmationDialog(getString(R.string.alert_bank_default),
@@ -162,6 +171,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         mRefresh?.setOnRefreshListener {
             getViewModel().getAllBanks(true).observe(this, bankObserver)
         }
+
     }
 
     private fun openGallery() {

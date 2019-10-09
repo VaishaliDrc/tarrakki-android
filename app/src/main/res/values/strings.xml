@@ -738,4 +738,5 @@
     <string name="desc_bank_account">Bank document must have you name, bank name , branch name and IFSC</string>
     <string name="alert_verify_bank_account">Please Add document.</string>
     <string name="verified">Verified</string>
+    <string name="update_bank_account">Update Bank Account</string>
 </resources>

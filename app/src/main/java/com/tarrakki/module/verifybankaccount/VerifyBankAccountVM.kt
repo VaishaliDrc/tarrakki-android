@@ -26,8 +26,9 @@ class VerifyBankAccountVM : FragmentViewModel() {
     val ICAMERA_RQ_CODE = 181
     val cvPhotoName = "verifyAccountPic"
     val uploadUri = ObservableField<String>("")
+    val uploadImage = ObservableField<String>("")
 
-    fun uploadBankDoc(userBankData: UserBanksResponse?): MutableLiveData<ApiResponse> {
+    fun uploadBankDoc(userBankData: UserBanksResponse?, bankId: String): MutableLiveData<ApiResponse> {
         showProgress()
 
         //val id = mandateResponse.get()?.data?.id
@@ -37,6 +38,7 @@ class VerifyBankAccountVM : FragmentViewModel() {
         val ifscCode = RequestBody.create(MediaType.parse("text"), userBankData?.data?.bankDetail?.ifsc_code)
         val accountTypeSB = RequestBody.create(MediaType.parse("text"), userBankData?.data?.bankDetail?.accountTypeBse)
         val userId = RequestBody.create(MediaType.parse("text"), App.INSTANCE.getUserId())
+        val bankUserId = userBankData?.data?.bankDetail?.id.toString()
         val body = MultipartBody.Part.createFormData("verification_document", file.name, requestFile)
 
         val response = MutableLiveData<ApiResponse>()
@@ -46,7 +48,8 @@ class VerifyBankAccountVM : FragmentViewModel() {
                                 ifscCode,
                                 accountTypeSB,
                                 userId,
-                                userBankData?.data?.bankDetail?.id.toString(), body),
+                                RequestBody.create(MediaType.parse("text"), bankId),
+                                bankUserId, body),
                 apiNames = WebserviceBuilder.ApiNames.updateUserBankDetails,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {

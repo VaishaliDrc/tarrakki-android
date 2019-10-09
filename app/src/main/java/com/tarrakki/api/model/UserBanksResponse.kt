@@ -14,26 +14,26 @@ data class Data(
         @SerializedName("bank_details")
         val bankDetails: ArrayList<BankDetail>,
         @SerializedName("bank_detail")
-        val bankDetail: BankDetail
+        var bankDetail: BankDetail
 )
 
 data class BankDetail(
         @SerializedName("account_number")
-        val accountNumber: String,
+        var accountNumber: String,
         @SerializedName("account_type_bse")
-        val accountTypeBse: String,
+        var accountTypeBse: String,
         @SerializedName("branch__bank_id__bank_name")
-        val branchBankIdBankName: String,
+        var branchBankIdBankName: String,
         @SerializedName("branch__branch_name")
-        val branchBranchName: String,
+        var branchBranchName: String,
         @SerializedName("branch__ifsc_code")
-        val branchIfscCode: String,
+        var branchIfscCode: String,
         @SerializedName("holding_mode")
-        val holdingMode: String,
+        var holdingMode: String,
         @SerializedName("id")
         val id: Int,
         @SerializedName("is_default")
-        val isDefault: Boolean,
+        var isDefault: Boolean,
         @SerializedName("user__email")
         val userEmail: String,
         @SerializedName("bank_logo")
@@ -41,7 +41,9 @@ data class BankDetail(
         @SerializedName("status")
         val status: String,
         @SerializedName("ifsc_code")
-        val ifsc_code: String
+        var ifsc_code: String,
+        @SerializedName("verification_document")
+        var verificationDocument: String
 ) : WidgetsViewModel {
 
     override fun layoutId(): Int {
@@ -52,6 +54,28 @@ data class BankDetail(
         get() = if (isDefault) View.VISIBLE else View.GONE
 
     var isUpdateVisivibility: Int = View.GONE
-        get() = if (status.equals("VERIFIED", true) || status.equals("UPLOADED", true)) View.GONE else View.VISIBLE
+        get() = if (status.equals("VERIFIED", true)) View.GONE else View.VISIBLE
+
+    var docStatus: String = status
+        get() {
+            if (status.equals("VERIFIED", true)) {
+                return "Verified"
+            } else if (status.equals("Rejected", true)) {
+                return "Rejected"
+            } else {
+                return "Pending"
+            }
+        }
+
+    var updateButtonlabel: String = status
+        get() {
+            if (status.equals("VERIFIED", true)) {
+                return "Update"
+            } else if (status.equals("Rejected", true)) {
+                return "Update for Rejected"
+            } else {
+                return "Update for Pending"
+            }
+        }
 
 }

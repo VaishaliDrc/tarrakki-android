@@ -8,6 +8,8 @@ import android.text.TextUtils
 import com.google.gson.Gson
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
+import com.tarrakki.api.model.BankDetail
+import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
 import com.tarrakki.module.verifybankaccount.VerifyBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
@@ -29,6 +31,8 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
         get() = true
     override val title: String
         get() = getString(R.string.bank_accounts)
+    var userBankResponse: UserBanksResponse? = null
+    var bankData: BankDetail? = null
 
     override fun getLayout(): Int {
         return R.layout.fragment_add_bank_account
@@ -46,9 +50,18 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
     override fun createReference() {
         arguments?.let {
             coreActivityVM?.title?.set(if (it.getBoolean(IS_FROM_BANK_ACCOUNT, true)) {
-                getString(R.string.bank_accounts)
+                if (bankData != null) {
+                    getViewModel().labelButton.set(getString(R.string.update_bank_account)).toString()
+                    return@let getString(R.string.update_bank_account)
+                } else {
+                    getViewModel().labelButton.set(getString(R.string.add_bank_account)).toString()
+                    return@let getString(R.string.add_bank_account)
+
+                }
+
             } else {
-                getString(R.string.bank_accounts)
+                getViewModel().labelButton.set(getString(R.string.add_bank_account)).toString()
+                return@let getString(R.string.add_bank_account)
             })
         }
         getViewModel().getAllBanks().observe(this, Observer { r ->
@@ -62,6 +75,15 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 }
             }
         })
+
+
+        if (bankData != null) {
+            getViewModel().name.set(bankData?.branchBankIdBankName)
+            getViewModel().accountNo.set(bankData?.accountNumber)
+            getViewModel().reenterAccountNo.set(bankData?.accountNumber)
+            getViewModel().accountType.set(bankData?.accountTypeBse)
+            getViewModel().IFSCCode.set(bankData?.branchIfscCode)
+        }
 
         btnAdd?.setOnClickListener {
 
@@ -80,22 +102,43 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
             } else if (!isIFSCCode("${getViewModel().IFSCCode.get()}")) {
                 context?.simpleAlert(getString(R.string.alert_valid_bank_ifsc_code))
             } else {
-                val bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
+                var bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
+                if (bankId.equals("null") && bankData != null)
+                    bankId = bankData?.id?.toString()
                 bankId?.let {
-                    getViewModel().addBankDetails(it).observe(this, Observer {
-                        if (it?.data?.bankDetail?.status?.equals("UPLOADED", true)!!) {
+
+                    if (bankData != null) {
+                        getViewModel().updateBankDetails(it, bankData?.id.toString()).observe(this, Observer {
+                            bankData?.accountNumber = getViewModel().accountNo.get().toString()
+                            bankData?.accountTypeBse = getViewModel().accountType.get().toString()
+                            bankData?.ifsc_code = getViewModel().IFSCCode.get().toString()
+                            bankData?.branchBankIdBankName = getViewModel().name.get().toString()
                             val bundle = Bundle()
-                            bundle.putString("userBankData", Gson().toJson(it))
+                            bundle.putString("userBankData", Gson().toJson(userBankResponse))
+                            bundle.putString("bankId", bankId)
                             startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
-                        } else {
-                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
-                                onBack()
-                                coreActivityVM?.onNewBank?.value = true
+
+                        })
+
+                    } else {
+                        getViewModel().addBankDetails(it).observe(this, Observer {
+                            if (it?.data?.bankDetail?.status?.equals("UPLOADED", true)!!) {
+                                val bundle = Bundle()
+                                bundle.putString("userBankData", Gson().toJson(it))
+                                bundle.putString("bankId", bankId)
+                                startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
+                            } else {
+                                context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                                    onBack()
+                                    coreActivityVM?.onNewBank?.value = true
+                                }
                             }
-                        }
 
 
-                    })
+                        })
+
+                    }
+
                 }
             }
 
@@ -113,6 +156,12 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
 
     companion object {
         @JvmStatic
-        fun newInstance(basket: Bundle? = null) = AddBankAccountFragment().apply { arguments = basket }
+        fun newInstance(basket: Bundle? = null) = AddBankAccountFragment().apply {
+            arguments = basket
+            if (arguments != null && arguments?.size()!! > 0) {
+                userBankResponse = Gson().fromJson<UserBanksResponse>(arguments?.getString("userBankData"), UserBanksResponse::class.java)
+                bankData = userBankResponse?.data?.bankDetail
+            }
+        }
     }
 }
