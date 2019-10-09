@@ -180,6 +180,7 @@
             android:drawablePadding="@dimen/space_8"
             android:fontFamily="@font/lato_bold"
             android:gravity="center"
+            android:onClick="@{onUpdate}"
             android:paddingStart="@dimen/space_16"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/space_16"
@@ -226,6 +227,11 @@
         <variable
             name="setDefault"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onUpdate"
+            type="android.view.View.OnClickListener" />
+
 
         <variable
             name="widget"
