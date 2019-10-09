@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.v4.app.ShareCompat
 import android.view.View
-import android.widget.Toast
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
@@ -57,6 +56,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+        ivReadyToInvest?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
         if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {

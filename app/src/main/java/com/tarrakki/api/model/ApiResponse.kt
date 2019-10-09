@@ -43,6 +43,8 @@ fun String.printRequest() = e("Request Data=>${this}")
 
 fun JsonObject.printRequest() = e("Request Data=>${this}")
 
+fun JSONObject.printRequest() = e("Request Data=>${this}")
+
 fun JSONArray.printRequest() = e("Request Data=>${this}")
 
 

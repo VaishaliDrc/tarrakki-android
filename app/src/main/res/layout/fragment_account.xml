@@ -25,6 +25,16 @@
             android:layout_marginBottom="@dimen/default_space"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/ivReadyToInvest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:layout_marginBottom="@dimen/default_space"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_pending_doc_verification" />
+
             <LinearLayout
                 android:id="@+id/ll_complete_verification"
                 android:layout_width="match_parent"
@@ -35,7 +45,8 @@
                 android:background="@drawable/bg_complete_verification"
                 android:elevation="2dp"
                 android:orientation="horizontal"
-                android:padding="@dimen/space_16">
+                android:padding="@dimen/space_16"
+                tools:visibility="gone">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="60dp"

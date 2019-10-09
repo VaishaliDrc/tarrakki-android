@@ -22,6 +22,7 @@ const val KYC_VERIFIED = "kyc_verified"
 const val COMPLETED_REGISTRATION = "completed_registration"
 const val ASK_FOR_SECURITY_LOCK = "askForSecurityLock"
 const val PUSH_TOKEN = "push_token"
+const val IS_READY_TO_INVEST = "is_ready_to_invest"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -209,6 +210,14 @@ fun Context.setPushToken(pushToken: String) {
 
 fun Context.getPushToken(): String? {
     return getPreferences.getString(PUSH_TOKEN, "")
+}
+
+fun Context.setReadyToInvest(isReadyToInvest: Boolean) {
+    return getPreferences.putBoolean(IS_READY_TO_INVEST, isReadyToInvest)
+}
+
+fun Context.isReadyToInvest(): Boolean {
+    return getPreferences.getBoolean(IS_READY_TO_INVEST, false)
 }
 
 fun Context.clearUserData() {

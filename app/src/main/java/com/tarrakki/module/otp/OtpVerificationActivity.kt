@@ -119,13 +119,12 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
 
                                         } else {
 //                                            Recall this screen for Email Validate with text change
-                                            finish()
-                                            getViewModel().getOTP(data?.optString("mobile"), data?.optString("email"), type = "email").observe(this, Observer {
+                                            getViewModel().getOTP(data?.optString("mobile"), data?.optString("email"), verifyEmail = "email").observe(this, Observer {
                                                 it?.let { it1 ->
+                                                    finish()
                                                     val intent = Intent(this, OtpVerificationActivity::class.java)
                                                     intent.putExtra(SIGNUP_DATA, data.toString())
                                                     intent.putExtra(IS_EMAIL_VALIDATOR, true)
-                                                    intent.putExtra("REMOVE_STICKY", true);
                                                     startActivity(intent)
                                                     EventBus.getDefault().postSticky(it1)
                                                 }
@@ -213,7 +212,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
             //simpleAlert("OTP has benn resend successfully")
             if (intent.hasExtra(SIGNUP_DATA)) {
                 data?.let { json ->
-                    getViewModel().getOTP(data?.optString("mobile"), data?.optString("email")).observe(this, getOtp)
+                    getViewModel().getOTP(data?.optString("mobile"), data?.optString("email"), verifyEmail = "email").observe(this, getOtp)
                 }
             }
 
@@ -248,11 +247,10 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
 
     @Subscribe(sticky = true)
     fun onReceive(apiResponse: ApiResponse) {
-        getViewModel().getOTP.value = apiResponse
-        if (intent.hasExtra("REMOVE_STICKY")) {
+        if (getViewModel().getOTP.value == null) {
+            getViewModel().getOTP.value = apiResponse
             EventBus.getDefault().removeStickyEvent(apiResponse)
         }
-        //
     }
 
     override fun onBackPressed() {

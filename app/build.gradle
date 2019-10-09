@@ -12,7 +12,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('/home/dharmikpatel/AndroidStudioProjects/Tarrakki/key/Tarrakki.jks')
+            storeFile file('/home/jayeshparkariya/JAYESH_BACKUP/Projects/Tarrakki/key/Tarrakki.jks')
             storePassword 'Tarrakki'
             keyAlias = 'Tarrakki'
             keyPassword 'Tarrakki'

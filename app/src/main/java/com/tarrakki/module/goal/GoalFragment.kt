@@ -52,6 +52,7 @@ class GoalFragment : CoreFragment<GoalVM, FragmentGoalBinding>() {
     lateinit var observerGoals: Observer<Goal>
 
     override fun createReference() {
+
         rvGoals.isFocusable = false
         rvGoals.isNestedScrollingEnabled = false
         rvGoals.addItemDecoration(ItemOffsetDecoration(rvGoals.context, R.dimen.space_4))
