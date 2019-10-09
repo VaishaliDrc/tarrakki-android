@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.verifybankaccount.VerifyBankAccountVM" />
+    </data>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.bankaccount.AddBankAccountFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/default_space"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_cart_view"
+            android:elevation="@dimen/space_2"
+            android:padding="@dimen/space_8">
+
+
+            <ImageView
+                android:id="@+id/imgverificationIncomplete"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginTop="@dimen/space_10"
+                android:src="@drawable/verification_incomplete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/llUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDrecVerify">
+
+                <LinearLayout
+                    android:id="@+id/llUploadCheck"
+                    android:layout_width="0dp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_bg_grey_dashed"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:src="@drawable/ic_cancelled_cheque" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:fontFamily="@font/lato_regular"
+                        android:padding="@dimen/_10sdp"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/upload_cancelled_cheque"
+                        android:textColor="@color/semi_black" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.2"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="OR"
+                    android:textAppearance="?android:textAppearanceMedium"/>
+
+                <LinearLayout
+                    android:id="@+id/lluploadStatement"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:background="@drawable/shape_bg_grey_dashed"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:src="@drawable/ic_account_statement" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/lato_regular"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/upload_account_statement"
+                        android:textColor="@color/semi_black" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBankAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:text="@string/desc_bank_account"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llUpload" />
+
+
+            <ImageView
+                android:id="@+id/icPreviewDoc"
+                android:visibility="gone"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@+id/tvBankAccount"/>
+
+
+            <TextView
+                android:id="@+id/tvDrecVerify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:gravity="center"
+                android:paddingEnd="8dp"
+                android:text="@string/desc_verify_incomplete"
+                android:textSize="@dimen/_11sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvVerificationInco" />
+
+            <TextView
+                android:id="@+id/tvVerificationInco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/lato_semibold"
+                android:text="@string/verification_incomplete"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgverificationIncomplete" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_8"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/submit"
+                android:textColor="@color/white"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/tvBankAccount"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</layout>

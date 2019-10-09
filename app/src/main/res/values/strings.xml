@@ -162,7 +162,9 @@
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account">Already have an account? <font color='#4EB95D'>Login</font></string>
     <string name="verify_mobile_number">Verify Mobile Number</string>
+    <string name="verify_email_address">Verify Email Address</string>
     <string name="otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below">OTP has been sent to you on your mobile number. Please enter it below.</string>
+    <string name="otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below">OTP has been sent to you on your Email Address. Please enter it below.</string>
     <string name="not_received_your_otp_resend_otp">Not received your OTP? <font color='#4EB95D'>Resend OTP</font></string>
     <string name="submit">Submit</string>
     <string name="enter_otp">Enter OTP*</string>
@@ -729,4 +731,11 @@
     <string name="stopped">Stopped</string>
     <string name="auto_cancel">Auto Cancelled</string>
     <string name="NA">N/A</string>
+    <string name="verification_incomplete">Verification Incomplete!</string>
+    <string name="desc_verify_incomplete">We need to verify the bank account entered by you belongs to you. Kindly upload a cancel cheque or bank account statement to verify the account.</string>
+    <string name="upload_account_statement">Upload Account Statement</string>
+    <string name="upload_cancelled_cheque">Upload Cancelled Cheque</string>
+    <string name="desc_bank_account">Bank document must have you name, bank name , branch name and IFSC</string>
+    <string name="alert_verify_bank_account">Please Add document.</string>
+    <string name="verified">Verified</string>
 </resources>

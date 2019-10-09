@@ -265,6 +265,14 @@ interface WebserviceBuilder {
     @GET("transactions/my-sip/{userId}/")
     fun getMySip(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
 
+    @Multipart
+    @PUT("banks/user-banks/update/{bank_id}/")
+    fun updateUserBankDetails(@Part("account_number") account_number: RequestBody?,
+                              @Part("ifsc_code") ifsc_code: RequestBody?,
+                              @Part("account_type") account_type: RequestBody?,
+                              @Part("user_id") user_id: RequestBody?,
+                              @Path("bank_id") bank_id: String?,
+                              @Part verification_document: MultipartBody.Part): Observable<ApiResponse>
 
 
     /**
@@ -275,6 +283,6 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout, updateUserBankDetails
     }
 }

@@ -27,6 +27,7 @@ class AddBankAccountVM : FragmentViewModel() {
     val accountType = ObservableField<String>("Saving")
     val IFSCCode = ObservableField<String>("")
     val response = MutableLiveData<BankResponse>()
+    val responseAddBankDetails = MutableLiveData<UserBanksResponse>()
 
     fun getAllBanks(): MutableLiveData<BankResponse> {
         showProgress()
@@ -61,8 +62,8 @@ class AddBankAccountVM : FragmentViewModel() {
         return response
     }
 
-    fun addBankDetails(bankId: String): MutableLiveData<ApiResponse> {
-        val response = MutableLiveData<ApiResponse>()
+    fun addBankDetails(bankId: String): MutableLiveData<UserBanksResponse> {
+        val response = MutableLiveData<UserBanksResponse>()
         showProgress()
         val json = JsonObject()
         json.addProperty("account_number", accountNo.get())
@@ -82,7 +83,7 @@ class AddBankAccountVM : FragmentViewModel() {
                         dismissProgress()
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
-                                response.value = o
+                                response.value = o.data?.parseTo<UserBanksResponse>()
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

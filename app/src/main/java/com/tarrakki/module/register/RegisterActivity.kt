@@ -18,6 +18,7 @@ import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.*
 
 const val SIGNUP_DATA = "signup_data"
+const val IS_EMAIL_VALIDATOR = "is_email_validator"
 const val SIGNUP_OTP_DATA = "signup_otp_data"
 
 class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
@@ -106,6 +107,7 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>() {
                     it?.let { it1 ->
                         val intent = Intent(this, OtpVerificationActivity::class.java)
                         intent.putExtra(SIGNUP_DATA, getViewModel().getSignUpData().toString())
+                        intent.putExtra(IS_EMAIL_VALIDATOR, false)
                         startActivity(intent)
                         EventBus.getDefault().postSticky(it1)
                     }

@@ -18,7 +18,9 @@ data class LoginResponse(
         @SerializedName("token")
         val token: String?,
         @SerializedName("user_id")
-        val userId: String?
+        val userId: String?,
+        @SerializedName("ready_to_invest")
+        val readyToInvest: Boolean?
 )
 /*
 data class LoginResponse(

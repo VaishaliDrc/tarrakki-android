@@ -3,57 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.tarrakki.module.otp.OptVerificationsVM" />
-    </data>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.otp.OtpVerificationActivity">
 
-        <ImageView
-            android:id="@+id/ivLogin"
-            android:layout_width="225dp"
+        <Button
+            android:id="@+id/btnSummit"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_50"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_login"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvFPLbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_32"
-            android:fontFamily="@font/lato_bold"
-            android:text="@string/verify_mobile_number"
+            android:layout_marginStart="@dimen/space_32"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_32"
+            android:background="@drawable/shape_btn_idle_bg"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/submit"
+            android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivLogin" />
-
-        <TextView
-            android:id="@+id/tvFPDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_40"
-            android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/space_40"
-            android:fontFamily="@font/lato_bold"
-            android:gravity="center"
-            android:text="@string/otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textColor="@color/semi_white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvFPLbl" />
+            app:layout_constraintTop_toBottomOf="@id/edtOtp" />
 
         <EditText
             android:id="@+id/edtOtp"
@@ -78,22 +48,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvFPDetails" />
 
-        <Button
-            android:id="@+id/btnSummit"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/ivLogin"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/space_32"
-            android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/space_32"
-            android:background="@drawable/shape_btn_idle_bg"
-            android:fontFamily="@font/lato_semibold"
-            android:text="@string/submit"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/space_50"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edtOtp" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:visibility="@{vm.progressBar}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFPDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_40"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/space_40"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="@{vm.textDescVerfiy}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/semi_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFPLbl" />
 
         <TextView
             android:id="@+id/tvResendOtp"
@@ -111,15 +101,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnSummit" />
 
-        <ProgressBar
+        <TextView
+            android:id="@+id/tvFPLbl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:visibility="@{vm.progressBar}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/space_32"
+            android:fontFamily="@font/lato_bold"
+            android:text="@{vm.textVerify}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/ivLogin" />
 
     </android.support.constraint.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.otp.OptVerificationsVM" />
+    </data>
 </layout>

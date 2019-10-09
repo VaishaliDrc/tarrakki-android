@@ -21,7 +21,10 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     val email = ObservableField("")
     val otp = ObservableField("")
     val otpId = ObservableField("")
+    val textVerify = ObservableField("")
+    val textDescVerfiy = ObservableField("")
     val getOTP = MutableLiveData<ApiResponse>()
+    var isEmailValidate = false
     private val verifyOTP = MutableLiveData<Boolean>()
 
     fun getDataOTP(originalData: String?): MutableLiveData<ApiResponse> {

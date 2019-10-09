@@ -43,6 +43,7 @@
     <color name="active">#4EBA5D</color>
     <color name="stopped">#FD8D50</color>
     <color name="auto_cancel">#8C8C8C</color>
+    <color name="color_F0FAFA">#F0FAFA</color>
 
 
 </resources>

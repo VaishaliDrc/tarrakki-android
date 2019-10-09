@@ -5,15 +5,17 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
+import com.google.gson.Gson
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
+import com.tarrakki.module.verifybankaccount.VerifyBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
 import org.supportcompact.ktx.showListDialog
 import org.supportcompact.ktx.simpleAlert
-import java.util.regex.Pattern
+import org.supportcompact.ktx.startFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -62,6 +64,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
         })
 
         btnAdd?.setOnClickListener {
+
             if (TextUtils.isEmpty(getViewModel().name.get())) {
                 context?.simpleAlert(getString(R.string.alert_req_bank_name))
             } else if (TextUtils.isEmpty(getViewModel().accountNo.get())) {
@@ -80,13 +83,23 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 val bankId = getViewModel().response.value?.bankId(getViewModel().name.get())
                 bankId?.let {
                     getViewModel().addBankDetails(it).observe(this, Observer {
-                        context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
-                            onBack()
-                            coreActivityVM?.onNewBank?.value = true
+                        if (it?.data?.bankDetail?.status?.equals("UPLOADED", true)!!) {
+                            val bundle = Bundle()
+                            bundle.putString("userBankData", Gson().toJson(it))
+                            startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
+                        } else {
+                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                                onBack()
+                                coreActivityVM?.onNewBank?.value = true
+                            }
                         }
+
+
                     })
                 }
             }
+
+
         }
         tvAccountType?.setOnClickListener {
             context?.accountTypes { item ->

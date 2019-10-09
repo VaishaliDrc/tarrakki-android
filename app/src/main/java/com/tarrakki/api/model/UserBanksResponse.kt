@@ -12,7 +12,9 @@ data class UserBanksResponse(
 
 data class Data(
         @SerializedName("bank_details")
-        val bankDetails: ArrayList<BankDetail>
+        val bankDetails: ArrayList<BankDetail>,
+        @SerializedName("bank_detail")
+        val bankDetail: BankDetail
 )
 
 data class BankDetail(
@@ -35,7 +37,11 @@ data class BankDetail(
         @SerializedName("user__email")
         val userEmail: String,
         @SerializedName("bank_logo")
-        val bankLogo: String
+        val bankLogo: String,
+        @SerializedName("status")
+        val status: String,
+        @SerializedName("ifsc_code")
+        val ifsc_code: String
 ) : WidgetsViewModel {
 
     override fun layoutId(): Int {

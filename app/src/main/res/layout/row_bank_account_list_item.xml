@@ -3,17 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="setDefault"
-            type="android.view.View.OnClickListener" />
-
-        <variable
-            name="widget"
-            type="com.tarrakki.api.model.BankDetail" />
-    </data>
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,12 +16,14 @@
 
         <ImageView
             android:id="@+id/ivBank"
+            imgUrl="@{widget.bankLogo}"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            imgUrl="@{widget.bankLogo}"
             android:src="@drawable/temp_icici"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <TextView
             android:id="@+id/tvName"
@@ -68,14 +59,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/ivBank"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivBank" />
-
-        <View
-            android:id="@+id/mDivider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/space_8"
-            android:background="@color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@+id/ivBank" />
 
         <TextView
             android:id="@+id/tvAccountNoL"
@@ -153,6 +136,14 @@
             app:layout_constraintTop_toBottomOf="@+id/tvIFSCCodeLabel"
             tools:text="ICIC00000457" />
 
+        <View
+            android:id="@+id/mDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/ivBank" />
+
         <android.support.constraint.Guideline
             android:id="@+id/gdlCenter"
             android:layout_width="wrap_content"
@@ -162,5 +153,16 @@
 
 
     </android.support.constraint.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="setDefault"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="widget"
+            type="com.tarrakki.api.model.BankDetail" />
+    </data>
 
 </layout>

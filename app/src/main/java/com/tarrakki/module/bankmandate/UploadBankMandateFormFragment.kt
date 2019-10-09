@@ -9,13 +9,10 @@ import com.tarrakki.R
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentUploadloadBankMandateFormBinding
 import kotlinx.android.synthetic.main.fragment_uploadload_bank_mandate_form.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.startFragment
-import java.io.File
 
 /**
  * A simple [Fragment] subclass.
