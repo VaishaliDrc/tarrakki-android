@@ -51,4 +51,7 @@ data class BankDetail(
     var isDefaultVisivibility: Int = View.GONE
         get() = if (isDefault) View.VISIBLE else View.GONE
 
+    var isUpdateVisivibility: Int = View.GONE
+        get() = if (status.equals("VERIFIED", true) || status.equals("UPLOADED", true)) View.GONE else View.VISIBLE
+
 }
