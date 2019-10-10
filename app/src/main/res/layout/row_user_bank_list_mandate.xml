@@ -7,7 +7,7 @@
 
         <variable
             name="isSelected"
-            type="Boolean"/>
+            type="Boolean" />
 
         <variable
             name="setDefault"
@@ -16,6 +16,10 @@
         <variable
             name="widget"
             type="com.tarrakki.api.model.BankDetail" />
+
+        <variable
+            name="onUpdate"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -31,10 +35,10 @@
 
         <ImageView
             android:id="@+id/ivBank"
+            imgUrl="@{widget.bankLogo}"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/temp_icici"
-            imgUrl="@{widget.bankLogo}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,10 +63,11 @@
             android:id="@+id/tvDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="false"
             android:checked="@{isSelected}"
+            android:clickable="false"
             android:textColor="@color/white"
             android:textSize="@dimen/sp10"
+            android:visibility="@{widget.checkBoxVisibility}"
             app:layout_constraintBottom_toBottomOf="@+id/ivBank"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivBank" />
@@ -158,6 +163,71 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.40" />
 
+
+        <View
+            android:id="@+id/mDivider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/space_8"
+            android:background="@color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/tvBreachName" />
+
+        <TextView
+            android:id="@+id/tvLblStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="8dp"
+            android:minHeight="@dimen/_20sdp"
+            android:text="@string/status_"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvInfo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/mDivider2"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="8dp"
+            android:minHeight="@dimen/_20sdp"
+            android:paddingLeft="@dimen/space_2"
+            android:text="@{widget.docStatus}"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@{widget.docStatus.equals(`Verified`) ? @color/colorAccent : @color/red}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvLblStatus"
+            app:layout_constraintTop_toTopOf="@id/mDivider2"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/btnUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginBottom="@dimen/space_1"
+            android:background="@drawable/shape_btn_primary"
+            android:drawableStart="@drawable/ic_mandate_upload"
+            android:drawablePadding="@dimen/space_8"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:onClick="@{onUpdate}"
+            android:paddingStart="@dimen/space_16"
+            android:paddingTop="@dimen/space_8"
+            android:paddingEnd="@dimen/space_16"
+            android:paddingBottom="@dimen/space_8"
+            android:text="@{widget.updateButtonlabel}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            android:visibility="@{widget.isUpdateVisivibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/mDivider2" />
 
     </android.support.constraint.ConstraintLayout>
 

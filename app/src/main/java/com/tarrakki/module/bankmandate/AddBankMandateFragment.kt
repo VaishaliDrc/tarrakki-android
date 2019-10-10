@@ -3,10 +3,14 @@ package com.tarrakki.module.bankmandate
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.view.View
+import com.google.gson.Gson
 import com.tarrakki.App
+import com.tarrakki.BR
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
+import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
@@ -109,7 +113,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
                 } else {
                     getViewModel().isNextVisible.set(true)
                 }
-                setUserBankAdapter(it1.data.bankDetails)
+                setUserBankAdapter(it1)
             } else {
                 getViewModel().isNoBankAccount.set(true)
                 getViewModel().isNextVisible.set(false)
@@ -118,35 +122,45 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
         })
     }
 
-    private fun setUserBankAdapter(bankDetails: List<BankDetail>) {
+    private fun setUserBankAdapter(banRes: UserBanksResponse) {
         getViewModel().isMandateBankList.set(false)
-        userBankAdapter = setUpAdapter(bankDetails as MutableList<BankDetail>,
+        userBankAdapter = setUpAdapter(banRes.data.bankDetails as MutableList<BankDetail>,
                 ChoiceMode.SINGLE,
                 R.layout.row_user_bank_list_mandate,
                 { item, binder: RowUserBankListMandateBinding?, position, adapter ->
                     binder?.widget = item
                     binder?.executePendingBindings()
                     binder?.isSelected = adapter.isItemViewToggled(position)
+                    binder?.setVariable(BR.onUpdate, View.OnClickListener {
+                        val bundle = Bundle()
+                        banRes.data.bankDetail = item
+                        bundle.putString("userBankData", Gson().toJson(banRes))
+                        startFragment(AddBankAccountFragment.newInstance(bundle.apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
 
-                }, { item, position, adapter ->
-
-        })
+                    })
+                },
+                { item, position, adapter ->
+                    if (item.checkBoxVisibility == View.VISIBLE) {
+                        adapter.toggleItemView(position)
+                    }
+                }, false
+        )
         rvBankMandate?.adapter = userBankAdapter
         if (isFromPaymentMode == true) {
-            val position = bankDetails.indexOfFirst { it.accountNumber == currentBank }
+            val position = banRes.data.bankDetails.indexOfFirst { it.accountNumber == currentBank }
             if (position != -1) {
                 userBankAdapter?.toggleItemView(position)
                 userBankAdapter?.notifyItemChanged(position)
             }
         } else {
-            val default_position = bankDetails.indexOfFirst { it.isDefault }
+            val default_position = banRes.data.bankDetails.indexOfFirst { it.isValid }
             if (default_position != -1) {
                 userBankAdapter?.toggleItemView(default_position)
                 userBankAdapter?.notifyItemChanged(default_position)
-            } else {
+            }/* else {
                 userBankAdapter?.toggleItemView(0)
                 userBankAdapter?.notifyItemChanged(0)
-            }
+            }*/
         }
     }
 

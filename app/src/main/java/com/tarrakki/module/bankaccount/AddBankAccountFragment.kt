@@ -76,12 +76,11 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
             }
         })
 
-
         if (bankData != null) {
             getViewModel().name.set(bankData?.branchBankIdBankName)
             getViewModel().accountNo.set(bankData?.accountNumber)
             getViewModel().reenterAccountNo.set(bankData?.accountNumber)
-            getViewModel().accountType.set(bankData?.accountTypeBse)
+            getViewModel().accountType.set(if ("SB".equals(bankData?.accountTypeBse, true)) "Saving" else "Current")
             getViewModel().IFSCCode.set(bankData?.branchIfscCode)
         }
 
@@ -110,14 +109,13 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                     if (bankData != null) {
                         getViewModel().updateBankDetails(it, bankData?.id.toString()).observe(this, Observer {
                             bankData?.accountNumber = getViewModel().accountNo.get().toString()
-                            bankData?.accountTypeBse = getViewModel().accountType.get().toString()
+                            bankData?.accountTypeBse = if (getViewModel().accountType.get() == "Saving") "SB" else "CB"
                             bankData?.ifsc_code = getViewModel().IFSCCode.get().toString()
                             bankData?.branchBankIdBankName = getViewModel().name.get().toString()
                             val bundle = Bundle()
                             bundle.putString("userBankData", Gson().toJson(userBankResponse))
                             bundle.putString("bankId", bankId)
                             startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
-
                         })
 
                     } else {

@@ -17,10 +17,7 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.dismissProgress
-import org.supportcompact.ktx.showProgress
+import org.supportcompact.ktx.*
 
 class HomeVM : FragmentViewModel() {
 
@@ -54,6 +51,10 @@ class HomeVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if ((o.status?.code == 1)) {
                                 val data = o.data?.parseTo<HomeData>()
+                                data?.data?.readyToInvest?.let { it1 -> App.INSTANCE.setReadyToInvest(it1) }
+                                data?.data?.isKycVerified?.let { it1 -> App.INSTANCE.setKYClVarified(it1) }
+                                data?.data?.completeRegistration?.let { it1 -> App.INSTANCE.setCompletedRegistration(it1) }
+
                                 App.INSTANCE.homeData = data
                                 data?.let {
                                     portfolioDetails.set(data.data.portfolioDetails)

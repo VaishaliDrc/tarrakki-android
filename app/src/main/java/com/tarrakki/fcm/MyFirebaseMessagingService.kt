@@ -27,10 +27,12 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.setPushToken
+import org.supportcompact.ktx.setReadyToInvest
 
 const val ACTION_CLOSE_TICKET = "com.tarrakki.ACTION_CLOSE_TICKET"
 const val ACTION_CANCEL_CLOSE_TICKET = "com.tarrakki.ACTION_CANCEL_CLOSE_TICKET"
 const val IS_FROM_NOTIFICATION = "is_from_notifications"
+const val IS_BANK_ACCOUNT = "is_bank_account"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -110,9 +112,16 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      */
     private fun sendNotification(messageBody: JSONObject) {
 
-        val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true) || "Close Ticket".equals(messageBody.optString("type"), true)) {
+        val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true)
+                || "Close Ticket".equals(messageBody.optString("type"), true)
+                || "bank_account".equals(messageBody.optString("type"), true)) {
             Intent(this, AccountActivity::class.java).apply {
                 putExtra("reference", messageBody.optString("reference"))
+                if ("bank_account".equals(messageBody.optString("type"), true)) {
+                    putExtra(IS_BANK_ACCOUNT, true)
+                    setReadyToInvest(messageBody.optBoolean("ready_to_invest"))
+                    EventBus.getDefault().post(Event.REFRESH)
+                }
                 putExtra(IS_FROM_NOTIFICATION, true)
             }
         } else {

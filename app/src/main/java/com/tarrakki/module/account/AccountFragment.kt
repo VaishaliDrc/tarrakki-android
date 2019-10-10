@@ -263,6 +263,13 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
     }
 
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        if (event == Event.REFRESH) {
+            ivReadyToInvest?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+        }
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = AccountFragment().apply { arguments = basket }

@@ -55,6 +55,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     override fun onResume() {
         super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+
         if (context?.isAskForSecureLock() == false && !getViewModel().isShowingSecurityDialog) {
             getViewModel().isShowingSecurityDialog = true
             val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager

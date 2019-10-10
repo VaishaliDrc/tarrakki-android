@@ -50,15 +50,21 @@ data class BankDetail(
         return R.layout.row_bank_account_list_item
     }
 
+    var isValid = false
+        get() = isDefault && (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true))
+
     var isDefaultVisivibility: Int = View.GONE
-        get() = if (isDefault && status.equals("VERIFIED", true)) View.VISIBLE else View.GONE
+        get() = if (isDefault && (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true))) View.VISIBLE else View.GONE
+
+    var checkBoxVisibility = View.GONE
+        get() = if (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true)) View.VISIBLE else View.GONE
 
     var isUpdateVisivibility: Int = View.GONE
-        get() = if (status.equals("VERIFIED", true)) View.GONE else View.VISIBLE
+        get() = if (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true)) View.GONE else View.VISIBLE
 
     var docStatus: String = status
         get() {
-            if (status.equals("VERIFIED", true)) {
+            if (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true)) {
                 return "Verified"
             } else if (status.equals("Rejected", true)) {
                 return "Rejected"
@@ -69,7 +75,7 @@ data class BankDetail(
 
     var updateButtonlabel: String = status
         get() {
-            if (status.equals("VERIFIED", true)) {
+            if (status.equals("VERIFIED", true) || status.equals("UPLOADEDTOBSE", true)) {
                 return "Update"
             } else if (status.equals("Rejected", true)) {
                 return "Update for Rejected"

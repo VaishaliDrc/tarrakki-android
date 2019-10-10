@@ -5,10 +5,13 @@ import android.os.Bundle
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportViewTicketResponse
+import com.tarrakki.fcm.IS_BANK_ACCOUNT
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
+import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.support.chat.ChatFragment
 import org.greenrobot.eventbus.EventBus
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.startFragment
 
 class AccountActivity : BaseActivity() {
@@ -17,7 +20,11 @@ class AccountActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         startFragment(AccountFragment.newInstance(), R.id.frmContainer)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
-            openChat(intent)
+            if (intent.hasExtra(IS_BANK_ACCOUNT)) {
+                openBank()
+            } else {
+                openChat(intent)
+            }
         }
     }
 
@@ -33,13 +40,26 @@ class AccountActivity : BaseActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
-            openChat(intent)
+            if (intent.hasExtra(IS_BANK_ACCOUNT)) {
+                openBank()
+            } else {
+                openChat(intent)
+            }
         } else {
             supportFragmentManager?.let {
                 for (i in 1 until it.backStackEntryCount) {
                     it.popBackStack()
                 }
             }
+        }
+    }
+
+    private fun openBank() {
+        val fm = supportFragmentManager?.findFragmentById(R.id.frmContainer)
+        if (fm is BankAccountsFragment) {
+            post(Event.REFRESH_ACCOUNT)
+        } else {
+            startFragment(BankAccountsFragment.newInstance(), R.id.frmContainer)
         }
     }
 

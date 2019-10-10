@@ -18,6 +18,7 @@ import com.google.gson.Gson
 import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
+import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.ekyc.KYCData
@@ -26,9 +27,11 @@ import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
 import org.greenrobot.eventbus.Subscribe
+import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
@@ -64,6 +67,8 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         }
     }
 
+    lateinit var bankObserver: Observer<UserBanksResponse>
+
     override fun createReference() {
         val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
 
@@ -74,7 +79,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
             }
         })
 
-        val bankObserver = Observer<UserBanksResponse> { r ->
+        bankObserver = Observer { r ->
             r?.let { userBanksResponse ->
                 val banks = arrayListOf<WidgetsViewModel>()
                 var count = 0
@@ -308,7 +313,11 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                 getViewModel().kycData.value?.let { kycData ->
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
-                                            context?.simpleAlert(if (apiResponse.status?.code == 1) getString(R.string.complete_registration_msg) else "${apiResponse.status?.message}") {
+                                            //{"data": {"ready_to_invest": false}}*#$*
+                                            val json = JSONObject("${it.data?.toDecrypt()}")
+                                            val isReadyToInvest = json.optJSONObject("data")?.optBoolean("ready_to_invest") == true
+                                            context?.setReadyToInvest(isReadyToInvest)
+                                            context?.simpleAlert(if (apiResponse.status?.code == 1) getString(if (isReadyToInvest) R.string.complete_registration_msg else R.string.account_verification_is_pending) else "${apiResponse.status?.message}") {
                                                 removeStickyEvent(kycData)
                                                 if (activity is HomeActivity) {
                                                     onBack(3)
@@ -332,6 +341,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     fun onReceive(kycData: KYCData) {
         if (getViewModel().kycData.value == null) {
             getViewModel().kycData.value = kycData
+        }
+    }
+
+    override fun onEvent(event: Event) {
+        super.onEvent(event)
+        if (event == Event.REFRESH_ACCOUNT) {
+            getViewModel().getAllBanks().observe(this, bankObserver)
         }
     }
 

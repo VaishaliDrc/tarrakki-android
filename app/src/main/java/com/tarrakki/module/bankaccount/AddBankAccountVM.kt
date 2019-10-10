@@ -17,7 +17,6 @@ import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.showProgress
-import org.supportcompact.utilise.ResourceUtils
 import kotlin.concurrent.thread
 
 class AddBankAccountVM : FragmentViewModel() {
@@ -29,7 +28,7 @@ class AddBankAccountVM : FragmentViewModel() {
     val IFSCCode = ObservableField<String>("")
     val response = MutableLiveData<BankResponse>()
     val responseAddBankDetails = MutableLiveData<UserBanksResponse>()
-    var labelButton =ObservableField<String>("")
+    var labelButton = ObservableField<String>("")
 
     fun getAllBanks(): MutableLiveData<BankResponse> {
         showProgress()
@@ -63,6 +62,7 @@ class AddBankAccountVM : FragmentViewModel() {
         )
         return response
     }
+
 
     fun addBankDetails(bankId: String): MutableLiveData<UserBanksResponse> {
         val response = MutableLiveData<UserBanksResponse>()
@@ -110,7 +110,7 @@ class AddBankAccountVM : FragmentViewModel() {
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).updateUserBank(
                         accountNo.get().toString(),
                         IFSCCode.get().toString(),
-                        accountType.get().toString(),
+                        if (accountType.get() == "Saving") "SB" else "CB",
                         App.INSTANCE.getUserId(),
                         bankId,
                         bankUserId),
