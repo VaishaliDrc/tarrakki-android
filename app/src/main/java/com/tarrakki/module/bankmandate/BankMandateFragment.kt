@@ -12,6 +12,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.api.model.UserBanksResponse
+import com.tarrakki.api.model.havingVerifiedBanks
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
@@ -77,6 +78,10 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     postSticky(userBankAdapter?.getSelectedItems()?.get(0) as BankDetail)
                     postSticky(Event.ISFROMBANKMANDATE)
                 } else {
+                    if (userBankAdapter?.items?.havingVerifiedBanks() == false) {
+                        context?.simpleAlert(getString(R.string.alert_account_not_verified))
+                        return@setOnClickListener
+                    }
                     context?.simpleAlert(getString(R.string.alert_req_bank))
                 }
             }

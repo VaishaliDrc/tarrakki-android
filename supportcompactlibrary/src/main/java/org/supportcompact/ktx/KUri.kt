@@ -22,59 +22,63 @@ import org.supportcompact.CoreApp
 @SuppressLint("NewApi")
 fun getPath(uri: Uri): String? {
 
-    val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+    try {
+        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
-    // DocumentProvider
-    if (isKitKat && DocumentsContract.isDocumentUri(CoreApp.getInstance(), uri)) {
-        // ExternalStorageProvider
-        if (isExternalStorageDocument(uri)) {
-            val docId = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val type = split[0]
+        // DocumentProvider
+        if (isKitKat && DocumentsContract.isDocumentUri(CoreApp.getInstance(), uri)) {
+            // ExternalStorageProvider
+            if (isExternalStorageDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val type = split[0]
 
-            if ("primary".equals(type, ignoreCase = true)) {
-                return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
-            }
+                if ("primary".equals(type, ignoreCase = true)) {
+                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                }
 
-        } else if (isDownloadsDocument(uri)) {
+            } else if (isDownloadsDocument(uri)) {
 
-            val id = DocumentsContract.getDocumentId(uri)
-            val contentUri = ContentUris.withAppendedId(
-                    Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
+                val id = DocumentsContract.getDocumentId(uri)
+                val contentUri = ContentUris.withAppendedId(
+                        Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
 
-            return getDataColumn(contentUri, null, null)
-        } else if (isMediaDocument(uri)) {
-            val docId = DocumentsContract.getDocumentId(uri)
-            val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val type = split[0]
+                return getDataColumn(contentUri, null, null)
+            } else if (isMediaDocument(uri)) {
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                val type = split[0]
 
-            var contentUri: Uri? = null
-            if ("image" == type) {
-                contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            } else if ("video" == type) {
-                contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            } else if ("audio" == type) {
-                contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            }
+                var contentUri: Uri? = null
+                if ("image" == type) {
+                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                } else if ("video" == type) {
+                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                } else if ("audio" == type) {
+                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                }
 
-            val selection = "_id=?"
-            val selectionArgs = arrayOf(split[1])
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(split[1])
 
-            return getDataColumn(contentUri, selection, selectionArgs)
-        } else if (isGooglePhotosUri(uri))
-            return uri.lastPathSegment// MediaProvider
-        // DownloadsProvider
-    } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
-        // Return the remote address
-        if (isGooglePhotosUri(uri))
-            return uri.lastPathSegment
-        return getDataColumn(uri, null, null)
-    } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
-        return uri.path
-    }// File
-    // MediaStore (and general)
+                return getDataColumn(contentUri, selection, selectionArgs)
+            } else if (isGooglePhotosUri(uri))
+                return uri.lastPathSegment// MediaProvider
+            // DownloadsProvider
+        } else if ("content".equals(uri.scheme!!, ignoreCase = true)) {
+            // Return the remote address
+            if (isGooglePhotosUri(uri))
+                return uri.lastPathSegment
+            return getDataColumn(uri, null, null)
+        } else if ("file".equals(uri.scheme!!, ignoreCase = true)) {
+            return uri.path
+        }// File
+        // MediaStore (and general)
 
-    return uri.toString()
+        return uri.toString()
+    } catch (e: Exception) {
+        return null
+    }
 }
 
 /**

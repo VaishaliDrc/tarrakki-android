@@ -552,7 +552,7 @@
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
-    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Reliance Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.</string>
+    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.</string>
     <string name="apply_for_debit_cart">Apply for Debit Card</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply">Apply</string>
@@ -562,8 +562,8 @@
     <string name="what_is_tarrakki_zyaada">What is Tarrakki Zyaada?</string>
     <string name="what_is_tarrakki_zyaada_details">
         When you park your money in Tarrakki Zyaada, your money will be invested in the Nippon India Liquid Fund, which can give you potentially higher returns than your Bank Savings Account or a Fixed Deposit.
-        \n\nWith your Tarrakki Zyaada investment, you get a Reliance Anytime Money Card, powered by HDFC Bank and Visa. This card enables you to use the money you have invested, should you want to. You can link this card to your online shopping account, use it for your Uber/Ola rides, and even book movie tickets online. It literally acts like a Bank Debit Card.
-        \n\nThis card is linked to the Nippon India Liquid Fund, and allows you to instantly withdraw or spend money against your mutual fund investment. This card is valid at Visa enabled ATMs and merchant outlets all over India.
+        \n\nWith your Tarrakki Zyaada investment, you get a Nippon Anytime Money Card, powered by HDFC Bank and Visa. This card enables you to use the money you have invested, should you want to. You can link this card to your online shopping account, use it for your Uber/Ola rides, and even book movie tickets online. It literally acts like a Bank Debit Card.
+        \n\nThis card is linked to the Nippon India Liquid Fund, and allows you to instantly withdraw or spend money against your mutual fund investment. This card is valid at Visa enabled ATMs and merchant outlets all over India. There are no extra charges to apply for the debit card or using the card at any ATMs.
         \n\nIt\'s like parking your idle money in a Savings Bank Account, but with the opportunity to earn almost double the returns.
     </string>
     <string name="where_is_my_money_invested">Where is my money invested?</string>
@@ -611,7 +611,7 @@
     <string name="symbol_c">∗∗∗\u0020-</string>
     <string name="daily_purchase_limit_of_50">Daily purchase limit of 50% of the balance or ₹1,00,000 whichever is lower.</string>
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
-    <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 50% of the current investment value, whichever is lower.</string>
+    <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 50% of the investment value, whichever is lower</string>
     <!--<string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Nippon India Liquid Fund, <font color='#4EB95D'><u><a href='https://www.google.com/'>click here.</a></u></font></string>-->
     <string name="to_know_more_about_reliance_liquid_fund_click_here">To know more about Nippon India Liquid Fund, click here.</string>
     <string name="historical_returns">Historical Returns</string>
@@ -694,7 +694,7 @@
     </string>
     <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
-    <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Reliance AMC\'s Website</a></i></string>
+    <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Nippon AMC\'s Website</a></i></string>
     <string name="are_you_sure_you_want_to_redeem">Are you sure you would like to redeem ?</string>
     <string name="are_you_sure_you_want_to_stop">Are you sure you would like to stop your SIP ?</string>
     <string name="redemption">Redemption</string>
@@ -732,10 +732,10 @@
     <string name="auto_cancel">Auto Cancelled</string>
     <string name="NA">N/A</string>
     <string name="verification_incomplete">Verification Incomplete!</string>
-    <string name="desc_verify_incomplete">We need to verify the bank account entered by you belongs to you. Kindly upload a cancel cheque or bank account statement to verify the account.</string>
+    <string name="desc_verify_incomplete">We need to verify the bank account entered by you belongs to you. Kindly upload a cancelled cheque or bank account statement to verify the account.</string>
     <string name="upload_account_statement">Upload Account Statement</string>
     <string name="upload_cancelled_cheque">Upload Cancelled Cheque</string>
-    <string name="desc_bank_account">Bank document must have you name, bank name , branch name and IFSC</string>
+    <string name="desc_bank_account">Bank document must have your name, bank name, branch name and IFSC.</string>
     <string name="alert_verify_bank_account">Please Add document.</string>
     <string name="verified">Verified</string>
     <string name="update_bank_account">Update Bank Account</string>
@@ -746,4 +746,6 @@
     <string name="if_redeemed_before_7_days">0.0070% to 0.0045%\nif redeemed before 7 days</string>
     <string name="zero">Zero</string>
     <string name="_0_50_to_1">0.50% to 1%</string>
+    <string name="alert_account_not_verified">You can not create a bank mandate until your bank details are verified.</string>
+
 </resources>

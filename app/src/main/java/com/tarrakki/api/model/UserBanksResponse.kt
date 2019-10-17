@@ -85,3 +85,5 @@ data class BankDetail(
         }
 
 }
+
+fun MutableList<BankDetail>.havingVerifiedBanks() = this.count { (it.status.equals("VERIFIED", true) || it.status.equals("UPLOADEDTOBSE", true)) } > 0

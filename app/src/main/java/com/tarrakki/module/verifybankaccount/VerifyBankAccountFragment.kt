@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -65,7 +66,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
             if (!userBankData?.data?.bankDetail?.verificationDocument?.toString().equals("")) {
                 coreActivityVM?.title?.set(ResourceUtils.getString(R.string.update_bank_account))
                 icPreviewDoc.visibility = View.VISIBLE
-                getViewModel().uploadImage.set(userBankData?.data?.bankDetail?.verificationDocument?.toString())
+                getViewModel().uploadImage.set(userBankData?.data?.bankDetail?.verificationDocument)
             }
         }
 
@@ -94,18 +95,28 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
         }
 
         btnAdd?.setOnClickListener {
-            if (getViewModel()?.uploadUri?.get().toString()?.equals("")) {
-                context?.simpleAlert(getString(R.string.alert_verify_bank_account)) {
-                }
+            if (getViewModel()?.uploadUri?.get().toString()?.equals("") && TextUtils.isEmpty(userBankData?.data?.bankDetail?.verificationDocument)) {
+                context?.simpleAlert(getString(R.string.alert_verify_bank_account))
             } else {
-                if (userBankData != null)
-                    getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
-                        context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
-                            onBack(2)
-                            coreActivityVM?.onNewBank?.value = true
-                        }
+                userBankData?.let { userBankData ->
+                    if (getViewModel().uploadUri.get().isNullOrBlank()) {
+                        getViewModel().updateBankDetails(userBankData, bankId!!).observe(this, Observer {
+                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                                onBack(2)
+                                coreActivityVM?.onNewBank?.value = true
+                            }
 
-                    })
+                        })
+                    } else {
+                        getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
+                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                                onBack(2)
+                                coreActivityVM?.onNewBank?.value = true
+                            }
+
+                        })
+                    }
+                }
             }
 
         }

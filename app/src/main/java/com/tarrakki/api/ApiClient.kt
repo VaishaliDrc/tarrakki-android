@@ -85,9 +85,9 @@ object ApiClient {
     /***
      * Beta URL
      * */
-    private const val BASE_URL = "http://13.235.124.120/api/v1/"
+    /*private const val BASE_URL = "http://13.235.124.120/api/v2/"
     const val IMAGE_BASE_URL = "http://13.235.124.120"
-    const val BANK_REDIRECT_URL = "http://13.235.124.120/api/v1/transactions/payment-status/"
+    const val BANK_REDIRECT_URL = "http://13.235.124.120/api/v2/transactions/payment-status/"*/
 
     /**
      * Live Url
@@ -112,16 +112,16 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v1/"
+    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v2/"
     const val IMAGE_BASE_URL = "http://172.10.29.76:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v1/transactions/payment-status/"*/
+    const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v2/transactions/payment-status/"*/
 
     /**
      * Live Url
      **/
-    /* private const val BASE_URL = "https://www.tarrakki.com/api/v1/" /// Latest url
+     private const val BASE_URL = "https://www.tarrakki.com/api/v2/" /// Latest url
      const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-     const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v1/transactions/payment-status/" /// Latest url*/
+     const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v2/transactions/payment-status/" /// Latest url
 
     /**
      * @return [Retrofit] object its single-tone
