@@ -59,7 +59,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
 
                 if (getViewModel().isEmailValidate) {
                     getViewModel().textVerify.set(ResourceUtils.getString(R.string.verify_email_address))
-                    getViewModel().textDescVerfiy.set(ResourceUtils.getString(R.string.otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below))
+                    getViewModel().textDescVerfiy.set(getString(R.string.otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below, intent.getStringExtra("email")))
 
                 } else {
                     getViewModel().textVerify.set(ResourceUtils.getString(R.string.verify_mobile_number))
@@ -125,6 +125,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                                     val intent = Intent(this, OtpVerificationActivity::class.java)
                                                     intent.putExtra(SIGNUP_DATA, data.toString())
                                                     intent.putExtra(IS_EMAIL_VALIDATOR, true)
+                                                    intent.putExtra("email", data?.optString("email"))
                                                     startActivity(intent)
                                                     EventBus.getDefault().postSticky(it1)
                                                 }

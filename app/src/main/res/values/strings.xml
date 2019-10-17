@@ -164,7 +164,7 @@
     <string name="verify_mobile_number">Verify Mobile Number</string>
     <string name="verify_email_address">Verify Email Address</string>
     <string name="otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below">OTP has been sent to you on your mobile number. Please enter it below.</string>
-    <string name="otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below">OTP has been sent to you on your Email Address. Please enter it below.</string>
+    <string name="otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below">The OTP sent on your mobile number is different from the OTP sent on your email.\n\n Please add the OTP sent to you on %1$s</string>
     <string name="not_received_your_otp_resend_otp">Not received your OTP? <font color='#4EB95D'>Resend OTP</font></string>
     <string name="submit">Submit</string>
     <string name="enter_otp">Enter OTP*</string>
@@ -740,4 +740,7 @@
     <string name="verified">Verified</string>
     <string name="update_bank_account">Update Bank Account</string>
     <string name="account_verification_is_pending">Your Account verification is pending. We will notify you once verified. Generally it takes 2–3 working days to be verified.</string>
+    <string name="pls_select_your_tax_status">Please select your tax status.</string>
+    <string name="major">Major</string>
+    <string name="minor">Minor</string>
 </resources>

@@ -63,7 +63,7 @@
             android:maxLines="2"
             android:minLines="2"
             android:text="@{vm.fscbiCategoryName}"
-            android:textColor="@{context.getColor(vm.fundColor)}"
+            android:textColor="@{vm.fundColor}"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWeightage"

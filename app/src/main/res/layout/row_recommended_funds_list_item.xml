@@ -64,7 +64,7 @@
             android:maxLines="2"
             android:minLines="2"
             android:text="@{fund.description}"
-            android:textColor="@{context.getColor(fund.fundColor)}"
+            android:textColor="@{fund.fundColor}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWeightage"
             tools:text="Equity - India Multi Cap Equity"

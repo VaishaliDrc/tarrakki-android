@@ -2,8 +2,10 @@ package com.tarrakki.api.model
 
 import android.support.annotation.ColorRes
 import com.google.gson.annotations.SerializedName
+import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.recommended.*
+import org.supportcompact.ktx.color
 import org.supportcompact.ktx.parseToPercentageOrNA
 import org.supportcompact.ktx.toCurrency
 
@@ -58,7 +60,7 @@ data class Fund(
 
     @ColorRes
     var fundColor: Int = R.color.balanced_fund_color
-        get() = when {
+        get() = App.INSTANCE.color(when {
             KEY_FUND_DIST_EQUITY.equals("$schemeType", true) ||
                     KEY_FUND_DIST_ELSS.equals("$schemeType", true) ||
                     KEY_FUND_DIST_HYBRID.equals("$schemeType", true) ||
@@ -79,5 +81,5 @@ data class Fund(
             else -> {
                 R.color.fof_fund_color
             }
-        }
+        })
 }

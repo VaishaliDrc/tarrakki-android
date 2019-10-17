@@ -186,10 +186,10 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
                                                 context?.confirmationDialog(
-                                                        title = ""/*getString(R.string.complete_registration)*/,
-                                                        msg = "Are you born before  ${getDate(18).convertTo("dd MMM, yyyy")} ?",
-                                                        btnPositive = getString(R.string.yes),
-                                                        btnNegative = getString(R.string.no),
+                                                        title = getString(R.string.pls_select_your_tax_status),
+                                                        msg = "Note: Minor are individuals born after ${getDate(18).convertTo("dd MMM, yyyy")}.",
+                                                        btnPositive = getString(R.string.major),
+                                                        btnNegative = getString(R.string.minor),
                                                         btnPositiveClick = {
                                                             edtPanNo?.text?.clear()
                                                             startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)

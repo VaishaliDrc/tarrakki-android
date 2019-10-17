@@ -82,9 +82,9 @@ object ApiClient {
     const val IMAGE_BASE_URL = "http://172.10.29.76:8005" /// Latest urls
     const val BANK_REDIRECT_URL = "http://172.10.29.76:8005/api/v1/transactions/payment-status/"*/
 
-    /*private const val BASE_URL = "http://13.235.124.120/api/v1/"
+    private const val BASE_URL = "http://13.235.124.120/api/v1/"
     const val IMAGE_BASE_URL = "http://13.235.124.120"
-    const val BANK_REDIRECT_URL = "http://13.235.124.120/api/v1/transactions/payment-status/"*/
+    const val BANK_REDIRECT_URL = "http://13.235.124.120/api/v1/transactions/payment-status/"
 
     /**
      * Live Url
@@ -109,9 +109,9 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    private const val BASE_URL = "http://172.10.29.76:8000/api/v1/"
+    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v1/"
     const val IMAGE_BASE_URL = "http://172.10.29.76:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v1/transactions/payment-status/"
+    const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v1/transactions/payment-status/"*/
 
     /**
      * Live Url
