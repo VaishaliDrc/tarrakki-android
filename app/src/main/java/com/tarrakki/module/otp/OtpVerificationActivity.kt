@@ -12,7 +12,6 @@ import com.tarrakki.module.forgotpassword.FORGOTPASSWORD_DATA
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.myprofile.PROFILE_EMAIL_DATA
 import com.tarrakki.module.myprofile.PROFILE_MOBILE_DATA
-import com.tarrakki.module.register.IS_EMAIL_VALIDATOR
 import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
 import com.tarrakki.module.resetPassword.ResetPasswordActivity
@@ -23,7 +22,6 @@ import org.json.JSONObject
 import org.supportcompact.CoreActivity
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
-import org.supportcompact.utilise.ResourceUtils
 
 class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVerificationBinding>() {
 
@@ -54,18 +52,16 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
 
         if (intent.hasExtra(SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SIGNUP_DATA))
-            if (intent.hasExtra(IS_EMAIL_VALIDATOR)) {
+            /*if (intent.hasExtra(IS_EMAIL_VALIDATOR)) {
                 getViewModel().isEmailValidate = intent.getBooleanExtra(IS_EMAIL_VALIDATOR, false)
-
                 if (getViewModel().isEmailValidate) {
                     getViewModel().textVerify.set(ResourceUtils.getString(R.string.verify_email_address))
                     getViewModel().textDescVerfiy.set(getString(R.string.otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below, intent.getStringExtra("email")))
-
                 } else {
                     getViewModel().textVerify.set(ResourceUtils.getString(R.string.verify_mobile_number))
                     getViewModel().textDescVerfiy.set(ResourceUtils.getString(R.string.otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below))
                 }
-            }
+            }*/
         }
         if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
@@ -96,7 +92,27 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                 data?.let {
                                     if (intent.hasExtra(SIGNUP_DATA)) {
 
-                                        if (getViewModel().isEmailValidate) {
+                                        getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
+                                            signUpResponse?.let {
+                                                signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                                signUpResponse.userId?.let { it1 ->
+                                                    setUserId(it1)
+                                                    onSignUpEventFire(it1)
+                                                }
+                                                signUpResponse.email?.let { it1 -> setEmail(it1) }
+                                                signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                                signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                                                signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                                                signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                                                signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
+                                                setIsLogin(true)
+                                                setSocialLogin(false)
+                                                startActivity<HomeActivity>()
+                                                finishAffinity()
+                                            }
+                                        })
+
+                                        /*if (getViewModel().isEmailValidate) {
                                             getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
                                                 signUpResponse?.let {
                                                     signUpResponse.token?.let { it1 -> setLoginToken(it1) }
@@ -130,7 +146,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                                     EventBus.getDefault().postSticky(it1)
                                                 }
                                             })
-                                        }
+                                        }*/
 
 
                                     }

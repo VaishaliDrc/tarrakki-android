@@ -410,4 +410,77 @@
         app:layout_constraintStart_toEndOf="@id/tvTitleE3"
         app:layout_constraintTop_toBottomOf="@id/mDivider5" />
 
+
+    <View
+        android:id="@+id/mDivider6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleE1" />
+
+    <TextView
+        android:id="@+id/tvTitleF1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minLines="2"
+        android:padding="4dp"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        android:text="@string/exit_load"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivD2"
+        app:layout_constraintHorizontal_weight="1.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mDivider6" />
+
+
+    <TextView
+        android:id="@+id/tvTitleF2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minLines="2"
+        android:padding="4dp"
+        android:text="@string/if_redeemed_before_7_days"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvTitleF3"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tvTitleF1"
+        app:layout_constraintTop_toBottomOf="@id/mDivider6" />
+
+    <TextView
+        android:id="@+id/tvTitleF3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minLines="2"
+        android:padding="4dp"
+        android:text="@string/zero"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvTitleF4"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tvTitleF2"
+        app:layout_constraintTop_toBottomOf="@id/mDivider6" />
+
+    <TextView
+        android:id="@+id/tvTitleF4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minLines="2"
+        android:padding="4dp"
+        android:text="@string/_0_50_to_1"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/tvTitleF3"
+        app:layout_constraintTop_toBottomOf="@id/mDivider6" />
+
 </android.support.constraint.ConstraintLayout>

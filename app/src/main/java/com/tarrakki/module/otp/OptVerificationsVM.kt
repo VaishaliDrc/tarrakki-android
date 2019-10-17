@@ -14,6 +14,7 @@ import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.e
+import org.supportcompact.utilise.ResourceUtils
 import kotlin.concurrent.thread
 
 class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
@@ -21,8 +22,8 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     val email = ObservableField("")
     val otp = ObservableField("")
     val otpId = ObservableField("")
-    val textVerify = ObservableField("")
-    val textDescVerfiy = ObservableField("")
+    val textVerify = ObservableField(ResourceUtils.getString(R.string.verify_mobile_number))
+    val textDescVerfiy = ObservableField(ResourceUtils.getString(R.string.otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below))
     val getOTP = MutableLiveData<ApiResponse>()
     var isEmailValidate = false
     private val verifyOTP = MutableLiveData<Boolean>()

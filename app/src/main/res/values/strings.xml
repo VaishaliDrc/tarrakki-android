@@ -743,4 +743,7 @@
     <string name="pls_select_your_tax_status">Please select your tax status.</string>
     <string name="major">Major</string>
     <string name="minor">Minor</string>
+    <string name="if_redeemed_before_7_days">0.0070% to 0.0045%\nif redeemed before 7 days</string>
+    <string name="zero">Zero</string>
+    <string name="_0_50_to_1">0.50% to 1%</string>
 </resources>
