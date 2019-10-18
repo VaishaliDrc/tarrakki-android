@@ -88,7 +88,7 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
         }
 
         tvFAQs?.setOnClickListener {
-            context?.openUrl("https://www.reliancemutual.com/investor-services/innovative-products/reliance-any-time-money-card")
+            context?.openUrl("https://www.nipponindiamf.com/investor-services/innovative-products/NipponIndia-any-time-money-card")
         }
 
         val imgs = arrayListOf(R.drawable.zyaada1, R.drawable.zyaada2, R.drawable.zyaada3, R.drawable.zyaada4)

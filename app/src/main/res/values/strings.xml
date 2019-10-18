@@ -747,5 +747,6 @@
     <string name="zero">Zero</string>
     <string name="_0_50_to_1">0.50% to 1%</string>
     <string name="alert_account_not_verified">You can not create a bank mandate until your bank details are verified.</string>
+    <string name="account_will_activate_within">Your bank account verification is in process and your account will be active within 48 hours</string>
 
 </resources>

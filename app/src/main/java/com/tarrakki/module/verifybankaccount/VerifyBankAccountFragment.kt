@@ -101,7 +101,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                 userBankData?.let { userBankData ->
                     if (getViewModel().uploadUri.get().isNullOrBlank()) {
                         getViewModel().updateBankDetails(userBankData, bankId!!).observe(this, Observer {
-                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                            context?.simpleAlert(getString(R.string.account_will_activate_within)) {
                                 onBack(2)
                                 coreActivityVM?.onNewBank?.value = true
                             }
@@ -109,7 +109,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                         })
                     } else {
                         getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
-                            context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
+                            context?.simpleAlert(getString(R.string.account_will_activate_within)) {
                                 onBack(2)
                                 coreActivityVM?.onNewBank?.value = true
                             }

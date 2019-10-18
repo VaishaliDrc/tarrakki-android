@@ -75,7 +75,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
         val webClickLink = object : ClickableSpan() {
 
             override fun onClick(widget: View) {
-                widget.context?.browse("https://www.reliancemutual.com/")
+                widget.context?.browse("https://www.nipponindiamf.com/")
             }
 
             override fun updateDrawState(ds: TextPaint) {
@@ -88,7 +88,7 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
         tvNote?.let {
             makeLinks(
                     it,
-                    arrayOf("Reliance AMC's Website"),
+                    arrayOf("Nippon AMC's Website"),
                     arrayOf(webClickLink)
             )
         }

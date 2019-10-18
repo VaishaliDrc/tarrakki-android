@@ -116,6 +116,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                             bundle.putString("userBankData", Gson().toJson(userBankResponse))
                             bundle.putString("bankId", bankId)
                             startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
+                            coreActivityVM?.onNewBank?.value = true
                         })
 
                     } else {
@@ -125,13 +126,13 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                                 bundle.putString("userBankData", Gson().toJson(it))
                                 bundle.putString("bankId", bankId)
                                 startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
+                                coreActivityVM?.onNewBank?.value = true
                             } else {
                                 context?.simpleAlert(getString(R.string.alert_success_new_bank)) {
                                     onBack()
                                     coreActivityVM?.onNewBank?.value = true
                                 }
                             }
-
 
                         })
 
