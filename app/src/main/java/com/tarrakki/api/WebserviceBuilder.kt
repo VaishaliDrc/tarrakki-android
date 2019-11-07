@@ -285,6 +285,9 @@ interface WebserviceBuilder {
                        @Path("bank_id") user_bank_id: String?): Observable<ApiResponse>
 
 
+    @GET("banks/user-mandate/details/{mandateId}/")
+    fun getISIPMandateData(@Path("mandateId") mandateId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

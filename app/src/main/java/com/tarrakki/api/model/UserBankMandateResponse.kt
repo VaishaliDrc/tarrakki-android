@@ -56,7 +56,13 @@ data class UserBankMandateResponse(
             get() = if (mandateType == "X") R.string.complete_nach_mandate else R.string.complete_isip_mandate
 
         var btnUploadVisibility: Int = View.VISIBLE
-            get() = if ("PENDING".equals(actualStatus, true)) View.VISIBLE else View.GONE
+            get() = if (mandateType == "X")
+                if (isMandateUpload) View.GONE else View.VISIBLE
+            else
+                if ("PENDING".equals(actualStatus, true)) View.VISIBLE else View.GONE
+
+        val isISIP: Boolean
+            get() = !"x".equals(mandateType, true)
 
         var type: Int = R.string.bank_mandate_type
             get() {

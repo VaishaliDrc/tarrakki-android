@@ -9,15 +9,13 @@ import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
-import com.tarrakki.api.model.BankDetail
-import com.tarrakki.api.model.UserBankMandateResponse
-import com.tarrakki.api.model.UserBanksResponse
-import com.tarrakki.api.model.havingVerifiedBanks
+import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
+import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.KSelectionAdapter
@@ -157,8 +155,21 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
                     binder?.isSelected = adapter.isItemViewToggled(position)
                     binder?.tvPending?.setBackgroundResource(item.statuscolor)
-                    binder?.btnUploadSanned?.visibility = item.btnUploadVisibility
                     binder?.btnUploadSanned?.setOnClickListener {
+                        if (item.isISIP) { // is ISIP mandate
+                            getViewModel().getISIPMandateData(item.id.toString()).observe(this, Observer {
+                                it?.let {
+                                    val data = JSONObject(it.data?.toDecrypt())
+                                    val bundle = Bundle().apply {
+                                        putBoolean(ISIPMANDATE, true)
+                                        putBoolean(ISFROMDIRECTBANKMANDATE, true)
+                                        putSerializable(IMANDATEDATA, data.optString("data"))
+                                    }
+                                    startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                }
+                            })
+                            return@setOnClickListener
+                        }
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMDIRECTBANKMANDATE, true)
                             putString(MANDATEID, item.id.toString())

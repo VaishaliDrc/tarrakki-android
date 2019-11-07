@@ -376,8 +376,8 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
     }
 
     fun onBankMandate() {
+        val isFromUpload = arguments?.getBoolean(ISFROMDIRECTBANKMANDATE, false)
         if (getViewModel().isIMandate.get() == false) {
-            val isFromUpload = arguments?.getBoolean(ISFROMDIRECTBANKMANDATE, false)
             if (isFromUpload == true) {
                 onBack()
             } else {
@@ -388,7 +388,11 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                 }
             }
         } else {
-            onBack(4)
+            if (isFromUpload == true) {
+                onBack()
+            } else {
+                onBack(4)
+            }
         }
     }
 
