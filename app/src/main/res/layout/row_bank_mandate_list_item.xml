@@ -292,13 +292,15 @@
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/space_16"
             android:paddingBottom="@dimen/space_8"
-            android:text="@string/complete_nach_mandate"
+            android:text="@{widget.btnUploadTxt}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
-            android:visibility="@{widget.isMandateUpload==false?View.VISIBLE:View.GONE}"
+            android:visibility="@{widget.btnUploadVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/mDivider2" />
+            app:layout_constraintTop_toTopOf="@id/mDivider2"
+            tools:text="@string/complete_nach_mandate"
+            tools:visibility="@{widget.isMandateUpload==false?View.VISIBLE:View.GONE}" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -224,7 +224,7 @@
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
                 android:padding="@dimen/space_8"
-                android:visibility="@{vm.logoutVisibility}">
+                android:visibility="@{vm.bankVisibility}">
 
                 <ImageView
                     android:id="@+id/ivBankAccount"
@@ -352,8 +352,7 @@
                 android:fontFamily="@font/lato_bold"
                 android:text="@string/logout"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:visibility="@{vm.logoutVisibility}" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"

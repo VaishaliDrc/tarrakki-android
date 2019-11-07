@@ -157,6 +157,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
 
                     binder?.isSelected = adapter.isItemViewToggled(position)
                     binder?.tvPending?.setBackgroundResource(item.statuscolor)
+                    binder?.btnUploadSanned?.visibility = item.btnUploadVisibility
                     binder?.btnUploadSanned?.setOnClickListener {
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMDIRECTBANKMANDATE, true)

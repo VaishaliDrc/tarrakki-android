@@ -1,6 +1,7 @@
 package com.tarrakki.api.model
 
 import android.support.annotation.DrawableRes
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 
@@ -50,6 +51,12 @@ data class UserBankMandateResponse(
                     R.string.normally_take_nach
                 }
             }
+
+        var btnUploadTxt: Int = R.string.complete_nach_mandate
+            get() = if (mandateType == "X") R.string.complete_nach_mandate else R.string.complete_isip_mandate
+
+        var btnUploadVisibility: Int = View.VISIBLE
+            get() = if ("PENDING".equals(actualStatus, true)) View.VISIBLE else View.GONE
 
         var type: Int = R.string.bank_mandate_type
             get() {

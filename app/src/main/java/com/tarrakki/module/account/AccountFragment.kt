@@ -55,6 +55,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     override fun onResume() {
         super.onResume()
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
+        getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
         ivReadyToInvest?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
         getViewModel().setAccountMenu()
