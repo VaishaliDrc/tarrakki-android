@@ -141,7 +141,7 @@
             app:layout_constraintEnd_toStartOf="@id/gdlEnd"
             app:layout_constraintStart_toEndOf="@id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvNAVL"
-            tools:text="27.50" />
+            tools:text="@string/nach_mandate" />
 
         <android.support.constraint.Guideline
             android:id="@+id/gdlEnd"

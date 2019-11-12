@@ -5,7 +5,6 @@ import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
 import org.supportcompact.adapters.WidgetsViewModel
-import org.supportcompact.ktx.convertTo
 import org.supportcompact.ktx.convertToWithComma
 import org.supportcompact.ktx.toDate
 
@@ -53,7 +52,7 @@ data class MySipData(
         get() = if (TextUtils.isEmpty(folioNumber)) "N/A" else folioNumber
 
     val mandateRes
-        get() = if ("x".equals(mandateId, true)) R.string.nach_mandate else R.string.sip_mandate
+        get() = if ("x".equals(mandateType, true)) R.string.nach_mandate else R.string.sip_mandate
 
     val status
         get() = when {
