@@ -83,6 +83,7 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
                                 putString("download_url", response?.data?.mandateFile)
                             }
                             startFragment(DownloadBankMandateFromFragment.newInstance(bundle), R.id.frmContainer)
+                            response?.let { postSticky(it) }
                         })
                     } else {
                         context?.takePick(

@@ -224,7 +224,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                     }
                 }
                 UCrop.REQUEST_CROP -> {
-                    if (data != null) {
+                    if (data != null && icPreviewDoc != null) {
                         val imageUri = UCrop.getOutput(data)
                         getViewModel()?.uploadUri.set(imageUri.toString())
                         icPreviewDoc.visibility = View.VISIBLE
