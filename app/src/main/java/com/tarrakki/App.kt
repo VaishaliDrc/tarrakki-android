@@ -28,6 +28,11 @@ class App : CoreApp() {
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         cartCount.value = 0
+
+        // Branch logging for debugging
+        //Branch.enableDebugMode()
+        // Branch object initialization
+        //Branch.getAutoInstance(this)
     }
 
     companion object {

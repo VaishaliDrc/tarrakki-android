@@ -837,11 +837,9 @@ fun Context.investmentStragiesDialog(
 
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
-        if (this.isInvestDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),
-                        sipAmount, lumpsumAmount)) {
+        if (this.isInvestDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
-            onInvest?.invoke(thirdLevelCategory, lumpsumAmount,
-                    sipAmount)
+            onInvest?.invoke(thirdLevelCategory, lumpsumAmount,sipAmount)
         }
         /*
           if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {

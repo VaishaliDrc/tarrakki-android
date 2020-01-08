@@ -8,8 +8,10 @@ import android.view.Menu
 import android.widget.TextView
 import com.tarrakki.*
 import com.tarrakki.module.cart.CartFragment
+import org.json.JSONObject
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
 
 class HomeActivity : BaseActivity() {
@@ -45,6 +47,12 @@ class HomeActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Branch init
+        //Branch.getInstance().initSession(BranchListener, this.intent.data, this)
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         supportFragmentManager?.let {
@@ -52,6 +60,20 @@ class HomeActivity : BaseActivity() {
                 it.popBackStack()
             }
         }
-
+        // Branch reinit (in case Activity is already in foreground when Branch link is clicked)
+        //Branch.getInstance().reInitSession(this, BranchListener)
     }
+
+    /*object BranchListener : Branch.BranchReferralInitListener {
+        override fun onInitFinished(referringParams: JSONObject, error: BranchError?) {
+            if (error == null) {
+                e("BRANCH SDK", referringParams.toString())
+                // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
+                // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
+            } else {
+                e("BRANCH SDK", error.message)
+            }
+        }
+    }*/
+
 }

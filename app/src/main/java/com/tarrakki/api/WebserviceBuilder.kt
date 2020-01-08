@@ -221,7 +221,7 @@ interface WebserviceBuilder {
     @Multipart
     @PUT("profile/{user_id}")
     fun updateProfile(@Path("user_id") userId: String?,
-                      @Part image: MultipartBody.Part?): Observable<ApiResponse>
+                          @Part image: MultipartBody.Part?): Observable<ApiResponse>
 
     @GET("users/social_auth/")
     fun socialLogin(@Query("data") data: String): Observable<ApiResponse>

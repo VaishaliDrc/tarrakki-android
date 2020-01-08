@@ -112,9 +112,9 @@ object ApiClient {
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    /*private const val BASE_URL = "http://172.10.29.76:8000/api/v2/"
-    const val IMAGE_BASE_URL = "http://172.10.29.76:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v2/transactions/payment-status/"*/
+     /*private const val BASE_URL = "http://172.10.29.76:8000/api/v2/"
+     const val IMAGE_BASE_URL = "http://172.10.29.76:8000"
+     const val BANK_REDIRECT_URL = "http://172.10.29.76:8000/api/v2/transactions/payment-status/"*/
 
     /**
      * Live Url
