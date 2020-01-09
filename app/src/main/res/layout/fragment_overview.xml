@@ -14,7 +14,7 @@
             type="com.tarrakki.api.model.FundsDetails" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="false"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
@@ -91,7 +91,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvCurrentL"
                     tools:text="NAV on 16 Aug, 2018" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,12 +113,12 @@
                     android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvKeyInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:dividerV="@{null}"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="5"
                     tools:listitem="@layout/row_fund_key_info_list_item" />
 
@@ -176,13 +176,13 @@
                     android:textColor="@android:color/black"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHolding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_8"
                     android:scrollbars="none"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_top_ten_holdings_list_item" />
 
@@ -197,7 +197,7 @@
 
             </LinearLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_space"
@@ -245,7 +245,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvRiskLevel"
                     tools:progress="75" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/txt_fund_offer"
@@ -274,5 +274,5 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

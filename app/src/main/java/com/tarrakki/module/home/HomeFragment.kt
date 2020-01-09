@@ -2,15 +2,16 @@ package com.tarrakki.module.home
 
 
 import android.app.KeyguardManager
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.KYCRegistrationAFragment
 import com.tarrakki.module.ekyc.eventKYCDataLog
@@ -24,6 +25,7 @@ import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -261,6 +263,19 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 }
             }
         })
+    }
+
+    override fun onEvent(event: Event) {
+        when (event) {
+            Event.OPEN_TARRAKKI_ZYAADA -> {
+                clTarrakkiZyaada?.performClick()
+            }
+            Event.OPEN_MY_CART -> {
+                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+            }
+            else -> super.onEvent(event)
+        }
+
     }
 
     companion object {

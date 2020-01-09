@@ -26,3 +26,5 @@ data class ShowECutOffTimeDialog(
             field
         }
 }
+
+data class EventData(val event: Event, val message: String)

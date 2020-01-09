@@ -10,7 +10,7 @@
             type="com.tarrakki.api.model.InvestmentRecommendFundResponse.Data" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -97,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
             app:layout_constraintStart_toStartOf="@+id/gdlCenter"
             app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -164,5 +164,5 @@
             app:layout_constraintStart_toStartOf="@+id/gdlEnd"
             app:layout_constraintTop_toBottomOf="@id/tvOneTime" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

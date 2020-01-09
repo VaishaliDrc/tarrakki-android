@@ -1,8 +1,8 @@
 package com.tarrakki.module.ekyc
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BaseObservable
-import android.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import android.os.Bundle
 import android.util.Log.e
 import com.google.gson.JsonObject

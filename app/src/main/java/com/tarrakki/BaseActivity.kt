@@ -1,13 +1,13 @@
 package com.tarrakki
 
 import android.app.KeyguardManager
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.annotation.RequiresApi
-import android.support.v4.content.LocalBroadcastManager
+import androidx.annotation.RequiresApi
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.view.MenuItem
 import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding
@@ -50,7 +50,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
     }
 
     override fun createReference() {
-        LocalBroadcastManager.getInstance(this).registerReceiver(finisAllTask, IntentFilter(ACTION_FINISH_ALL_TASK))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(finisAllTask, IntentFilter(ACTION_FINISH_ALL_TASK))
         getViewModel().isBackEnabled.observe(this, Observer { it ->
             it?.let {
                 mToolBar?.setNavigationIcon(if (it) getDrawable(R.drawable.ic_arrow_back_white_24dp) else null/*R.drawable.ic_menu_white_24dp*/)
@@ -187,7 +187,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
 
     override fun onDestroy() {
         super.onDestroy()
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(finisAllTask)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).unregisterReceiver(finisAllTask)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

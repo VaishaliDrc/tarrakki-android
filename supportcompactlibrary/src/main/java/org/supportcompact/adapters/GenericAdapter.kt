@@ -1,16 +1,16 @@
 package org.supportcompact.adapters
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
 
 /**
  * Created by jayeshparkariya on 26/2/18.
  */
-abstract class GenericAdapter<in T, U : ViewDataBinding>(arrList: ArrayList<T>) : RecyclerView.Adapter<GenericAdapter.ViewHolder<U>>() {
+abstract class GenericAdapter<in T, U : ViewDataBinding>(arrList: ArrayList<T>) : androidx.recyclerview.widget.RecyclerView.Adapter<GenericAdapter.ViewHolder<U>>() {
 
     private var listItem = arrList
 
@@ -29,7 +29,7 @@ abstract class GenericAdapter<in T, U : ViewDataBinding>(arrList: ArrayList<T>) 
         onBound(item, holder.binding, position)
     }
 
-    class ViewHolder<out V : ViewDataBinding>(internal val binding: V) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder<out V : ViewDataBinding>(internal val binding: V) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
 
     @LayoutRes
     abstract fun getLayout(): Int

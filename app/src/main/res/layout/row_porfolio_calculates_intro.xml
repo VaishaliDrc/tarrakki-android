@@ -11,7 +11,7 @@
     </data>
 
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/space_8"
@@ -19,7 +19,7 @@
         android:paddingEnd="@dimen/space_16"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="dsfmkdsj" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/appCompatTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,6 +47,6 @@
             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView1"
             tools:text="dsfmkdsj" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -1,9 +1,9 @@
 package com.tarrakki.module.yourgoal
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import android.text.Spanned
 import com.google.gson.Gson
 import com.tarrakki.App

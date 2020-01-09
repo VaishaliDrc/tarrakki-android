@@ -2,7 +2,7 @@ package com.tarrakki.module.ekyc
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentKycregistrationABinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
@@ -47,7 +47,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
         switchOnOff?.setOnCheckedChangeListener { buttonView, isChecked ->
             isAdult(isChecked)
         }*/
-        getViewModel().kycData.observe(this, android.arch.lifecycle.Observer {
+        getViewModel().kycData.observe(this, androidx.lifecycle.Observer {
             it?.let { kycData ->
                 getBinding().kycData = kycData
                 edtPAN?.setText(kycData.pan)
@@ -104,7 +104,7 @@ class KYCRegistrationAFragment : CoreFragment<KYCRegistrationAVM, FragmentKycreg
             getViewModel().kycData.value?.let { kycData ->
                 if (isValid(kycData)) {
                     kycData.pageNo = 2
-                    saveKYCData(kycData).observe(this, android.arch.lifecycle.Observer {
+                    saveKYCData(kycData).observe(this, androidx.lifecycle.Observer {
                         context?.setKYClVarified(true)
                         startFragment(KYCRegistrationBFragment.newInstance(), R.id.frmContainer)
                         post(kycData)

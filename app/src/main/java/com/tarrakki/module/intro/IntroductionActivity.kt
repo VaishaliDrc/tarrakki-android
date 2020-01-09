@@ -1,6 +1,6 @@
 package com.tarrakki.module.intro
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import com.tarrakki.BuildConfig
 import com.tarrakki.IS_FROM_INTRO

@@ -1,7 +1,7 @@
 package com.tarrakki.module.redeem
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString

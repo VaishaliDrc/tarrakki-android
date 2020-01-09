@@ -2,7 +2,7 @@ package com.tarrakki.module.webviewActivity
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri

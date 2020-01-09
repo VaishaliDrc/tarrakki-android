@@ -1,7 +1,7 @@
 package com.tarrakki.module.bankaccount
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R

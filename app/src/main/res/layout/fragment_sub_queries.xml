@@ -10,7 +10,7 @@
             type="com.tarrakki.module.support.SubQueriesVM" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.support.fragments.SubQueriesFragment">
@@ -34,7 +34,7 @@
                 android:layout_height="1dp"
                 android:background="@color/dark" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSubQueries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,10 +45,10 @@
                 android:paddingEnd="@dimen/_8sdp"
                 app:dividerV="@{null}"
                 app:enableNestedScrollView="@{false}"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:context=".module.support.fragments.QueriesFragment" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

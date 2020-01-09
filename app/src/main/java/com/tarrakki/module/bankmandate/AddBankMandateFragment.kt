@@ -1,7 +1,7 @@
 package com.tarrakki.module.bankmandate
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.google.gson.Gson

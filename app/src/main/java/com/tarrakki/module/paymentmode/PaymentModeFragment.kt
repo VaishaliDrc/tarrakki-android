@@ -1,6 +1,6 @@
 package com.tarrakki.module.paymentmode
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString

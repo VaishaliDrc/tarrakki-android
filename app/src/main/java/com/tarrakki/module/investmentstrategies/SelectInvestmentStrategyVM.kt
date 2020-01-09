@@ -1,10 +1,10 @@
 package com.tarrakki.module.investmentstrategies
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.ObservableField
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.text.SpannableStringBuilder
 import android.view.View
 import com.tarrakki.BR

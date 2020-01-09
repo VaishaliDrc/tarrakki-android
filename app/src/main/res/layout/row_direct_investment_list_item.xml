@@ -12,7 +12,7 @@
             type="com.tarrakki.api.model.UserPortfolioResponse.Data.DirectInvestment" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_cart_view"
@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_folio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,9 +67,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
                 tools:text="@string/dummy3" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_units"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,9 +99,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
                 tools:text="@string/dummy3" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lyt_single_folio_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -190,20 +190,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvYDRLabel"
                 tools:text="17.85%" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gdlCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.42" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gdlCenterEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.80" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/ll_options"
@@ -269,7 +269,7 @@
 
         </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lyt_multi_folio_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -368,7 +368,7 @@
 
             </HorizontalScrollView>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

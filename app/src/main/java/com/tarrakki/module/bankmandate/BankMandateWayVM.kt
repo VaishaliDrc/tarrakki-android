@@ -1,11 +1,11 @@
 package com.tarrakki.module.bankmandate
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.ObservableField
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR

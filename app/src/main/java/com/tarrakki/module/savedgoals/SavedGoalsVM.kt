@@ -1,6 +1,6 @@
 package com.tarrakki.module.savedgoals
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.WebserviceBuilder

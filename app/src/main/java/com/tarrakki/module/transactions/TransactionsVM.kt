@@ -1,6 +1,6 @@
 package com.tarrakki.module.transactions
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.tarrakki.App

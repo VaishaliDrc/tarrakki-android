@@ -1,6 +1,6 @@
 package org.supportcompact.ktx
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import org.greenrobot.eventbus.EventBus
 
 const val MAINTENANCE_END_TIME = "end_time"

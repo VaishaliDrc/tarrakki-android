@@ -16,7 +16,7 @@
             type="android.view.View.OnClickListener" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_space"
@@ -134,7 +134,7 @@
             tools:checked="true" />
 
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -188,5 +188,5 @@
             app:layout_constraintEnd_toStartOf="@id/guideline6"
             app:layout_constraintTop_toTopOf="@id/tvLumpsumLabel" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

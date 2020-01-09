@@ -1,7 +1,7 @@
 package com.tarrakki.module.ekyc
 
-import android.databinding.Observable
-import android.databinding.ObservableField
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 import org.supportcompact.ActivityViewModel
 
 class SignatureVM : ActivityViewModel() {

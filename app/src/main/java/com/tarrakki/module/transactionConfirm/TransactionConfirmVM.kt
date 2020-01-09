@@ -1,8 +1,8 @@
 package com.tarrakki.module.transactionConfirm
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
-import android.support.annotation.DrawableRes
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
+import androidx.annotation.DrawableRes
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R

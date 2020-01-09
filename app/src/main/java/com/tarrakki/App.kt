@@ -1,8 +1,9 @@
 package com.tarrakki
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.HomeData
+import io.branch.referral.Branch
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.File
@@ -30,9 +31,11 @@ class App : CoreApp() {
         cartCount.value = 0
 
         // Branch logging for debugging
-        //Branch.enableDebugMode()
+        if (BuildConfig.DEBUG) {
+            Branch.enableDebugMode()
+        }
         // Branch object initialization
-        //Branch.getAutoInstance(this)
+        Branch.getAutoInstance(this)
     }
 
     companion object {

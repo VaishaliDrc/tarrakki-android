@@ -1,7 +1,7 @@
 package com.tarrakki.module.bankaccount
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.StringRes
+import androidx.lifecycle.MutableLiveData
+import androidx.annotation.StringRes
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R

@@ -5,15 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TableRow
+import androidx.core.content.ContextCompat
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogZoomInOutImageBinding
@@ -33,6 +31,8 @@ import org.supportcompact.ktx.clearUserData
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toCurrency
+
+const val OPEN_BANK_MANDATE = "open_bank_mandate"
 
 fun getRiskLevelVisibility(riskType: String?): Int {
     return when {
@@ -88,7 +88,7 @@ fun getReturnLevel(returnType: String?): String {
     }
 }
 
-fun FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.SecondLevelCategory) {
+fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.SecondLevelCategory) {
     if (!item.isGoal) {
         if (item.isThematic) {
             val bundle = Bundle().apply {
@@ -110,7 +110,7 @@ fun FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.Second
                     } else {
                         this?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
                             investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
-                                    android.arch.lifecycle.Observer { response ->
+                                    androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putString("sip", amountSIP.toString())
                                             putString("lumpsump", amountLumpsum.toString())
@@ -176,7 +176,7 @@ fun Context?.onLogout() {
         it.clearUserData()
         ApiClient.clear()
         startActivity(Intent(it, LoginActivity::class.java))
-        LocalBroadcastManager.getInstance(it).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
     }
 }
 

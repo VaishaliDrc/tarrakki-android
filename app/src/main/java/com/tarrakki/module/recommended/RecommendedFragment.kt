@@ -1,10 +1,10 @@
 package com.tarrakki.module.recommended
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.View
 import com.github.mikephil.charting.data.PieData

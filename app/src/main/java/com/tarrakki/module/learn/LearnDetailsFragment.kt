@@ -1,10 +1,10 @@
 package com.tarrakki.module.learn
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.ShareCompat
+import androidx.fragment.app.Fragment
+import androidx.core.app.ShareCompat
 import com.tarrakki.R
 import com.tarrakki.api.model.Blog
 import com.tarrakki.databinding.FragmentLearnDetailsBinding

@@ -1,8 +1,8 @@
 package org.supportcompact.adapters
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
 
@@ -11,10 +11,10 @@ import org.supportcompact.ktx.inflate
  * @param itemList Data to to be bound with layout.
  * @param onBind Unit function to override onBindViewHolder of RecyclerView.Adapter.
  * */
-fun <T : WidgetsViewModel> RecyclerView.setUpMultiViewRecyclerAdapter(itemList: ArrayList<T>, onBind: ((item: T, binder: ViewDataBinding, position: Int) -> Unit)) = MultiViewRecyclerAdapter(this, itemList, onBind)
+fun <T : WidgetsViewModel> androidx.recyclerview.widget.RecyclerView.setUpMultiViewRecyclerAdapter(itemList: ArrayList<T>, onBind: ((item: T, binder: ViewDataBinding, position: Int) -> Unit)) = MultiViewRecyclerAdapter(this, itemList, onBind)
 
 
-class MultiViewRecyclerAdapter<T : WidgetsViewModel>(recyclerView: RecyclerView, private val list: ArrayList<T>, private val onBind: (item: T, binder: ViewDataBinding, position: Int) -> Unit) : RecyclerView.Adapter<MultiViewRecyclerAdapter.ViewHolder<ViewDataBinding>>() {
+class MultiViewRecyclerAdapter<T : WidgetsViewModel>(recyclerView: androidx.recyclerview.widget.RecyclerView, private val list: ArrayList<T>, private val onBind: (item: T, binder: ViewDataBinding, position: Int) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<MultiViewRecyclerAdapter.ViewHolder<ViewDataBinding>>() {
 
     init {
         recyclerView.adapter = this
@@ -37,5 +37,5 @@ class MultiViewRecyclerAdapter<T : WidgetsViewModel>(recyclerView: RecyclerView,
         return list.size
     }
 
-    class ViewHolder<out V : ViewDataBinding>(val binding: V) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder<out V : ViewDataBinding>(val binding: V) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root)
 }

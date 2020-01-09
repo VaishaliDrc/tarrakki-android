@@ -1,6 +1,6 @@
 package com.tarrakki.module.ekyc
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.net.Uri
 import android.webkit.ValueCallback
 import com.tarrakki.api.WebserviceBuilder

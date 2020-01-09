@@ -10,7 +10,7 @@
             type="com.tarrakki.api.model.TopTenHolding" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/default_space">
@@ -52,5 +52,5 @@
             app:layout_constraintTop_toBottomOf="@+id/tvRiskLevelL"
             tools:progress="85" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

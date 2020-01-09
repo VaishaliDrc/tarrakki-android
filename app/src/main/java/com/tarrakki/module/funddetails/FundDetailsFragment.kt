@@ -2,7 +2,7 @@ package com.tarrakki.module.funddetails
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentFundDetailsBinding
 import com.tarrakki.module.funddetails.fragments.OverviewFragment

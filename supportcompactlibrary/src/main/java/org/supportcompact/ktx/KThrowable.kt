@@ -1,6 +1,6 @@
 package org.supportcompact.ktx
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreApp
 import org.supportcompact.events.ShowError
@@ -20,3 +20,5 @@ fun Throwable.postError(@StringRes error: Int) {
 fun postError(error: String) = EventBus.getDefault().postSticky(ShowError(error))
 
 fun postError(@StringRes error: Int) = EventBus.getDefault().postSticky(ShowError(error = CoreApp.getInstance().getString(error)))
+
+

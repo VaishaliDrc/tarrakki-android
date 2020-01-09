@@ -64,7 +64,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/space_16">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_alignParentStart="true"
                     android:id="@+id/img_logo"
                     android:layout_width="60dp"
@@ -82,7 +82,7 @@
                         android:src="@drawable/ic_mutual_funds"
                         tools:src="@drawable/ic_mutual_funds" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_toEndOf="@id/img_logo"
@@ -132,7 +132,7 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/space_16">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_alignParentStart="true"
                     android:id="@+id/img_logo1"
                     android:layout_width="60dp"
@@ -150,7 +150,7 @@
                         android:src="@drawable/ic_equity_advisory"
                         tools:src="@drawable/ic_equity_advisory" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:layout_toEndOf="@id/img_logo1"

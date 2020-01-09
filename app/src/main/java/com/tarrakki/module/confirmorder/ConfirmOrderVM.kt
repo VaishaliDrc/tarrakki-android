@@ -1,7 +1,7 @@
 package com.tarrakki.module.confirmorder
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -10,6 +10,7 @@ import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.events.Event
 import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
@@ -178,7 +179,7 @@ class ConfirmOrderVM : FragmentViewModel() {
                                                 title = App.INSTANCE.getString(R.string.cut_of_time_title),
                                                 error = App.INSTANCE.getString(R.string.cut_of_msg_code_6),
                                                 msg = "${o.status.message}"))
-                            } else {
+                            }  else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
                         } else {

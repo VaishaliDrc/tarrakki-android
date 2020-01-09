@@ -10,7 +10,7 @@
             type="com.tarrakki.module.verifybankaccount.VerifyBankAccountVM" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.bankaccount.AddBankAccountFragment">
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_cart_view"
@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imgverificationIncomplete" />
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/btnAdd"
@@ -194,7 +194,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 

@@ -1,8 +1,8 @@
 package org.supportcompact.adapters
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
 import android.util.SparseBooleanArray
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
@@ -40,7 +40,7 @@ class KSelectionAdapter<ITEM, U : ViewDataBinding>(
         val onBind: ((ITEM, U?, Int, KSelectionAdapter<ITEM, U>) -> Unit)?,
         val itemClick: ((ITEM, Int, KSelectionAdapter<ITEM, U>) -> Unit)? = null,
         var isToggleEnable: Boolean
-) : RecyclerView.Adapter<KSelectionAdapter.ViewHolder<U>>() {
+) : androidx.recyclerview.widget.RecyclerView.Adapter<KSelectionAdapter.ViewHolder<U>>() {
 
     private var filterItems: MutableList<ITEM>? = arrayListOf()
 
@@ -74,7 +74,7 @@ class KSelectionAdapter<ITEM, U : ViewDataBinding>(
         }
     }
 
-    class ViewHolder<out V : ViewDataBinding>(internal val binding: V?) : RecyclerView.ViewHolder(binding?.root!!)
+    class ViewHolder<out V : ViewDataBinding>(internal val binding: V?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding?.root!!)
 
     fun addItems(items: MutableList<ITEM>) {
         val lastPostion = items.size - 1

@@ -1,10 +1,10 @@
 package com.tarrakki.api.model
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import android.os.Bundle
-import android.support.annotation.StringDef
-import android.support.v4.app.FragmentActivity
+import androidx.annotation.StringDef
+import androidx.fragment.app.FragmentActivity
 import android.text.TextUtils
 import android.view.View
 import com.google.gson.annotations.SerializedName
@@ -183,7 +183,7 @@ data class TransactionApiResponse(
         val onSelected: View.OnClickListener
             get() = View.OnClickListener { v ->
                 val mContext = v.context
-                if (mContext is FragmentActivity && isFromRaiseTicket == true) {
+                if (mContext is androidx.fragment.app.FragmentActivity && isFromRaiseTicket == true) {
                     EventBus.getDefault().post(Event.RESET_OPTION_MENU)
                     EventBus.getDefault().postSticky(this@Transaction)
                     mContext.onBackPressed()
@@ -193,7 +193,7 @@ data class TransactionApiResponse(
         val openFundDetails: View.OnClickListener
             get() = View.OnClickListener { v ->
                 val mContext = v.context
-                if (mContext is FragmentActivity && isFromRaiseTicket == false) {
+                if (mContext is androidx.fragment.app.FragmentActivity && isFromRaiseTicket == false) {
                     EventBus.getDefault().post(Event.RESET_OPTION_MENU)
                     mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                         putString(ITEM_ID, "${fundId}")

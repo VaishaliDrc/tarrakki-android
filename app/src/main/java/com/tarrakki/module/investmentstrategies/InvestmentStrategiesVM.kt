@@ -1,6 +1,6 @@
 package com.tarrakki.module.investmentstrategies
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.tarrakki.api.model.HomeData
 import org.supportcompact.FragmentViewModel
 

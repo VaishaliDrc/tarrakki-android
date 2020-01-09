@@ -12,7 +12,7 @@
             type="com.tarrakki.api.model.UserPortfolioResponse.Data.GoalBasedInvestment.Fund" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/space_4"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Home Goal" />
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_folio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,9 +65,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
                 tools:text="@string/dummy3" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.v7.widget.LinearLayoutCompat
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/ll_units"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,9 +97,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/semi_black"
                 tools:text="@string/dummy3" />
-        </android.support.v7.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llSingleFolio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -183,21 +183,21 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvXIRRL"
                 tools:text="@string/dummy3" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gdlCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.39" />
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/gdlEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.74" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/llFolioOptions"
@@ -262,7 +262,7 @@
 
         </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/lyt_multi_folio_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
 
             </HorizontalScrollView>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

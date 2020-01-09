@@ -2,7 +2,7 @@ package com.tarrakki.module.myprofile
 
 import android.Manifest
 import android.app.Activity
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,7 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Glide
@@ -77,7 +77,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     val countryJSON = App.INSTANCE.resources.openRawResource(R.raw.country).bufferedReader().use { it.readText() }
     val countries = countryJSON.parseArray<ArrayList<Country>>()
 
-    val profileObserver: android.arch.lifecycle.Observer<UserProfileResponse> = android.arch.lifecycle.Observer { response ->
+    val profileObserver: androidx.lifecycle.Observer<UserProfileResponse> = androidx.lifecycle.Observer { response ->
         response?.let {
             //getBinding().root.visibility = View.VISIBLE
             getViewModel().signatureBtnVisibility.set(if (response.data.isAOFUploaded == true) View.GONE else View.VISIBLE)
@@ -190,7 +190,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
             getViewModel().isEdit.get()?.let { isEdit ->
                 if (isEdit) {
                     if (isValidate()) {
-                        getViewModel().updateProfile().observe(this, android.arch.lifecycle.Observer {
+                        getViewModel().updateProfile().observe(this, androidx.lifecycle.Observer {
                             context?.simpleAlert(context?.getString(R.string.alert_profile_success_update).toString()) {
                                 Handler().postDelayed({
                                     getViewModel().isEdit.set(false)
@@ -329,7 +329,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         e("Plain Data=>", json.toString())
                         val data = AES.encrypt(json.toString())
                         e("Encrypted Data=>", data)
-                        getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                        getViewModel().getOTP(data).observe(this, androidx.lifecycle.Observer {
                             it?.let { it1 ->
                                 val intent = Intent(activity, OtpVerificationActivity::class.java)
                                 intent.putExtra(PROFILE_EMAIL_DATA, json.toString())
@@ -361,7 +361,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         e("Plain Data=>", json.toString())
                         val data = AES.encrypt(json.toString())
                         e("Encrypted Data=>", data)
-                        getViewModel().getOTP(data).observe(this, android.arch.lifecycle.Observer {
+                        getViewModel().getOTP(data).observe(this, androidx.lifecycle.Observer {
                             it?.let { it1 ->
                                 val intent = Intent(activity, OtpVerificationActivity::class.java)
                                 intent.putExtra(PROFILE_MOBILE_DATA, json.toString())
@@ -501,7 +501,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         if (isProfileClickable == true) {
                             profileUri = UCrop.getOutput(data)
                             profileUri?.let {
-                                getViewModel().updateProfileImage(profileUri).observe(this, android.arch.lifecycle.Observer {
+                                getViewModel().updateProfileImage(profileUri).observe(this, androidx.lifecycle.Observer {
                                     context?.simpleAlert(getString(R.string.alert_profile_success)) {
                                         Handler().postDelayed({
                                             getViewModel().isEdit.set(false)
@@ -520,7 +520,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                         } else {
                             signatureUri = com.tarrakki.ucrop.UCrop.getOutput(data)
                             signatureUri?.let {
-                                getViewModel().updateSignatureImage(signatureUri).observe(this, android.arch.lifecycle.Observer {
+                                getViewModel().updateSignatureImage(signatureUri).observe(this, androidx.lifecycle.Observer {
                                     context?.simpleAlert(getString(R.string.alert_signtuare_success)) {
                                         Handler().postDelayed({
                                             getViewModel().isEdit.set(false)

@@ -1,7 +1,7 @@
 package com.tarrakki.api.model
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import android.text.TextUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.BR

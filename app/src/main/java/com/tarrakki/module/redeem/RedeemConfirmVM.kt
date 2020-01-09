@@ -1,7 +1,7 @@
 package com.tarrakki.module.redeem
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import android.view.View
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.module.portfolio.StopSIP

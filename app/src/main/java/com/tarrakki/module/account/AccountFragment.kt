@@ -3,12 +3,12 @@ package com.tarrakki.module.account
 
 import android.Manifest
 import android.app.KeyguardManager
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.app.ShareCompat
+import androidx.core.app.ShareCompat
 import android.view.View
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding

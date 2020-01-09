@@ -2,7 +2,7 @@ package com.tarrakki.module.myprofile
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentNominationDetailsBinding

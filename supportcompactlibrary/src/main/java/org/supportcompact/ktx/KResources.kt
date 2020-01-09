@@ -3,16 +3,16 @@ package org.supportcompact.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorRes
-import android.support.annotation.DrawableRes
-import android.support.annotation.FontRes
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Patterns
@@ -42,27 +42,27 @@ fun Context.intArray(array: Int): IntArray {
     return resources.getIntArray(array)
 }
 
-fun Fragment.getColor(@ColorRes clr: Int): Int? {
+fun androidx.fragment.app.Fragment.getColor(@ColorRes clr: Int): Int? {
     return activity?.color(clr)
 }
 
-fun Fragment.string(@StringRes str: Int): String? {
+fun androidx.fragment.app.Fragment.string(@StringRes str: Int): String? {
     return activity?.string(str)
 }
 
-fun Fragment.drawable(@DrawableRes drw: Int): Drawable? {
+fun androidx.fragment.app.Fragment.drawable(@DrawableRes drw: Int): Drawable? {
     return activity?.drawable(drw)
 }
 
-fun Fragment.font(@FontRes font: Int): Typeface? {
+fun androidx.fragment.app.Fragment.font(@FontRes font: Int): Typeface? {
     return activity?.font(font)
 }
 
-fun Fragment.stringArray(array: Int): Array<String>? {
+fun androidx.fragment.app.Fragment.stringArray(array: Int): Array<String>? {
     return activity?.stringArray(array)
 }
 
-fun Fragment.intArray(array: Int): IntArray? {
+fun androidx.fragment.app.Fragment.intArray(array: Int): IntArray? {
     return activity?.intArray(array)
 }
 

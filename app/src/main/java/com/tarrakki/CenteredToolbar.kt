@@ -2,14 +2,14 @@ package com.tarrakki
 
 import android.content.Context
 import android.os.Build
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import kotlinx.android.synthetic.main.layout_toolbar_title.view.*
 
 
-class CenteredToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = android.support.v7.appcompat.R.attr.toolbarStyle) : Toolbar(context, attrs, defStyleAttr) {
+class CenteredToolbar @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = R.attr.toolbarStyle) : Toolbar(context, attrs, defStyleAttr) {
 
     private var titleView: TextView = TextView(getContext())
 

@@ -1,7 +1,7 @@
 package org.supportcompact.ktx
 
 import android.graphics.*
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import android.util.Base64
 import android.view.View
 import org.supportcompact.CoreApp

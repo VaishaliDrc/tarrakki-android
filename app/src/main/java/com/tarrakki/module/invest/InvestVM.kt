@@ -1,9 +1,9 @@
 package com.tarrakki.module.invest
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.BaseObservable
-import android.databinding.Bindable
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import android.graphics.Color
 import android.view.View
 import com.google.gson.JsonObject

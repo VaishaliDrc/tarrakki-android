@@ -105,7 +105,7 @@ class MaintenanceActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (item?.itemId == R.id.action_refresh) {
-            getMaintenanceDetails().observe(this, android.arch.lifecycle.Observer {
+            getMaintenanceDetails().observe(this, androidx.lifecycle.Observer {
                 finish()
             })
             return true

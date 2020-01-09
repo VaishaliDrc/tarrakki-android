@@ -1,9 +1,9 @@
 package com.tarrakki.module.support.fragments
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
 import com.tarrakki.api.model.SupportQuestionListResponse

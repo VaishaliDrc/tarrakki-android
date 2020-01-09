@@ -24,7 +24,7 @@
         android:layout_marginEnd="@dimen/default_space"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_cart_view"
@@ -80,7 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTotalL"
                 tools:text="ICICI Bank" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:layout_width="match_parent"

@@ -3,14 +3,14 @@ package com.tarrakki.module.verifybankaccount
 
 import android.Manifest
 import android.app.Activity
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import android.view.View
 import com.bumptech.glide.Glide

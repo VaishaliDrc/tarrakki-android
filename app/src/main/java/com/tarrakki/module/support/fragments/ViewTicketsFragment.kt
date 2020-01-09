@@ -1,11 +1,11 @@
 package com.tarrakki.module.support.fragments
 
 
-import android.arch.lifecycle.Observer
-import android.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.BR

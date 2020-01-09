@@ -1,7 +1,7 @@
 package com.tarrakki.module.transactions
 
-import android.databinding.BaseObservable
-import android.databinding.Bindable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.tarrakki.BR
 import com.tarrakki.R
 import org.supportcompact.adapters.WidgetsViewModel

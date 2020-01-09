@@ -1,6 +1,6 @@
 package com.tarrakki.module.otp
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse

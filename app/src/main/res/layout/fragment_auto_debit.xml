@@ -10,7 +10,7 @@
             type="com.tarrakki.module.bankmandate.AutoMandateVM" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.bankmandate.AutoDebitFragment">
@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:padding="@dimen/default_space">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
@@ -147,7 +147,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvIFSCCodeLabel"
                     tools:text="IC1C00000457" />
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/gdlCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                     app:layout_constraintGuide_percent="0.40" />
 
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -241,7 +241,7 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:background="@color/darker_gray" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAmounts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -254,7 +254,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:itemCount="2"
-                    tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/row_auto_debit_amount_list_item" />
 
             </LinearLayout>
@@ -272,6 +272,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

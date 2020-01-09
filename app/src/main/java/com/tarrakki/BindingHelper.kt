@@ -5,25 +5,25 @@ package com.tarrakki
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.Handler
-import android.support.annotation.DrawableRes
-import android.support.constraint.ConstraintLayout
-import android.support.constraint.Guideline
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.DrawableRes
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Guideline
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
@@ -68,7 +68,7 @@ const val IS_FROM_COMLETE_REGISTRATION = "is_from_complete_registration"
 
 
 @BindingAdapter(value = ["setAdapterH", "isHome"], requireAll = false)
-fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isHome: Boolean) {
+fun setAdapterH(view: androidx.recyclerview.widget.RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isHome: Boolean) {
     view.isFocusable = false
     view.isNestedScrollingEnabled = false
     homeItems?.let {
@@ -86,27 +86,27 @@ fun setAdapterH(view: RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isH
 }
 
 @BindingAdapter(value = ["setAdapterH"], requireAll = false)
-fun setAdapterH(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
-    val manager = LinearLayoutManager(view.context)
-    manager.orientation = RecyclerView.HORIZONTAL
+fun setAdapterH(view: androidx.recyclerview.widget.RecyclerView, adapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>?) {
+    val manager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+    manager.orientation = androidx.recyclerview.widget.RecyclerView.HORIZONTAL
     view.layoutManager = manager
     view.adapter = adapter
 }
 
 @BindingAdapter(value = ["setAdapterV"], requireAll = false)
-fun setAdapterV(view: RecyclerView, adapter: RecyclerView.Adapter<*>?) {
-    val manager = LinearLayoutManager(view.context)
-    manager.orientation = RecyclerView.VERTICAL
+fun setAdapterV(view: androidx.recyclerview.widget.RecyclerView, adapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>?) {
+    val manager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+    manager.orientation = androidx.recyclerview.widget.RecyclerView.VERTICAL
     view.layoutManager = manager
     view.adapter = adapter
 }
 
 
 @BindingAdapter(value = ["setAdapterV"], requireAll = false)
-fun setAdapterV(view: RecyclerView, itemList: ArrayList<String>?) {
+fun setAdapterV(view: androidx.recyclerview.widget.RecyclerView, itemList: ArrayList<String>?) {
     itemList?.let {
-        val manager = LinearLayoutManager(view.context)
-        manager.orientation = RecyclerView.VERTICAL
+        val manager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        manager.orientation = androidx.recyclerview.widget.RecyclerView.VERTICAL
         view.layoutManager = manager
         view.setUpRecyclerView(R.layout.row_cut_off_time_fund_list_item, it) { item: String, binder: RowCutOffTimeFundListItemBinding, position: Int ->
             binder.fund = item
@@ -116,8 +116,8 @@ fun setAdapterV(view: RecyclerView, itemList: ArrayList<String>?) {
 }
 
 @BindingAdapter("dividerH", requireAll = false)
-fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable? = null) {
-    val divider = DividerItemDecorationNoLast(rv.context, LinearLayoutManager.HORIZONTAL)
+fun setDividerHorizontal(rv: androidx.recyclerview.widget.RecyclerView, drawable: Drawable? = null) {
+    val divider = DividerItemDecorationNoLast(rv.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL)
     drawable?.let {
         divider.setDrawable(it)
     }
@@ -125,8 +125,8 @@ fun setDividerHorizontal(rv: RecyclerView, drawable: Drawable? = null) {
 }
 
 @BindingAdapter("dividerV", requireAll = false)
-fun setDividerVertical(rv: RecyclerView, drawable: Drawable? = null) {
-    val divider = DividerItemDecorationNoLast(rv.context, LinearLayoutManager.VERTICAL)
+fun setDividerVertical(rv: androidx.recyclerview.widget.RecyclerView, drawable: Drawable? = null) {
+    val divider = DividerItemDecorationNoLast(rv.context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL)
     drawable?.let {
         divider.setDrawable(it)
     }
@@ -142,7 +142,7 @@ fun setHasLink(txt: TextView, hasLink: Boolean) {
 fun applyForDebitCart(txt: TextView, folioData: ArrayList<FolioData>?) {
     txt.setOnClickListener {
         val mContext = txt.context
-        if (mContext is FragmentActivity) {
+        if (mContext is androidx.fragment.app.FragmentActivity) {
             mContext.startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
             folioData?.let { EventBus.getDefault().postSticky(it) }
         }
@@ -150,7 +150,7 @@ fun applyForDebitCart(txt: TextView, folioData: ArrayList<FolioData>?) {
 }
 
 @BindingAdapter("enableNestedScrollView")
-fun enableNestedScrollView(rv: RecyclerView, enable: Boolean) {
+fun enableNestedScrollView(rv: androidx.recyclerview.widget.RecyclerView, enable: Boolean) {
     rv.isNestedScrollingEnabled = enable
     rv.isFocusable = enable
 }
@@ -1010,12 +1010,12 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
     mDialog.show()
 }
 
-fun Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData>,
-                                            onRedeem: ((portfolioNo: String,
+fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData>,
+                                                                                     onRedeem: ((portfolioNo: String,
                                                         folioId: String,
                                                         allRedeem: String,
                                                         units: String) -> Unit)? = null,
-                                            onInstaRedeem: ((portfolioNo: String,
+                                                                                     onInstaRedeem: ((portfolioNo: String,
                                                              folioId: String,
                                                              amount: String,
                                                              allRedeem: String) -> Unit)? = null) {

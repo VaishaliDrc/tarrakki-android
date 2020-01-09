@@ -4,15 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat.startActivity
 
 
 inline fun <reified T : Activity> Activity.startActivity() = startActivity(Intent(this, T::class.java))
 
 inline fun <reified T : Activity> Activity.startActivityForResult(requestCode: Int) = startActivityForResult(Intent(this, T::class.java), requestCode)
 
-inline fun <reified T : Activity> Fragment.startActivity() = startActivity(Intent(activity, T::class.java))
+inline fun <reified T : Activity> androidx.fragment.app.Fragment.startActivity() = startActivity(Intent(activity, T::class.java))
 
 fun Context.openPlayStore() {
     val appPackageName = packageName // getPackageName() from Context or Activity object

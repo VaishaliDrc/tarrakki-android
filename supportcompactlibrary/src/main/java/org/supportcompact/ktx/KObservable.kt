@@ -1,7 +1,7 @@
 package org.supportcompact.ktx
 
-import android.databinding.Observable
-import android.databinding.ObservableField
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 
 inline fun <R> ObservableField<R>.observe(crossinline callback: (R) -> Unit) {
     this.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

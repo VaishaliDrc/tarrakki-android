@@ -2,7 +2,7 @@ package com.tarrakki.module.debitcart
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentDebitCartInfoBinding

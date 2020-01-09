@@ -1,6 +1,6 @@
 package com.tarrakki.module.learn
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback1

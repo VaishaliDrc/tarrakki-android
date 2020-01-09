@@ -1,10 +1,11 @@
 package com.tarrakki.module.cart
 
 
-import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.CartData
 import com.tarrakki.databinding.FragmentCartBinding
@@ -25,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_cart.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.BaseAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
+import org.supportcompact.events.EventData
 import org.supportcompact.ktx.*
 import java.math.BigInteger
 import java.util.*
@@ -102,6 +105,20 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         getViewModel().cartUpdate.observe(this, Observer {
             getViewModel().getCartItem().observe(this, cartApi)
         })
+    }
+
+    override fun onEvent(event: EventData) {
+        when (event.event) {
+            Event.REDIRECT_TO_BANK_MANDATE -> {
+                val intent = Intent(requireContext(), AccountActivity::class.java)
+                intent.putExtra(OPEN_BANK_MANDATE, true)
+                startActivity(intent)
+                /*context?.simpleAlert("${event.message}") {
+
+                }*/
+            }
+            else -> super.onEvent(event)
+        }
     }
 
     private fun onEditFunds() {

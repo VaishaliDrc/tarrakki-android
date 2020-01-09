@@ -10,7 +10,7 @@
             type="com.tarrakki.api.model.SupportQueryListResponse.Data.Subquery" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/_8sdp"
@@ -31,5 +31,5 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="AutoPay" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

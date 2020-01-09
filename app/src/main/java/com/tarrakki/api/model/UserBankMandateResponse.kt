@@ -1,6 +1,6 @@
 package com.tarrakki.api.model
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R

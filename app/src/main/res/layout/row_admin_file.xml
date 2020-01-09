@@ -44,7 +44,7 @@
             android:src="@drawable/ic_triangle_right"
             android:tint="@color/white" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/llFile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="@string/open" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </RelativeLayout>

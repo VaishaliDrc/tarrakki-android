@@ -2,7 +2,7 @@ package com.tarrakki.module.ekyc
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycBinding
 import kotlinx.android.synthetic.main.fragment_ekyc.*

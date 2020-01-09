@@ -2,7 +2,7 @@ package com.tarrakki.module.splash
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.module.home.HomeActivity

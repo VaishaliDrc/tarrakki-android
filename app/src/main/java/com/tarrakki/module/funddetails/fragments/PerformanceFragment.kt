@@ -1,14 +1,14 @@
 package com.tarrakki.module.funddetails.fragments
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -54,7 +54,7 @@ import java.util.*
  * create an instance of this fragment.
  *
  */
-class PerformanceFragment : Fragment() {
+class PerformanceFragment : androidx.fragment.app.Fragment() {
 
     var fundVM: FundDetailsVM? = null
     var binder: FragmentPerformanceBinding? = null

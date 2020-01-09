@@ -10,7 +10,7 @@
             type="com.tarrakki.api.model.SupportViewTicketResponse.Data.Conversation" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_cart_view"
@@ -102,6 +102,6 @@
             tools:text="October 10, 2018 - 10:15 AM" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

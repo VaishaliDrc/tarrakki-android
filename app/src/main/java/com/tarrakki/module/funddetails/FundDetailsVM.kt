@@ -1,7 +1,7 @@
 package com.tarrakki.module.funddetails
 
-import android.arch.lifecycle.MutableLiveData
-import android.support.annotation.IntRange
+import androidx.lifecycle.MutableLiveData
+import androidx.annotation.IntRange
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R

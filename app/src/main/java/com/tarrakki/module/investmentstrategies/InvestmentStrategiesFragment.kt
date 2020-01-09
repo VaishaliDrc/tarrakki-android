@@ -1,7 +1,7 @@
 package com.tarrakki.module.investmentstrategies
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.tarrakki.R
@@ -77,7 +77,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                     } else {
                         context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
                             investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                                    android.arch.lifecycle.Observer { response ->
+                                    androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putInt("isFrom", 2)
                                             putString("sip", amountSIP.toString())

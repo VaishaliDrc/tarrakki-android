@@ -3,18 +3,18 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import android.content.Intent
-import android.databinding.ViewDataBinding
+import androidx.databinding.ViewDataBinding
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.OpenableColumns
 import android.provider.Settings
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
 import android.view.View
 import com.google.android.gms.common.util.IOUtils
 import com.tarrakki.*

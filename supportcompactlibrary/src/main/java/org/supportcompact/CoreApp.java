@@ -1,8 +1,8 @@
 package org.supportcompact;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import org.supportcompact.utilise.AppForegroundChecker;
 

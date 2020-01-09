@@ -65,7 +65,7 @@
             </RelativeLayout>
         </ScrollView>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:visibility="@{vm.isIMandate==false?View.VISIBLE:View.GONE}"
             android:id="@+id/rvBankMandateForm"
             dividerV="@{@drawable/shape_transferant_divider_16dp}"
@@ -73,7 +73,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="@dimen/default_space"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:context=".module.bankmandate.BankMandateWayFragment"
             tools:listitem="@layout/row_bank_mandate_way" />
     </LinearLayout>

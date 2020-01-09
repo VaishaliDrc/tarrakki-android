@@ -16,7 +16,7 @@
             type="com.tarrakki.module.recommended.RecommendedVM" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.recommended.RecommendedFragment">
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"
@@ -148,7 +148,7 @@
 
                 </LinearLayout>
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tvRecommendedInfo"
@@ -165,7 +165,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:visibility="@{vm.isFrom==1?View.VISIBLE:View.GONE}" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"
@@ -176,7 +176,7 @@
                 android:padding="@dimen/space_8"
                 android:visibility="@{vm.isFrom==2?View.VISIBLE:View.GONE}">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/view2"
                     android:layout_width="144dp"
                     android:layout_height="144dp"
@@ -215,7 +215,7 @@
                         android:textSize="@dimen/sp10"
                         tools:text="Children's Education" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/tvRiskLevelSec"
@@ -255,7 +255,7 @@
                     app:layout_constraintTop_toBottomOf="@id/view2"
                     tools:text="High Return" />
 
-                <android.support.constraint.Guideline
+                <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/glCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                     app:layout_constraintTop_toBottomOf="@id/tvSortDescription"
                     tools:text="An aggressive investment strategy involves allocating more money to direct equity, and less money to bonds." />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -320,12 +320,12 @@
                     android:layout_height="2dp"
                     android:background="@color/bg_color" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAMCList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:dividerV="@{@drawable/shape_amc_list_divider_4dp}"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_amc_list_item" />
 
@@ -346,5 +346,5 @@
             </LinearLayout>
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

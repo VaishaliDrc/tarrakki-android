@@ -1,6 +1,6 @@
 package org.supportcompact.adapters
 
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 
 interface WidgetsViewModel {
 

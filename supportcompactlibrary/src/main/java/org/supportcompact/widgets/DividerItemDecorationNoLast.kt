@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
@@ -28,7 +28,7 @@ import android.widget.LinearLayout
  * @param context Current context, it will be used to access resources.
  * @param orientation Divider orientation. Should be [.HORIZONTAL] or [.VERTICAL].
  */
-class DividerItemDecorationNoLast(context: Context?, orientation: Int) : RecyclerView.ItemDecoration() {
+class DividerItemDecorationNoLast(context: Context?, orientation: Int) : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
 
     private var mDivider: Drawable? = null
 
@@ -75,7 +75,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         mDivider = drawable
     }
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDrawOver(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         //super.onDrawOver(c, parent, state)
         if (parent.layoutManager == null || mDivider == null) {
             return
@@ -87,7 +87,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         }
     }
 
-    private fun drawVertical(canvas: Canvas, parent: RecyclerView) {
+    private fun drawVertical(canvas: Canvas, parent: androidx.recyclerview.widget.RecyclerView) {
         canvas.save()
         val left: Int
         val right: Int
@@ -114,7 +114,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         canvas.restore()
     }
 
-    private fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
+    private fun drawHorizontal(canvas: Canvas, parent: androidx.recyclerview.widget.RecyclerView) {
         canvas.save()
         val top: Int
         val bottom: Int
@@ -140,7 +140,7 @@ class DividerItemDecorationNoLast(context: Context?, orientation: Int) : Recycle
         canvas.restore()
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         //super.getItemOffsets(outRect, view, parent, state)
         if (mDivider == null) {
             outRect.set(0, 0, 0, 0)

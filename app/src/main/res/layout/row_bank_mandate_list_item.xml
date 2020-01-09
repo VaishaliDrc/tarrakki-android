@@ -16,7 +16,7 @@
             type="com.tarrakki.api.model.UserBankMandateResponse.Data" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_space"
@@ -248,7 +248,7 @@
 
         </LinearLayout>
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -301,6 +301,6 @@
             app:layout_constraintTop_toTopOf="@id/mDivider2"
             tools:text="@string/complete_nach_mandate" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -3,11 +3,11 @@ package com.tarrakki.module.netbanking
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View

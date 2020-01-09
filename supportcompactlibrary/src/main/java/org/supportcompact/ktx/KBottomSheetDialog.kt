@@ -2,12 +2,12 @@ package org.supportcompact.ktx
 
 import android.content.Context
 import android.graphics.Paint
-import android.support.annotation.StyleRes
-import android.support.design.widget.BottomSheetDialog
-import android.support.v4.app.Fragment
+import androidx.annotation.StyleRes
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import androidx.fragment.app.Fragment
 import android.view.View
 
-fun Fragment.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit,@StyleRes theme : Int? = null): BottomSheetDialogBuilder? = activity?.bottomSheetDialog(init,theme)
+fun androidx.fragment.app.Fragment.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit, @StyleRes theme : Int? = null): BottomSheetDialogBuilder? = activity?.bottomSheetDialog(init,theme)
 
 fun Context.bottomSheetDialog(init: BottomSheetDialogBuilder.() -> Unit,@StyleRes theme : Int? = null) = BottomSheetDialogBuilder(this,theme).apply(init)
 

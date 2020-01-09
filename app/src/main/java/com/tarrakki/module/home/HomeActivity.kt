@@ -1,18 +1,23 @@
 package com.tarrakki.module.home
 
-import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.LocalBroadcastManager
 import android.view.Menu
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.tarrakki.*
 import com.tarrakki.module.cart.CartFragment
+import io.branch.referral.Branch
+import io.branch.referral.BranchError
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.e
 import org.supportcompact.ktx.startFragment
+
 
 class HomeActivity : BaseActivity() {
 
@@ -50,7 +55,11 @@ class HomeActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         // Branch init
-        //Branch.getInstance().initSession(BranchListener, this.intent.data, this)
+        try {
+            Branch.getInstance().initSession(BranchListener, intent.data, this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -60,20 +69,25 @@ class HomeActivity : BaseActivity() {
                 it.popBackStack()
             }
         }
-        // Branch reinit (in case Activity is already in foreground when Branch link is clicked)
-        //Branch.getInstance().reInitSession(this, BranchListener)
+        //Branch reinit ( in case Activity is already in foreground when Branch link is clicked)
+        Branch.getInstance().reInitSession(this, BranchListener)
     }
 
-    /*object BranchListener : Branch.BranchReferralInitListener {
-        override fun onInitFinished(referringParams: JSONObject, error: BranchError?) {
+    object BranchListener : Branch.BranchReferralInitListener {
+        override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
             if (error == null) {
-                e("BRANCH SDK", referringParams.toString())
+                referringParams?.let { e("BRANCH SDK", it) }
+                if (referringParams?.optString("\$canonical_url")?.contains("tarrakki_zyaada") == true) {
+                    EventBus.getDefault().post(Event.OPEN_TARRAKKI_ZYAADA)
+                } else if (referringParams?.optString("my_cart")?.contains("my_cart") == true) {
+                    EventBus.getDefault().post(Event.OPEN_MY_CART)
+                }
                 // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
                 // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
             } else {
                 e("BRANCH SDK", error.message)
             }
         }
-    }*/
+    }
 
 }

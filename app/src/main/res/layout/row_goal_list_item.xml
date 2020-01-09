@@ -10,7 +10,7 @@
             type="com.tarrakki.api.model.Goal.Data.GoalData" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="132dp"
         android:background="@drawable/shape_section_item_bg"
@@ -46,5 +46,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="Wealth creation" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

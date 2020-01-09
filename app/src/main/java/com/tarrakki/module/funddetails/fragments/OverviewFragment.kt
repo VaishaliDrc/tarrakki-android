@@ -1,11 +1,11 @@
 package com.tarrakki.module.funddetails.fragments
 
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +23,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
 
 
-class OverviewFragment : Fragment() {
+class OverviewFragment : androidx.fragment.app.Fragment() {
 
     var fundVM: FundDetailsVM? = null
     var binder: FragmentOverviewBinding? = null

@@ -18,7 +18,7 @@
             type="android.view.View.OnClickListener" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -39,7 +39,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/space_8">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/view2"
                     android:layout_width="144dp"
                     android:layout_height="144dp"
@@ -74,7 +74,7 @@
                         android:textSize="@dimen/sp10"
                         tools:text="Children's Education" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                       app:alignContent="center"
                       app:alignItems="center"
                       app:flexWrap="wrap" />-->
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvGoalSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                     app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/row_goal_summary_txt" />
 
 
@@ -262,5 +262,5 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </layout>

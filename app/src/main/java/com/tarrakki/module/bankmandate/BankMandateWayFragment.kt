@@ -1,8 +1,8 @@
 package com.tarrakki.module.bankmandate
 
 
-import android.arch.lifecycle.Observer
-import android.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.View
 import com.tarrakki.BR

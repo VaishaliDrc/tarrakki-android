@@ -1,9 +1,9 @@
 package org.supportcompact.widgets
 
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 
-class DepthTransformation : ViewPager.PageTransformer {
+class DepthTransformation : androidx.viewpager.widget.ViewPager.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         when {

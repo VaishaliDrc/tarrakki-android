@@ -1,8 +1,8 @@
 package com.tarrakki.module.intro
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.AppCompatImageView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.appcompat.widget.AppCompatImageView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 
 import com.tarrakki.R
 
-internal class IntroPagerAdapter(var mContext: Context, var mResources: IntArray) : PagerAdapter() {
+internal class IntroPagerAdapter(var mContext: Context, var mResources: IntArray) : androidx.viewpager.widget.PagerAdapter() {
     var mLayoutInflater: LayoutInflater
 
     init {

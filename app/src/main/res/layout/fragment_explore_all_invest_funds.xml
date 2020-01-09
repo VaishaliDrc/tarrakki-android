@@ -13,12 +13,12 @@
 
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/mRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -42,7 +42,7 @@
                     android:orientation="horizontal"
                     android:padding="@dimen/_8sdp">
 
-                    <android.support.v7.widget.CardView
+                    <androidx.cardview.widget.CardView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:elevation="12dp"
@@ -58,7 +58,7 @@
                             android:padding="@dimen/space_12"
                             android:src="@drawable/ic_explore_funds_new" />
 
-                    </android.support.v7.widget.CardView>
+                    </androidx.cardview.widget.CardView>
 
                     <RelativeLayout
                         android:paddingTop="@dimen/space_8"
@@ -107,7 +107,7 @@
 
                 </LinearLayout>
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clTarrakkiZyaada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvKeyBenefits" />
 
-                    <android.support.constraint.Barrier
+                    <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -244,14 +244,14 @@
                         app:layout_constraintTop_toBottomOf="@id/ivB3" />
 
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMutualFunds"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="invisible"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:background="@drawable/shape_cart_view"
                     tools:elevation="2dp"
                     tools:itemCount="1"
@@ -277,7 +277,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

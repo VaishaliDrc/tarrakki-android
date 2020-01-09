@@ -1,7 +1,7 @@
 package com.tarrakki.module.transactionConfirm
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem

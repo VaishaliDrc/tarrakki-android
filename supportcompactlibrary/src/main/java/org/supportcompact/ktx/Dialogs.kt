@@ -1,9 +1,9 @@
 package org.supportcompact.ktx
 
 import android.content.Context
-import android.support.annotation.ArrayRes
-import android.support.annotation.StringRes
-import android.support.v7.app.AlertDialog
+import androidx.annotation.ArrayRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import libs.mjn.prettydialog.PrettyDialog
 import org.supportcompact.R
 

@@ -13,7 +13,7 @@
             type="com.tarrakki.module.support.chat.ChatVM" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mDivider">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvChat"
                 dividerV="@{@drawable/shape_transferant_divider_16dp}"
                 android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                 android:clipToPadding="false"
                 android:paddingTop="@dimen/default_space"
                 android:paddingBottom="@dimen/default_space"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:reverseLayout="true"
                 app:stackFromEnd="false"
                 tools:itemCount="5"
@@ -142,5 +142,5 @@
             app:layout_constraintTop_toTopOf="@+id/view"
             app:layout_constraintVertical_bias="1" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

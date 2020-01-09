@@ -1,6 +1,6 @@
 package com.tarrakki.api.model
 
-import android.support.annotation.ColorRes
+import androidx.annotation.ColorRes
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R

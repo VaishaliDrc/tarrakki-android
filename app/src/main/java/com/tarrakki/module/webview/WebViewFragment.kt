@@ -3,13 +3,13 @@ package com.tarrakki.module.webview
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.webkit.*
 import com.tarrakki.R

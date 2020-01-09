@@ -1,7 +1,7 @@
 package com.tarrakki.module.portfolio.fragments
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.widget.TableLayout
 import com.google.gson.JsonObject

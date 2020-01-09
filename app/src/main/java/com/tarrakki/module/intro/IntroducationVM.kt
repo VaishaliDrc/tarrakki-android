@@ -1,7 +1,7 @@
 package com.tarrakki.module.intro
 
-import android.databinding.BaseObservable
-import android.support.annotation.DrawableRes
+import androidx.databinding.BaseObservable
+import androidx.annotation.DrawableRes
 import com.tarrakki.R
 import org.supportcompact.ActivityViewModel
 

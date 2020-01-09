@@ -1,7 +1,7 @@
 package com.tarrakki.module.support.chat
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App

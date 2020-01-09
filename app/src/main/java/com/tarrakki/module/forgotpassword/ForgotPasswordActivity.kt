@@ -1,6 +1,6 @@
 package com.tarrakki.module.forgotpassword
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.util.Patterns
 import com.google.gson.JsonObject

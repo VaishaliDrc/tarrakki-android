@@ -1,7 +1,7 @@
 package com.tarrakki.module.home
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import android.os.Handler
 import android.view.View
 import com.tarrakki.App

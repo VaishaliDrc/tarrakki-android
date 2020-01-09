@@ -1,7 +1,7 @@
 package com.tarrakki.module.verifybankaccount
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import android.net.Uri
 import com.tarrakki.App
 import com.tarrakki.R

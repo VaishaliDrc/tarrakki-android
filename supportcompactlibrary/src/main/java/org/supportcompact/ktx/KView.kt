@@ -4,15 +4,16 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Build
-import android.support.annotation.LayoutRes
-import android.support.annotation.RequiresApi
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.annotation.LayoutRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import org.supportcompact.R
 
 
 fun View.showKeyboard() {
@@ -75,7 +76,7 @@ fun View.snackBar(@StringRes message: Int, duration: Int = Snackbar.LENGTH_SHORT
 fun View.snackBar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     val snackbar = Snackbar.make(this, message, duration)
     val yourSnackBarView = snackbar.view //get your snackbar view
-    val textView = yourSnackBarView.findViewById(android.support.design.R.id.snackbar_text) as TextView //Get reference of snackbar textview
+    val textView = yourSnackBarView.findViewById(R.id.snackbar_text) as TextView //Get reference of snackbar textview
     textView.maxLines = 4
     snackbar.show()
 }

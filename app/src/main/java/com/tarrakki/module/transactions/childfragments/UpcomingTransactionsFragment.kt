@@ -1,14 +1,14 @@
 package com.tarrakki.module.transactions.childfragments
 
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.view.View
 import com.tarrakki.App
 import com.tarrakki.R
@@ -109,7 +109,7 @@ class UpcomingTransactionsFragment : CoreParentFragment<TransactionsVM, Fragment
         })
     }
 
-    val refreshListener =  SwipeRefreshLayout.OnRefreshListener  {
+    val refreshListener =  androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener  {
         getViewModel().getTransactions(
                 transactionType = TransactionApiResponse.UPCOMING,
                 mRefresh = true).observe(this, response)

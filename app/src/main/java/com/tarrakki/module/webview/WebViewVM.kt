@@ -1,6 +1,6 @@
 package com.tarrakki.module.webview
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.Event
 

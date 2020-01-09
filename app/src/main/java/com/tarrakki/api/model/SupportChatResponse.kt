@@ -2,8 +2,8 @@ package com.tarrakki.api.model
 
 
 import android.content.Intent
-import android.databinding.BaseObservable
-import android.databinding.ObservableField
+import androidx.databinding.BaseObservable
+import androidx.databinding.ObservableField
 import android.net.Uri
 import android.view.View
 import com.google.android.gms.common.util.IOUtils

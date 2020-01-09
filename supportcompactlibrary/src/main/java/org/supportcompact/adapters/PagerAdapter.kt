@@ -1,13 +1,13 @@
 package org.supportcompact.adapters
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import org.supportcompact.ktx.inflate
@@ -22,8 +22,8 @@ import org.supportcompact.widgets.WrapContentViewPager
  * @param items data to be bound with layout.
  * @param onBind Is Unit function to override the  instantiateItem of PagerAdapter.
  * */
-fun <T : WidgetsViewModel> ViewPager.setMultiViewPageAdapter(items: ArrayList<T>, onBind: (binder: ViewDataBinding, item: T) -> Unit): PagerAdapter? {
-    adapter = object : PagerAdapter() {
+fun <T : WidgetsViewModel> androidx.viewpager.widget.ViewPager.setMultiViewPageAdapter(items: ArrayList<T>, onBind: (binder: ViewDataBinding, item: T) -> Unit): androidx.viewpager.widget.PagerAdapter? {
+    adapter = object : androidx.viewpager.widget.PagerAdapter() {
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val item: T = items[position]
@@ -58,8 +58,8 @@ fun <T : WidgetsViewModel> ViewPager.setMultiViewPageAdapter(items: ArrayList<T>
  * @param items data to be bound with layout.
  * @param onBind Is Unit function to override the  instantiateItem of PagerAdapter.
  * */
-fun <T, U : ViewDataBinding> ViewPager.setPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): PagerAdapter? {
-    adapter = object : PagerAdapter() {
+fun <T, U : ViewDataBinding> androidx.viewpager.widget.ViewPager.setPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): androidx.viewpager.widget.PagerAdapter? {
+    adapter = object : androidx.viewpager.widget.PagerAdapter() {
         private var mCurrentPosition = -1
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -89,8 +89,8 @@ fun <T, U : ViewDataBinding> ViewPager.setPageAdapter(@LayoutRes layout: Int, it
     return adapter
 }
 
-fun <T, U : ViewDataBinding> ViewPager.setWrapContentPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): PagerAdapter? {
-    adapter = object : PagerAdapter() {
+fun <T, U : ViewDataBinding> androidx.viewpager.widget.ViewPager.setWrapContentPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): androidx.viewpager.widget.PagerAdapter? {
+    adapter = object : androidx.viewpager.widget.PagerAdapter() {
         private var mCurrentPosition = -1
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -136,8 +136,8 @@ fun <T, U : ViewDataBinding> ViewPager.setWrapContentPageAdapter(@LayoutRes layo
     return adapter
 }
 
-fun <T, U : ViewDataBinding> ViewPager.setAutoWrapContentPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): PagerAdapter? {
-    adapter = object : PagerAdapter() {
+fun <T, U : ViewDataBinding> androidx.viewpager.widget.ViewPager.setAutoWrapContentPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): androidx.viewpager.widget.PagerAdapter? {
+    adapter = object : androidx.viewpager.widget.PagerAdapter() {
         private var mCurrentPosition = -1
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
@@ -189,8 +189,8 @@ fun <T, U : ViewDataBinding> ViewPager.setAutoWrapContentPageAdapter(@LayoutRes 
  * @param items data to be bound with layout.
  * @param onBind Is Unit function to override the  instantiateItem of PagerAdapter.
  * */
-fun <T, U : ViewDataBinding> CustomViewPager.setPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): PagerAdapter? {
-    adapter = object : PagerAdapter() {
+fun <T, U : ViewDataBinding> CustomViewPager.setPageAdapter(@LayoutRes layout: Int, items: ArrayList<T>, onBind: (binder: U, item: T) -> Unit): androidx.viewpager.widget.PagerAdapter? {
+    adapter = object : androidx.viewpager.widget.PagerAdapter() {
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
             val item: T = items[position]
@@ -225,13 +225,13 @@ fun <T, U : ViewDataBinding> CustomViewPager.setPageAdapter(@LayoutRes layout: I
  * @param fm Is fragment manager.
  * @param fragments is list of fragment to be show.
  * */
-fun ViewPager.setFragmentPagerAdapter(fm: FragmentManager, pages: ArrayList<Page>): FragmentPagerAdapter? {
-    adapter = object : FragmentPagerAdapter(fm) {
+fun androidx.viewpager.widget.ViewPager.setFragmentPagerAdapter(fm: androidx.fragment.app.FragmentManager, pages: ArrayList<Page>): androidx.fragment.app.FragmentPagerAdapter? {
+    adapter = object : androidx.fragment.app.FragmentPagerAdapter(fm) {
         override fun getItem(position: Int) = pages[position].page
         override fun getCount() = pages.size
         override fun getPageTitle(position: Int) = pages[position].title
     }
-    return adapter as FragmentPagerAdapter
+    return adapter as androidx.fragment.app.FragmentPagerAdapter
 }
 
-data class Page(var title: String, var page: Fragment)
+data class Page(var title: String, var page: androidx.fragment.app.Fragment)

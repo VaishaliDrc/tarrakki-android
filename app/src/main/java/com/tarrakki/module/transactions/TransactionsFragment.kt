@@ -2,9 +2,9 @@ package com.tarrakki.module.transactions
 
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import android.view.KeyEvent
 import android.view.MenuItem
 import com.tarrakki.R
@@ -59,7 +59,7 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
         mPager?.isNestedScrollingEnabled = false
         mPager?.offscreenPageLimit = 6
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
-        mPager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        mPager?.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
 
             }

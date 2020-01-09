@@ -1,6 +1,6 @@
 package com.tarrakki.module.register
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.text.TextPaint
 import android.text.style.ClickableSpan

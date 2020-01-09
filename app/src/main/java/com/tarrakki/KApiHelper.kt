@@ -1,7 +1,7 @@
 package com.tarrakki
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.provider.Settings
 import com.google.gson.JsonObject
 import com.tarrakki.api.*

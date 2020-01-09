@@ -1,6 +1,6 @@
 package com.tarrakki.module.bankmandate
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import com.tarrakki.api.model.BankDetail
 import org.supportcompact.FragmentViewModel
 

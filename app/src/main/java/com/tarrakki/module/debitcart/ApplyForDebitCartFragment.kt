@@ -2,7 +2,7 @@ package com.tarrakki.module.debitcart
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.FolioData
@@ -78,7 +78,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 
         btnApply?.setOnClickListener {
             if (isValid()) {
-                getViewModel().applyForDebitCart().observe(this, android.arch.lifecycle.Observer {
+                getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
                     it?.let { apiResponse ->
                         context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
                             onBack(2)

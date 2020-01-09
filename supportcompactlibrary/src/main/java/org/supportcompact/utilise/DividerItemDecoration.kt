@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 
-class DividerItemDecoration : RecyclerView.ItemDecoration {
+class DividerItemDecoration : androidx.recyclerview.widget.RecyclerView.ItemDecoration {
 
     private var divider: Drawable? = null
 
@@ -28,7 +28,7 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
         divider = ContextCompat.getDrawable(context, resId)
     }
 
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDraw(c: Canvas, parent: androidx.recyclerview.widget.RecyclerView, state: androidx.recyclerview.widget.RecyclerView.State) {
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
 
@@ -36,7 +36,7 @@ class DividerItemDecoration : RecyclerView.ItemDecoration {
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
 
-            val params = child.layoutParams as RecyclerView.LayoutParams
+            val params = child.layoutParams as androidx.recyclerview.widget.RecyclerView.LayoutParams
 
             val top = child.bottom + params.bottomMargin
             val bottom = top + divider!!.intrinsicHeight

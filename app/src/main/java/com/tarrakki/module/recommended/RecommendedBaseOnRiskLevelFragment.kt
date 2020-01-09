@@ -1,7 +1,7 @@
 package com.tarrakki.module.recommended
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData

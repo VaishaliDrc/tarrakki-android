@@ -1,9 +1,9 @@
 package com.tarrakki.module.ekyc
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.text.TextUtils
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R

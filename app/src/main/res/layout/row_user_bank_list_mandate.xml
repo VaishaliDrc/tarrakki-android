@@ -22,7 +22,7 @@
             type="android.view.View.OnClickListener" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/default_space"
@@ -156,7 +156,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvIFSCCodeLabel"
             tools:text="ICIC00000457" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -229,6 +229,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/mDivider2" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

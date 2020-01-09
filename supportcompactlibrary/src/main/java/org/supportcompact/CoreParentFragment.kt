@@ -1,14 +1,14 @@
 package org.supportcompact
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.IntRange
-import android.support.annotation.LayoutRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.annotation.IntRange
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ import org.supportcompact.ktx.checkPermissionRationale
 import org.supportcompact.ktx.checkSelfPermissions
 import org.supportcompact.ktx.requestAllPermissions
 
-abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> : Fragment() {
+abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> : androidx.fragment.app.Fragment() {
 
     private lateinit var vm: VM
     private lateinit var binding: DB
@@ -96,12 +96,12 @@ abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> 
         activity?.onBackPressed()
     }
 
-    protected fun onBackExclusive(fragment: Class<out Fragment>) {
+    protected fun onBackExclusive(fragment: Class<out androidx.fragment.app.Fragment>) {
         activity?.supportFragmentManager?.popBackStackImmediate(fragment.name, 0)
     }
 
-    protected fun onBackInclusive(fragment: Class<out Fragment>) {
-        activity?.supportFragmentManager?.popBackStackImmediate(fragment.name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    protected fun onBackInclusive(fragment: Class<out androidx.fragment.app.Fragment>) {
+        activity?.supportFragmentManager?.popBackStackImmediate(fragment.name, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {

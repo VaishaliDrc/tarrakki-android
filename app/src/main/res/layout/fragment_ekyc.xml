@@ -10,7 +10,7 @@
             type="com.tarrakki.module.ekyc.EKYCVM" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".module.ekyc.EKYCFragment">
@@ -68,5 +68,5 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_marginTop="@dimen/default_space" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

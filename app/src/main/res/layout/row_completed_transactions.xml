@@ -14,7 +14,7 @@
             type="com.tarrakki.api.model.TransactionApiResponse.Transaction" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/space_16"
@@ -42,7 +42,7 @@
             tools:layout_constraintEnd_toStartOf="@id/tvAmount"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvTypeL"
             tools:text="Lumpsum" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlCenter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvNAVL"
             tools:text="27.50" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gdlEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -290,15 +290,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvState">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactionStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_16"
                 android:nestedScrollingEnabled="false"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </net.cachapa.expandablelayout.ExpandableLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

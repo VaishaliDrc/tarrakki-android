@@ -3,9 +3,9 @@ package org.supportcompact.ktx
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import org.supportcompact.CoreApp
 
 /**
@@ -40,15 +40,15 @@ fun Activity.requestAllPermissions(permissions: ArrayList<out String>, requestCo
     ActivityCompat.requestPermissions(this, permissions.toTypedArray(), requestCode)
 }
 
-fun Fragment.checkSelfPermissions(permissions: ArrayList<String>): Boolean {
+fun androidx.fragment.app.Fragment.checkSelfPermissions(permissions: ArrayList<String>): Boolean {
     return permissions.none { ContextCompat.checkSelfPermission(CoreApp.getInstance(), it) != PackageManager.PERMISSION_GRANTED }
 }
 
-fun Fragment.requestAllPermissions(permissions: ArrayList<out String>, requestCode: Int) {
+fun androidx.fragment.app.Fragment.requestAllPermissions(permissions: ArrayList<out String>, requestCode: Int) {
     requestPermissions(permissions.toTypedArray(), requestCode)
 }
 
-fun Fragment.checkPermissionRationale(permissions: Array<out String>): Boolean {
+fun androidx.fragment.app.Fragment.checkPermissionRationale(permissions: Array<out String>): Boolean {
     var result = true
     for (permission in permissions) {
         if (!shouldShowRequestPermissionRationale(permission)) {

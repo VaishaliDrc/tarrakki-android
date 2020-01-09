@@ -145,7 +145,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black" />
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_32sdp"
                     android:layout_marginTop="@dimen/space_4"
@@ -197,7 +197,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageView
                     android:id="@+id/ivUploadPic"

@@ -1,7 +1,7 @@
 package com.tarrakki.module.portfolio
 
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.widget.TableLayout
 import com.google.gson.JsonObject

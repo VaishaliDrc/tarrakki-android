@@ -12,7 +12,7 @@
             type="com.tarrakki.module.transactionConfirm.TransactionConfirmVM" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -35,7 +35,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/space_8">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/view2"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
@@ -55,7 +55,7 @@
                         android:src="@{vm.isFailed?@drawable/ic_faild:@drawable/ic_successful}"
                         tools:src="@drawable/ic_successful" />
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,14 +111,14 @@
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvOrderItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/space_16"
                 android:layout_marginEnd="@dimen/space_16"
                 android:nestedScrollingEnabled="false"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <Button
                 android:id="@+id/btnExploreAllFunds"
@@ -147,6 +147,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

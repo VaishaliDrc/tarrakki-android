@@ -1,5 +1,5 @@
 package org.supportcompact
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 open class FragmentViewModel : ViewModel()

@@ -1,10 +1,10 @@
 package com.tarrakki.module.redeem
 
 
-import android.arch.lifecycle.Observer
-import android.databinding.Observable
+import androidx.lifecycle.Observer
+import androidx.databinding.Observable
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.alertStopPortfolio

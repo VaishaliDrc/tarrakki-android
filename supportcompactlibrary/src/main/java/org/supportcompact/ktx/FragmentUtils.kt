@@ -1,12 +1,12 @@
 package org.supportcompact.ktx
 
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 
 
-fun AppCompatActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
+fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, @IdRes container: Int) {
     val fm = supportFragmentManager
     val transaction = fm?.beginTransaction()
     try {
@@ -18,7 +18,7 @@ fun AppCompatActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     }
 }
 
-fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment, requestCode: Int, @IdRes container: Int) {
+fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, targetFragment: androidx.fragment.app.Fragment, requestCode: Int, @IdRes container: Int) {
     fragment.setTargetFragment(targetFragment, requestCode)
     val fm = supportFragmentManager
     val transaction = fm?.beginTransaction()
@@ -31,7 +31,7 @@ fun AppCompatActivity.startFragment(fragment: Fragment, targetFragment: Fragment
     }
 }
 
-fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
+fun androidx.fragment.app.Fragment.startFragment(fragment: androidx.fragment.app.Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
     val transaction = fm?.beginTransaction()
     try {
@@ -43,7 +43,7 @@ fun Fragment.startFragment(fragment: Fragment, @IdRes container: Int) {
     }
 }
 
-fun FragmentActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
+fun androidx.fragment.app.FragmentActivity.startFragment(fragment: androidx.fragment.app.Fragment, @IdRes container: Int) {
     val fm = this.supportFragmentManager
     val transaction = fm?.beginTransaction()
     try {
@@ -55,7 +55,7 @@ fun FragmentActivity.startFragment(fragment: Fragment, @IdRes container: Int) {
     }
 }
 
-fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container: Int) {
+fun androidx.fragment.app.Fragment.startFragmentWithoutBackStack(fragment: androidx.fragment.app.Fragment, @IdRes container: Int) {
     val fm = activity?.supportFragmentManager
     val transaction = fm?.beginTransaction()
     try {
@@ -67,7 +67,7 @@ fun Fragment.startFragmentWithoutBackStack(fragment: Fragment, @IdRes container:
     }
 }
 
-fun AppCompatActivity.startFragment(fragment: Fragment, backStrackFlag: Boolean, @IdRes container: Int) {
+fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, backStrackFlag: Boolean, @IdRes container: Int) {
     val fm = supportFragmentManager
     if (backStrackFlag) {
         val transaction = fm?.beginTransaction()

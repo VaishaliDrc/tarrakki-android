@@ -1,6 +1,6 @@
 package com.tarrakki.module.exploreallinvestfunds
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.tarrakki.App

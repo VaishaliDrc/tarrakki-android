@@ -48,7 +48,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                 getViewModel().thirdlevel.get()?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
                         investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                                android.arch.lifecycle.Observer { response ->
+                                androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 1)
                                         putString("sip", amountSIP.toString())
@@ -66,7 +66,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                 category?.thirdLevelCategory?.get(0)?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
                         investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                                android.arch.lifecycle.Observer { response ->
+                                androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 2)
                                         putString("sip", amountSIP.toString())
@@ -147,7 +147,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             binder.btnSelect.setOnClickListener {
                 context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
                     investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
-                            android.arch.lifecycle.Observer { response ->
+                            androidx.lifecycle.Observer { response ->
                                 val bundle = Bundle().apply {
                                     putInt("isFrom", 1)
                                     putString("sip", amountSIP.toString())

@@ -2,18 +2,18 @@ package org.supportcompact.utilise
 
 import android.content.Context
 import android.graphics.Rect
-import android.support.annotation.DimenRes
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.DimenRes
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
 
 
 class EqualSpacingItemDecoration(private val spacing: Int, private var displayMode: Int = -1)
-    : RecyclerView.ItemDecoration() {
+    : androidx.recyclerview.widget.RecyclerView.ItemDecoration() {
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
-                                state: RecyclerView.State) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: androidx.recyclerview.widget.RecyclerView,
+                                state: androidx.recyclerview.widget.RecyclerView.State) {
         val position = parent.getChildViewHolder(view).adapterPosition
         val itemCount = state.itemCount
         val layoutManager = parent.layoutManager
@@ -21,7 +21,7 @@ class EqualSpacingItemDecoration(private val spacing: Int, private var displayMo
     }
 
     private fun setSpacingForDirection(outRect: Rect,
-                                       layoutManager: RecyclerView.LayoutManager,
+                                       layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager,
                                        position: Int,
                                        itemCount: Int) {
         if (displayMode == -1) {
@@ -41,7 +41,7 @@ class EqualSpacingItemDecoration(private val spacing: Int, private var displayMo
                 outRect.top = spacing
                 outRect.bottom = if (position == itemCount - 1) spacing else 0
             }
-            GRID -> if (layoutManager is GridLayoutManager) {
+            GRID -> if (layoutManager is androidx.recyclerview.widget.GridLayoutManager) {
                 val cols = layoutManager.spanCount
                 val rows = itemCount / cols + 1
                 outRect.left = spacing
@@ -52,8 +52,8 @@ class EqualSpacingItemDecoration(private val spacing: Int, private var displayMo
         }
     }
 
-    private fun resolveDisplayMode(layoutManager: RecyclerView.LayoutManager): Int {
-        if (layoutManager is GridLayoutManager) return GRID
+    private fun resolveDisplayMode(layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager): Int {
+        if (layoutManager is androidx.recyclerview.widget.GridLayoutManager) return GRID
         return if (layoutManager.canScrollHorizontally()) HORIZONTAL else VERTICAL
     }
 

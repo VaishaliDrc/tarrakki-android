@@ -10,7 +10,7 @@
             type="com.tarrakki.module.account.AccountMenu" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/space_8"
@@ -42,5 +42,5 @@
             tools:text="@string/invite_your_friends" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

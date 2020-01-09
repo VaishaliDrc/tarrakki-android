@@ -21,7 +21,7 @@
         android:fillViewport="true"
         tools:context=".module.recommended.RecommendedFragment">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -104,7 +104,7 @@
                 tools:text="For 5 Years" />
 
 
-            <android.support.constraint.Guideline
+            <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineVCenter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,12 +165,12 @@
                     android:layout_height="2dp"
                     android:background="@color/bg_color" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvAMCList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:dividerV="@{@drawable/shape_amc_list_divider}"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/row_amc_list_item" />
 
@@ -190,6 +190,6 @@
             </LinearLayout>
 
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
