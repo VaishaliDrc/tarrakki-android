@@ -1,9 +1,8 @@
 package com.tarrakki.module.home
 
-import androidx.lifecycle.MutableLiveData
-import androidx.databinding.ObservableField
-import android.os.Handler
 import android.view.View
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
@@ -27,6 +26,7 @@ class HomeVM : FragmentViewModel() {
     var portfolioDetails = ObservableField<HomeData.Data.PortfolioDetails>()
     var isAskedForSecurityLock = false
     var isShowingSecurityDialog = false
+    val redirectToInvestmentStratergy = MutableLiveData<String>()
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()

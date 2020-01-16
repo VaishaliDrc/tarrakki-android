@@ -1,6 +1,7 @@
 package com.tarrakki.module.home
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
@@ -13,6 +14,7 @@ import io.branch.referral.BranchError
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.events.Event
+import org.supportcompact.events.EventData
 import org.supportcompact.ktx.cartCount
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.e
@@ -56,7 +58,8 @@ class HomeActivity : BaseActivity() {
         super.onStart()
         // Branch init
         try {
-            Branch.getInstance().initSession(BranchListener, intent.data, this)
+            val branch = Branch.getInstance(applicationContext)
+            branch.initSession(branchReferralInitListener)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -69,25 +72,34 @@ class HomeActivity : BaseActivity() {
                 it.popBackStack()
             }
         }
-        //Branch reinit ( in case Activity is already in foreground when Branch link is clicked)
-        Branch.getInstance().reInitSession(this, BranchListener)
+        this.intent = intent
     }
 
-    object BranchListener : Branch.BranchReferralInitListener {
+    private val branchReferralInitListener = object : Branch.BranchReferralInitListener {
         override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
             if (error == null) {
                 referringParams?.let { e("BRANCH SDK", it) }
-                if (referringParams?.optString("\$canonical_url")?.contains("tarrakki_zyaada") == true) {
+                if (referringParams?.optString("~referring_link")?.contains("tarrakki_zyaada") == true) {
                     EventBus.getDefault().post(Event.OPEN_TARRAKKI_ZYAADA)
-                } else if (referringParams?.optString("my_cart")?.contains("my_cart") == true) {
-                    EventBus.getDefault().post(Event.OPEN_MY_CART)
+                } else if (referringParams?.optString("~referring_link")?.contains("investment_strategy?id=") == true) {
+                    try {
+                        val uri = Uri.parse(referringParams.optString("~referring_link"))
+                        uri?.let {
+                            EventBus.getDefault().post(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+                /*if(referringParams?.optBoolean("+clicked_branch_link") == true){
+                }*/
                 // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user
                 // Check '+clicked_branch_link' before deciding whether to use your Branch routing logic
             } else {
                 e("BRANCH SDK", error.message)
             }
         }
+
     }
 
 }

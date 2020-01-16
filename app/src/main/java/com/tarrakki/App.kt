@@ -22,6 +22,7 @@ class App : CoreApp() {
     var needToLoadTransactionScreen = -1
     var openChat: Pair<Boolean, String>? = null
     lateinit var firebaseAnalytics: FirebaseAnalytics
+    var isInit = false
 
     override fun onCreate() {
         super.onCreate()
@@ -30,11 +31,11 @@ class App : CoreApp() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         cartCount.value = 0
 
-        // Branch logging for debugging
-        if (BuildConfig.DEBUG) {
-            Branch.enableDebugMode()
-        }
-        // Branch object initialization
+        // This is needed to deferred deep link from an Android Instant App to a full app
+        // It tells the Branch initialization to wait for the Google Play Referrer before proceeding.
+        //Branch.setPlayStoreReferrerCheckTimeout(1000L)
+
+        // Initialize the Branch SDK
         Branch.getAutoInstance(this)
     }
 

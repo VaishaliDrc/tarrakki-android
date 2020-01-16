@@ -40,22 +40,34 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".module.home.HomeActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <!-- Branch URI Scheme -->
             <intent-filter>
+
                 <data
                     android:host="open"
                     android:scheme="tarrakki" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
             </intent-filter>
+
+            <!-- Branch App Links (optional) -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="tarrakki.app.link" />
+                <!-- example-alternate domain is required for App Links when the Journeys/Web SDK and Deepviews are used inside your website.  -->
+                <data android:scheme="https" android:host="tarrakki-alternate.app.link" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".module.plan.PlanActivity"
@@ -183,7 +195,7 @@
             android:value="false" />     <!-- Set to true to use Branch_Test_Key (useful when simulating installs and/or switching between debug and production flavors) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
         <!-- Branch install referrer tracking (optional) -->
         <receiver
             android:name="io.branch.referral.InstallListener"

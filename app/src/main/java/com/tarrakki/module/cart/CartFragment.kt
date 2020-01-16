@@ -110,12 +110,11 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
     override fun onEvent(event: EventData) {
         when (event.event) {
             Event.REDIRECT_TO_BANK_MANDATE -> {
-                val intent = Intent(requireContext(), AccountActivity::class.java)
-                intent.putExtra(OPEN_BANK_MANDATE, true)
-                startActivity(intent)
-                /*context?.simpleAlert("${event.message}") {
-
-                }*/
+                context?.simpleAlert("${event.message}") {
+                    val intent = Intent(requireContext(), AccountActivity::class.java)
+                    intent.putExtra(OPEN_BANK_MANDATE, true)
+                    startActivity(intent)
+                }
             }
             else -> super.onEvent(event)
         }

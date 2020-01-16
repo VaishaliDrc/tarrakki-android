@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.KYCRegistrationAFragment
 import com.tarrakki.module.ekyc.eventKYCDataLog
@@ -26,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.Event
+import org.supportcompact.events.EventData
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -95,7 +95,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
-
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                 binder.setVariable(BR.section, item)
                 binder.setVariable(BR.isHome, true)
@@ -117,6 +116,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 binder.executePendingBindings()
             }
             rvHomeItem.visibility = View.VISIBLE
+            getViewModel().redirectToInvestmentStratergy.value?.let {
+                getViewModel().redirectToInvestmentStratergy.value = it
+            }
         }
     }
 
@@ -138,6 +140,21 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 App.INSTANCE.widgetsViewModel.value = null
             }
         })
+
+        getViewModel().redirectToInvestmentStratergy.observe(this, Observer {
+            it?.let { id ->
+                val result = getViewModel().homeSections
+                        .filterIsInstance<HomeSection>()
+                        .firstOrNull { it.title != "Set a Goal" }?.homeItems
+                        ?.filterIsInstance<HomeData.Data.Category.SecondLevelCategory>()
+                        ?.firstOrNull { "${it.id}" == "$id" }
+                result?.let { item ->
+                    activity?.onInvestmentStrategies(item)
+                    getViewModel().redirectToInvestmentStratergy.value = null
+                }
+            }
+        })
+
         //edtPanNo?.applyPAN()
         btnCheck?.setOnClickListener {
             if (edtPanNo.length() == 0) {
@@ -270,12 +287,17 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             Event.OPEN_TARRAKKI_ZYAADA -> {
                 clTarrakkiZyaada?.performClick()
             }
+            else -> super.onEvent(event)
+        }
+    }
+
+    override fun onEvent(event: EventData) {
+        when (event.event) {
             Event.OPEN_MY_CART -> {
-                startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                getViewModel().redirectToInvestmentStratergy.value = event.message
             }
             else -> super.onEvent(event)
         }
-
     }
 
     companion object {
