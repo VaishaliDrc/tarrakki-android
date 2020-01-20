@@ -33,6 +33,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:redirectToFundDetails="@{investment.fundId}"
             tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
         <androidx.appcompat.widget.LinearLayoutCompat

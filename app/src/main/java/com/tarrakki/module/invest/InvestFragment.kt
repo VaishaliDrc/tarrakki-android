@@ -1,17 +1,17 @@
 package com.tarrakki.module.invest
 
 
-import androidx.lifecycle.Observer
-import androidx.databinding.Observable
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.databinding.Observable
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.InvestmentFunds

@@ -277,6 +277,8 @@ fun EditText.applyCurrencyInfiniteDecimalFormatPositiveOnly() {
 //val formatter = NumberFormat.getIntegerInstance(Locale("en", "in"))
 val formatter = DecimalFormat("##,##,##,##,##,##,##,##0")
 val dFormatter = DecimalFormat("##,##,##,##,##,##,##,###.##")
+val dFormatterCharges = DecimalFormat("##,##,##,##,##,##,##,###.#####")
+
 val dFormatterWithoutRoundOff = DecimalFormat("##,##,##,##,##,##,##,###.##").apply {
     roundingMode = RoundingMode.FLOOR
 }
@@ -316,6 +318,8 @@ fun Double.toCurrencyWithSpace() = "\u20B9 ".plus(formatter.format(Math.round(th
 fun Double.toReturn(): String = dFormatter.format(this)
 
 fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")
+
+fun Double.toCharges() = dFormatterCharges.format(this).plus("%")
 
 fun parseToPercentageOrNA(num: String?): String {
     return try {

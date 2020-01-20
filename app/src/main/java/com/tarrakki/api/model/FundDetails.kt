@@ -346,9 +346,9 @@ data class FundsDetails(
                             }
                         }
                         if (intMinDays != 0) {
-                            result.append("${data.value.toReturnAsPercentage()} if redeemed between $minDays to $maxDays days")
+                            result.append("${data.value.toCharges()} if redeemed between $minDays to $maxDays days")
                         } else {
-                            result.append("${data.value.toReturnAsPercentage()} if redeemed within $maxDays days")
+                            result.append("${data.value.toCharges()} if redeemed within $maxDays days")
                         }
 
                         val exitLoadData = deferLoads.filter { it.value > 0 }

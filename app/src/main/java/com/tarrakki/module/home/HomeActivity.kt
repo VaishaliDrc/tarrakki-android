@@ -11,7 +11,6 @@ import com.tarrakki.*
 import com.tarrakki.module.cart.CartFragment
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
-import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.events.Event
 import org.supportcompact.events.EventData
@@ -80,12 +79,14 @@ class HomeActivity : BaseActivity() {
             if (error == null) {
                 referringParams?.let { e("BRANCH SDK", it) }
                 if (referringParams?.optString("~referring_link")?.contains("tarrakki_zyaada") == true) {
-                    EventBus.getDefault().post(Event.OPEN_TARRAKKI_ZYAADA)
+                    //EventBus.getDefault().post(Event.OPEN_TARRAKKI_ZYAADA)
+                    postSticky(Event.OPEN_TARRAKKI_ZYAADA)
                 } else if (referringParams?.optString("~referring_link")?.contains("investment_strategy?id=") == true) {
                     try {
                         val uri = Uri.parse(referringParams.optString("~referring_link"))
                         uri?.let {
-                            EventBus.getDefault().post(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
+                            //EventBus.getDefault().post(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
+                            postSticky(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

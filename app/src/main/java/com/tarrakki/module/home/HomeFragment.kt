@@ -22,6 +22,7 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.events.Event
@@ -282,19 +283,23 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         })
     }
 
+    @Subscribe(sticky = true)
     override fun onEvent(event: Event) {
         when (event) {
             Event.OPEN_TARRAKKI_ZYAADA -> {
                 clTarrakkiZyaada?.performClick()
+                removeStickyEvent(event)
             }
             else -> super.onEvent(event)
         }
     }
 
+    @Subscribe(sticky = true)
     override fun onEvent(event: EventData) {
         when (event.event) {
             Event.OPEN_MY_CART -> {
                 getViewModel().redirectToInvestmentStratergy.value = event.message
+                removeStickyEvent(event)
             }
             else -> super.onEvent(event)
         }

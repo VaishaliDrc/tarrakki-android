@@ -12,6 +12,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.text.*
@@ -41,6 +42,8 @@ import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -63,6 +66,17 @@ const val IS_FROM_INTRO = "is_from_Intro"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 const val IS_FROM_COMLETE_REGISTRATION = "is_from_complete_registration"
 
+@BindingAdapter("redirectToFundDetails")
+fun openFundDetails(txt: TextView, fundId: Int?) {
+    txt.setOnClickListener {
+        val mContext: Context? = txt.context
+        if (mContext is androidx.fragment.app.FragmentActivity) {
+            mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                putString(ITEM_ID, "${fundId}")
+            }), R.id.frmContainer)
+        }
+    }
+}
 
 @BindingAdapter(value = ["setAdapterH", "isHome"], requireAll = false)
 fun setAdapterH(view: androidx.recyclerview.widget.RecyclerView, homeItems: ArrayList<WidgetsViewModel>?, isHome: Boolean) {
@@ -834,9 +848,9 @@ fun Context.investmentStragiesDialog(
 
         val lumpsumAmount = mBinder.edtLumpsum.text.toString().toCurrencyBigInt()
         val sipAmount = mBinder.edtSIPAmount.text.toString().toCurrencyBigInt()
-        if (this.isInvestDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000),sipAmount, lumpsumAmount)) {
+        if (this.isInvestDialogValid(BigInteger.valueOf(500), BigInteger.valueOf(5000), sipAmount, lumpsumAmount)) {
             mDialog.dismiss()
-            onInvest?.invoke(thirdLevelCategory, lumpsumAmount,sipAmount)
+            onInvest?.invoke(thirdLevelCategory, lumpsumAmount, sipAmount)
         }
         /*
           if (lumpsumAmount == BigInteger.ZERO && sipAmount == BigInteger.ZERO) {
@@ -1008,14 +1022,14 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 }
 
 fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData>,
-                                                                                     onRedeem: ((portfolioNo: String,
-                                                        folioId: String,
-                                                        allRedeem: String,
-                                                        units: String) -> Unit)? = null,
-                                                                                     onInstaRedeem: ((portfolioNo: String,
-                                                             folioId: String,
-                                                             amount: String,
-                                                             allRedeem: String) -> Unit)? = null) {
+                                                                  onRedeem: ((portfolioNo: String,
+                                                                              folioId: String,
+                                                                              allRedeem: String,
+                                                                              units: String) -> Unit)? = null,
+                                                                  onInstaRedeem: ((portfolioNo: String,
+                                                                                   folioId: String,
+                                                                                   amount: String,
+                                                                                   allRedeem: String) -> Unit)? = null) {
     context?.let { mContext ->
 
         val mBinder = DialogRedeemTarrakkiZyaadaBinding.inflate(LayoutInflater.from(mContext))
