@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1044643224192:android:d3fa7c37efd7abe2",
+        "mobilesdk_app_id": "1:1044643224192:android:95e84ca53f0ef5ffcf2465",
         "android_client_info": {
-          "package_name": "com.tarrakki"
+          "package_name": "com.plutonomic.ruralinvest"
         }
       },
       "oauth_client": [
@@ -21,14 +21,66 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDM_POzBOHtgJmwhHrcGxqPDwv1Tg07AqY"
+          "current_key": "AIzaSyC3JwdDo-B64bGiu1n0IEccDon4aJsG88w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1044643224192-13nsptlc7cj78on861hvreg3eu6knisg.apps.googleusercontent.com",
+              "client_id": "1044643224192-i3phq149rm2suslfhs9ha331ns83v3v2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1044643224192-5lu8uukb6d5vc8ju2d41q7isneoo34n3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.plutonomic.tarrakki"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044643224192:android:d3fa7c37efd7abe2",
+        "android_client_info": {
+          "package_name": "com.tarrakki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044643224192-47uc20a35vat0l143jomkmn23cqtdokp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tarrakki",
+            "certificate_hash": "0a824941566607c01933d9580181a6e0169944a6"
+          }
+        },
+        {
+          "client_id": "1044643224192-6qdevkrolejfuomg41rofmsntr343bb7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tarrakki",
+            "certificate_hash": "a521481ecc2c9f524adf623a0922e718106cd121"
+          }
+        },
+        {
+          "client_id": "1044643224192-13nsptlc7cj78on861hvreg3eu6knisg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3JwdDo-B64bGiu1n0IEccDon4aJsG88w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044643224192-i3phq149rm2suslfhs9ha331ns83v3v2.apps.googleusercontent.com",
               "client_type": 3
             },
             {

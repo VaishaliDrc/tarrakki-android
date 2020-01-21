@@ -31,7 +31,7 @@ android {
     }
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled MINIFY_ENABLE
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -74,7 +74,27 @@ android {
         abortOnError false
     }
 
-
+    flavorDimensions 'Tarrakki'
+    productFlavors {
+        TarrakkiApp {
+            dimension = 'Tarrakki'
+            applicationId = APPLICATION_ID
+            resValue "string", "app_name", "Tarrakki"
+            manifestPlaceholders = [
+                    appIcon       : "@mipmap/ic_launcher",
+                    appIconRounded: "@mipmap/ic_launcher_round"
+            ]
+        }
+        RuralInvest {
+            dimension = 'Tarrakki'
+            applicationId = "com.plutonomic.ruralinvest"
+            resValue "string", "app_name", "Rural Invest"
+            manifestPlaceholders = [
+                    appIcon       : "@mipmap/ic_launcher_rural_invest",
+                    appIconRounded: "@mipmap/ic_launcher_round_rural_invest"
+            ]
+        }
+    }
 
 }
 
