@@ -34,7 +34,7 @@ import org.supportcompact.ktx.toCurrency
 
 const val OPEN_BANK_MANDATE = "open_bank_mandate"
 
-fun String.isTarrakki() = BuildConfig.FLAVOR == "TarrakkiApp"
+fun String.isTarrakki() = this == "TarrakkiApp"
 
 fun getRiskLevelVisibility(riskType: String?): Int {
     return when {

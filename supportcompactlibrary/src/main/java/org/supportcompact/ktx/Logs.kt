@@ -7,7 +7,7 @@ import android.util.Base64
 import android.util.Log
 import java.security.MessageDigest
 
-const val BUILD_TYPE_DEBUG = false
+const val BUILD_TYPE_DEBUG = true
 
 fun Any.e(e: Any) = if (BUILD_TYPE_DEBUG) Log.e(this.javaClass.name, "$e") else null
 

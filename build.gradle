@@ -21,6 +21,10 @@ buildscript {
 
 project.ext {
 
+    IV = '0123456789012345'
+    AppKey = 'S1D$F#q76S458G9h6u5DF7pk5T7Lpart'
+
+    APPLICATION_RURAL_ID = "com.plutonomic.ruralinvest"
     APPLICATION_ID = "com.tarrakki"
     BUILD_TOOLS_VERSION = "28.0.3"
 

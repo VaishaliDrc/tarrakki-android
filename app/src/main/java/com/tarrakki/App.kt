@@ -22,7 +22,6 @@ class App : CoreApp() {
     var needToLoadTransactionScreen = -1
     var openChat: Pair<Boolean, String>? = null
     lateinit var firebaseAnalytics: FirebaseAnalytics
-    var isInit = false
 
     override fun onCreate() {
         super.onCreate()

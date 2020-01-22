@@ -2,6 +2,7 @@ package com.tarrakki.api
 
 import android.util.Base64
 import com.tarrakki.App
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import java.nio.charset.StandardCharsets
 import java.security.InvalidAlgorithmParameterException
@@ -55,7 +56,6 @@ object AES {
      *@return Dencrypted data in string form
      */
     fun decrypt(cipherText: String): String {
-
         val keyStart = App.INSTANCE.getString(R.string.key).toByteArray(StandardCharsets.UTF_8)
         val key = SecretKeySpec(keyStart, "AES")
 
