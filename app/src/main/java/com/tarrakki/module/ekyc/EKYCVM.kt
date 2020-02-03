@@ -1,10 +1,10 @@
 package com.tarrakki.module.ekyc
 
-import androidx.lifecycle.MutableLiveData
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import android.os.Bundle
 import android.util.Log.e
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BR
@@ -202,6 +202,7 @@ data class KYCData(var pan: String) : BaseObservable() {
 
     var kycMode: String = ""
     var inPersonVerification: String = ""
+    var bobCirtificate: String = ""
 
     constructor(pan: String, email: String, mobile: String) : this(pan) {
         this.email = email

@@ -1,5 +1,6 @@
 package org.supportcompact.ktx
 
+import android.app.Activity
 import android.content.Context
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
@@ -90,6 +91,7 @@ fun Context.appForceUpdate(title: String, msg: String, btnTitle: String, positiv
 }
 
 fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
+    if ((this as Activity).isFinishing) return
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
     mDialog.setCancelable(false)
@@ -134,6 +136,7 @@ fun Context.confirmationDialog(title: String, msg: String, btnPositiveClick: (()
 }
 
 fun Context.confirmationDialog(title: String, msg: String, btnPositive: String, btnNegative: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
+    if ((this as Activity).isFinishing) return
     val mDialog = PrettyDialog(this)
     mDialog.setCanceledOnTouchOutside(false)
     mDialog.setCancelable(false)

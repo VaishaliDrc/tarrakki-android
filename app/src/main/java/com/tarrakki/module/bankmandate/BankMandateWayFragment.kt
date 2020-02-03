@@ -81,7 +81,7 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
                                             putBoolean(ISIPMANDATE, false)
                                         }
                                         startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
-                                        data?.let { it1 -> postSticky(it1) }
+                                        data?.let { it1 -> repostSticky(it1) }
                                     }
                                 })
                                 break

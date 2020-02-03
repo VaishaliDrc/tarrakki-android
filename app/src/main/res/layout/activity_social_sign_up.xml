@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -25,10 +26,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_50"
                 android:adjustViewBounds="true"
-                android:src="@drawable/ic_login"
+                android:src="@{vm.tarrakki?@drawable/ic_login:@drawable/logo_rural}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_login" />
 
             <TextView
                 android:id="@+id/tvLoginLbl"
@@ -88,6 +90,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edtEmail" />
 
+            <EditText
+                android:id="@+id/edtPromocode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_32"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/space_32"
+                android:background="@drawable/shape_edt_white_round"
+                android:hint="@string/promo_code"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="@dimen/default_space"
+                android:paddingTop="@dimen/space_8"
+                android:paddingEnd="@dimen/default_space"
+                android:paddingBottom="@dimen/space_8"
+                android:text="@={vm.promocode}"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edtMobile" />
+
             <CheckBox
                 android:id="@+id/cbTermsConditions"
                 android:layout_width="wrap_content"
@@ -100,8 +124,8 @@
                 android:padding="@dimen/space_8"
                 android:text="@string/i_agree_with_terms_and_conditions"
                 android:textColor="@color/white"
-                app:layout_constraintStart_toStartOf="@+id/edtMobile"
-                app:layout_constraintTop_toBottomOf="@id/edtMobile" />
+                app:layout_constraintStart_toStartOf="@+id/edtPromocode"
+                app:layout_constraintTop_toBottomOf="@id/edtPromocode" />
 
             <Button
                 android:id="@+id/btnSignUp"

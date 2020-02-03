@@ -1,4 +1,4 @@
-package com.tarrakki.module.verifybankaccount
+package com.tarrakki.module.birth_certificate
 
 
 import android.Manifest
@@ -8,69 +8,50 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.text.TextUtils
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.google.gson.Gson
 import com.tarrakki.R
-import com.tarrakki.api.model.UserBanksResponse
-import com.tarrakki.databinding.FragmentVerifyBankAccountBinding
+import com.tarrakki.databinding.FragmentUploadDobcertiBinding
 import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.ucrop.UCrop
-import kotlinx.android.synthetic.main.fragment_verify_bank_account.*
+import kotlinx.android.synthetic.main.fragment_upload_dobcerti.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.takePick
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
-import org.supportcompact.utilise.ResourceUtils
 import java.io.File
+
 
 /**
  * A simple [Fragment] subclass.
- * Use the [VerifyBankAccountFragment.newInstance] factory method to
+ * Use the [UploadDOBCertiFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
-class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVerifyBankAccountBinding>() {
+class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobcertiBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.add_bank_account)
-    private var doc_Id = ""
-    var userBankData: UserBanksResponse? = null
-    var bankId: String? = ""
+        get() = "Birth Certificate"
 
     override fun getLayout(): Int {
-        return R.layout.fragment_verify_bank_account
+        return R.layout.fragment_upload_dobcerti
     }
 
-    override fun createViewModel(): Class<out VerifyBankAccountVM> {
-        return VerifyBankAccountVM::class.java
+    override fun createViewModel(): Class<out UploadDOBCertiVM> {
+        return UploadDOBCertiVM::class.java
     }
 
-    override fun setVM(binding: FragmentVerifyBankAccountBinding) {
+    override fun setVM(binding: FragmentUploadDobcertiBinding) {
         binding.vm = getViewModel()
         binding.executePendingBindings()
     }
 
     override fun createReference() {
-        arguments?.let {
-            if (!userBankData?.data?.bankDetail?.verificationDocument?.toString().equals("")) {
-                coreActivityVM?.title?.set(ResourceUtils.getString(R.string.update_bank_account))
-                icPreviewDoc.visibility = View.VISIBLE
-                getViewModel().uploadImage.set(userBankData?.data?.bankDetail?.verificationDocument)
-            }
-        }
-
-        lluploadStatement.setOnClickListener {
+        llUploadDOBC?.setOnClickListener {
             context?.takePick(
                     onGallery = {
                         openGallery()
@@ -79,54 +60,34 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                         openCamera()
                     }
             )
-
         }
-
-        llUploadCheck.setOnClickListener {
-            context?.takePick(
-                    onGallery = {
-                        openGallery()
-                    },
-                    onCamera = {
-                        openCamera()
-                    }
-            )
-
-        }
-
-        btnAdd?.setOnClickListener {
-            if (getViewModel()?.uploadUri?.get().toString()?.equals("") && TextUtils.isEmpty(userBankData?.data?.bankDetail?.verificationDocument)) {
-                context?.simpleAlert(getString(R.string.alert_verify_bank_account))
-            } else {
-                userBankData?.let { userBankData ->
-                    if (getViewModel().uploadUri.get().isNullOrBlank()) {
-                        getViewModel().updateBankDetails(userBankData, bankId!!).observe(this, Observer {
-                            context?.simpleAlert(getString(R.string.account_will_activate_within)) {
-                                onBack(2)
-                                coreActivityVM?.onNewBank?.value = true
-                            }
-
-                        })
-                    } else {
-                        getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
-                            context?.simpleAlert(getString(R.string.account_will_activate_within)) {
-                                onBack(2)
-                                coreActivityVM?.onNewBank?.value = true
-                            }
-
-                        })
-                    }
-                }
+        btnNext?.setOnClickListener {
+            if (getViewModel().uploadUri.isEmpty()) {
+                context?.simpleAlert("Please upload birth certificate to farther proceed")
+                return@setOnClickListener
             }
-
+            targetFragment?.onActivityResult(targetRequestCode, Activity.RESULT_OK, Intent().apply {
+                putExtra("img", getViewModel().uploadUri.get())
+            })
+            onBack()
         }
+    }
+
+    private fun startCrop(@NonNull uri: Uri) {
+        var destinationFileName = "IMG_" + System.currentTimeMillis()
+        destinationFileName += ".jpeg"
+        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
+        uCrop.withAspectRatio(3f, 2f)
+        //uCrop.withMaxResultSize(800, 366)
+        context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
+        uCrop.start(context!!, this)
     }
 
     private fun openCamera() {
         val permissions = arrayListOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
         requestPermissionsIfRequired(permissions, object : PermissionCallBack {
             override fun permissionGranted() {
-                ImageChooserUtil.startCameraIntent(this@VerifyBankAccountFragment,
+                ImageChooserUtil.startCameraIntent(this@UploadDOBCertiFragment,
                         getViewModel().cvPhotoName, getViewModel().ICAMERA_RQ_CODE)
             }
 
@@ -224,9 +185,8 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                 UCrop.REQUEST_CROP -> {
                     if (data != null && icPreviewDoc != null) {
                         val imageUri = UCrop.getOutput(data)
-                        getViewModel()?.uploadUri.set(imageUri.toString())
+                        getViewModel().uploadUri.set(imageUri?.let { getPath(it) })
                         icPreviewDoc.visibility = View.VISIBLE
-
                         val requestOptions = RequestOptions()
                         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE)
                         requestOptions.skipMemoryCache(true)
@@ -240,27 +200,15 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
         }
     }
 
-    private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = "IMG_" + System.currentTimeMillis()
-        destinationFileName += ".jpeg"
-        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
-        uCrop.withAspectRatio(3f, 2f)
-        //uCrop.withMaxResultSize(800, 366)
-        context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
-        uCrop.start(context!!, this)
-    }
-
-
     companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @return A new instance of fragment UploadDOBCertiFragment.
+         */
         @JvmStatic
-        fun newInstance(basket: Bundle? = null) = VerifyBankAccountFragment().apply {
-            arguments = basket
-            if (basket != null && basket.size() > 0) {
-                userBankData = Gson().fromJson<UserBanksResponse>(basket.getString("userBankData"), UserBanksResponse::class.java)
-                bankId = basket.getString("bankId")
-            }
-
-        }
-
+        fun newInstance(basket: Bundle? = null) = UploadDOBCertiFragment().apply { arguments = basket }
     }
+
 }

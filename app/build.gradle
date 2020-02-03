@@ -45,7 +45,7 @@ android {
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            def appName = "Tarrakki"
+            def appName = variant.flavorName/*"Tarrakki"*/
             def SEP = "_"
             def date = new Date()
             def formattedDate = date.format('dd_MMM_yyyy')

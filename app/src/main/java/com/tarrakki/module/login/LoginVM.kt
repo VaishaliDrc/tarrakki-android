@@ -1,10 +1,9 @@
 package com.tarrakki.module.login
 
-import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
-import com.tarrakki.App
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.LoginResponse
@@ -27,13 +26,15 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
     val socialEmail = ObservableField("")
     val socialFName = ObservableField("")
     val socialLName = ObservableField("")
-
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
 
     fun doLogin(): MutableLiveData<LoginResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JsonObject()
         json.addProperty("username", "${userName.get()}")
         json.addProperty("password", "${password.get()}")
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+
         e("Plain Data=>", json.toString())
         val authData = AES.encrypt(json.toString())
         e("Encrypted Data=>", authData)
@@ -56,6 +57,8 @@ class LoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> 
         json.addProperty("email", "${socialEmail.get()}".toLowerCase().trim())
         json.addProperty("access_token", socialId.get())
         json.addProperty("social_auth", loginWith)
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+
         e("Plain Data=>", json.toString())
         val authData = AES.encrypt(json.toString())
         e("Encrypted Data=>", authData)

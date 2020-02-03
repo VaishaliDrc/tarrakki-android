@@ -4,12 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.isTarrakki
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
@@ -20,6 +22,7 @@ import kotlin.concurrent.thread
 
 class ForgotPasswordVM : ActivityViewModel() {
 
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
     val email = ObservableField("")
     fun forgotPassword(): MutableLiveData<ForgotPasswordEmailResponse> {
         val json = JsonObject()

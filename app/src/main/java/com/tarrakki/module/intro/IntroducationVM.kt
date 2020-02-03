@@ -2,10 +2,14 @@ package com.tarrakki.module.intro
 
 import androidx.databinding.BaseObservable
 import androidx.annotation.DrawableRes
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
+import com.tarrakki.isTarrakki
 import org.supportcompact.ActivityViewModel
 
 class IntroducationVM : ActivityViewModel() {
+
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
 
     fun getIntroductionList() : ArrayList<Introduction>{
         val introductionList = arrayListOf<Introduction>()

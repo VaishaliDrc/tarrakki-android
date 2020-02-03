@@ -747,5 +747,10 @@
     <string name="alert_account_not_verified">You can not create a bank mandate until your bank details are verified.</string>
     <string name="account_will_activate_within">Your bank account verification is in process and your account will be active within 48 hours</string>
     <string name="temp_restricted_by_amc">Temporarily Restricted by AMC</string>
+    <string name="promo_code">Promo Code</string>
+    <string name="upload_birth_certificate">Upload Birth Certificate</string>
+    <string name="please_upload_a_clear_picture_of_the_birth_certificate">Please upload a clear picture of the birth certificate</string>
+    <string name="as_per_minor_on_boarding_requirements_we_need_to_upload_the_birth_certificate_of_the_minor">As per minor on-boarding requirements, we need to upload the birth certificate of the minor.</string>
+    <string name="birth_certificate">Birth Certificate</string>
 
 </resources>

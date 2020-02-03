@@ -16,6 +16,7 @@ import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.IS_FROM_ACCOUNT
 import com.tarrakki.R
+import com.tarrakki.api.ApiClient
 import com.tarrakki.databinding.ActivityLoginBinding
 import com.tarrakki.fcm.onLoginEventFire
 import com.tarrakki.module.forgotpassword.ForgotPasswordActivity
@@ -100,6 +101,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
 
         getViewModel().onLogin.observe(this, Observer { loginResponse ->
             loginResponse?.let {
+                ApiClient.clear()
                 loginResponse.token?.let { it1 -> setLoginToken(it1) }
                 loginResponse.userId?.let { it1 ->
                     setUserId(it1)

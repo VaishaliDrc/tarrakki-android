@@ -1,10 +1,9 @@
 package com.tarrakki.module.register
 
-import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
-import com.tarrakki.App
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.printResponse
@@ -22,12 +21,16 @@ class RegisterVM : ActivityViewModel() {
     val mobile = ObservableField("")
     val password = ObservableField("")
     val confirmPassword = ObservableField("")
+    val promocode = ObservableField("")
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
 
     fun getSignUpData(): JsonObject {
         val json = JsonObject()
         json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("mobile", "${mobile.get()}")
         json.addProperty("password", "${password.get()}")
+        json.addProperty("promocode", (promocode.get() ?: "").trim())
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
         return json
     }
 
@@ -70,6 +73,8 @@ class RegisterVM : ActivityViewModel() {
         json.addProperty("mobile", mobile)
         json.addProperty("email", "$email".toLowerCase().trim())
         json.addProperty("type", type)
+        json.addProperty("promocode", (promocode.get() ?: "").trim())
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())
         e("Encrypted Data=>", data)

@@ -23,7 +23,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/default_space"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_login" />
+            android:src="@{vm.tarrakki?@drawable/ic_login:@drawable/logo_rural}"
+            tools:src="@drawable/ic_login" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

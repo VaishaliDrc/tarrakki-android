@@ -4,9 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import com.tarrakki.api.*
 import com.tarrakki.api.model.*
+import com.tarrakki.isTarrakki
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.ActivityViewModel
@@ -27,6 +29,7 @@ class OptVerificationsVM : ActivityViewModel(), SingleCallback<WebserviceBuilder
     val getOTP = MutableLiveData<ApiResponse>()
     var isEmailValidate = false
     private val verifyOTP = MutableLiveData<Boolean>()
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
 
     fun getDataOTP(originalData: String?): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)

@@ -170,12 +170,12 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
 
     override fun onResume() {
         super.onResume()
-        when {
-            this@BaseActivity is HomeActivity -> mBottomNav.selectedItemId = R.id.action_home
-            this@BaseActivity is PlanActivity -> mBottomNav.selectedItemId = R.id.action_plan
-            this@BaseActivity is InvestActivity -> mBottomNav.selectedItemId = R.id.action_invest
-            this@BaseActivity is LearnActivity -> mBottomNav.selectedItemId = R.id.action_learn
-            this@BaseActivity is AccountActivity -> mBottomNav.selectedItemId = R.id.action_account
+        when (this@BaseActivity) {
+            is HomeActivity -> mBottomNav.selectedItemId = R.id.action_home
+            is PlanActivity -> mBottomNav.selectedItemId = R.id.action_plan
+            is InvestActivity -> mBottomNav.selectedItemId = R.id.action_invest
+            is LearnActivity -> mBottomNav.selectedItemId = R.id.action_learn
+            is AccountActivity -> mBottomNav.selectedItemId = R.id.action_account
         }
     }
 

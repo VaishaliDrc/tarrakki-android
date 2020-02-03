@@ -1,12 +1,15 @@
 package com.tarrakki.module.register
 
-import androidx.lifecycle.Observer
 import android.content.Intent
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.lifecycle.Observer
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivitySocialSignUpBinding
+import com.tarrakki.getOrganizationCode
+import com.tarrakki.isTarrakki
 import com.tarrakki.module.otp.OtpVerificationActivity
 import com.tarrakki.module.webviewActivity.CMSPagesActivity
 import kotlinx.android.synthetic.main.activity_social_sign_up.*
@@ -85,6 +88,8 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
                             it.put("email", "${getViewModel().email.get()}".toLowerCase().trim())
                         }
                         it.put("mobile", getViewModel().mobile.get())
+                        it.put("promocode", getViewModel().promocode.get())
+                        it.put("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
                         getViewModel().socialSignUp(it).observe(this, Observer {
                             it?.let { it1 ->
                                 val intent = Intent(this, OtpVerificationActivity::class.java)

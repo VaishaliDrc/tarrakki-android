@@ -176,7 +176,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                             putString(MANDATE_ID, "${item.mandateId}")
                         }
                         startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
-                        postSticky(item.bankDetails)
+                        repostSticky(item.bankDetails)
                     }
 
                     binder?.executePendingBindings()

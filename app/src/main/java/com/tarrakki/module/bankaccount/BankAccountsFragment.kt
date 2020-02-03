@@ -3,17 +3,17 @@ package com.tarrakki.module.bankaccount
 
 import android.Manifest
 import android.app.Activity
-import androidx.lifecycle.Observer
 import android.content.Intent
-import androidx.databinding.ViewDataBinding
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.NonNull
 import android.view.View
+import androidx.annotation.NonNull
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.tarrakki.*
 import com.tarrakki.api.model.BankDetail
@@ -21,6 +21,7 @@ import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.home.HomeActivity
@@ -36,6 +37,8 @@ import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
+
+const val DOB_CERTIFICATE_REQ_CODE = 121
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
 
@@ -118,6 +121,12 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     binder.setVariable(BR.onNext, View.OnClickListener {
                         if (noBanks) {
                             context?.simpleAlert(getString(R.string.alert_add_bank_complete_registration))
+                            return@OnClickListener
+                        }
+                        if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true) {
+                            val f = UploadDOBCertiFragment.newInstance()
+                            f.setTargetFragment(this, DOB_CERTIFICATE_REQ_CODE)
+                            startFragment(f, R.id.frmContainer)
                             return@OnClickListener
                         }
                         context?.signatureDialog(
@@ -288,6 +297,9 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
+                DOB_CERTIFICATE_REQ_CODE -> {
+                    getViewModel().kycData.value?.bobCirtificate = data?.getStringExtra("img") ?: ""
+                }
                 getViewModel().ICAMERA_RQ_CODE -> {
                     val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
                     startCrop(Uri.fromFile(file))

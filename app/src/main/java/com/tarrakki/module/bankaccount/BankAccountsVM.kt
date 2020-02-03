@@ -1,7 +1,7 @@
 package com.tarrakki.module.bankaccount
 
-import androidx.lifecycle.MutableLiveData
 import androidx.annotation.StringRes
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -111,6 +111,7 @@ class BankAccountsVM : FragmentViewModel() {
                 return@thread
             }*/
             val json = JsonObject()
+            var dobCertificate: MultipartBody.Part? = null
             json.addProperty("pan_name", kycData.nameOfPANHolder)
             if (kycData.guardianName.isEmpty()) {
                 json.addProperty("pan_number", kycData.pan)
@@ -118,6 +119,11 @@ class BankAccountsVM : FragmentViewModel() {
                 json.addProperty("guardian_pan", "")
                 json.addProperty("date_of_birth", kycData.dob/*.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy")*/)
             } else {
+                try {
+                    dobCertificate = File(kycData.bobCirtificate).toMultipartBody("birth_certificate")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 json.addProperty("guardian_name", kycData.guardianName)
                 json.addProperty("guardian_pan", kycData.pan)
                 json.addProperty("date_of_birth", kycData.guardianDOB/*.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy")*/)
@@ -153,7 +159,10 @@ class BankAccountsVM : FragmentViewModel() {
             e("Encrypted Data=>", data)
             val dataRequest = RequestBody.create(MediaType.parse("text/plain"), data)
             subscribeToSingle(
-                    observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).completeRegistration(dataRequest, multipartBody),
+                    observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).completeRegistration(
+                            dataRequest,
+                            multipartBody,
+                            dobCertificate),
                     apiNames = WebserviceBuilder.ApiNames.complateRegistration,
                     singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                         override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
