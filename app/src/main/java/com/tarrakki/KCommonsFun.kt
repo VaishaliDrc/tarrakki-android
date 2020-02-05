@@ -179,6 +179,7 @@ fun Context?.onLogout() {
     this?.let {
         it.clearUserData()
         ApiClient.clear()
+        EventBus.getDefault().removeAllStickyEvents()
         startActivity(Intent(it, LoginActivity::class.java))
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
     }

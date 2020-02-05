@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_32sdp"
                 android:adjustViewBounds="true"
-                tools:src="@drawable/ic_login"
+                tools:src="@drawable/logo_rural"
                 android:src="@{vm.tarrakki?@drawable/ic_login:@drawable/logo_rural}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

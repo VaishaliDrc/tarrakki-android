@@ -123,10 +123,11 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                             context?.simpleAlert(getString(R.string.alert_add_bank_complete_registration))
                             return@OnClickListener
                         }
-                        if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true) {
-                            val f = UploadDOBCertiFragment.newInstance()
-                            f.setTargetFragment(this, DOB_CERTIFICATE_REQ_CODE)
-                            startFragment(f, R.id.frmContainer)
+                        if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true/* && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true*/) {
+//                            val f = UploadDOBCertiFragment.newInstance()
+//                            f.setTargetFragment(this, DOB_CERTIFICATE_REQ_CODE)
+                            getViewModel().kycData.value?.bobCirtificate = ""
+                            startFragment(UploadDOBCertiFragment.newInstance(), R.id.frmContainer)
                             return@OnClickListener
                         }
                         context?.signatureDialog(
@@ -297,9 +298,9 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                DOB_CERTIFICATE_REQ_CODE -> {
+                /*DOB_CERTIFICATE_REQ_CODE -> {
                     getViewModel().kycData.value?.bobCirtificate = data?.getStringExtra("img") ?: ""
-                }
+                }*/
                 getViewModel().ICAMERA_RQ_CODE -> {
                     val file = ImageChooserUtil.getCameraImageFile(getViewModel().cvPhotoName)
                     startCrop(Uri.fromFile(file))
@@ -320,7 +321,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
                             val path = getPath(it)
-
                             path?.let { filePath ->
                                 getViewModel().kycData.value?.let { kycData ->
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->

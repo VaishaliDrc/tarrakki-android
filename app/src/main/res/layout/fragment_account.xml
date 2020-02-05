@@ -361,7 +361,8 @@
                 android:layout_marginStart="@dimen/default_space"
                 android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
-                android:text="V.0.1.5" />
+                android:text="@{vm.appVersion}"
+                tools:text="V.0.1.5" />
 
         </LinearLayout>
 

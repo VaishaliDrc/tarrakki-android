@@ -1,11 +1,12 @@
 package com.tarrakki.module.account
 
-import androidx.lifecycle.MutableLiveData
+import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
-import androidx.annotation.DrawableRes
-import android.view.View
+import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
+import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.SingleCallback
@@ -25,6 +26,7 @@ class AccountVM : FragmentViewModel() {
     val bankVisibility = ObservableField(View.VISIBLE)
     val btnComleteRegion = ObservableField(false)
     var isAppLockClick = false
+    val appVersion = ObservableField("V ${BuildConfig.VERSION_NAME}")
 
     init {
         appLock.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

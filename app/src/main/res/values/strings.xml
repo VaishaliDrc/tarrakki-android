@@ -752,5 +752,6 @@
     <string name="please_upload_a_clear_picture_of_the_birth_certificate">Please upload a clear picture of the birth certificate</string>
     <string name="as_per_minor_on_boarding_requirements_we_need_to_upload_the_birth_certificate_of_the_minor">As per minor on-boarding requirements, we need to upload the birth certificate of the minor.</string>
     <string name="birth_certificate">Birth Certificate</string>
+    <string name="pls_upload_diob_certificate">Please upload birth certificate to farther proceed</string>
 
 </resources>
