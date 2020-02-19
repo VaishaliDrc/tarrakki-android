@@ -9,9 +9,9 @@ import com.tarrakki.R
 import com.tarrakki.isTarrakki
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.intro.IntroductionActivity
+import io.sentry.Sentry
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.supportcompact.ktx.isLogin
-import org.supportcompact.ktx.printHasKey
 import org.supportcompact.ktx.startActivity
 
 class SplashActivity : AppCompatActivity() {
@@ -20,7 +20,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         clMain?.setBackgroundResource(if (BuildConfig.FLAVOR.isTarrakki()) R.drawable.splash else R.drawable.splash_rural)
-        printHasKey()
+//        printHasKey()
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
         Handler().postDelayed({
             /* if (isFirsttimeInstalled()) {
@@ -37,5 +37,6 @@ class SplashActivity : AppCompatActivity() {
             //  }
             finish()
         }, 2500)
+
     }
 }

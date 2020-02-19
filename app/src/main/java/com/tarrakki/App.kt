@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.HomeData
 import io.branch.referral.Branch
+import io.sentry.Sentry
+import io.sentry.android.AndroidSentryClientFactory
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import java.io.File
@@ -36,6 +38,9 @@ class App : CoreApp() {
 
         // Initialize the Branch SDK
         Branch.getAutoInstance(this)
+
+//        Sentry Tracking
+        Sentry.init("https://e33bb6ed55444fc69342ecfe5f38c2ed@sentry.drcsystems.com/13", AndroidSentryClientFactory(this))
     }
 
     companion object {

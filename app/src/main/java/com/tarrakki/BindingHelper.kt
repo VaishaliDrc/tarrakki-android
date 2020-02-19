@@ -1382,6 +1382,9 @@ fun String.toYearWord(): String {
     }
 }
 
+fun BigInteger.toNonZeroValue() = if (this == BigInteger.ZERO) BigInteger.ONE else this
+
+
 fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                                 minLumsumpAmount: BigInteger,
                                 sipAmount: BigInteger,
@@ -1395,10 +1398,11 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         return false
     }
     val lumpsumAmountMultipler = if (bseData?.isAdditional == true) App.piMinimumSubsequentMultiple else App.piMinimumInitialMultiple
+
     if (lumpsumAmount != BigInteger.ZERO) {
         val amountRange = bseData?.lumpsumList?.filter { "Y".equals(it.lumpsumAllowed, true) }
         if ("Y".equals(bseData?.lumpsumAllowed, true) && bseData?.lumpsumCheckFlag == true && amountRange?.isNotEmpty() == true) {
-            if (lumpsumAmount % lumpsumAmountMultipler == BigInteger.ZERO) {
+            if (lumpsumAmount % lumpsumAmountMultipler.toNonZeroValue() == BigInteger.ZERO) {
                 val minLumpsum = if (bseData.isAdditional == true) {
                     amountRange.minBy {
                         it.lumpsumAdditionalMinAmount ?: BigInteger.ZERO
@@ -1430,7 +1434,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                 return false
             }
         } else {
-            if (lumpsumAmount % lumpsumAmountMultipler == BigInteger.ZERO) {
+            if (lumpsumAmount % lumpsumAmountMultipler.toNonZeroValue() == BigInteger.ZERO) {
                 if (lumpsumAmount < minLumsumpAmount) {
                     this.simpleAlert(alertLumpsumMin(minLumsumpAmount.toDouble().toCurrency()))
                     return false
@@ -1447,7 +1451,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
         val amountRange = bseData?.sipList?.filter { "Y".equals(it.sipAllowed, true) }
         if ("Y".equals(bseData?.sipAllowed, true) && bseData?.sipCheckFlag == true && amountRange?.isNotEmpty() == true) {
 
-            if (sipAmount % App.additionalSIPMultiplier == BigInteger.ZERO) {
+            if (sipAmount % App.additionalSIPMultiplier.toNonZeroValue() == BigInteger.ZERO) {
                 val minSip = amountRange.minBy { it.minAmount ?: BigInteger.ZERO }?.minAmount /*if (bseData.isAdditional == true) {
                     amountRange.minBy {
                         it.sipAdditionalMinAmount ?: BigInteger.ZERO
@@ -1479,7 +1483,7 @@ fun Context.isInvestDialogValid(minSIPAmount: BigInteger,
                 return false
             }
 
-        } else if (sipAmount % App.additionalSIPMultiplier == BigInteger.ZERO) {
+        } else if (sipAmount % App.additionalSIPMultiplier.toNonZeroValue() == BigInteger.ZERO) {
             if (sipAmount < minSIPAmount) {
                 this.simpleAlert(alertSIPMin(minSIPAmount.toDouble().toCurrency()))
                 return false

@@ -161,6 +161,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-appindexing:19.0.0' // App indexing
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
 
+//    Sentry Traking
+    implementation 'io.sentry:sentry-android:1.7.27'
+    implementation 'org.slf4j:slf4j-nop:1.7.25'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
