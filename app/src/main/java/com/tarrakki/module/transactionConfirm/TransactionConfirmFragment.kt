@@ -248,8 +248,8 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 onBackPress()
                 return true

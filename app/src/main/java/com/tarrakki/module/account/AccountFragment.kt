@@ -3,13 +3,15 @@ package com.tarrakki.module.account
 
 import android.Manifest
 import android.app.KeyguardManager
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import androidx.core.app.ShareCompat
 import android.view.View
+import androidx.core.app.ShareCompat
+import androidx.databinding.ViewDataBinding
+import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
@@ -27,6 +29,8 @@ import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
@@ -57,7 +61,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
         getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
         getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
-        ivReadyToInvest?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+        rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
         if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
@@ -71,6 +75,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     }
 
     override fun createReference() {
+
+        rvDocStatus?.setUpMultiViewRecyclerAdapter(getViewModel().docStatus) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
+            binder.setVariable(BR.item, item)
+            binder.executePendingBindings()
+        }
 
         rvMenus?.setUpRecyclerView(R.layout.row_account_menu_item, getViewModel().accountMenus) { item: AccountMenu, binder: RowAccountMenuItemBinding, position ->
             binder.menu = item
@@ -267,7 +276,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     override fun onEvent(event: Event) {
         super.onEvent(event)
         if (event == Event.REFRESH) {
-            ivReadyToInvest?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+            rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
         }
     }
 

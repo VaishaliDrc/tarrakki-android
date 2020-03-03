@@ -24,9 +24,11 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentUploadDobcertiBinding
 import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.home.HomeFragment
 import com.tarrakki.signatureDialog
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_upload_dobcerti.*
@@ -270,6 +272,19 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
                             val path = getPath(it)
                             path?.let { filePath ->
                                 getViewModel().kycData.value?.let { kycData ->
+                                    if (kycData.isVideoKYC) {
+                                        getViewModel().saveRemainingData(File(filePath), kycData).observe(this, Observer { apiRes ->
+                                            context?.simpleAlert(getString(R.string.complete_registration_msg)) {
+                                                removeStickyEvent(kycData)
+                                                if (activity is HomeActivity) {
+                                                    onBackExclusive(HomeFragment::class.java)
+                                                } else {
+                                                    onBackExclusive(AccountFragment::class.java)
+                                                }
+                                            }
+                                        })
+                                        return@let
+                                    }
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
                                             //{"data": {"ready_to_invest": false}}*#$*

@@ -4,21 +4,18 @@ package com.tarrakki.module.ekyc
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.tarrakki.R
-import com.tarrakki.databinding.FragmentEkycBinding
-import kotlinx.android.synthetic.main.fragment_ekyc.*
+import com.tarrakki.databinding.FragmentEkycconfirmationBinding
+import kotlinx.android.synthetic.main.fragment_ekycconfirmation.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.startFragment
 
-
 /**
  * A simple [Fragment] subclass.
- * Use the [EKYCFragment.newInstance] factory method to
+ * Use the [EKYCConfirmationFragment.newInstance] factory method to
  * create an instance of this fragment.
- *
  */
-class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
-
+class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycconfirmationBinding>() {
 
     override val isBackEnabled: Boolean
         get() = true
@@ -26,28 +23,31 @@ class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
         get() = getString(R.string.e_kyc)
 
     override fun getLayout(): Int {
-        return R.layout.fragment_ekyc
+        return R.layout.fragment_ekycconfirmation
     }
 
-    override fun createViewModel(): Class<out EKYCVM> {
-        return EKYCVM::class.java
+    override fun createViewModel(): Class<out EKYCConfirmationVM> {
+        return EKYCConfirmationVM::class.java
     }
 
-    override fun setVM(binding: FragmentEkycBinding) {
+    override fun setVM(binding: FragmentEkycconfirmationBinding) {
         binding.vm = getViewModel()
         binding.executePendingBindings()
     }
 
     override fun createReference() {
-        btnContinue?.setOnClickListener {
-            getViewModel().kycData?.let { kycData ->
-                startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
-                postSticky(kycData)
+
+        btnYes?.setOnClickListener {
+            startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
+            getViewModel().kycData?.let { data ->
+                postSticky(data)
             }
         }
-        ivEKYC?.setImageDrawable(context?.getDrawable(R.drawable.ekyc))
-    }
 
+        btnNo?.setOnClickListener {
+            onBack()
+        }
+    }
 
     @Subscribe(sticky = true)
     fun onReceive(kycData: KYCData) {
@@ -62,10 +62,10 @@ class EKYCFragment : CoreFragment<EKYCVM, FragmentEkycBinding>() {
          * this fragment using the provided parameters.
          *
          * @param basket As Bundle.
-         * @return A new instance of fragment EKYCFragment.
+         * @return A new instance of fragment EKYCConfirmationFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(basket: Bundle? = null) = EKYCFragment().apply { arguments = Bundle().apply { arguments = basket } }
+        fun newInstance(basket: Bundle? = null) = EKYCConfirmationFragment().apply { arguments = basket }
     }
+
 }

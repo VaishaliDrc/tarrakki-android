@@ -155,8 +155,8 @@ class MySipFragment : CoreFragment<MySipVM, FragmentMySipBinding>() {
 
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
 //                if (mPager.currentItem == 4) {
 //                    getViewModel().onBack.value = true

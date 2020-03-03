@@ -5,23 +5,23 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
-import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.NonNull
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.webkit.*
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycWebViewBinding
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_ekyc_web_view.*
 import org.greenrobot.eventbus.Subscribe
-import org.jsoup.Jsoup
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
@@ -145,7 +145,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
             }
         }
 
-        mWebView.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { html ->
+        /*mWebView.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { html ->
             // code here
             if (needToRedirect) {
                 try {
@@ -160,11 +160,32 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     e.printStackTrace()
                 }
             }
-        }
+        }*/
+
+        requireActivity().onBackPressedDispatcher.addCallback(this@EKYCWebViewFragment, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (mWebView.canGoBack()) {
+                    mWebView.goBack()
+                } else {
+                    context?.confirmationDialog(getString(R.string.are_you_sure_you_want_to_exit),
+                            btnPositiveClick = {
+                                onBack(2)
+                            }
+                    )
+                }
+            }
+        })
+
+        /*if (binding.webView.canGoBack()) {
+            binding.webView.goBack()
+            return
+        }*/
 
         getViewModel().kycData.observe(this, Observer { it ->
             it?.let {
-                getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
+                mWebView?.loadUrl(it.mobileAutoLoginUrl)
+                //mWebView?.loadData(it.mobileAutoLoginUrl, "text/html", "UTF-8")
+                /*getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
                     apiResponse?.let { eKYCPage ->
                         val permissions = arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA)
                         requestPermissionsIfRequired(permissions, object : PermissionCallBack {
@@ -206,7 +227,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                             }
                         })
                     }
-                })
+                })*/
             }
         })
     }

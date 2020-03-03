@@ -16,6 +16,7 @@ import com.tarrakki.api.model.printResponse
 import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
+import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 
@@ -27,8 +28,15 @@ class AccountVM : FragmentViewModel() {
     val btnComleteRegion = ObservableField(false)
     var isAppLockClick = false
     val appVersion = ObservableField("V ${BuildConfig.VERSION_NAME}")
+    val docStatus = arrayListOf<WidgetsViewModel>()
+    val readyToInvest = object : WidgetsViewModel {
+        override fun layoutId(): Int {
+            return R.layout.row_ready_to_invest
+        }
+    }
 
     init {
+        docStatus.add(readyToInvest)
         appLock.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 appLock.get()?.let {
@@ -99,3 +107,12 @@ class AccountVM : FragmentViewModel() {
 }
 
 data class AccountMenu(var title: String, @DrawableRes var imgRes: Int)
+data class VideoKYCStatus(val status: Int = 0) : WidgetsViewModel {
+    override fun layoutId(): Int {
+        return when (status) {
+            -1 -> R.layout.row_video_kyc_status_rejected
+            0 -> R.layout.row_video_kyc_status_pending
+            else -> R.layout.row_video_kyc_status_incomplete
+        }
+    }
+}

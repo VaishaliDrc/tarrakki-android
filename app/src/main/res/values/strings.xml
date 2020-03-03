@@ -690,6 +690,7 @@
         \n\n
         Those who redeemed or stopped their investments because of market dips, simply missed the bus.
     </string>
+
     <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
     <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Nippon AMC\'s Website</a></i></string>
@@ -753,5 +754,10 @@
     <string name="as_per_minor_on_boarding_requirements_we_need_to_upload_the_birth_certificate_of_the_minor">As per minor on-boarding requirements, we need to upload the birth certificate of the minor.</string>
     <string name="birth_certificate">Birth Certificate</string>
     <string name="pls_upload_diob_certificate">Please upload birth certificate to farther proceed</string>
+    <string name="click_yes_and_complete_your_kyc_now">Click \'YES\' and complete your KYC now.</string>
+    <string name="video_kyc_details">
+        As per government guidelines, it is mandatory to complete your KYC(\'Know Your Customer\') in order to invest in Mutual Funds.
+        \n\n This is a one-time process. Once your KYC is complete, you will be able to invest any Mutual Fund of your choice in India.
+    </string>
 
 </resources>

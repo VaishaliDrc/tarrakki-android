@@ -397,8 +397,8 @@ class BankMandateFormFragment : CoreFragment<BankMandateFormVM, FragmentBankMand
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 onBankMandate()
                 return true

@@ -106,8 +106,8 @@ class BankMandateSuccessFragment : CoreFragment<BankMandateSuccessVM, FragmentBa
         fun newInstance(basket: Bundle? = null) = BankMandateSuccessFragment().apply { arguments = basket }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 onCheckStatus()
                 return true

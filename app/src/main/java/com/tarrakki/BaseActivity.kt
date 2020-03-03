@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.annotation.RequiresApi
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.view.MenuItem
 import android.view.View
 import com.tarrakki.databinding.ActivityBaseBinding

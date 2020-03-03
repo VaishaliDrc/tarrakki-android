@@ -10,9 +10,7 @@ import com.tarrakki.App
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.*
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.printResponse
-import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.FragmentViewModel
@@ -22,6 +20,7 @@ import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import java.util.regex.Pattern
+import kotlin.concurrent.thread
 
 const val KYCNOTVERIFIEDUSERS = "kycNotVerifiedUsers"
 const val USERSCOULDNOTREGISTER = "usersCouldNotRegister"
@@ -203,6 +202,8 @@ data class KYCData(var pan: String) : BaseObservable() {
     var kycMode: String = ""
     var inPersonVerification: String = ""
     var bobCirtificate: String = ""
+    var mobileAutoLoginUrl: String? = null
+    var isVideoKYC = false
 
     constructor(pan: String, email: String, mobile: String) : this(pan) {
         this.email = email
@@ -389,5 +390,30 @@ fun getKYCData(): MutableLiveData<KYCData> {
                 }
             }
     )
+    return apiResponse
+}
+
+fun apiApplyForNewKYC(): MutableLiveData<CreateKYCApiResponse> {
+    val apiResponse = MutableLiveData<CreateKYCApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).apiApplyNewKYC(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
+        override fun onSingleSuccess(o: ApiResponse) {
+            o.printResponse()
+            if (o.status?.code == 1) {
+                thread {
+                    val data = o.data?.parseTo<CreateKYCApiResponse>()
+                    apiResponse.postValue(data)
+                }
+            } else {
+                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+            }
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+        }
+
+        override fun onFailure(throwable: Throwable) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            throwable.postError()
+        }
+    })
     return apiResponse
 }

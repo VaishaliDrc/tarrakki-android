@@ -9,7 +9,6 @@ import com.tarrakki.R
 import com.tarrakki.isTarrakki
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.intro.IntroductionActivity
-import io.sentry.Sentry
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.supportcompact.ktx.isLogin
 import org.supportcompact.ktx.startActivity

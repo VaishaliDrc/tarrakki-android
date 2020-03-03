@@ -9,7 +9,7 @@ data class AppUpdateResponse(
 ) {
     data class Data(
             @SerializedName("force_update")
-            val forceUpdate: Boolean?,
+            var forceUpdate: Boolean?,
             @SerializedName("message")
             val message: String?,
             @SerializedName("version")

@@ -11,10 +11,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.ekyc.KYCData
-import com.tarrakki.module.ekyc.KYCRegistrationAFragment
-import com.tarrakki.module.ekyc.eventKYCDataLog
-import com.tarrakki.module.ekyc.isPANCard
+import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
@@ -171,7 +168,14 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        getEKYCData(password, kyc).observe(this, Observer { data ->
+                                        apiApplyForNewKYC().observe(this, Observer {
+                                            it?.let {
+                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                postSticky(kyc)
+                                            }
+                                        })
+                                        /*getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
                                                 context?.confirmationDialog(
                                                         title = getString(R.string.pls_select_your_tax_status),
@@ -191,7 +195,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                                         }
                                                 )
                                             }
-                                        })
+                                        })*/
                                     }
                                     kycStatus.contains("03") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))

@@ -195,7 +195,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater?.inflate(R.menu.delete_menu, menu)
         val mView = menu?.findItem(R.id.action_delete)?.actionView
         val tvDelete = mView?.findViewById<TextView>(R.id.tvDelete)

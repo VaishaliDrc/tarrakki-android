@@ -147,6 +147,14 @@ interface WebserviceBuilder {
                              @Part file: MultipartBody.Part,
                              @Part dobCertificate: MultipartBody.Part? = null): Observable<ApiResponse>
 
+    @Multipart
+    @POST("ekyc/remaining-fields/{userId}/")
+    fun saveRemainingData(
+            @Path("userId") userId: String?,
+            @Part("data") data: RequestBody,
+            @Part file: MultipartBody.Part,
+            @Part dobCertificate: MultipartBody.Part? = null): Observable<ApiResponse>
+
     @FormUrlEncoded
     @POST("banks/set-kyc-details/{userId}")
     fun saveKYCdata(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
@@ -289,6 +297,9 @@ interface WebserviceBuilder {
 
     @GET("banks/user-mandate/details/{mandateId}/")
     fun getISIPMandateData(@Path("mandateId") mandateId: String?): Observable<ApiResponse>
+
+    @GET("ekyc/create-investor/{userId}/")
+    fun apiApplyNewKYC(@Path("userId") userId: String?): Observable<ApiResponse>
 
     /**
      * ApiNames to differentiate APIs

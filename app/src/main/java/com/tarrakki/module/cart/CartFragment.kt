@@ -379,14 +379,14 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
         fun newInstance(basket: Bundle? = null) = CartFragment().apply { arguments = basket }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        menu?.findItem(R.id.itemHome)?.isVisible = false
-        inflater?.inflate(R.menu.cart_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.itemHome)?.isVisible = false
+        inflater.inflate(R.menu.cart_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 if (arguments?.getBoolean(ISFROMGOALRECOMMEDED, false) == true) {
                     onBack(2)

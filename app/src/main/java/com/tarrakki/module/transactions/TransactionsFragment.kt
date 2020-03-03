@@ -97,8 +97,8 @@ class TransactionsFragment : CoreFragment<TransactionsVM, FragmentTransactionskB
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 if (mPager.currentItem == 4) {
                     getViewModel().onBack.value = true

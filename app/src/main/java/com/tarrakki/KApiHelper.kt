@@ -689,6 +689,7 @@ fun checkAppUpdate(showProcess: Boolean = false): MutableLiveData<AppUpdateRespo
                     if (o.status?.code == 1) {
                         o.printResponse()
                         val apiClient = o.data?.parseTo<AppUpdateResponse>()
+                        apiClient?.data?.forceUpdate = false //TODO need to remove
                         apiResponse.postValue(apiClient)
                     }
                 }
