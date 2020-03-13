@@ -34,12 +34,12 @@ class App : CoreApp() {
 
         // This is needed to deferred deep link from an Android Instant App to a full app
         // It tells the Branch initialization to wait for the Google Play Referrer before proceeding.
-        //Branch.setPlayStoreReferrerCheckTimeout(1000L)
+        // Branch.setPlayStoreReferrerCheckTimeout(1000L)
 
         // Initialize the Branch SDK
         Branch.getAutoInstance(this)
 
-//        Sentry Tracking
+        //Sentry Tracking
         Sentry.init("https://e33bb6ed55444fc69342ecfe5f38c2ed@sentry.drcsystems.com/13", AndroidSentryClientFactory(this))
     }
 

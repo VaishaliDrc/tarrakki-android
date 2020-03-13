@@ -78,10 +78,10 @@ object ApiClient {
     /**
      * Test Url`
      **/
-   /* private const val BASE_URL = "http://172.10.24.51:8000/api/v2/" /// Latest url
+    /*private const val BASE_URL = "http://172.10.24.51:8000/api/v2/" /// Latest url
     const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest urls
-    const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/"
-*/
+    const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/"*/
+
     /***
      * Beta URL
      * */
@@ -108,10 +108,7 @@ object ApiClient {
     const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest url
     const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/" /// Latest url*/
 
-    /**
-     * Staging server for Rural Invest and Tarrakki App
-     * */
-    /*private const val BASE_URL = "http://13.235.141.219/api/v3/"
+   /* private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
     const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
 

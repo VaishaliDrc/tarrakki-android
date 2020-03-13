@@ -43,7 +43,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.e_kyc)
+        get() = getString(R.string.complete_registration)
 
     override fun getLayout(): Int {
         return R.layout.fragment_ekyc_web_view

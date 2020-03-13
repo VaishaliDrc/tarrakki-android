@@ -37,141 +37,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_semibold"
-                    android:text="@string/fatca_details"
+                    android:text="@string/income_information"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-               <!-- <TextView
-                    android:id="@+id/tvPAN"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginEnd="@dimen/space_4"
-                    android:text="@string/pan_name_"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFATCA" />
-
-                <EditText
-                    android:id="@+id/edtPAN"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:background="@drawable/shape_edt_disable_gray_round"
-                    android:enabled="@{vm.isEdit()}"
-                    android:hint="@string/enter_pan_name"
-                    android:inputType="textCapCharacters"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/default_space"
-                    android:paddingTop="@dimen/space_8"
-                    android:paddingEnd="@dimen/default_space"
-                    android:paddingBottom="@dimen/space_8"
-                    android:text="@{kycData.nameOfPANHolder}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvPAN" />-->
-
-
-                <!--<TextView
-                    android:id="@+id/tvOccupationTypel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/occupation_type"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@id/tvPAN"
-                    app:layout_constraintTop_toBottomOf="@id/tvFATCA" />
-
-                <TextView
-                    android:id="@+id/edtOccupationType"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="@dimen/space_4"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
-                    android:hint="@string/occupation_type"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/default_space"
-                    android:paddingTop="@dimen/space_8"
-                    android:paddingEnd="@dimen/default_space"
-                    android:paddingBottom="@dimen/space_8"
-                    android:text="@={vm.occupationType}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@id/edtPAN"
-                    app:layout_constraintTop_toBottomOf="@id/tvPAN" />-->
-
-                <TextView
-                    android:id="@+id/tvCountryL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/country_of_birth"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvFATCA" />
-
-                <TextView
-                    android:id="@+id/edtCountry"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
-                    android:hint="@string/enter_country_of_birth"
-                    android:paddingStart="@dimen/default_space"
-                    android:paddingTop="@dimen/space_8"
-                    android:paddingEnd="@dimen/default_space"
-                    android:paddingBottom="@dimen/space_8"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tvCountryL" />
-
-
-                <TextView
-                    android:id="@+id/tvCityL"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:text="@string/place_of_birth"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edtCountry" />
-
-                <EditText
-                    android:id="@+id/edtCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_4"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:hint="@string/enter_place_of_birth"
-                    android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    android:paddingStart="@dimen/default_space"
-                    android:paddingTop="@dimen/space_8"
-                    android:paddingEnd="@dimen/default_space"
-                    android:paddingBottom="@dimen/space_8"
-                    android:text="@={kycData.birthPlace}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@id/tvCityL" />
 
                 <TextView
                     android:id="@+id/tvSourceIncomeL"
@@ -180,16 +49,14 @@
                     android:layout_marginTop="@dimen/default_space"
                     android:layout_marginEnd="@dimen/space_4"
                     android:text="@string/source_of_income_"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintEnd_toStartOf="@id/tvIncomeSlabl"
-                    app:layout_constraintHorizontal_chainStyle="spread_inside"
-                    app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/edtCity" />
+                    app:layout_constraintTop_toBottomOf="@id/tvFATCA" />
 
                 <TextView
                     android:id="@+id/edtSourceIncome"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="32dp"
                     android:layout_marginTop="@dimen/space_4"
                     android:layout_marginEnd="@dimen/space_4"
@@ -206,23 +73,20 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
-                    app:layout_constraintEnd_toStartOf="@id/edtIncomeSlab"
-                    app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSourceIncomeL" />
 
                 <TextView
                     android:id="@+id/tvIncomeSlabl"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/space_4"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/income_slab_"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@id/tvSourceIncomeL"
-                    app:layout_constraintTop_toBottomOf="@id/edtCity" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/edtSourceIncome" />
 
                 <TextView
                     android:id="@+id/edtIncomeSlab"
@@ -244,8 +108,7 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintStart_toEndOf="@id/edtSourceIncome"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvIncomeSlabl" />
 
 
@@ -278,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/nominee_name_"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvNomineeDetailsl" />
@@ -309,6 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/default_space"
                     android:text="@string/relationship_"
+                    android:textColor="@color/black"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/edtNominee" />
