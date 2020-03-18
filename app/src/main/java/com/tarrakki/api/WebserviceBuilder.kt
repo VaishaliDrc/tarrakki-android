@@ -152,7 +152,7 @@ interface WebserviceBuilder {
     fun saveRemainingData(
             @Path("userId") userId: String?,
             @Part("data") data: RequestBody,
-            @Part file: MultipartBody.Part,
+            @Part file: MultipartBody.Part? = null,
             @Part dobCertificate: MultipartBody.Part? = null): Observable<ApiResponse>
 
     @FormUrlEncoded

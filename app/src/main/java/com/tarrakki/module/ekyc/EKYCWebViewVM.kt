@@ -1,16 +1,16 @@
 package com.tarrakki.module.ekyc
 
-import androidx.lifecycle.MutableLiveData
 import android.net.Uri
 import android.webkit.ValueCallback
+import androidx.lifecycle.MutableLiveData
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.subscribeToSingle
 
 class EKYCWebViewVM : FragmentViewModel() {
 
@@ -19,7 +19,9 @@ class EKYCWebViewVM : FragmentViewModel() {
     val IMAGE_RQ_CODE = 101
     val ICAMERA_RQ_CODE = 181
     val kycData = MutableLiveData<KYCData>()
-    val redirectUrl = "https://cdc.camsonline.com/GETMethod/GetMethod.aspx"
+
+    //val redirectUrl = "https://cdc.camsonline.com/GETMethod/GetMethod.aspx"
+    val redirectUrl = "http://13.235.141.219/signature/callback/"//ApiClient.IMAGE_BASE_URL + "/redirect/callback/"
 
     fun getEKYCPage(kycData: KYCData): MutableLiveData<String> {
         val apiResponse = MutableLiveData<String>()

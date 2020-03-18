@@ -54,7 +54,7 @@ class HomeVM : FragmentViewModel() {
                                 data?.data?.readyToInvest?.let { it1 -> App.INSTANCE.setReadyToInvest(it1) }
                                 data?.data?.isKycVerified?.let { it1 -> App.INSTANCE.setKYClVarified(it1) }
                                 data?.data?.completeRegistration?.let { it1 -> App.INSTANCE.setCompletedRegistration(it1) }
-
+                                data?.data?.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
                                 App.INSTANCE.homeData = data
                                 data?.let {
                                     portfolioDetails.set(data.data.portfolioDetails)

@@ -23,6 +23,7 @@ const val COMPLETED_REGISTRATION = "completed_registration"
 const val ASK_FOR_SECURITY_LOCK = "askForSecurityLock"
 const val PUSH_TOKEN = "push_token"
 const val IS_READY_TO_INVEST = "is_ready_to_invest"
+const val KYC_STATUS = "kyc_status"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -220,6 +221,14 @@ fun Context.isReadyToInvest(): Boolean {
     return getPreferences.getBoolean(IS_READY_TO_INVEST, false)
 }
 
+fun Context.setKYCStatus(status: String) {
+    return getPreferences.putString(KYC_STATUS, status)
+}
+
+fun Context.getKYCStatus(): String {
+    return getPreferences.getString(KYC_STATUS, "") ?: ""
+}
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(IS_SOACIAL_LOGIN)
@@ -231,4 +240,5 @@ fun Context.clearUserData() {
     getPreferences.remove(KYC_VERIFIED)
     getPreferences.remove(COMPLETED_REGISTRATION)
     getPreferences.remove(ASK_FOR_SECURITY_LOCK)
+    getPreferences.remove(KYC_STATUS)
 }

@@ -1,15 +1,23 @@
 package com.tarrakki.module.ekyc
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEKYCRemainingDetailsBinding
-import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
+import com.tarrakki.module.account.AccountFragment
+import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_e_k_y_c_remaining_details.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.isEmpty
+import org.supportcompact.ktx.showCustomListDialog
+import org.supportcompact.ktx.simpleAlert
 
 /**
  * A simple [Fragment] subclass.
@@ -37,10 +45,23 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         btnContinue?.setOnClickListener {
             if (!isValid()) return@setOnClickListener
-            startFragment(UploadDOBCertiFragment.newInstance(), R.id.frmContainer)
-            getViewModel().kycData?.let { postSticky(it) }
+            getViewModel().kycData?.let { kycData ->
+                getViewModel().saveRemainingData(kycData).observe(this, Observer {
+                    context?.simpleAlert(getString(R.string.complete_registration_msg)) {
+                        removeStickyEvent(kycData)
+                        if (activity is HomeActivity) {
+                            onBackExclusive(HomeFragment::class.java)
+                        } else {
+                            onBackExclusive(AccountFragment::class.java)
+                        }
+                    }
+                })
+            }
+            //startFragment(UploadDOBCertiFragment.newInstance(), R.id.frmContainer)
+            //getViewModel().kycData?.let { postSticky(it) }
         }
 
         edtSourceIncome?.setOnClickListener {
@@ -99,6 +120,11 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
         if (getViewModel().kycData == null) {
             getViewModel().kycData = kycData
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

@@ -114,6 +114,7 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
                 loginResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
                 loginResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                 loginResponse.readyToInvest?.let { it1 -> setReadyToInvest(it1) }
+                loginResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
                 startActivity<HomeActivity>()
                 setIsLogin(cbKeepMeSignIn.isChecked)
                 finish()

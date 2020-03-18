@@ -58,10 +58,19 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
     override fun onResume() {
         super.onResume()
-        ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
-        getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
-        getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
-        rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+        if (context?.getKYCStatus()?.isEmpty() == true) {
+            /**
+             * Normal flow of KYC and complete registration
+             * */
+            ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
+            getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
+            getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+            rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+        } else {
+            /**
+             * Set status as per kyc status
+             * */
+        }
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
         if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
@@ -216,12 +225,32 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         })
                                     }
                                     kycStatus.contains("03") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
-                                        eventKYCDataLog(kyc, "03")
+                                        if (kycStatus.firstOrNull()?.equals("03") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
+                                            eventKYCDataLog(kyc, "03")
+                                        }
                                     }
                                     kycStatus.contains("04") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
-                                        eventKYCDataLog(kyc, "04")
+                                        if (kycStatus.firstOrNull()?.equals("04") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
+                                            eventKYCDataLog(kyc, "04")
+                                        }
                                     }
                                     kycStatus.contains("05") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))

@@ -11,6 +11,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.webkit.*
 import androidx.activity.OnBackPressedCallback
@@ -18,6 +20,7 @@ import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.tarrakki.R
+import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentEkycWebViewBinding
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_ekyc_web_view.*
@@ -26,6 +29,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
 
@@ -60,8 +64,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
-
-        var needToRedirect = false
+        setHasOptionsMenu(true)
         mWebView.clearCache(true)
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
@@ -69,14 +72,13 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         mWebView.settings.allowContentAccess = true
         mWebView.settings.allowUniversalAccessFromFileURLs = true
         mWebView.settings.domStorageEnabled = true
-
         //mWebView.settings.setAppCacheMaxSize(10 * 1024 * 1024) // 10MB
-
         mWebView.settings.loadsImagesAutomatically = true
         mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
         mWebView.settings.allowFileAccess = true
         mWebView.settings.setAppCacheEnabled(true)
         mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+        var needToRedirect = true
 
         mWebView.webChromeClient = object : WebChromeClient() {
 
@@ -112,6 +114,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
             }
 
             fun onPageRequest(mWebView: WebView, url: String): Boolean {
+                url.printRequest()
                 return when {
                     url.startsWith("tel:") -> {
                         initiateCall(url)
@@ -122,7 +125,13 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                         true
                     }
                     url.startsWith(getViewModel().redirectUrl) -> {
-                        needToRedirect = true
+                        if (needToRedirect) {
+                            needToRedirect = false
+                            startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                            getViewModel().kycData.value?.let {
+                                postSticky(it)
+                            }
+                        }
                         true
                     }
                     else -> false
@@ -232,6 +241,10 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
     private fun sendEmail(add: String) {
         val intent = Intent(Intent.ACTION_SEND)

@@ -54,8 +54,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
-
+        ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
         if (context?.isAskForSecureLock() == false && !getViewModel().isShowingSecurityDialog) {
             getViewModel().isShowingSecurityDialog = true
             val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
@@ -168,14 +167,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        apiApplyForNewKYC().observe(this, Observer {
-                                            it?.let {
-                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                postSticky(kyc)
-                                            }
-                                        })
-                                        /*getEKYCData(password, kyc).observe(this, Observer { data ->
+                                        getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
                                                 context?.confirmationDialog(
                                                         title = getString(R.string.pls_select_your_tax_status),
@@ -195,19 +187,46 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                                         }
                                                 )
                                             }
-                                        })*/
+                                        })
                                     }
                                     kycStatus.contains("03") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
-                                        eventKYCDataLog(kyc, "03")
+                                        if (kycStatus.firstOrNull()?.equals("03") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
+                                            eventKYCDataLog(kyc, "03")
+                                        }
                                     }
                                     kycStatus.contains("04") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
-                                        eventKYCDataLog(kyc, "04")
+                                        if (kycStatus.firstOrNull()?.equals("04") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
+                                            eventKYCDataLog(kyc, "04")
+                                        }
                                     }
                                     kycStatus.contains("05") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
-                                        eventKYCDataLog(kyc, "05")
+                                        apiApplyForNewKYC().observe(this, Observer {
+                                            it?.let {
+                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                postSticky(kyc)
+                                            }
+                                        })
+                                        /*context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
+                                        eventKYCDataLog(kyc, "05")*/
                                     }
                                     kycStatus.contains("06") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))

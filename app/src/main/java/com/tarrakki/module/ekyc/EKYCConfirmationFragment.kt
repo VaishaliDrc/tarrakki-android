@@ -2,6 +2,8 @@ package com.tarrakki.module.ekyc
 
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycconfirmationBinding
@@ -36,7 +38,7 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
     }
 
     override fun createReference() {
-
+        setHasOptionsMenu(true)
         btnYes?.setOnClickListener {
             startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
             getViewModel().kycData?.let { data ->
@@ -47,6 +49,11 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
         btnNo?.setOnClickListener {
             onBack()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     @Subscribe(sticky = true)

@@ -45,7 +45,7 @@ object ApiClient {
      * CAMS api base url Test Url
      * */
     const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
-    /*private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/cispl/services_kycenquiry.asmx"
+    /*private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/cispl/services_kycenquiry.asmx/"
     const val CAMS_USER_ID = "PLUTOWS"
     const val CAMS_PASSWORD = "kra\$36369"*/
 
@@ -108,16 +108,20 @@ object ApiClient {
     const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest url
     const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/" /// Latest url*/
 
-   /* private const val BASE_URL = "http://13.235.141.219/api/v3/"
+    /*private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
     const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
+
+    private const val BASE_URL = "http://172.10.24.81:9000/api/v3/"
+    const val IMAGE_BASE_URL = "http://172.10.24.81:9000"
+    const val BANK_REDIRECT_URL = "http://172.10.24.81:9000/api/v3/transactions/payment-status/"
 
     /**
      * Tarrakki Jyada 172.10.29.38:8000
      * */
-    private const val BASE_URL = "http://172.10.24.81:8000/api/v3/"
+    /*private const val BASE_URL = "http://172.10.24.81:8000/api/v3/"
     const val IMAGE_BASE_URL = "http://172.10.24.81:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.24.81:8000/api/v3/transactions/payment-status/"
+    const val BANK_REDIRECT_URL = "http://172.10.24.81:8000/api/v3/transactions/payment-status/"*/
 
     /**
      * Live Url

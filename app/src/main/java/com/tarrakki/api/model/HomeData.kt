@@ -25,7 +25,9 @@ data class HomeData(
             @SerializedName("complete_registration")
             val completeRegistration: Boolean?,
             @SerializedName("ready_to_invest")
-            val readyToInvest: Boolean?
+            val readyToInvest: Boolean?,
+            @SerializedName("kyc_status")
+            val kycStatus: String?
     ) {
         data class PortfolioDetails(
                 @SerializedName("current_value")
@@ -137,6 +139,7 @@ data class HomeData(
                             field = value
                             notifyPropertyChanged(BR.hasNext)
                         }
+
                     @get:Bindable
                     var hasPrevious: Boolean = true
                         set(value) {

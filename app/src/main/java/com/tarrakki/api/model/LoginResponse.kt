@@ -20,7 +20,9 @@ data class LoginResponse(
         @SerializedName("user_id")
         val userId: String?,
         @SerializedName("ready_to_invest")
-        val readyToInvest: Boolean?
+        val readyToInvest: Boolean?,
+        @SerializedName("kyc_status")
+        val kycStatus: String?
 )
 /*
 data class LoginResponse(

@@ -18,6 +18,8 @@ data class SignUpresponse(
         @SerializedName("is_kyc_verified")
         val isKycVerified: Boolean?,
         @SerializedName("complete_registration")
-        val completeRegistration: Boolean?
+        val completeRegistration: Boolean?,
+        @SerializedName("kyc_status")
+        val kycStatus: String?
 )
 
