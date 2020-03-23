@@ -12,18 +12,68 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_complete_verification"
+        android:padding="@dimen/_8sdp">
 
         <ImageView
             android:id="@+id/ivReadyToInvest"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_space"
-            android:layout_marginEnd="@dimen/default_space"
-            android:layout_marginBottom="@dimen/default_space"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_pending_doc_verification"
+            android:src="@drawable/ic_video_kyc"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            style="@style/semibold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@string/video_kyc_application"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/txtRejected"
+            app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
+            app:layout_constraintTop_toTopOf="@id/ivReadyToInvest" />
+
+        <TextView
+            android:id="@+id/txtRejected"
+            style="@style/bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_failed_transn_bg"
+            android:backgroundTint="#FA864D"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:text="@string/under_process"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintBaseline_toBaselineOf="@id/txtTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@id/txtTitle" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:text="@string/your_kyc_application_is_under_process_you_will_soon_hear_from_us_in_2_4_working_days"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
+            app:layout_constraintTop_toBottomOf="@id/txtRejected" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

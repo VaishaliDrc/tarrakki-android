@@ -120,10 +120,9 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
     override fun createReference() {
+        //context?.setKYCStatus("REDO")
         setHasOptionsMenu(true)
-
         rvHomeItem?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
-
         rvHomeItem.isFocusable = false
         rvHomeItem.isNestedScrollingEnabled = false
 
@@ -218,6 +217,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         }
                                     }
                                     kycStatus.contains("05") -> {
+                                        //TODO need to remove this
                                         apiApplyForNewKYC().observe(this, Observer {
                                             it?.let {
                                                 kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl

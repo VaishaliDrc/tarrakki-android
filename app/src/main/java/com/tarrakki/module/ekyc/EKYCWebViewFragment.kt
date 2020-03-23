@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentEkycWebViewBinding
+import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.yalantis.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_ekyc_web_view.*
 import org.greenrobot.eventbus.Subscribe
@@ -40,6 +41,8 @@ import java.io.File
  * create an instance of this fragment.
  *
  */
+const val IS_FROM_VIDEO_KYC = "isFromVideoKYC"
+
 class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBinding>() {
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
@@ -127,10 +130,16 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     url.startsWith(getViewModel().redirectUrl) -> {
                         if (needToRedirect) {
                             needToRedirect = false
-                            startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                            startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                                putBoolean(IS_FROM_VIDEO_KYC, true)
+                            }), R.id.frmContainer)
                             getViewModel().kycData.value?.let {
                                 postSticky(it)
                             }
+                            /*startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                            getViewModel().kycData.value?.let {
+                                postSticky(it)
+                            }*/
                         }
                         true
                     }

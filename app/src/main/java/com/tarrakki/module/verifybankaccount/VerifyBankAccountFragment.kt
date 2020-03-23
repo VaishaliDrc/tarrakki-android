@@ -250,7 +250,6 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
         uCrop.start(context!!, this)
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = VerifyBankAccountFragment().apply {
@@ -259,7 +258,6 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
                 userBankData = Gson().fromJson<UserBanksResponse>(basket.getString("userBankData"), UserBanksResponse::class.java)
                 bankId = basket.getString("bankId")
             }
-
         }
 
     }

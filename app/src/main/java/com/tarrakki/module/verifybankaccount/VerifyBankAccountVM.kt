@@ -12,6 +12,7 @@ import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.module.ekyc.KYCData
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -28,6 +29,7 @@ class VerifyBankAccountVM : FragmentViewModel() {
     val cvPhotoName = "verifyAccountPic"
     val uploadUri = ObservableField<String>("")
     val uploadImage = ObservableField<String>("")
+
 
     fun uploadBankDoc(userBankData: UserBanksResponse?, bankId: String): MutableLiveData<ApiResponse> {
         showProgress()

@@ -22,6 +22,8 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
+import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
+import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.home.HomeActivity
@@ -121,6 +123,14 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                     binder.setVariable(BR.onNext, View.OnClickListener {
                         if (noBanks) {
                             context?.simpleAlert(getString(R.string.alert_add_bank_complete_registration))
+                            return@OnClickListener
+                        }
+
+                        if (arguments?.getBoolean(IS_FROM_VIDEO_KYC, false) == true) {
+                            startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                            getViewModel().kycData.value?.let {
+                                postSticky(it)
+                            }
                             return@OnClickListener
                         }
                         if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true/* && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true*/) {

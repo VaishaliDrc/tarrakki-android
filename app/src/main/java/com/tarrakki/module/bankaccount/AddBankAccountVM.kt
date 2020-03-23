@@ -10,6 +10,7 @@ import com.tarrakki.api.SingleCallback
 import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
 import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.module.ekyc.KYCData
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
@@ -29,6 +30,7 @@ class AddBankAccountVM : FragmentViewModel() {
     val response = MutableLiveData<BankResponse>()
     val responseAddBankDetails = MutableLiveData<UserBanksResponse>()
     var labelButton = ObservableField<String>("")
+
 
     fun getAllBanks(): MutableLiveData<BankResponse> {
         showProgress()

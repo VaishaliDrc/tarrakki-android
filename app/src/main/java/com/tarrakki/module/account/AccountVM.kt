@@ -107,12 +107,19 @@ class AccountVM : FragmentViewModel() {
 }
 
 data class AccountMenu(var title: String, @DrawableRes var imgRes: Int)
+
+const val KYC_STATUS_APPROVED = 1
+const val KYC_STATUS_REJECTED = 2
+const val KYC_STATUS_UNDER_PROCESS = 4
+const val KYC_STATUS_INCOMPLETE = 3
+
 data class VideoKYCStatus(val status: Int = 0) : WidgetsViewModel {
     override fun layoutId(): Int {
         return when (status) {
-            -1 -> R.layout.row_video_kyc_status_rejected
-            0 -> R.layout.row_video_kyc_status_pending
-            else -> R.layout.row_video_kyc_status_incomplete
+            KYC_STATUS_REJECTED -> R.layout.row_video_kyc_status_rejected
+            KYC_STATUS_INCOMPLETE -> R.layout.row_video_kyc_status_incomplete
+            KYC_STATUS_APPROVED -> R.layout.row_video_kyc_status_approved
+            else -> R.layout.row_video_kyc_status_pending
         }
     }
 }

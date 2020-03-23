@@ -34,6 +34,7 @@ import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
+import java.util.*
 
 
 class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
@@ -70,6 +71,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             /**
              * Set status as per kyc status
              * */
+            ll_complete_verification?.visibility = View.GONE
+            rvDocStatus?.visibility = View.VISIBLE
+            setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
         }
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
@@ -83,10 +87,46 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         }
     }
 
+    private fun setViewAsKYCStatus(status: String) {
+        getViewModel().docStatus.clear()
+        when (status) {
+            "INCOMPLETE" -> {
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_INCOMPLETE))
+            }
+            "UNDERPROCESS" -> {
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_UNDER_PROCESS))
+            }
+            "ACCEPTED" -> {
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_APPROVED))
+            }
+            "REJECTED" -> {
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_REJECTED))
+            }
+            "REDO" -> {
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_INCOMPLETE))
+            }
+        }
+        rvDocStatus?.adapter?.notifyDataSetChanged()
+    }
+
     override fun createReference() {
 
         rvDocStatus?.setUpMultiViewRecyclerAdapter(getViewModel().docStatus) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.item, item)
+            binder.setVariable(BR.onComplete, View.OnClickListener {
+                val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
+                apiApplyForNewKYC().observe(this, Observer {
+                    it?.let {
+                        kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                        startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                        postSticky(kyc)
+                    }
+                })
+            })
+            binder.setVariable(BR.onVerifyYourPan, View.OnClickListener {
+                ll_complete_verification?.visibility = View.VISIBLE
+                rvDocStatus?.visibility = View.GONE
+            })
             binder.executePendingBindings()
         }
 

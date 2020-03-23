@@ -1,18 +1,20 @@
 package com.tarrakki.module.bankaccount
 
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.text.TextUtils
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.google.gson.Gson
 import com.tarrakki.IS_FROM_BANK_ACCOUNT
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.databinding.FragmentAddBankAccountBinding
+import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.verifybankaccount.VerifyBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_add_bank_account.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.accountTypes
 import org.supportcompact.ktx.showListDialog
@@ -105,7 +107,6 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                 if (bankId.equals("null") && bankData != null)
                     bankId = bankData?.id?.toString()
                 bankId?.let {
-
                     if (bankData != null) {
                         getViewModel().updateBankDetails(it, bankData?.id.toString()).observe(this, Observer {
                             bankData?.accountNumber = getViewModel().accountNo.get().toString()
@@ -118,7 +119,6 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                             startFragment(VerifyBankAccountFragment.newInstance(bundle), R.id.frmContainer)
                             coreActivityVM?.onNewBank?.value = true
                         })
-
                     } else {
                         getViewModel().addBankDetails(it).observe(this, Observer {
                             if (it?.data?.bankDetail?.status?.equals("UPLOADED", true)!!) {
@@ -133,9 +133,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
                                     coreActivityVM?.onNewBank?.value = true
                                 }
                             }
-
                         })
-
                     }
 
                 }
@@ -150,6 +148,7 @@ class AddBankAccountFragment : CoreFragment<AddBankAccountVM, FragmentAddBankAcc
         }
 
     }
+
 
     private fun isIFSCCode(IFSCCode: String) = IFSCCode.length == 11//Pattern.compile("[A-Z|a-z]{4}[0][\\d]{6}\$").matcher(IFSCCode).matches()
 

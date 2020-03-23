@@ -760,5 +760,15 @@
         \n\n This is a one-time process. Once your KYC is complete, you will be able to invest any Mutual Fund of your choice in India.
     </string>
     <string name="income_information">Income Information</string>
+    <string name="video_kyc_application">Video KYC Application</string>
+    <string name="rejected">Rejected</string>
+    <string name="kindly_press_complete_to_finish_your_kyc_application">Kindly press complete to finish your KYC application.</string>
+    <string name="complete">Complete</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="your_kyc_application_was_rejected_due_to_xxx_you_will_be_able_to_resubmit_your_application_with_revised_details_after_24_48_hours">Your KYC application was rejected due to XXX. You will be able to resubmit your application with revised details after 24-48 hours.</string>
+    <string name="your_kyc_application_is_under_process_you_will_soon_hear_from_us_in_2_4_working_days">Your KYC application is under process. You will soon hear from us in 2-4 working days.</string>
+    <string name="under_process">Under Process</string>
+    <string name="approved">Approved</string>
+    <string name="your_kyc_application_has_been_approved_your_tarrakki_account_will_be_activated_in_the_next_24_hours">Your KYC application has been approved. Your Tarrakki account will be activated in the next 24 hours.</string>
 
 </resources>
