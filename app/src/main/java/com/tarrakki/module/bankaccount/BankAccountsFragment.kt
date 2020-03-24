@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.NonNull
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
@@ -21,12 +22,14 @@ import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.home.HomeFragment
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_bank_accounts.*
 import org.greenrobot.eventbus.Subscribe
@@ -66,7 +69,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
+        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION)  ?: false
         if (isRegistration) {
             coreActivityVM?.title?.set(getString(R.string.complete_registration))
         }
@@ -175,7 +178,6 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                         r.data.bankDetail = item as BankDetail
                         bundle.putString("userBankData", Gson().toJson(r))
                         startFragment(AddBankAccountFragment.newInstance(bundle.apply { putSerializable(IS_FROM_BANK_ACCOUNT, true) }), R.id.frmContainer)
-
                     })
 
                     binder.executePendingBindings()
@@ -197,6 +199,25 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
         mRefresh?.setOnRefreshListener {
             getViewModel().getAllBanks(true).observe(this, bankObserver)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (arguments?.getBoolean(IS_FROM_VIDEO_KYC, false) == true) {
+                    context?.confirmationDialog(getString(R.string.are_you_sure_you_want_to_exit),
+                            btnPositiveClick = {
+                                getViewModel().kycData.value?.let { removeStickyEvent(it) }
+                                if (activity is HomeActivity) {
+                                    onBackExclusive(HomeFragment::class.java)
+                                } else {
+                                    onBackExclusive(AccountFragment::class.java)
+                                }
+                            }
+                    )
+                } else {
+                    requireActivity().onBackPressed()
+                }
+            }
+        })
 
     }
 

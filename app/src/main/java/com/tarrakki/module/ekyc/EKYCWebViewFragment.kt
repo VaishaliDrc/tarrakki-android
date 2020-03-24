@@ -19,6 +19,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
 import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentEkycWebViewBinding
@@ -132,6 +133,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                             needToRedirect = false
                             startFragment(BankAccountsFragment.newInstance(Bundle().apply {
                                 putBoolean(IS_FROM_VIDEO_KYC, true)
+                                putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
                             }), R.id.frmContainer)
                             getViewModel().kycData.value?.let {
                                 postSticky(it)

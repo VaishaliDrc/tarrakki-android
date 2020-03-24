@@ -3,7 +3,6 @@ package com.tarrakki.module.ekyc
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.tarrakki.R
@@ -14,7 +13,6 @@ import com.tarrakki.module.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_e_k_y_c_remaining_details.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.isEmpty
 import org.supportcompact.ktx.showCustomListDialog
 import org.supportcompact.ktx.simpleAlert
@@ -77,15 +75,19 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
             }
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this@EKYCRemainingDetailsFragment, object : OnBackPressedCallback(true) {
+        /*requireActivity().onBackPressedDispatcher.addCallback(this@EKYCRemainingDetailsFragment, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 context?.confirmationDialog(getString(R.string.are_you_sure_you_want_to_exit),
                         btnPositiveClick = {
-                            onBack(3)
+                            if (activity is HomeActivity) {
+                                onBackExclusive(HomeFragment::class.java)
+                            } else {
+                                onBackExclusive(AccountFragment::class.java)
+                            }
                         }
                 )
             }
-        })
+        })*/
 
     }
 
