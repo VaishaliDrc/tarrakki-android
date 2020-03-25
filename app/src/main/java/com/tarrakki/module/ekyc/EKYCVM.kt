@@ -203,7 +203,6 @@ data class KYCData(var pan: String) : BaseObservable() {
     var kycMode: String = ""
     var inPersonVerification: String = ""
     var bobCirtificate: String = ""
-
     constructor(pan: String, email: String, mobile: String) : this(pan) {
         this.email = email
         this.mobile = mobile
