@@ -21,7 +21,8 @@ class EKYCWebViewVM : FragmentViewModel() {
     val kycData = MutableLiveData<KYCData>()
 
     //val redirectUrl = "https://cdc.camsonline.com/GETMethod/GetMethod.aspx"
-    val redirectUrl = "http://13.235.141.219/signature/callback/"//ApiClient.IMAGE_BASE_URL + "/redirect/callback/"
+    val redirectUrl = "http://13.235.141.219"//ApiClient.IMAGE_BASE_URL + "/redirect/callback/"
+    //http://13.235.141.219/redirect/callback/?_id=5e7b166d87ee334403b86aed
 
     fun getEKYCPage(kycData: KYCData): MutableLiveData<String> {
         val apiResponse = MutableLiveData<String>()

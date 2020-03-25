@@ -272,7 +272,7 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
                             val path = getPath(it)
                             path?.let { filePath ->
                                 getViewModel().kycData.value?.let { kycData ->
-                                    if (kycData.isVideoKYC) {
+                                    /*if (kycData.isVideoKYC) {
                                         getViewModel().saveRemainingData(File(filePath), kycData).observe(this, Observer { apiRes ->
                                             context?.simpleAlert(getString(R.string.complete_registration_msg)) {
                                                 removeStickyEvent(kycData)
@@ -284,7 +284,7 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
                                             }
                                         })
                                         return@let
-                                    }
+                                    }*/
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
                                             //{"data": {"ready_to_invest": false}}*#$*

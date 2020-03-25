@@ -43,7 +43,7 @@ class EKYCConfirmationVM : FragmentViewModel() {
             }*/
             val json = JsonObject()
 //            var dobCertificate: MultipartBody.Part? = null
-            json.addProperty("source_wealth", kycData.sourceOfIncome)
+            json.addProperty("source_of_income", kycData.sourceOfIncome)
             json.addProperty("income_slab", kycData.taxSlab)
             json.addProperty("nominee_name", kycData.nomineeName)
             json.addProperty("nominee_relationship", kycData.nomineeRelation)
