@@ -24,22 +24,20 @@ import com.tarrakki.module.home.HomeActivity
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.events.Event
-import org.supportcompact.ktx.e
-import org.supportcompact.ktx.getUserId
-import org.supportcompact.ktx.setPushToken
-import org.supportcompact.ktx.setReadyToInvest
+import org.supportcompact.ktx.*
 
 const val ACTION_CLOSE_TICKET = "com.tarrakki.ACTION_CLOSE_TICKET"
 const val ACTION_CANCEL_CLOSE_TICKET = "com.tarrakki.ACTION_CANCEL_CLOSE_TICKET"
 const val IS_FROM_NOTIFICATION = "is_from_notifications"
 const val IS_BANK_ACCOUNT = "is_bank_account"
+const val IS_VIDEO_KYC = "is_video_kyc"
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        val data = remoteMessage?.data
-        if (data?.contains("data") == true && getUserId()?.isNotBlank() == true) {
+        val data = remoteMessage.data
+        if (data.contains("data") && getUserId()?.isNotBlank() == true) {
             data["data"]?.let {
                 val messageBody = JSONObject(it)
                 if (("Support Ticket".equals(messageBody.optString("type"), true) || "Close Ticket".equals(messageBody.optString("type"), true)) && App.INSTANCE.openChat?.second == messageBody.optString("reference")) {
@@ -114,6 +112,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val intent: Intent = if ("Support Ticket".equals(messageBody.optString("type"), true)
                 || "Close Ticket".equals(messageBody.optString("type"), true)
+                || "video_kyc".equals(messageBody.optString("type"), true)
                 || "bank_account".equals(messageBody.optString("type"), true)) {
             Intent(this, AccountActivity::class.java).apply {
                 putExtra("reference", messageBody.optString("reference"))
@@ -121,6 +120,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     putExtra(IS_BANK_ACCOUNT, true)
                     setReadyToInvest(messageBody.optBoolean("ready_to_invest"))
                     EventBus.getDefault().post(Event.REFRESH)
+                } else if ("video_kyc".equals(messageBody.optString("type"), true)) {
+                    setKYCStatus(messageBody.optString("is_kyc_verified"))
+                    putExtra(IS_VIDEO_KYC, true)
                 }
                 putExtra(IS_FROM_NOTIFICATION, true)
             }

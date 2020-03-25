@@ -24,6 +24,10 @@ class AccountActivity : BaseActivity() {
         startFragment(AccountFragment.newInstance(), R.id.frmContainer)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
             if (intent.hasExtra(IS_BANK_ACCOUNT)) {
+                /**
+                 * Nothing to do as of now
+                 * */
+            } else if (intent.hasExtra(IS_BANK_ACCOUNT)) {
                 openBank()
             } else {
                 openChat(intent)
@@ -46,6 +50,10 @@ class AccountActivity : BaseActivity() {
         super.onNewIntent(intent)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
             if (intent.hasExtra(IS_BANK_ACCOUNT)) {
+                /**
+                 * Nothing to do as of now
+                 * */
+            } else if (intent.hasExtra(IS_BANK_ACCOUNT)) {
                 openBank()
             } else {
                 openChat(intent)
