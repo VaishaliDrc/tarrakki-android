@@ -92,6 +92,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
+            ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                 binder.setVariable(BR.section, item)
                 binder.setVariable(BR.isHome, true)

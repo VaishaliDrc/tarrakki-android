@@ -23,14 +23,16 @@ class AccountActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         startFragment(AccountFragment.newInstance(), R.id.frmContainer)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
-            if (intent.hasExtra(IS_BANK_ACCOUNT)) {
-                /**
-                 * Nothing to do as of now
-                 * */
-            } else if (intent.hasExtra(IS_BANK_ACCOUNT)) {
-                openBank()
-            } else {
-                openChat(intent)
+            when {
+                intent.hasExtra(IS_BANK_ACCOUNT) -> {
+                    EventBus.getDefault().post(Event.REFRESH)
+                }
+                intent.hasExtra(IS_BANK_ACCOUNT) -> {
+                    openBank()
+                }
+                else -> {
+                    openChat(intent)
+                }
             }
         } else if (intent?.getBooleanExtra(OPEN_BANK_MANDATE, false) == true) {
             openBankMandate()
@@ -49,14 +51,16 @@ class AccountActivity : BaseActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true) {
-            if (intent.hasExtra(IS_BANK_ACCOUNT)) {
-                /**
-                 * Nothing to do as of now
-                 * */
-            } else if (intent.hasExtra(IS_BANK_ACCOUNT)) {
-                openBank()
-            } else {
-                openChat(intent)
+            when {
+                intent.hasExtra(IS_BANK_ACCOUNT) -> {
+                    EventBus.getDefault().post(Event.REFRESH)
+                }
+                intent.hasExtra(IS_BANK_ACCOUNT) -> {
+                    openBank()
+                }
+                else -> {
+                    openChat(intent)
+                }
             }
         } else if (intent?.getBooleanExtra(OPEN_BANK_MANDATE, false) == true) {
             openBankMandate()

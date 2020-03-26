@@ -46,7 +46,7 @@ class EKYCConfirmationVM : FragmentViewModel() {
             json.addProperty("source_of_income", kycData.sourceOfIncome)
             json.addProperty("income_slab", kycData.taxSlab)
             json.addProperty("nominee_name", kycData.nomineeName)
-            json.addProperty("nominee_relationship", kycData.nomineeRelation)
+            json.addProperty("nominee_relation", kycData.nomineeRelation)
 
             e("Plain Data=>", json.toString())
             val data = AES.encrypt(json.toString())

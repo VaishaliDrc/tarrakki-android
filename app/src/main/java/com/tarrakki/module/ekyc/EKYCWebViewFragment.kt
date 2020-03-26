@@ -31,6 +31,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.setKYCStatus
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
@@ -131,6 +132,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     url.startsWith(getViewModel().redirectUrl) -> {
                         if (needToRedirect) {
                             needToRedirect = false
+                            //context?.setKYCStatus("underprocess")
                             startFragment(BankAccountsFragment.newInstance(Bundle().apply {
                                 putBoolean(IS_FROM_VIDEO_KYC, true)
                                 putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
