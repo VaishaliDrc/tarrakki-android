@@ -121,7 +121,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     setReadyToInvest(messageBody.optBoolean("ready_to_invest"))
                     EventBus.getDefault().post(Event.REFRESH)
                 } else if ("video_kyc".equals(messageBody.optString("type"), true)) {
-                    setKYCStatus(messageBody.optString("is_kyc_verified"))
+                    setKYCStatus(messageBody.optString("kyc_status"))
+                    //setRemainingFields(messageBody.optString("is_remaining_fields"))
                     putExtra(IS_VIDEO_KYC, true)
                 }
                 putExtra(IS_FROM_NOTIFICATION, true)

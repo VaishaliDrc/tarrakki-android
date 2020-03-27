@@ -1,7 +1,7 @@
 package com.tarrakki.module.otp
 
-import androidx.lifecycle.Observer
 import android.content.Intent
+import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse
@@ -107,6 +107,8 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                                 signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
                                                 signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                                                 signUpResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
+                                                signUpResponse.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
+
                                                 setIsLogin(true)
                                                 setSocialLogin(false)
                                                 startActivity<HomeActivity>()
@@ -175,6 +177,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                     signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
                                     signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
                                     signUpResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
+                                    signUpResponse.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
                                     setSocialLogin(true)
                                     setIsLogin(true)
                                     startActivity<HomeActivity>()

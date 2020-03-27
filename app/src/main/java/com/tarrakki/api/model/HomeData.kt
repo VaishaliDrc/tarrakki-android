@@ -27,7 +27,9 @@ data class HomeData(
             @SerializedName("ready_to_invest")
             val readyToInvest: Boolean?,
             @SerializedName("kyc_status")
-            val kycStatus: String?
+            val kycStatus: String?,
+            @SerializedName("is_remaining_fields")
+            val isRemainingFields: String?
     ) {
         data class PortfolioDetails(
                 @SerializedName("current_value")

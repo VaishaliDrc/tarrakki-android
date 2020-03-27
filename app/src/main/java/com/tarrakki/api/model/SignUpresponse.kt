@@ -20,6 +20,8 @@ data class SignUpresponse(
         @SerializedName("complete_registration")
         val completeRegistration: Boolean?,
         @SerializedName("kyc_status")
-        val kycStatus: String?
+        val kycStatus: String?,
+        @SerializedName("is_remaining_fields")
+        val isRemainingFields: String?
 )
 

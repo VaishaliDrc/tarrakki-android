@@ -8,6 +8,10 @@
             name="item"
             type="com.tarrakki.module.account.VideoKYCStatus" />
 
+        <variable
+            name="onComplete"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,6 +78,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
             app:layout_constraintTop_toBottomOf="@id/txtRejected" />
+
+        <Button
+            android:id="@+id/btnComplete"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/dr_btn_payment_bg"
+            android:onClick="@{onComplete}"
+            android:text="@string/complete_registration"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

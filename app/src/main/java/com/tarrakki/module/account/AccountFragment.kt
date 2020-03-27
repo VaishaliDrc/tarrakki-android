@@ -115,13 +115,29 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             binder.setVariable(BR.item, item)
             binder.setVariable(BR.onComplete, View.OnClickListener {
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                apiApplyForNewKYC().observe(this, Observer {
-                    it?.let {
-                        kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                        startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                when {
+                    App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
+                        startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                            putBoolean(IS_FROM_VIDEO_KYC, true)
+                            putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                        }), R.id.frmContainer)
                         postSticky(kyc)
                     }
-                })
+                    App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
+                        startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                        postSticky(kyc)
+                    }
+                    else -> {
+                        apiApplyForNewKYC().observe(this, Observer {
+                            it?.let {
+                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                postSticky(kyc)
+                            }
+                        })
+                    }
+                }
+
             })
             binder.setVariable(BR.onVerifyYourPan, View.OnClickListener {
                 ll_complete_verification?.visibility = View.VISIBLE
