@@ -301,6 +301,9 @@ interface WebserviceBuilder {
     @GET("ekyc/create-investor/{userId}/")
     fun apiApplyNewKYC(@Path("userId") userId: String?): Observable<ApiResponse>
 
+    @GET("ekyc/fetch-kyc-flags/{userId}/")
+    fun getKYCStatus(@Path("userId") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

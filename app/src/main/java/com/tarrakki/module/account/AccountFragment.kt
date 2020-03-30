@@ -59,22 +59,24 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (context?.getKYCStatus()?.isEmpty() == true) {
-            /**
-             * Normal flow of KYC and complete registration
-             * */
-            ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
-            getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
-            getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
-            rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-        } else {
-            /**
-             * Set status as per kyc status
-             * */
-            ll_complete_verification?.visibility = View.GONE
-            rvDocStatus?.visibility = View.VISIBLE
-            setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
-        }
+        getViewModel().getKYCStatus().observe(this, Observer {
+            if (context?.getKYCStatus()?.isEmpty() == true) {
+                /**
+                 * Normal flow of KYC and complete registration
+                 * */
+                ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
+                getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
+                getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+                rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+            } else {
+                /**
+                 * Set status as per kyc statusl
+                 * */
+                ll_complete_verification?.visibility = View.GONE
+                rvDocStatus?.visibility = View.VISIBLE
+                setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
+            }
+        })
         getViewModel().setAccountMenu()
         rvMenus?.adapter?.notifyDataSetChanged()
         if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
@@ -100,7 +102,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_APPROVED))
             }
             "REJECTED" -> {
-                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_REJECTED))
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_REJECTED, getViewModel().kycRemark))
             }
             "REDO" -> {
                 getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_INCOMPLETE))
@@ -110,6 +112,23 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     }
 
     override fun createReference() {
+
+        if (context?.getKYCStatus()?.isEmpty() == true) {
+            /**
+             * Normal flow of KYC and complete registration
+             * */
+            ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
+            getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
+            getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
+            rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+        } else {
+            /**
+             * Set status as per kyc statusl
+             * */
+            ll_complete_verification?.visibility = View.GONE
+            rvDocStatus?.visibility = View.VISIBLE
+            setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
+        }
 
         rvDocStatus?.setUpMultiViewRecyclerAdapter(getViewModel().docStatus) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.item, item)

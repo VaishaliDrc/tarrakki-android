@@ -8,12 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
 import com.tarrakki.BuildConfig
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.KYCStatusApiResponse
+import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.model.printResponse
-import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.getVisibility
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
@@ -34,6 +34,7 @@ class AccountVM : FragmentViewModel() {
             return R.layout.row_ready_to_invest
         }
     }
+    var kycRemark: String? = null
 
     init {
         docStatus.add(readyToInvest)
@@ -104,6 +105,37 @@ class AccountVM : FragmentViewModel() {
         }
         //accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.apply_for_debit_cart), R.drawable.ic_debit_cart))
     }
+
+    fun getKYCStatus(): MutableLiveData<ApiResponse> {
+        showProgress()
+        val apiResponse = MutableLiveData<ApiResponse>()
+        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getKYCStatus(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
+            override fun onSingleSuccess(o: ApiResponse) {
+                dismissProgress()
+                o.printResponse()
+                if (o.status?.code == 1) {
+                    val data = o.data?.parseTo<KYCStatusApiResponse>()
+                    data?.data?.let {
+                        it.isKycVerified?.let { it1 -> App.INSTANCE.setKYClVarified(it1) }
+                        it.completeRegistration?.let { it1 -> App.INSTANCE.setCompletedRegistration(it1) }
+                        it.readyToInvest?.let { it1 -> App.INSTANCE.setReadyToInvest(it1) }
+                        it.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
+                        it.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
+                        kycRemark = it.kycRemark
+                        apiResponse.value = o
+                    }
+                } else {
+                    EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                }
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                dismissProgress()
+                throwable.postError()
+            }
+        })
+        return apiResponse
+    }
 }
 
 data class AccountMenu(var title: String, @DrawableRes var imgRes: Int)
@@ -113,7 +145,13 @@ const val KYC_STATUS_REJECTED = 2
 const val KYC_STATUS_UNDER_PROCESS = 4
 const val KYC_STATUS_INCOMPLETE = 3
 
-data class VideoKYCStatus(val status: Int = 0) : WidgetsViewModel {
+data class VideoKYCStatus(val status: Int = 0, private val kycRemark: String? = null) : WidgetsViewModel {
+
+    val btnCompleteRegistrationVisibility: Int
+        get() = (App.INSTANCE.getRemainingFields().toIntOrNull() == 1 || App.INSTANCE.getRemainingFields().toIntOrNull() == 2).getVisibility()
+    val remark: String
+        get() = App.INSTANCE.getString(R.string.your_kyc_application_was_rejected_due_to_xxx, kycRemark)
+
     override fun layoutId(): Int {
         return when (status) {
             KYC_STATUS_REJECTED -> R.layout.row_video_kyc_status_rejected

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -32,8 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
-            android:ellipsize="marquee"
             android:layout_marginEnd="@dimen/_4sdp"
+            android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
             android:text="@string/video_kyc_application"
@@ -68,12 +69,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
-            android:text="@string/your_kyc_application_was_rejected_due_to_xxx_you_will_be_able_to_resubmit_your_application_with_revised_details_after_24_48_hours"
+            android:text="@{item.remark}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
-            app:layout_constraintTop_toBottomOf="@id/txtRejected" />
+            app:layout_constraintTop_toBottomOf="@id/txtRejected"
+            tools:text="@string/your_kyc_application_was_rejected_due_to_xxx" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
