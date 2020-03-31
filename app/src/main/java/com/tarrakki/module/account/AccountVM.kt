@@ -35,6 +35,7 @@ class AccountVM : FragmentViewModel() {
         }
     }
     var kycRemark: String? = null
+    var needToCheckStatus = false
 
     init {
         docStatus.add(readyToInvest)

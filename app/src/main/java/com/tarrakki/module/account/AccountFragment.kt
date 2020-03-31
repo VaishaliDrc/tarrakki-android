@@ -59,6 +59,23 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
 
     override fun onResume() {
         super.onResume()
+        if (getViewModel().needToCheckStatus) {
+            refreshKYCStatus()
+            getViewModel().needToCheckStatus = false
+        }
+        getViewModel().setAccountMenu()
+        rvMenus?.adapter?.notifyDataSetChanged()
+        if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            getViewModel().appLock.set(km.isKeyguardSecure)
+            getViewModel().isAppLockClick = false
+        } else if (App.INSTANCE.hasAppLock()) {
+            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            getViewModel().appLock.set(km.isKeyguardSecure)
+        }
+    }
+
+    private fun refreshKYCStatus() {
         getViewModel().getKYCStatus().observe(this, Observer {
             if (context?.getKYCStatus()?.isEmpty() == true) {
                 /**
@@ -77,16 +94,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
             }
         })
-        getViewModel().setAccountMenu()
-        rvMenus?.adapter?.notifyDataSetChanged()
-        if (getViewModel().isAppLockClick && getViewModel().appLock.get() == false) {
-            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            getViewModel().appLock.set(km.isKeyguardSecure)
-            getViewModel().isAppLockClick = false
-        } else if (App.INSTANCE.hasAppLock()) {
-            val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-            getViewModel().appLock.set(km.isKeyguardSecure)
-        }
     }
 
     private fun setViewAsKYCStatus(status: String) {
@@ -133,6 +140,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         rvDocStatus?.setUpMultiViewRecyclerAdapter(getViewModel().docStatus) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.item, item)
             binder.setVariable(BR.onComplete, View.OnClickListener {
+                getViewModel().needToCheckStatus = true
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
                 when {
                     App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
@@ -279,6 +287,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {
                                         getEKYCData(password, kyc).observe(this, Observer { data ->
                                             data?.let { kyc ->
+                                                getViewModel().needToCheckStatus = true
                                                 context?.confirmationDialog(
                                                         title = getString(R.string.pls_select_your_tax_status),
                                                         msg = "Note: Minor are individuals born after ${getDate(18).convertTo("dd MMM, yyyy")}.",
@@ -303,6 +312,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         if (kycStatus.firstOrNull()?.equals("03") == true) {
                                             apiApplyForNewKYC().observe(this, Observer {
                                                 it?.let {
+                                                    edtPanNo?.text?.clear()
+                                                    getViewModel().needToCheckStatus = true
                                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                                     postSticky(kyc)
@@ -317,6 +328,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         if (kycStatus.firstOrNull()?.equals("04") == true) {
                                             apiApplyForNewKYC().observe(this, Observer {
                                                 it?.let {
+                                                    edtPanNo?.text?.clear()
+                                                    getViewModel().needToCheckStatus = true
                                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                                     postSticky(kyc)
@@ -328,8 +341,18 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         }
                                     }
                                     kycStatus.contains("05") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
-                                        eventKYCDataLog(kyc, "05")
+                                        //TODO need to remove this
+                                        apiApplyForNewKYC().observe(this, Observer {
+                                            it?.let {
+                                                edtPanNo?.text?.clear()
+                                                getViewModel().needToCheckStatus = true
+                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                postSticky(kyc)
+                                            }
+                                        })
+                                        /*context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
+                                        eventKYCDataLog(kyc, "05")*/
                                     }
                                     kycStatus.contains("06") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
@@ -381,22 +404,25 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
         super.onEvent(event)
         if (event == Event.REFRESH) {
             //rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-            if (context?.getKYCStatus()?.isEmpty() == true) {
-                /**
-                 * Normal flow of KYC and complete registration
-                 * */
+            /*if (context?.getKYCStatus()?.isEmpty() == true) {
+                */
+            /**
+             * Normal flow of KYC and complete registration
+             * *//*
                 ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
                 getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
                 getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
                 rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
             } else {
-                /**
-                 * Set status as per kyc status
-                 * */
+                */
+            /**
+             * Set status as per kyc status
+             * *//*
                 ll_complete_verification?.visibility = View.GONE
                 rvDocStatus?.visibility = View.VISIBLE
                 setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
-            }
+            }*/
+            refreshKYCStatus()
         }
     }
 

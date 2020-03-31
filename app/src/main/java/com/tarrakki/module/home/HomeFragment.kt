@@ -193,6 +193,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         if (kycStatus.firstOrNull()?.equals("03") == true) {
                                             apiApplyForNewKYC().observe(this, Observer {
                                                 it?.let {
+                                                    edtPanNo?.text?.clear()
                                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                                     postSticky(kyc)
@@ -207,6 +208,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         if (kycStatus.firstOrNull()?.equals("04") == true) {
                                             apiApplyForNewKYC().observe(this, Observer {
                                                 it?.let {
+                                                    edtPanNo?.text?.clear()
                                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                                     postSticky(kyc)
@@ -221,6 +223,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         //TODO need to remove this
                                         apiApplyForNewKYC().observe(this, Observer {
                                             it?.let {
+                                                edtPanNo?.text?.clear()
                                                 kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                                 startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                                 postSticky(kyc)
