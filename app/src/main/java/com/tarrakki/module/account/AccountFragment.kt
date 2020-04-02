@@ -136,7 +136,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             rvDocStatus?.visibility = View.VISIBLE
             setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
         }
-
+        // TODO() refresh screen
+        /// Bank account
+        //Text
         rvDocStatus?.setUpMultiViewRecyclerAdapter(getViewModel().docStatus) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.item, item)
             binder.setVariable(BR.onComplete, View.OnClickListener {
