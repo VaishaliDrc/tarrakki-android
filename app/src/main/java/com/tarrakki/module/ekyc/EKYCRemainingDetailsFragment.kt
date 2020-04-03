@@ -48,7 +48,7 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
             if (!isValid()) return@setOnClickListener
             getViewModel().kycData?.let { kycData ->
                 getViewModel().saveRemainingData(kycData).observe(this, Observer {
-                    context?.simpleAlert(getString(R.string.complete_registration_msg)) {
+                    context?.simpleAlert(getString(R.string.video_kyc_process_completed)) {
                         removeStickyEvent(kycData)
                         if (activity is HomeActivity) {
                             onBackExclusive(HomeFragment::class.java)
