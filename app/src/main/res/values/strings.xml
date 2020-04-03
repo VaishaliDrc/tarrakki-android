@@ -758,6 +758,7 @@
     <string name="video_kyc_details">
         As per government guidelines, it is mandatory to complete your KYC(\'Know Your Customer\') in order to invest in Mutual Funds.
         \n\n This is a one-time process. Once your KYC is complete, you will be able to invest any Mutual Fund of your choice in India.
+        \n\n You will now be re-directed to our KYC partner - ICICI Prudential Mutual Fund to complete your KYC Video KYC facility is only available for individuals above the age of 18.
     </string>
     <string name="income_information">Income Information</string>
     <string name="video_kyc_application">Video KYC Application</string>

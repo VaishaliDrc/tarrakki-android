@@ -83,14 +83,22 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                  * */
                 ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
                 getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
+                getViewModel().bankMandateVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
                 getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
                 rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
             } else {
                 /**
-                 * Set status as per kyc statusl
+                 * Set status as per kyc status
                  * */
                 ll_complete_verification?.visibility = View.GONE
                 rvDocStatus?.visibility = View.VISIBLE
+                if (App.INSTANCE.getRemainingFields().isBlank() || App.INSTANCE.getRemainingFields().toIntOrNull() == 0) {
+                    getViewModel().bankVisibility.set(View.VISIBLE)
+                    getViewModel().bankMandateVisibility.set(View.GONE)
+                } else {
+                    getViewModel().bankVisibility.set(View.GONE)
+                    getViewModel().bankMandateVisibility.set(View.GONE)
+                }
                 setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
             }
         })
@@ -126,6 +134,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
              * */
             ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
             getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
+            getViewModel().bankMandateVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
             getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
             rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
         } else {

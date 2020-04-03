@@ -254,6 +254,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/space_8"
+                    android:visibility="@{vm.bankMandateVisibility}"
                     android:background="@color/lighter_gray"
                     app:layout_constraintBottom_toTopOf="@+id/ivBankMandateAccount"
                     app:layout_constraintTop_toBottomOf="@+id/ivBankAccount" />
@@ -264,6 +265,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginTop="@dimen/space_8"
+                    android:visibility="@{vm.bankMandateVisibility}"
                     android:src="@drawable/ic_bank_mandate"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/mDivider" />
@@ -275,6 +277,7 @@
                     android:layout_marginStart="@dimen/space_8"
                     android:drawableEnd="@drawable/ic_keyboard_arrow_right_dark_gray"
                     android:text="@string/bank_mandate"
+                    android:visibility="@{vm.bankMandateVisibility}"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="@+id/ivBankMandateAccount"
                     app:layout_constraintEnd_toEndOf="parent"

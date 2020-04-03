@@ -25,6 +25,7 @@ class AccountVM : FragmentViewModel() {
     val appLock = ObservableField(false)
     val accountMenus = arrayListOf<AccountMenu>()
     val bankVisibility = ObservableField(View.VISIBLE)
+    val bankMandateVisibility = ObservableField(View.VISIBLE)
     val btnComleteRegion = ObservableField(false)
     var isAppLockClick = false
     val appVersion = ObservableField("V ${BuildConfig.VERSION_NAME}")
