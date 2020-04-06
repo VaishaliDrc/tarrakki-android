@@ -1,5 +1,6 @@
 package com.tarrakki.module.account
 
+import android.text.TextUtils
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.databinding.Observable
@@ -123,7 +124,11 @@ class AccountVM : FragmentViewModel() {
                         it.readyToInvest?.let { it1 -> App.INSTANCE.setReadyToInvest(it1) }
                         it.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
                         it.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
-                        kycRemark = it.kycRemark
+                        kycRemark = when {
+                            !TextUtils.isEmpty(it.kycRemark) -> it.kycRemark
+                            !TextUtils.isEmpty(it.kraRemark) -> it.kraRemark
+                            else -> App.INSTANCE.getString(R.string.kyc_rejection_remark_default_msg)
+                        }
                         apiResponse.value = o
                     }
                 } else {

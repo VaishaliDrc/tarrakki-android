@@ -23,7 +23,6 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.account.AccountFragment
-import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
@@ -69,9 +68,14 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION)  ?: false
+        val isRegistration = arguments?.getBoolean(IS_FROM_COMLETE_REGISTRATION) ?: false
         if (isRegistration) {
-            coreActivityVM?.title?.set(getString(R.string.complete_registration))
+            coreActivityVM?.title?.set(getString(
+                    if (arguments?.getBoolean(IS_FROM_VIDEO_KYC, false) == true)
+                        R.string.kyc_details
+                    else
+                        R.string.complete_registration
+            ))
         }
     }
 
@@ -136,13 +140,13 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                             }
                             return@OnClickListener
                         }
-                        if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true/* && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true*/) {
+                        /* if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true*//* && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true*//*) {
 //                            val f = UploadDOBCertiFragment.newInstance()
 //                            f.setTargetFragment(this, DOB_CERTIFICATE_REQ_CODE)
                             getViewModel().kycData.value?.bobCirtificate = ""
                             startFragment(UploadDOBCertiFragment.newInstance(), R.id.frmContainer)
                             return@OnClickListener
-                        }
+                        }*/
                         context?.signatureDialog(
                                 btnDigitally = {
                                     startActivity<SignatureActivity>()

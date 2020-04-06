@@ -220,7 +220,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         }
                                     }
                                     kycStatus.contains("05") -> {
-                                        //TODO need to remove this
                                         apiApplyForNewKYC().observe(this, Observer {
                                             it?.let {
                                                 edtPanNo?.text?.clear()
@@ -237,16 +236,48 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                         eventKYCDataLog(kyc, "06")
                                     }
                                     kycStatus.contains("12") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
-                                        eventKYCDataLog(kyc, "12")
+                                        if (kycStatus.firstOrNull()?.equals("12") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    edtPanNo?.text?.clear()
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
+                                            eventKYCDataLog(kyc, "12")
+                                        }
                                     }
                                     kycStatus.contains("11") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
-                                        eventKYCDataLog(kyc, "11")
+                                        if (kycStatus.firstOrNull()?.equals("11") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    edtPanNo?.text?.clear()
+                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
+                                            eventKYCDataLog(kyc, "11")
+                                        }
                                     }
                                     kycStatus.contains("13") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
-                                        eventKYCDataLog(kyc, "13")
+                                        if (kycStatus.firstOrNull()?.equals("13") == true) {
+                                            apiApplyForNewKYC().observe(this, Observer {
+                                                it?.let {
+                                                    edtPanNo?.text?.clear()
+                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                            })
+                                        } else {
+                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
+                                            eventKYCDataLog(kyc, "13")
+                                        }
                                     }
                                     kycStatus.contains("99") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))

@@ -27,7 +27,7 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.complete_registration)
+        get() = getString(R.string.kyc_details)
 
     override fun getLayout(): Int {
         return R.layout.fragment_e_k_y_c_remaining_details

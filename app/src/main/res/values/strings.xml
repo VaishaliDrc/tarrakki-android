@@ -757,8 +757,9 @@
     <string name="click_yes_and_complete_your_kyc_now">Click \'YES\' and complete your KYC now.</string>
     <string name="video_kyc_details">
         As per government guidelines, it is mandatory to complete your KYC(\'Know Your Customer\') in order to invest in Mutual Funds.
-        \n\n This is a one-time process. Once your KYC is complete, you will be able to invest any Mutual Fund of your choice in India.
-        \n\n You will now be re-directed to our KYC partner - ICICI Prudential Mutual Fund to complete your KYC Video KYC facility is only available for individuals above the age of 18.
+        \n\nThis is a one-time process. Once your KYC is complete, you will be able to invest any Mutual Fund of your choice in India.
+        \n\nYou will now be re-directed to our KYC partner - ICICI Prudential Mutual Fund to complete your KYC
+        \n\nVideo KYC facility is only available for individuals above the age of 18.
     </string>
     <string name="income_information">Income Information</string>
     <string name="video_kyc_application">Video KYC Application</string>
@@ -772,5 +773,7 @@
     <string name="approved">Approved</string>
     <string name="your_kyc_application_has_been_approved_your_tarrakki_account_will_be_activated_in_the_next_24_hours">Your KYC application has been approved. Your Tarrakki account will be activated in the next 24 hours.</string>
     <string name="video_kyc_process_completed"><![CDATA[Your KYC Application has been submitted successfully. Your Tarrakki account will be processed & activated once your KYC application is approved. This can take up to 5 working days.]]></string>
+    <string name="kyc_rejection_remark_default_msg">Your KYC application was rejected. You will be able to resubmit your application with revised details after 24–48 hours.</string>
+    <string name="kyc_details">KYC Details</string>
 
 </resources>
