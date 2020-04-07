@@ -18,25 +18,25 @@
         android:layout_height="match_parent"
         tools:context=".BaseActivity">
 
-<!--        <com.tarrakki.CenteredToolbar
-            android:id="@+id/mToolBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            title="@{vm.title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>-->
+        <!--        <com.tarrakki.CenteredToolbar
+                    android:id="@+id/mToolBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    title="@{vm.title}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>-->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/mToolBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            app:titleTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@color/white" />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -44,11 +44,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_50"
             android:layout_marginEnd="@dimen/space_50"
+            android:ellipsize="end"
             android:fontFamily="@font/lato_bold"
+            android:gravity="center"
             android:maxLines="1"
             android:text="@{vm.title}"
-            android:ellipsize="end"
-            android:gravity="center"
             android:textAllCaps="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@android:color/white"
@@ -58,6 +58,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Investment Strategies" />
+
+        <ImageView
+            android:layout_width="@dimen/_96sdp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@{vm.isTarrakkiBase?@drawable/ic_login:@drawable/logo_rural}"
+            android:visibility="@{vm.logoVisibility}"
+            app:layout_constraintBottom_toBottomOf="@+id/mToolBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
             android:id="@+id/frmContainer"

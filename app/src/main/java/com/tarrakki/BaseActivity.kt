@@ -1,14 +1,14 @@
 package com.tarrakki
 
 import android.app.KeyguardManager
-import androidx.lifecycle.Observer
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.annotation.RequiresApi
 import android.view.MenuItem
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
 import com.tarrakki.databinding.ActivityBaseBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.bankmandate.BankMandateFormFragment
@@ -29,7 +29,10 @@ import org.supportcompact.ActivityViewModel
 import org.supportcompact.CoreActivity
 import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.inputclasses.keyboardListener
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.ONLOGOUT
+import org.supportcompact.ktx.hasAppLock
+import org.supportcompact.ktx.startActivity
 
 const val ACTION_FINISH_ALL_TASK = "ACTION_FINISH_ALL_TASK"
 
@@ -49,6 +52,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
     }
 
     override fun createReference() {
+        getViewModel().isTarrakkiBase.set(BuildConfig.FLAVOR.isTarrakki())
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(finisAllTask, IntentFilter(ACTION_FINISH_ALL_TASK))
         getViewModel().isBackEnabled.observe(this, Observer { it ->
             it?.let {

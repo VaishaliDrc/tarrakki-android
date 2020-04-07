@@ -14,10 +14,12 @@ open class ActivityViewModel : ViewModel() {
     val titleVisibility = ObservableField(true)
     val isBackEnabled = MutableLiveData<Boolean>()
     val footerVisibility = ObservableField(View.VISIBLE)
+    val logoVisibility = ObservableField(View.GONE)
     val isEmpty = MutableLiveData<Boolean>()
     val isEmptyText = ObservableField("No data found.")
     val onNewBank = MutableLiveData<Boolean>()
     val timerValue = ObservableField<SpannableStringBuilder>()
+    val isTarrakkiBase = ObservableField<Boolean>(true)
 
     fun emptyView(isShow: Boolean, string: String = "No data found.") {
         isEmpty.value = isShow

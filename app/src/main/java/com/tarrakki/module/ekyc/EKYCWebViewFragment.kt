@@ -8,6 +8,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -62,6 +63,21 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         return EKYCWebViewVM::class.java
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        coreActivityVM?.title?.set("")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        coreActivityVM?.logoVisibility?.set(View.VISIBLE)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        coreActivityVM?.logoVisibility?.set(View.GONE)
+    }
+
     override fun setVM(binding: FragmentEkycWebViewBinding) {
         binding.vm = getViewModel()
         binding.executePendingBindings()
@@ -87,14 +103,17 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
 
         mWebView.webChromeClient = object : WebChromeClient() {
 
+
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 progressBar?.progress = newProgress
             }
 
             override fun onPermissionRequest(request: PermissionRequest?) {
-                activity?.runOnUiThread {
-                    request?.grant(request.resources)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    activity?.runOnUiThread {
+                        request?.grant(request.resources)
+                    }
                 }
             }
 
@@ -108,6 +127,11 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         }
 
         mWebView.webViewClient = object : WebViewClient() {
+
+            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+                handler?.proceed() // When an error occurs, ignore and go on
+                super.onReceivedSslError(view, handler, error)
+            }
 
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 return onPageRequest(view, url)
@@ -131,6 +155,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                     }
                     url.startsWith(getViewModel().redirectUrl) -> {
                         if (needToRedirect) {
+                            mWebView.loadUrl(url)
                             needToRedirect = false
                             //context?.setKYCStatus("underprocess")
                             startFragment(BankAccountsFragment.newInstance(Bundle().apply {
@@ -205,49 +230,44 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
 
         getViewModel().kycData.observe(this, Observer { it ->
             it?.let {
-                mWebView?.loadUrl(it.mobileAutoLoginUrl)
+                val permissions = arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA)
+                requestPermissionsIfRequired(permissions, object : PermissionCallBack {
+                    override fun permissionGranted() {
+                        mWebView?.loadUrl(it.mobileAutoLoginUrl)
+                    }
+
+                    override fun permissionDenied() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.allow),
+                                btnNegative = getString(R.string.dont_allow),
+                                btnPositiveClick = {
+                                    getViewModel().kycData.value = it
+                                }
+                        )
+                    }
+
+                    override fun onPermissionDisabled() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.settings),
+                                btnNegative = getString(R.string.cancel),
+                                btnPositiveClick = {
+                                    val intent = Intent()
+                                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                    val uri = Uri.fromParts("package", context?.packageName, null)
+                                    intent.data = uri
+                                    startActivity(intent)
+                                }
+                        )
+                    }
+                })
                 //mWebView?.loadData(it.mobileAutoLoginUrl, "text/html", "UTF-8")
                 /*getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
                     apiResponse?.let { eKYCPage ->
-                        val permissions = arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA)
-                        requestPermissionsIfRequired(permissions, object : PermissionCallBack {
-                            override fun permissionGranted() {
-                                mWebView?.loadDataWithBaseURL(
-                                        "https://eiscuat1.camsonline.com/PLKYC/Home/home",
-                                        eKYCPage,
-                                        "text/html",
-                                        "UTF-8",
-                                        null)
-                            }
 
-                            override fun permissionDenied() {
-                                context?.confirmationDialog(
-                                        title = getString(R.string.permission),
-                                        msg = getString(R.string.write_external_storage_title),
-                                        btnPositive = getString(R.string.allow),
-                                        btnNegative = getString(R.string.dont_allow),
-                                        btnPositiveClick = {
-                                            getViewModel().getEKYCPage(it).value = eKYCPage
-                                        }
-                                )
-                            }
-
-                            override fun onPermissionDisabled() {
-                                context?.confirmationDialog(
-                                        title = getString(R.string.permission),
-                                        msg = getString(R.string.write_external_storage_title),
-                                        btnPositive = getString(R.string.settings),
-                                        btnNegative = getString(R.string.cancel),
-                                        btnPositiveClick = {
-                                            val intent = Intent()
-                                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                            val uri = Uri.fromParts("package", context?.packageName, null)
-                                            intent.data = uri
-                                            startActivity(intent)
-                                        }
-                                )
-                            }
-                        })
                     }
                 })*/
             }
@@ -268,7 +288,6 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         } catch (ex: android.content.ActivityNotFoundException) {
             post(ShowError("There are no email clients installed."))
         }
-
     }
 
     private fun initiateCall(url: String) {
@@ -379,7 +398,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
          * @param basket as Bundle.
          * @return A new instance of fragment WebViewFragment.
          */
-        // TODO: Rename and change types and number of parameters
+        //TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = EKYCWebViewFragment().apply { arguments = basket }
     }

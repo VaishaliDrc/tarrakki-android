@@ -22,7 +22,7 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.complete_registration)
+        get() = getString(R.string.video_kyc)
 
     override fun getLayout(): Int {
         return R.layout.fragment_ekycconfirmation

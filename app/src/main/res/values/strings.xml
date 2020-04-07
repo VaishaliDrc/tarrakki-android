@@ -775,5 +775,6 @@
     <string name="video_kyc_process_completed"><![CDATA[Your KYC Application has been submitted successfully. Your Tarrakki account will be processed & activated once your KYC application is approved. This can take up to 5 working days.]]></string>
     <string name="kyc_rejection_remark_default_msg">Your KYC application was rejected. You will be able to resubmit your application with revised details after 24–48 hours.</string>
     <string name="kyc_details">KYC Details</string>
+    <string name="video_kyc">Video KYC</string>
 
 </resources>

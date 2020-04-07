@@ -33,6 +33,13 @@ import java.net.SocketTimeoutException
 import java.util.concurrent.TimeUnit
 
 
+/**
+ *
+* http://13.235.141.219/admin13579/
+* admin/Drc@1234
+ *
+ * */
+
 object ApiClient {
 
     private val OKHTTP_TIMEOUT = 30 * 10 // seconds
