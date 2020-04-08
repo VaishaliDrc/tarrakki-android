@@ -18,8 +18,11 @@ import android.view.View
 import android.webkit.*
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.NonNull
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.tarrakki.App
 import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
 import com.tarrakki.api.model.printRequest
@@ -87,10 +90,12 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
     override fun createReference() {
         setHasOptionsMenu(true)
         mWebView.clearCache(true)
+        mWebView.settings.mediaPlaybackRequiresUserGesture = false
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
         mWebView.settings.useWideViewPort = true
         mWebView.settings.allowContentAccess = true
+        mWebView.settings.allowFileAccessFromFileURLs = true
         mWebView.settings.allowUniversalAccessFromFileURLs = true
         mWebView.settings.domStorageEnabled = true
         //mWebView.settings.setAppCacheMaxSize(10 * 1024 * 1024) // 10MB
@@ -102,7 +107,6 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
         var needToRedirect = true
 
         mWebView.webChromeClient = object : WebChromeClient() {
-
 
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
@@ -118,6 +122,9 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
             }
 
             override fun onShowFileChooser(webView: WebView?, filePathCallback: ValueCallback<Array<Uri>>?, fileChooserParams: FileChooserParams?): Boolean {
+                if (fileChooserParams?.acceptTypes?.contains("video/*") == true) {
+                    return false
+                }
                 getViewModel().filePathCallback?.onReceiveValue(null)
                 getViewModel().filePathCallback = null
                 getViewModel().filePathCallback = filePathCallback
@@ -230,7 +237,33 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
 
         getViewModel().kycData.observe(this, Observer { it ->
             it?.let {
-                val permissions = arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA)
+
+                val intentBuilder = CustomTabsIntent.Builder()
+
+                // Begin customizing
+                // set toolbar colors
+                intentBuilder.setToolbarColor(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimary));
+                intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimaryDark));
+                intentBuilder.setShowTitle(true)
+                // build custom tabs intent
+                val customTabsIntent = intentBuilder.build()
+                // launch the url
+                customTabsIntent.launchUrl(activity, Uri.parse(it.mobileAutoLoginUrl))
+
+                /*CustomTabActivityHelper.openCustomTab(this, customTabsIntent, uri,
+                        new CustomTabActivityHelper . CustomTabFallback () {
+                            @Override
+                            public void openUri(Activity activity, Uri uri) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                startActivity(intent);
+                            }
+                        });*/
+
+                /*val permissions = arrayListOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                        Manifest.permission.RECORD_AUDIO)
                 requestPermissionsIfRequired(permissions, object : PermissionCallBack {
                     override fun permissionGranted() {
                         mWebView?.loadUrl(it.mobileAutoLoginUrl)
@@ -263,7 +296,7 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                                 }
                         )
                     }
-                })
+                })*/
                 //mWebView?.loadData(it.mobileAutoLoginUrl, "text/html", "UTF-8")
                 /*getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
                     apiResponse?.let { eKYCPage ->
