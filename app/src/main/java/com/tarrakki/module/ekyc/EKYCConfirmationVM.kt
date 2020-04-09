@@ -21,9 +21,9 @@ class EKYCConfirmationVM : FragmentViewModel() {
     var kycData: KYCData? = null
     val sourceOfIncome = ObservableField("")
     val TAXSlab = ObservableField("")
-
     val incomeSlabs = arrayListOf<Pair<String, String>>()
     val sourcesOfIncomes = arrayListOf<Pair<String, String>>()
+    var kycProcessInit = false
 
     init {
         incomeSlabs.setIncomeSlabs()
@@ -35,7 +35,7 @@ class EKYCConfirmationVM : FragmentViewModel() {
         showProgress()
         thread {
 
-//            val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
+            //  val requestFile = RequestBody.create(MediaType.parse("image/*"), signatureFile)
 //            val multipartBody = MultipartBody.Part.createFormData("signature", signatureFile.name, requestFile)
             /*if (signatureFile != null) {
                 dismissProgress()
@@ -44,7 +44,7 @@ class EKYCConfirmationVM : FragmentViewModel() {
             val json = JsonObject()
 //            var dobCertificate: MultipartBody.Part? = null
             json.addProperty("source_of_income", kycData.sourceOfIncome)
-            json.addProperty("income_slab", kycData.taxSlab)
+            json.addProperty("income_slab", ""/*kycData.taxSlab*/)
             json.addProperty("nominee_name", kycData.nomineeName)
             json.addProperty("nominee_relation", kycData.nomineeRelation)
 

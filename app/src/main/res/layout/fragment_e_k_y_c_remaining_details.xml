@@ -60,6 +60,7 @@
                     android:layout_height="@dimen/_32sdp"
                     android:layout_marginTop="@dimen/space_4"
                     android:layout_marginEnd="@dimen/space_4"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/shape_edt_gray_round"
                     android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
                     android:gravity="center_vertical"
@@ -74,10 +75,11 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvSourceIncomeL" />
 
-                <TextView
+              <!--  <TextView
                     android:id="@+id/tvIncomeSlabl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,7 +114,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvIncomeSlabl" />
-
+-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -578,8 +578,10 @@
     <string name="sip_start_date">Your SIP will start on April</string>
     <string name="go_to_unpaid_transactions">Go to unpaid transactions</string>
     <string name="cut_of_time_title">CUT OFF TIME HAS PASSED</string>
-    <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 12.55pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later or you can still place orders for the remaining funds by removing the below mentioned fund(s) from the checkout cart.</string>
-    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 12.55pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later.</string>
+    <!--<string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 12.55pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later or you can still place orders for the remaining funds by removing the below mentioned fund(s) from the checkout cart.</string>
+    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 12.55pm to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later.</string>-->
+    <string name="cut_of_desc_code_5">The below mentioned funds have a cut-off period from 11.55am to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later or you can still place orders for the remaining funds by removing the below mentioned fund(s) from the checkout cart.</string>
+    <string name="cut_of_msg_code_6">The below mentioned fund(s) have a cut-off period from 11.55am to 3.00pm. You will be able to place an order for these funds after 3.00pm. You can leave them in the checkout cart and place the order later.</string>
     <string name="folio_">Folio:</string>
     <string name="alert_alert_non_resident">This app is currently only available for use to residents of India.</string>
     <string name="alert_try_later">Something went wrong. We\'re looking into it. Please try again later.</string>
@@ -776,5 +778,6 @@
     <string name="kyc_rejection_remark_default_msg">Your KYC application was rejected. You will be able to resubmit your application with revised details after 24–48 hours.</string>
     <string name="kyc_details">KYC Details</string>
     <string name="video_kyc">Video KYC</string>
+    <string name="chrome_required_to_install">We require the Chrome App installed in your device to redirect for the Video KYC so please install the Chrome App from Play Store.</string>
 
 </resources>

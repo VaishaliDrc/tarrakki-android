@@ -218,11 +218,11 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                             }
                     )
                 } else {
-                    requireActivity().onBackPressed()
+                    //requireActivity().onBackPressed()
+                    onBack(1)
                 }
             }
         })
-
     }
 
     private fun openGallery() {

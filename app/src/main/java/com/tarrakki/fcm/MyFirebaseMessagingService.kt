@@ -51,6 +51,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     EventBus.getDefault().postSticky(tiket)
                 } else if ("payment_success".equals(messageBody.optString("type"), true)) {
                     EventBus.getDefault().post(Event.ON_PAYMENT_REDIRECTED)
+                } else if ("kyc_success".equals(messageBody.optString("type"), true)) {
+                    EventBus.getDefault().post(Event.ON_KYC_SUCCESS)
                 } else {
                     sendNotification(messageBody)
                 }

@@ -191,14 +191,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("03") -> {
                                         if (kycStatus.firstOrNull()?.equals("03") == true) {
-                                            apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })
+                                            proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
                                             eventKYCDataLog(kyc, "03")
@@ -206,28 +199,14 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("04") -> {
                                         if (kycStatus.firstOrNull()?.equals("04") == true) {
-                                            apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })
+                                            proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
                                             eventKYCDataLog(kyc, "04")
                                         }
                                     }
                                     kycStatus.contains("05") -> {
-                                        apiApplyForNewKYC().observe(this, Observer {
-                                            it?.let {
-                                                edtPanNo?.text?.clear()
-                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                postSticky(kyc)
-                                            }
-                                        })
+                                        proceedVideoKYC(kyc)
                                         /*context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
                                         eventKYCDataLog(kyc, "05")*/
                                     }
@@ -237,14 +216,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("12") -> {
                                         if (kycStatus.firstOrNull()?.equals("12") == true) {
-                                            apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })
+                                            proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
                                             eventKYCDataLog(kyc, "12")
@@ -252,14 +224,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("11") -> {
                                         if (kycStatus.firstOrNull()?.equals("11") == true) {
-                                            apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })
+                                            proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
                                             eventKYCDataLog(kyc, "11")
@@ -267,13 +232,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("13") -> {
                                         if (kycStatus.firstOrNull()?.equals("13") == true) {
-                                            apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })
+                                            proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
                                             eventKYCDataLog(kyc, "13")
@@ -339,6 +298,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 }
             }
         })
+    }
+
+    private fun proceedVideoKYC(kyc: KYCData) {
+        edtPanNo?.text?.clear()
+        startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+        postSticky(kyc)
     }
 
     @Subscribe(sticky = true)

@@ -152,6 +152,7 @@ const val KYC_STATUS_REJECTED = 2
 const val KYC_STATUS_UNDER_PROCESS = 4
 const val KYC_STATUS_INCOMPLETE = 3
 
+
 data class VideoKYCStatus(val status: Int = 0, private val kycRemark: String? = null) : WidgetsViewModel {
 
     val btnCompleteRegistrationVisibility: Int

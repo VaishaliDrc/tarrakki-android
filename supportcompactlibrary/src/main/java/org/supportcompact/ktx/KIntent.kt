@@ -22,3 +22,11 @@ fun Context.openPlayStore() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
     }
 }
+
+fun Context.openPlayStore(appPackageName: String) {
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+    } catch (anfe: android.content.ActivityNotFoundException) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+    }
+}

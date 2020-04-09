@@ -68,12 +68,12 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
                 getViewModel().kycData?.sourceOfIncome = item.key
             }
         }
-        edtIncomeSlab?.setOnClickListener {
+       /* edtIncomeSlab?.setOnClickListener {
             context?.showCustomListDialog(R.string.income_slab, getViewModel().incomeSlabs) { item ->
                 getViewModel().TAXSlab.set(item.value)
                 getViewModel().kycData?.taxSlab = item.key
             }
-        }
+        }*/
 
         /*requireActivity().onBackPressedDispatcher.addCallback(this@EKYCRemainingDetailsFragment, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -97,10 +97,10 @@ class EKYCRemainingDetailsFragment : CoreFragment<EKYCConfirmationVM, FragmentEK
                 context?.simpleAlert(getString(R.string.alert_req_source_income))
                 false
             }
-            getViewModel().TAXSlab.isEmpty() -> {
+            /*getViewModel().TAXSlab.isEmpty() -> {
                 context?.simpleAlert(getString(R.string.alert_req_income_slab))
                 false
-            }
+            }*/
             getViewModel().kycData?.nomineeName?.isEmpty() == true -> {
                 context?.simpleAlert(getString(R.string.alert_req_nominee_name)) {
                     edtNominee?.requestFocus()
