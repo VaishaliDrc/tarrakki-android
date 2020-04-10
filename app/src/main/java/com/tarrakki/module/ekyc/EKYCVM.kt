@@ -19,6 +19,7 @@ import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
+import java.io.Serializable
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
 
@@ -31,7 +32,7 @@ class EKYCVM : FragmentViewModel() {
 
 }
 
-data class KYCData(var pan: String) : BaseObservable() {
+data class KYCData(var pan: String) : BaseObservable(), Serializable {
 
     var pageNo = 1
 
@@ -209,7 +210,6 @@ data class KYCData(var pan: String) : BaseObservable() {
         this.email = email
         this.mobile = mobile
     }
-
 }
 
 fun isPANCard(pan: String) = Pattern.compile("[A-Z]{5}[0-9]{4}[A-Z]").matcher(pan).matches()

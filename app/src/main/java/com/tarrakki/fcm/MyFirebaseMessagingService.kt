@@ -13,8 +13,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.tarrakki.ACTION_FINISH_ALL_TASK
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportViewTicketResponse
@@ -26,6 +28,7 @@ import org.json.JSONObject
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 
+const val ACTION_CLOSE_KYC_PORTAL = "com.tarrakki.ACTION_CLOSE_KYC_PORTAL"
 const val ACTION_CLOSE_TICKET = "com.tarrakki.ACTION_CLOSE_TICKET"
 const val ACTION_CANCEL_CLOSE_TICKET = "com.tarrakki.ACTION_CANCEL_CLOSE_TICKET"
 const val IS_FROM_NOTIFICATION = "is_from_notifications"
@@ -52,7 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 } else if ("payment_success".equals(messageBody.optString("type"), true)) {
                     EventBus.getDefault().post(Event.ON_PAYMENT_REDIRECTED)
                 } else if ("kyc_success".equals(messageBody.optString("type"), true)) {
-                    EventBus.getDefault().post(Event.ON_KYC_SUCCESS)
+                    LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ACTION_CLOSE_KYC_PORTAL))
                 } else {
                     sendNotification(messageBody)
                 }

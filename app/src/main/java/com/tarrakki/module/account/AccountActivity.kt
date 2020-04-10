@@ -2,19 +2,22 @@ package com.tarrakki.module.account
 
 import android.content.Intent
 import android.os.Bundle
-import com.tarrakki.BaseActivity
-import com.tarrakki.OPEN_BANK_MANDATE
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.SupportViewTicketResponse
+import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_BANK_ACCOUNT
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
 import com.tarrakki.fcm.IS_VIDEO_KYC
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
+import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
+import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
+import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.support.chat.ChatFragment
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.Event
+import org.supportcompact.ktx.getRemainingFields
 import org.supportcompact.ktx.startFragment
 
 
@@ -30,6 +33,9 @@ class AccountActivity : BaseActivity() {
                 }
                 intent.hasExtra(IS_BANK_ACCOUNT) -> {
                     openBank()
+                }
+                intent.hasExtra(ACTION_CLOSE_KYC_PORTAL) -> {
+                    resumeKYCProcess(intent)
                 }
                 else -> {
                     openChat(intent)
@@ -59,6 +65,9 @@ class AccountActivity : BaseActivity() {
                 intent.hasExtra(IS_BANK_ACCOUNT) -> {
                     openBank()
                 }
+                intent.hasExtra(ACTION_CLOSE_KYC_PORTAL) -> {
+                    resumeKYCProcess(intent)
+                }
                 else -> {
                     openChat(intent)
                 }
@@ -72,6 +81,28 @@ class AccountActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private fun resumeKYCProcess(intent: Intent) {
+        when {
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
+                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                    putBoolean(IS_FROM_VIDEO_KYC, true)
+                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                }), R.id.frmContainer)
+            }
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
+                startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+            }
+            else -> {
+                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                    putBoolean(IS_FROM_VIDEO_KYC, true)
+                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                }), R.id.frmContainer)
+            }
+        }
+        val kycData: KYCData? = intent.getSerializableExtra(ACTION_CLOSE_KYC_PORTAL) as KYCData?
+        kycData?.let { postSticky(it) }
     }
 
     private fun openBank() {

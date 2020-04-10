@@ -1,6 +1,10 @@
 package com.tarrakki.module.ekyc
 
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -11,19 +15,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.CustomTabsHelper
-import com.tarrakki.IS_FROM_COMLETE_REGISTRATION
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycconfirmationBinding
+import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
+import com.tarrakki.fcm.IS_FROM_NOTIFICATION
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.account.AccountFragment
-import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.home.HomeFragment
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_ekycconfirmation.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
-import org.supportcompact.events.Event
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.openPlayStore
+import org.supportcompact.ktx.simpleAlert
 
 
 /**
@@ -52,13 +57,11 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
     }
 
     override fun createReference() {
+        context?.let {
+            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).registerReceiver(OnKYCSuccess, IntentFilter(ACTION_CLOSE_KYC_PORTAL))
+        }
         setHasOptionsMenu(true)
         btnYes?.setOnClickListener {
-            /*startFragment(EKYCWebViewFragment.newInstance(), R.id.frmContainer)
-              getViewModel().kycData?.let { data ->
-                postSticky(data)
-              }
-            */
             apiApplyForNewKYC().observe(this, Observer {
                 it?.let {
                     getViewModel().kycData?.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
@@ -115,26 +118,30 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        context?.let {
+            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).unregisterReceiver(OnKYCSuccess)
+        }
+    }
+
+    private val OnKYCSuccess = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val myIntent = Intent(context, if (activity is HomeActivity) HomeActivity::class.java else AccountActivity::class.java)
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            myIntent.putExtra(IS_FROM_NOTIFICATION, true)
+            myIntent.putExtra(ACTION_CLOSE_KYC_PORTAL, getViewModel().kycData)
+            context?.startActivity(myIntent)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onEvent(event: Event) {
-        when (event) {
-            Event.ON_KYC_SUCCESS -> {
-                e("is redirect from Push.....")
-                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
-                    putBoolean(IS_FROM_VIDEO_KYC, true)
-                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
-                }), R.id.frmContainer)
-                getViewModel().kycData?.let {
-                    postSticky(it)
-                }
-            }
-            else -> super.onEvent(event)
-        }
-    }
+
 
     @Subscribe(sticky = true)
     fun onReceive(kycData: KYCData) {

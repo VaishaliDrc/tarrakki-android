@@ -3,11 +3,13 @@ package com.tarrakki
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.HomeData
+import com.tarrakki.module.ekyc.KYCData
 import io.branch.referral.Branch
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
 import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.events.Event
 import java.io.File
 import java.math.BigInteger
 

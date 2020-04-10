@@ -8,16 +8,19 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.tarrakki.*
+import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
+import com.tarrakki.fcm.IS_FROM_NOTIFICATION
+import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
+import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
+import com.tarrakki.module.ekyc.KYCData
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import org.json.JSONObject
 import org.supportcompact.events.Event
 import org.supportcompact.events.EventData
-import org.supportcompact.ktx.cartCount
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.e
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 
 
 class HomeActivity : BaseActivity() {
@@ -66,12 +69,38 @@ class HomeActivity : BaseActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        supportFragmentManager?.let {
-            for (i in 1 until it.backStackEntryCount) {
-                it.popBackStack()
+        if (intent?.getBooleanExtra(IS_FROM_NOTIFICATION, false) == true && intent.hasExtra(ACTION_CLOSE_KYC_PORTAL)) {
+            resumeKYCProcess(intent)
+        } else {
+            supportFragmentManager?.let {
+                for (i in 1 until it.backStackEntryCount) {
+                    it.popBackStack()
+                }
             }
         }
         this.intent = intent
+    }
+
+    private fun resumeKYCProcess(intent: Intent) {
+        when {
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
+                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                    putBoolean(IS_FROM_VIDEO_KYC, true)
+                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                }), R.id.frmContainer)
+            }
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
+                startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+            }
+            else -> {
+                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                    putBoolean(IS_FROM_VIDEO_KYC, true)
+                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                }), R.id.frmContainer)
+            }
+        }
+        val kycData: KYCData? = intent.getSerializableExtra(ACTION_CLOSE_KYC_PORTAL) as KYCData?
+        kycData?.let { postSticky(it) }
     }
 
     private val branchReferralInitListener = object : Branch.BranchReferralInitListener {

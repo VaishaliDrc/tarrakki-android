@@ -27,7 +27,10 @@ fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, ta
                 ?.addToBackStack(fragment::class.java.name)
                 ?.commit()
     } catch (e: IllegalStateException) {
-        transaction?.commitAllowingStateLoss()
+        try {
+            transaction?.commitAllowingStateLoss()
+        } catch (e: Exception) {
+        }
     }
 }
 
@@ -51,7 +54,10 @@ fun androidx.fragment.app.FragmentActivity.startFragment(fragment: androidx.frag
                 ?.addToBackStack(fragment::class.java.name)
                 ?.commit()
     } catch (e: IllegalStateException) {
-        transaction?.commitAllowingStateLoss()
+        try {
+            transaction?.commitAllowingStateLoss()
+        } catch (e: Exception) {
+        }
     }
 }
 
@@ -63,7 +69,10 @@ fun androidx.fragment.app.Fragment.startFragmentWithoutBackStack(fragment: andro
                 ?.addToBackStack(fragment::class.java.name)
                 ?.commit()
     } catch (e: IllegalStateException) {
-        transaction?.commitAllowingStateLoss()
+        try {
+            transaction?.commitAllowingStateLoss()
+        } catch (e: Exception) {
+        }
     }
 }
 
@@ -76,7 +85,10 @@ fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, ba
                     ?.addToBackStack(fragment::class.java.name)
                     ?.commit()
         } catch (e: IllegalStateException) {
-            transaction?.commitAllowingStateLoss()
+            try {
+                transaction?.commitAllowingStateLoss()
+            } catch (e: Exception) {
+            }
         }
     } else {
         val transaction = fm?.beginTransaction()
@@ -84,7 +96,10 @@ fun AppCompatActivity.startFragment(fragment: androidx.fragment.app.Fragment, ba
             transaction?.replace(container, fragment, fragment::class.java.name)
                     ?.commit()
         } catch (e: IllegalStateException) {
-            transaction?.commitAllowingStateLoss()
+            try {
+                transaction?.commitAllowingStateLoss()
+            } catch (e: Exception) {
+            }
         }
     }
 }

@@ -169,13 +169,15 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                             postSticky(kyc)
                         }
                         else -> {
-                            apiApplyForNewKYC().observe(this, Observer {
+                            /*apiApplyForNewKYC().observe(this, Observer {
                                 it?.let {
                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                                     postSticky(kyc)
                                 }
-                            })
+                            })*/
+                            startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                            postSticky(kyc)
                         }
                     }
                 }
