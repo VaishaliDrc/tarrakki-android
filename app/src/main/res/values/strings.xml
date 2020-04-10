@@ -468,6 +468,7 @@
     <string name="alert_valid_sip_amount">Please enter a valid SIP amount.</string>
     <string name="alert_req_sip_date">Please select the SIP start date.</string>
     <string name="alert_req_place_order_registration">Please Complete your Registration to Place the Order.</string>
+    <string name="alert_ready_to_invest">Your registration is under process. You will be able to invest once your account is approved.</string>
     <string name="alert_req_bank_name">Please select the Bank Name.</string>
     <string name="alert_req_bank_account_number">Please enter the Bank Account Number.</string>
     <string name="alert_req_confirm_bank_account_number">Please confirm the Bank Account Number.</string>

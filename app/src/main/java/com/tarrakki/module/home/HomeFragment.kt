@@ -207,8 +207,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     }
                                     kycStatus.contains("05") -> {
                                         proceedVideoKYC(kyc)
-                                        /*context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
-                                        eventKYCDataLog(kyc, "05")*/
                                     }
                                     kycStatus.contains("06") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))

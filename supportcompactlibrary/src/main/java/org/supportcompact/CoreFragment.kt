@@ -1,17 +1,15 @@
 package org.supportcompact
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.annotation.IntRange
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IntRange
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProviders
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.events.Event
@@ -20,6 +18,7 @@ import org.supportcompact.ktx.PermissionCallBack
 import org.supportcompact.ktx.checkPermissionRationale
 import org.supportcompact.ktx.checkSelfPermissions
 import org.supportcompact.ktx.requestAllPermissions
+
 
 abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : androidx.fragment.app.Fragment() {
 
@@ -110,6 +109,8 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {
         for (i in 1..steps) {
             activity?.supportFragmentManager?.popBackStack()
+            //fragmentManager?.popBackStackImmediate(null, 0)
+            //activity?.supportFragmentManager?.popBackStack(null, 0/*FragmentManager.POP_BACK_STACK_INCLUSIVE*/)
         }
     }
 

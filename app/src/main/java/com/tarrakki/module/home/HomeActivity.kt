@@ -10,6 +10,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.tarrakki.*
 import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
+import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
@@ -91,6 +92,9 @@ class HomeActivity : BaseActivity() {
             }
             App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
                 startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+            }
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 0 -> {
+                supportFragmentManager.popBackStackImmediate(HomeFragment::class.java.name, 0)
             }
             else -> {
                 startFragment(BankAccountsFragment.newInstance(Bundle().apply {

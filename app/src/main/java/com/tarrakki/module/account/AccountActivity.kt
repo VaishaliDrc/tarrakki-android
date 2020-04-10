@@ -94,6 +94,9 @@ class AccountActivity : BaseActivity() {
             App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
                 startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
             }
+            App.INSTANCE.getRemainingFields().toIntOrNull() == 0 -> {
+                supportFragmentManager.popBackStackImmediate(AccountFragment::class.java.name, 0)
+            }
             else -> {
                 startFragment(BankAccountsFragment.newInstance(Bundle().apply {
                     putBoolean(IS_FROM_VIDEO_KYC, true)

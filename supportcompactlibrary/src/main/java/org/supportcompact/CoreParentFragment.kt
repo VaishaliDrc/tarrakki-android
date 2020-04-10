@@ -40,6 +40,9 @@ abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> 
                 vm = ViewModelProviders.of(it).get(createViewModel())
             }
             setVM(binding)
+        } else {
+            val v = binding.root.parent as ViewGroup?
+            v?.removeView(binding.root)
         }
         return binding.root
     }
@@ -106,7 +109,7 @@ abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> 
 
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {
         for (i in 1..steps) {
-            activity?.supportFragmentManager?.popBackStack()
+            activity?.supportFragmentManager?.popBackStackImmediate()
         }
     }
 

@@ -78,6 +78,8 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     private fun refreshKYCStatus() {
         getViewModel().getKYCStatus().observe(this, Observer {
             if (context?.getKYCStatus()?.isEmpty() == true) {
+                getViewModel().docStatus.clear()
+                getViewModel().docStatus.add(getViewModel().readyToInvest)
                 /**
                  * Normal flow of KYC and complete registration
                  * */
@@ -86,13 +88,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 getViewModel().bankMandateVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
                 getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
                 rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
+                rvDocStatus.adapter?.notifyDataSetChanged()
             } else {
                 /**
                  * Set status as per kyc status
                  * */
                 ll_complete_verification?.visibility = View.GONE
                 rvDocStatus?.visibility = View.VISIBLE
-                if (App.INSTANCE.getRemainingFields().isBlank() || App.INSTANCE.getRemainingFields().toIntOrNull() == 0) {
+                if (App.INSTANCE.getRemainingFields().isBlank() || App.INSTANCE.getRemainingFields().toIntOrNull() == 0 || App.INSTANCE.getRemainingFields().toIntOrNull() == 2) {
                     getViewModel().bankVisibility.set(View.VISIBLE)
                     getViewModel().bankMandateVisibility.set(View.GONE)
                 } else {
@@ -117,7 +120,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_APPROVED))
             }
             "REJECTED" -> {
-                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_REJECTED, getViewModel().kycRemark))
+                getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_REJECTED, App.INSTANCE.getRemark()))
             }
             "REDO" -> {
                 getViewModel().docStatus.add(VideoKYCStatus(KYC_STATUS_INCOMPLETE))
@@ -285,6 +288,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         }
                     }
                     postSticky(kycData)
+                    getViewModel().needToCheckStatus = true
                 }
             })
         }
@@ -327,15 +331,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     }
                                     kycStatus.contains("03") -> {
                                         if (kycStatus.firstOrNull()?.equals("03") == true) {
-                                            /*apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    getViewModel().needToCheckStatus = true
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })*/
                                             proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
@@ -344,15 +339,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     }
                                     kycStatus.contains("04") -> {
                                         if (kycStatus.firstOrNull()?.equals("04") == true) {
-                                            /*apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    getViewModel().needToCheckStatus = true
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })*/
                                             proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
@@ -360,18 +346,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                         }
                                     }
                                     kycStatus.contains("05") -> {
-                                        /*apiApplyForNewKYC().observe(this, Observer {
-                                            it?.let {
-                                                edtPanNo?.text?.clear()
-                                                getViewModel().needToCheckStatus = true
-                                                kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                postSticky(kyc)
-                                            }
-                                        })*/
                                         proceedVideoKYC(kyc)
-                                        /*context?.simpleAlert(App.INSTANCE.getString(R.string.alert_not_available))
-                                        eventKYCDataLog(kyc, "05")*/
                                     }
                                     kycStatus.contains("06") -> {
                                         context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
@@ -379,15 +354,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     }
                                     kycStatus.contains("12") -> {
                                         if (kycStatus.firstOrNull()?.equals("12") == true) {
-                                            /*apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    getViewModel().needToCheckStatus = true
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })*/
                                             proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
@@ -396,15 +362,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     }
                                     kycStatus.contains("11") -> {
                                         if (kycStatus.firstOrNull()?.equals("11") == true) {
-                                            /* apiApplyForNewKYC().observe(this, Observer {
-                                                 it?.let {
-                                                     edtPanNo?.text?.clear()
-                                                     getViewModel().needToCheckStatus = true
-                                                     kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                     startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                     postSticky(kyc)
-                                                 }
-                                             })*/
                                             proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
@@ -413,15 +370,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     }
                                     kycStatus.contains("13") -> {
                                         if (kycStatus.firstOrNull()?.equals("13") == true) {
-                                            /*apiApplyForNewKYC().observe(this, Observer {
-                                                it?.let {
-                                                    edtPanNo?.text?.clear()
-                                                    getViewModel().needToCheckStatus = true
-                                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                                    postSticky(kyc)
-                                                }
-                                            })*/
                                             proceedVideoKYC(kyc)
                                         } else {
                                             context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
@@ -487,7 +435,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 rvDocStatus?.visibility = View.VISIBLE
                 setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
             }*/
-            refreshKYCStatus()
+            activity?.runOnUiThread {
+                refreshKYCStatus()
+            }
         }
     }
 

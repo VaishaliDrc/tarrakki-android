@@ -73,7 +73,7 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
 
         btn_check_out?.setOnClickListener {
             if (validateCart()) {
-                if (context?.isCompletedRegistration() == true) {
+                if (context?.isCompletedRegistration() == true && context?.isReadyToInvest() == true) {
                     getViewModel().getConfirmOrder().observe(this, Observer {
                         it?.let {
                             startFragment(ConfirmOrderFragment.newInstance(), R.id.frmContainer)
@@ -81,11 +81,32 @@ class CartFragment : CoreFragment<CartVM, FragmentCartBinding>() {
                         }
                     })
                 } else {
-                    context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
-                            btnPositiveClick = {
-                                startActivity<AccountActivity>()
-                            }
-                    )
+                    if ((context?.getKYCStatus()?.equals("UNDERPROCESS", true) == true || context?.getKYCStatus()?.equals("ACCEPTED", true) == true) && context?.getRemainingFields()?.toIntOrNull() == 0) {
+                        context?.confirmationDialog(getString(R.string.alert_ready_to_invest),
+                                btnPositiveClick = {
+                                    startActivity<AccountActivity>()
+                                }
+                        )
+                    } else {
+                        context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
+                                btnPositiveClick = {
+                                    startActivity<AccountActivity>()
+                                }
+                        )
+                    }
+                    /*if (context?.isCompletedRegistration() == false) {
+                        context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
+                                btnPositiveClick = {
+                                    startActivity<AccountActivity>()
+                                }
+                        )
+                    } else {
+                        context?.confirmationDialog(getString(R.string.alert_ready_to_invest),
+                                btnPositiveClick = {
+                                    startActivity<AccountActivity>()
+                                }
+                        )
+                    }*/
                 }
             }
         }

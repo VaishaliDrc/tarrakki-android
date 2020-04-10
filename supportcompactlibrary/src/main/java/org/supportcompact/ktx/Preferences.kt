@@ -25,6 +25,7 @@ const val PUSH_TOKEN = "push_token"
 const val IS_READY_TO_INVEST = "is_ready_to_invest"
 const val KYC_STATUS = "kyc_status"
 const val IS_REMAINING_FIELDS = "isRemainingFields"
+const val IS_REMARK = "isRemark"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -238,6 +239,14 @@ fun Context.getRemainingFields(): String {
     return getPreferences.getString(IS_REMAINING_FIELDS, "") ?: ""
 }
 
+fun Context.setRemark(remark: String) {
+    return getPreferences.putString(IS_REMARK, remark)
+}
+
+fun Context.getRemark(): String {
+    return getPreferences.getString(IS_REMARK, "") ?: ""
+}
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(IS_SOACIAL_LOGIN)
@@ -250,4 +259,5 @@ fun Context.clearUserData() {
     getPreferences.remove(COMPLETED_REGISTRATION)
     getPreferences.remove(ASK_FOR_SECURITY_LOCK)
     getPreferences.remove(KYC_STATUS)
+    getPreferences.remove(IS_REMARK)
 }

@@ -10,13 +10,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.os.Build
+import android.text.TextUtils
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.tarrakki.ACTION_FINISH_ALL_TASK
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportViewTicketResponse
@@ -56,6 +56,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     EventBus.getDefault().post(Event.ON_PAYMENT_REDIRECTED)
                 } else if ("kyc_success".equals(messageBody.optString("type"), true)) {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(Intent(ACTION_CLOSE_KYC_PORTAL))
+                } else if ("video_kyc".equals(messageBody.optString("type"), true)
+                        && TextUtils.isEmpty(messageBody.optString("title"))
+                        && TextUtils.isEmpty(messageBody.optString("detail"))) {
+                    EventBus.getDefault().post(Event.REFRESH)
                 } else {
                     sendNotification(messageBody)
                 }
@@ -128,6 +132,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 } else if ("video_kyc".equals(messageBody.optString("type"), true)) {
                     putExtra(IS_VIDEO_KYC, true)
                     setKYCStatus(messageBody.optString("kyc_status"))
+                    val kycRemark = when {
+                        !TextUtils.isEmpty(messageBody.optString("kyc_remark")) -> messageBody.optString("kyc_remark")
+                        !TextUtils.isEmpty(messageBody.optString("kra_remark")) -> messageBody.optString("kra_remark")
+                        else -> App.INSTANCE.getString(R.string.kyc_rejection_remark_default_msg)
+                    }
+                    kycRemark?.let { it1 -> App.INSTANCE.setRemark(it1) }
                     EventBus.getDefault().post(Event.REFRESH)
                     //setRemainingFields(messageBody.optString("is_remaining_fields"))
                 }
@@ -161,7 +171,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(): String {
         val channelId = getString(R.string.app_name)
-        val channelName = "Sun Keeper Push"
+        val channelName = "App Notifications"
         val chan = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
         chan.lightColor = Color.BLUE
         chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
@@ -169,5 +179,4 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         service.createNotificationChannel(chan)
         return channelId
     }
-
 }

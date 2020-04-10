@@ -22,6 +22,7 @@ import com.tarrakki.module.bankmandate.AddBankMandateFragment
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
+import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webviewActivity.WebviewActivity
 import kotlinx.android.synthetic.main.fragment_payment_mode.*
 import org.greenrobot.eventbus.Subscribe
@@ -341,7 +342,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPress()
-                return true
+                return super.onOptionsItemSelected(item)
             }
         }
         return super.onOptionsItemSelected(item)

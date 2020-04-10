@@ -36,7 +36,7 @@ class AccountVM : FragmentViewModel() {
             return R.layout.row_ready_to_invest
         }
     }
-    var kycRemark: String? = null
+    //var kycRemark: String? = null
     var needToCheckStatus = false
 
     init {
@@ -124,12 +124,13 @@ class AccountVM : FragmentViewModel() {
                         it.readyToInvest?.let { it1 -> App.INSTANCE.setReadyToInvest(it1) }
                         it.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
                         it.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
-                        kycRemark = when {
+                        val kycRemark = when {
                             !TextUtils.isEmpty(it.kycRemark) -> it.kycRemark
                             !TextUtils.isEmpty(it.kraRemark) -> it.kraRemark
                             else -> App.INSTANCE.getString(R.string.kyc_rejection_remark_default_msg)
                         }
-                        apiResponse.value = o
+                        kycRemark?.let { it1 -> App.INSTANCE.setRemark(it1) }
+                        apiResponse.postValue(o)
                     }
                 } else {
                     EventBus.getDefault().post(ShowError("${o.status?.message}"))

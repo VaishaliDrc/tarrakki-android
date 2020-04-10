@@ -42,7 +42,10 @@ fun androidx.fragment.app.Fragment.startFragment(fragment: androidx.fragment.app
                 ?.addToBackStack(fragment::class.java.name)
                 ?.commit()
     } catch (e: IllegalStateException) {
-        transaction?.commitAllowingStateLoss()
+        try {
+            transaction?.commitAllowingStateLoss()
+        } catch (e: Exception) {
+        }
     }
 }
 
