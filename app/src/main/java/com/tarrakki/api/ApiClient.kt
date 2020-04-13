@@ -120,9 +120,9 @@ object ApiClient {
     const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
 
 
-    /*private const val BASE_URL = "https://6fbf1fa5.ngrok.io/api/v3/"
-    const val IMAGE_BASE_URL = "https://6fbf1fa5.ngrok.io"
-    const val BANK_REDIRECT_URL = "https://6fbf1fa5.ngrok.io/api/v3/transactions/payment-status/"*/
+    /*  private const val BASE_URL = "https://5e503eb0.ngrok.io/api/v3/"
+      const val IMAGE_BASE_URL = "https://5e503eb0.ngrok.io"
+      const val BANK_REDIRECT_URL = "https://5e503eb0.ngrok.io/api/v3/transactions/payment-status/"*/
 
     /*private const val BASE_URL = "http://172.10.24.81:9000/api/v3/"
     const val IMAGE_BASE_URL = "http://172.10.24.81:9000"

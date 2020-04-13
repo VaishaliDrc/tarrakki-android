@@ -104,7 +104,8 @@ class UploadDOBCertiVM : FragmentViewModel() {
                                 } else {
                                     eventKYCBSEErrorDataLog(kycData, "0")
                                 }
-                                apiResponse.value = o
+                                //apiResponse.value = o
+                                apiResponse.postValue(o)
                             } else {
                                 EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                             }

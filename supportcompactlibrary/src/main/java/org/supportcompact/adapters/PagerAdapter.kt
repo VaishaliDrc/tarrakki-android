@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.FragmentStatePagerAdapter
 import org.supportcompact.ktx.inflate
 import org.supportcompact.widgets.AutoScrollWrapContentViewPager
 import org.supportcompact.widgets.CustomViewPager
@@ -222,6 +223,21 @@ fun <T, U : ViewDataBinding> CustomViewPager.setPageAdapter(@LayoutRes layout: I
  * */
 fun androidx.viewpager.widget.ViewPager.setFragmentPagerAdapter(fm: androidx.fragment.app.FragmentManager, pages: ArrayList<Page>): androidx.fragment.app.FragmentPagerAdapter? {
     adapter = object : androidx.fragment.app.FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+        override fun getItem(position: Int) = pages[position].page
+        override fun getCount() = pages.size
+        override fun getPageTitle(position: Int) = pages[position].title
+    }
+    return adapter as androidx.fragment.app.FragmentPagerAdapter
+}
+
+
+/**
+ * This is extension function setup the of ViewPager's FragmentPagerAdapter.
+ * @param fm Is fragment manager.
+ * @param fragments is list of fragment to be show.
+ * */
+fun androidx.viewpager.widget.ViewPager.setFragmentStatePagerAdapter(fm: androidx.fragment.app.FragmentManager, pages: ArrayList<Page>): androidx.fragment.app.FragmentPagerAdapter? {
+    adapter = object : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getItem(position: Int) = pages[position].page
         override fun getCount() = pages.size
         override fun getPageTitle(position: Int) = pages[position].title

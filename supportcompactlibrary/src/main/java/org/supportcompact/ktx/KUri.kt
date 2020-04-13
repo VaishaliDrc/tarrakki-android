@@ -9,7 +9,9 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import androidx.core.content.FileProvider
 import org.supportcompact.CoreApp
+import java.io.File
 
 
 /**
@@ -158,3 +160,5 @@ fun Uri.getFileName(): String? {
     }
     return ret
 }
+
+fun File.toUri() = FileProvider.getUriForFile(CoreApp.getInstance(), CoreApp.getInstance().packageName + ".fileprovider", this)

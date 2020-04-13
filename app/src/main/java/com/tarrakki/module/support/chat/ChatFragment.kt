@@ -16,6 +16,7 @@ import android.provider.Settings
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.util.IOUtils
 import com.tarrakki.*
 import com.tarrakki.api.model.SupportViewTicketResponse
@@ -23,6 +24,7 @@ import com.tarrakki.databinding.FragmentChatBinding
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
+import kotlinx.coroutines.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
@@ -35,6 +37,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.concurrent.thread
+import kotlin.coroutines.CoroutineContext
 
 /**
  * A simple [Fragment] subclass.
@@ -322,8 +325,8 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
         uCrop.start(context!!, this)
     }
 
-    private fun createFile(@NonNull uri: Uri, outputFile: File) {
-        thread {
+    private suspend fun createFile(@NonNull uri: Uri, outputFile: File) {
+        withContext(Dispatchers.Default) {
             getViewModel().showProgress()
             try {
                 val inputStream = context?.contentResolver?.openInputStream(uri)
@@ -335,15 +338,18 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                 // handle exception here
                 e.printStackTrace()
             } finally {
-                ticket.value?.let { ticket ->
-                    getViewModel().sendData(ticket).observe(this, Observer {
-                        getViewModel().getConversation(ticket)
-                        edtMessage?.text?.clear()
-                        edtMessage?.dismissKeyboard()
-                    })
+                GlobalScope.launch(Dispatchers.Main) {
+                    ticket.value?.let { ticket ->
+                        getViewModel().sendData(ticket).observe(this@ChatFragment, Observer {
+                            getViewModel().getConversation(ticket)
+                            edtMessage?.text?.clear()
+                            edtMessage?.dismissKeyboard()
+                        })
+                    }
                 }
             }
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -377,7 +383,9 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                                             ?: ""
                                     val mFile = File(getFileDownloadDir(), fileName)
                                     getViewModel().sendFile = Pair(1, mFile)
-                                    createFile(selectedUri, mFile)
+                                    lifecycleScope.launch {
+                                        createFile(selectedUri, mFile)
+                                    }
                                 } else {
                                     context?.simpleAlert(getString(R.string.max_file_size_msg))
                                 }

@@ -43,6 +43,11 @@ class ViewTicketsFragment : CoreParentFragment<SupportVM, FragmentViewTicketsBin
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        userVisibleHint = true
+    }
+
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         this.mUserVisibleHint = isVisibleToUser

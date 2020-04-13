@@ -2,10 +2,9 @@ package com.tarrakki.api.model
 
 
 import android.content.Intent
+import android.view.View
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableField
-import android.net.Uri
-import android.view.View
 import com.google.android.gms.common.util.IOUtils
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.R
@@ -18,6 +17,7 @@ import com.tarrakki.getMimeType
 import okhttp3.ResponseBody
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.toUri
 import org.supportcompact.ktx.toast
 import java.io.File
 import java.io.FileOutputStream
@@ -86,9 +86,8 @@ data class SupportChatResponse(
                             try {
                                 val file = File(getFileDownloadDir(), fileName)
                                 // Get URI and MIME type of file
-                                val uri = Uri.fromFile(file)
-                                val mime = mContext.contentResolver.getType(uri)
-                                        ?: getMimeType(uri.toString())
+                                val uri = file.toUri()//FileProvider.getUriForFile(App.INSTANCE, App.INSTANCE.packageName + ".fileprovider", file)//Uri.fromFile(file)
+                                val mime = mContext.contentResolver.getType(uri)?: getMimeType(uri.toString())
                                 // Open file with user selected app
                                 val intent = Intent()
                                 intent.action = Intent.ACTION_VIEW

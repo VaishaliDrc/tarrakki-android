@@ -3,6 +3,7 @@ package com.tarrakki.module.support
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentSupportBinding
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION

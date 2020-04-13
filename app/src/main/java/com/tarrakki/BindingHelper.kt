@@ -414,7 +414,7 @@ fun openSentFile(txt: TextView, fileName: String?) {
         try {
             val file = File(getFileDownloadDir(), fileName)
             // Get URI and MIME type of file
-            val uri = Uri.fromFile(file)
+            val uri = file.toUri()//Uri.fromFile(file)
             val mime = App.INSTANCE.contentResolver.getType(uri)
             // Open file with user selected app
             val intent = Intent()

@@ -68,7 +68,8 @@ class EKYCConfirmationVM : FragmentViewModel() {
                                 if (o.status?.code == 1) {
                                     //App.INSTANCE.setCompletedRegistration(true)
                                     //App.INSTANCE.setKYClVarified(true)
-                                    apiResponse.value = o
+                                    //apiResponse.value = o
+                                    apiResponse.postValue(o)
                                 } else {
                                     eventKYCBSEErrorDataLog(kycData, "0")
                                     o.status?.message?.let { postError(it) }

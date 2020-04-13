@@ -165,6 +165,10 @@ dependencies {
     implementation 'io.sentry:sentry-android:1.7.27'
     implementation 'org.slf4j:slf4j-nop:1.7.25'
 
+    //kotlinx-corountines-core, kotlinx-coroutines-android
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01"
 }
 
 apply plugin: 'com.google.gms.google-services'
