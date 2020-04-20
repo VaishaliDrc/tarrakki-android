@@ -59,7 +59,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
     override fun createReference() {
         setHasOptionsMenu(true)
 
-        val newUA = "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
+        val newUA = "Android"//"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
         mWebView.settings.userAgentString = newUA
         mWebView.clearCache(true)
         mWebView.settings.javaScriptEnabled = true // enable javascript

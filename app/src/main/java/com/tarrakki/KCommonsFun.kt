@@ -36,7 +36,7 @@ const val OPEN_BANK_MANDATE = "open_bank_mandate"
 
 fun String.isTarrakki() = this == "TarrakkiApp"
 
-fun Boolean.getOrganizationCode() = if (this) "01" else "10"
+fun Boolean.getOrganizationCode() = if (this) "01" else "02"
 
 fun Boolean.getVisibility() = if (this) View.VISIBLE else View.GONE
 
