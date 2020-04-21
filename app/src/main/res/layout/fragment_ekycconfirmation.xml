@@ -46,6 +46,16 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:elevation="2dp"
+                android:src="@drawable/ic_beta"
+                app:layout_constraintEnd_toEndOf="@id/llInfo"
+                app:layout_constraintTop_toTopOf="@id/llInfo" />
+
             <TextView
                 android:id="@+id/tvAlert"
                 android:layout_width="match_parent"
@@ -63,9 +73,9 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/yes"
@@ -83,9 +93,9 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_16sdp"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/no"

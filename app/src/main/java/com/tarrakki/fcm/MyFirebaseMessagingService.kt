@@ -137,9 +137,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                         !TextUtils.isEmpty(messageBody.optString("kra_remark")) -> messageBody.optString("kra_remark")
                         else -> App.INSTANCE.getString(R.string.kyc_rejection_remark_default_msg)
                     }
+                    if (messageBody.has("is_remaining_fields")) {
+                        setRemainingFields(messageBody.optString("is_remaining_fields"))
+                    }
                     kycRemark?.let { it1 -> App.INSTANCE.setRemark(it1) }
                     EventBus.getDefault().post(Event.REFRESH)
-                    //setRemainingFields(messageBody.optString("is_remaining_fields"))
                 }
                 putExtra(IS_FROM_NOTIFICATION, true)
             }

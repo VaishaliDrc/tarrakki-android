@@ -40,6 +40,9 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
             }
             vm = ViewModelProviders.of(this).get(createViewModel())
             setVM(binding)
+        } else {
+            val v = binding.root.parent as ViewGroup?
+            v?.removeView(binding.root)
         }
         return binding.root
     }

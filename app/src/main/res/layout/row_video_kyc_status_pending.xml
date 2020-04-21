@@ -90,8 +90,9 @@
             android:paddingStart="@dimen/_10sdp"
             android:paddingEnd="@dimen/_10sdp"
             android:text="@string/complete_registration"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textAllCaps="true"
             android:textColor="@color/white"
+            android:textSize="@dimen/_9ssp"
             android:visibility="@{item.btnCompleteRegistrationVisibility}"
             app:layout_constraintStart_toEndOf="@id/ivReadyToInvest"
             app:layout_constraintTop_toBottomOf="@id/tvDescription" />

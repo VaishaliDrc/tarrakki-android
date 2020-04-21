@@ -780,5 +780,6 @@
     <string name="kyc_details">KYC Details</string>
     <string name="video_kyc">Video KYC</string>
     <string name="chrome_required_to_install">We require the Chrome App installed in your device to redirect for the Video KYC so please install the Chrome App from Play Store.</string>
+    <string name="try_new_application">TRY NEW APPLICATION</string>
 
 </resources>

@@ -3,15 +3,15 @@ package com.tarrakki.module.netbanking
 
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
-import androidx.lifecycle.Observer
 import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
@@ -58,8 +58,10 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
         setHasOptionsMenu(true)
-
-        val newUA = "Android"//"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
+        //val newUA = "Mozilla/5.0 (Linux x86_64; rv:75.0) Gecko/20100101 Firefox/75.0"
+        val newUA = "Mozilla/5.0 (Linux; Android 6.0.1; SM-J500M Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36"
+        //"Android"
+        //"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0"
         mWebView.settings.userAgentString = newUA
         mWebView.clearCache(true)
         mWebView.settings.javaScriptEnabled = true // enable javascript

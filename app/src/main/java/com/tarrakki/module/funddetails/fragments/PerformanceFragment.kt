@@ -63,6 +63,9 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
         // Inflate the layout for this fragment
         if (binder == null) {
             binder = DataBindingUtil.inflate(inflater, R.layout.fragment_performance, container, false)
+        } else {
+            val v = binder?.root?.parent as ViewGroup?
+            v?.removeView(binder?.root)
         }
         return binder?.root
     }

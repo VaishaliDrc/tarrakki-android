@@ -134,11 +134,6 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
 
         mWebView.webViewClient = object : WebViewClient() {
 
-            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-                handler?.proceed() // When an error occurs, ignore and go on
-                super.onReceivedSslError(view, handler, error)
-            }
-
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 return onPageRequest(view, url)
             }
@@ -248,59 +243,59 @@ class EKYCWebViewFragment : CoreFragment<EKYCWebViewVM, FragmentEkycWebViewBindi
                 // launch the url
                 customTabsIntent.launchUrl(activity, Uri.parse(it.mobileAutoLoginUrl))*/
 
-               /* CustomTabActivityHelper.openCustomTab(this, customTabsIntent, uri,
-                        new CustomTabActivityHelper . CustomTabFallback () {
-                            @Override
-                            public void openUri(Activity activity, Uri uri) {
-                                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                                startActivity(intent);
-                            }
-                        });
-*/
-                 val permissions = arrayListOf(
-                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                         Manifest.permission.CAMERA,
-                         Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                         Manifest.permission.RECORD_AUDIO)
-                 requestPermissionsIfRequired(permissions, object : PermissionCallBack {
-                     override fun permissionGranted() {
-                         mWebView?.loadUrl(it.mobileAutoLoginUrl)
-                     }
+                /* CustomTabActivityHelper.openCustomTab(this, customTabsIntent, uri,
+                         new CustomTabActivityHelper . CustomTabFallback () {
+                             @Override
+                             public void openUri(Activity activity, Uri uri) {
+                                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                 startActivity(intent);
+                             }
+                         });
+ */
+                val permissions = arrayListOf(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                        Manifest.permission.RECORD_AUDIO)
+                requestPermissionsIfRequired(permissions, object : PermissionCallBack {
+                    override fun permissionGranted() {
+                        mWebView?.loadUrl(it.mobileAutoLoginUrl)
+                    }
 
-                     override fun permissionDenied() {
-                         context?.confirmationDialog(
-                                 title = getString(R.string.permission),
-                                 msg = getString(R.string.write_external_storage_title),
-                                 btnPositive = getString(R.string.allow),
-                                 btnNegative = getString(R.string.dont_allow),
-                                 btnPositiveClick = {
-                                     getViewModel().kycData.value = it
-                                 }
-                         )
-                     }
+                    override fun permissionDenied() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.allow),
+                                btnNegative = getString(R.string.dont_allow),
+                                btnPositiveClick = {
+                                    getViewModel().kycData.value = it
+                                }
+                        )
+                    }
 
-                     override fun onPermissionDisabled() {
-                         context?.confirmationDialog(
-                                 title = getString(R.string.permission),
-                                 msg = getString(R.string.write_external_storage_title),
-                                 btnPositive = getString(R.string.settings),
-                                 btnNegative = getString(R.string.cancel),
-                                 btnPositiveClick = {
-                                     val intent = Intent()
-                                     intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                     val uri = Uri.fromParts("package", context?.packageName, null)
-                                     intent.data = uri
-                                     startActivity(intent)
-                                 }
-                         )
-                     }
-                 })
-                 //mWebView?.loadData(it.mobileAutoLoginUrl, "text/html", "UTF-8")
-                 getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
-                     apiResponse?.let { eKYCPage ->
+                    override fun onPermissionDisabled() {
+                        context?.confirmationDialog(
+                                title = getString(R.string.permission),
+                                msg = getString(R.string.write_external_storage_title),
+                                btnPositive = getString(R.string.settings),
+                                btnNegative = getString(R.string.cancel),
+                                btnPositiveClick = {
+                                    val intent = Intent()
+                                    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                                    val uri = Uri.fromParts("package", context?.packageName, null)
+                                    intent.data = uri
+                                    startActivity(intent)
+                                }
+                        )
+                    }
+                })
+                //mWebView?.loadData(it.mobileAutoLoginUrl, "text/html", "UTF-8")
+                getViewModel().getEKYCPage(it).observe(this, Observer { apiResponse ->
+                    apiResponse?.let { eKYCPage ->
 
-                     }
-                 })
+                    }
+                })
             }
         })
     }

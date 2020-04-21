@@ -95,7 +95,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                  * */
                 ll_complete_verification?.visibility = View.GONE
                 rvDocStatus?.visibility = View.VISIBLE
-                if (App.INSTANCE.getRemainingFields().isBlank() || App.INSTANCE.getRemainingFields().toIntOrNull() == 0 || App.INSTANCE.getRemainingFields().toIntOrNull() == 2) {
+                if (App.INSTANCE.getRemainingFields().toIntOrNull() == 0 || App.INSTANCE.getRemainingFields().toIntOrNull() == 2) {
                     getViewModel().bankVisibility.set(View.VISIBLE)
                     getViewModel().bankMandateVisibility.set(View.GONE)
                 } else {
@@ -150,6 +150,13 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
              * */
             ll_complete_verification?.visibility = View.GONE
             rvDocStatus?.visibility = View.VISIBLE
+            if (App.INSTANCE.getRemainingFields().toIntOrNull() == 0 || App.INSTANCE.getRemainingFields().toIntOrNull() == 2) {
+                getViewModel().bankVisibility.set(View.VISIBLE)
+                getViewModel().bankMandateVisibility.set(View.GONE)
+            } else {
+                getViewModel().bankVisibility.set(View.GONE)
+                getViewModel().bankMandateVisibility.set(View.GONE)
+            }
             setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
         }
 

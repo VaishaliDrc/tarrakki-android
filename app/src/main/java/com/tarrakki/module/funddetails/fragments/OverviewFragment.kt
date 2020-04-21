@@ -31,6 +31,9 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (binder == null) {
             binder = DataBindingUtil.inflate(inflater, R.layout.fragment_overview, container, false)
+        } else {
+            val v = binder?.root?.parent as ViewGroup?
+            v?.removeView(binder?.root)
         }
         return binder?.root
     }
