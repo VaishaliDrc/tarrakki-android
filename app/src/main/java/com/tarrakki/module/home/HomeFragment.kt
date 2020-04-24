@@ -4,9 +4,12 @@ package com.tarrakki.module.home
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
@@ -82,7 +85,34 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                     }
             )
         }
+        //openChromeTab()
     }
+
+
+    /* private fun openChromeTab() {
+         val intentBuilder = CustomTabsIntent.Builder()
+         // Begin customizing
+         // set toolbar colors
+         intentBuilder.setToolbarColor(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimary));
+         intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimaryDark));
+         intentBuilder.setShowTitle(true)
+         // build custom tabs intent
+         val customTabsIntent = intentBuilder.build()
+         // launch the url
+         try {
+             // Here is a method that returns the chrome package name
+             // Here is a method that returns the chrome package name
+             val packageName = CustomTabsHelper.getPackageNameToUse(activity)
+             if (packageName != null) {
+                 customTabsIntent.intent.setPackage(packageName)
+             }
+             customTabsIntent.launchUrl(activity, Uri.parse("https://m-investor-onboarding.signzy.tech/icici_prudential2/5d9c3d151d3dce5774055e52/5e9c3a8de5c4293ee7583a25/1587296750/main?ns=icici_Tarrakki"))
+         } catch (e: Exception) {
+             context?.simpleAlert(getString(R.string.chrome_required_to_install)) {
+                 context?.openPlayStore(CustomTabsHelper.STABLE_PACKAGE)
+             }
+         }
+     }*/
 
     override fun onStart() {
         super.onStart()
