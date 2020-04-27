@@ -781,5 +781,9 @@
     <string name="video_kyc">Video KYC</string>
     <string name="chrome_required_to_install">We require the Chrome App installed in your device to redirect for the Video KYC so please install the Chrome App from Play Store.</string>
     <string name="try_new_application">TRY NEW APPLICATION</string>
+    <string name="your_risk_profile">Your Risk Profile</string>
+    <string name="your_risk_assessment_is_completed">Your risk assessment is completed!</string>
+    <string name="retake_risk_assessment">Retake Risk Assessment</string>
+    <string name="observation">Observation</string>
 
 </resources>

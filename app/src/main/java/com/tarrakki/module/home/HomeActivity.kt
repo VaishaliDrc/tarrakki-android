@@ -16,6 +16,7 @@ import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.risk_profile.RiskProfileFragment
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import org.json.JSONObject
@@ -29,7 +30,8 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sendDeviceDetails()
-        startFragment(HomeFragment.newInstance(), R.id.frmContainer)
+        startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+        //startFragment(HomeFragment.newInstance(), R.id.frmContainer)
     }
 
     override fun onBackPressed() {
