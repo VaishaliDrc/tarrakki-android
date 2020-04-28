@@ -44,7 +44,7 @@
             android:layout_marginStart="@dimen/_8sdp"
             android:fontFamily="@font/lato_semibold"
             android:text="@{widget.name}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/white"
             app:layout_constraintBottom_toTopOf="@id/tvRiskAssessment"
             app:layout_constraintEnd_toEndOf="parent"

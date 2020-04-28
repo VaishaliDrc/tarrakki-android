@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,25 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
         android:paddingTop="@dimen/_16sdp"
         android:paddingBottom="@dimen/_16sdp"
+        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-    <!--<FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".module.risk_profile.RiskProfileFragment">
-
-        <com.tarrakki.speedometer.SpeedView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:sv_endDegree="360"
-            app:sv_startDegree="180"
-            app:sv_tickNumber="0"
-            app:sv_tickTextFormat="INTEGER"
-            app:sv_withTremble="true" />
-
-    </FrameLayout>-->
 </layout>

@@ -82,7 +82,7 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
             field = backgroundCircleColor
             circleBackPaint.color = backgroundCircleColor
             invalidateGauge()
-    }
+        }
 
     private var startDegree = 135
     private var endDegree = 135 + 270
@@ -143,11 +143,13 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
 
     /** to rotate tick label  */
     private var tickRotation = true
+
     /**
      *  first padding, set by speedometer.
      *  this will not redraw background bitmap.
      */
     protected var initTickPadding = 0f
+
     /**
      * tick label's padding in pixel.
      */
@@ -375,9 +377,11 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
         require(startDegree < endDegree) { "EndDegree must be bigger than StartDegree !" }
         require(endDegree - startDegree <= 360) { "(EndDegree - StartDegree) must be smaller than 360 !" }
         require(startDegree >= speedometerMode.minDegree) {
-            "StartDegree must be bigger than ${speedometerMode.minDegree} in $speedometerMode Mode !" }
+            "StartDegree must be bigger than ${speedometerMode.minDegree} in $speedometerMode Mode !"
+        }
         require(endDegree <= speedometerMode.maxDegree) {
-            "EndDegree must be smaller than ${speedometerMode.maxDegree} in $speedometerMode Mode !" }
+            "EndDegree must be smaller than ${speedometerMode.maxDegree} in $speedometerMode Mode !"
+        }
     }
 
     /**
@@ -460,12 +464,12 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
     override fun createBackgroundBitmapCanvas(): Canvas {
         if (size == 0)
             return Canvas()
-        backgroundBitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+        backgroundBitmap = Bitmap.createBitmap(size, size / 2, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(backgroundBitmap)
         canvas.drawCircle(size * .5f, size * .5f, size * .5f - padding, circleBackPaint)
 
         // to fix preview mode issue
-        canvas.clipRect(0, 0, size, size)
+        canvas.clipRect(0, 0, size, size / 2)
 
         return canvas
     }
@@ -538,7 +542,7 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
             tickNumber = ticks.size
         cancelSpeedAnimator()
         degree = getDegreeAtSpeed(speed)
-        if (isAttachedToWindow){
+        if (isAttachedToWindow) {
             invalidateGauge()
             tremble()
         }
@@ -682,14 +686,22 @@ abstract class Speedometer @JvmOverloads constructor(context: Context, attrs: At
 
     enum class Mode(internal val minDegree: Int, internal val maxDegree: Int, val isHalf: Boolean, internal val divWidth: Int, internal val divHeight: Int) {
         NORMAL(0, 360 * 2, false, 1, 1)
-        , LEFT(90, 270, true, 2, 1)
-        , TOP(180, 360, true, 1, 2)
-        , RIGHT(270, 450, true, 2, 1)
-        , BOTTOM(0, 180, true, 1, 2)
-        , TOP_LEFT(180, 270, false, 1, 1)
-        , TOP_RIGHT(270, 360, false, 1, 1)
-        , BOTTOM_RIGHT(0, 90, false, 1, 1)
-        , BOTTOM_LEFT(90, 180, false, 1, 1);
+        ,
+        LEFT(90, 270, true, 2, 1)
+        ,
+        TOP(180, 360, true, 1, 2)
+        ,
+        RIGHT(270, 450, true, 2, 1)
+        ,
+        BOTTOM(0, 180, true, 1, 2)
+        ,
+        TOP_LEFT(180, 270, false, 1, 1)
+        ,
+        TOP_RIGHT(270, 360, false, 1, 1)
+        ,
+        BOTTOM_RIGHT(0, 90, false, 1, 1)
+        ,
+        BOTTOM_LEFT(90, 180, false, 1, 1);
 
         val isLeft: Boolean
             get() = this == LEFT || this == TOP_LEFT || this == BOTTOM_LEFT

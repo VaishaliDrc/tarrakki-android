@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.risk_profile.StartAssessmentVM" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_complete_verification"
+                android:padding="@dimen/_8sdp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivProfile"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_your_risk_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginTop="@dimen/space_8" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="ivProfile"
+                    app:layout_constraintStart_toEndOf="@id/ivProfile" />
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/know_your_risk_profile"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier4"
+                    app:layout_constraintTop_toTopOf="@id/ivProfile" />
+
+                <TextView
+                    android:id="@+id/tvRiskAssessment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="@string/help_us_understand_your_risk_profile"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/bg_img_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrier4"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:padding="@dimen/_8sdp">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/dotted"
+                    app:layout_constraintBottom_toBottomOf="@id/tvC"
+                    app:layout_constraintEnd_toEndOf="@id/tvA"
+                    app:layout_constraintHorizontal_bias="0.035"
+                    app:layout_constraintStart_toStartOf="@id/tvA"
+                    app:layout_constraintTop_toTopOf="@id/tvA" />
+
+                <TextView
+                    android:id="@+id/tvA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_radio_button_dark_gray"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="@string/know_your_investment_risk_profile"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/color_light_violet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:drawableStart="@drawable/ic_radio_button_dark_gray"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="@string/understand_the_riskometer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/color_light_violet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvA" />
+
+                <TextView
+                    android:id="@+id/tvC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:drawableStart="@drawable/ic_radio_button_dark_gray"
+                    android:drawablePadding="@dimen/_8sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="@string/make_better_investment_choice"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/color_light_violet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvB" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/start_assessment"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

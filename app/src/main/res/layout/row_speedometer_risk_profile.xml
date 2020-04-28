@@ -31,13 +31,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.github.anastr.speedviewlib.SpeedView
+        <ImageView
+            android:id="@+id/ivRiskLbl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_risk_miter_bg_lbl"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <com.tarrakki.speedometer.SpeedView
+            android:id="@+id/speedView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:layout_constraintTop_toTopOf="@id/ivRiskLbl"
+            app:sv_centerCircleColor="@color/white"
             app:sv_endDegree="360"
-            app:sv_startDegree="180" />
+            app:sv_speedTextPadding="@dimen/_18ssp"
+            app:sv_speedTextPosition="CENTER"
+            app:sv_startDegree="180"
+            app:sv_textSize="@dimen/_18ssp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/low"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="@id/speedView"
+            app:layout_constraintTop_toBottomOf="@id/speedView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/high"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toEndOf="@id/speedView"
+            app:layout_constraintTop_toBottomOf="@id/speedView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
