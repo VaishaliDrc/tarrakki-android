@@ -2,6 +2,7 @@ package com.tarrakki.module.risk_profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentStartAssessmentBinding
 import com.tarrakki.module.risk_assesment.AssessmentQFragment
@@ -33,9 +34,11 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
     }
 
     override fun createReference() {
-        btnStart?.setOnClickListener {
-            startFragment(AssessmentQFragment.newInstance(), R.id.frmContainer)
-        }
+        getViewModel().getRiskAssessmentQuestions().observe(this, Observer {
+            btnStart?.setOnClickListener {
+                startFragment(AssessmentQFragment.newInstance(), R.id.frmContainer)
+            }
+        })
     }
 
     companion object {
