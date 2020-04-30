@@ -37,8 +37,9 @@ class App : CoreApp() {
         // Branch.setPlayStoreReferrerCheckTimeout(1000L)
 
         // Initialize the Branch SDK
-        Branch.getAutoInstance(this)
-
+        if (!BuildConfig.FLAVOR.isTarrakki()) {
+            Branch.getAutoInstance(this)
+        }
         //Sentry Tracking
         Sentry.init("https://e33bb6ed55444fc69342ecfe5f38c2ed@sentry.drcsystems.com/13", AndroidSentryClientFactory(this))
     }

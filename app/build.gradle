@@ -80,6 +80,8 @@ android {
         TarrakkiApp {
             dimension = 'Tarrakki'
             applicationId = APPLICATION_ID
+            versionCode = VERSION_CODE
+            versionName = VERSION_NAME
             resValue "string", "app_name", "Tarrakki"
             manifestPlaceholders = [
                     appIcon       : "@mipmap/ic_launcher",
@@ -89,6 +91,8 @@ android {
         RuralInvest {
             dimension = 'Tarrakki'
             applicationId = APPLICATION_RURAL_ID
+            versionCode = VERSION_CODE_RURAL
+            versionName = VERSION_NAME_RURAL
             resValue "string", "app_name", "Rural Invest"
             manifestPlaceholders = [
                     appIcon       : "@mipmap/ic_launcher_rural_invest",

@@ -23,6 +23,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="account">Account</string>
     <string name="why_tarrakki">Why Tarrakki ?</string>
+    <string name="why_rural_invest">Why Rural Invest ?</string>
     <string name="view_all">View All</string>
     <string name="portfolio_value">Portfolio Value</string>
     <string name="dummy">\u20B93,24666666666666888888888</string>
@@ -67,6 +68,38 @@
         \n\nAchieve life goals and financial milestones faster.
         \n\n- Paperless Investing
         \n\n- Direct Plans (No Agent Commissions)
+    </string>
+    <string name="why_rural_invest_info">
+        Today, India has the world’s largest rural population, which is yet to be tapped to its
+        fullest potential. There exists a pertinent lack of financial planning in rural Indian
+        households. According to a recent survey conducted by SEBI, less than 1% of rural
+        people invest in financial instruments. Out of 13,697 respondents, only 35 have some
+        formal financial investments, which is a mere 0.23%. Thus, financial literacy is a big
+        challenge for the rural population in India; however, it also plays a crucial role in the
+        economy’s prospects.
+        \n\n
+        We intend to inculcate a habit of saving in our country’s rural population so that they
+        can make financially informed goal-oriented decisions towards securing a better
+        future for themselves &amp; their family. It is because the financial situation and behavior
+        of rural households not only affects their livelihood; it also has a significant influence
+        on the stability of the financial system and future economic growth of the country.
+        \n\n
+        However, the behavior of rural household investors regarding saving &amp; investment
+        behavior is inconsistent and unpredictable because of the lack of financial education,
+        impoverished lifestyle, unstable occupation, and fluctuating income. They are not
+        able to save their money due to these irregularities, and even if some households
+        save, it is usually informal savings in the form of cash, which might pose liquidity
+        challenges during unexpected situations like Demonetization or COVID-19. Lack of
+        awareness about ways &amp; benefits of investing in financial assets leads to an increase
+        in informal savings &amp; investments, which ultimately does not contribute to the capital
+        formation of the country.
+        \n\n
+        Thus, we decided to start Rural Invest, an initiative like Rural Invest which is the
+        need of the hour to leverage finance’s power to empower and tap the untapped Indian
+        rural market. Rural Invest aims to spread awareness about financial literacy amongst
+        rural households &amp; inculcate the habit of saving &amp; investing. Thus, Rural Invest is
+        an effective avenue for Rural India for saving, borrowing, investing, and mitigating
+        future financial risks, thereby also ensuring access to liquidity in times of distress.
     </string>
     <string name="category">Category</string>
     <string name="sub_category">Sub Category</string>
@@ -718,6 +751,7 @@
     <string name="if_you_have_transferred_money_using_neft_rtgs_it_can_take_upto_24_hours_to_update">If you have transferred money using NEFT/RTGS, it can take up-to 24 hours to update the transaction from Unpaid to Paid</string>
     <string name="down_for_maintenance">Down for Maintenance</string>
     <string name="we_are_currently_undergoing_server_maintenance">"Sorry, we'll be up and running in no time.\n\nJust making sure you're experience with Tarrakki is seamless."</string>
+    <string name="we_are_currently_undergoing_server_maintenance_rural">"Sorry, we'll be up and running in no time.\n\nJust making sure you're experience with Rural Investment is seamless."</string>
     <string name="please_try_again_after">Please try again after</string>
     <string name="refresh">Refresh</string>
     <string name="if_funds_were_debited_from_your_account_please_do_not_pay_again">If funds were debited from your account, please do not pay again. It can take upto 48 hours to receive the fund confirmation.</string>

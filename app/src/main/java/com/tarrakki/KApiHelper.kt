@@ -1,8 +1,8 @@
 package com.tarrakki
 
 import android.annotation.SuppressLint
-import androidx.lifecycle.MutableLiveData
 import android.provider.Settings
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.api.*
 import com.tarrakki.api.ApiClient.CAMS_PASSWORD
@@ -681,7 +681,7 @@ fun checkAppUpdate(showProcess: Boolean = false): MutableLiveData<AppUpdateRespo
     if (showProcess)
         EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<AppUpdateResponse>()
-    subscribeToSingle(ApiClient.getApiClient().create(WebserviceBuilder::class.java).checkAppUpdate(),
+    subscribeToSingle(ApiClient.getApiClient().create(WebserviceBuilder::class.java).checkAppUpdate(BuildConfig.FLAVOR.isTarrakki().getOrganizationCode()),
             object : SingleCallback1<ApiResponse> {
                 override fun onSingleSuccess(o: ApiResponse) {
                     if (showProcess)
@@ -689,7 +689,6 @@ fun checkAppUpdate(showProcess: Boolean = false): MutableLiveData<AppUpdateRespo
                     if (o.status?.code == 1) {
                         o.printResponse()
                         val apiClient = o.data?.parseTo<AppUpdateResponse>()
-                        apiClient?.data?.forceUpdate = false //TODO need to remove
                         apiResponse.postValue(apiClient)
                     }
                 }

@@ -47,10 +47,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:gravity="center"
-            android:text="@string/we_are_currently_undergoing_server_maintenance"
+            android:text="@{vm.isTarrakkiBase()?@string/we_are_currently_undergoing_server_maintenance:@string/we_are_currently_undergoing_server_maintenance_rural}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
+            app:layout_constraintTop_toBottomOf="@id/ivLogo"
+            tools:text="@string/we_are_currently_undergoing_server_maintenance_rural" />
 
         <LinearLayout
             android:id="@+id/ll_timer"

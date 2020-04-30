@@ -267,7 +267,7 @@ interface WebserviceBuilder {
     fun instaRedeem(@Path("user_id") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
     @GET("configurations/get-version-details/android/")
-    fun checkAppUpdate(): Observable<ApiResponse>
+    fun checkAppUpdate(@Query("organization_id") organizationId: String): Observable<ApiResponse>
 
     @GET("configurations/get-maintenance-details/")
     fun getMaintenanceDetails(): Observable<ApiResponse>

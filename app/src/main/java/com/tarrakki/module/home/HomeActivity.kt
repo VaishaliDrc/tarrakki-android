@@ -10,7 +10,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.tarrakki.*
 import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
-import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
@@ -60,6 +59,12 @@ class HomeActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         // Branch init
+        if (!BuildConfig.FLAVOR.isTarrakki()) {
+            setUpBranchIo()
+        }
+    }
+
+    private fun setUpBranchIo() {
         try {
             val branch = Branch.getInstance(applicationContext)
             branch.initSession(branchReferralInitListener)
