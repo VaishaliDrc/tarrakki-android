@@ -37,11 +37,15 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
     override fun createReference() {
 
         val result = Observer<RiskAssessmentQuestionsApiResponse> {
-            
+
         }
         btnStart?.setOnClickListener {
             if (getViewModel().apiQuestionsResponse.value != null) {
                 startFragment(AssessmentQFragment.newInstance(), R.id.frmContainer)
+                getViewModel().apiQuestionsResponse.value?.let { data ->
+                    data.page = 1
+                    postSticky(data)
+                }
             } else {
                 getViewModel().getRiskAssessmentQuestions().observe(this, result)
             }

@@ -3,11 +3,14 @@ package com.tarrakki.module.risk_assesment
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
+import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import org.supportcompact.FragmentViewModel
 
 class AssessmentQVM : FragmentViewModel() {
 
     val sliderQuestions = arrayListOf<SliderItem>()
+    var questions = MutableLiveData<RiskAssessmentQuestionsApiResponse>()
 
     init {
         sliderQuestions.add(SliderItem("Below 5000"))

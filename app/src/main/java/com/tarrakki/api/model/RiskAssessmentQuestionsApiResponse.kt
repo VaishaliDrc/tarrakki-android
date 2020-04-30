@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class RiskAssessmentQuestionsApiResponse(
         @SerializedName("data")
-        val `data`: List<Data?>?
+        val `data`: List<Data?>?,
+        var page: Int = 0
 ) {
     data class Data(
             @SerializedName("action")
