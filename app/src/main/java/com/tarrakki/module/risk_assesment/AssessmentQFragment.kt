@@ -33,6 +33,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
     }
 
     override fun createReference() {
+
         rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_slider_item_start, getViewModel().sliderQuestions) { item: SliderItem, binder: RowRiskAssessmentSliderItemStartBinding, position: Int ->
             binder.item = item
             binder.executePendingBindings()
@@ -46,6 +47,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             }
         }
     }
+
 
     companion object {
         /**
