@@ -1,5 +1,8 @@
 package com.tarrakki.api.model
 
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
+import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.annotations.SerializedName
 
 data class RiskAssessmentQuestionsApiResponse(
@@ -13,7 +16,7 @@ data class RiskAssessmentQuestionsApiResponse(
             @SerializedName("is_active")
             val isActive: Boolean?,
             @SerializedName("option")
-            val option: List<Option?>?,
+            val option: List<Option>?,
             @SerializedName("question")
             val question: String?,
             @SerializedName("question_id")
@@ -27,11 +30,27 @@ data class RiskAssessmentQuestionsApiResponse(
                 @SerializedName("option_id")
                 val optionId: Int?,
                 @SerializedName("option_image")
-                val optionImage: Any?,
+                val optionImage: String?,
                 @SerializedName("option_type")
                 val optionType: String?,
                 @SerializedName("option_value")
                 val optionValue: String?
-        )
+        ): BaseObservable(){
+            val selected: Boolean = false
+
+            @get:Bindable
+            var isSelected: Boolean = selected
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.selected)
+                }
+
+            @get:Bindable
+            var isMovedOver: Boolean = false
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.movedOver)
+                }
+        }
     }
 }
