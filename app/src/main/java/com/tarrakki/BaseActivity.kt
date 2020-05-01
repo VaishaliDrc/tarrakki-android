@@ -56,7 +56,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this).registerReceiver(finisAllTask, IntentFilter(ACTION_FINISH_ALL_TASK))
         getViewModel().isBackEnabled.observe(this, Observer { it ->
             it?.let {
-                mToolBar?.setNavigationIcon(if (it) getDrawable(R.drawable.ic_arrow_back_white_24dp) else null/*R.drawable.ic_menu_white_24dp*/)
+                mToolBar?.navigationIcon = if (it) getDrawable(R.drawable.ic_arrow_back_white_24dp) else null
             }
         })
 
@@ -124,7 +124,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
         when (item?.itemId) {
             android.R.id.home -> {
                 getViewModel().isBackEnabled.value?.let {
-                    val fragment = supportFragmentManager?.findFragmentById(R.id.frmContainer)
+                    val fragment = supportFragmentManager.findFragmentById(R.id.frmContainer)
                     if (fragment is CartFragment ||
                             fragment is BankMandateSuccessFragment ||
                             fragment is TransactionsFragment ||
