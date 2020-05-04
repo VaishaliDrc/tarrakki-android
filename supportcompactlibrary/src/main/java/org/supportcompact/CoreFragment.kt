@@ -112,8 +112,6 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {
         for (i in 1..steps) {
             activity?.supportFragmentManager?.popBackStack()
-            //fragmentManager?.popBackStackImmediate(null, 0)
-            //activity?.supportFragmentManager?.popBackStack(null, 0/*FragmentManager.POP_BACK_STACK_INCLUSIVE*/)
         }
     }
 

@@ -35,11 +35,10 @@ data class RiskAssessmentQuestionsApiResponse(
                 val optionType: String?,
                 @SerializedName("option_value")
                 val optionValue: String?
-        ): BaseObservable(){
-            val selected: Boolean = false
+        ) : BaseObservable() {
 
             @get:Bindable
-            var isSelected: Boolean = selected
+            var isSelected: Boolean = false
                 set(value) {
                     field = value
                     notifyPropertyChanged(BR.selected)
@@ -51,6 +50,14 @@ data class RiskAssessmentQuestionsApiResponse(
                     field = value
                     notifyPropertyChanged(BR.movedOver)
                 }
+
+            @get:Bindable
+            var goalAmount: String = ""
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.goalAmount)
+                }
+
         }
     }
 }
