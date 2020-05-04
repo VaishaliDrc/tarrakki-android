@@ -22,7 +22,7 @@ class StartAssessmentVM : FragmentViewModel() {
 
     val apiQuestionsResponse = MutableLiveData<RiskAssessmentQuestionsApiResponse>()
 
-    fun getRiskAssessmentQuestions(): MutableLiveData<RiskAssessmentQuestionsApiResponse> {
+    /*fun getRiskAssessmentQuestions(): MutableLiveData<RiskAssessmentQuestionsApiResponse> {
         showProgress()
         subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getRiskAssessmentQuestions(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
             override fun onSingleSuccess(o: ApiResponse) {
@@ -45,6 +45,6 @@ class StartAssessmentVM : FragmentViewModel() {
             }
         })
         return apiQuestionsResponse
-    }
+    }*/
 
 }

@@ -91,15 +91,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/default_space"
                 android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:drawableEnd="@drawable/ic_arrow_forward_white_24dp"
                 android:drawablePadding="@dimen/_4sdp"
                 android:fontFamily="@font/lato_bold"
-                android:paddingStart="@dimen/_16sdp"
-                android:paddingEnd="@dimen/_8sdp"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
                 android:text="@string/txtcontinue"
                 android:textColor="@color/white" />
 

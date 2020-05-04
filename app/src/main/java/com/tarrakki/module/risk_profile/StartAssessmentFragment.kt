@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.FragmentStartAssessmentBinding
+import com.tarrakki.getRiskAssessmentQuestions
 import com.tarrakki.module.risk_assesment.AssessmentQFragment
 import kotlinx.android.synthetic.main.fragment_start_assessment.*
 import org.supportcompact.CoreFragment
@@ -37,7 +38,7 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
     override fun createReference() {
 
         val result = Observer<RiskAssessmentQuestionsApiResponse> {
-
+            getViewModel().apiQuestionsResponse.value = it
         }
         btnStart?.setOnClickListener {
             if (getViewModel().apiQuestionsResponse.value != null) {
@@ -47,10 +48,10 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
                     postSticky(data)
                 }
             } else {
-                getViewModel().getRiskAssessmentQuestions().observe(this, result)
+                getRiskAssessmentQuestions().observe(this, result)
             }
         }
-        getViewModel().getRiskAssessmentQuestions().observe(this, result)
+        getRiskAssessmentQuestions().observe(this, result)
     }
 
     companion object {

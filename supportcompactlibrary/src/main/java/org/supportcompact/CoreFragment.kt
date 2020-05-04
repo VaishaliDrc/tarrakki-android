@@ -31,7 +31,6 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
     private val PERMISSION_CODE = 101
     private var permissionCallBack: PermissionCallBack? = null
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (!::binding.isInitialized) {
             binding = DataBindingUtil.inflate(inflater, getLayout(), container, false)

@@ -15,6 +15,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.*
+import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.setDividerVertical
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
 import org.greenrobot.eventbus.Subscribe
@@ -71,12 +72,15 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                 if (!options.isNullOrEmpty()) {
                     getViewModel().question.set(question.question)
-                    setOptionsData(options[0].optionType.toString(), options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
+                    setOptionsData(options[0].optionType.toString().toLowerCase(), options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
                 }
 
                 btnContinue?.setOnClickListener {
                     if (currentPage == totalQuestions) {
-                        context?.simpleAlert("Completed")
+                        //context?.simpleAlert("Completed")
+                        getViewModel().submitRiskAssessmentAws().observe(this, Observer {
+                            onBackExclusive(RiskProfileFragment::class.java)
+                        })
                     } else {
                         startFragment(newInstance(), R.id.frmContainer)
                         data.page++
@@ -118,7 +122,12 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 setCheckboxGoalData(options)
             }
             "radio_returns" -> {
-
+                options.forEachIndexed { _, option ->
+                    if (option.optionValue?.contains(",") == true) {
+                        option.optionValue = option.optionValue?.replace(",", "\n")
+                    }
+                }
+                setRadioData(optionsData, options)
             }
         }
     }
