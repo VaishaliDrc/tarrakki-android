@@ -15,6 +15,7 @@ class AssessmentQVM : FragmentViewModel() {
     var questions = MutableLiveData<RiskAssessmentQuestionsApiResponse>()
 
     var questionNo =  ObservableField("")
+    var questionTotal =  ObservableField("")
     var question = ObservableField("")
 
     init {

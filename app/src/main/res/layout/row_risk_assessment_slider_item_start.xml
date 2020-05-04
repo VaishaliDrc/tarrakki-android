@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="isEnd"
+            type="Boolean" />
+
         <import type="android.view.View" />
 
         <variable
@@ -13,12 +17,14 @@
     </data>
 
     <RelativeLayout
+        android:gravity="center_horizontal"
+        android:layoutDirection="@{isEnd?View.LAYOUT_DIRECTION_RTL:View.LAYOUT_DIRECTION_LTR}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/lyttitle"
-            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:paddingTop="@dimen/_8sdp"
             android:paddingBottom="@dimen/_8sdp"
             android:orientation="vertical"
@@ -31,8 +37,8 @@
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@{item.isSelected?@drawable/dr_btn_payment_bg:@drawable/slider_unselected_bg}"
-                android:elevation="2dp"
+                android:background="@{item.isSelected?@drawable/slider_selected_bg:@drawable/slider_unselected_bg}"
+                android:elevation="4dp"
                 android:gravity="center"
                 android:paddingStart="@dimen/_16sdp"
                 android:paddingTop="@dimen/_8sdp"
@@ -64,7 +70,7 @@
                 <View
                     android:layout_centerVertical="true"
                     tools:visibility="visible"
-                    android:layout_width="@dimen/_8sdp"
+                    android:layout_width="@dimen/_12sdp"
                     android:layout_height="2dp"
                     android:background="@color/darker_gray"/>
 
@@ -74,6 +80,7 @@
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+                    android:rotation="@{isEnd?180:0}"
                     android:src="@drawable/ic_thumb"
                     android:visibility="@{item.isSelected?View.VISIBLE:View.GONE}"/>
 

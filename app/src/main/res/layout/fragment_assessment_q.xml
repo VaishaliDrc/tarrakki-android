@@ -20,45 +20,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/_16sdp">
+            android:padding="@dimen/_12sdp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:padding="@dimen/_8sdp">
+                android:paddingBottom="@dimen/_8sdp"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvQIndex"
+                <LinearLayout
+                    android:padding="@dimen/_8sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{vm.questionNo}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvQuestion"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            tools:text="1"
+                            android:id="@+id/tvQIndex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.questionNo}"
+                            android:textColor="@color/black"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                        <TextView
+                            tools:text="/10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{vm.questionTotal}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@{vm.question}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    android:fontFamily="@font/lato_semibold"
-                    android:text="@{vm.question}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@id/tvQIndex" />
+                    android:layout_height="wrap_content">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvQuestions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    app:enableNestedScrollView="@{false}"
-                    app:layout_constraintTop_toBottomOf="@id/tvQuestion" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvQuestions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        app:enableNestedScrollView="@{false}"/>
+                </RelativeLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnContinue"

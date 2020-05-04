@@ -2,12 +2,11 @@ package com.tarrakki.module.risk_assesment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.appcompat.widget.LinearLayoutCompat
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,16 +16,14 @@ import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.*
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
-import kotlinx.android.synthetic.main.fragment_investment_strategies.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
-import org.supportcompact.widgets.ItemOffsetDecoration
-import java.util.*
-import kotlin.collections.ArrayList
+import org.supportcompact.utilise.EqualSpacingItemDecoration
+import org.supportcompact.utilise.GridSpacingItemDecoration
 
 
 /**
@@ -62,8 +59,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 totalQuestions = data.data?.size?.minus(1)
                 currentPage = data.page
 
-                val questionNo = "${data.page}${"/"}${totalQuestions}  ${"Question"}"
+                val questionNo = "${data.page}"
+                val total = "${"/"}${totalQuestions}  ${"Question"}"
                 getViewModel().questionNo.set(questionNo)
+                getViewModel().questionTotal.set(total)
 
                 val question = data.data?.get(data.page-1)
                 val options = question?.option
@@ -89,18 +88,12 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
     }
 
     fun setOptionsData(type : String, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
-        val optionsItems = ArrayList<OptionsItem>()
-        val optionsData =  options.groupBy { it.optionCategory }
 
-        for (item in optionsData.entries){
-            val category = item.key
-            val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
-            optionsItems.add(OptionsItem(category,itemOptions))
-        }
+        val optionsData =  options.groupBy { it.optionCategory }
 
         when (type) {
             "slider" -> {
-                setSliderData(optionsItems)
+                setSliderData(optionsData,options)
             }
             "checkbox" -> {
                 if (optionsData.entries.size==1) {
@@ -108,14 +101,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
             }
             "radio" -> {
-                if (optionsData.entries.size==1){
-                    setRadioData(options)
-                }else{
-
-                }
+                    setRadioData(optionsData,options)
             }
             "radio_emoji" -> {
-
+                setRadioEmojiData(optionsData,options)
             }
             "checkbox_goal" -> {
 
@@ -129,7 +118,9 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
     }
 
     fun setCheckboxData(options :  ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
-        rvQuestions?.addItemDecoration(ItemOffsetDecoration(context!!, R.dimen.space_4))
+        rvQuestions?.addItemDecoration(GridSpacingItemDecoration(3, resources.getDimensionPixelSize(R.dimen.space_12), true))
+
+       // rvQuestions?.addItemDecoration(ItemOffsetDecoration(context!!, R.dimen.space_8))
         rvQuestions?.layoutManager = GridLayoutManager(activity,3)
         rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_checkbox_item ,options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentCheckboxItemBinding, position: Int ->
             binder.item = item
@@ -142,35 +133,124 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
     }
 
-    fun setRadioData(options :  ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
+    fun setRadioEmojiData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>,options :  ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
+        val optionsItems = ArrayList<OptionsItem>()
 
-        rvQuestions?.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
-        rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_item ,options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioItemBinding, position: Int ->
-            binder.item = item
-            binder.executePendingBindings()
-
-            binder.root.setOnClickListener {
-                options.forEachIndexed { index, it1 ->
-                    it1.isSelected = false
-                }
-                item.isSelected = true
-            }
+        for (item in data.entries){
+            val category = item.key
+            val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
+            optionsItems.add(OptionsItem(category,itemOptions))
         }
 
+        rvQuestions?.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+
+        if (data.entries.size==1){
+            rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_16)))
+            rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_emoji_item ,options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioEmojiItemBinding, position: Int ->
+                binder.item = item
+                binder.executePendingBindings()
+
+                binder.root.setOnClickListener {
+                    options.forEachIndexed { index, it1 ->
+                        it1.isSelected = false
+                    }
+                    item.isSelected = true
+                }
+            }
+        }
     }
 
-    fun setSliderData(options : ArrayList<OptionsItem>){
+    fun setRadioData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>,options :  ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
+        val optionsItems = ArrayList<OptionsItem>()
 
-        rvQuestions?.layoutManager = PeekingLinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
-        rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_slider, options) { item: OptionsItem, binder: RowRiskAssessmentSliderBinding, position: Int ->
+        for (item in data.entries){
+            val category = item.key
+            val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
+            optionsItems.add(OptionsItem(category,itemOptions))
+        }
+
+        rvQuestions?.layoutManager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
+
+        if (data.entries.size==1){
+            rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_16)))
+            rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_item ,options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioItemBinding, position: Int ->
+                binder.item = item
+                binder.executePendingBindings()
+
+                binder.optionTitle = getCharForNumber(position)
+
+                binder.root.setOnClickListener {
+                    options.forEachIndexed { index, it1 ->
+                        it1.isSelected = false
+                    }
+                    item.isSelected = true
+                }
+            }
+        }else{
+            rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio, optionsItems) { item: OptionsItem, binder: RowRiskAssessmentRadioBinding, position: Int ->
+                binder.item = item
+                binder.executePendingBindings()
+
+                item.options?.let {
+                    options ->
+
+                    binder.rvOptions.addItemDecoration(GridSpacingItemDecoration(3, resources.getDimensionPixelSize(R.dimen.space_12), true))
+
+                    binder.rvOptions.setUpRecyclerView(R.layout.row_risk_assessment_checkbox_item, options) { item1: RiskAssessmentQuestionsApiResponse.Data.Option, binder1: RowRiskAssessmentCheckboxItemBinding, position1: Int ->
+                        binder1.item = item1
+                        binder1.executePendingBindings()
+
+                        binder1.root.setOnClickListener {
+
+                            options.forEachIndexed { index, it1 ->
+                                it1.isSelected = false
+                            }
+                            item1.isSelected = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun setSliderData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>,options : ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>){
+        val optionsItems = ArrayList<OptionsItem>()
+
+        for (item in data.entries){
+            val category = item.key
+            val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
+            optionsItems.add(OptionsItem(category,itemOptions))
+        }
+
+        val layoutManager = PeekingLinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        if (data.entries.size==1) {
+
+            val displaymetrics = DisplayMetrics()
+            activity?.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
+            val width = displaymetrics.widthPixels * 55 / 100
+            rvQuestions?.layoutParams?.width = width
+
+            layoutManager.isSingleItem(true)
+
+        }else{
+            rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_20)))
+            layoutManager.isSingleItem(false)
+        }
+        rvQuestions?.layoutManager = layoutManager
+        rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_slider, optionsItems) { item: OptionsItem, binder: RowRiskAssessmentSliderBinding, position: Int ->
            binder.item = item
            binder.executePendingBindings()
+
+            binder.isEnd = position % 2 != 0
 
             item.options?.let {
                 options ->
                 binder.rvOptions.setUpRecyclerView(R.layout.row_risk_assessment_slider_item_start, options) { item1: RiskAssessmentQuestionsApiResponse.Data.Option, binder1: RowRiskAssessmentSliderItemStartBinding, position1: Int ->
                     binder1.item = item1
                     binder1.executePendingBindings()
+
+                    binder1.isEnd = position % 2 != 0
+
                     binder1.tvTitle.setOnClickListener {
 
                         options.forEachIndexed { index, it1 ->
@@ -182,21 +262,6 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
             }
        }
-
-        /*rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_slider_item_start, getViewModel().sliderQuestions) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentSliderItemStartBinding, position: Int ->
-            binder.item = item
-            binder.executePendingBindings()
-            binder.tvTitle.setOnClickListener {
-
-                getViewModel().sliderQuestions.forEachIndexed { index, it ->
-                    it.isSelected = false
-                    it.isMovedOver = index < position
-                }
-                getViewModel().sliderQuestions[position].isSelected = true
-            }
-        }
-*/
-
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -204,6 +269,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         if (getViewModel().questions.value == null) {
             getViewModel().questions.value = data
         }
+    }
+
+    private fun getCharForNumber(i: Int): String? {
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".substring(i, i+1);
     }
 
     companion object {
@@ -231,8 +300,8 @@ class PeekingLinearLayoutManager : LinearLayoutManager {
     private fun scaledLayoutParams(layoutParams: RecyclerView.LayoutParams) =
             layoutParams.apply {
                 when(orientation) {
-                    HORIZONTAL -> width = (horizontalSpace * ratio).toInt()
-                    VERTICAL -> height = (verticalSpace * ratio).toInt()
+                    HORIZONTAL -> width = (horizontalSpace * getRatio()).toInt()
+                    VERTICAL -> height = (verticalSpace * getRatio()).toInt()
                 }
             }
 
@@ -240,5 +309,17 @@ class PeekingLinearLayoutManager : LinearLayoutManager {
 
     private val verticalSpace get() = height - paddingTop - paddingBottom
 
-    private val ratio = 0.5f // change to 0.7f for 70%
+    fun getRatio() : Float{
+        return if (isSingleItem){
+           0.85f
+        }else{
+            0.40f
+        }
+    }
+
+    var isSingleItem = false;
+
+    fun isSingleItem(isSingleItem : Boolean){
+        this.isSingleItem = isSingleItem;
+    }
 }

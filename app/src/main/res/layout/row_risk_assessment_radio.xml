@@ -10,10 +10,6 @@
         <import type="android.text.TextUtils"/>
 
         <variable
-            name="isEnd"
-            type="Boolean" />
-
-        <variable
             name="item"
             type="com.tarrakki.module.risk_assesment.OptionsItem" />
     </data>
@@ -24,42 +20,40 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:paddingStart="@{isEnd? @dimen/space_25 : @dimen/space_0}"
-            android:paddingEnd="@{!isEnd? @dimen/space_25 : @dimen/space_0}"
-            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/space_12"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvTitle"
                 visibility="@{!TextUtils.isEmpty(item.category)? View.VISIBLE : View.GONE}"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_round_primary_bg"
-                android:elevation="2dp"
+                android:background="@drawable/shape_round_accent_bg"
                 tools:visibility="visible"
                 android:gravity="center"
-                android:paddingStart="@dimen/_16sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingEnd="@dimen/_16sdp"
-                android:paddingBottom="@dimen/_8sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
                 android:text="@{item.category}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@color/white"
-                tools:background="@drawable/shape_round_primary_bg"
-                tools:text="15000 - 30000"
+                tools:background="@drawable/shape_round_accent_bg"
+                tools:text="Business"
                 tools:textColor="@color/white" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOptions"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            tools:listitem="@layout/row_risk_assessment_slider_item_start"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:layout_marginTop="@dimen/_16sdp"
+            tools:listitem="@layout/row_risk_assessment_checkbox_item"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
             app:enableNestedScrollView="@{false}" />
 
 
