@@ -804,7 +804,7 @@ abstract class Gauge constructor(context: Context, attrs: AttributeSet? = null, 
      * @see realSpeedTo
      */
     @JvmOverloads
-    fun speedTo(speed: Float, moveDuration: Long = 2000) {
+        fun speedTo(speed: Float, moveDuration: Long = 2000) {
         var newSpeed = speed
         newSpeed = if (newSpeed > maxSpeed) maxSpeed else if (newSpeed < minSpeed) minSpeed else newSpeed
         if (newSpeed == this.speed)

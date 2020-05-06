@@ -2,6 +2,7 @@ package com.tarrakki.module.funddetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.annotation.IntRange
+import androidx.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -26,9 +27,10 @@ class FundDetailsVM : FragmentViewModel() {
     val durations = arrayListOf<FundType>()
     val fundDetailsResponse = MutableLiveData<FundDetails>()
     var tarrakkiZyaadaId: String? = null
+    val hasRiskProfile = ObservableField(true)
+    val riskScore = ObservableField(75f)
 
     init {
-
         durations.add(FundType("1Y"))
         durations.add(FundType("5Y"))
         durations.add(FundType("10Y"))

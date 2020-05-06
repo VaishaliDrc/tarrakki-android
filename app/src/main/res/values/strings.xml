@@ -795,5 +795,7 @@
     <string name="high">High</string>
     <string name="risk_assessment">Risk Assessment</string>
     <string name="fund_riskometer">Fund Riskometer</string>
+    <string name="complete_risk_assessment">Complete Risk Assessment</string>
+    <string name="complete_your_free_assessment_and_know_your_risk_profile_now">Complete your free assessment and know your risk profile now</string>
 
 </resources>
