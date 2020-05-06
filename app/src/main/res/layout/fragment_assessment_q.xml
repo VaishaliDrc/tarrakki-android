@@ -86,20 +86,61 @@
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btnContinue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_marginTop="@dimen/_16sdp"
-                android:background="@drawable/shape_btn_idle_bg"
-                android:drawableEnd="@drawable/ic_arrow_forward_white_24dp"
-                android:drawablePadding="@dimen/_4sdp"
-                android:fontFamily="@font/lato_bold"
-                android:paddingStart="@dimen/_20sdp"
-                android:paddingEnd="@dimen/_20sdp"
-                android:text="@string/txtcontinue"
-                android:textColor="@color/white" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btnPrevious"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/space_32"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:drawableStart="@drawable/ic_arrow_previous"
+                    android:drawablePadding="@dimen/space_8"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="24dp"
+                    android:text="@string/previous"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                    app:layout_constraintVertical_bias="1" />
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginTop="@dimen/space_32"
+                    android:layout_marginBottom="@dimen/space_8"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:drawableEnd="@drawable/ic_arrow_next_white"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:paddingStart="38dp"
+                    android:paddingEnd="28dp"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintVertical_bias="1" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 

@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@{item.isSelected?@drawable/shape_rounded_bg_green:@drawable/shape_border_rounded_black}"
-        android:padding="@dimen/space_8">
+        android:padding="@dimen/space_6">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,11 +31,12 @@
                 android:id="@+id/ivItem"
                 imgUrl="@{item.optionImage}"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:tint="@{item.isSelected?@color/white:@color/semi_black}"
                 android:adjustViewBounds="true"
                 app:layout_constraintBottom_toTopOf="@id/tvTitle"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/emergency_fund" />
             <!--android:textAppearance="@style/TextAppearance.AppCompat.Caption"-->
@@ -50,7 +51,8 @@
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:textColor="@{item.isSelected?@color/white:@color/semi_black}"
-                android:textSize="@dimen/_10ssp"
+                android:layout_marginTop="6dp"
+                android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

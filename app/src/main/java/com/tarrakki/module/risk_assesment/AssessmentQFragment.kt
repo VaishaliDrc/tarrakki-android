@@ -17,6 +17,7 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.*
+import com.tarrakki.module.risk_assessment_agree.AssessmentDeclartionFragment
 import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.setDividerVertical
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
@@ -62,7 +63,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         getViewModel().questions.observe(this, Observer { it ->
             it?.let { data ->
 
-                totalQuestions = data.data?.size?.minus(1)
+                totalQuestions = data.data?.size
                 currentPage = data.page
 
                 val questionNo = "${data.page}"
@@ -73,26 +74,41 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 val question = data.data?.get(data.page - 1)
                 val options = question?.option
 
+                val optionsDataByCategory = options?.groupBy { it.optionCategory }
+
                 if (!options.isNullOrEmpty()) {
                     getViewModel().question.set(question.question)
                     setOptionsData(options[0].optionType.toString().toLowerCase(), options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
                 }
 
-                btnContinue?.setOnClickListener {
-                    val count = options?.count { it.isSelected } ?: 0
-                    if (count == 0) {
-                        context?.simpleAlert("PLease select any one option to proceed next")
-                        return@setOnClickListener
-                    }
+                btnPrevious?.setOnClickListener {
+                    onBack()
+                }
+
+                btnNext?.setOnClickListener {
                     if (currentPage == totalQuestions) {
-                        //context?.simpleAlert("Completed")
-                        getViewModel().submitRiskAssessmentAws().observe(this, Observer {
+                       /* getViewModel().submitRiskAssessmentAws().observe(this, Observer {
                             onBackExclusive(RiskProfileFragment::class.java)
-                        })
+                        })*/
+
+                        startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
                     } else {
-                        startFragment(newInstance(), R.id.frmContainer)
-                        data.page++
-                        postSticky(data)
+                        var isSelected = false
+                        if (optionsDataByCategory != null) {
+                            for (item in optionsDataByCategory.entries) {
+                                val category = item.key
+                                val count = options.count { it.isSelected && it.optionCategory == category }
+                                        ?: 0
+                                isSelected = count != 0
+                            }
+                        }
+                        if (!isSelected) {
+                            context?.simpleAlert("PLease select any one option to proceed next")
+                        } else {
+                            startFragment(newInstance(), R.id.frmContainer)
+                            data.page++
+                            postSticky(data)
+                        }
                     }
                 }
 
@@ -135,12 +151,12 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 setCheckboxGoalData(options)
             }
             "radio_returns" -> {
-                options.forEachIndexed { _, option ->
+                /*options.forEachIndexed { _, option ->
                     if (option.optionValue?.contains(",") == true) {
                         option.optionValue = option.optionValue?.replace(",", "\n")
                     }
-                }
-                setRadioData(optionsData, options)
+                }*/
+                setRadioReturnsData(optionsData, options)
             }
         }
     }
@@ -192,6 +208,48 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                     }
                     item.isSelected = true
                 }
+            }
+        }
+    }
+
+    private fun setRadioReturnsData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
+
+        rvQuestions?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
+        rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_16)))
+        rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_return_item, options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioReturnItemBinding, position: Int ->
+            binder.item = item
+            binder.executePendingBindings()
+
+            val splitData = item.optionValue?.split(",")
+            if (splitData?.isEmpty()==false){
+                val splitData1 = splitData[0]
+                val splitData2 = splitData[1]
+                val splitData3 = splitData[2]
+                if (splitData1.isNotEmpty()){
+                    val splitDataOption1 = splitData1.split(":")
+                    binder.option1Key = splitDataOption1[1].replace(" ","")
+                    binder.option1Value = splitDataOption1[0]
+                }
+                if (splitData2.isNotEmpty()){
+                    val splitDataOption2 = splitData2.split(":")
+                    binder.option2Key = splitDataOption2[1].replace(" ","")
+                    binder.option2Value = splitDataOption2[0]
+                }
+                if (splitData3.isNotEmpty()){
+                    val splitDataOption3 = splitData3.split(":")
+                    binder.option3Key = splitDataOption3[1].replace(" ","")
+                    binder.option3Value = splitDataOption3[0]
+                }
+            }
+
+            binder.optionTitle = getCharForNumber(position)
+
+            binder.root.setOnClickListener {
+                options.forEachIndexed { index, it1 ->
+                    it1.isSelected = false
+                }
+                item.isSelected = true
             }
         }
     }
