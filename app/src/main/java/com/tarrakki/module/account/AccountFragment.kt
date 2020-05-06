@@ -23,6 +23,7 @@ import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.my_sip.MySipFragment
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
@@ -221,7 +222,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(MySipFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
-                        startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
+                        if (position == 5) {
+                            startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                        } else {
+                            startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
+                        }
                     }
                     R.drawable.ic_transactions -> {
                         startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)

@@ -32,6 +32,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +47,9 @@ import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
+import com.tarrakki.speedometer.SpeedView
+import com.tarrakki.speedometer.components.Section
+import com.tarrakki.speedometer.components.indicators.ImageIndicator
 import kotlinx.android.synthetic.main.fragment_my_profile.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
@@ -67,6 +71,24 @@ const val IS_FROM_ACCOUNT = "is_from_account"
 const val IS_FROM_INTRO = "is_from_Intro"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 const val IS_FROM_COMLETE_REGISTRATION = "is_from_complete_registration"
+
+@BindingAdapter("riskLevel")
+fun setRiskLevel(speedView: SpeedView, riskLevel: Int) {
+    speedView.layoutParams.height = ((App.INSTANCE.resources.displayMetrics.widthPixels - 48f.convertToPx()) / 2).toInt()
+    speedView.requestLayout()
+    speedView.markWidth = 30.toFloat()
+    ContextCompat.getDrawable(App.INSTANCE, R.drawable.indicator)?.let {
+        val imageIndicator = ImageIndicator(App.INSTANCE, it)
+        speedView.indicator = imageIndicator
+    }
+    speedView.sections.clear()
+    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
+            , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
+            , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
+            , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
+            , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.setSpeedAt((riskLevel.toFloat() / 100) - 0.5f)
+}
 
 @BindingAdapter("redirectToFundDetails")
 fun openFundDetails(txt: TextView, fundId: Int?) {

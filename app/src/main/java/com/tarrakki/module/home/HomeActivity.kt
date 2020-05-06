@@ -29,8 +29,7 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sendDeviceDetails()
-        startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
-//        startFragment(HomeFragment.newInstance(), R.id.frmContainer)
+        startFragment(HomeFragment.newInstance(), R.id.frmContainer)
     }
 
     override fun onBackPressed() {

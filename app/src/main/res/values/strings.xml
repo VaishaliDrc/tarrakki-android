@@ -794,5 +794,6 @@
     <string name="low">Low</string>
     <string name="high">High</string>
     <string name="risk_assessment">Risk Assessment</string>
+    <string name="fund_riskometer">Fund Riskometer</string>
 
 </resources>

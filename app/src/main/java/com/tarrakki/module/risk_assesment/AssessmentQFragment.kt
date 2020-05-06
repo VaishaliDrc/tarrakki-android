@@ -82,6 +82,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                     val count = options?.count { it.isSelected } ?: 0
                     if (count == 0) {
                         context?.simpleAlert("PLease select any one option to proceed next")
+                        return@setOnClickListener
                     }
                     if (currentPage == totalQuestions) {
                         //context?.simpleAlert("Completed")

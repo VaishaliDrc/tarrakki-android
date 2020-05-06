@@ -36,6 +36,7 @@ class AccountVM : FragmentViewModel() {
             return R.layout.row_ready_to_invest
         }
     }
+
     //var kycRemark: String? = null
     var needToCheckStatus = false
 
@@ -106,6 +107,7 @@ class AccountVM : FragmentViewModel() {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
         }
+        accountMenus.add(5, AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_saved_goals))
         //accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.apply_for_debit_cart), R.drawable.ic_debit_cart))
     }
 

@@ -30,8 +30,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -96,8 +96,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -127,8 +127,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -158,8 +158,8 @@
                 android:id="@+id/llTo10"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -200,8 +200,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
                 android:layout_marginEnd="@dimen/default_space"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="@dimen/space_2"
@@ -238,12 +238,62 @@
                     android:layout_marginTop="@dimen/space_8"
                     android:layout_marginBottom="@dimen/space_8"
                     android:max="100"
-                    android:progressTint="@{fund.riskProgressColor}"
                     android:progress="@{fund.riskProgress}"
                     android:progressDrawable="@drawable/progress_horisental"
+                    android:progressTint="@{fund.riskProgressColor}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvRiskLevel"
                     tools:progress="75" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:layout_height="@dimen/_200sdp"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/fund_riskometer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivRiskLbl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:adjustViewBounds="true"
+                    android:padding="@dimen/_2sdp"
+                    android:src="@drawable/ic_fund_riskometer_bg_temp"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+                <com.tarrakki.speedometer.SpeedView
+                    android:id="@+id/speedView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:layout_constraintTop_toTopOf="@id/ivRiskLbl"
+                    app:riskLevel="@{fund.riskProgress}"
+                    app:sv_centerCircleColor="@color/white"
+                    app:sv_endDegree="360"
+                    app:sv_speedTextPadding="@dimen/_18ssp"
+                    app:sv_speedTextPosition="CENTER"
+                    app:sv_startDegree="180"
+                    app:sv_textSize="@dimen/_18ssp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -251,8 +301,8 @@
                 android:id="@+id/txt_fund_offer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_16"
                 android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/space_16"
                 android:layout_marginEnd="@dimen/default_space"
                 android:text="@string/tap_here_to_see_the_fund_offer_document"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -260,12 +310,12 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:layout_marginStart="@dimen/default_space"
-                android:layout_marginEnd="@dimen/default_space"
                 android:id="@+id/btn_invest_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
                 android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
                 android:layout_marginBottom="@dimen/default_space"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_semibold"
