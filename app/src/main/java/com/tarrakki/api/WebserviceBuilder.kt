@@ -311,6 +311,9 @@ interface WebserviceBuilder {
     @POST("risk-assessment/generate-report/{userId}/")
     fun submitRiskAssessmentAws(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @GET("risk-assessment/get-report/{userId}/")
+    fun getReportOfRiskProfile(@Path("userId") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

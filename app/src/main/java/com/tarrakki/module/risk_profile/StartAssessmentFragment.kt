@@ -1,6 +1,8 @@
 package com.tarrakki.module.risk_profile
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.tarrakki.R
@@ -36,7 +38,7 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
     }
 
     override fun createReference() {
-
+        setHasOptionsMenu(true)
         val result = Observer<RiskAssessmentQuestionsApiResponse> {
             getViewModel().apiQuestionsResponse.value = it
         }
@@ -52,6 +54,11 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
             }
         }
         getRiskAssessmentQuestions().observe(this, result)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     companion object {

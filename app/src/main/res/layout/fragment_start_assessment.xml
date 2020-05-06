@@ -82,11 +82,21 @@
                     android:layout_width="1dp"
                     android:layout_height="0dp"
                     android:background="@drawable/dotted"
-                    app:layout_constraintBottom_toBottomOf="@id/tvC"
+                    app:layout_constraintBottom_toTopOf="@+id/tvB"
                     app:layout_constraintEnd_toEndOf="@id/tvA"
                     app:layout_constraintHorizontal_bias="0.035"
                     app:layout_constraintStart_toStartOf="@id/tvA"
-                    app:layout_constraintTop_toTopOf="@id/tvA" />
+                    app:layout_constraintTop_toBottomOf="@id/tvA" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/dotted"
+                    app:layout_constraintBottom_toTopOf="@+id/tvC"
+                    app:layout_constraintEnd_toEndOf="@id/tvA"
+                    app:layout_constraintHorizontal_bias="0.035"
+                    app:layout_constraintStart_toStartOf="@id/tvA"
+                    app:layout_constraintTop_toBottomOf="@id/tvB" />
 
                 <TextView
                     android:id="@+id/tvA"

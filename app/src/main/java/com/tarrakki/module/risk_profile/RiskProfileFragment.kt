@@ -1,16 +1,18 @@
 package com.tarrakki.module.risk_profile
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentRiskProfileBinding
 import com.tarrakki.databinding.RowSpeedometerRiskProfileBinding
-import com.tarrakki.speedometer.SpeedView
 import com.tarrakki.speedometer.components.Section
 import com.tarrakki.speedometer.components.indicators.ImageIndicator
 import kotlinx.android.synthetic.main.fragment_risk_profile.*
@@ -47,6 +49,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         rvRiskProfile?.setUpMultiViewRecyclerAdapter(getViewModel().data) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.setVariable(BR.onAdd, View.OnClickListener {
@@ -54,12 +57,23 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
             })
             binder.executePendingBindings()
             if (binder is RowSpeedometerRiskProfileBinding) {
-                setUpSpeedView(binder.speedView)
+                setUpSpeedView(binder)
             }
         }
+        getViewModel().getReportOfRiskProfile().observe(this, Observer {
+            it.let { data ->
+                rvRiskProfile?.adapter?.notifyDataSetChanged()
+            }
+        })
     }
 
-    private fun setUpSpeedView(speedView: SpeedView) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun setUpSpeedView(binder: RowSpeedometerRiskProfileBinding) {
+        val speedView = binder.speedView
         speedView.layoutParams.height = ((App.INSTANCE.resources.displayMetrics.widthPixels - 48f.convertToPx()) / 2).toInt()
         speedView.requestLayout()
         speedView.markWidth = 30.toFloat()
@@ -73,7 +87,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                 , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
                 , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
                 , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
-        speedView.setSpeedAt(90f)
+        speedView.setSpeedAt(binder.widget?.value ?: 0f)
     }
 
     companion object {

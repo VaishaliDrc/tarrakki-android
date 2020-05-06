@@ -63,36 +63,35 @@ data class RiskAssessmentQuestionsApiResponse(
 
         fun getAnswer(): JsonObject {
             val json = JsonObject()
-            val type = option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)
-            when (type) {
+            when (option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)) {
                 "slider" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId)
                     }
                 }
                 "checkbox" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId)
                     }
                 }
                 "radio" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId)
                     }
                 }
                 "radio_emoji" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId)
                     }
                 }
                 "checkbox_goal" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("goals", op.optionId)
                         json.addProperty("amount", op.goalAmount)
                     }
                 }
                 "radio_returns" -> {
-                    option?.filter { it.isSelected }?.forEach { op ->
+                    option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId)
                     }
                 }

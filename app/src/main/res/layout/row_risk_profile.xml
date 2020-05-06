@@ -23,12 +23,14 @@
             android:id="@+id/ivProfile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/temp_profile"
+            android:src="@drawable/ic_profile_default"
             app:civ_border_color="@color/bg_img_color"
             app:civ_border_width="@dimen/_2sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_goneMarginTop="@dimen/space_8" />
+            app:layout_goneMarginTop="@dimen/space_8"
+            app:profile="@{widget.imgUrl}"
+            tools:src="@drawable/temp_profile" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier4"

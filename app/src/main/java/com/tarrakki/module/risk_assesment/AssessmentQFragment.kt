@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.DisplayMetrics
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -56,6 +58,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
     }
 
     override fun createReference() {
+        setHasOptionsMenu(true)
         getViewModel().questions.observe(this, Observer { it ->
             it?.let { data ->
 
@@ -76,6 +79,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
 
                 btnContinue?.setOnClickListener {
+                    val count = options?.count { it.isSelected } ?: 0
+                    if (count == 0) {
+                        context?.simpleAlert("PLease select any one option to proceed next")
+                    }
                     if (currentPage == totalQuestions) {
                         //context?.simpleAlert("Completed")
                         getViewModel().submitRiskAssessmentAws().observe(this, Observer {
@@ -97,6 +104,11 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             }
         })
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun setOptionsData(type: String, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {

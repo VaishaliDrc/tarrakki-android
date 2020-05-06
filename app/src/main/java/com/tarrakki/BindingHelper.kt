@@ -37,6 +37,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
@@ -45,6 +46,7 @@ import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
+import kotlinx.android.synthetic.main.fragment_my_profile.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -188,6 +190,19 @@ fun setBackgroundImage(img: TextView, @DrawableRes res: Int) {
 fun setIndicator(img: ImageView, url: String?) {
     url?.let {
         Glide.with(img).load(ApiClient.IMAGE_BASE_URL.plus(it)).into(img)
+    }
+}
+
+@BindingAdapter("profile")
+fun setProfile(ivProfile: ImageView, url: String?) {
+    url?.let {
+        val requestOptions = RequestOptions()
+        requestOptions.placeholder(R.drawable.ic_profile_default)
+        requestOptions.error(R.drawable.ic_profile_default)
+        Glide.with(ivProfile)
+                .setDefaultRequestOptions(requestOptions)
+                .load(ApiClient.IMAGE_BASE_URL.plus(it))
+                .into(ivProfile)
     }
 }
 

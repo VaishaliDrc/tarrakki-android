@@ -737,7 +737,7 @@ fun getRiskAssessmentQuestions(): MutableLiveData<RiskAssessmentQuestionsApiResp
     subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getRiskAssessmentQuestions(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
         override fun onSingleSuccess(o: ApiResponse) {
             EventBus.getDefault().post(DISMISS_PROGRESS)
-            if (o.status?.code == 0) {
+            if (o.status?.code == 1) {
                 GlobalScope.launch {
                     withContext(Dispatchers.Default) {
                         val data = o.data?.parseTo<RiskAssessmentQuestionsApiResponse>()
