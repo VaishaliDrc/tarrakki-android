@@ -24,6 +24,7 @@ import com.tarrakki.module.my_sip.MySipFragment
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.risk_profile.RiskProfileFragment
+import com.tarrakki.module.risk_profile.StartAssessmentFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
@@ -223,7 +224,14 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_saved_goals -> {
                         if (position == 5) {
-                            startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                            getReportOfRiskProfile().observe(this, Observer { apiRes ->
+                                if (apiRes.status?.code == 1) {
+                                    startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                                    postSticky(apiRes)
+                                } else {
+                                    startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
+                                }
+                            })
                         } else {
                             startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                         }

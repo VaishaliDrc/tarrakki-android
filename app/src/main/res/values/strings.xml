@@ -797,5 +797,8 @@
     <string name="fund_riskometer">Fund Riskometer</string>
     <string name="complete_risk_assessment">Complete Risk Assessment</string>
     <string name="complete_your_free_assessment_and_know_your_risk_profile_now">Complete your free assessment and know your risk profile now</string>
+    <string name="estimated_total_value">Estimated Total Value</string>
+    <string name="agree">Agree</string>
+    <string name="i_confirm_that_i_have_conducted_my_risk_profiling">I confirm that I have conducted my risk profiling and I am aware about the outcome of the same. However, in future, I may take investment decision through Tarrakki platform which may or may not be in conformity with my risk profile. I further acknowledge that the risk associated with the investment decision taken by me is my sole risk and to be borne entirely by me. Investment adviser is not responsible for the same.</string>
 
 </resources>

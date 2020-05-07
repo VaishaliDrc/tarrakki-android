@@ -1,29 +1,17 @@
 package com.tarrakki.module.risk_profile
 
 import androidx.lifecycle.MutableLiveData
-import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback1
-import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.RiskProfileResponse
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.subscribeToSingle
-import com.tarrakki.module.bankaccount.SingleButton
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
-import org.supportcompact.ktx.*
 
 class RiskProfileVM : FragmentViewModel() {
 
     val data = arrayListOf<WidgetsViewModel>()
+    val riskProfile = MutableLiveData<ApiResponse>()
 
-    fun getReportOfRiskProfile(): MutableLiveData<RiskProfileResponse> {
+    /*fun getReportOfRiskProfile(): MutableLiveData<RiskProfileResponse> {
         val apiResponse = MutableLiveData<RiskProfileResponse>()
         showProgress()
         subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getReportOfRiskProfile(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
@@ -64,7 +52,7 @@ class RiskProfileVM : FragmentViewModel() {
             }
         })
         return apiResponse
-    }
+    }*/
 
 }
 

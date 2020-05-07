@@ -402,13 +402,15 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/lato_semibold"
                     android:text="@string/complete_your_free_assessment_and_know_your_risk_profile_now"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/white"
+                    app:layout_constraintBottom_toTopOf="@+id/btnRiskAssessment"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/barrier4" />
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@id/barrier4"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
                     android:id="@+id/btnRiskAssessment"
@@ -420,9 +422,11 @@
                     android:fontFamily="@font/lato_bold"
                     android:text="@string/complete_risk_assessment"
                     android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@id/barrier4"
-                    app:layout_constraintTop_toBottomOf="@id/tvTitle2" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvTitle2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

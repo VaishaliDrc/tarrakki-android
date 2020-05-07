@@ -59,6 +59,13 @@ data class RiskAssessmentQuestionsApiResponse(
                     field = value
                     notifyPropertyChanged(BR.goalAmount)
                 }
+
+            @get:Bindable
+            var totalValue: String = ""
+                set(value) {
+                    field = value
+                    notifyPropertyChanged(BR.totalValue)
+                }
         }
 
         fun getAnswer(): JsonObject {

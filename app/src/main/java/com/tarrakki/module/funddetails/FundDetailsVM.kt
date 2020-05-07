@@ -1,5 +1,6 @@
 package com.tarrakki.module.funddetails
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.annotation.IntRange
 import androidx.databinding.ObservableField
@@ -27,8 +28,8 @@ class FundDetailsVM : FragmentViewModel() {
     val durations = arrayListOf<FundType>()
     val fundDetailsResponse = MutableLiveData<FundDetails>()
     var tarrakkiZyaadaId: String? = null
-    val hasRiskProfile = ObservableField(true)
-    val riskScore = ObservableField(75f)
+    val hasRiskProfile = ObservableField(false)
+    val riskScore = ObservableField(0f)
 
     init {
         durations.add(FundType("1Y"))
@@ -55,6 +56,8 @@ class FundDetailsVM : FragmentViewModel() {
                                     fundDetails?.topTenHoldings
                                     fundDetails?.returnsHistory
                                     fundDetails?.bseData?.isTarrakkiZyaada = !tarrakkiZyaadaId.isNullOrBlank()
+                                    riskScore.set(fundDetails?.riskProfileLevel ?: 0f)
+                                    hasRiskProfile.set(!TextUtils.isEmpty(fundDetails?.riskProfile))
                                     fundDetailsResponse.postValue(fundDetails)
                                     EventBus.getDefault().post(DISMISS_PROGRESS)
                                 }

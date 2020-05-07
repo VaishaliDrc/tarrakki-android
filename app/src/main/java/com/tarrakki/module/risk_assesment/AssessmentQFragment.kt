@@ -90,7 +90,6 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                        /* getViewModel().submitRiskAssessmentAws().observe(this, Observer {
                             onBackExclusive(RiskProfileFragment::class.java)
                         })*/
-
                         startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
                     } else {
                         var isSelected = false

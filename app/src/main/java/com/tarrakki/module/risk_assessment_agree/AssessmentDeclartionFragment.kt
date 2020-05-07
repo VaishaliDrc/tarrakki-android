@@ -3,9 +3,12 @@ package com.tarrakki.module.risk_assessment_agree
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentAssessmentDeclarationBinding
 import com.tarrakki.databinding.FragmentAssessmentQBinding
+import com.tarrakki.module.risk_profile.RiskProfileFragment
+import kotlinx.android.synthetic.main.fragment_assessment_declaration.*
 import org.supportcompact.CoreFragment
 
 class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, FragmentAssessmentDeclarationBinding>() {
@@ -33,8 +36,11 @@ class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, Fragm
 
     override fun createReference() {
         setHasOptionsMenu(true)
-
-
+        btnAgree?.setOnClickListener {
+            getViewModel().submitRiskAssessmentAws().observe(this, Observer {
+                //onBackExclusive(RiskProfileFragment::class.java)
+            })
+        }
     }
 
 

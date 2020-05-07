@@ -17,7 +17,6 @@ import com.tarrakki.databinding.RowTopTenHoldingsListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
-import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.module.risk_profile.StartAssessmentFragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
@@ -71,6 +70,7 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
                     }
                     fundDetails.fundsDetails?.fscbiIndianRiskLevel = fundDetails.fundsDetails?.riskLevelId
                     binder?.fund = fundDetails.fundsDetails
+                    binder?.vm = vm
                     binder?.executePendingBindings()
                     binder?.root?.visibility = View.VISIBLE
 

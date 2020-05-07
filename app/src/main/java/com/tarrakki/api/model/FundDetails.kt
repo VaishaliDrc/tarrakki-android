@@ -27,11 +27,23 @@ data class FundDetails(
         @SerializedName("bse_data")
         val bseData: BSEData?,
         @SerializedName("lumpsum_additional_min_amount")
-        val lumpsumAdditionalMinAmount: String?
+        val lumpsumAdditionalMinAmount: String?,
+        @SerializedName("risk_profile")
+        val riskProfile: String?
 ) {
 
     val additionalMinLumpsum: BigInteger
         get() = lumpsumAdditionalMinAmount?.toCurrencyBigInt() ?: BigInteger.ZERO
+
+    val riskProfileLevel: Float
+        get() = when {
+            "Aggressive".equals("$riskProfile", true) -> 90f
+            "Moderately Aggressive".equals("$riskProfile", true) -> 70f
+            "Balanced".equals("$riskProfile", true) -> 50f
+            "Moderately Conservative".equals("$riskProfile", true) -> 30f
+            "Conservative".equals("$riskProfile", true) -> 10f
+            else -> 0f
+        }
 
     var topTenHoldings: ArrayList<TopTenHolding>? = null
         get() = if (field == null) {
@@ -69,6 +81,7 @@ data class FundDetails(
                 val gsonBuilder = GsonBuilder()
                 gsonBuilder.registerTypeAdapter(Date::class.java, object : JsonDeserializer<Date> {
                     var df: DateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+
                     @Throws(JsonParseException::class)
                     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Date? {
                         return try {

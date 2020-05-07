@@ -112,7 +112,7 @@ fun setRiskLevel(speedView: SpeedView, riskLevel: Float) {
             , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
             , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
             , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
-    speedView.setSpeedAt(riskLevel - 10)
+    speedView.setSpeedAt(riskLevel)
 }
 
 @BindingAdapter("redirectToFundDetails")

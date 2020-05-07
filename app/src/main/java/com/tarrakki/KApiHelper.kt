@@ -757,3 +757,25 @@ fun getRiskAssessmentQuestions(): MutableLiveData<RiskAssessmentQuestionsApiResp
     return apiQuestionsResponse
 }
 
+fun getReportOfRiskProfile(): MutableLiveData<ApiResponse> {
+    val apiResponse = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getReportOfRiskProfile(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
+        override fun onSingleSuccess(o: ApiResponse) {
+            /*if (o.status?.code == 1) {
+
+            } else {
+                postError("${o.status?.message}")
+            }*/
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            apiResponse.value = o
+        }
+
+        override fun onFailure(throwable: Throwable) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            throwable.postError()
+        }
+    })
+    return apiResponse
+}
+
