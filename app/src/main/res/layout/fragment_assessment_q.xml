@@ -8,6 +8,11 @@
         <variable
             name="vm"
             type="com.tarrakki.module.risk_assesment.AssessmentQVM" />
+
+        <variable
+            name="item"
+            type="com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse.Data" />
+
     </data>
 
 
@@ -27,14 +32,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_cart_view"
                 android:elevation="2dp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_8sdp">
 
                 <LinearLayout
-                    android:padding="@dimen/_8sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/_8sdp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -42,20 +47,20 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            tools:text="1"
                             android:id="@+id/tvQIndex"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.questionNo}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
                             android:textColor="@color/black"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                            tools:text="1" />
 
                         <TextView
-                            tools:text="/10"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{vm.questionTotal}"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            tools:text="/10" />
                     </LinearLayout>
 
                     <TextView
@@ -71,25 +76,88 @@
                 </LinearLayout>
 
                 <RelativeLayout
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvQuestions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        app:enableNestedScrollView="@{false}"/>
+                        app:enableNestedScrollView="@{false}" />
                 </RelativeLayout>
 
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginTop="@dimen/_16sdp"
+                android:id="@+id/clEstimatedValue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="2dp"
+                android:padding="@dimen/_8sdp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvLbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/estimated_total_value"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/semi_black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/llContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/shape_rounded_white_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/space_8"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLbl">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:text="@string/rs_symbol"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/semi_black" />
+
+                    <EditText
+                        android:id="@+id/edtInvestAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="@string/enter_amount"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:nextFocusForward="@+id/edtDurations"
+                        android:padding="@dimen/_6sdp"
+                        android:text="@={item.totalValue}"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:textColor="@color/semi_black"
+                        app:isPositiveCurrency="@{true}" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp">
 
                 <Button
                     android:id="@+id/btnPrevious"

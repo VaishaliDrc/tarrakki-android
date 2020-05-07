@@ -762,13 +762,12 @@ fun getReportOfRiskProfile(): MutableLiveData<ApiResponse> {
     EventBus.getDefault().post(SHOW_PROGRESS)
     subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getReportOfRiskProfile(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
         override fun onSingleSuccess(o: ApiResponse) {
-            /*if (o.status?.code == 1) {
-
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            if (o.status?.code == 1 || o.status?.code == 9) {
+                apiResponse.value = o
             } else {
                 postError("${o.status?.message}")
-            }*/
-            EventBus.getDefault().post(DISMISS_PROGRESS)
-            apiResponse.value = o
+            }
         }
 
         override fun onFailure(throwable: Throwable) {

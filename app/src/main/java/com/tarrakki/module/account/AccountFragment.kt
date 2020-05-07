@@ -225,11 +225,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     R.drawable.ic_saved_goals -> {
                         if (position == 5) {
                             getReportOfRiskProfile().observe(this, Observer { apiRes ->
-                                if (apiRes.status?.code == 1) {
+                                if (apiRes.status?.code == 9) {
+                                    startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
+                                } else {
                                     startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
                                     postSticky(apiRes)
-                                } else {
-                                    startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
                                 }
                             })
                         } else {

@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -18,7 +19,6 @@ import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.*
 import com.tarrakki.module.risk_assessment_agree.AssessmentDeclartionFragment
-import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.setDividerVertical
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
 import org.greenrobot.eventbus.Subscribe
@@ -78,7 +78,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                 if (!options.isNullOrEmpty()) {
                     getViewModel().question.set(question.question)
-                    setOptionsData(options[0].optionType.toString().toLowerCase(), options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
+                    setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
                 }
 
                 btnPrevious?.setOnClickListener {
@@ -87,9 +87,9 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                 btnNext?.setOnClickListener {
                     if (currentPage == totalQuestions) {
-                       /* getViewModel().submitRiskAssessmentAws().observe(this, Observer {
-                            onBackExclusive(RiskProfileFragment::class.java)
-                        })*/
+                        /* getViewModel().submitRiskAssessmentAws().observe(this, Observer {
+                             onBackExclusive(RiskProfileFragment::class.java)
+                         })*/
                         startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
                     } else {
                         var isSelected = false
@@ -127,9 +127,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun setOptionsData(type: String, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
+    private fun setOptionsData(question: RiskAssessmentQuestionsApiResponse.Data, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
 
         val optionsData = options.groupBy { it.optionCategory }
+        val type = question.option?.firstOrNull()?.optionType?.toLowerCase()
 
         when (type) {
             "slider" -> {
@@ -138,6 +139,9 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             "checkbox" -> {
                 if (optionsData.entries.size == 1) {
                     setCheckboxData(options)
+                    clEstimatedValue?.visibility = View.VISIBLE
+                    getBinding().item = question
+                    getBinding().executePendingBindings()
                 }
             }
             "radio" -> {
@@ -221,23 +225,23 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             binder.executePendingBindings()
 
             val splitData = item.optionValue?.split(",")
-            if (splitData?.isEmpty()==false){
+            if (splitData?.isEmpty() == false) {
                 val splitData1 = splitData[0]
                 val splitData2 = splitData[1]
                 val splitData3 = splitData[2]
-                if (splitData1.isNotEmpty()){
+                if (splitData1.isNotEmpty()) {
                     val splitDataOption1 = splitData1.split(":")
-                    binder.option1Key = splitDataOption1[1].replace(" ","")
+                    binder.option1Key = splitDataOption1[1].replace(" ", "")
                     binder.option1Value = splitDataOption1[0]
                 }
-                if (splitData2.isNotEmpty()){
+                if (splitData2.isNotEmpty()) {
                     val splitDataOption2 = splitData2.split(":")
-                    binder.option2Key = splitDataOption2[1].replace(" ","")
+                    binder.option2Key = splitDataOption2[1].replace(" ", "")
                     binder.option2Value = splitDataOption2[0]
                 }
-                if (splitData3.isNotEmpty()){
+                if (splitData3.isNotEmpty()) {
                     val splitDataOption3 = splitData3.split(":")
-                    binder.option3Key = splitDataOption3[1].replace(" ","")
+                    binder.option3Key = splitDataOption3[1].replace(" ", "")
                     binder.option3Value = splitDataOption3[0]
                 }
             }

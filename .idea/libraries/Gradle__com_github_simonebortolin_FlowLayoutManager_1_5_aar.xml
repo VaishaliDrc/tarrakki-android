@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.simonebortolin:FlowLayoutManager:1.5@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/11c39dc5c892b94d5c49fcc969d148ec/FlowLayoutManager-1.5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/11c39dc5c892b94d5c49fcc969d148ec/FlowLayoutManager-1.5/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/51c8b4eeb1c36aabf9a9baf4456f7fd1/jetified-FlowLayoutManager-1.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/51c8b4eeb1c36aabf9a9baf4456f7fd1/jetified-FlowLayoutManager-1.5/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

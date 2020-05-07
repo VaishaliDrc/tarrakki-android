@@ -25,7 +25,7 @@ data class RiskAssessmentQuestionsApiResponse(
             val questionId: Int?,
             @SerializedName("time")
             val time: String?
-    ) {
+    ) : BaseObservable() {
         data class Option(
                 @SerializedName("option_category")
                 val optionCategory: String?,
@@ -61,12 +61,19 @@ data class RiskAssessmentQuestionsApiResponse(
                 }
 
             @get:Bindable
-            var totalValue: String = ""
+            var targetYear: String = ""
                 set(value) {
                     field = value
-                    notifyPropertyChanged(BR.totalValue)
+                    notifyPropertyChanged(BR.targetYear)
                 }
         }
+
+        @get:Bindable
+        var totalValue: String = ""
+            set(value) {
+                field = value
+                notifyPropertyChanged(BR.totalValue)
+            }
 
         fun getAnswer(): JsonObject {
             val json = JsonObject()

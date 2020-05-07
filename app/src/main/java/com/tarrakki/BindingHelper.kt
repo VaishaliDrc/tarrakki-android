@@ -50,7 +50,6 @@ import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.speedometer.SpeedView
 import com.tarrakki.speedometer.components.Section
 import com.tarrakki.speedometer.components.indicators.ImageIndicator
-import kotlinx.android.synthetic.main.fragment_my_profile.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -65,6 +64,8 @@ import org.supportcompact.widgets.InputFilterMinMax
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
@@ -123,6 +124,21 @@ fun openFundDetails(txt: TextView, fundId: Int?) {
             mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                 putString(ITEM_ID, "${fundId}")
             }), R.id.frmContainer)
+        }
+    }
+}
+
+@BindingAdapter("targetYear")
+fun setTargetYear(txt: TextView, question: RiskAssessmentQuestionsApiResponse.Data.Option?) {
+    txt.setOnClickListener {
+        val years = arrayListOf<String>()
+        val cal = Calendar.getInstance()
+        for (i in 1..30) {
+            years.add(cal.get(Calendar.YEAR).toString())
+            cal.add(Calendar.YEAR, 1)
+        }
+        it?.context?.showListDialog("Select Target Year", years) { item: String ->
+            question?.targetYear = item
         }
     }
 }
