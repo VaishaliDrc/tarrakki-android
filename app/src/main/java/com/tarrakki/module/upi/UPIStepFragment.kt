@@ -21,6 +21,7 @@ class UPIStepFragment : CoreFragment<UPIStepVM, FragmentUpiStepBinding>() {
     }
 
     override fun createReference() {
+        coreActivityVM?.footerVisibility?.set(View.GONE)
 
     }
 

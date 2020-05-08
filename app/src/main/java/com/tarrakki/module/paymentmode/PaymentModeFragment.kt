@@ -23,6 +23,7 @@ import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import com.tarrakki.module.transactions.TransactionsFragment
+import com.tarrakki.module.upi.UPIStepFragment
 import com.tarrakki.module.webviewActivity.WebviewActivity
 import kotlinx.android.synthetic.main.fragment_payment_mode.*
 import org.greenrobot.eventbus.Subscribe
@@ -36,6 +37,7 @@ import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.DividerItemDecoration
+import org.supportcompact.utilise.ResourceUtils
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -113,6 +115,31 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             }
         })
 
+        edtHowToPay?.setOnClickListener {
+            context?.showListDialog("Select Payment Type", getViewModel().paymentType) { item ->
+                getViewModel().selectedPaymentType.set(item)
+                when (item) {
+                    ResourceUtils.getString(R.string.UPI) -> {
+                        getViewModel().isUPI.set(true)
+                        getViewModel().isNetBanking.set(false)
+                        getViewModel().isNEFTRTGS.set(false)
+                    }
+                    ResourceUtils.getString(R.string.net_banking) -> {
+                        getViewModel().isUPI.set(false)
+                        getViewModel().isNetBanking.set(true)
+                        getViewModel().isNEFTRTGS.set(false)
+                    }
+                    ResourceUtils.getString(R.string.neft_rtgs) -> {
+                        getViewModel().isUPI.set(false)
+                        getViewModel().isNetBanking.set(false)
+                        getViewModel().isNEFTRTGS.set(true)
+                    }
+                }
+
+            }
+
+        }
+
         btnPayNow?.setOnClickListener {
             val items = confirmOrderAdapter?.getAllItems()
             if (items?.isNotEmpty() == true) {
@@ -152,7 +179,11 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                 }), R.id.frmContainer)
                             }
                         })
-                    } else {
+                    } /*else if (getViewModel().isUPI.get() == true) {
+                        startFragment(UPIStepFragment.newInstance(Bundle().apply {
+                        }), R.id.frmContainer)
+
+                    }*/ else {
                         if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
                             json.put("payment_mode", "NEFT/RTGS")
                             json.put("utr_number", getViewModel().utrNumber.get())

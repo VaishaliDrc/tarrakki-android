@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,53 +10,208 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgUPI"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_upi"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvLblFollow"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:fontFamily="@font/lato_bold"
-            android:gravity="center"
-            android:text="@string/follow_the_below_steps_to_complete_n_your_payment"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_13sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgUPI" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tvLblcloseApp"
+            android:background="@color/white"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:id="@+id/rlSteps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@color/colorPrimary">
+
+
+                    <FrameLayout
+                        android:id="@+id/frmUPI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_round_upi_bg"
+                        android:padding="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgUPI"
+                            android:layout_width="@dimen/_80sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_upi" />
+                    </FrameLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/frmUPI"
+                        android:layout_centerInParent="true"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvLblFollow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:text="@string/follow_the_below_steps_to_complete_n_your_payment"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13sdp" />
+
+
+                        <FrameLayout
+                            android:id="@+id/frmStep1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_20sdp">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/dr_bg_upi_border"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:padding="@dimen/_16sdp"
+                                android:text="@string/open_your_upi_app"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center|top"
+                                android:background="@drawable/shape_upi_step_rounded_bg"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:text="1"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/line1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_dotted_line" />
+
+
+                        <FrameLayout
+                            android:id="@+id/frmStep2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_20sdp"
+                            android:layout_marginRight="@dimen/_20sdp">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvLblStep1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/dr_bg_upi_border"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:padding="@dimen/_16sdp"
+                                android:text="@string/accept_the_collect_request_sent_from_indian_clearing_corporation_bse_star_mf_india"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvLblStep1round"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center|top"
+                                android:background="@drawable/shape_upi_step_rounded_bg"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                        </FrameLayout>
+
+                        <ImageView
+                            android:id="@+id/line2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_dotted_line" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_20sdp"
+                            android:layout_marginRight="@dimen/_20sdp">
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/dr_bg_upi_border"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:padding="@dimen/_16sdp"
+                                android:text="@string/upon_acceptance_the_payment_will_be_mapped_against_your_order"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center|top"
+                                android:background="@drawable/shape_upi_step_rounded_bg"
+                                android:fontFamily="@font/lato_regular"
+                                android:gravity="center"
+                                android:text="3"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                        </FrameLayout>
+
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLblcloseApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_efefef"
             android:fontFamily="@font/lato_regular"
             android:gravity="center"
-            android:text="@string/please_do_not_close_the_app_until_you_naccept_the_collect_request"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_10sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:paddingTop="@dimen/_16sdp"
             android:paddingBottom="@dimen/_16sdp"
-            android:background="@color/lighter_gray"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="@string/please_do_not_close_the_app_until_you_naccept_the_collect_request"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_10sdp" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>

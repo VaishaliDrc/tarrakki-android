@@ -17,6 +17,7 @@ import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.showProgress
+import org.supportcompact.utilise.ResourceUtils
 import java.math.BigInteger
 
 class PaymentModeVM : FragmentViewModel() {
@@ -24,12 +25,21 @@ class PaymentModeVM : FragmentViewModel() {
 
     val confirmOrder = MutableLiveData<ConfirmTransactionResponse>()
     val totalOrder = ObservableField<BigInteger>(BigInteger.ZERO)
-    val isNetBanking = ObservableField<Boolean>(true)
+    val isNetBanking = ObservableField<Boolean>(false)
     val isNEFTRTGS = ObservableField<Boolean>(false)
+    val isUPI = ObservableField<Boolean>(true)
     val accountNumber = ObservableField<String>("")
     val branchName = ObservableField<String>("")
-
     val introduction = ObservableField<String>("Your transaction will now be processed by Bombay Stock Exchange - Star platform.")
+    val paymentType: ArrayList<String> = arrayListOf()
+    val selectedPaymentType = ObservableField<String>(ResourceUtils.getString(R.string.UPI))
+    val upiName = ObservableField<String>("")
+
+    init {
+        paymentType.add(ResourceUtils.getString(R.string.UPI))
+        paymentType.add(ResourceUtils.getString(R.string.net_banking))
+        paymentType.add(ResourceUtils.getString(R.string.neft_rtgs))
+    }
 
     fun paymentOrder(data: String): MutableLiveData<ApiResponse> {
         val apiResponse = MutableLiveData<ApiResponse>()
