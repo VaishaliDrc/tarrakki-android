@@ -436,25 +436,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     override fun onEvent(event: Event) {
         super.onEvent(event)
         if (event == Event.REFRESH) {
-            //rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-            /*if (context?.getKYCStatus()?.isEmpty() == true) {
-                */
-            /**
-             * Normal flow of KYC and complete registration
-             * *//*
-                ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
-                getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
-                getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
-                rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-            } else {
-                */
-            /**
-             * Set status as per kyc status
-             * *//*
-                ll_complete_verification?.visibility = View.GONE
-                rvDocStatus?.visibility = View.VISIBLE
-                setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
-            }*/
             activity?.runOnUiThread {
                 refreshKYCStatus()
             }

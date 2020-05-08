@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
+import org.supportcompact.ktx.toBigIntDefaultZero
 import java.util.*
 
 data class RiskAssessmentQuestionsApiResponse(
@@ -17,7 +18,7 @@ data class RiskAssessmentQuestionsApiResponse(
             val action: String?,
             @SerializedName("is_active")
             val isActive: Boolean?,
-            @SerializedName("option")
+            @SerializedName("option", alternate = ["options"])
             val option: List<Option>?,
             @SerializedName("question")
             val question: String?,
@@ -79,34 +80,67 @@ data class RiskAssessmentQuestionsApiResponse(
             val json = JsonObject()
             when (option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)) {
                 "slider" -> {
-                    option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("options", op.optionId)
+                    var answers = ""
+                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                        if (index == 0) {
+                            answers += option.optionId ?: ""
+                        } else {
+                            answers += "," + option.optionId
+                        }
                     }
+                    json.addProperty("options", answers)
                 }
                 "checkbox" -> {
-                    option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("options", op.optionId)
+                    var answers = ""
+                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                        if (index == 0) {
+                            answers += option.optionId ?: ""
+                        } else {
+                            answers += "," + option.optionId
+                        }
                     }
+                    json.addProperty("options", answers)
+                    json.addProperty("amount", toBigIntDefaultZero(totalValue))
                 }
                 "radio" -> {
                     option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("options", op.optionId)
+                        json.addProperty("options", op.optionId.toString())
                     }
                 }
                 "radio_emoji" -> {
                     option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("options", op.optionId)
+                        json.addProperty("options", op.optionId.toString())
                     }
                 }
                 "checkbox_goal" -> {
-                    option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("goals", op.optionId)
-                        json.addProperty("amount", op.goalAmount)
+                    var goals = ""
+                    var options = ""
+                    var amount = ""
+                    var targetYear = ""
+                    val cal = Calendar.getInstance()
+                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                        if (index == 0) {
+                            goals += option.optionId ?: ""
+                            amount += toBigIntDefaultZero(option.goalAmount)
+                            targetYear += option.targetYear
+                            options += "" + ((option.targetYear.toIntOrNull()
+                                    ?: 0) - cal.get(Calendar.YEAR))
+                        } else {
+                            goals += "," + option.optionId
+                            amount += "," + toBigIntDefaultZero(option.goalAmount)
+                            targetYear += "," + option.targetYear
+                            options += "," + ((option.targetYear.toIntOrNull()
+                                    ?: 0) - cal.get(Calendar.YEAR))
+                        }
                     }
+                    json.addProperty("amount", amount)
+                    json.addProperty("options", options)
+                    json.addProperty("target_year", targetYear)
+                    json.addProperty("goals", goals)
                 }
                 "radio_returns" -> {
                     option.filter { it.isSelected }.forEach { op ->
-                        json.addProperty("options", op.optionId)
+                        json.addProperty("options", op.optionId.toString())
                     }
                 }
             }

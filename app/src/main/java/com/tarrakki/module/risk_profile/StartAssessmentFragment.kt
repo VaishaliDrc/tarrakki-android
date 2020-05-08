@@ -47,7 +47,7 @@ class StartAssessmentFragment : CoreFragment<StartAssessmentVM, FragmentStartAss
                 startFragment(AssessmentQFragment.newInstance(), R.id.frmContainer)
                 getViewModel().apiQuestionsResponse.value?.let { data ->
                     data.page = 1
-                    postSticky(data)
+                    repostSticky(data)
                 }
             } else {
                 getRiskAssessmentQuestions().observe(this, result)

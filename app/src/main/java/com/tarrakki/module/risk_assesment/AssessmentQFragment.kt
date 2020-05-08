@@ -2,6 +2,7 @@ package com.tarrakki.module.risk_assesment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.Menu
@@ -28,8 +29,12 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.drawable
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toBigIntDefaultZero
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import org.supportcompact.utilise.GridSpacingItemDecoration
+import java.math.BigInteger
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -65,17 +70,12 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                 totalQuestions = data.data?.size
                 currentPage = data.page
-
                 val questionNo = "${data.page}"
                 val total = "${"/"}${totalQuestions}  ${"Question"}"
                 getViewModel().questionNo.set(questionNo)
                 getViewModel().questionTotal.set(total)
-
                 val question = data.data?.get(data.page - 1)
                 val options = question?.option
-
-                val optionsDataByCategory = options?.groupBy { it.optionCategory }
-
                 if (!options.isNullOrEmpty()) {
                     getViewModel().question.set(question.question)
                     setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
@@ -87,23 +87,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                 btnNext?.setOnClickListener {
                     if (currentPage == totalQuestions) {
-                        /* getViewModel().submitRiskAssessmentAws().observe(this, Observer {
-                             onBackExclusive(RiskProfileFragment::class.java)
-                         })*/
                         startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
+                        postSticky(data)
                     } else {
-                        var isSelected = false
-                        if (optionsDataByCategory != null) {
-                            for (item in optionsDataByCategory.entries) {
-                                val category = item.key
-                                val count = options.count { it.isSelected && it.optionCategory == category }
-                                        ?: 0
-                                isSelected = count != 0
-                            }
-                        }
-                        if (!isSelected) {
-                            context?.simpleAlert("PLease select any one option to proceed next")
-                        } else {
+                        if (question != null && isValid(question)) {
                             startFragment(newInstance(), R.id.frmContainer)
                             data.page++
                             postSticky(data)
@@ -122,6 +109,69 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
     }
 
+    fun isValid(question: RiskAssessmentQuestionsApiResponse.Data): Boolean {
+        val options = question.option
+        val optionsDataByCategory = options?.groupBy { it.optionCategory }
+        val type = question.option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)
+        var isSelected = true
+        when (type) {
+            "slider" -> {
+                if (optionsDataByCategory != null) {
+                    for (item in optionsDataByCategory.entries) {
+                        val category = item.key
+                        val count = options.count { it.isSelected && it.optionCategory == category }
+                        if (count == 0) {
+                            if (TextUtils.isEmpty(category)) {
+                                context?.simpleAlert("PLease select any one option to proceed next")
+                            } else {
+                                context?.simpleAlert("PLease select any one option from $category to proceed next")
+                            }
+                            isSelected = false
+                            break
+                        }
+                    }
+                }
+            }
+            "checkbox" -> {
+                val count = options?.count { it.isSelected }
+                if (count == 0) {
+                    context?.simpleAlert("PLease select any one option to proceed next")
+                    isSelected = false
+                } else if (toBigIntDefaultZero(question.totalValue) == BigInteger.ZERO) {
+                    context?.simpleAlert("PLease enter estimated total value to proceed next")
+                    isSelected = false
+                }
+            }
+            "radio", "radio_emoji", "radio_returns" -> {
+                val count = options?.count { it.isSelected }
+                if (count == 0) {
+                    context?.simpleAlert("PLease select any one option to proceed next")
+                    isSelected = false
+                }
+            }
+            "checkbox_goal" -> {
+                val count = options?.count { it.isSelected }
+                if (count == 0) {
+                    context?.simpleAlert("PLease select any one option to proceed next")
+                    isSelected = false
+                } else {
+                    options?.filter { it.isSelected }?.forEach {
+                        if (TextUtils.isEmpty(it.targetYear)) {
+                            context?.simpleAlert("PLease select target year for ${it.optionValue} to proceed next")
+                            isSelected = false
+                            return@forEach
+                        } else if (toBigIntDefaultZero(it.goalAmount) == BigInteger.ZERO) {
+                            context?.simpleAlert("PLease enter amount for ${it.optionValue} to proceed next")
+                            isSelected = false
+                            return@forEach
+                        }
+                    }
+                }
+            }
+        }
+        return isSelected
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
@@ -130,8 +180,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
     private fun setOptionsData(question: RiskAssessmentQuestionsApiResponse.Data, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
 
         val optionsData = options.groupBy { it.optionCategory }
-        val type = question.option?.firstOrNull()?.optionType?.toLowerCase()
-
+        val type = question.option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)
         when (type) {
             "slider" -> {
                 setSliderData(optionsData, options)
@@ -145,7 +194,11 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
             }
             "radio" -> {
-                setRadioData(optionsData, options)
+                if (optionsData.containsKey("Salary")) {
+                    setRadioData(options.groupBy { it.optionValue }, options)
+                } else {
+                    setRadioData(optionsData, options)
+                }
             }
             "radio_emoji" -> {
                 setRadioEmojiData(optionsData, options)
@@ -154,11 +207,6 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 setCheckboxGoalData(options)
             }
             "radio_returns" -> {
-                /*options.forEachIndexed { _, option ->
-                    if (option.optionValue?.contains(",") == true) {
-                        option.optionValue = option.optionValue?.replace(",", "\n")
-                    }
-                }*/
                 setRadioReturnsData(optionsData, options)
             }
         }
@@ -259,23 +307,18 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
     private fun setRadioData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
         val optionsItems = ArrayList<OptionsItem>()
-
         for (item in data.entries) {
             val category = item.key
             val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
             optionsItems.add(OptionsItem(category, itemOptions))
         }
-
         rvQuestions?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
         if (data.entries.size == 1) {
             rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_16)))
             rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_item, options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioItemBinding, position: Int ->
                 binder.item = item
                 binder.executePendingBindings()
-
                 binder.optionTitle = getCharForNumber(position)
-
                 binder.root.setOnClickListener {
                     options.forEachIndexed { index, it1 ->
                         it1.isSelected = false
@@ -284,24 +327,21 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
             }
         } else {
+            optionsItems.sortByDescending { it.category }
             rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio, optionsItems) { item: OptionsItem, binder: RowRiskAssessmentRadioBinding, position: Int ->
                 binder.item = item
                 binder.executePendingBindings()
-
                 item.options?.let { options ->
-
                     binder.rvOptions.addItemDecoration(GridSpacingItemDecoration(3, resources.getDimensionPixelSize(R.dimen.space_12), true))
-
                     binder.rvOptions.setUpRecyclerView(R.layout.row_risk_assessment_checkbox_item, options) { item1: RiskAssessmentQuestionsApiResponse.Data.Option, binder1: RowRiskAssessmentCheckboxItemBinding, position1: Int ->
                         binder1.item = item1
                         binder1.executePendingBindings()
-
+                        binder1.tvTitle.text = item1.optionCategory
                         binder1.root.setOnClickListener {
-
-                            options.forEachIndexed { index, it1 ->
-                                it1.isSelected = false
+                            options.filter { it.optionId != item1.optionId }.forEach {
+                                it.isSelected = false
                             }
-                            item1.isSelected = true
+                            item1.isSelected = !item1.isSelected
                         }
                     }
                 }
@@ -359,7 +399,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         }
     }
 
-    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    @Subscribe(sticky = true)
     fun onReceive(data: RiskAssessmentQuestionsApiResponse) {
         if (getViewModel().questions.value == null) {
             getViewModel().questions.value = data

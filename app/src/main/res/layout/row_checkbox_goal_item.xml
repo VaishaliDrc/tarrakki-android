@@ -14,18 +14,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_72sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:background="@{item.isSelected?@drawable/shape_rounded_bg_green:@drawable/shape_border_rounded_black}"
-        android:padding="@dimen/_8sdp">
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/ivLogo"
             imgUrl="@{item.optionImage}"
-            android:layout_width="@dimen/_78sdp"
+            android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:paddingEnd="@dimen/_8sdp"
+            android:scaleType="fitXY"
             android:tint="@{item.isSelected?@color/white:@color/semi_black}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/lato_semibold"
-            android:text="@{item.targetYear}"
+            android:text="@{item.optionValue}"
             android:textColor="@{item.isSelected?@color/white:@color/semi_black}"
             app:layout_constraintBottom_toTopOf="@+id/tvTargetYear"
             app:layout_constraintStart_toStartOf="@id/mBarrier"
@@ -53,17 +55,21 @@
 
         <TextView
             android:id="@+id/tvTargetYear"
-            android:layout_width="123dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_28sdp"
             android:background="@drawable/shape_rounded_white_bg"
             android:drawableEnd="@drawable/ic_drop_down_semi_black_24dp"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:hint="@string/target_year"
             android:padding="@dimen/space_6"
+            android:text="@{item.targetYear}"
             android:textColor="@color/semi_black"
+            android:textSize="@dimen/_9ssp"
+            android:visibility="@{item.selected?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/llContainer"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="0.8"
             app:layout_constraintStart_toEndOf="@+id/ivLogo"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:targetYear="@{item}" />
@@ -71,7 +77,7 @@
         <LinearLayout
             android:id="@+id/llContainer"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_28sdp"
             android:layout_marginStart="@dimen/_4sdp"
             android:background="@drawable/shape_rounded_white_bg"
             android:gravity="center_vertical"
@@ -81,6 +87,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tvTargetYear"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toEndOf="@+id/tvTargetYear"
             app:layout_constraintTop_toTopOf="@+id/tvTargetYear">
 
@@ -103,8 +110,8 @@
                 android:inputType="number"
                 android:nextFocusForward="@+id/edtDurations"
                 android:text="@={item.goalAmount}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/semi_black"
+                android:textSize="@dimen/_9ssp"
                 app:isPositiveCurrency="@{true}" />
 
         </LinearLayout>

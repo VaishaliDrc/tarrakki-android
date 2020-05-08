@@ -5,10 +5,13 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.Observer
 import com.tarrakki.R
+import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.FragmentAssessmentDeclarationBinding
 import com.tarrakki.databinding.FragmentAssessmentQBinding
 import com.tarrakki.module.risk_profile.RiskProfileFragment
 import kotlinx.android.synthetic.main.fragment_assessment_declaration.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 
 class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, FragmentAssessmentDeclarationBinding>() {
@@ -43,6 +46,12 @@ class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, Fragm
         }
     }
 
+    @Subscribe(sticky = true)
+    fun onReceive(data: RiskAssessmentQuestionsApiResponse) {
+        if (getViewModel().questions.value == null) {
+            getViewModel().questions.value = data
+        }
+    }
 
     companion object {
         @JvmStatic

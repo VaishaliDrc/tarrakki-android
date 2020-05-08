@@ -60,15 +60,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                 startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
             })
             binder.executePendingBindings()
-//            if (binder is RowSpeedometerRiskProfileBinding) {
-//                setUpSpeedView(binder)
-//            }
         }
-        /*getViewModel().getReportOfRiskProfile().observe(this, Observer {
-            it.let { data ->
-                rvRiskProfile?.adapter?.notifyDataSetChanged()
-            }
-        })*/
         getViewModel().riskProfile.observe(this, Observer { o ->
             GlobalScope.launch {
                 withContext(Dispatchers.Default) {
@@ -102,24 +94,6 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
         menu.clear()
         super.onCreateOptionsMenu(menu, inflater)
     }
-
-    /*private fun setUpSpeedView(binder: RowSpeedometerRiskProfileBinding) {
-        val speedView = binder.speedView
-        speedView.layoutParams.height = ((App.INSTANCE.resources.displayMetrics.widthPixels - 48f.convertToPx()) / 2).toInt()
-        speedView.requestLayout()
-        speedView.markWidth = 30.toFloat()
-        ContextCompat.getDrawable(App.INSTANCE, R.drawable.indicator)?.let {
-            val imageIndicator = ImageIndicator(App.INSTANCE, it)
-            speedView.indicator = imageIndicator
-        }
-        speedView.sections.clear()
-        speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
-                , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
-                , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
-                , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
-                , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
-        speedView.setSpeedAt(binder.widget?.value ?: 0f)
-    }*/
 
     @Subscribe(sticky = true)
     fun onReceive(apiRes: ApiResponse) {
