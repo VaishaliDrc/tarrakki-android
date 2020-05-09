@@ -11,7 +11,8 @@ import java.util.*
 data class RiskAssessmentQuestionsApiResponse(
         @SerializedName("data")
         val `data`: List<Data>?,
-        var page: Int = 0
+        var page: Int = 0,
+        var isReassessment: Boolean = false
 ) {
     data class Data(
             @SerializedName("action")

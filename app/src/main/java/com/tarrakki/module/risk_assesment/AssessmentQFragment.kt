@@ -23,7 +23,6 @@ import com.tarrakki.module.risk_assessment_agree.AssessmentDeclartionFragment
 import com.tarrakki.setDividerVertical
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.drawable
@@ -159,11 +158,11 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                         if (TextUtils.isEmpty(it.targetYear)) {
                             context?.simpleAlert("PLease select target year for ${it.optionValue} to proceed next")
                             isSelected = false
-                            return@forEach
+                            return isSelected
                         } else if (toBigIntDefaultZero(it.goalAmount) == BigInteger.ZERO) {
                             context?.simpleAlert("PLease enter amount for ${it.optionValue} to proceed next")
                             isSelected = false
-                            return@forEach
+                            return isSelected
                         }
                     }
                 }
@@ -351,11 +350,22 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
     private fun setSliderData(data: Map<String?, List<RiskAssessmentQuestionsApiResponse.Data.Option>>, options: ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>) {
         val optionsItems = ArrayList<OptionsItem>()
-
         for (item in data.entries) {
             val category = item.key
             val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
             optionsItems.add(OptionsItem(category, itemOptions))
+        }
+
+        if (getViewModel().questions.value?.isReassessment == true) {
+            optionsItems.forEach end@{
+                val selectedIndex = it.options?.indexOfFirst { it.isSelected }
+                it.options?.forEachIndexed { index, option ->
+                    if (index == selectedIndex) {
+                        return@end
+                    }
+                    option.isMovedOver = true
+                }
+            }
         }
 
         val layoutManager = PeekingLinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

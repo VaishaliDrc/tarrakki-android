@@ -223,7 +223,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(MySipFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_saved_goals -> {
-                        if (position == 5) {
+                        if (position == 0 || position == 1) {
                             getReportOfRiskProfile().observe(this, Observer { apiRes ->
                                 if (apiRes.status?.code == 9) {
                                     startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)

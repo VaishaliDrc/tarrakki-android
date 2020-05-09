@@ -4,28 +4,30 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.RiskProfileResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.databinding.FragmentRiskProfileBinding
-import com.tarrakki.databinding.RowSpeedometerRiskProfileBinding
+import com.tarrakki.getRiskAssessmentQuestions
 import com.tarrakki.module.bankaccount.SingleButton
-import com.tarrakki.speedometer.components.Section
-import com.tarrakki.speedometer.components.indicators.ImageIndicator
+import com.tarrakki.module.risk_assesment.AssessmentQFragment
 import kotlinx.android.synthetic.main.fragment_risk_profile.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.convertTo
+import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toDate
 
 /**
  * A simple [Fragment] subclass.
@@ -54,10 +56,26 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
 
     override fun createReference() {
         setHasOptionsMenu(true)
+        var report: List<RiskProfileResponse.Data.Report>? = null
         rvRiskProfile?.setUpMultiViewRecyclerAdapter(getViewModel().data) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
             binder.setVariable(BR.onAdd, View.OnClickListener {
-                startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
+                getRiskAssessmentQuestions().observe(this, Observer { apiRes ->
+                    apiRes?.let {
+                        report?.forEach { q ->
+                            val data = apiRes.data?.firstOrNull { it.questionId == q.questionId }
+                            q.options?.forEach { op ->
+                                data?.option?.filter { it.optionId == op.optionId }?.forEach {
+                                    it.isSelected = true
+                                }
+                            }
+                        }
+                        startFragment(AssessmentQFragment.newInstance(), R.id.frmContainer)
+                        apiRes.page = 1
+                        apiRes.isReassessment = true
+                        repostSticky(apiRes)
+                    }
+                })
             })
             binder.executePendingBindings()
         }
@@ -65,6 +83,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
             GlobalScope.launch {
                 withContext(Dispatchers.Default) {
                     val res = o.data?.parseTo<RiskProfileResponse>()
+                    report = res?.data?.report
                     val data = getViewModel().data
                     data.clear()
                     res?.data?.let { report ->
