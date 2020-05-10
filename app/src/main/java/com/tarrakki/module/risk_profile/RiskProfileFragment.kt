@@ -1,9 +1,11 @@
 package com.tarrakki.module.risk_profile
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.ViewDataBinding
 import androidx.databinding.library.baseAdapters.BR
 import androidx.fragment.app.Fragment
@@ -14,7 +16,11 @@ import com.tarrakki.api.model.RiskProfileResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.databinding.FragmentRiskProfileBinding
 import com.tarrakki.getRiskAssessmentQuestions
+import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.bankaccount.SingleButton
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.risk_assesment.AssessmentQFragment
 import kotlinx.android.synthetic.main.fragment_risk_profile.*
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +31,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.convertTo
 import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toDate
@@ -67,6 +74,20 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                             q.options?.forEach { op ->
                                 data?.option?.filter { it.optionId == op.optionId }?.forEach {
                                     it.isSelected = true
+                                    op.extraData?.forEachIndexed { index, extraDataX ->
+                                        when (index) {
+                                            0 -> {
+                                                if ("checkbox".equals(op.optionType, true) && TextUtils.isEmpty(data.totalValue)) {
+                                                    data.totalValue = extraDataX.amount ?: ""
+                                                } else {
+                                                    it.goalAmount = extraDataX.amount ?: ""
+                                                }
+                                            }
+                                            else -> {
+                                                it.targetYear = extraDataX.targetYear ?: ""
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -97,13 +118,23 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                             observation += (it.observation ?: "").plus("\n\n")
                         }
                         data.add(RiskObservation(observation))
-                        data.add(RiskSpeedometer(report.classification?.riskScore?.toFloatOrNull()
-                                ?: 0f))
+                        data.add(RiskSpeedometer(report.classification?.riskProfile ?: ""))
                         data.add(SingleButton(R.string.retake_risk_assessment))
                     }
                 }
                 withContext(Dispatchers.Main) {
                     rvRiskProfile?.adapter?.notifyDataSetChanged()
+                }
+            }
+        })
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (activity is InvestActivity || activity is HomeActivity) {
+                    onBackExclusive(FundDetailsFragment::class.java)
+                    postSticky(Event.REFRESH_FUN_DETAILS)
+                } else {
+                    onBackExclusive(AccountFragment::class.java)
                 }
             }
         })

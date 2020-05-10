@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="@id/ivRiskLbl"
             app:sv_centerCircleColor="@color/white"
             app:sv_endDegree="360"
-            app:riskLevel="@{widget.value}"
+            app:riskLevel="@{widget.riskProfileLevel}"
             app:sv_speedTextPadding="@dimen/_18ssp"
             app:sv_speedTextPosition="CENTER"
             app:sv_startDegree="180"

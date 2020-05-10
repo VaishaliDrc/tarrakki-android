@@ -31,6 +31,7 @@ data class RiskProfileResponse(
         )
 
         data class Report(
+                @SerializedName("options", alternate = ["amountoptions"])
                 val options: List<Option>?,
                 val question: String?, // You have Rs.25 lakh to invest at the start of the year. Which from the below 3 hypothetical return scenarios with likely best and worst-case annual returns do you prefer?
                 @SerializedName("question_id")
@@ -40,7 +41,15 @@ data class RiskProfileResponse(
                 val weightagePerc: String?, // 12.5
                 @SerializedName("weighted_score")
                 val weightedScore: String? // 0.63
+
         ) {
+            data class ExtraDataX(
+                    @SerializedName("amount")
+                    val amount: String?, // 500000
+                    @SerializedName("target_year")
+                    val targetYear: String? // 2025
+            )
+
             data class Option(
                     @SerializedName("option_category")
                     val optionCategory: String?,
@@ -51,8 +60,13 @@ data class RiskProfileResponse(
                     @SerializedName("option_type")
                     val optionType: String?, // radio_returns
                     @SerializedName("option_value")
-                    val optionValue: String? // Average Returns: 18%, Best Returns: 25%, Worst Returns: -15%
+                    val optionValue: String?, // Average Returns: 18%, Best Returns: 25%, Worst Returns: -15%
+                    @SerializedName("extra_data")
+                    val extraData: List<ExtraDataX>?
             )
         }
     }
 }
+
+
+

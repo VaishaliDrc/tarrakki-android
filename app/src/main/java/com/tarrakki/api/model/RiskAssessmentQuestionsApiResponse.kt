@@ -101,7 +101,7 @@ data class RiskAssessmentQuestionsApiResponse(
                         }
                     }
                     json.addProperty("options", answers)
-                    json.addProperty("amount", toBigIntDefaultZero(totalValue))
+                    json.addProperty("amount", toBigIntDefaultZero(totalValue).toString())
                 }
                 "radio" -> {
                     option.filter { it.isSelected }.forEach { op ->

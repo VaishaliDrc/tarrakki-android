@@ -64,45 +64,46 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
     override fun createReference() {
         setHasOptionsMenu(true)
-        getViewModel().questions.observe(this, Observer { it ->
+        getViewModel().questions.observe(this, Observer {
             it?.let { data ->
+                if (data.data?.isNotEmpty() == true) {
+                    totalQuestions = data.data.size
+                    currentPage = data.page
+                    val questionNo = "${data.page}"
+                    val total = "${"/"}${totalQuestions}  ${"Question"}"
+                    getViewModel().questionNo.set(questionNo)
+                    getViewModel().questionTotal.set(total)
+                    val question = data.data[data.page - 1]
+                    val options = question.option
+                    if (!options.isNullOrEmpty()) {
+                        getViewModel().question.set(question.question)
+                        setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
+                    }
 
-                totalQuestions = data.data?.size
-                currentPage = data.page
-                val questionNo = "${data.page}"
-                val total = "${"/"}${totalQuestions}  ${"Question"}"
-                getViewModel().questionNo.set(questionNo)
-                getViewModel().questionTotal.set(total)
-                val question = data.data?.get(data.page - 1)
-                val options = question?.option
-                if (!options.isNullOrEmpty()) {
-                    getViewModel().question.set(question.question)
-                    setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
-                }
+                    btnPrevious?.setOnClickListener {
+                        onBack()
+                    }
 
-                btnPrevious?.setOnClickListener {
-                    onBack()
-                }
-
-                btnNext?.setOnClickListener {
-                    if (currentPage == totalQuestions) {
-                        startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
-                        postSticky(data)
-                    } else {
-                        if (question != null && isValid(question)) {
-                            startFragment(newInstance(), R.id.frmContainer)
-                            data.page++
+                    btnNext?.setOnClickListener {
+                        if (currentPage == totalQuestions) {
+                            startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
                             postSticky(data)
+                        } else {
+                            if (isValid(question)) {
+                                startFragment(newInstance(), R.id.frmContainer)
+                                data.page++
+                                postSticky(data)
+                            }
                         }
                     }
-                }
 
-                requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        data.page--
-                        onBack(1)
-                    }
-                })
+                    requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
+                        override fun handleOnBackPressed() {
+                            data.page--
+                            onBack(1)
+                        }
+                    })
+                }
             }
         })
 

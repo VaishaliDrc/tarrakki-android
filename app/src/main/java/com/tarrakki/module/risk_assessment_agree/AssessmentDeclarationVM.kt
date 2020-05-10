@@ -21,14 +21,15 @@ class AssessmentDeclarationVM : FragmentViewModel() {
 
     var questions = MutableLiveData<RiskAssessmentQuestionsApiResponse>()
 
-
     fun submitRiskAssessmentAws(): MutableLiveData<ApiResponse> {
         showProgress()
         val apiResponse = MutableLiveData<ApiResponse>()
         val json = JsonObject()
+        val reqData = JsonObject()
         questions.value?.data?.forEach { q ->
-            json.add("${q.questionId}", q.getAnswer())
+            reqData.add("${q.questionId}", q.getAnswer())
         }
+        json.add("answers", reqData)
         json.printRequest()
         val data = json.toString().toEncrypt()
         data.printRequest()

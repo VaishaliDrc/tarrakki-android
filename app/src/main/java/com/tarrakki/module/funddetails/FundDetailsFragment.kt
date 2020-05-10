@@ -9,9 +9,11 @@ import com.tarrakki.module.funddetails.fragments.OverviewFragment
 import com.tarrakki.module.funddetails.fragments.PerformanceFragment
 import com.tarrakki.module.zyaada.TARRAKKI_ZYAADA_ID
 import kotlinx.android.synthetic.main.fragment_fund_details.*
+import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
 import org.supportcompact.adapters.setFragmentPagerAdapter
+import org.supportcompact.events.Event
 
 /**
  * A simple [Fragment] subclass.
@@ -61,6 +63,22 @@ class FundDetailsFragment : CoreFragment<FundDetailsVM, FragmentFundDetailsBindi
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
         mTab?.setupWithViewPager(mPager, true)
+    }
+
+    @Subscribe(sticky = true)
+    override fun onEvent(event: Event) {
+        when (event) {
+            Event.REFRESH_FUN_DETAILS -> {
+                val id = arguments?.getString(ITEM_ID)
+                id?.let {
+                    getViewModel().getFundDetails(it)
+                }
+                removeStickyEvent(event)
+            }
+            else -> {
+                super.onEvent(event)
+            }
+        }
     }
 
     companion object {

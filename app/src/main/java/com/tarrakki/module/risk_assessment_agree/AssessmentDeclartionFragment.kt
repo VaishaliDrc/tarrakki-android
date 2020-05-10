@@ -7,12 +7,12 @@ import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.FragmentAssessmentDeclarationBinding
-import com.tarrakki.databinding.FragmentAssessmentQBinding
+import com.tarrakki.getReportOfRiskProfile
 import com.tarrakki.module.risk_profile.RiskProfileFragment
 import kotlinx.android.synthetic.main.fragment_assessment_declaration.*
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
+import org.supportcompact.ktx.startFragment
 
 class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, FragmentAssessmentDeclarationBinding>() {
 
@@ -41,7 +41,12 @@ class AssessmentDeclartionFragment : CoreFragment<AssessmentDeclarationVM, Fragm
         setHasOptionsMenu(true)
         btnAgree?.setOnClickListener {
             getViewModel().submitRiskAssessmentAws().observe(this, Observer {
-                //onBackExclusive(RiskProfileFragment::class.java)
+                getReportOfRiskProfile().observe(this, Observer { apiRes ->
+                    if (apiRes.status?.code == 1) {
+                        startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                        postSticky(apiRes)
+                    }
+                })
             })
         }
     }
