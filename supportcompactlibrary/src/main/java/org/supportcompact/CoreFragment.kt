@@ -96,6 +96,7 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
         }
     }
 
+    @Deprecated("This method should not use with onBackPressedDispatcher", ReplaceWith("onBack(steps)"))
     protected fun onBack() {
         activity?.onBackPressed()
     }

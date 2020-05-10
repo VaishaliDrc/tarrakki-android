@@ -19,16 +19,18 @@ import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse
 import com.tarrakki.databinding.*
+import com.tarrakki.module.account.AccountFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.invest.InvestActivity
 import com.tarrakki.module.risk_assessment_agree.AssessmentDeclartionFragment
 import com.tarrakki.setDividerVertical
 import kotlinx.android.synthetic.main.fragment_assessment_q.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.ktx.drawable
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toBigIntDefaultZero
+import org.supportcompact.events.Event
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import org.supportcompact.utilise.GridSpacingItemDecoration
 import java.math.BigInteger
@@ -81,7 +83,8 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                     }
 
                     btnPrevious?.setOnClickListener {
-                        onBack()
+                        data.page--
+                        onBack(1)
                     }
 
                     btnNext?.setOnClickListener {
@@ -99,14 +102,20 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                     requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
                         override fun handleOnBackPressed() {
-                            data.page--
-                            onBack(1)
+                            context?.confirmationDialog(getString(R.string.go_back_from_bank),
+                                    btnPositiveClick = {
+                                        if (activity is InvestActivity || activity is HomeActivity) {
+                                            onBackExclusive(FundDetailsFragment::class.java)
+                                        } else {
+                                            onBackExclusive(AccountFragment::class.java)
+                                        }
+                                    }
+                            )
                         }
                     })
                 }
             }
         })
-
     }
 
     fun isValid(question: RiskAssessmentQuestionsApiResponse.Data): Boolean {
@@ -187,6 +196,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             }
             "checkbox" -> {
                 if (optionsData.entries.size == 1) {
+                    options.sortBy { it.optionId }
                     setCheckboxData(options)
                     clEstimatedValue?.visibility = View.VISIBLE
                     getBinding().item = question
@@ -197,6 +207,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 if (optionsData.containsKey("Salary")) {
                     setRadioData(options.groupBy { it.optionValue }, options)
                 } else {
+                    options.sortBy { it.optionId }
                     setRadioData(optionsData, options)
                 }
             }
@@ -204,9 +215,11 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 setRadioEmojiData(optionsData, options)
             }
             "checkbox_goal" -> {
+                options.sortBy { it.optionId }
                 setCheckboxGoalData(options)
             }
             "radio_returns" -> {
+                options.sortBy { it.optionId }
                 setRadioReturnsData(optionsData, options)
             }
         }
@@ -245,9 +258,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
             optionsItems.add(OptionsItem(category, itemOptions))
         }
-
         rvQuestions?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
         if (data.entries.size == 1) {
             rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_16)))
             rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_radio_emoji_item, options) { item: RiskAssessmentQuestionsApiResponse.Data.Option, binder: RowRiskAssessmentRadioEmojiItemBinding, position: Int ->
@@ -310,6 +321,9 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         for (item in data.entries) {
             val category = item.key
             val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
+            if (data.entries.size > 1) {
+                itemOptions.sortBy { it.optionId }
+            }
             optionsItems.add(OptionsItem(category, itemOptions))
         }
         rvQuestions?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
@@ -354,12 +368,20 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         for (item in data.entries) {
             val category = item.key
             val itemOptions = item.value as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>
+            if (data.entries.size == 1) {
+                itemOptions.sortBy { it.optionId }
+            } else {
+                itemOptions.sortByDescending { it.optionId }
+            }
             optionsItems.add(OptionsItem(category, itemOptions))
         }
-
+        optionsItems.sortBy { it.category }
         if (getViewModel().questions.value?.isReassessment == true) {
             optionsItems.forEach end@{
                 val selectedIndex = it.options?.indexOfFirst { it.isSelected }
+                if (selectedIndex == -1) {
+                    return@end
+                }
                 it.options?.forEachIndexed { index, option ->
                     if (index == selectedIndex) {
                         return@end
@@ -368,17 +390,13 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                 }
             }
         }
-
         val layoutManager = PeekingLinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         if (data.entries.size == 1) {
-
             val displaymetrics = DisplayMetrics()
             activity?.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
             val width = displaymetrics.widthPixels * 55 / 100
             rvQuestions?.layoutParams?.width = width
-
             layoutManager.isSingleItem(true)
-
         } else {
             rvQuestions?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_20)))
             layoutManager.isSingleItem(false)
@@ -387,18 +405,13 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         rvQuestions?.setUpRecyclerView(R.layout.row_risk_assessment_slider, optionsItems) { item: OptionsItem, binder: RowRiskAssessmentSliderBinding, position: Int ->
             binder.item = item
             binder.executePendingBindings()
-
             binder.isEnd = position % 2 != 0
-
             item.options?.let { options ->
                 binder.rvOptions.setUpRecyclerView(R.layout.row_risk_assessment_slider_item_start, options) { item1: RiskAssessmentQuestionsApiResponse.Data.Option, binder1: RowRiskAssessmentSliderItemStartBinding, position1: Int ->
                     binder1.item = item1
                     binder1.executePendingBindings()
-
                     binder1.isEnd = position % 2 != 0
-
                     binder1.tvTitle.setOnClickListener {
-
                         options.forEachIndexed { index, it1 ->
                             it1.isSelected = false
                             it1.isMovedOver = index < position1
