@@ -40,7 +40,9 @@ data class ConfirmTransactionResponse(
                 @SerializedName("sip_amount")
                 var sip_amount: String?,
                 @SerializedName("first_order_flag")
-                var isFirstSIP: String? = null
+                var isFirstSIP: String? = null,
+                @SerializedName("order_id")
+                var order_id: String? = null
         ) {
 
             @SerializedName("sip_start_date")

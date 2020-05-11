@@ -15,6 +15,7 @@ import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
+import com.tarrakki.module.upi.UPIStepFragment
 import io.branch.referral.Branch
 import io.branch.referral.BranchError
 import org.json.JSONObject
@@ -52,6 +53,7 @@ class HomeActivity : BaseActivity() {
         })
         menu?.findItem(R.id.itemHome)?.actionView?.setOnClickListener {
             startFragment(CartFragment.newInstance(), R.id.frmContainer)
+//            startFragment(UPIStepFragment.newInstance(), R.id.frmContainer)
         }
         return super.onCreateOptionsMenu(menu)
     }

@@ -301,28 +301,48 @@
                     android:src="@drawable/ic_upi"
                     android:visibility="@{vm.isUPI==true?View.VISIBLE:View.GONE}" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/space_8"
-                    android:textColorHint="@color/color_light_violet"
-                    android:visibility="@{vm.isUPI==true?View.VISIBLE:View.GONE}"
-                    app:hintTextColor="@color/color_light_violet">
+                    android:layout_height="wrap_content">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edtUPI"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/enter_your_upi_id_vpa"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:text="@{vm.upiName}"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/space_8"
                         android:textColorHint="@color/color_light_violet"
-                        tools:text="UPI" />
+                        android:visibility="@{vm.isUPI==true?View.VISIBLE:View.GONE}"
+                        app:hintTextColor="@color/color_light_violet">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edtUPI"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/enter_your_upi_id_vpa"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="@={vm.upiName}"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColorHint="@color/color_light_violet"
+                            tools:text="UPI" />
 
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/tvClearUPI"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|right"
+                        android:background="@drawable/shape_round_gray_bg"
+                        android:paddingStart="@dimen/space_12"
+                        android:paddingTop="@dimen/space_4"
+                        android:paddingEnd="@dimen/space_12"
+                        android:paddingBottom="@dimen/space_4"
+                        android:text="@string/clear"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                        android:textColor="@color/white"
+                        android:visibility="@{vm.upiName.equals(``) ?View.GONE :View.VISIBLE}" />
+
+                </FrameLayout>
 
             </LinearLayout>
 

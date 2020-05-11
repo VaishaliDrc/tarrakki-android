@@ -159,6 +159,10 @@ interface WebserviceBuilder {
     @POST("banks/set-kyc-details/{userId}")
     fun saveKYCdata(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("transactions/validate-order-payment/{userId}/")
+    fun validateOrderPayment(@Path("userId") userId: String?, @Field("order_ids") order_ids: String): Observable<ApiResponse>
+
     @GET("banks/get-kyc-details/{userId}")
     fun gatKYCdata(@Path("userId") userId: String?): Observable<ApiResponse>
 

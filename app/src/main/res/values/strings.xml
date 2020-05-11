@@ -832,11 +832,12 @@
     <string name="risk_assessment">Risk Assessment</string>
     <string name="upi_payment">UPI Payment</string>
     <string name="follow_the_below_steps_to_complete_n_your_payment">Follow the below steps to complete\n your payment</string>
-    <string name="please_do_not_close_the_app_until_you_naccept_the_collect_request">Please do not close the app until you \naccept the collect request.</string>
+    <string name="please_do_not_close_the_app_until_you_naccept_the_collect_request">This request is only valid for 5minutes.\nPlease do not close the app until you \naccept the collect request.</string>
     <string name="open_your_upi_app">Open your UPI App</string>
     <string name="accept_the_collect_request_sent_from_indian_clearing_corporation_bse_star_mf_india">Accept the collect request sent from Indian Clearing Corporation (BSE Star MF India)</string>
     <string name="upon_acceptance_the_payment_will_be_mapped_against_your_order">Upon acceptance, the payment will be mapped against your order.</string>
     <string name="UPI">UPI</string>
     <string name="enter_your_upi_id_vpa">Enter your UPI ID (VPA)</string>
+    <string name="clear">Clear</string>
 
 </resources>

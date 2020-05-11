@@ -12,6 +12,7 @@ import android.text.style.ClickableSpan
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.model.*
@@ -117,22 +118,64 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 
         edtHowToPay?.setOnClickListener {
             context?.showListDialog("Select Payment Type", getViewModel().paymentType) { item ->
-                getViewModel().selectedPaymentType.set(item)
+
                 when (item) {
                     ResourceUtils.getString(R.string.UPI) -> {
-                        getViewModel().isUPI.set(true)
-                        getViewModel().isNetBanking.set(false)
-                        getViewModel().isNEFTRTGS.set(false)
+                        var isPaymentMethodAllowed: Boolean = false
+
+                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                            validPaymentMethods.paymentMethod.let {
+                                isPaymentMethodAllowed = it.filter { it.equals("UPI", true) }.size > 0
+                            }
+                        }
+                        if (isPaymentMethodAllowed) {
+                            getViewModel().isUPI.set(true)
+                            getViewModel().isNetBanking.set(false)
+                            getViewModel().isNEFTRTGS.set(false)
+                            getViewModel().selectedPaymentType.set(item)
+                        } else {
+                            toast("This payment method is not allowed")
+                        }
+
+
                     }
                     ResourceUtils.getString(R.string.net_banking) -> {
-                        getViewModel().isUPI.set(false)
-                        getViewModel().isNetBanking.set(true)
-                        getViewModel().isNEFTRTGS.set(false)
+
+                        var isPaymentMethodAllowed: Boolean = false
+
+                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                            validPaymentMethods.paymentMethod.let {
+                                isPaymentMethodAllowed = it.filter { it.equals("DIRECT", true) }.size > 0
+                            }
+                        }
+                        if (isPaymentMethodAllowed) {
+                            getViewModel().isUPI.set(false)
+                            getViewModel().isNetBanking.set(true)
+                            getViewModel().isNEFTRTGS.set(false)
+                            getViewModel().selectedPaymentType.set(item)
+                        } else {
+                            toast("This payment method is not allowed")
+                        }
+
                     }
                     ResourceUtils.getString(R.string.neft_rtgs) -> {
-                        getViewModel().isUPI.set(false)
-                        getViewModel().isNetBanking.set(false)
-                        getViewModel().isNEFTRTGS.set(true)
+
+                        var isPaymentMethodAllowed: Boolean = false
+
+                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                            validPaymentMethods.paymentMethod.let {
+                                isPaymentMethodAllowed = it.filter { it.equals("NEFT/RTGS/IMPS", true) }.size > 0
+                            }
+                        }
+                        if (isPaymentMethodAllowed) {
+                            getViewModel().isUPI.set(false)
+                            getViewModel().isNetBanking.set(false)
+                            getViewModel().isNEFTRTGS.set(true)
+                            getViewModel().selectedPaymentType.set(item)
+                        } else {
+                            toast("This payment method is not allowed")
+                        }
+
                     }
                 }
 
@@ -225,14 +268,12 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             startFragment(AddBankMandateFragment.newInstance(bundle), R.id.frmContainer)
         }
 
+        tvClearUPI?.setOnClickListener {
+            getViewModel().upiName.set("")
+        }
+
         rb_netbanking?.isChecked = true
 
-        getDefaultBank().observe(this, Observer {
-            it?.data?.let { bank ->
-                getViewModel().accountNumber.set(bank.accountNumber)
-                getViewModel().branchName.set(bank.branchName)
-            }
-        })
     }
 
     override fun createViewModel(): Class<out PaymentModeVM> {
@@ -252,8 +293,37 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: ConfirmTransactionResponse) {
         getViewModel().confirmOrder.value = data
-        getViewModel().accountNumber.set(data.data.accountNumber)
-        getViewModel().branchName.set(data.data.bankName)
+
+        if (getViewModel().confirmOrder.value?.data?.orders?.size!! > 0) {
+            val transaction = arrayListOf<String>()
+            val transaction1 = arrayListOf<String>()
+
+            for (funds in getViewModel().confirmOrder.value?.data?.orders!!) {
+                if (funds.lumpsumTransactionId != 0) {
+                    transaction.add(funds.lumpsumTransactionId.toString())
+                    transaction1.add(funds.lumpsumTransactionId.toString())
+                }
+                if (funds.sipTransactionId != 0) {
+                    transaction.add(funds.sipTransactionId.toString())
+                    if ("Y".equals(funds.isFirstSIP, true)) {
+                        transaction1.add(funds.sipTransactionId.toString())
+                    }
+                }
+            }
+
+            getViewModel().order_ids.addAll(transaction1)
+
+        }
+
+        getViewModel().getOrderPaymentValidation().observe(this, Observer {
+            it?.data?.let { bank ->
+                getViewModel().validatePaymentData.value = it
+                getViewModel().accountNumber.set(bank.bankDetails.accountNumber)
+                getViewModel().branchName.set(bank.bankDetails.branchName)
+            }
+        })
+
+
         removeStickyEvent(data)
     }
 
@@ -263,6 +333,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         getViewModel().branchName.set(data.branchBankIdBankName)
         removeStickyEvent(data)
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(data: TransactionApiResponse.Transaction) {
@@ -292,9 +363,15 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             0
         }
 
+        val orderId: String = if (data.orderId.isNotEmpty()) {
+            data.orderId ?: "0"
+        } else {
+            "0"
+        }
+
         val transaction = ConfirmTransactionResponse.Data.Order(
                 sipTransactionId = sipTransactionId, schemeName = data.name, lumpsumTransactionId = lumpsumTransactionId
-                , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount
+                , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount, order_id = orderId
         )
         transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
         orderList.add(transaction)
@@ -306,8 +383,21 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 
         val confirmTransactionResponse = ConfirmResponseData?.let { ConfirmTransactionResponse(it) }
         getViewModel().confirmOrder.value = confirmTransactionResponse
-        getViewModel().accountNumber.set("")
-        getViewModel().branchName.set("")
+        if (confirmTransactionResponse?.data?.orders?.size!! > 0) {
+            confirmTransactionResponse.data.orders.forEach { item ->
+                getViewModel().order_ids.add(item.order_id.toString())
+            }
+        }
+        getViewModel().getOrderPaymentValidation().observe(this, Observer {
+            it?.data?.let { bank ->
+                getViewModel().validatePaymentData.value = it
+                getViewModel().accountNumber.set(bank.bankDetails.accountNumber)
+                getViewModel().branchName.set(bank.bankDetails.branchName)
+            }
+        })
+
+//        getViewModel().accountNumber.set("")
+//        getViewModel().branchName.set("")
         removeStickyEvent(data)
     }
 

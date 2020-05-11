@@ -4,19 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.ConfirmTransactionResponse
-import com.tarrakki.api.model.printResponse
-import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.api.*
+import com.tarrakki.api.model.*
 import org.greenrobot.eventbus.EventBus
+import org.json.JSONArray
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowECutOffTimeDialog
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.dismissProgress
-import org.supportcompact.ktx.showProgress
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ResourceUtils
 import java.math.BigInteger
 
@@ -34,6 +29,8 @@ class PaymentModeVM : FragmentViewModel() {
     val paymentType: ArrayList<String> = arrayListOf()
     val selectedPaymentType = ObservableField<String>(ResourceUtils.getString(R.string.UPI))
     val upiName = ObservableField<String>("")
+    val order_ids = arrayListOf<String>()
+    val validatePaymentData = MutableLiveData<ValidationPaymentResponse>()
 
     init {
         paymentType.add(ResourceUtils.getString(R.string.UPI))
@@ -77,6 +74,33 @@ class PaymentModeVM : FragmentViewModel() {
 
                     override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
                         dismissProgress()
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
+    }
+
+    fun getOrderPaymentValidation(): MutableLiveData<ValidationPaymentResponse> {
+        val apiResponse = MutableLiveData<ValidationPaymentResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .validateOrderPayment(App.INSTANCE.getUserId(), JSONArray(order_ids).toString()),
+                singleCallback = object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        e("Api Response=>${o.data?.toDecrypt()}")
+                        if (o.status?.code == 1) {
+                            val bank = o.data?.parseTo<ValidationPaymentResponse>()
+                            apiResponse.value = bank
+                        } else {
+                            EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
                         EventBus.getDefault().post(ShowError("${throwable.message}"))
                     }
                 }
