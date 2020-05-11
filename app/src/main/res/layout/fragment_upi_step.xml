@@ -69,7 +69,7 @@
                             android:gravity="center"
                             android:text="@string/follow_the_below_steps_to_complete_n_your_payment"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13sdp" />
+                            android:textSize="@dimen/_11sdp" />
 
 
                         <FrameLayout
@@ -91,7 +91,7 @@
                                 android:padding="@dimen/_16sdp"
                                 android:text="@string/open_your_upi_app"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="40dp"
@@ -102,7 +102,7 @@
                                 android:gravity="center"
                                 android:text="1"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
 
                         </FrameLayout>
@@ -134,7 +134,7 @@
                                 android:padding="@dimen/_16sdp"
                                 android:text="@string/accept_the_collect_request_sent_from_indian_clearing_corporation_bse_star_mf_india"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/tvLblStep1round"
@@ -146,7 +146,7 @@
                                 android:gravity="center"
                                 android:text="2"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
 
                         </FrameLayout>
@@ -175,7 +175,7 @@
                                 android:padding="@dimen/_16sdp"
                                 android:text="@string/upon_acceptance_the_payment_will_be_mapped_against_your_order"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="40dp"
@@ -186,7 +186,7 @@
                                 android:gravity="center"
                                 android:text="3"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/_13sdp" />
+                                android:textSize="@dimen/_11sdp" />
 
 
                         </FrameLayout>
@@ -207,8 +207,8 @@
             android:background="@color/color_efefef"
             android:fontFamily="@font/lato_regular"
             android:gravity="center"
-            android:paddingTop="@dimen/_16sdp"
-            android:paddingBottom="@dimen/_16sdp"
+            android:paddingTop="@dimen/space_16"
+            android:paddingBottom="@dimen/space_16"
             android:text="@string/please_do_not_close_the_app_until_you_naccept_the_collect_request"
             android:textColor="@color/black"
             android:textSize="@dimen/_10sdp" />
