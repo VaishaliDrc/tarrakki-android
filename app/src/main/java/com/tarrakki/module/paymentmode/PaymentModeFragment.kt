@@ -13,6 +13,7 @@ import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.google.gson.Gson
 import com.tarrakki.R
 import com.tarrakki.api.AES
 import com.tarrakki.api.model.*
@@ -48,6 +49,7 @@ const val SUCCESSTRANSACTION = "successtransactions"
 const val SUCCESS_ORDERS = "success_orders"
 const val ISFROMTRANSACTIONMODE = "isFromTransactionMode"
 const val PAYMENT_MODE_NEFT_RTGS = "payment_mode_NEFT/RTGS"
+const val TRANSACTION_IDS = "transaction_ids"
 
 class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBinding>() {
 
@@ -121,59 +123,75 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 
                 when (item) {
                     ResourceUtils.getString(R.string.UPI) -> {
-                        var isPaymentMethodAllowed: Boolean = false
-
+                        val order_ids: ArrayList<String> = arrayListOf()
                         getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
                             validPaymentMethods.paymentMethod.let {
-                                isPaymentMethodAllowed = it.filter { it.equals("UPI", true) }.size > 0
+                                val list = it.filter { it.equals("UPI", true) }
+                                if (list.size <= 0) {
+                                    order_ids.add(validPaymentMethods.fundName.toString())
+                                    return@let
+                                }
                             }
                         }
-                        if (isPaymentMethodAllowed) {
+                        if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(true)
                             getViewModel().isNetBanking.set(false)
                             getViewModel().isNEFTRTGS.set(false)
                             getViewModel().selectedPaymentType.set(item)
+                        } else if (order_ids.size <= 2) {
+                            context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via UPI.")
                         } else {
-                            toast("This payment method is not allowed")
+                            context?.simpleAlert("The below mentioned orders have been mapped to Netbanking. Kindly place a new order to pay via UPI.\n\n" + TextUtils.join("\n", order_ids))
                         }
 
 
                     }
                     ResourceUtils.getString(R.string.net_banking) -> {
-
-                        var isPaymentMethodAllowed: Boolean = false
-
+                        val order_ids: ArrayList<String> = arrayListOf()
                         getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
                             validPaymentMethods.paymentMethod.let {
-                                isPaymentMethodAllowed = it.filter { it.equals("DIRECT", true) }.size > 0
+                                val list = it.filter { it.equals("DIRECT", true) }
+                                if (list.size <= 0) {
+                                    order_ids.add(validPaymentMethods.fundName.toString())
+                                    return@let
+                                }
                             }
                         }
-                        if (isPaymentMethodAllowed) {
+                        if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(false)
                             getViewModel().isNetBanking.set(true)
                             getViewModel().isNEFTRTGS.set(false)
                             getViewModel().selectedPaymentType.set(item)
+                        } else if (order_ids.size <= 2) {
+                            context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.")
                         } else {
-                            toast("This payment method is not allowed")
+                            context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n" + TextUtils.join("\n", order_ids))
                         }
 
                     }
                     ResourceUtils.getString(R.string.neft_rtgs) -> {
 
-                        var isPaymentMethodAllowed: Boolean = false
-
+                        val order_ids: ArrayList<String> = arrayListOf()
                         getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
                             validPaymentMethods.paymentMethod.let {
-                                isPaymentMethodAllowed = it.filter { it.equals("NEFT/RTGS/IMPS", true) }.size > 0
+                                val list = it.filter { it.equals("NEFT/RTGS", true) }
+                                if (list.size <= 0) {
+                                    order_ids.add(validPaymentMethods.fundName.toString())
+                                    return@let
+                                }
+
+
                             }
                         }
-                        if (isPaymentMethodAllowed) {
+                        if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(false)
                             getViewModel().isNetBanking.set(false)
                             getViewModel().isNEFTRTGS.set(true)
                             getViewModel().selectedPaymentType.set(item)
+                        } else if (order_ids.size <= 2) {
+                            context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via UPI.")
                         } else {
-                            toast("This payment method is not allowed")
+                            context?.simpleAlert("The below mentioned orders have been mapped to Netbanking. Kindly place a new order to pay via UPI.\n\n" + TextUtils.join("\n", order_ids))
                         }
 
                     }
@@ -184,72 +202,106 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         }
 
         btnPayNow?.setOnClickListener {
-            val items = confirmOrderAdapter?.getAllItems()
-            if (items?.isNotEmpty() == true) {
-                if (!getViewModel().accountNumber.get().isNullOrEmpty()) {
 
-                    val transaction = arrayListOf<Int>()
-                    val transaction1 = arrayListOf<Int>()
-                    for (funds in items) {
-                        if (funds.lumpsumTransactionId != 0) {
-                            transaction.add(funds.lumpsumTransactionId)
-                            transaction1.add(funds.lumpsumTransactionId)
-                        }
-                        if (funds.sipTransactionId != 0) {
-                            transaction.add(funds.sipTransactionId)
-                            if ("Y".equals(funds.isFirstSIP, true)) {
-                                transaction1.add(funds.sipTransactionId)
-                            }
-                        }
+            val order_ids: ArrayList<String> = arrayListOf()
+            getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                validPaymentMethods.paymentMethod.let {
+                    val list = it.filter { it.equals("UPI", true) }
+                    if (list.size <= 0) {
+                        order_ids.add(validPaymentMethods.fundName.toString())
+                        return@let
                     }
-                    val response = getViewModel().confirmOrder.value
-                    val json = JSONObject()
-                    json.put("user_id", context?.getUserId())
-                    json.put("total_payable_amount", response?.data?.totalPayableAmount.toString())
-                    json.put("account_number", "${getViewModel().accountNumber.get()}")
-                    json.put("transaction_ids", JSONArray(transaction1))
-                    if (getViewModel().isNetBanking.get() == true) {
-                        json.put("payment_mode", "DIRECT")
-                        val authData = AES.encrypt(json.toString())
-                        getViewModel().paymentOrder(authData).observe(this, Observer {
-                            it?.let { response ->
-                                val jsonObject = JSONObject("${response.data?.toDecrypt()}")
-                                startFragment(NetBankingFragment.newInstance(Bundle().apply {
-                                    putSerializable(NET_BANKING_PAGE, jsonObject.optString("data"))
-                                    putString(SUCCESSTRANSACTION, transaction.toString())
-                                    putString(SUCCESS_ORDERS, items.toJson())
-                                    isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
-                                }), R.id.frmContainer)
-                            }
-                        })
-                    } /*else if (getViewModel().isUPI.get() == true) {
-                        startFragment(UPIStepFragment.newInstance(Bundle().apply {
-                        }), R.id.frmContainer)
 
-                    }*/ else {
-                        if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
-                            json.put("payment_mode", "NEFT/RTGS")
-                            json.put("utr_number", getViewModel().utrNumber.get())
-                            val authData = AES.encrypt(json.toString())
-                            getViewModel().paymentOrder(authData).observe(this, Observer {
-                                it?.printResponse()
-                                val bundle = Bundle().apply {
-                                    putBoolean(PAYMENT_MODE_NEFT_RTGS, true)
-                                    putString(SUCCESS_ORDERS, items.toJson())
-                                    putString(SUCCESSTRANSACTION, transaction.toString())
-                                    isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
-                                }
-                                startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
-                            })
-                        } else {
-                            context?.simpleAlert(getString(R.string.alert_req_utr))
-                        }
-                    }
-                    e("Plain Data=>", json.toString())
-                } else {
-                    context?.simpleAlert(getString(R.string.alert_req_bank))
                 }
             }
+            if (order_ids.size <= 0) {
+                val items = confirmOrderAdapter?.getAllItems()
+                if (items?.isNotEmpty() == true) {
+                    if (!getViewModel().accountNumber.get().isNullOrEmpty()) {
+
+                        val transaction = arrayListOf<Int>()
+                        val transaction1 = arrayListOf<Int>()
+                        for (funds in items) {
+                            if (funds.lumpsumTransactionId != 0) {
+                                transaction.add(funds.lumpsumTransactionId)
+                                transaction1.add(funds.lumpsumTransactionId)
+                            }
+                            if (funds.sipTransactionId != 0) {
+                                transaction.add(funds.sipTransactionId)
+                                if ("Y".equals(funds.isFirstSIP, true)) {
+                                    transaction1.add(funds.sipTransactionId)
+                                }
+                            }
+                        }
+                        val response = getViewModel().confirmOrder.value
+                        val json = JSONObject()
+                        json.put("user_id", context?.getUserId())
+                        json.put("total_payable_amount", response?.data?.totalPayableAmount.toString())
+                        json.put("account_number", "${getViewModel().accountNumber.get()}")
+                        json.put("transaction_ids", JSONArray(transaction1))
+                        if (getViewModel().isNetBanking.get() == true) {
+                            json.put("payment_mode", "DIRECT")
+                            val authData = AES.encrypt(json.toString())
+                            getViewModel().paymentOrder(authData).observe(this, Observer {
+                                it?.let { response ->
+                                    val jsonObject = JSONObject("${response.data?.toDecrypt()}")
+                                    startFragment(NetBankingFragment.newInstance(Bundle().apply {
+                                        putSerializable(NET_BANKING_PAGE, jsonObject.optString("data"))
+                                        putString(SUCCESSTRANSACTION, transaction.toString())
+                                        putString(SUCCESS_ORDERS, items.toJson())
+                                        isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+                                    }), R.id.frmContainer)
+                                }
+                            })
+                        } else if (getViewModel().isUPI.get() == true) {
+                            if (!TextUtils.isEmpty(getViewModel().upiName.get())) {
+                                json.put("payment_mode", "UPI")
+                                json.put("upi_id", getViewModel().upiName.get())
+                                val authData = AES.encrypt(json.toString())
+                                getViewModel().paymentOrder(authData).observe(this, Observer {
+                                    it?.printResponse()
+                                    val bundle = Bundle().apply {
+                                        putString(TRANSACTION_IDS, JSONArray(transaction1).toString())
+                                        putString(SUCCESS_ORDERS, items.toJson())
+                                        putString(SUCCESSTRANSACTION, transaction.toString())
+                                        isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+                                    }
+                                    startFragment(UPIStepFragment.newInstance(bundle), R.id.frmContainer)
+                                })
+                            } else {
+                                context?.simpleAlert(getString(R.string.alert_req_upi))
+                            }
+                        } else {
+                            if (!TextUtils.isEmpty(getViewModel().utrNumber.get())) {
+                                json.put("payment_mode", "NEFT/RTGS")
+                                json.put("utr_number", getViewModel().utrNumber.get())
+                                val authData = AES.encrypt(json.toString())
+                                getViewModel().paymentOrder(authData).observe(this, Observer {
+                                    it?.printResponse()
+                                    val bundle = Bundle().apply {
+                                        putBoolean(PAYMENT_MODE_NEFT_RTGS, true)
+                                        putString(SUCCESS_ORDERS, items.toJson())
+                                        putString(SUCCESSTRANSACTION, transaction.toString())
+                                        isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+                                    }
+                                    startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                })
+                            } else {
+                                context?.simpleAlert(getString(R.string.alert_req_utr))
+                            }
+                        }
+                        e("Plain Data=>", json.toString())
+                    } else {
+                        context?.simpleAlert(getString(R.string.alert_req_bank))
+                    }
+                }
+
+            } else if (order_ids.size <= 2) {
+                context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via UPI.")
+            } else {
+                context?.simpleAlert("The below mentioned orders have been mapped to Netbanking. Kindly place a new order to pay via UPI.\n\n" + TextUtils.join("\n", order_ids))
+            }
+
         }
 
         tvChangeBank?.setOnClickListener {
@@ -320,6 +372,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 getViewModel().validatePaymentData.value = it
                 getViewModel().accountNumber.set(bank.bankDetails.accountNumber)
                 getViewModel().branchName.set(bank.bankDetails.branchName)
+                getViewModel().upiName.set(bank.vpaId)
             }
         })
 
@@ -393,6 +446,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 getViewModel().validatePaymentData.value = it
                 getViewModel().accountNumber.set(bank.bankDetails.accountNumber)
                 getViewModel().branchName.set(bank.bankDetails.branchName)
+                getViewModel().upiName.set(bank.vpaId)
             }
         })
 
@@ -400,6 +454,7 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 //        getViewModel().branchName.set("")
         removeStickyEvent(data)
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     fun onReceive(items: ArrayList<TransactionApiResponse.Transaction>) {
@@ -428,10 +483,15 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             } else {
                 0
             }
+            val orderId: String = if (data.orderId.isNotEmpty()) {
+                data.orderId ?: "0"
+            } else {
+                "0"
+            }
 
             val transaction = ConfirmTransactionResponse.Data.Order(
                     sipTransactionId = sipTransactionId, schemeName = data.name, lumpsumTransactionId = lumpsumTransactionId
-                    , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount
+                    , lumpsum_amount = lumpsumAmount, sip_amount = sipAmount, order_id = orderId
             )
             transaction.isFirstSIP = if (sipTransactionId != 0) "Y" else ""
             orderList.add(transaction)
@@ -440,8 +500,20 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
             }
         }
         getViewModel().confirmOrder.value = ConfirmTransactionResponse(ConfirmTransactionResponse.Data(orderList.size, "", "", orderList, totalPayableAmount, failedTransactions))
-        getViewModel().accountNumber.set("")
-        getViewModel().branchName.set("")
+        if (getViewModel().confirmOrder.value?.data?.orders?.size!! > 0) {
+            getViewModel().confirmOrder.value?.data?.orders?.forEach { item ->
+                getViewModel().order_ids.add(item.order_id.toString())
+            }
+        }
+        getViewModel().getOrderPaymentValidation().observe(this, Observer {
+            it?.data?.let { bank ->
+                getViewModel().validatePaymentData.value = it
+                getViewModel().accountNumber.set(bank.bankDetails.accountNumber)
+                getViewModel().branchName.set(bank.bankDetails.branchName)
+                getViewModel().upiName.set(bank.vpaId)
+            }
+        })
+
         removeStickyEvent(items)
     }
 

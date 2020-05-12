@@ -839,5 +839,8 @@
     <string name="UPI">UPI</string>
     <string name="enter_your_upi_id_vpa">Enter your UPI ID (VPA)</string>
     <string name="clear">Clear</string>
+    <string name="alert_req_upi">Please Enter the UPI.</string>
+    <string name="time_out">Time Out</string>
+    <string name="something_went_wrong_please_try_again">The payment collect request sent to you is expired. Please try making the request again.</string>
 
 </resources>

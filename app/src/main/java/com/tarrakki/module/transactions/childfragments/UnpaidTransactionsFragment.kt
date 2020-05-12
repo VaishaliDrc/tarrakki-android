@@ -14,6 +14,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.tarrakki.App
 import com.tarrakki.R
@@ -58,6 +59,7 @@ class UnpaidTransactionsFragment : CoreParentFragment<TransactionsVM, FragmentUn
                         transactions.add(it)
                     }
                 }
+                val bundle = Bundle()
                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
                 repostSticky(transactions)
                 getViewModel().hasOptionMenu.value = false

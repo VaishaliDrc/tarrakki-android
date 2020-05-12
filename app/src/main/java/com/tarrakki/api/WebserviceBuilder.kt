@@ -201,6 +201,10 @@ interface WebserviceBuilder {
     fun checkoutOrder(@Field("data") data: String): Observable<ApiResponse>
 
     @FormUrlEncoded
+    @POST("transactions/get-payment-status/{userId}/")
+    fun checkPaymentStatus(@Path("userId") userId: String?, @Field("transaction_ids") transaction_ids: String): Observable<ApiResponse>
+
+    @FormUrlEncoded
     @POST("cart/checkout/")
     fun paymentOrder(@Field("data") data: String): Observable<ApiResponse>
 
