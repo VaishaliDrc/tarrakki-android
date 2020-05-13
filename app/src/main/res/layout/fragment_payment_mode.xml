@@ -325,6 +325,7 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+
                     <TextView
                         android:id="@+id/tvClearUPI"
                         android:layout_width="wrap_content"
@@ -338,9 +339,21 @@
                         android:text="@string/clear"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                         android:textColor="@color/white"
-                        android:visibility="@{vm.upiName.equals(``) ?View.GONE :View.VISIBLE}" />
+                        android:visibility="@{!vm.upiName.equals(``) &amp;&amp; vm.isUPI() ?View.VISIBLE :View.GONE}" />
 
                 </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvIntroUPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_6"
+                    android:text="@string/upi_is_currently_experiencing_a_low_success_rate_if_your_payment_fails_kindly_try_an_alternate_payment_mode"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/darker_gray"
+                    android:textStyle="italic"
+                    android:visibility="@{vm.isUPI() ?View.VISIBLE :View.GONE}" />
+
 
             </LinearLayout>
 

@@ -842,5 +842,12 @@
     <string name="alert_req_upi">Please Enter the UPI.</string>
     <string name="time_out">Time Out</string>
     <string name="something_went_wrong_please_try_again">The payment collect request sent to you is expired. Please try making the request again.</string>
+    <string name="have_you_completed_the_payment">Have you completed the payment from your UPI App?</string>
+    <string name="we_might_delayed_payment">We might receive a delayed payment confirmation at times. If you have completed the payment, please click Yes and continue.</string>
+    <string name="thanks_for_your_confirmation">Thank you for the confirmation.</string>
+    <string name="we_will_map_your_payment">As soon as we receive the payment confirmation, we will map the payment to your order.</string>
+    <string name="no_need_to_place_new_order">No need to place a new order.</string>
+    <string name="your_order_successfully_placed_in_my_transaction">Your order is successfully placed with the fund house. You can still play for the same order. Click on \'Pay Now\' in the unpaid section of \'My Transactions\'.</string>
+    <string name="upi_is_currently_experiencing_a_low_success_rate_if_your_payment_fails_kindly_try_an_alternate_payment_mode">UPI is currently experiencing a low success rate. If your payment fails, kindly try an alternate payment mode.</string>
 
 </resources>

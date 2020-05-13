@@ -1,7 +1,10 @@
 package com.tarrakki.module.upi
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.provider.Settings
 import android.view.View
 import androidx.lifecycle.Observer
 import com.tarrakki.R
@@ -16,6 +19,7 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.DISMISS_PROGRESS
+import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -42,10 +46,25 @@ class UPIStepFragment : CoreFragment<UPIStepVM, FragmentUpiStepBinding>() {
             }
 
             override fun onFinish() {
-                context?.simpleAlert(getString(R.string.something_went_wrong_please_try_again)) {
-                    countdown_timer.cancel()
-                    //                    redirectTo()
-                }
+                context?.confirmationDialog(
+                        title = getString(R.string.have_you_completed_the_payment),
+                        msg = getString(R.string.we_might_delayed_payment),
+                        btnPositive = getString(R.string.yes),
+                        btnNegative = getString(R.string.no),
+                        btnPositiveClick = {
+                            context?.simpleAlert(getString(R.string.thanks_for_your_confirmation), getString(R.string.we_will_map_your_payment), getString(R.string.ok)) {
+                                redirectTo()
+                            }
+
+                        },
+                        btnNegativeClick = {
+                            context?.simpleAlert(getString(R.string.no_need_to_place_new_order), getString(R.string.your_order_successfully_placed_in_my_transaction), getString(R.string.ok)) {
+                                redirectTo()
+                            }
+
+                        }
+                )
+
             }
         }.start()
         coreActivityVM?.footerVisibility?.set(View.GONE)

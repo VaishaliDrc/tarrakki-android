@@ -143,9 +143,9 @@ object ApiClient {
     const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v2/transactions/payment-status/" /// Latest url*/
 
 
-    /*   private const val BASE_URL = "https://7bc8774d.ngrok.io/api/v3/"
-       const val IMAGE_BASE_URL = "https://7bc8774d.ngrok.io"
-       const val BANK_REDIRECT_URL = "https://7bc8774d.ngrok.io/api/v3/transactions/payment-status/"*/
+    /* private const val BASE_URL = "https://72e2f449.ngrok.io/api/v3/"
+     const val IMAGE_BASE_URL = "https://72e2f449.ngrok.io"
+     const val BANK_REDIRECT_URL = "https://72e2f449.ngrok.io/api/v3/transactions/payment-status/"*/
 
     /**
      * @return [Retrofit] object its single-tone
@@ -272,7 +272,6 @@ object ApiClient {
                     .connectTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
                     .writeTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
                     .readTimeout(OKHTTP_TIMEOUT.toLong(), TimeUnit.SECONDS)
-
             if (BUILD_TYPE_DEBUG) {
                 val loggingInterceptor = HttpLoggingInterceptor()
                 loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
