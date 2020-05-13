@@ -801,5 +801,10 @@
     <string name="agree">Agree</string>
     <string name="i_confirm_that_i_have_conducted_my_risk_profiling">I confirm that I have conducted my risk profiling and I am aware about the outcome of the same. However, in future, I may take investment decision through Tarrakki platform which may or may not be in conformity with my risk profile. I further acknowledge that the risk associated with the investment decision taken by me is my sole risk and to be borne entirely by me. Investment adviser is not responsible for the same.</string>
     <string name="target_year">Target Year</string>
+    <string name="alert_risk_assessment_back">Are you sure you want to go back without completing the risk assessment?</string>
+    <string name="alert_assessment_select_one">Please select any answer to continue.</string>
+    <string name="alert_assessment_estimated_value">Please enter the estimated total value.</string>
+    <string name="alert_assessment_targetyear_and_amount">Please enter the target year and amount for the selected goal.</string>
+    <string name="alert_assessment_select_category_one">Please select any answer from each category to continue.</string>
 
 </resources>

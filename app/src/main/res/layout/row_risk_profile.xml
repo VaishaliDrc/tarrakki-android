@@ -17,15 +17,20 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@drawable/bg_complete_verification"
         android:padding="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_marginTop="@dimen/_16sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivProfile"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:src="@drawable/ic_profile_default"
             app:civ_border_color="@color/bg_img_color"
             app:civ_border_width="@dimen/_2sdp"
+            app:layout_constraintEnd_toEndOf="@id/barrier4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginTop="@dimen/space_8"
@@ -41,45 +46,42 @@
             app:layout_constraintStart_toEndOf="@id/ivProfile" />
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
             android:fontFamily="@font/lato_semibold"
             android:text="@{widget.name}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/tvRiskAssessment"
+            app:layout_constraintBottom_toTopOf="@+id/tvRiskAssessment"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier4"
-            app:layout_constraintTop_toTopOf="@id/ivProfile"
+            app:layout_constraintStart_toStartOf="@id/barrier4"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Suresh Kumar" />
 
         <TextView
             android:id="@+id/tvRiskAssessment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
             android:text="@string/your_risk_assessment_is_completed"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/bg_img_color"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+            app:layout_constraintBottom_toTopOf="@+id/tvDate"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier4"
-            app:layout_constraintTop_toTopOf="@id/ivProfile" />
+            app:layout_constraintStart_toStartOf="@id/barrier4"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/tvDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_12sdp"
             android:text="@{widget.date}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@id/ivProfile"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier4"
-            app:layout_constraintTop_toBottomOf="@id/tvRiskAssessment"
+            app:layout_constraintStart_toStartOf="@id/barrier4"
+            app:layout_constraintTop_toBottomOf="@+id/tvRiskAssessment"
             tools:text="as on 05 Apr 2020" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

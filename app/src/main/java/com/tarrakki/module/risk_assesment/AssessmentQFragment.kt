@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_assessment_q.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import org.supportcompact.utilise.GridSpacingItemDecoration
@@ -102,7 +101,7 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
 
                     requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
                         override fun handleOnBackPressed() {
-                            context?.confirmationDialog(getString(R.string.go_back_from_bank),
+                            context?.confirmationDialog(getString(R.string.alert_risk_assessment_back),
                                     btnPositiveClick = {
                                         if (activity is InvestActivity || activity is HomeActivity) {
                                             onBackExclusive(FundDetailsFragment::class.java)
@@ -131,9 +130,10 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                         val count = options.count { it.isSelected && it.optionCategory == category }
                         if (count == 0) {
                             if (TextUtils.isEmpty(category)) {
-                                context?.simpleAlert("PLease select any one option to proceed next")
+                                context?.simpleAlert(getString(R.string.alert_assessment_select_one))
                             } else {
-                                context?.simpleAlert("PLease select any one option from $category to proceed next")
+                                //context?.simpleAlert("PLease select any one option from $category to proceed next")
+                                context?.simpleAlert(getString(R.string.alert_assessment_select_category_one))
                             }
                             isSelected = false
                             break
@@ -144,29 +144,29 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
             "checkbox" -> {
                 val count = options?.count { it.isSelected }
                 if (count == 0) {
-                    context?.simpleAlert("PLease select any one option to proceed next")
+                    context?.simpleAlert(getString(R.string.alert_assessment_select_one))
                     isSelected = false
                 } else if (toBigIntDefaultZero(question.totalValue) == BigInteger.ZERO) {
-                    context?.simpleAlert("PLease enter estimated total value to proceed next")
+                    context?.simpleAlert(getString(R.string.alert_assessment_estimated_value))
                     isSelected = false
                 }
             }
             "radio", "radio_emoji", "radio_returns" -> {
                 val count = options?.count { it.isSelected }
                 if (count == 0) {
-                    context?.simpleAlert("PLease select any one option to proceed next")
+                    context?.simpleAlert(getString(R.string.alert_assessment_select_one))
                     isSelected = false
                 }
             }
             "checkbox_goal" -> {
                 val count = options?.count { it.isSelected }
                 if (count == 0) {
-                    context?.simpleAlert("PLease select any one option to proceed next")
+                    context?.simpleAlert(getString(R.string.alert_assessment_targetyear_and_amount))
                     isSelected = false
                 } else {
                     options?.filter { it.isSelected }?.forEach {
                         if (TextUtils.isEmpty(it.targetYear)) {
-                            context?.simpleAlert("PLease select target year for ${it.optionValue} to proceed next")
+                            context?.simpleAlert("PLease enter the target year for ${it.optionValue} to proceed next")
                             isSelected = false
                             return isSelected
                         } else if (toBigIntDefaultZero(it.goalAmount) == BigInteger.ZERO) {
@@ -352,9 +352,9 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
                         binder1.executePendingBindings()
                         binder1.tvTitle.text = item1.optionCategory
                         binder1.root.setOnClickListener {
-                            options.filter { it.optionId != item1.optionId }.forEach {
+                            /*options.filter { it.optionId != item1.optionId }.forEach {
                                 it.isSelected = false
-                            }
+                            }*/
                             item1.isSelected = !item1.isSelected
                         }
                     }

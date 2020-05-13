@@ -83,7 +83,7 @@ class AccountVM : FragmentViewModel() {
         accountMenus.clear()
         if (App.INSTANCE.isCompletedRegistration()) {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
-            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_saved_goals))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_risk_assessment))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_sip), R.drawable.ic_my_sip))
@@ -96,7 +96,7 @@ class AccountVM : FragmentViewModel() {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
         } else {
-            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_saved_goals))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_risk_assessment))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_sip), R.drawable.ic_my_sip))

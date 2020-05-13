@@ -222,19 +222,18 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     R.drawable.ic_my_sip -> {
                         startFragment(MySipFragment.newInstance(), R.id.frmContainer)
                     }
+                    R.drawable.ic_risk_assessment -> {
+                        getReportOfRiskProfile().observe(this, Observer { apiRes ->
+                            if (apiRes.status?.code == 9) {
+                                startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
+                            } else {
+                                startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                                postSticky(apiRes)
+                            }
+                        })
+                    }
                     R.drawable.ic_saved_goals -> {
-                        if (position == 0 || position == 1) {
-                            getReportOfRiskProfile().observe(this, Observer { apiRes ->
-                                if (apiRes.status?.code == 9) {
-                                    startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
-                                } else {
-                                    startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(apiRes)
-                                }
-                            })
-                        } else {
-                            startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
-                        }
+                        startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
                     }
                     R.drawable.ic_transactions -> {
                         startFragment(TransactionsFragment.newInstance(), R.id.frmContainer)
