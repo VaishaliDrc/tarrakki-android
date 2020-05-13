@@ -23,6 +23,8 @@ import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.my_sip.MySipFragment
 import com.tarrakki.module.myprofile.MyProfileFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.risk_profile.RiskProfileFragment
+import com.tarrakki.module.risk_profile.StartAssessmentFragment
 import com.tarrakki.module.savedgoals.SavedGoalsFragment
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
@@ -219,6 +221,16 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     }
                     R.drawable.ic_my_sip -> {
                         startFragment(MySipFragment.newInstance(), R.id.frmContainer)
+                    }
+                    R.drawable.ic_risk_assessment -> {
+                        getReportOfRiskProfile().observe(this, Observer { apiRes ->
+                            if (apiRes.status?.code == 9) {
+                                startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
+                            } else {
+                                startFragment(RiskProfileFragment.newInstance(), R.id.frmContainer)
+                                postSticky(apiRes)
+                            }
+                        })
                     }
                     R.drawable.ic_saved_goals -> {
                         startFragment(SavedGoalsFragment.newInstance(), R.id.frmContainer)
@@ -423,25 +435,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     override fun onEvent(event: Event) {
         super.onEvent(event)
         if (event == Event.REFRESH) {
-            //rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-            /*if (context?.getKYCStatus()?.isEmpty() == true) {
-                */
-            /**
-             * Normal flow of KYC and complete registration
-             * *//*
-                ll_complete_verification?.visibility = if (context?.isCompletedRegistration() == true) View.GONE else View.VISIBLE
-                getViewModel().bankVisibility.set(if (context?.isCompletedRegistration() == true) View.VISIBLE else View.GONE)
-                getViewModel().btnComleteRegion.set(context?.isKYCVerified() == true)
-                rvDocStatus?.visibility = if (ll_complete_verification?.visibility == View.GONE && context?.isReadyToInvest() == false) View.VISIBLE else View.GONE
-            } else {
-                */
-            /**
-             * Set status as per kyc status
-             * *//*
-                ll_complete_verification?.visibility = View.GONE
-                rvDocStatus?.visibility = View.VISIBLE
-                setViewAsKYCStatus("${context?.getKYCStatus()}".toUpperCase(Locale.US))
-            }*/
             activity?.runOnUiThread {
                 refreshKYCStatus()
             }

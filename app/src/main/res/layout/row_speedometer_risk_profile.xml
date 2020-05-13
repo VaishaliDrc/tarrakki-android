@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="widget"
+            type="com.tarrakki.module.risk_profile.RiskSpeedometer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="2dp"
+        android:padding="@dimen/_8sdp"
+        tools:layout_marginTop="@dimen/_16sdp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/your_risk_profile"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/color_light_violet"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivRiskLbl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_risk_miter_bg_lbl"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <com.tarrakki.speedometer.SpeedView
+            android:id="@+id/speedView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:layout_constraintTop_toTopOf="@id/ivRiskLbl"
+            app:sv_centerCircleColor="@color/white"
+            app:sv_endDegree="360"
+            app:riskLevel="@{widget.riskProfileLevel}"
+            app:sv_speedTextPadding="@dimen/_18ssp"
+            app:sv_speedTextPosition="CENTER"
+            app:sv_startDegree="180"
+            app:sv_textSize="@dimen/_18ssp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/low"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="@id/speedView"
+            app:layout_constraintTop_toBottomOf="@id/speedView" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/high"
+            android:textColor="@color/semi_black"
+            app:layout_constraintEnd_toEndOf="@id/speedView"
+            app:layout_constraintTop_toBottomOf="@id/speedView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

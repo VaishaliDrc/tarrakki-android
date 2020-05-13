@@ -31,7 +31,6 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
     private val PERMISSION_CODE = 101
     private var permissionCallBack: PermissionCallBack? = null
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (!::binding.isInitialized) {
             binding = DataBindingUtil.inflate(inflater, getLayout(), container, false)
@@ -97,6 +96,7 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
         }
     }
 
+    @Deprecated("This method should not use with onBackPressedDispatcher", ReplaceWith("onBack(steps)"))
     protected fun onBack() {
         activity?.onBackPressed()
     }
@@ -112,8 +112,6 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
     protected fun onBack(@IntRange(from = 1, to = 100) steps: Int) {
         for (i in 1..steps) {
             activity?.supportFragmentManager?.popBackStack()
-            //fragmentManager?.popBackStackImmediate(null, 0)
-            //activity?.supportFragmentManager?.popBackStack(null, 0/*FragmentManager.POP_BACK_STACK_INCLUSIVE*/)
         }
     }
 

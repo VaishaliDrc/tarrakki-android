@@ -46,5 +46,10 @@
     <color name="auto_cancel">#8C8C8C</color>
     <color name="color_F0FAFA">#F0FAFA</color>
 
+    <color name="conservative">#7CBE00</color>
+    <color name="moderately_conservative">#B4D337</color>
+    <color name="balanced">#D49E04</color>
+    <color name="moderately_aggressive">#E56C00</color>
+    <color name="aggressive">#C00D11</color>
 
 </resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse.Data.Option" />
+    </data>
+
+    <LinearLayout
+        android:padding="@dimen/_8sdp"
+        android:background="@{item.isSelected?@drawable/shape_rounded_bg_green:@drawable/shape_border_rounded_black}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivItem"
+            imgUrl="@{item.optionImage}"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/emergency_fund" />
+
+        <TextView
+            android:paddingEnd="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingStart="@dimen/_20sdp"
+            android:id="@+id/tvTitle"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="2dp"
+            android:text="@{item.optionValue}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@{item.isSelected?@color/white:@color/semi_black}"
+            tools:text="15000 - 30000"
+            tools:textColor="@color/black" />
+
+    </LinearLayout>
+
+</layout>

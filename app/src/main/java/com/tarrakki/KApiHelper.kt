@@ -12,6 +12,10 @@ import com.tarrakki.api.model.*
 import com.tarrakki.api.soapmodel.*
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.eventKYCDataLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
@@ -726,5 +730,50 @@ fun getMaintenanceDetails(): MutableLiveData<ApiResponse> {
     return apiResponse
 }
 
+fun getRiskAssessmentQuestions(): MutableLiveData<RiskAssessmentQuestionsApiResponse> {
+    val apiQuestionsResponse = MutableLiveData<RiskAssessmentQuestionsApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getRiskAssessmentQuestions(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
+        override fun onSingleSuccess(o: ApiResponse) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            if (o.status?.code == 1) {
+                GlobalScope.launch {
+                    withContext(Dispatchers.Default) {
+                        val data = o.data?.parseTo<RiskAssessmentQuestionsApiResponse>()
+                        apiQuestionsResponse.postValue(data)
+                    }
+                }
+            } else {
+                postError("${o.status?.message}")
+            }
+        }
 
+        override fun onFailure(throwable: Throwable) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            throwable.postError()
+        }
+    })
+    return apiQuestionsResponse
+}
+
+fun getReportOfRiskProfile(): MutableLiveData<ApiResponse> {
+    val apiResponse = MutableLiveData<ApiResponse>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getReportOfRiskProfile(App.INSTANCE.getUserId()), object : SingleCallback1<ApiResponse> {
+        override fun onSingleSuccess(o: ApiResponse) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            if (o.status?.code == 1 || o.status?.code == 9) {
+                apiResponse.value = o
+            } else {
+                postError("${o.status?.message}")
+            }
+        }
+
+        override fun onFailure(throwable: Throwable) {
+            EventBus.getDefault().post(DISMISS_PROGRESS)
+            throwable.postError()
+        }
+    })
+    return apiResponse
+}
 

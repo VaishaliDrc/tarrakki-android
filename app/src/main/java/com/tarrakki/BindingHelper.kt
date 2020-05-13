@@ -32,11 +32,13 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
@@ -45,6 +47,9 @@ import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
+import com.tarrakki.speedometer.SpeedView
+import com.tarrakki.speedometer.components.Section
+import com.tarrakki.speedometer.components.indicators.ImageIndicator
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.adapters.WidgetsViewModel
@@ -59,12 +64,57 @@ import org.supportcompact.widgets.InputFilterMinMax
 import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
 const val IS_FROM_INTRO = "is_from_Intro"
 const val IS_FROM_BANK_ACCOUNT = "is_from_bank_account"
 const val IS_FROM_COMLETE_REGISTRATION = "is_from_complete_registration"
+
+@BindingAdapter("riskLevel")
+fun setRiskLevel(speedView: SpeedView, riskLevel: Int) {
+    if (riskLevel == 0) {
+        return
+    }
+    speedView.layoutParams.height = ((App.INSTANCE.resources.displayMetrics.widthPixels - 48f.convertToPx()) / 2).toInt()
+    speedView.requestLayout()
+    speedView.markWidth = 30.toFloat()
+    ContextCompat.getDrawable(App.INSTANCE, R.drawable.indicator)?.let {
+        val imageIndicator = ImageIndicator(App.INSTANCE, it)
+        speedView.indicator = imageIndicator
+    }
+    speedView.sections.clear()
+    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
+            , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
+            , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
+            , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
+            , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.setSpeedAt(riskLevel.toFloat() - 10)
+}
+
+
+@BindingAdapter("riskLevel")
+fun setRiskLevel(speedView: SpeedView, riskLevel: Float) {
+    if (riskLevel == 0f) {
+        return
+    }
+    speedView.layoutParams.height = ((App.INSTANCE.resources.displayMetrics.widthPixels - 48f.convertToPx()) / 2).toInt()
+    speedView.requestLayout()
+    speedView.markWidth = 30.toFloat()
+    ContextCompat.getDrawable(App.INSTANCE, R.drawable.indicator)?.let {
+        val imageIndicator = ImageIndicator(App.INSTANCE, it)
+        speedView.indicator = imageIndicator
+    }
+    speedView.sections.clear()
+    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
+            , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
+            , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
+            , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
+            , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.setSpeedAt(riskLevel)
+}
 
 @BindingAdapter("redirectToFundDetails")
 fun openFundDetails(txt: TextView, fundId: Int?) {
@@ -74,6 +124,21 @@ fun openFundDetails(txt: TextView, fundId: Int?) {
             mContext.startFragment(FundDetailsFragment.newInstance(Bundle().apply {
                 putString(ITEM_ID, "${fundId}")
             }), R.id.frmContainer)
+        }
+    }
+}
+
+@BindingAdapter("targetYear")
+fun setTargetYear(txt: TextView, question: RiskAssessmentQuestionsApiResponse.Data.Option?) {
+    txt.setOnClickListener {
+        val years = arrayListOf<String>()
+        val cal = Calendar.getInstance()
+        for (i in 1..30) {
+            years.add(cal.get(Calendar.YEAR).toString())
+            cal.add(Calendar.YEAR, 1)
+        }
+        it?.context?.showListDialog("Select Target Year", years) { item: String ->
+            question?.targetYear = item
         }
     }
 }
@@ -188,6 +253,19 @@ fun setBackgroundImage(img: TextView, @DrawableRes res: Int) {
 fun setIndicator(img: ImageView, url: String?) {
     url?.let {
         Glide.with(img).load(ApiClient.IMAGE_BASE_URL.plus(it)).into(img)
+    }
+}
+
+@BindingAdapter("profile")
+fun setProfile(ivProfile: ImageView, url: String?) {
+    url?.let {
+        val requestOptions = RequestOptions()
+        requestOptions.placeholder(R.drawable.ic_profile_default)
+        requestOptions.error(R.drawable.ic_profile_default)
+        Glide.with(ivProfile)
+                .setDefaultRequestOptions(requestOptions)
+                .load(ApiClient.IMAGE_BASE_URL.plus(it))
+                .into(ivProfile)
     }
 }
 

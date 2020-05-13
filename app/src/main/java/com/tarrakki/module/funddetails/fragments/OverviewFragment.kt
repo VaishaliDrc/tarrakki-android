@@ -1,14 +1,13 @@
 package com.tarrakki.module.funddetails.fragments
 
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.TopTenHolding
@@ -18,6 +17,7 @@ import com.tarrakki.databinding.RowTopTenHoldingsListItemBinding
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.funddetails.FundDetailsVM
 import com.tarrakki.module.funddetails.KeyInfo
+import com.tarrakki.module.risk_profile.StartAssessmentFragment
 import kotlinx.android.synthetic.main.fragment_overview.*
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
@@ -48,10 +48,14 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
             fundVM = ViewModelProviders.of(it).get(FundDetailsVM::class.java)
         }
         fundVM?.let { vm ->
-            vm.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
+            vm.fundDetailsResponse.observe(viewLifecycleOwner, Observer { fundDetailsResponse ->
 
                 txt_fund_offer?.setOnClickListener {
                     context?.openUrl(fundDetailsResponse?.fundsDetails?.amcLink.toString())
+                }
+
+                btnRiskAssessment?.setOnClickListener {
+                    startFragment(StartAssessmentFragment.newInstance(), R.id.frmContainer)
                 }
 
                 fundDetailsResponse?.let { fundDetails ->
@@ -66,6 +70,7 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
                     }
                     fundDetails.fundsDetails?.fscbiIndianRiskLevel = fundDetails.fundsDetails?.riskLevelId
                     binder?.fund = fundDetails.fundsDetails
+                    binder?.vm = vm
                     binder?.executePendingBindings()
                     binder?.root?.visibility = View.VISIBLE
 
@@ -109,14 +114,14 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
                                 }
                                 context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fundDetailsResponse.bseData) { folioNo, amountLumpsum, amountSIP ->
                                     if (vm.tarrakkiZyaadaId.isNullOrBlank()) {
-                                        addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                        addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(viewLifecycleOwner,
                                                 Observer { response ->
                                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                                     }
                                                 })
                                     } else {
-                                        addToCartTarrakkiZyaada("${vm.tarrakkiZyaadaId}", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                        addToCartTarrakkiZyaada("${vm.tarrakkiZyaadaId}", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(viewLifecycleOwner,
                                                 Observer { response ->
                                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -127,14 +132,14 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
                             } else {
                                 context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount, fundDetailsResponse.bseData) { amountLumpsum, amountSIP, fundId ->
                                     if (vm.tarrakkiZyaadaId.isNullOrBlank()) {
-                                        addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                        addToCart(fundId, amountSIP, amountLumpsum).observe(viewLifecycleOwner,
                                                 Observer { response ->
                                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                                     }
                                                 })
                                     } else {
-                                        addToCartTarrakkiZyaada("${vm.tarrakkiZyaadaId}", amountSIP, amountLumpsum).observe(this,
+                                        addToCartTarrakkiZyaada("${vm.tarrakkiZyaadaId}", amountSIP, amountLumpsum).observe(viewLifecycleOwner,
                                                 Observer { response ->
                                                     context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                         startFragment(CartFragment.newInstance(), R.id.frmContainer)

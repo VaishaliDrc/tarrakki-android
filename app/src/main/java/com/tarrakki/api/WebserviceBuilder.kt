@@ -312,6 +312,16 @@ interface WebserviceBuilder {
     @GET("ekyc/fetch-kyc-flags/{userId}/")
     fun getKYCStatus(@Path("userId") userId: String?): Observable<ApiResponse>
 
+    @GET("risk-assessment/get-questionaire/{userId}/")
+    fun getRiskAssessmentQuestions(@Path("userId") userId: String?): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("risk-assessment/generate-report/{userId}/")
+    fun submitRiskAssessmentAws(@Path("userId") userId: String?, @Field("data") data: String): Observable<ApiResponse>
+
+    @GET("risk-assessment/get-report/{userId}/")
+    fun getReportOfRiskProfile(@Path("userId") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

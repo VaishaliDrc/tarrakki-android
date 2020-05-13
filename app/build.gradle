@@ -173,6 +173,10 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha01"
+
+    // Speedometer
+    implementation 'com.github.anastr:speedviewlib:1.5.2'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

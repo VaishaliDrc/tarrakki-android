@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.tarrakki.api.model.RiskAssessmentQuestionsApiResponse.Data" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="2dp"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tvLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_semibold"
+            android:text="@string/estimated_total_value"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/semi_black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/shape_rounded_white_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLbl">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_8"
+                android:layout_marginEnd="@dimen/space_8"
+                android:text="@string/rs_symbol"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black" />
+
+            <EditText
+                android:id="@+id/edtInvestAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/enter_amount"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:nextFocusForward="@+id/edtDurations"
+                android:padding="@dimen/_6sdp"
+                android:text="@={item.totalValue}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/semi_black"
+                app:isPositiveCurrency="@{true}" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
