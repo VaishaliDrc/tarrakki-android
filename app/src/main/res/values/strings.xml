@@ -861,5 +861,7 @@
     <string name="no_need_to_place_new_order">No need to place a new order.</string>
     <string name="your_order_successfully_placed_in_my_transaction">Your order is successfully placed with the fund house. You can still play for the same order. Click on \'Pay Now\' in the unpaid section of \'My Transactions\'.</string>
     <string name="upi_is_currently_experiencing_a_low_success_rate_if_your_payment_fails_kindly_try_an_alternate_payment_mode">UPI is currently experiencing a low success rate. If your payment fails, kindly try an alternate payment mode.</string>
+    <string name="direct">DIRECT</string>
+    <string name="NEFT_rtgs">NEFT/RTGS</string>
 
 </resources>

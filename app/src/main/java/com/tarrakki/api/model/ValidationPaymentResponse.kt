@@ -42,7 +42,7 @@ data class ValidationPaymentResponse(
                 @SerializedName("order_id")
                 val orderId: Int,
                 @SerializedName("payment_method")
-                val paymentMethod: List<String>,
+                var paymentMethod: List<String>,
                 @SerializedName("fund_name")
                 val fundName: String
         )

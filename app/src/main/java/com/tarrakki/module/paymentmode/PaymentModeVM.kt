@@ -31,11 +31,19 @@ class PaymentModeVM : FragmentViewModel() {
     val upiName = ObservableField<String>("")
     val order_ids = arrayListOf<String>()
     val validatePaymentData = MutableLiveData<ValidationPaymentResponse>()
+    var availablePaymentMethodList: ArrayList<String> = arrayListOf()
+    var notAvailablePaymentMethodList: ArrayList<String> = arrayListOf()
+    var totalPaymentModeList: ArrayList<String> = arrayListOf()
+
 
     init {
         paymentType.add(ResourceUtils.getString(R.string.UPI))
         paymentType.add(ResourceUtils.getString(R.string.net_banking))
         paymentType.add(ResourceUtils.getString(R.string.neft_rtgs))
+
+        totalPaymentModeList.add(ResourceUtils.getString(R.string.UPI))
+        totalPaymentModeList.add(ResourceUtils.getString(R.string.direct))
+        totalPaymentModeList.add(ResourceUtils.getString(R.string.NEFT_rtgs))
     }
 
     fun paymentOrder(data: String): MutableLiveData<ApiResponse> {
