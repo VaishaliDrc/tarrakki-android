@@ -97,7 +97,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
     private fun managePANBox() {
-        ll_complete_verification?.visibility = View.VISIBLE//if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+        ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
     }
 
     private fun openNetBankingPage() {
