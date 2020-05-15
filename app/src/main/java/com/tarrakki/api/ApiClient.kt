@@ -115,9 +115,9 @@ object ApiClient {
     const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest url
     const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/" /// Latest url*/
 
-   /* private const val BASE_URL = "http://13.235.141.219/api/v3/"
+    private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
-    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
+    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"
 
 
     /*private const val BASE_URL = "https://1d725a4f.ngrok.io/api/v3/"
@@ -138,9 +138,9 @@ object ApiClient {
     /**
      * Live Url
      **/
-    private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
-    const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v3/transactions/payment-status/" /// Latest url
+    /*   private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
+       const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
+       const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v3/transactions/payment-status/" /// Latest url*/
 
 
     /*private const val BASE_URL = "https://a98da4c1.ngrok.io/api/v3/"

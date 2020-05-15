@@ -18,7 +18,6 @@ import org.supportcompact.ktx.SHOW_PROGRESS
 import org.supportcompact.ktx.getUserId
 
 class UPIStepVM : FragmentViewModel() {
-
     var transaction_ids: String = ""
 
     fun checkPaymentStatus(): MutableLiveData<CheckPaymentStatus> {
