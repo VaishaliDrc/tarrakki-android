@@ -322,6 +322,9 @@ interface WebserviceBuilder {
     @GET("risk-assessment/get-report/{userId}/")
     fun getReportOfRiskProfile(@Path("userId") userId: String?): Observable<ApiResponse>
 
+    @GET("banks/verify-pan-details/{userId}/")
+    fun verificationPAN(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */

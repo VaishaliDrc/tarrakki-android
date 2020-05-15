@@ -321,7 +321,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
                 getEncryptedPasswordForCAMPSApi().observe(this, Observer {
                     it?.let { password ->
-                        getPANeKYCStatus(password, kyc.pan).observe(this, Observer {
+                        getPANeKYCStatus(kyc.pan).observe(this, Observer {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {

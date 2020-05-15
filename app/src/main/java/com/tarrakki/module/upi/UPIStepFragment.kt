@@ -1,10 +1,7 @@
 package com.tarrakki.module.upi
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.provider.Settings
 import android.view.View
 import androidx.lifecycle.Observer
 import com.tarrakki.R
@@ -17,7 +14,6 @@ import com.tarrakki.module.paymentmode.TRANSACTION_IDS
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.DISMISS_PROGRESS
 import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
@@ -67,9 +63,17 @@ class UPIStepFragment : CoreFragment<UPIStepVM, FragmentUpiStepBinding>() {
 
             }
         }.start()
-        coreActivityVM?.footerVisibility?.set(View.GONE)
         getViewModel().transaction_ids = arguments?.getString(TRANSACTION_IDS)!!
+    }
 
+    override fun onResume() {
+        coreActivityVM?.footerVisibility?.set(View.GONE)
+        super.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        coreActivityVM?.footerVisibility?.set(View.VISIBLE)
     }
 
     private fun redirectTo() {

@@ -13,10 +13,16 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
+import com.tarrakki.api.model.toJson
 import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
+import com.tarrakki.module.netbanking.NET_BANKING_PAGE
+import com.tarrakki.module.netbanking.NetBankingFragment
+import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
+import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
+import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
@@ -57,7 +63,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     override fun onResume() {
         super.onResume()
-        ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+        managePANBox()
+        //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
         if (context?.isAskForSecureLock() == false && !getViewModel().isShowingSecurityDialog) {
             getViewModel().isShowingSecurityDialog = true
             val km = context?.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
@@ -86,8 +93,22 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             )
         }
         //openChromeTab()
+        //openNetBankingPage()
     }
 
+    private fun managePANBox() {
+        ll_complete_verification?.visibility = View.VISIBLE//if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+    }
+
+    private fun openNetBankingPage() {
+        val data: String = "\n\n\n<html>\n<head><title>Redirecting to Bank</title>\n<style>\n\n.bodytxt4 {\n\n\tfont-family: Verdana, Arial, Helvetica, sans-serif;\n\tfont-size: 12px;\n\tfont-weight: bold;\n\tcolor: #666666;\n}\n.bodytxt {\n\tfont-family: Verdana, Arial, Helvetica, sans-serif;\n\tfont-size: 13px;\n\tfont-weight: normal;\n\tcolor: #000000;\n\n}\n.bullet1 {\n\n\tlist-style-type:\tsquare;\n\tlist-style-position: inside;\n\tlist-style-image: none;\n\tfont-family: Verdana, Arial, Helvetica, sans-serif;\n\tfont-size: 10px;\n\tfont-weight: bold;\n\tcolor: #FF9900;\n}\n.bodytxt2 {\n\tfont-family: Verdana, Arial, Helvetica, sans-serif;\n\tfont-size: 8pt;\n\tfont-weight: normal;\n\tcolor: #333333;\n\n}\nA.sac2 {\n\tCOLOR: #000000;\n\tfont-family: Verdana, Arial, Helvetica, sans-serif;\n\tfont-size: 10px;\n\tfont-weight: bold;\n\ttext-decoration: none;\n}\nA.sac2:visited {\n\tCOLOR: #314D5A; TEXT-DECORATION: none\n}\nA.sac2:hover {\n\tCOLOR: #FF9900; TEXT-DECORATION: underline\n}\n</style>\n\n</head>\n<script language=JavaScript>\n\n\nvar message=\"Function Disabled!\";\n\n\nfunction clickIE4(){\nif (event.button==2){\nreturn false;\n}\n}\n\nfunction clickNS4(e){\nif (document.layers||document.getElementById&&!document.all){\nif (e.which==2||e.which==3){\nreturn false;\n}\n}\n}\n\nif (document.layers){\ndocument.captureEvents(Event.MOUSEDOWN);\ndocument.onmousedown=clickNS4;\n}\nelse if (document.all&&!document.getElementById){\ndocument.onmousedown=clickIE4;\n}\n\ndocument.oncontextmenu=new Function(\"return false\")\n\n</script>\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n <tr>\n <td align=\"left\" valign=\"top\">\n<table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n <tr> \n <td align=\"center\" valign=\"middle\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n \n <tr>\n <td align=\"center\"></td>\n </tr>\n <tr>\n <td height=\"85\" align=\"center\"><br>\n <table width=\"80%\" border=\"0\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"#CCCCCC\">\n <tr>\n <td bgcolor=\"#CCCCCC\"><table width=\"100%\" border=\"0\" cellpadding=\"6\" cellspacing=\"0\" bgcolor=\"#FFFFFF\">\n <tr> \n <td colspan=\"2\" align=\"left\" valign=\"bottom\"><span class=\"bodytxt4\">Your payment request is being processed...</span></td>\n </tr>\n <tr valign=\"top\"> \n <td colspan=\"2\" align=\"left\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n <tr> \n <td width=\"87%\" bgcolor=\"#cccccc\" height=\"1\" align=\"center\"></td>\n </tr>\n </table></td>\n </tr>\n <tr> \n <td width=\"60%\" align=\"left\" valign=\"bottom\"><table width=\"95%\" border=\"0\" cellpadding=\"1\" cellspacing=\"0\" bgcolor=\"#FFFFFF\">\n <tr> \n <td align=\"right\" valign=\"top\"></td>\n <td class=\"bodytxt\">&nbsp;</td>\n </tr>\n <tr> \n <td height=\"19\" align=\"right\" valign=\"top\"><li class=\"bullet1\"></li></td>\n <td class=\"bodytxt2\">This is a secure payment \n gateway using 128 bit SSL encryption.</td>\n </tr>\n <tr> \n <td align=\"right\" valign=\"top\"> <li class=\"bullet1\"></li></td>\n <td class=\"bodytxt2\" >When you submit the transaction, \n the server will take about 1 to 5 seconds \n to process, but it may take longer at certain \n times. </td>\n </tr>\n <tr> \n <td align=\"right\" valign=\"top\"><li class=\"bullet1\"></li></td>\n <td class=\"bodytxt2\" >Please do not press \"Submit\" \n button once again or the \"Back\" or \"Refresh\" \n buttons. </td>\n </tr>\n </table></td>\n <td align=\"right\" valign=\"bottom\"><table width=\"80%\" border=\"0\" cellpadding=\"1\" cellspacing=\"0\" bgcolor=\"#FFFFFF\">\n <tr bgcolor=\"#FFFCF8\"> \n <td align=\"right\" bgcolor=\"#FFFFFF\"></td>\n </tr>\n <tr bgcolor=\"#FFFCF8\"> \n <td align=\"right\" valign=\"middle\" bgcolor=\"#FFFFFF\" class=\"bodytxt2\">&nbsp;</td>\n </tr>\n <tr bgcolor=\"#FFFCF8\"> \n <td align=\"right\" bgcolor=\"#FFFFFF\" class=\"bodytxt2\" >&nbsp;</td>\n </tr>\n </table></td>\n </tr>\n </table></td>\n </tr>\n </table>\n \n </td>\n </tr>\n </table>\n \n \n \n </td>\n </tr> \n\n\n </table></td>\n </tr>\n \n</table>\n\n\n\n<body>\n<form name=\"Bankfrm\" method=\"post\" action='https://netbanking.netpnb.com/corp/AuthenticationController?FORMSGROUP_ID__=AuthenticationFG&__START_TRAN_FLAG__=Y&FG_BUTTONS__=LOAD&ACTION.LOAD=Y&AuthenticationFG.LOGIN_FLAG=1&BANK_ID=024&AuthenticationFG.USER_TYPE=1&AuthenticationFG.MENU_ID=CIMSHP&AuthenticationFG.CALL_MODE=2&CATEGORY_ID=400&RU=XotzZqZGcft%2F4sLKouOGEucvgvUmY6s%2BMO5Crj0fOTGGwK4gsC2OmCXUpMHTvzxlX9TYbN3Dr643%0D%0AQy3SuchGAg%3D%3D&QS=%2F5B7Y7PPjoOYiT55Eir1ZFRdDMnTSVq8m4XmlZ6SV2P%2FkHtjs8%2BOg5iJPnkSKvVkQ5vRU5OM5DNr%0D%0Am4L8v%2FrLuu0lzcfEZy2S4Xsq%2BZK4PdvMqF4J5ZyRiufXBpCuILJAXEo%2BavXrP986TJglSNJZ8kCSTLD9%0D%0Ab502zhzeDGZwODfqRj6gA7tdGvRImP9O%2F%2BiE6mPPavZJOSOt5KoOjvmo141%2Flukfwi0g7wFKmF5mcXut%0D%0AIERfEpO3qqRU0CuKi8IhYXQKf7woS50ZdPxAGFnU%2BlczTJXrVmOgqm6PFDVZyhP5B%2BIj%2FX9lr9%2BJB4o1%0D%0AUZsn'>\n \n\t<input type = \"hidden\" name = \"QS\" value=\"%2F5B7Y7PPjoOYiT55Eir1ZFRdDMnTSVq8m4XmlZ6SV2P%2FkHtjs8%2BOg5iJPnkSKvVkQ5vRU5OM5DNr%0D%0Am4L8v%2FrLuu0lzcfEZy2S4Xsq%2BZK4PdvMqF4J5ZyRiufXBpCuILJAXEo%2BavXrP986TJglSNJZ8kCSTLD9%0D%0Ab502zhzeDGZwODfqRj6gA7tdGvRImP9O%2F%2BiE6mPPavZJOSOt5KoOjvmo141%2Flukfwi0g7wFKmF5mcXut%0D%0AIERfEpO3qqRU0CuKi8IhYXQKf7woS50ZdPxAGFnU%2BlczTJXrVmOgqm6PFDVZyhP5B%2BIj%2FX9lr9%2BJB4o1%0D%0AUZsn\">\n\n\t</form>\n</body>\n<script>\ndocument.Bankfrm.submit();\n</script>\n</html>\n"
+        startFragment(NetBankingFragment.newInstance(Bundle().apply {
+            putSerializable(NET_BANKING_PAGE, data)
+            //putString(SUCCESSTRANSACTION, transaction.toString())
+            //putString(SUCCESS_ORDERS, items.toJson())
+            //isFromTransaction?.let { it1 -> putBoolean(ISFROMTRANSACTIONMODE, it1) }
+        }), R.id.frmContainer)
+    }
 
     private fun openChromeTab() {
         val intentBuilder = CustomTabsIntent.Builder()
@@ -122,7 +143,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
-            ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+            //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+            managePANBox()
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
                 binder.setVariable(BR.section, item)
                 binder.setVariable(BR.isHome, true)
@@ -193,7 +215,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
                 getEncryptedPasswordForCAMPSApi().observe(this, Observer {
                     it?.let { password ->
-                        getPANeKYCStatus(password, kyc.pan).observe(this, Observer {
+                        getPANeKYCStatus(kyc.pan).observe(this, Observer {
                             it?.let { kycStatus ->
                                 when {
                                     kycStatus.contains("02") || kycStatus.contains("01") -> {

@@ -65,96 +65,35 @@ object ApiClient {
     const val CAMS_PASSWORD = "kra\$36369"
 
     /**
-     * Tarrakki Jyada 172.10.29.38:8000
-     * */
-    /*private const val BASE_URL = "http://172.10.29.38:8002/api/v1/"
-    const val IMAGE_BASE_URL = "http://172.10.29.38:8002"
-    const val BANK_REDIRECT_URL = "http://172.10.29.38:8002/api/v1/transactions/payment-status/"*/
-
-    /*private const val BASE_URL = "http://172.10.29.36:8005/api/v1/"
-    const val IMAGE_BASE_URL = "http://172.10.29.36:8005"
-    const val BANK_REDIRECT_URL = "http://172.10.29.36:8005/api/v1/transactions/payment-status/"*/
+     * Remote Testing Url
+     **/
+    /*private const val BASE_URL = "https://e9e5893d.ngrok.io/api/v3/"
+    const val IMAGE_BASE_URL = "https://e9e5893d.ngrok.io"
+    const val BANK_REDIRECT_URL = "https://e9e5893d.ngrok.io/api/v2/transactions/payment-status/"*/
 
     /**
      * Staging Test Url
      **/
-/*    private const val BASE_URL = "http://13.235.141.219/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://13.235.141.219" /// Latest url
-    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v1/transactions/payment-status/"*/
-
-    /**
-     * Test Url`
-     **/
-    /*private const val BASE_URL = "http://172.10.24.51:8000/api/v2/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest urls
-    const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/"*/
-
-    /***
-     * Beta URL
-     * */
-    /*private const val BASE_URL = "http://13.235.124.120/api/v2/"
-    const val IMAGE_BASE_URL = "http://13.235.124.120"
-    const val BANK_REDIRECT_URL = "http://13.235.124.120/api/v2/transactions/payment-status/"*/
-
-    /**
-     * Live Url
-     **/
-    /*private const val BASE_URL = "http://tarrakki.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "http://tarrakki.edx.drcsystems.com" /// Latest url
-    const val BANK_REDIRECT_URL = "http://tarrakki.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url*/
-
-    /**
-     * Live Url
-     **/
-    /*private const val BASE_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/" /// Latest url
-    const val IMAGE_BASE_URL = "https://tarrakkilive.edx.drcsystems.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakkilive.edx.drcsystems.com/api/v1/transactions/payment-status/" /// Latest url*/
-
-
-    /*private const val BASE_URL = "http://172.10.24.51:8000/api/v2/" /// Latest url
-    const val IMAGE_BASE_URL = "http://172.10.24.51:8000" /// Latest url
-    const val BANK_REDIRECT_URL = "http://172.10.24.51:8000/api/v2/transactions/payment-status/" /// Latest url*/
-
     private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
     const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"
 
-
-    /*private const val BASE_URL = "https://1d725a4f.ngrok.io/api/v3/"
-    const val IMAGE_BASE_URL = "https://1d725a4f.ngrok.io"
-    const val BANK_REDIRECT_URL = "https://1d725a4f.ngrok.io/api/v2/transactions/payment-status/"*/
-
-    /*private const val BASE_URL = "http://172.10.24.81:9000/api/v3/"
-    const val IMAGE_BASE_URL = "http://172.10.24.81:9000"
-    const val BANK_REDIRECT_URL = "http://172.10.24.81:9000/api/v3/transactions/payment-status/"*/
-
-    /**
-     * Tarrakki Jyada 172.10.29.38:8000
-     * */
-    /*private const val BASE_URL = "http://172.10.24.81:8000/api/v3/"
-    const val IMAGE_BASE_URL = "http://172.10.24.81:8000"
-    const val BANK_REDIRECT_URL = "http://172.10.24.81:8000/api/v3/transactions/payment-status/"*/
-
     /**
      * Live Url
      **/
-    /*   private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
+    /* private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
        const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
        const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v3/transactions/payment-status/" /// Latest url*/
 
 
-    /*private const val BASE_URL = "https://a98da4c1.ngrok.io/api/v3/"
-    const val IMAGE_BASE_URL = "https://a98da4c1.ngrok.io"
-    const val BANK_REDIRECT_URL = "https://a98da4c1.ngrok.io/api/v3/transactions/payment-status/"*/
-
-    /**
-     * @return [Retrofit] object its single-tone
-     */
     fun clear() {
         retrofit = null
         retrofitHeader = null
     }
 
+    /**
+     * @return [Retrofit] object its single-tone
+     */
     fun getApiClient(): Retrofit {
         if (retrofit == null) {
             val gson = GsonBuilder()

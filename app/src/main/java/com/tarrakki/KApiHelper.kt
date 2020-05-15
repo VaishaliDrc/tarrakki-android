@@ -347,7 +347,7 @@ fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
     return apiResponse
 }
 
-fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String>> {
+/*fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String>> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<List<String>>()
@@ -401,8 +401,44 @@ fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String
                 }
             })
     return apiResponse
-}
+}*/
 
+fun getPANeKYCStatus(pan: String): MutableLiveData<List<String>> {
+
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<List<String>>()
+    val json = JsonObject()
+    json.addProperty("pan", pan)
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    data.printRequest()
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).verificationPAN(App.INSTANCE.getUserId(), data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o.status?.code == 1) {
+                        o.printResponse()
+                        val data = o.data?.parseTo<VerifyPANApiResponse>()
+                        val kycStates: List<String> = arrayListOf(
+                                data?.data?.cAMSKRA ?: "",//"${data?.camskra}",
+                                data?.data?.cVLKRA ?: "",//"${data?.cvlkra}",
+                                data?.data?.nDMLKRA ?: "",//"${data?.ndmlkra}",
+                                data?.data?.dOTEXKRA ?: "",//"${data?.dotexkra}",
+                                data?.data?.kARVYKRA ?: "")//"${data?.karvykra}")
+                        apiResponse.value = kycStates
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                    throwable.printStackTrace()
+                }
+            })
+    return apiResponse
+}
 
 fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
 

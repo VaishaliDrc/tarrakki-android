@@ -1,11 +1,10 @@
 package com.tarrakki.module.transactionConfirm
 
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.view.KeyEvent
-import android.view.MenuItem
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
@@ -16,15 +15,16 @@ import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.account.AccountActivity
+import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
 import com.tarrakki.module.confirmorder.IS_FROM_CONFIRM_ORDER
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.invest.InvestActivity
-import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.paymentmode.ISFROMTRANSACTIONMODE
 import com.tarrakki.module.paymentmode.PAYMENT_MODE_NEFT_RTGS
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
+import com.tarrakki.module.transactions.TransactionsFragment
 import kotlinx.android.synthetic.main.fragment_transaction_confirm.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -71,7 +71,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             App.INSTANCE.isRefreshing.observe(this, Observer {
                 it?.let {
                     getBinding().root.visibility = View.VISIBLE
-                    getBinding().root.setOnKeyListener { v, keyCode, event ->
+                    /*getBinding().root.setOnKeyListener { v, keyCode, event ->
                         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                             onBackPress()
                             return@setOnKeyListener true
@@ -79,7 +79,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
                         return@setOnKeyListener false
                     }
                     getBinding().root.isFocusableInTouchMode = true
-                    getBinding().root.requestFocus()
+                    getBinding().root.requestFocus()*/
                 }
             })
             getBinding().root.visibility = View.GONE
@@ -129,7 +129,7 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
         btnToTransactionScreen?.setOnClickListener {
             onTransactionScreen()
         }
-        getBinding().root.setOnKeyListener { v, keyCode, event ->
+        /*getBinding().root.setOnKeyListener { v, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
                 onBackPress()
                 return@setOnKeyListener true
@@ -137,21 +137,29 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             return@setOnKeyListener false
         }
         getBinding().root.isFocusableInTouchMode = true
-        getBinding().root.requestFocus()
+        getBinding().root.requestFocus()*/
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPress()
+            }
+        })
     }
 
     private fun onTransactionScreen() {
-        val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
+        //val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
         if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) == true) {
-            onBack(2 + temp)
+            //onBack(2 + temp)
+            onBackExclusive(TransactionsFragment::class.java)
             postSticky(Event.ISFROMTRANSACTIONSUCCESS)
         } else {
             App.INSTANCE.needToLoadTransactionScreen = 4
-            if (isFromPaymentMode == true) {
+            onBackExclusive(CartFragment::class.java)
+            /*if (isFromPaymentMode == true) {
                 onBack(3 + temp)
             } else {
                 onBack(2 + temp)
-            }
+            }*/
+
         }
     }
 
@@ -235,20 +243,22 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     }
 
     private fun onBackPress() {
-        val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
+        //val temp = if (arguments?.getBoolean(NET_BANKING_PAGE) == true) 1 else 0
         if (arguments?.getBoolean(ISFROMTRANSACTIONMODE) == true) {
-            onBack(2 + temp)
+            //onBack(2 + temp)
+            onBackExclusive(TransactionsFragment::class.java)
             postSticky(Event.ISFROMTRANSACTIONSUCCESS)
         } else {
-            if (isFromPaymentMode == true) {
+            /*if (isFromPaymentMode == true) {
                 onBack(3 + temp)
             } else {
                 onBack(2 + temp)
-            }
+            }*/
+            onBackExclusive(CartFragment::class.java)
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPress()
@@ -256,5 +266,5 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
             }
         }
         return super.onOptionsItemSelected(item)
-    }
+    }*/
 }

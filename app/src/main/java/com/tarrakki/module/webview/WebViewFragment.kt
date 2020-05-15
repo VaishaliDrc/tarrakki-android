@@ -179,7 +179,6 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
         } catch (e: android.content.ActivityNotFoundException) {
             post(ShowError("Error Dialling"))
         }
-
     }
 
     @Subscribe(sticky = true)

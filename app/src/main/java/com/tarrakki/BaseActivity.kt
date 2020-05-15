@@ -129,7 +129,7 @@ abstract class BaseActivity : CoreActivity<ActivityViewModel, ActivityBaseBindin
                             fragment is BankMandateSuccessFragment ||
                             fragment is TransactionsFragment ||
                             fragment is PaymentModeFragment ||
-                            fragment is TransactionConfirmFragment ||
+                            //fragment is TransactionConfirmFragment ||
                             fragment is BankMandateFormFragment ||
                             fragment is RedemptionStatusFragment ||
                             fragment is NetBankingFragment) {
