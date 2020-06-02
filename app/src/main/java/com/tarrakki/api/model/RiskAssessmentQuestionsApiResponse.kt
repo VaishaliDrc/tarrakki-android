@@ -82,7 +82,7 @@ data class RiskAssessmentQuestionsApiResponse(
             when (option?.firstOrNull()?.optionType?.toLowerCase(Locale.US)) {
                 "slider" -> {
                     var answers = ""
-                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEachIndexed { index, option ->
                         if (index == 0) {
                             answers += option.optionId ?: ""
                         } else {
@@ -93,7 +93,7 @@ data class RiskAssessmentQuestionsApiResponse(
                 }
                 "checkbox" -> {
                     var answers = ""
-                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEachIndexed { index, option ->
                         if (index == 0) {
                             answers += option.optionId ?: ""
                         } else {
@@ -104,12 +104,21 @@ data class RiskAssessmentQuestionsApiResponse(
                     json.addProperty("amount", toBigIntDefaultZero(totalValue).toString())
                 }
                 "radio" -> {
-                    option.filter { it.isSelected }.forEach { op ->
+                    /*option.filter { it.isSelected }.forEach { op ->
                         json.addProperty("options", op.optionId.toString())
+                    }*/
+                    var answers = ""
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEachIndexed { index, option ->
+                        if (index == 0) {
+                            answers += option.optionId ?: ""
+                        } else {
+                            answers += "," + option.optionId
+                        }
                     }
+                    json.addProperty("options", answers)
                 }
                 "radio_emoji" -> {
-                    option.filter { it.isSelected }.forEach { op ->
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEach { op ->
                         json.addProperty("options", op.optionId.toString())
                     }
                 }
@@ -119,7 +128,7 @@ data class RiskAssessmentQuestionsApiResponse(
                     var amount = ""
                     var targetYear = ""
                     val cal = Calendar.getInstance()
-                    option.filter { it.isSelected }.forEachIndexed { index, option ->
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEachIndexed { index, option ->
                         if (index == 0) {
                             goals += option.optionId ?: ""
                             amount += toBigIntDefaultZero(option.goalAmount)
@@ -140,7 +149,7 @@ data class RiskAssessmentQuestionsApiResponse(
                     json.addProperty("goals", goals)
                 }
                 "radio_returns" -> {
-                    option.filter { it.isSelected }.forEach { op ->
+                    option.filter { it.isSelected }.sortedBy { it.optionId }.forEach { op ->
                         json.addProperty("options", op.optionId.toString())
                     }
                 }
