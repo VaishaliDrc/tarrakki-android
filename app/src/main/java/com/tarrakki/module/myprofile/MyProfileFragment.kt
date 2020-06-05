@@ -2,7 +2,6 @@ package com.tarrakki.module.myprofile
 
 import android.Manifest
 import android.app.Activity
-import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -12,15 +11,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import androidx.annotation.NonNull
 import android.text.TextUtils
 import android.view.View
+import androidx.annotation.NonNull
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.AES
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.Country
 import com.tarrakki.api.model.UserProfileResponse
 import com.tarrakki.api.model.parseArray
@@ -125,7 +124,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 requestOptions.error(R.drawable.ic_profile_default)
                 Glide.with(ivProfile)
                         .setDefaultRequestOptions(requestOptions)
-                        .load(ApiClient.IMAGE_BASE_URL.plus(it))
+                        .load(it/*ApiClient.IMAGE_BASE_URL.plus(it)*/)
                         .into(ivProfile)
             }
         }

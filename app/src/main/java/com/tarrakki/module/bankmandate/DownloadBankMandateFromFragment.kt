@@ -5,7 +5,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.DownloadManager
-import androidx.lifecycle.Observer
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -16,13 +15,13 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.text.TextPaint
 import android.text.style.ClickableSpan
 import android.view.View
 import android.webkit.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentDownloadBankMandateFromBinding
 import com.tarrakki.module.webview.PAGE_URL
@@ -69,7 +68,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     }
 
     override fun createReference() {
-        val baseUrl = ApiClient.IMAGE_BASE_URL
+        val baseUrl = ""//ApiClient.IMAGE_BASE_URL
         url = baseUrl + arguments?.getString("download_url").toString()
         mandate_id = arguments?.getString("mandate_id").toString()
 

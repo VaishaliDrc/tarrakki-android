@@ -40,7 +40,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
@@ -65,7 +64,6 @@ import java.io.File
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.util.*
-import kotlin.collections.ArrayList
 
 const val IS_FROM_FORGOT_PASSWORD = "is_from_forgot_password"
 const val IS_FROM_ACCOUNT = "is_from_account"
@@ -252,7 +250,7 @@ fun setBackgroundImage(img: TextView, @DrawableRes res: Int) {
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, url: String?) {
     url?.let {
-        Glide.with(img).load(ApiClient.IMAGE_BASE_URL.plus(it)).into(img)
+        Glide.with(img).load(url/*ApiClient.IMAGE_BASE_URL.plus(it)*/).into(img)
     }
 }
 
@@ -264,7 +262,7 @@ fun setProfile(ivProfile: ImageView, url: String?) {
         requestOptions.error(R.drawable.ic_profile_default)
         Glide.with(ivProfile)
                 .setDefaultRequestOptions(requestOptions)
-                .load(ApiClient.IMAGE_BASE_URL.plus(it))
+                .load(it/*ApiClient.IMAGE_BASE_URL.plus(it)*/)
                 .into(ivProfile)
     }
 }
