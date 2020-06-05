@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
+import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
@@ -250,7 +251,7 @@ fun setBackgroundImage(img: TextView, @DrawableRes res: Int) {
 @BindingAdapter("imgUrl")
 fun setIndicator(img: ImageView, url: String?) {
     url?.let {
-        Glide.with(img).load(url/*ApiClient.IMAGE_BASE_URL.plus(it)*/).into(img)
+        Glide.with(img).load(ApiClient.IMAGE_BASE_URL.plus(it)).into(img)
     }
 }
 
@@ -262,7 +263,7 @@ fun setProfile(ivProfile: ImageView, url: String?) {
         requestOptions.error(R.drawable.ic_profile_default)
         Glide.with(ivProfile)
                 .setDefaultRequestOptions(requestOptions)
-                .load(it/*ApiClient.IMAGE_BASE_URL.plus(it)*/)
+                .load(ApiClient.IMAGE_BASE_URL.plus(it))
                 .into(ivProfile)
     }
 }

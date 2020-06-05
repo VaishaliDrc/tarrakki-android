@@ -1,6 +1,5 @@
 package com.tarrakki.module.confirmorder
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -8,7 +7,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.BR
-import com.tarrakki.OPEN_BANK_MANDATE
 import com.tarrakki.R
 import com.tarrakki.api.model.ConfirmOrderResponse
 import com.tarrakki.api.model.TransactionStatus
@@ -16,7 +14,6 @@ import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.api.model.toJson
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
-import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.bankaccount.SingleButton
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.bankmandate.ISFROMCONFIRMORDER
@@ -31,7 +28,6 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.events.Event
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import java.math.BigInteger

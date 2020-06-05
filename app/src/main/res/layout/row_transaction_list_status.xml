@@ -74,7 +74,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/darker_gray" />
         </LinearLayout>
-
+        <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"-->
         <TextView
             android:id="@+id/tvStatus"
             background="@{widget.actualStatusDrawable}"
@@ -84,14 +84,16 @@
             android:elevation="@dimen/space_2"
             android:gravity="center"
             android:paddingStart="@dimen/space_12"
-            android:paddingTop="@dimen/space_4"
+            android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/space_12"
-            android:paddingBottom="@dimen/space_4"
+            android:paddingBottom="@dimen/space_8"
+            android:singleLine="true"
             android:text="@{widget.actualStatus}"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             android:textColor="@color/white"
+            android:textSize="@dimen/_9ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:background="@drawable/shape_completed_bg"
             tools:text="In Progress" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
