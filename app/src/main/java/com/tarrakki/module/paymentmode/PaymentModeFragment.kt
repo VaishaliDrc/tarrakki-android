@@ -221,7 +221,9 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                     getViewModel().isNEFTRTGS.set(false)
                                     getViewModel().selectedPaymentType.set(item)
                                 } else {
-                                    if (order_ids.size <= 2) {
+
+
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
                                         context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.")
 //                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.")
                                     } else {
