@@ -863,5 +863,6 @@
     <string name="upi_is_currently_experiencing_a_low_success_rate_if_your_payment_fails_kindly_try_an_alternate_payment_mode">UPI is currently experiencing a low success rate. If your payment fails, kindly try an alternate payment mode.</string>
     <string name="direct">DIRECT</string>
     <string name="NEFT_rtgs">NEFT/RTGS</string>
+    <string name="please_select_payment_mode">Please select a payment mode</string>
 
 </resources>

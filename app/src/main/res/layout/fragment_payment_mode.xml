@@ -262,7 +262,7 @@
                     android:text="@{vm.introduction}"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
                     android:textColor="@color/darker_gray"
-                    android:visibility="@{vm.isUPI() ?View.GONE :View.VISIBLE}" />
+                    android:visibility="@{vm.isNetBanking() || vm.isNEFTRTGS()  ?View.VISIBLE :View.GONE}" />
 
                 <TextView
                     android:layout_width="match_parent"

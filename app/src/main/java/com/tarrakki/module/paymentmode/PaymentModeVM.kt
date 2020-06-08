@@ -22,12 +22,12 @@ class PaymentModeVM : FragmentViewModel() {
     val totalOrder = ObservableField<BigInteger>(BigInteger.ZERO)
     val isNetBanking = ObservableField<Boolean>(false)
     val isNEFTRTGS = ObservableField<Boolean>(false)
-    val isUPI = ObservableField<Boolean>(true)
+    val isUPI = ObservableField<Boolean>(false)
     val accountNumber = ObservableField<String>("")
     val branchName = ObservableField<String>("")
     val introduction = ObservableField<String>("Your transaction will now be processed by Bombay Stock Exchange - Star platform.")
     val paymentType: ArrayList<String> = arrayListOf()
-    val selectedPaymentType = ObservableField<String>(ResourceUtils.getString(R.string.UPI))
+    val selectedPaymentType = ObservableField<String>(ResourceUtils.getString(R.string.select))
     val upiName = ObservableField<String>("")
     val order_ids = arrayListOf<String>()
     val validatePaymentData = MutableLiveData<ValidationPaymentResponse>()
@@ -37,6 +37,7 @@ class PaymentModeVM : FragmentViewModel() {
 
 
     init {
+        paymentType.add(ResourceUtils.getString(R.string.select))
         paymentType.add(ResourceUtils.getString(R.string.UPI))
         paymentType.add(ResourceUtils.getString(R.string.net_banking))
         paymentType.add(ResourceUtils.getString(R.string.neft_rtgs))
