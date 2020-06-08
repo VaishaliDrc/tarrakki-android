@@ -118,18 +118,21 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
         edtHowToPay?.setOnClickListener {
             context?.showListDialog("", getViewModel().paymentType) { item ->
 
-                when (item) {
-                    ResourceUtils.getString(R.string.UPI) -> {
-                        val order_ids: ArrayList<String> = arrayListOf()
-                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
-                            validPaymentMethods.paymentMethod.let {
-                                val list = it.filter { it.equals("UPI", true) }
-                                if (list.size <= 0) {
-                                    order_ids.add(validPaymentMethods.fundName.toString())
-                                    return@let
+                if (getViewModel().availablePaymentMethodList.size <= 0) {
+                    context?.simpleAlert("Selected payment method not available for all orders. Please select an alternate payment method or place both the orders separately.")
+                } else {
+                    when (item) {
+                        ResourceUtils.getString(R.string.UPI) -> {
+                            val order_ids: ArrayList<String> = arrayListOf()
+                            getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                                validPaymentMethods.paymentMethod.let {
+                                    val list = it.filter { it.equals("UPI", true) }
+                                    if (list.size <= 0) {
+                                        order_ids.add(validPaymentMethods.fundName.toString())
+                                        return@let
+                                    }
                                 }
                             }
-                        }
 /*
                         if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(true)
@@ -143,62 +146,62 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                         }
 */
 
-                        if (getViewModel().availablePaymentMethodList.size == 1) {
-                            if (getViewModel().availablePaymentMethodList.contains("UPI")) {
-                                getViewModel().isUPI.set(true)
-                                getViewModel().isNetBanking.set(false)
-                                getViewModel().isNEFTRTGS.set(false)
-                                getViewModel().selectedPaymentType.set(item)
-                            } else {
-                                if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
+                            if (getViewModel().availablePaymentMethodList.size == 1) {
+                                if (getViewModel().availablePaymentMethodList.contains("UPI")) {
+                                    getViewModel().isUPI.set(true)
+                                    getViewModel().isNetBanking.set(false)
+                                    getViewModel().isNEFTRTGS.set(false)
+                                    getViewModel().selectedPaymentType.set(item)
+                                } else {
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
 //                                    context?.simpleAlert("Your order has been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.")
-                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.")
-                                } else {
-                                    context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n ${TextUtils.join("\n", order_ids)}")
+                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.")
+                                    } else {
+                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n ${TextUtils.join("\n", order_ids)}")
 //                                    context?.simpleAlert("The below mentioned orders have been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
+                                }
+                            } else if (getViewModel().availablePaymentMethodList.size == 2) {
+                                if (getViewModel().availablePaymentMethodList.contains("UPI")) {
+                                    getViewModel().isUPI.set(true)
+                                    getViewModel().isNetBanking.set(false)
+                                    getViewModel().isNEFTRTGS.set(false)
+                                    getViewModel().selectedPaymentType.set(item)
+                                } else {
+
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
+//                                    context?.simpleAlert("Your order has been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.")
+                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.")
+                                    } else {
+//                                    context?.simpleAlert("The below mentioned orders have been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.\n\n ${TextUtils.join("\n", order_ids)}")
+                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
+
                                 }
 
-                            }
-                        } else if (getViewModel().availablePaymentMethodList.size == 2) {
-                            if (getViewModel().availablePaymentMethodList.contains("UPI")) {
+                            } else {
                                 getViewModel().isUPI.set(true)
                                 getViewModel().isNetBanking.set(false)
                                 getViewModel().isNEFTRTGS.set(false)
                                 getViewModel().selectedPaymentType.set(item)
-                            } else {
-
-                                if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
-//                                    context?.simpleAlert("Your order has been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.")
-                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.")
-                                } else {
-//                                    context?.simpleAlert("The below mentioned orders have been mapped to ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}. or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.\n\n ${TextUtils.join("\n", order_ids)}")
-                                    context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n ${TextUtils.join("\n", order_ids)}")
-                                }
-
-
                             }
 
-                        } else {
-                            getViewModel().isUPI.set(true)
-                            getViewModel().isNetBanking.set(false)
-                            getViewModel().isNEFTRTGS.set(false)
-                            getViewModel().selectedPaymentType.set(item)
+
                         }
+                        ResourceUtils.getString(R.string.net_banking) -> {
+                            val order_ids: ArrayList<String> = arrayListOf()
 
-
-                    }
-                    ResourceUtils.getString(R.string.net_banking) -> {
-                        val order_ids: ArrayList<String> = arrayListOf()
-
-                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
-                            validPaymentMethods.paymentMethod.let {
-                                val list = it.filter { it.equals("DIRECT", true) }
-                                if (list.size <= 0) {
-                                    order_ids.add(validPaymentMethods.fundName.toString())
-                                    return@let
+                            getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                                validPaymentMethods.paymentMethod.let {
+                                    val list = it.filter { it.equals("DIRECT", true) }
+                                    if (list.size <= 0) {
+                                        order_ids.add(validPaymentMethods.fundName.toString())
+                                        return@let
+                                    }
                                 }
                             }
-                        }
 /*
                         if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(false)
@@ -211,31 +214,31 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                             context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via UPI.\n\n" + TextUtils.join("\n", order_ids))
                         }
 */
-                        if (getViewModel().availablePaymentMethodList.size == 1) {
-                            if (getViewModel().availablePaymentMethodList.contains("DIRECT")) {
-                                getViewModel().isUPI.set(false)
-                                getViewModel().isNetBanking.set(true)
-                                getViewModel().isNEFTRTGS.set(false)
-                                getViewModel().selectedPaymentType.set(item)
-                            } else {
-                                if (order_ids.size <= 2) {
-                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.")
-//                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.")
+                            if (getViewModel().availablePaymentMethodList.size == 1) {
+                                if (getViewModel().availablePaymentMethodList.contains("DIRECT")) {
+                                    getViewModel().isUPI.set(false)
+                                    getViewModel().isNetBanking.set(true)
+                                    getViewModel().isNEFTRTGS.set(false)
+                                    getViewModel().selectedPaymentType.set(item)
                                 } else {
-                                    context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    if (order_ids.size <= 2) {
+                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.")
+//                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.")
+                                    } else {
+                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.\n\n ${TextUtils.join("\n", order_ids)}")
 //                                    context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)}.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
                                 }
+                            } else if (getViewModel().availablePaymentMethodList.size == 2) {
+                                if (getViewModel().availablePaymentMethodList.contains("DIRECT")) {
+                                    getViewModel().isUPI.set(false)
+                                    getViewModel().isNetBanking.set(true)
+                                    getViewModel().isNEFTRTGS.set(false)
+                                    getViewModel().selectedPaymentType.set(item)
+                                } else {
 
-                            }
-                        } else if (getViewModel().availablePaymentMethodList.size == 2) {
-                            if (getViewModel().availablePaymentMethodList.contains("DIRECT")) {
-                                getViewModel().isUPI.set(false)
-                                getViewModel().isNetBanking.set(true)
-                                getViewModel().isNEFTRTGS.set(false)
-                                getViewModel().selectedPaymentType.set(item)
-                            } else {
-
-                                if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
 //                                    if (getViewModel().availablePaymentMethodList.contains(ResourceUtils.getString(R.string.UPI))) {
 //                                        val list = getViewModel().availablePaymentMethodList.filter { it.equals("UPI") }
 //                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via ${list.get(0)}.")
@@ -243,8 +246,8 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 //                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or   ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.")
 //                                    }
 
-                                    context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.")
-                                } else {
+                                        context?.simpleAlert("Your order has been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.")
+                                    } else {
 //                                    if (getViewModel().availablePaymentMethodList.contains(ResourceUtils.getString(R.string.UPI))) {
 //                                        val list = getViewModel().availablePaymentMethodList.filter { it.equals("UPI") }
 //                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via ${list.get(0)}.\n\n ${TextUtils.join("\n", order_ids)}")
@@ -252,35 +255,35 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 //                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.\n\n ${TextUtils.join("\n", order_ids)}")
 //                                    }
 
-                                    context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.\n\n ${TextUtils.join("\n", order_ids)}")
+                                        context?.simpleAlert("The below mentioned orders have been mapped to NEFT/RTGS. Kindly place a new order to pay via Net Banking.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
+
                                 }
 
-
+                            } else {
+                                getViewModel().isUPI.set(false)
+                                getViewModel().isNetBanking.set(true)
+                                getViewModel().isNEFTRTGS.set(false)
+                                getViewModel().selectedPaymentType.set(item)
                             }
 
-                        } else {
-                            getViewModel().isUPI.set(false)
-                            getViewModel().isNetBanking.set(true)
-                            getViewModel().isNEFTRTGS.set(false)
-                            getViewModel().selectedPaymentType.set(item)
+
                         }
+                        ResourceUtils.getString(R.string.neft_rtgs) -> {
+
+                            val order_ids: ArrayList<String> = arrayListOf()
+                            getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
+                                validPaymentMethods.paymentMethod.let {
+                                    val list = it.filter { it.equals("NEFT/RTGS", true) }
+                                    if (list.size <= 0) {
+                                        order_ids.add(validPaymentMethods.fundName.toString())
+                                        return@let
+                                    }
 
 
-                    }
-                    ResourceUtils.getString(R.string.neft_rtgs) -> {
-
-                        val order_ids: ArrayList<String> = arrayListOf()
-                        getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethods ->
-                            validPaymentMethods.paymentMethod.let {
-                                val list = it.filter { it.equals("NEFT/RTGS", true) }
-                                if (list.size <= 0) {
-                                    order_ids.add(validPaymentMethods.fundName.toString())
-                                    return@let
                                 }
-
-
                             }
-                        }
 /*
                         if (order_ids.size <= 0) {
                             getViewModel().isUPI.set(false)
@@ -295,38 +298,38 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
 */
 
 
-                        if (getViewModel().availablePaymentMethodList.size == 1) {
-                            if (getViewModel().availablePaymentMethodList.contains("NEFT/RTGS")) {
-                                getViewModel().isUPI.set(false)
-                                getViewModel().isNetBanking.set(false)
-                                getViewModel().isNEFTRTGS.set(true)
-                                getViewModel().selectedPaymentType.set(item)
-                            } else {
-                                if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
-                                    context?.simpleAlert("Your order has been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.")
+                            if (getViewModel().availablePaymentMethodList.size == 1) {
+                                if (getViewModel().availablePaymentMethodList.contains("NEFT/RTGS")) {
+                                    getViewModel().isUPI.set(false)
+                                    getViewModel().isNetBanking.set(false)
+                                    getViewModel().isNEFTRTGS.set(true)
+                                    getViewModel().selectedPaymentType.set(item)
                                 } else {
-                                    context?.simpleAlert("The below mentioned orders have been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
+                                        context?.simpleAlert("Your order has been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.")
+                                    } else {
+                                        context?.simpleAlert("The below mentioned orders have been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
                                 }
-
-                            }
-                        } else if (getViewModel().availablePaymentMethodList.size == 2) {
-                            if (getViewModel().availablePaymentMethodList.contains("NEFT/RTGS")) {
-                                getViewModel().isUPI.set(false)
-                                getViewModel().isNetBanking.set(false)
-                                getViewModel().isNEFTRTGS.set(true)
-                                getViewModel().selectedPaymentType.set(item)
-                            } else {
-
-                                if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
-                                    /*  if (getViewModel().availablePaymentMethodList.contains(ResourceUtils.getString(R.string.UPI))) {
-                                          val list = getViewModel().availablePaymentMethodList.filter { it.equals("UPI") }
-                                          context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via ${list.get(0)}.")
-                                      } else {
-                                          context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.")
-                                      }*/
-
-                                    context?.simpleAlert("Your order has been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.")
+                            } else if (getViewModel().availablePaymentMethodList.size == 2) {
+                                if (getViewModel().availablePaymentMethodList.contains("NEFT/RTGS")) {
+                                    getViewModel().isUPI.set(false)
+                                    getViewModel().isNetBanking.set(false)
+                                    getViewModel().isNEFTRTGS.set(true)
+                                    getViewModel().selectedPaymentType.set(item)
                                 } else {
+
+                                    if (getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.size!! <= 1) {
+                                        /*  if (getViewModel().availablePaymentMethodList.contains(ResourceUtils.getString(R.string.UPI))) {
+                                              val list = getViewModel().availablePaymentMethodList.filter { it.equals("UPI") }
+                                              context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via ${list.get(0)}.")
+                                          } else {
+                                              context?.simpleAlert("Your order has been mapped to Netbanking. Kindly place a new order to pay via  ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.")
+                                          }*/
+
+                                        context?.simpleAlert("Your order has been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.")
+                                    } else {
 /*
                                     if (getViewModel().availablePaymentMethodList.contains(ResourceUtils.getString(R.string.UPI))) {
                                         val list = getViewModel().availablePaymentMethodList.filter { it.equals("UPI") }
@@ -335,21 +338,24 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                                         context?.simpleAlert("The below mentioned orders have been mapped to Netbanking. Kindly place a new order to pay via ${if (getViewModel().availablePaymentMethodList.get(0).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(0)} or ${if (getViewModel().availablePaymentMethodList.get(1).equals("DIRECT")) "Netbanking." else getViewModel().availablePaymentMethodList.get(1)}.\n\n ${TextUtils.join("\n", order_ids)}")
                                     }
 */
-                                    context?.simpleAlert("The below mentioned orders have been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.\n\n ${TextUtils.join("\n", order_ids)}")
+                                        context?.simpleAlert("The below mentioned orders have been mapped to Net Banking/UPI. Kindly place a new order to pay via NEFT.\n\n ${TextUtils.join("\n", order_ids)}")
+                                    }
+
+
                                 }
 
-
+                            } else {
+                                getViewModel().isUPI.set(false)
+                                getViewModel().isNetBanking.set(false)
+                                getViewModel().isNEFTRTGS.set(true)
+                                getViewModel().selectedPaymentType.set(item)
                             }
 
-                        } else {
-                            getViewModel().isUPI.set(false)
-                            getViewModel().isNetBanking.set(false)
-                            getViewModel().isNEFTRTGS.set(true)
-                            getViewModel().selectedPaymentType.set(item)
                         }
-
                     }
+
                 }
+
 
             }
 
