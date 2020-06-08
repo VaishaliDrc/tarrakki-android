@@ -129,6 +129,7 @@ fun openFundDetails(txt: TextView, fundId: Int?) {
 
 @BindingAdapter("targetYear")
 fun setTargetYear(txt: TextView, question: RiskAssessmentQuestionsApiResponse.Data.Option?) {
+
     txt.setOnClickListener {
         val years = arrayListOf<String>()
         val cal = Calendar.getInstance()

@@ -263,19 +263,19 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
             startFragment(BankMandateFragment.newInstance(), R.id.frmContainer)
         }
         tvInvite?.setOnClickListener {
-            ShareCompat.IntentBuilder.from(activity)
-                    .setType("text/plain")
-                    .setChooserTitle("Share link")
-                    .setText(App.INSTANCE.getString(R.string.invite_your_friend)
-                            .plus("\n\n")
-                            .plus("http://play.google.com/store/apps/details?id=${activity?.packageName}")
-                            .plus("\n\n")
-                            .plus("https://itunes.apple.com/in/app/Tarrakki/id1459230748?mt=8"))
-                    .startChooser()
-            /*.setText(App.INSTANCE.getString(R.string.invite_your_friend)
-                    .plus("\n\n")
-                    .plus("http://play.google.com/store/apps/details?id=" + activity?.packageName))
-            .startChooser()*/
+            try {
+                ShareCompat.IntentBuilder.from(requireActivity())
+                        .setType("text/plain")
+                        .setChooserTitle("Share link")
+                        .setText(App.INSTANCE.getString(R.string.invite_your_friend)
+                                .plus("\n\n")
+                                .plus("http://play.google.com/store/apps/details?id=${activity?.packageName}")
+                                .plus("\n\n")
+                                .plus("https://itunes.apple.com/in/app/Tarrakki/id1459230748?mt=8"))
+                        .startChooser()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         btnLogout?.setOnClickListener {
             context?.let { context ->

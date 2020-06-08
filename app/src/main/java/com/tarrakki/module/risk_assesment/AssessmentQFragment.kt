@@ -67,51 +67,55 @@ class AssessmentQFragment : CoreFragment<AssessmentQVM, FragmentAssessmentQBindi
         setHasOptionsMenu(true)
         getViewModel().questions.observe(this, Observer {
             it?.let { data ->
-                if (data.data?.isNotEmpty() == true) {
-                    totalQuestions = data.data.size
-                    currentPage = data.page
-                    val questionNo = "${data.page}"
-                    val total = "${"/"}${totalQuestions}  ${"Question"}"
-                    getViewModel().questionNo.set(questionNo)
-                    getViewModel().questionTotal.set(total)
-                    val question = data.data[data.page - 1]
-                    val options = question.option
-                    if (!options.isNullOrEmpty()) {
-                        getViewModel().question.set(question.question)
-                        setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
-                    }
+                try {
+                    if (data.data?.isNotEmpty() == true) {
+                        totalQuestions = data.data.size
+                        currentPage = data.page
+                        val questionNo = "${data.page}"
+                        val total = "${"/"}${totalQuestions}  ${"Question"}"
+                        getViewModel().questionNo.set(questionNo)
+                        getViewModel().questionTotal.set(total)
+                        val question = data.data[data.page - 1]
+                        val options = question.option
+                        if (!options.isNullOrEmpty()) {
+                            getViewModel().question.set(question.question)
+                            setOptionsData(question, options as ArrayList<RiskAssessmentQuestionsApiResponse.Data.Option>)
+                        }
 
-                    btnPrevious?.setOnClickListener {
-                        data.page--
-                        onBack(1)
-                    }
+                        btnPrevious?.setOnClickListener {
+                            data.page--
+                            onBack(1)
+                        }
 
-                    btnNext?.setOnClickListener {
-                        if (currentPage == totalQuestions) {
-                            startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
-                            postSticky(data)
-                        } else {
-                            if (isValid(question)) {
-                                startFragment(newInstance(), R.id.frmContainer)
-                                data.page++
+                        btnNext?.setOnClickListener {
+                            if (currentPage == totalQuestions) {
+                                startFragment(AssessmentDeclartionFragment.newInstance(), R.id.frmContainer)
                                 postSticky(data)
+                            } else {
+                                if (isValid(question)) {
+                                    startFragment(newInstance(), R.id.frmContainer)
+                                    data.page++
+                                    postSticky(data)
+                                }
                             }
                         }
-                    }
 
-                    requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
-                        override fun handleOnBackPressed() {
-                            context?.confirmationDialog(getString(R.string.alert_risk_assessment_back),
-                                    btnPositiveClick = {
-                                        if (activity is InvestActivity || activity is HomeActivity) {
-                                            onBackExclusive(FundDetailsFragment::class.java)
-                                        } else {
-                                            onBackExclusive(AccountFragment::class.java)
+                        requireActivity().onBackPressedDispatcher.addCallback(this@AssessmentQFragment, object : OnBackPressedCallback(true) {
+                            override fun handleOnBackPressed() {
+                                context?.confirmationDialog(getString(R.string.alert_risk_assessment_back),
+                                        btnPositiveClick = {
+                                            if (activity is InvestActivity || activity is HomeActivity) {
+                                                onBackExclusive(FundDetailsFragment::class.java)
+                                            } else {
+                                                onBackExclusive(AccountFragment::class.java)
+                                            }
                                         }
-                                    }
-                            )
-                        }
-                    })
+                                )
+                            }
+                        })
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         })

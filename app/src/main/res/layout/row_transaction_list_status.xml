@@ -83,6 +83,7 @@
             android:layout_alignParentEnd="true"
             android:elevation="@dimen/space_2"
             android:gravity="center"
+            android:ellipsize="end"
             android:paddingStart="@dimen/space_12"
             android:paddingTop="@dimen/space_8"
             android:paddingEnd="@dimen/space_12"

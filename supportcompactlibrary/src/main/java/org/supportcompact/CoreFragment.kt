@@ -9,7 +9,7 @@ import androidx.annotation.IntRange
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.events.Event
@@ -35,9 +35,9 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
         if (!::binding.isInitialized) {
             binding = DataBindingUtil.inflate(inflater, getLayout(), container, false)
             activity?.let {
-                coreActivityVM = ViewModelProviders.of(it).get(ActivityViewModel::class.java)
+                coreActivityVM = ViewModelProvider(it).get(ActivityViewModel::class.java)
             }
-            vm = ViewModelProviders.of(this).get(createViewModel())
+            vm = ViewModelProvider(this).get(createViewModel())
             setVM(binding)
         } else {
             val v = binding.root.parent as ViewGroup?

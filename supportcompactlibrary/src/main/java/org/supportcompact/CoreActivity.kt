@@ -1,16 +1,16 @@
 package org.supportcompact
 
 import android.app.Activity
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -28,7 +28,7 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, getLayout())
-        vm = ViewModelProviders.of(this).get(createViewModel())
+        vm = ViewModelProvider(this).get(createViewModel())
         setVM(binding)
         createReference()
     }
@@ -85,6 +85,7 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
     }
 
     var isShowing = false
+
     @Subscribe
     fun showError(error: ShowError) {
         if (!isShowing) {

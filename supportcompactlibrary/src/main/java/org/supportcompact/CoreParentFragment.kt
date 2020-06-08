@@ -1,17 +1,15 @@
 package org.supportcompact
 
-import androidx.lifecycle.ViewModelProviders
 import android.content.pm.PackageManager
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import androidx.annotation.IntRange
-import androidx.annotation.LayoutRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.IntRange
+import androidx.annotation.LayoutRes
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProvider
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.events.Event
@@ -34,10 +32,10 @@ abstract class CoreParentFragment<VM : FragmentViewModel, DB : ViewDataBinding> 
         if (!::binding.isInitialized) {
             binding = DataBindingUtil.inflate(inflater, getLayout(), container, false)
             activity?.let {
-                coreActivityVM = ViewModelProviders.of(it).get(ActivityViewModel::class.java)
+                coreActivityVM = ViewModelProvider(it).get(ActivityViewModel::class.java)
             }
             parentFragment?.let {
-                vm = ViewModelProviders.of(it).get(createViewModel())
+                vm = ViewModelProvider(it).get(createViewModel())
             }
             setVM(binding)
         } else {

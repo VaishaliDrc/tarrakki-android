@@ -1,10 +1,10 @@
 package com.tarrakki.module.learn
 
 
-import androidx.lifecycle.Observer
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.core.app.ShareCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.api.model.Blog
 import com.tarrakki.databinding.FragmentLearnDetailsBinding
@@ -42,15 +42,19 @@ class LearnDetailsFragment : CoreFragment<LearnVM, FragmentLearnDetailsBinding>(
         getViewModel().blog.observe(this, Observer {
             it?.let { blog ->
                 tvShare?.setOnClickListener {
-                    val mimeType = "text/html"
-                    ShareCompat.IntentBuilder.from(activity)
-                            .setChooserTitle(R.string.send_to)
-                            .setType(mimeType)
-                            .setText(
-                                    getBinding().article?.title
-                                            .plus("\n\n")
-                                            .plus(getBinding().article?.description?.toHTMl())
-                            ).startChooser()
+                    try {
+                        val mimeType = "text/html"
+                        ShareCompat.IntentBuilder.from(requireActivity())
+                                .setChooserTitle(R.string.send_to)
+                                .setType(mimeType)
+                                .setText(
+                                        getBinding().article?.title
+                                                .plus("\n\n")
+                                                .plus(getBinding().article?.description?.toHTMl())
+                                ).startChooser()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
                 getBinding().article = blog
                 getBinding().executePendingBindings()
