@@ -841,14 +841,14 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 getViewModel().validatePaymentData.value = it
                 val paymentMethod: ArrayList<String> = arrayListOf()
 
-                getViewModel().totalPaymentModeList.forEach { item ->
+                getViewModel().totalPaymentModeList.forEach payment@{ item ->
                     var isAvailable: Boolean = false
                     getViewModel().validatePaymentData.value?.data?.validPaymentMethods?.forEach { validPaymentMethod ->
                         if (validPaymentMethod.paymentMethod.contains(item)) {
                             isAvailable = true
                         } else {
                             isAvailable = false
-                            return@forEach
+                            return@payment
                         }
                     }
 
