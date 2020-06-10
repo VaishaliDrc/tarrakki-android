@@ -87,8 +87,7 @@ data class SupportChatResponse(
                                 val file = File(getFileDownloadDir(), fileName)
                                 // Get URI and MIME type of file
                                 val uri = file.toUri()//FileProvider.getUriForFile(App.INSTANCE, App.INSTANCE.packageName + ".fileprovider", file)//Uri.fromFile(file)
-                                val mime = mContext.contentResolver.getType(uri)
-                                        ?: getMimeType(uri.toString())
+                                val mime = mContext.contentResolver.getType(uri)?: getMimeType(uri.toString())
                                 // Open file with user selected app
                                 val intent = Intent()
                                 intent.action = Intent.ACTION_VIEW
@@ -102,8 +101,8 @@ data class SupportChatResponse(
                         }
                     } else if (downloadProgressVisibility == null || downloadProgressVisibility?.get() == false) {
                         downloadProgressVisibility?.set(true)
-                        subscribeToSingle(ApiClient.getHeaderClient().create(SupportApis::class.java).download(ApiClient.IMAGE_BASE_URL.plus(file
-                                ?: "")),
+                        subscribeToSingle(ApiClient.getApiClient().create(SupportApis::class.java).download(
+                                file ?: ""/*ApiClient.IMAGE_BASE_URL.plus(file?: ""*/),
                                 object : SingleCallback1<ResponseBody> {
                                     override fun onSingleSuccess(o: ResponseBody) {
                                         thread {
