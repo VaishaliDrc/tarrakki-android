@@ -71,7 +71,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                     apiRes?.let {
                         report?.forEach { q ->
                             val data = apiRes.data?.firstOrNull { it.questionId == q.questionId }
-                            q.options?.forEach { op ->
+                            q.options?.sortedBy { it.optionId }?.forEachIndexed { indexMain, op ->
                                 data?.option?.filter { it.optionId == op.optionId }?.forEach {
                                     it.isSelected = true
                                     op.extraData?.forEachIndexed { index, extraDataX ->
@@ -80,11 +80,11 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                                                 if ("checkbox".equals(op.optionType, true) && TextUtils.isEmpty(data.totalValue)) {
                                                     data.totalValue = extraDataX.amount ?: ""
                                                 } else {
-                                                    it.goalAmount = extraDataX.amount ?: ""
+                                                    it.goalAmount = extraDataX.amount?.optValue(indexMain) ?: ""
                                                 }
                                             }
                                             else -> {
-                                                it.targetYear = extraDataX.targetYear ?: ""
+                                                it.targetYear = extraDataX.targetYear?.optValue(indexMain) ?: ""
                                             }
                                         }
                                     }
@@ -138,6 +138,11 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                 }
             }
         })
+    }
+
+    private fun String.optValue(valueAt: Int): String {
+        val data = split(",")
+        return data.getOrNull(valueAt) ?: ""
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
