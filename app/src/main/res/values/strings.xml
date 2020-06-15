@@ -597,7 +597,7 @@
     <string name="what_is_tarrakki_zyaada_details">
         When you park your money in Tarrakki Zyaada, your money will be invested in the Nippon India Liquid Fund, which can give you potentially higher returns than your Bank Savings Account or a Fixed Deposit.
         \n\nWith your Tarrakki Zyaada investment, you get a Nippon Anytime Money Card, powered by HDFC Bank and Visa. This card enables you to use the money you have invested, should you want to. You can link this card to your online shopping account, use it for your Uber/Ola rides, and even book movie tickets online. It literally acts like a Bank Debit Card.
-        \n\nThis card is linked to the Nippon India Liquid Fund, and allows you to instantly withdraw or spend money against your mutual fund investment. This card is valid at Visa enabled ATMs and merchant outlets all over India. There are no extra charges to apply for the debit card or using the card at any ATMs.
+        \n\nThis card is linked to your investment in Nippon India Liquid Fund and allows you to instantly withdraw or spend money against your Mutual Fund invested. This card is valid at Visa enabled ATMs and merchant outlets all over India. There are no charges of using the card at any ATM or Visa point of sale in India. Tarrakki charges a one-time card processing fee of Rs 200 when you apply for the Visa Debit Card. These fees help us provide you the best customer support.
         \n\nIt\'s like parking your idle money in a Savings Bank Account, but with the opportunity to earn almost double the returns.
     </string>
     <string name="where_is_my_money_invested">Where is my money invested?</string>
@@ -642,9 +642,9 @@
     <string name="change_mobile_number">Change Mobile Number</string>
     <string name="enter_email_id">Enter Email Id</string>
     <string name="powered_by_tarrakki_reliance_mutual_fund_and_visa">➡ Powered by Tarrakki, Nippon India Liquid Fund, and Visa</string>
-    <string name="symbol_a">∗\u0020\u0020\u0020\u0020\u0020-</string>
-    <string name="symbol_b">∗∗\u0020\u0020\u0020-</string>
-    <string name="symbol_c">∗∗∗\u0020-</string>
+    <string name="symbol_a">∗\u0020\u0020\u0020\u0020\u0020</string>
+    <string name="symbol_b">∗∗\u0020\u0020\u0020</string>
+    <string name="symbol_c">∗∗∗\u0020</string>
     <string name="daily_purchase_limit_of_50">Daily purchase limit of 50% of the balance or ₹1,00,000 whichever is lower.</string>
     <string name="upto_50_of_the_balance_or_up">Upto 50% of the balance, or up to permissible limit determined by the bank, or ₹50,000, whichever is lower.</string>
     <string name="upto_u20b950_000_or_90_of">Upto ₹50,000 or 50% of the investment value, whichever is lower</string>

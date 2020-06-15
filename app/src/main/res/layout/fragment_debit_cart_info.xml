@@ -22,6 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:paddingTop="@dimen/_20ssp"
+            android:paddingEnd="@dimen/_70ssp"
+            android:paddingBottom="@dimen/_20ssp"
             android:src="@drawable/ic_debit_cart" />
 
         <TextView

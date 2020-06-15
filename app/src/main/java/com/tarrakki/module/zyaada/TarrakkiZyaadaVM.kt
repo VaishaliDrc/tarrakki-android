@@ -18,7 +18,7 @@ import kotlin.concurrent.thread
 
 class TarrakkiZyaadaVM : FragmentViewModel() {
 
-    val whatIsTarrakkiZyaada = ObservableField(true)
+    val whatIsTarrakkiZyaada = ObservableField(false)
     val whereIsMyMoney = ObservableField(false)
 
     fun getTarrakkiZyaada(): MutableLiveData<TarrakkiZyaadaResponse> {

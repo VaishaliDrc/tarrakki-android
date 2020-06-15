@@ -101,8 +101,7 @@ data class SupportChatResponse(
                         }
                     } else if (downloadProgressVisibility == null || downloadProgressVisibility?.get() == false) {
                         downloadProgressVisibility?.set(true)
-                        subscribeToSingle(ApiClient.getApiClient().create(SupportApis::class.java).download(
-                                file ?: ""/*ApiClient.IMAGE_BASE_URL.plus(file?: ""*/),
+                        subscribeToSingle(ApiClient.getApiClient().create(SupportApis::class.java).download(ApiClient.IMAGE_BASE_URL.plus(file?: "")),
                                 object : SingleCallback1<ResponseBody> {
                                     override fun onSingleSuccess(o: ResponseBody) {
                                         thread {
