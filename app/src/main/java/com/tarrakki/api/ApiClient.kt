@@ -46,12 +46,13 @@ object ApiClient {
     private var retrofit: Retrofit? = null
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
-    //const val BUILD_TYPE_DEBUG = true
+
+    const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
 
     /***
      * CAMS api base url Test Url
      * */
-    const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
+    //const val BUILD_TYPE_DEBUG = true
     /*private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/cispl/services_kycenquiry.asmx/"
     const val CAMS_USER_ID = "PLUTOWS"
     const val CAMS_PASSWORD = "kra\$36369"*/
@@ -74,16 +75,16 @@ object ApiClient {
     /**
      * Staging Test Url
      **/
-    /*private const val BASE_URL = "http://13.235.141.219/api/v3/"
+    private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
-    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
+    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"
 
     /**
      * Live Url
      **/
-    private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
+    /*private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v2/transactions/payment-status/" /// Latest url
+    const val BANK_REDIRECT_URL = "https://tarrakki.com/api/v2/transactions/payment-status/" /// Latest url*/
 
 
     fun clear() {

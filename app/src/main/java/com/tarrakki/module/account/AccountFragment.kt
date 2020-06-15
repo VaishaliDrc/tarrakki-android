@@ -364,6 +364,10 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                             eventKYCDataLog(kyc, "04")
                                         }
                                     }
+                                    kycStatus.contains("99") -> {
+                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                        eventKYCDataLog(kyc, "99")
+                                    }
                                     kycStatus.contains("05") -> {
                                         proceedVideoKYC(kyc)
                                     }
