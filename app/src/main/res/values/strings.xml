@@ -853,6 +853,7 @@
     <string name="clear">Clear</string>
     <string name="alert_req_upi">Please Enter the UPI.</string>
     <string name="time_out">Time Out</string>
+    <string name="something_went_wrong">Something went wrong. Please try again!!</string>
     <string name="something_went_wrong_please_try_again">The payment collect request sent to you is expired. Please try making the request again.</string>
     <string name="have_you_completed_the_payment">Have you completed the payment from your UPI App?</string>
     <string name="we_might_delayed_payment">We might receive a delayed payment confirmation at times. If you have completed the payment, please click Yes and continue.</string>

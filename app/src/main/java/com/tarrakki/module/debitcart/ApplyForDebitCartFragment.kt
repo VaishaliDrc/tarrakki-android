@@ -2,7 +2,9 @@ package com.tarrakki.module.debitcart
 
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.FolioData
@@ -10,6 +12,7 @@ import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_apply_for_debit_cart.*
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.*
 import java.text.DateFormatSymbols
@@ -21,7 +24,7 @@ import java.util.*
  * create an instance of this fragment.
  *
  */
-class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyForDebitCartBinding>() {
+class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyForDebitCartBinding>()/*, PaymentResponseListener*/ {
 
     override val isBackEnabled: Boolean
         get() = true
@@ -77,6 +80,37 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         }
 
         btnApply?.setOnClickListener {
+            // Call Payment Token API
+//            if (isValid()) {
+//                getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
+//                    val params: MutableMap<String, String> = HashMap()
+//
+//                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
+////                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
+//                    params[CFPaymentService.PARAM_ORDER_ID] = it.data.orderId
+//                    params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
+//                    params[CFPaymentService.PARAM_ORDER_NOTE] = "orderNote"
+//                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = "Sajan Gandhi"
+//                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = "8866511911"
+//                    params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = "sajgan@gmail.com"
+//                    params[CFPaymentService.PARAM_NOTIFY_URL] = it.data.callbackUrl
+//                    params[CFPaymentService.PARAM_PAYMENT_OPTION] = ""
+//                    params[CFPaymentService.PARAM_PAYMENT_MODES] = ""
+//
+//                    val cfPaymentService = CFPaymentService.getCFPaymentServiceInstance()
+//                    cfPaymentService.setOrientation(0)
+//                    cfPaymentService.doPayment(
+//                            requireActivity(),
+//                            params,
+//                            it.data.cftoken,
+//                            "TEST",
+//                            "#" + Integer.toHexString(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimary)),
+//                            "#" + Integer.toHexString(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimaryDark)),
+//                            false
+//                    )
+//                })
+//            }
+            //TODO : Call below code after successfull payment
             if (isValid()) {
                 getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
                     it?.let { apiResponse ->
@@ -117,6 +151,23 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             getViewModel().folioData.addAll(items)
         }
         removeStickyEvent(items)
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onEvent(event: Bundle) {
+        if (event.getString("txStatus").equals("SUCCESS", true)) {
+//            getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
+//                it?.let { apiResponse ->
+//                    context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+//                        onBack(2)
+//                    }
+//                }
+//            })
+            postError("SUCCESS")
+        } else {
+            postError(event.getString("txMsg"))
+        }
+        removeStickyEvent(event)
     }
 
     companion object {

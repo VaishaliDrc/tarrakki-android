@@ -1,14 +1,12 @@
 package com.tarrakki.module.debitcart
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
 import com.google.gson.JsonObject
 import com.tarrakki.App
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback1
-import com.tarrakki.api.WebserviceBuilder
+import com.tarrakki.api.*
 import com.tarrakki.api.model.*
-import com.tarrakki.api.subscribeToSingle
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
 import org.supportcompact.events.ShowError
@@ -16,6 +14,8 @@ import org.supportcompact.ktx.dismissProgress
 import org.supportcompact.ktx.getUserId
 import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
+import retrofit2.http.Field
+import retrofit2.http.Path
 
 class DebitCartInfoVM : FragmentViewModel() {
 
@@ -24,6 +24,50 @@ class DebitCartInfoVM : FragmentViewModel() {
     val mothersName = ObservableField<String>()
     val dob = ObservableField<String>()
     val folioData = arrayListOf<FolioData>()
+
+    private fun randomWithRange(): Int {
+        val min = 1
+        val max = 9999
+        val range = (max - min) + 1
+        return ((Math.random() * range) + min).toInt()
+    }
+
+    fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
+        val apiResponse = MutableLiveData<PaymentTokenData>()
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("amount", "1")
+        json.addProperty("order_id", folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange())
+        json.addProperty("currency", "INR")
+        val data = json.toString().toEncrypt()
+        json.printRequest()
+        data.printRequest()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .getPaymentToken(App.INSTANCE.getUserId(),data),
+
+                singleCallback = object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        o.printResponse()
+                        if (o.status?.code == 1){
+                            val data = o.data?.parseTo<PaymentTokenData>()
+                            data?.let {
+                                apiResponse.value = it
+                            }
+                        }else{
+                            postError("${o.status?.message}")
+                        }
+                        dismissProgress()
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return apiResponse
+    }
 
     fun applyForDebitCart(): MutableLiveData<ApiResponse> {
         val response = MutableLiveData<ApiResponse>()

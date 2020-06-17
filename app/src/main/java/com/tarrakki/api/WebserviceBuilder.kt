@@ -325,6 +325,12 @@ interface WebserviceBuilder {
     @GET("banks/verify-pan-details/{userId}/")
     fun verificationPAN(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
 
+    @FormUrlEncoded
+    @POST("banks/gen-cashfree-token/{userId}/")
+    fun getPaymentToken(
+            @Path("userId") userId: String?, @Field("data") data: String
+    ): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -333,6 +339,7 @@ interface WebserviceBuilder {
         getFundDetails, addGoalToCart, getCartItem, deleteCartItem, updateCartItem, forgotPassword,
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
-        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout, updateUserBankDetails
+        mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout, updateUserBankDetails,
+        getPaymentToken
     }
 }

@@ -177,6 +177,10 @@ dependencies {
     // Speedometer
     implementation 'com.github.anastr:speedviewlib:1.5.2'
 
+    //Cashfree Payment gateway integration
+    implementation files("libs/cashfreesdk-1.4.9.8-release.aar")
+    implementation 'com.android.volley:volley:1.1.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -3,15 +3,18 @@ package com.tarrakki.module.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.*
 import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
@@ -61,6 +64,22 @@ class HomeActivity : BaseActivity() {
         // Branch init
         if (!BuildConfig.FLAVOR.isTarrakki()) {
             setUpBranchIo()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Same request code for all payment APIs.
+//        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
+        if (requestCode == CFPaymentService.REQ_CODE) {
+            if (data != null) {
+                val bundle = data.extras
+                if (bundle != null) {
+                    postSticky(bundle)
+                } else {
+                    postError(R.string.something_went_wrong)
+                }
+            }
         }
     }
 
