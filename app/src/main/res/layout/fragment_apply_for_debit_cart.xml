@@ -14,134 +14,175 @@
         android:layout_height="match_parent"
         tools:context=".module.debitcart.ApplyForDebitCartFragment">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_space"
-            android:background="@drawable/shape_cart_view"
-            android:elevation="@dimen/space_2"
-            android:orientation="vertical"
-            android:padding="@dimen/_8sdp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/choose_folio_"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/edtChooseFolio"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_marginTop="@dimen/space_4"
-                android:layout_marginEnd="@dimen/space_4"
-                android:background="@drawable/shape_edt_gray_round"
-                android:completionThreshold="1"
-                android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
-                android:hint="Choose Folio"
-                android:maxLines="1"
-                android:paddingStart="@dimen/default_space"
-                android:paddingTop="@dimen/space_8"
-                android:paddingEnd="@dimen/default_space"
-                android:paddingBottom="@dimen/space_8"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:text="@string/name_on_card_"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/edtName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_4"
-                android:background="@drawable/shape_edt_gray_round"
-                android:hint="Enter Name"
-                android:inputType="textCapWords"
-                android:maxLines="1"
-                android:paddingStart="@dimen/default_space"
-                android:paddingTop="@dimen/space_8"
-                android:paddingEnd="@dimen/default_space"
-                android:paddingBottom="@dimen/space_8"
-                android:text="@={vm.cardHolerName}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:text="@string/mothers_maiden_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/choose_folio_"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/edtMothersName"
+                <TextView
+                    android:id="@+id/edtChooseFolio"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:layout_marginEnd="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:completionThreshold="1"
+                    android:drawableEnd="@drawable/ic_drop_down_dark_gray_24dp"
+                    android:hint="Choose Folio"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/name_on_card_"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:hint="Enter Name"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:text="@={vm.cardHolerName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/mothers_maiden_name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/edtMothersName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:hint="Enter mothers maiden name"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:text="@={vm.mothersName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/tvDOBL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:text="@string/date_of_birth_"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/edtDOB"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_4"
+                    android:layout_marginTop="@dimen/space_4"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:hint="Choose date of birth"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/default_space"
+                    android:paddingTop="@dimen/space_8"
+                    android:paddingEnd="@dimen/default_space"
+                    android:paddingBottom="@dimen/space_8"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darker_gray" />
+
+                <Button
+                    android:id="@+id/btnApply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/apply"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_4"
-                android:background="@drawable/shape_edt_gray_round"
-                android:hint="Enter mothers maiden name"
-                android:inputType="textCapWords"
-                android:maxLines="1"
-                android:paddingStart="@dimen/default_space"
-                android:paddingTop="@dimen/space_8"
-                android:paddingEnd="@dimen/default_space"
-                android:paddingBottom="@dimen/space_8"
-                android:text="@={vm.mothersName}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:layout_marginBottom="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
+                android:padding="@dimen/_18sdp">
 
-            <TextView
-                android:id="@+id/tvDOBL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_4"
-                android:layout_marginTop="@dimen/default_space"
-                android:text="@string/date_of_birth_"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/your_card_will_sent_via_mail"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-            <TextView
-                android:id="@+id/edtDOB"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/space_4"
-                android:layout_marginTop="@dimen/space_4"
-                android:background="@drawable/shape_edt_gray_round"
-                android:drawableEnd="@drawable/ic_calendar"
-                android:hint="Choose date of birth"
-                android:maxLines="1"
-                android:paddingStart="@dimen/default_space"
-                android:paddingTop="@dimen/space_8"
-                android:paddingEnd="@dimen/default_space"
-                android:paddingBottom="@dimen/space_8"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
-                android:textColorHint="@color/darker_gray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="201, KALASH ENCLAVE XXXX"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:drawablePadding="@dimen/_5sdp"
+                    tools:text="201, KALASH ENCLAVE XXXX"
+                    android:textAllCaps="true"
+                    android:drawableStart="@drawable/ic_action_img_icon"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
-            <Button
-                android:id="@+id/btnApply"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_space"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:background="@drawable/shape_btn_idle_bg"
-                android:fontFamily="@font/lato_bold"
-                android:text="@string/apply"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 </layout>

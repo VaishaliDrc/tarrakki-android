@@ -37,7 +37,7 @@ class DebitCartInfoVM : FragmentViewModel() {
         showProgress()
         val json = JsonObject()
         json.addProperty("amount", "1")
-        json.addProperty("order_id", folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange())
+        json.addProperty("order_id", /*folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange()*/ "78624989987234"+randomWithRange())
         json.addProperty("currency", "INR")
         val data = json.toString().toEncrypt()
         json.printRequest()

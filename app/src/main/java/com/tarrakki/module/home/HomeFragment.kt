@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -324,6 +325,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         clTarrakkiZyaada?.setOnClickListener {
+//            startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
