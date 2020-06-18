@@ -20,7 +20,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.AES
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.Country
 import com.tarrakki.api.model.UserProfileResponse
 import com.tarrakki.api.model.parseArray
@@ -125,7 +124,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
                 requestOptions.error(R.drawable.ic_profile_default)
                 Glide.with(ivProfile)
                         .setDefaultRequestOptions(requestOptions)
-                        .load(ApiClient.IMAGE_BASE_URL.plus(it))
+                        .load(it/*ApiClient.IMAGE_BASE_URL.plus(it)*/)
                         .into(ivProfile)
             }
         }

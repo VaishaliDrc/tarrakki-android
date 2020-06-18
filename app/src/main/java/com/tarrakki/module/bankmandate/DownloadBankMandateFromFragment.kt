@@ -22,7 +22,6 @@ import android.webkit.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.databinding.FragmentDownloadBankMandateFromBinding
 import com.tarrakki.module.webview.PAGE_URL
@@ -69,7 +68,7 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     }
 
     override fun createReference() {
-        val baseUrl = ApiClient.IMAGE_BASE_URL
+        val baseUrl = ""//ApiClient.IMAGE_BASE_URL
         url = baseUrl + arguments?.getString("download_url").toString()
         mandate_id = arguments?.getString("mandate_id").toString()
 
