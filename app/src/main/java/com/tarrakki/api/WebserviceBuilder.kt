@@ -331,6 +331,9 @@ interface WebserviceBuilder {
             @Path("userId") userId: String?, @Field("data") data: String
     ): Observable<ApiResponse>
 
+    @GET("banks/cf-amount-address/{userId}/")
+    fun getAddressAmount(@Path("userId") userId: String?): Observable<ApiResponse>
+
     /**
      * ApiNames to differentiate APIs
      */
@@ -340,6 +343,6 @@ interface WebserviceBuilder {
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
         mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout, updateUserBankDetails,
-        getPaymentToken
+        getPaymentToken, getAddressAndAmount
     }
 }

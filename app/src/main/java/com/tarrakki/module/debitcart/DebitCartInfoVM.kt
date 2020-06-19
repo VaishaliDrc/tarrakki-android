@@ -24,6 +24,7 @@ class DebitCartInfoVM : FragmentViewModel() {
     val mothersName = ObservableField<String>()
     val dob = ObservableField<String>()
     val folioData = arrayListOf<FolioData>()
+    val formattedAddress = ObservableField<String>("")
 
     private fun randomWithRange(): Int {
         val min = 1

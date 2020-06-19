@@ -6,13 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
 import com.tarrakki.BuildConfig
 import com.tarrakki.R
-import com.tarrakki.api.ApiClient
-import com.tarrakki.api.SingleCallback
-import com.tarrakki.api.WebserviceBuilder
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.HomeData
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.subscribeToSingle
+import com.tarrakki.api.*
+import com.tarrakki.api.model.*
 import com.tarrakki.isTarrakki
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -30,6 +25,37 @@ class HomeVM : FragmentViewModel() {
     var isShowingSecurityDialog = false
     val redirectToInvestmentStratergy = MutableLiveData<String>()
     val isTarrakki = ObservableField(BuildConfig.FLAVOR.isTarrakki())
+
+    fun getAddressAmountAPI(): MutableLiveData<AddressAmountData> {
+        val addressData = MutableLiveData<AddressAmountData>()
+        showProgress()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .getAddressAmount(App.INSTANCE.getUserId()),
+
+                singleCallback = object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        o.printResponse()
+                        if (o.status?.code == 1){
+                            val data = o.data?.parseTo<AddressAmountData>()
+                            data?.let {
+                                addressData.value = it
+                            }
+                        }else{
+                            postError("${o.status?.message}")
+                        }
+                        dismissProgress()
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return addressData
+    }
+
 
     fun getHomeData(isRefreshing: Boolean = false): MutableLiveData<HomeData> {
         val homeData = MutableLiveData<HomeData>()

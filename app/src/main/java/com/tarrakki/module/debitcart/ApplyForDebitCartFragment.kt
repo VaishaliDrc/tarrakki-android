@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.TarrakkiSingleton
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
@@ -45,6 +46,12 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
     }
 
     override fun createReference() {
+
+        if (TarrakkiSingleton.getInstance().debitCardAddress.isNotEmpty()) {
+            val address = TarrakkiSingleton.getInstance().debitCardAddress
+            val addressSplit = address.split(" ")
+            getViewModel().formattedAddress.set("${addressSplit[0]} ${addressSplit[1]} ${addressSplit[2]} XXXX")
+        }
 
         edtChooseFolio?.setOnClickListener {
             context?.showCustomListDialog("Select Folio", getViewModel().folioData) { item ->
@@ -93,8 +100,8 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
                     params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
                     params[CFPaymentService.PARAM_ORDER_NOTE] = "orderNote"
                     params[CFPaymentService.PARAM_CUSTOMER_NAME] = "Sajan Gandhi"
-                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = "8866511911"
-                    params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = "sajgan@gmail.com"
+                    params[CFPaymentService.PARAM_CUSTOMER_PHONE] = "${App.INSTANCE.getMobile()}"
+                    params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = "${App.INSTANCE.getEmail()}"
                     params[CFPaymentService.PARAM_NOTIFY_URL] = it.data.callbackUrl
                     params[CFPaymentService.PARAM_PAYMENT_OPTION] = ""
                     params[CFPaymentService.PARAM_PAYMENT_MODES] = ""
