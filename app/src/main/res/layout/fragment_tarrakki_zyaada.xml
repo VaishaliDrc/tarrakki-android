@@ -73,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/what_is_tarrakki_zyaada_details"
+                        android:text="@{@string/what_is_tarrakki_zyaada_details(vm.cashfreeamount)}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 </net.cachapa.expandablelayout.ExpandableLayout>

@@ -105,156 +105,159 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
 
         getViewModel().getTarrakkiZyaada().observe(this, Observer {
             it?.data?.let { response ->
-                savingRate = response.bankSavingsReturn?.toDoubleOrNull() ?: 0.0
-                fixedDepositRate = response.fixedDepositReturn?.toDoubleOrNull() ?: 0.0
-                if (response.funds?.isNotEmpty() == true) {
-                    val fund = response.funds[0]
-                    val returns = arrayListOf<KeyInfo>()
-                    returns.add(KeyInfo("1 Year", parseAsNoZiroReturnOrNA(fund.ttrReturn1Yr)))
-                    returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn3Yr)))
-                    returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn5Yr)))
-                    //returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn10Yr)))
-                    returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.ttrReturnSinceInception)))
-                    rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
-                        binder.keyInfo = item
-                        binder.executePendingBindings()
-                    }
-
-                    val fundDetails = object : ClickableSpan() {
-
-                        override fun onClick(widget: View) {
-                            startFragment(FundDetailsFragment.newInstance(Bundle().apply {
-                                putString(ITEM_ID, "${fund.id}")
-                                putString(TARRAKKI_ZYAADA_ID, "${response.tarrakkiZyaadaId}")
-                            }), R.id.frmContainer)
+                getViewModel().getAddressAmountAPI().observe(this, Observer {
+                    getViewModel().cashfreeamount.set(it.data.cashfreeAmount)
+                    savingRate = response.bankSavingsReturn?.toDoubleOrNull() ?: 0.0
+                    fixedDepositRate = response.fixedDepositReturn?.toDoubleOrNull() ?: 0.0
+                    if (response.funds?.isNotEmpty() == true) {
+                        val fund = response.funds[0]
+                        val returns = arrayListOf<KeyInfo>()
+                        returns.add(KeyInfo("1 Year", parseAsNoZiroReturnOrNA(fund.ttrReturn1Yr)))
+                        returns.add(KeyInfo("3 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn3Yr)))
+                        returns.add(KeyInfo("5 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn5Yr)))
+                        //returns.add(KeyInfo("10 Years", parseAsNoZiroReturnOrNA(fund.ttrReturn10Yr)))
+                        returns.add(KeyInfo("Since Inception", parseAsNoZiroReturnOrNA(fund.ttrReturnSinceInception)))
+                        rvReturns?.setUpRecyclerView(R.layout.row_fund_key_info_list_item, returns) { item: KeyInfo, binder: RowFundKeyInfoListItemBinding, position ->
+                            binder.keyInfo = item
+                            binder.executePendingBindings()
                         }
 
-                        override fun updateDrawState(ds: TextPaint) {
-                            super.updateDrawState(ds)
-                            ds.isUnderlineText = true
-                            context?.color(R.color.colorAccent)?.let { ds.color = it }
-                        }
-                    }
-                    tvFundDetails?.makeLinksItalic(arrayOf("click here."), arrayOf(fundDetails))
+                        val fundDetails = object : ClickableSpan() {
 
-                    btnInvest?.setOnClickListener {
-                        val tarrakkiZyaadaId = response.tarrakkiZyaadaId
-                        val minSIPAmount = fund.validminSIPAmount
-                        val minLumpSumAmount = fund.validminlumpsumAmount
-                        val foliosList = fund.folios
-                        fund.bseData?.isTarrakkiZyaada = true
-                        if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
-                            App.piMinimumInitialMultiple = toBigInt(fund.piMinimumInitialMultiple)
-                            App.piMinimumSubsequentMultiple = toBigInt(fund.piMinimumSubsequentMultiple)
-                            App.additionalSIPMultiplier = fund.additionalSIPMultiplier
-                            if (foliosList?.isNotEmpty() == true) {
-                                val folios: MutableList<FolioData> = mutableListOf()
-                                for (folioNo in foliosList) {
-                                    val fData = FolioData(null, null, null, folioNo).apply {
-                                        additionalSIPMinAmt = fund.validminSIPAmount
-                                        additionalLumpsumMinAmt = fund.additionalMinLumpsum
+                            override fun onClick(widget: View) {
+                                startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                                    putString(ITEM_ID, "${fund.id}")
+                                    putString(TARRAKKI_ZYAADA_ID, "${response.tarrakkiZyaadaId}")
+                                }), R.id.frmContainer)
+                            }
+
+                            override fun updateDrawState(ds: TextPaint) {
+                                super.updateDrawState(ds)
+                                ds.isUnderlineText = true
+                                context?.color(R.color.colorAccent)?.let { ds.color = it }
+                            }
+                        }
+                        tvFundDetails?.makeLinksItalic(arrayOf("click here."), arrayOf(fundDetails))
+
+                        btnInvest?.setOnClickListener {
+                            val tarrakkiZyaadaId = response.tarrakkiZyaadaId
+                            val minSIPAmount = fund.validminSIPAmount
+                            val minLumpSumAmount = fund.validminlumpsumAmount
+                            val foliosList = fund.folios
+                            fund.bseData?.isTarrakkiZyaada = true
+                            if (tarrakkiZyaadaId != null && minSIPAmount != null && minLumpSumAmount != null) {
+                                App.piMinimumInitialMultiple = toBigInt(fund.piMinimumInitialMultiple)
+                                App.piMinimumSubsequentMultiple = toBigInt(fund.piMinimumSubsequentMultiple)
+                                App.additionalSIPMultiplier = fund.additionalSIPMultiplier
+                                if (foliosList?.isNotEmpty() == true) {
+                                    val folios: MutableList<FolioData> = mutableListOf()
+                                    for (folioNo in foliosList) {
+                                        val fData = FolioData(null, null, null, folioNo).apply {
+                                            additionalSIPMinAmt = fund.validminSIPAmount
+                                            additionalLumpsumMinAmt = fund.additionalMinLumpsum
+                                        }
+                                        folios.add(fData)
                                     }
-                                    folios.add(fData)
-                                }
-                                context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fund.bseData) { folioNo, amountLumpsum, amountSIP ->
-                                    addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
-                                            Observer { response ->
-                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                                }
-                                            })
-                                }
-                            } else {
-                                context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount, fund.bseData) { amountLumpsum, amountSIP, fundId ->
-                                    addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
-                                            Observer { response ->
-                                                context?.simpleAlert(getString(R.string.cart_fund_added)) {
-                                                    startFragment(CartFragment.newInstance(), R.id.frmContainer)
-                                                }
-                                            })
-                                }
-                            }
-                        }
-                    }
-                    var r = fund.getReturn(x = durations.toInt())
-                    if (r == 0.0) {
-                        r = fund.getReturn()
-                        durations = 1.0
-                    }
-                    setChartData(r)
-                    tvDurations.text = durationsArr[if (durations == 3.0) 2 else 0]
-                    tvDurations?.setOnClickListener {
-                        context?.showListDialog(R.string.duration, durationsArr) { item: String, which: Int ->
-                            tvDurations.text = item
-                            if (which == 6) {//Since Inception
-                                val returnSince = fund.ttrReturnSinceInception?.toDoubleOrNull()
-                                        ?: 0.0
-                                val startDate = fund.returnsHistory?.minBy { it.date }?.date
-                                startDate?.let {
-                                    val months = it.monthsBetweenDates(Date())
-                                    durations = (months / 12.0)
-                                    setChartData(returnSince)
-                                }
-                            } else {
-                                durations = (which + 1).toDouble()
-                                var r = fund.getReturn(x = durations.toInt())
-                                if (r == 0.0) {
-                                    r = fund.getReturn()
-                                    durations = 1.0
-                                    tvDurations.text = durationsArr[0]
-                                }
-                                setChartData(r)
-                            }
-                        }
-                    }
-                    edtInvestAmount?.addTextChangedListener(object : TextWatcher {
-                        override fun afterTextChanged(p: Editable?) {
-                            if (p != null && p.isNotEmpty()) {
-                                try {
-                                    investmebtAmount = p.toString().replace(",", "").toDouble()
-                                    setChartData(fundReturnsFormate)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-                            } else {
-                                resetChart()
-                            }
-                        }
-
-                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                        }
-
-                        private var current = ""
-
-                        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            if (s == null || s.isEmpty()) {
-                                current = ""
-                                return
-                            }
-                            if (s.toString() != current) {
-                                try {
-                                    edtInvestAmount?.removeTextChangedListener(this)
-                                    var cleanString = s.toString().replace(",", "")
-                                    if (cleanString.length > 16) {
-                                        cleanString = cleanString.dropLast(1)
+                                    context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, fund.bseData) { folioNo, amountLumpsum, amountSIP ->
+                                        addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                                Observer { response ->
+                                                    context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                    }
+                                                })
                                     }
-                                    val price = cleanString.toDouble()
-                                    if (price > 0) {
-                                        edtInvestAmount?.format(price)
-                                    } else {
-                                        edtInvestAmount?.text?.clear()
+                                } else {
+                                    context?.investDialog(tarrakkiZyaadaId, minSIPAmount, minLumpSumAmount, fund.bseData) { amountLumpsum, amountSIP, fundId ->
+                                        addToCartTarrakkiZyaada("$tarrakkiZyaadaId", amountSIP, amountLumpsum).observe(this,
+                                                Observer { response ->
+                                                    context?.simpleAlert(getString(R.string.cart_fund_added)) {
+                                                        startFragment(CartFragment.newInstance(), R.id.frmContainer)
+                                                    }
+                                                })
                                     }
-                                    current = edtInvestAmount?.text.toString()
-                                    edtInvestAmount?.setSelection(current.length)
-                                    edtInvestAmount?.addTextChangedListener(this)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
                                 }
                             }
                         }
-                    })
-                }
+                        var r = fund.getReturn(x = durations.toInt())
+                        if (r == 0.0) {
+                            r = fund.getReturn()
+                            durations = 1.0
+                        }
+                        setChartData(r)
+                        tvDurations.text = durationsArr[if (durations == 3.0) 2 else 0]
+                        tvDurations?.setOnClickListener {
+                            context?.showListDialog(R.string.duration, durationsArr) { item: String, which: Int ->
+                                tvDurations.text = item
+                                if (which == 6) {//Since Inception
+                                    val returnSince = fund.ttrReturnSinceInception?.toDoubleOrNull()
+                                            ?: 0.0
+                                    val startDate = fund.returnsHistory?.minBy { it.date }?.date
+                                    startDate?.let {
+                                        val months = it.monthsBetweenDates(Date())
+                                        durations = (months / 12.0)
+                                        setChartData(returnSince)
+                                    }
+                                } else {
+                                    durations = (which + 1).toDouble()
+                                    var r = fund.getReturn(x = durations.toInt())
+                                    if (r == 0.0) {
+                                        r = fund.getReturn()
+                                        durations = 1.0
+                                        tvDurations.text = durationsArr[0]
+                                    }
+                                    setChartData(r)
+                                }
+                            }
+                        }
+                        edtInvestAmount?.addTextChangedListener(object : TextWatcher {
+                            override fun afterTextChanged(p: Editable?) {
+                                if (p != null && p.isNotEmpty()) {
+                                    try {
+                                        investmebtAmount = p.toString().replace(",", "").toDouble()
+                                        setChartData(fundReturnsFormate)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                } else {
+                                    resetChart()
+                                }
+                            }
+
+                            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                            }
+
+                            private var current = ""
+
+                            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                                if (s == null || s.isEmpty()) {
+                                    current = ""
+                                    return
+                                }
+                                if (s.toString() != current) {
+                                    try {
+                                        edtInvestAmount?.removeTextChangedListener(this)
+                                        var cleanString = s.toString().replace(",", "")
+                                        if (cleanString.length > 16) {
+                                            cleanString = cleanString.dropLast(1)
+                                        }
+                                        val price = cleanString.toDouble()
+                                        if (price > 0) {
+                                            edtInvestAmount?.format(price)
+                                        } else {
+                                            edtInvestAmount?.text?.clear()
+                                        }
+                                        current = edtInvestAmount?.text.toString()
+                                        edtInvestAmount?.setSelection(current.length)
+                                        edtInvestAmount?.addTextChangedListener(this)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }
+                        })
+                    }
+                })
             }
         })
     }

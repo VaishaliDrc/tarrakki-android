@@ -16,6 +16,7 @@ import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.showProgress
 import retrofit2.http.Field
 import retrofit2.http.Path
+import kotlin.math.roundToInt
 
 class DebitCartInfoVM : FragmentViewModel() {
 
@@ -28,18 +29,23 @@ class DebitCartInfoVM : FragmentViewModel() {
     val formattedAddress = ObservableField<String>("")
 
     private fun randomWithRange(): String {
-        val min = 10000
-        val max = 99999
-        val range = (max - min) + 1
-        return ((Math.random() * range) + min).toString()
+//        val min = 10000
+//        val max = 99999
+//        val range = (max - min) + 1
+//        return ((Math.random().toInt() * range.toDouble()).roundToInt() + min).toString()
+
+        return (10000..99999).random().toString()
     }
+
+    fun IntRange.random() =
+            (Math.random() * ((endInclusive + 1) - start) + start).toInt()
 
     fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
         val apiResponse = MutableLiveData<PaymentTokenData>()
         showProgress()
         val json = JsonObject()
         json.addProperty("amount", addressAmountData.get()?.data?.cashfreeAmount)
-        json.addProperty("order_id", folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange())
+        json.addProperty("order_id", folioNo.get()+"_"+App.INSTANCE.getUserId()+"_"+randomWithRange())
         json.addProperty("currency", "INR")
         val data = json.toString().toEncrypt()
         json.printRequest()

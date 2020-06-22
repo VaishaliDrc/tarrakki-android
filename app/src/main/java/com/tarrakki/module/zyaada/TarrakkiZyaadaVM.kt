@@ -20,6 +20,7 @@ class TarrakkiZyaadaVM : FragmentViewModel() {
 
     val whatIsTarrakkiZyaada = ObservableField(false)
     val whereIsMyMoney = ObservableField(false)
+    val cashfreeamount = ObservableField("")
 
     fun getTarrakkiZyaada(): MutableLiveData<TarrakkiZyaadaResponse> {
         showProgress()
@@ -37,8 +38,8 @@ class TarrakkiZyaadaVM : FragmentViewModel() {
                         response.postValue(responseData)
                     } else {
                         postError("${o.status?.message}")
+                        dismissProgress()
                     }
-                    dismissProgress()
                 }
             }
 
@@ -50,4 +51,33 @@ class TarrakkiZyaadaVM : FragmentViewModel() {
         return response
     }
 
+    fun getAddressAmountAPI(): MutableLiveData<AddressAmountData> {
+        val addressData = MutableLiveData<AddressAmountData>()
+        showProgress()
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                        .getAddressAmount(App.INSTANCE.getUserId()),
+
+                singleCallback = object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        o.printResponse()
+                        if (o.status?.code == 1){
+                            val data = o.data?.parseTo<AddressAmountData>()
+                            data?.let {
+                                addressData.value = it
+                            }
+                        }else{
+                            postError("${o.status?.message}")
+                        }
+                        dismissProgress()
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return addressData
+    }
 }

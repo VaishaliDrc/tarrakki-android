@@ -108,8 +108,8 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
                             params,
                             it.data.cftoken,
                             stage,
+                            "#" + Integer.toHexString(ContextCompat.getColor(App.INSTANCE, R.color.white)),
                             "#" + Integer.toHexString(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimary)),
-                            "#" + Integer.toHexString(ContextCompat.getColor(App.INSTANCE, R.color.colorPrimaryDark)),
                             false
                     )
                 })
@@ -173,16 +173,18 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
         if (event.getString("txStatus").equals("SUCCESS", true)) {
-//            getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
-//                it?.let { apiResponse ->
-//                    context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
-//                        onBack(2)
-//                    }
-//                }
-//            })
-            postError("SUCCESS")
+            getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
+                it?.let { apiResponse ->
+                    context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+                        onBack(2)
+                    }
+                }
+            })
+            //postError("SUCCESS")
+//            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent))
         } else {
-            postError(event.getString("txMsg"))
+//            postError(event.getString("txMsg"))
+            context?.simpleAlert(event.getString("txMsg"))
         }
         removeStickyEvent(event)
     }
