@@ -42,6 +42,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
+import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -218,8 +219,16 @@ fun applyForDebitCart(txt: TextView, folioData: ArrayList<FolioData>?) {
     txt.setOnClickListener {
         val mContext = txt.context
         if (mContext is androidx.fragment.app.FragmentActivity) {
-            mContext.startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
-            folioData?.let { EventBus.getDefault().postSticky(it) }
+            getAddressAmountAPI().observe(mContext, androidx.lifecycle.Observer {addressAmountData ->
+                /*TarrakkiSingleton.getInstance().debitCardAddress = it.data.userAddress
+                TarrakkiSingleton.getInstance().debitCardAmount = it.data.cashfreeAmount.toString()
+                startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)*/
+                mContext.startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
+                folioData?.let { EventBus.getDefault().postSticky(it) }
+                addressAmountData?.let { EventBus.getDefault().postSticky(addressAmountData) }
+            })
+            /*mContext.startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
+            folioData?.let { EventBus.getDefault().postSticky(it) }*/
         }
     }
 }

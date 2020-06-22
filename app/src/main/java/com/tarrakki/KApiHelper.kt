@@ -813,3 +813,32 @@ fun getReportOfRiskProfile(): MutableLiveData<ApiResponse> {
     return apiResponse
 }
 
+fun getAddressAmountAPI(): MutableLiveData<AddressAmountData> {
+    val addressData = MutableLiveData<AddressAmountData>()
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    subscribeToSingle(
+            observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
+                    .getAddressAmount(App.INSTANCE.getUserId()),
+
+            singleCallback = object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    o.printResponse()
+                    if (o.status?.code == 1){
+                        val data = o.data?.parseTo<AddressAmountData>()
+                        data?.let {
+                            addressData.value = it
+                        }
+                    }else{
+                        postError("${o.status?.message}")
+                    }
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    throwable.postError()
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                }
+            }
+    )
+    return addressData
+}

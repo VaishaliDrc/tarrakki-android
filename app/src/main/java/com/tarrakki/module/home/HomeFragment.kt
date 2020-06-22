@@ -330,12 +330,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         tvViewPortfolio?.setOnClickListener {
-//            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
-            getViewModel().getAddressAmountAPI().observe(this, androidx.lifecycle.Observer {
-                TarrakkiSingleton.getInstance().debitCardAddress = it.data.userAddress
-                TarrakkiSingleton.getInstance().debitCardAmount = it.data.cashfreeAmount.toString()
-                startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
-            })
+            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
 
         mRefresh?.setOnRefreshListener {

@@ -24,21 +24,22 @@ class DebitCartInfoVM : FragmentViewModel() {
     val mothersName = ObservableField<String>()
     val dob = ObservableField<String>()
     val folioData = arrayListOf<FolioData>()
+    val addressAmountData = ObservableField<AddressAmountData>()
     val formattedAddress = ObservableField<String>("")
 
-    private fun randomWithRange(): Int {
-        val min = 1
-        val max = 9999
+    private fun randomWithRange(): String {
+        val min = 10000
+        val max = 99999
         val range = (max - min) + 1
-        return ((Math.random() * range) + min).toInt()
+        return ((Math.random() * range) + min).toString()
     }
 
     fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
         val apiResponse = MutableLiveData<PaymentTokenData>()
         showProgress()
         val json = JsonObject()
-        json.addProperty("amount", "1")
-        json.addProperty("order_id", /*folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange()*/ "78624989987234"+randomWithRange())
+        json.addProperty("amount", addressAmountData.get()?.data?.cashfreeAmount)
+        json.addProperty("order_id", folioNo.get()+"_"+App.INSTANCE.getUserId() + randomWithRange())
         json.addProperty("currency", "INR")
         val data = json.toString().toEncrypt()
         json.printRequest()

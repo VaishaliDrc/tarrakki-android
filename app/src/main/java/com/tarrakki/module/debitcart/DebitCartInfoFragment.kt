@@ -4,6 +4,7 @@ package com.tarrakki.module.debitcart
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.tarrakki.R
+import com.tarrakki.api.model.AddressAmountData
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentDebitCartInfoBinding
 import kotlinx.android.synthetic.main.fragment_debit_cart_info.*
@@ -42,6 +43,7 @@ class DebitCartInfoFragment : CoreFragment<DebitCartInfoVM, FragmentDebitCartInf
         btnPayNow?.setOnClickListener {
             startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
             postSticky(getViewModel().folioData)
+            getViewModel().addressAmountData.get()?.let { postSticky(it) }
         }
     }
 
@@ -49,6 +51,14 @@ class DebitCartInfoFragment : CoreFragment<DebitCartInfoVM, FragmentDebitCartInf
     fun onReemFund(items: ArrayList<FolioData>) {
         if (getViewModel().folioData.isEmpty()) {
             getViewModel().folioData.addAll(items)
+        }
+    }
+
+    @Subscribe(sticky = true)
+    fun onAddressReceive(item: AddressAmountData) {
+        if (getViewModel().addressAmountData.get() == null) {
+            getViewModel().addressAmountData.set(item)
+            getViewModel().addressAmountData.notifyChange()
         }
     }
 

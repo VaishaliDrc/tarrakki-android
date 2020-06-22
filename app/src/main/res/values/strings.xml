@@ -586,7 +586,7 @@
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
-    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.</string>
+    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.\n\nA small processing fee of Rs %s will be charged when you complete your debit card application.</string>
     <string name="apply_for_debit_cart">Apply for Debit Card</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply">Apply</string>

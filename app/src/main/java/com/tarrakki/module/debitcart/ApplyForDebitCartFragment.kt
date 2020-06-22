@@ -8,6 +8,7 @@ import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.TarrakkiSingleton
+import com.tarrakki.api.model.AddressAmountData
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
@@ -47,12 +48,6 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 
     override fun createReference() {
 
-        if (TarrakkiSingleton.getInstance().debitCardAddress.isNotEmpty()) {
-            val address = TarrakkiSingleton.getInstance().debitCardAddress
-            val addressSplit = address.split(" ")
-            getViewModel().formattedAddress.set("${addressSplit[0]} ${addressSplit[1]} ${addressSplit[2]} XXXX")
-        }
-
         edtChooseFolio?.setOnClickListener {
             context?.showCustomListDialog("Select Folio", getViewModel().folioData) { item ->
                 getViewModel().folioNo.set(item.folioNo)
@@ -89,17 +84,17 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         btnApply?.setOnClickListener {
             // Call Payment Token API
             if (isValid()) {
-//                val stage = "PROD"
-                val stage = "TEST"
+                val stage = "PROD"
+//                val stage = "TEST"
                 getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
                     val params: MutableMap<String, String> = HashMap()
 
-                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
-//                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
+//                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
+                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
                     params[CFPaymentService.PARAM_ORDER_ID] = it.data.orderId
                     params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
-                    params[CFPaymentService.PARAM_ORDER_NOTE] = "orderNote"
-                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = "Sajan Gandhi"
+                    params[CFPaymentService.PARAM_ORDER_NOTE] = title
+                    params[CFPaymentService.PARAM_CUSTOMER_NAME] = ""
                     params[CFPaymentService.PARAM_CUSTOMER_PHONE] = "${App.INSTANCE.getMobile()}"
                     params[CFPaymentService.PARAM_CUSTOMER_EMAIL] = "${App.INSTANCE.getEmail()}"
                     params[CFPaymentService.PARAM_NOTIFY_URL] = it.data.callbackUrl
@@ -160,6 +155,19 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             getViewModel().folioData.addAll(items)
         }
         removeStickyEvent(items)
+    }
+
+    @Subscribe(sticky = true)
+    fun onAddressReceive(item: AddressAmountData) {
+        if (getViewModel().addressAmountData.get() == null) {
+            getViewModel().addressAmountData.set(item)
+
+            if (getViewModel().addressAmountData.get()?.data?.userAddress?.isNotEmpty() == true) {
+                val address = getViewModel().addressAmountData.get()?.data?.userAddress
+                val addressSplit = address?.split(" ")
+                getViewModel().formattedAddress.set("${addressSplit?.get(0)} ${addressSplit?.get(1)} ${addressSplit?.get(2)} XXXX")
+            }
+        }
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)

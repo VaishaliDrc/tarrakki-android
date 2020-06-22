@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/_8sdp"
-            android:text="@string/debit_cart_info"
+            android:text="@{@string/debit_cart_info(vm.addressAmountData.data.cashfreeAmount)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
         <Button
