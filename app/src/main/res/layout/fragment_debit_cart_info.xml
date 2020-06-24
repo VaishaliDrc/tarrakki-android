@@ -9,41 +9,54 @@
             type="com.tarrakki.module.debitcart.DebitCartInfoVM" />
     </data>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_space"
-        android:background="@drawable/shape_cart_view"
-        android:elevation="@dimen/space_2"
-        android:orientation="vertical"
-        tools:context=".module.debitcart.DebitCartInfoFragment">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:paddingTop="@dimen/_20ssp"
-            android:paddingEnd="@dimen/_70ssp"
-            android:paddingBottom="@dimen/_20ssp"
-            android:src="@drawable/ic_debit_cart" />
-
-        <TextView
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:scrollbarSize="0dp">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/_8sdp"
-            android:text="@{@string/debit_cart_info(vm.addressAmountData.data.cashfreeAmount)}"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnPayNow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_space"
-            android:background="@drawable/shape_btn_idle_bg"
-            android:fontFamily="@font/lato_bold"
-            android:text="@string/apply_now"
-            android:textColor="@color/white" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sdp"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical"
+                tools:context=".module.debitcart.DebitCartInfoFragment">
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:paddingTop="@dimen/_20ssp"
+                    android:paddingEnd="@dimen/_70ssp"
+                    android:paddingBottom="@dimen/_20ssp"
+                    android:src="@drawable/ic_debit_cart" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/_8sdp"
+                    tools:text="@string/debit_cart_info"
+                    android:text="@{@string/debit_cart_info(vm.addressAmountData.data.cashfreeAmount)}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <Button
+                    android:id="@+id/btnPayNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:background="@drawable/shape_btn_idle_bg"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="@string/apply_now"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
 </layout>
