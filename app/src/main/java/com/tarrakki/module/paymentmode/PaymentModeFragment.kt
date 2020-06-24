@@ -677,8 +677,6 @@ class PaymentModeFragment : CoreFragment<PaymentModeVM, FragmentPaymentModeBindi
                 getViewModel().upiName.set(bank.vpaId)
             }
         })
-
-
         removeStickyEvent(data)
     }
 

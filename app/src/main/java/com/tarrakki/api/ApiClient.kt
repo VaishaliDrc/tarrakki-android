@@ -69,9 +69,9 @@ object ApiClient {
     /**
      * Remote Testing Url
      **/
-    /*private const val BASE_URL = "https://a21a1a1008cc.ngrok.io/api/v3/"
-    const val IMAGE_BASE_URL = "https://a21a1a1008cc.ngrok.io"
-    const val BANK_REDIRECT_URL = "https://a21a1a1008cc.ngrok.io/api/v3/transactions/payment-status/"*/
+    /*private const val BASE_URL = "https://3.6.26.151/api/v3/"
+    const val IMAGE_BASE_URL = "https://3.6.26.151"
+    const val BANK_REDIRECT_URL = "https://3.6.26.151/api/v3/transactions/payment-status/"*/
 
     /**
      * Staging Test Url
@@ -82,6 +82,7 @@ object ApiClient {
 
     /**
      * Live Url
+     * https://www.
      **/
     private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
