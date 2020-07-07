@@ -48,7 +48,7 @@ const val DOB_CERTIFICATE_REQ_CODE = 121
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "signature_image"
+    private val SAMPLE_CROPPED_IMAGE_NAME = "img_signature"
 
     override val isBackEnabled: Boolean
         get() = true

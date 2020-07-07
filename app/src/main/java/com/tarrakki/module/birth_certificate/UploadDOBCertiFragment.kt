@@ -46,7 +46,7 @@ import java.io.File
  */
 class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobcertiBinding>() {
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "signature_image"
+    private val SAMPLE_CROPPED_IMAGE_NAME = "img_signature"
 
 
     override val isBackEnabled: Boolean
@@ -133,7 +133,7 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = "birth_certificate".getUDID()
+        var destinationFileName = "img_birthcert".getUDID()
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(3f, 2f)

@@ -239,7 +239,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = "verification_document".getUDID()
+        var destinationFileName = "img_verificationdoc".getUDID()
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(3f, 2f)

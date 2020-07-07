@@ -322,7 +322,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
 
     private fun startCrop(@NonNull uri: Uri) {
         //val mFile = File(getPath(uri) ?: "")
-        var destinationFileName = "issue_image".getUDID()
+        var destinationFileName = "img_issue".getUDID()
         destinationFileName += ".png"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
@@ -383,7 +383,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                                 val filesizeInKB = filesize / 1024
                                 val filesizeinMB = filesizeInKB / 1024
                                 if (filesizeinMB < 25) {
-                                    val fileName = "ticket_file".getUDID()
+                                    val fileName = "file_issue".getUDID()
                                             .plus(selectedUri.getFileName()?.replace(" ", "_"))
                                     val mFile = File(getFileDownloadDir(), fileName)
                                     getViewModel().sendFile = Pair(1, mFile)

@@ -55,7 +55,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     var isProfileClickable: Boolean? = false
 
     private val SAMPLE_CROPPED_IMAGE_NAME = "img_profile"
-    private val SIGN_CROPPED_IMAGE_NAME = "signature_image"
+    private val SIGN_CROPPED_IMAGE_NAME = "img_signature"
 
     override val isBackEnabled: Boolean
         get() = true

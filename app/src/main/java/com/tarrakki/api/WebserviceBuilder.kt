@@ -1,7 +1,6 @@
 package com.tarrakki.api
 
 import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.soapmodel.*
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -165,23 +164,6 @@ interface WebserviceBuilder {
 
     @GET("banks/get-kyc-details/{userId}")
     fun gatKYCdata(@Path("userId") userId: String?): Observable<ApiResponse>
-
-
-    /**CAMPS SOAP apis**/
-
-    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("services_kycenquiry.asmx")
-    fun requestPassword(@Body body: com.tarrakki.api.soapmodel.RequestBody): Observable<ResponseBody>
-
-    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("services_kycenquiry.asmx")
-    fun getPANeKYCStates(@Body body: VerifyPANDetails): Observable<ResponseKYCStates>
-
-    @Headers(value = ["Content-Type: application/soap+xml; charset=utf-8"])
-    @POST("services_kycenquiry.asmx")
-    fun getEKYCData(@Body body: RequestEnvelopeDownloadPANDetailsEKYC): Observable<ResponseKYCData>
-
-    /**End CAMPS SOAP apis**/
 
 
     @GET("cart/confirm/order/{userId}")

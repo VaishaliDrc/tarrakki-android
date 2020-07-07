@@ -47,25 +47,6 @@ object ApiClient {
     private var retrofitHeader: Retrofit? = null
     private lateinit var okHttpClient: OkHttpClient
 
-
-    const val PASSKEY = "S1DSS#q76S458G9h6u5DF7pk5T7Lpart"
-
-    /***
-     * CAMS api base url Test Url
-     * */
-    //const val BUILD_TYPE_DEBUG = true
-    /*private const val CAMS_API_BASE_URL = "https://eiscuat1.camsonline.com/cispl/services_kycenquiry.asmx/"
-    const val CAMS_USER_ID = "PLUTOWS"
-    const val CAMS_PASSWORD = "kra\$36369"*/
-
-
-    /***
-     * CAMS api base url Live Url
-     * */
-    private const val CAMS_API_BASE_URL = "https://www.camskra.com/"
-    const val CAMS_USER_ID = "PLUTOWS"
-    const val CAMS_PASSWORD = "kra\$36369"
-
     /**
      * Remote Testing Url
      **/
@@ -113,27 +94,6 @@ object ApiClient {
         return retrofit!!
     }
 
-    fun getSOAPClient(baseUrl: String = CAMS_API_BASE_URL): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val strategy = AnnotationStrategy()
-        val serializer = Persister(strategy)
-        val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .connectTimeout(2, TimeUnit.MINUTES)
-                .writeTimeout(2, TimeUnit.MINUTES)
-                .readTimeout(2, TimeUnit.MINUTES)
-                .build()
-
-        val retrofit = Retrofit.Builder()
-                .addConverterFactory(SimpleXmlConverterFactory.createNonStrict(serializer))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                //.addConverterFactory(StringConverterFactory.create(serializer))
-                .baseUrl(baseUrl)
-                .client(okHttpClient)
-                .build()
-        return retrofit
-    }
 
     /**
      * You can create multiple methods for different BaseURL

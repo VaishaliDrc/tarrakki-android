@@ -5,11 +5,7 @@ import android.provider.Settings
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.api.*
-import com.tarrakki.api.ApiClient.CAMS_PASSWORD
-import com.tarrakki.api.ApiClient.CAMS_USER_ID
-import com.tarrakki.api.ApiClient.PASSKEY
 import com.tarrakki.api.model.*
-import com.tarrakki.api.soapmodel.*
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.eventKYCDataLog
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +16,6 @@ import org.greenrobot.eventbus.EventBus
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
 import java.math.BigInteger
-import java.util.*
 import kotlin.concurrent.thread
 
 fun addToCart(fundId: Int, sipAmount: String, lumpsumAmount: String, folioNo: String? = null)
@@ -319,164 +314,6 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
     )
     return apiResponse
 }
-
-//const val PASSWORD = "kra\$36369"
-//const val PASSKEY = "SajanGandhi"
-/*
-fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
-    EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<String>()
-    val body = PasswordRequest(PasswordRequest.GetPassword(CAMS_PASSWORD, PASSKEY))
-    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).requestPassword(RequestBody(body)),
-            WebserviceBuilder.ApiNames.getEKYCPage,
-            object : SingleCallback<WebserviceBuilder.ApiNames> {
-                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o is ResponseBody) {
-                        apiResponse.value = o.resBody?.response?.getPasswordResult
-                    } else {
-                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    throwable.postError()
-                }
-            })
-    return apiResponse
-}*/
-
-/*fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String>> {
-
-    EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<List<String>>()
-    val reqEnvelope = VerifyPANDetails()
-    val reqData = VerifyPANDetails.RequestBody.PANDetailsEKYC()
-    val input = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean()
-    val apppaninqBean = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
-    apppaninqBean.apppanno = pan//"BAMPM9343K"
-    apppaninqBean.panDOB = ""
-    apppaninqBean.appiopflg = "RS"
-    apppaninqBean.appposcode = "infibeam\$10"
-
-    input.apppaninq = apppaninqBean
-    val appsummrec = VerifyPANDetails.RequestBody.PANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
-    appsummrec.appothkracode = "PLUTOWS"
-    appsummrec.appothkrabatch = "SAU_468"
-    appsummrec.appreqdate = "${Date().convertTo("dd-MM-yyyy HH:mm:ss")}"
-    appsummrec.apptotalrec = "1"
-    input.appsummrec = appsummrec
-    reqData.input = VerifyPANDetails.RequestBody.PANDetailsEKYC.InputXML(input)
-    reqData.userName = CAMS_USER_ID
-    reqData.passKey = PASSKEY
-    reqData.posCode = "PA"
-    reqData.password = password
-    val reqBody = VerifyPANDetails.RequestBody()
-    reqBody.ekyc = reqData
-    reqEnvelope.requestBody = reqBody
-    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getPANeKYCStates(reqEnvelope),
-            WebserviceBuilder.ApiNames.getEKYCPage,
-            object : SingleCallback<WebserviceBuilder.ApiNames> {
-                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o is ResponseKYCStates) {
-                        val data = o.body?.verifyPANDetailsEKYCResponse?.verifyPANDetailsEKYCResult?.appresroot?.apppaninq
-                        val kycStates: List<String> = arrayListOf(
-                                "${data?.camskra}",
-                                "${data?.cvlkra}",
-                                "${data?.ndmlkra}",
-                                "${data?.dotexkra}",
-                                "${data?.karvykra}")
-                        apiResponse.value = kycStates
-                    } else {
-                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    throwable.postError()
-                    throwable.printStackTrace()
-                }
-            })
-    return apiResponse
-}*/
-/*
-fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
-
-    EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<KYCData>()
-    val reqEnvelope = RequestEnvelopeDownloadPANDetailsEKYC()
-    val reqData = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC()
-    val input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean()
-    val apppaninqBean = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPPANINQBean()
-    apppaninqBean.apppanno = kycData.pan
-    apppaninqBean.appiopflg = "RS"
-    apppaninqBean.appposcode = "infibeam\$10"
-    apppaninqBean.panDOB = ""
-    input.apppaninq = apppaninqBean
-    val appsummrec = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.APPREQROOTBean.APPSUMMRECBean()
-    appsummrec.appothkracode = "PLUTOWS"
-    appsummrec.appothkrabatch = "SAU_468"
-    appsummrec.appreqdate = "${Date().convertTo("dd-MM-yyyy HH:mm:ss")}"
-    appsummrec.apptotalrec = "1"
-    input.appsummrec = appsummrec
-    reqData.input = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody.DownloadPANDetailsEKYC.InputXML(input)
-    reqData.userName = CAMS_USER_ID
-    reqData.passKey = PASSKEY
-    reqData.posCode = "PA"
-    reqData.password = password
-    val reqBody = RequestEnvelopeDownloadPANDetailsEKYC.RequestBody()
-    reqBody.ekyc = reqData
-    reqEnvelope.requestBody = reqBody
-    subscribeToSingle(ApiClient.getSOAPClient().create(WebserviceBuilder::class.java).getEKYCData(reqEnvelope),
-            WebserviceBuilder.ApiNames.getEKYCPage,
-            object : SingleCallback<WebserviceBuilder.ApiNames> {
-                override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o is ResponseKYCData) {
-                        val data = o.body?.downloadPANDetailsEKYCResponse?.downloadPANDetailsEKYCResult?.appresroot?.apppaninq
-                        if (data != null && "R".equals(data.appresstatus, true)) {
-                            //kyc.mobile = data.appmobno
-                            //kyc.email = data.appemail
-                            kycData.nameOfPANHolder = data.appname ?: ""
-                            kycData.fullName = data.appname ?: ""
-                            kycData.OCCcode = data.appocc ?: ""
-                            if ("${data.appdobdt}".contains("-")) {
-                                kycData.dob = data.appdobdt?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")
-                                        ?: ""
-                            } else {
-                                kycData.dob = data.appdobdt?.toDate("dd/MM/yyyy")?.convertTo("dd/MM/yyyy")
-                                        ?: ""//data.appdobdt ?: ""
-                            }
-                            kycData.gender = data.appgen ?: ""
-                            kycData.address = "${data.appperadD1}, ${data.appperadD2}, ${data.appperadD3}"
-                            kycData.pincode = data.appperpincd ?: ""
-                            kycData.city = data.apppercity ?: ""
-                            kycData.state = data.appperstate ?: ""
-                            kycData.country = data.appperctry ?: ""
-                            kycData.addressType = "01"
-                            kycData.kycMode = data.appkycmode ?: ""
-                            kycData.inPersonVerification = data.appipvflag ?: ""
-                            apiResponse.value = kycData
-                        } else if (data == null) {
-                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
-                        } else {
-                            eventKYCDataLog(kycData, "01|02")
-                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_alert_non_resident)))
-                        }
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    throwable.postError()
-                }
-            })
-    return apiResponse
-}*/
-
 
 fun getPANeKYCStatus(pan: String): MutableLiveData<List<String>> {
 
