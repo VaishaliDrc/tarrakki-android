@@ -8,14 +8,12 @@
     <!--End Facebook Details-->
 
 
-    <string name="app_description">Tarrakki is a comprehensive Wealth Management and Financial Planning App that enables you to make calculated, goal based investments, with just a few taps.</string>
     <string name="invite_your_friend">Investing has never been easier! I am using the Tarrakki app to invest, You should try it out. Towards Prosperity!</string>
     <string name="mutual_funds">Mutual Funds</string>
     <string name="home">Home</string>
     <string name="plan">Plan</string>
     <string name="invest">Invest</string>
     <string name="learn">Learn</string>
-    <string name="info">Info</string>
     <string name="are_you_sure_you_want_to_exit">Are you sure you want to exit?</string>
     <string name="internet_connection">Internet connection not available</string>
 
@@ -24,18 +22,12 @@
     <string name="account">Account</string>
     <string name="why_tarrakki">Why Tarrakki ?</string>
     <string name="why_rural_invest">Why Rural Invest ?</string>
-    <string name="view_all">View All</string>
-    <string name="portfolio_value">Portfolio Value</string>
     <string name="dummy">\u20B93,24666666666666888888888</string>
     <string name="dummy1">\u20B95,000,00</string>
-    <string name="dummy2">+\u20B936.17</string>
     <string name="dummy3">\u20B91,583</string>
-    <string name="rs">\u20A8</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="view_portfolio">View Portfolio</string>
     <string name="total_investment">Total Investment</string>
-    <string name="total_investment_value">Total Investment Value</string>
-    <string name="total_return">Total Return (XIRR)</string>
     <string name="cart">Cart</string>
     <string name="financial_goals_assist">
         Financial goals assist you in making small, regular investments towards fulfilling your dreams.
@@ -109,7 +101,6 @@
     <string name="fund_objective">Fund Objective</string>
     <string name="fund_objective_info">This fund aims to achieve long term capital appreciation, predominantly through investments in equity and equity related instruments of Mid Cap companies.</string>
     <string name="invest_now">Invest Now</string>
-    <string name="move_idle_money_from_your_bank_a_c">Move idle money from your bank A/C</string>
     <string name="top_10_holdings">Top 10 holdings</string>
     <string name="key_information">Key Information</string>
     <string name="return_">return</string>
@@ -131,8 +122,6 @@
     <string name="current_value_of_your_dream_home">Current value of your dream home</string>
     <string name="years">years</string>
     <string name="down_payment">Home much do they plan to make as down payment?</string>
-    <string name="do_want_lumpsum">Do you want to make a lumpsum investment</string>
-    <string name="how_much">Home much?</string>
     <string name="we_recommending_investing">We recommend investing</string>
     <string name="every_month_for_the_next_5_years">every month, for the next <font color='#00CB00'><u>5</u></font> years</string>
     <string name="a_lumpsum_of_10_000_upfront_to_achieve_your_goal">A lumpsum of <font color='#00CB00'><u>\u20B910,000</u></font> upfront, to achieve your goal</string>
@@ -145,13 +134,10 @@
     </string>
     <string name="here_is_a_summary_of_your_goal">Here is a Summary of Your Goal:</string>
     <string name="weightage">Weightage</string>
-    <string name="sip_weightage">SIP:</string>
-    <string name="lumpsump_weightage">Lumpsum:</string>
     <string name="one_time">One-Time</string>
     <string name="monthly">Monthly</string>
     <string name="my_cart">My Cart</string>
     <string name="great_job">Great Job!</string>
-    <string name="no_funds_cart">No funds in your cart.</string>
     <string name="you_are_almost_there_here_is_a_summary_of_your_order">You are almost there! Here is a summary of your order. Want to invest in more funds? Edit here before investing.</string>
     <string name="add_funds">Add Funds</string>
     <string name="order_summary">Order Summary</string>
@@ -169,11 +155,8 @@
     <string name="current_value_">Current Value:</string>
     <string name="folio_no">Folio No.: </string>
     <string name="stop">Stop</string>
-    <string name="start">Start</string>
-    <string name="edit">Edit</string>
     <string name="edit_funds">Edit Funds</string>
     <string name="redeem">Redeem</string>
-    <string name="username">Username</string>
     <string name="login_start_investing">Login. Start investing.</string>
     <string name="password">Password*</string>
     <string name="login">Login</string>
@@ -185,7 +168,6 @@
     <string name="facebook">Facebook</string>
     <string name="don_t_have_an_account_yet_get_started">Don\'t have an account yet? <font color='#4EB95D'>Get Started</font></string>
     <string name="we_just_need_your_registered_email_id">We just need your registered Email ID or Mobile Number to send you password reset instructions.</string>
-    <string name="email_address">Email Address*</string>
     <string name="reset_password">Reset Password</string>
     <string name="back">Back</string>
     <string name="sign_up_start_investing">Sign Up. Start Investing.</string>
@@ -197,20 +179,13 @@
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account">Already have an account? <font color='#4EB95D'>Login</font></string>
     <string name="verify_mobile_number">Verify Mobile Number</string>
-    <string name="verify_email_address">Verify Email Address</string>
     <string name="otp_has_been_sent_to_you_on_your_mobile_number_please_enter_it_below">OTP has been sent to you on your mobile number. Please enter it below.</string>
-    <string name="otp_has_been_sent_to_you_on_your_email_address_please_enter_it_below">The OTP sent on your mobile number is different from the OTP sent on your email.\n\n Please add the OTP sent to you on %1$s</string>
     <string name="not_received_your_otp_resend_otp">Not received your OTP? <font color='#4EB95D'>Resend OTP</font></string>
     <string name="submit">Submit</string>
     <string name="enter_otp">Enter OTP*</string>
     <string name="pan_number">PAN Number</string>
-    <string name="date_of_birth">Date of Birth</string>
     <string name="mobile_number">Mobile Number</string>
-    <string name="my_country_of_tax_residency_is_only_india">My country of tax residency is only India</string>
-    <string name="verify">Verify</string>
-    <string name="verify_your_pan">Verify Your PAN</string>
     <string name="read_more">Read More</string>
-    <string name="volatility_">Volatility (Vol)</string>
     <string name="standard_deviation">Standard Deviation(5yr)</string>
     <string name="share">Share</string>
     <string name="are_you_sure_you_want_logout">Are you sure you want to logout?</string>
@@ -240,10 +215,6 @@
         <item>HIGH</item>
     </string-array>
 
-    <string name="temp_description">
-        Are you looking for Best Performing Tax Saving Mutual Funds for Investment? As the financial year, 2018-19 is about to end, you must have started tax saving and tax planning exercise of 2019. ELSS – Tax saving mutual funds play a vital role during tax planning exercise. ELSS (Equity Linked Saving Scheme) is one of the best ways to save tax and generate wealth.\nELSS offers tax benefits under section 80 C of the Income Tax Act. ELSS comes with a lock-in period of 3 years. However, ELSS offers multiple benefits to the investor.\n\n<p><strong>Key Features of ELSS funds</strong></p><ul><li>ELSS is equity linked saving scheme. ELSS is a type of mutual fund that invests the major corpus in the equity market.</li><li>ELSS comes with both dividend and growth options.</li><li>ELSS funds come with Lock-in period of 3 years from the date of purchase.</li><li>Long-term capital gain tax is applicable to ELSS.</li><li>Investment in ELSS can be started with a minimum amount of Rs.500.</li></ul>\n\n<p><strong>Benefits of Investing in ELSS Mutual Funds</strong></p><ul><li>ELSS is dual purpose investment. You can save tax as well as generate wealth by making the investment in ELSS.</li><li>An investor can claim a tax deduction up to 1.5 Lakh by making the investment in ELSS.</li><li>The lock-in period of ELSS is lowest compared to all other tax saving options such as tax saving FD or PPF.</li><li>ELSS provides higher returns compared to other tax saving instruments.</li><li>ELSS fund offers SIP investment option, which brings discipline in regular investing.</li><li>ELSS has no fixed maturity date or period. You can continue to hold ELSS as long as you can.</li><li>ELSS is the best tax saving instrument in terms of expected return, lock-in period and periodicity of investment.</li></ul>
-    </string>
-
     <string name="send_to">Send To</string>
     <string name="app_lock_touch_id">App Lock (Touch ID)</string>
     <string name="invite_your_friends">Invite Your Friends</string>
@@ -261,7 +232,6 @@
     <string name="my_sip">MY SIPs</string>
     <string name="saved_goal">Saved Goals</string>
     <string name="support">Support</string>
-    <string name="notifications">Notifications</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_condditions"><![CDATA[Terms & Conditions]]></string>
     <string name="current_password">Current Password*</string>
@@ -270,16 +240,11 @@
     <string name="save">Save</string>
     <string name="email_id">Email ID</string>
     <string name="edit_profile">Edit Profile</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
     <string name="amount">Amount</string>
     <string name="date">Date</string>
     <string name="units">Units</string>
-    <string name="nav">NAV</string>
     <string name="type_">Type:</string>
-    <string name="mode_">Mode:</string>
     <string name="completed">Completed</string>
-    <string name="pending">Pending</string>
     <string name="txt_default">Default</string>
     <string name="account_number">Account Number</string>
     <string name="breach_name">Branch Name</string>
@@ -287,7 +252,6 @@
     <string name="add_new_bank_account">Add New Bank Account</string>
     <string name="add_new_bank_mandate">Add New Bank Mandate</string>
     <string name="select_bank">Select Bank*</string>
-    <string name="icici_bank">ICICI Bank</string>
     <string name="re_enter_account_number">Re-enter Account Number</string>
     <string name="account_type">Account Type*</string>
     <string name="add_bank_account">Add Bank Account</string>
@@ -310,11 +274,9 @@
     <string name="bank_mandate_preview">Bank Mandate Preview</string>
     <string name="please_look_at_the_pre_filled">Please look at the pre-filled Bank Mandate carefully to verify that all the in-formation is correct.\n\nDownload the Bank Mandate and Print.</string>
     <string name="sign_scan_and_upload">Sign, Scan, and Upload.</string>
-    <string name="doenload_mandate_form">Download Mandate Form</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
     <string name="normally_take_">Normally takes 10-45 working days for approval.</string>
     <string name="normally_take_nach">Normally takes 7-10 working days for approval.</string>
-    <string name="investment_strategies">Investment Strategies</string>
     <string name="note_to_investors_">Note to Investors:</string>
     <string name="note_to_investors_details">
         Before opting for an investment strategy, rethink your priorities as practi-cally as possible.
@@ -336,7 +298,6 @@
     <string name="nominee_name">Nominee Name</string>
     <string name="nominee_relationship">Nominee Relationship</string>
     <string name="relationship">Relationship</string>
-    <string name="occupation">Occupation</string>
     <string name="full_name">Full Name*</string>
     <string name="date_of_birth_">Date of Birth*</string>
     <string name="name_of_guardian">Name of Guardian</string>
@@ -348,7 +309,6 @@
     <string name="check_mandate_status">Check mandate status</string>
 
     <string name="try_again_to">Something went wrong, Please try again later</string>
-    <string name="enter_number_of_years">Enter number of years</string>
     <string name="sip_duration">SIP Duration</string>
     <string name="enter_sip_duration">Enter SIP duration</string>
     <string name="apply_pmt">Invest Now</string>
@@ -375,9 +335,7 @@
     <string name="existing_user">Existing User</string>
     <string name="complete_registration">Complete Registration</string>
     <string name="guardian_pan">Guardian PAN</string>
-    <string name="address_type">Address Type</string>
     <string name="nominee_details">Nominee Details</string>
-    <string name="occupation_type">Occupation Type</string>
     <string name="pan_name">PAN Name</string>
     <string name="country_of_birth">Country of Birth*</string>
     <string name="enter_pan_name">Enter PAN Name</string>
@@ -392,23 +350,15 @@
 
     <string name="fatca_details">FATCA Details</string>
     <string name="i_certify_that_i_am_a_person_resident_of_india">I certify that I am a person/resident of India</string>
-    <string name="taxpayer_identification_number_tin_details">Taxpayer Identification Number(TIN) Details</string>
-    <string name="tin_number">TIN Number</string>
-    <string name="enter_tin_number">Enter TIN Number</string>
-    <string name="country_of_issue">Country of Issue</string>
     <string name="select_country">Select Country</string>
-    <string name="select_address_type">Select Address Type</string>
-    <string name="select_state">Select State</string>
     <string name="valid_password">The password should be between 6 to 20 characters, and must contain at least one alphabet, and one numeric value.</string>
     <string name="select_signature_type">Select Signature Type</string>
-    <string name="sign_genitally">Sign Genitally</string>
     <string name="sign_physically">Sign Physically</string>
     <string name="clear_pad">Clear Pad</string>
     <string name="save_signature">Save Signature</string>
     <string name="total_amount_payable">Total Amount Payable</string>
     <string name="sip_bank_mandate">SIP Bank Mandate</string>
     <string name="start_date_">Start Date:</string>
-    <string name="first_installment_of_sip_on_toady">First installment of SIP on today</string>
     <string name="lumpsum">Lumpsum</string>
     <string name="order_confirm">Order Confirm</string>
     <string name="complete_nach_mandate">Complete NACH Mandate</string>
@@ -449,10 +399,8 @@
     <string name="select_bank_use">Use Selected Bank</string>
     <string name="failed">Failed</string>
     <string name="remarks_">Remarks:</string>
-    <string name="data_not_found">no data found.</string>
     <string name="stop_sip">STOP SIP</string>
     <string name="select_startdate">Select SIP Date</string>
-    <string name="select_end_date">Select End Date</string>
     <string name="no_data_found">No data found.</string>
     <string name="status_">Status:</string>
     <string name="alert_bank_default">Are you sure you want to make this Bank your Primary Bank Account?</string>
@@ -461,7 +409,6 @@
     <string name="complete_registration_msg">Congratulation!\nYour registration is completed successfully and you are ready to place your first order now.</string>
     <string name="no_goals_found">No goals found.</string>
     <string name="no_funds_found">No funds found.</string>
-    <string name="profile_details">Profile Details</string>
     <string name="display_name">Display Name</string>
     <string name="guardian_pan_number">Guardian PAN Number</string>
     <string name="personal_information">Personal Information</string>
@@ -469,8 +416,6 @@
     <string name="update">Update</string>
     <string name="please_sign_clearly">Please sign clearly and legibly on a clean, white paper. Your signature must match the signature your provided at the time of KYC.</string>
     <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
-    <string name="woops">Woops!</string>
-    <string name="your_cart_is_empty">Your cart is Empty</string>
     <string name="number_of_unites_redeemed">Number of Units redeemed</string>
     <string name="amount_will_be_credited_in_2_4_business_days_depending_on_the_amc">Amount will be credited in 1-3 business days depending on the AMC.</string>
     <string name="withdraw_to_your_bank_account">Withdraw to your Bank Account:</string>
@@ -481,7 +426,6 @@
     <string name="redemption_confim">Redemption Confirm</string>
     <string name="enter_units">Enter units</string>
     <string name="we_have_submitted_your_request_for_redemption_to_the_mutual_fund_company">We have submitted your request for redemption to the Mutual Fund company.</string>
-    <string name="will_be_credited_to">Will be credited to:</string>
     <string name="amount_">Amount:</string>
     <string name="redeem_status">Redemption Status</string>
     <string name="we_have_sent_you_withdrawal_request_to_the_amc_it_might_take_2_4_business_days_to_complete_the_redemption">We have sent your withdrawal request to the AMC. It might take 1–4 business days to complete the redemption.</string>
@@ -519,17 +463,13 @@
     <string name="alert_req_full_name">Please Enter your Full Name.</string>
     <string name="alert_req_pan_number">Please enter your PAN Number.</string>
     <string name="alert_valid_pan_number">Please enter a valid PAN Number.</string>
-    <string name="alert_req_guardian_name">Please Enter your Guardian\'s Name.</string>
     <string name="alert_req_nominee_name">Please Enter the Name of a Nominee.</string>
     <string name="alert_req_nominee_relationship">Please Enter your Relationship with the Nominee.</string>
-    <string name="alert_req_date_of_birth">Please select Date of Birth.</string>
     <string name="alert_req_country_birth">Please Enter your Country of Birth.</string>
     <string name="alert_req_place_birth">Please Enter your Place of Birth.</string>
     <string name="alert_req_source_income">Please Select your Primary Source of Income.</string>
     <string name="alert_req_income_slab">Please Select your Income Slab.</string>
     <string name="alert_only_india">Currently, the Tarrakki app is only available for Indian Residents.</string>
-    <string name="alert_req_email">Please enter Email Address.</string>
-    <string name="alert_valid_email">Please enter a valid Email Address.</string>
     <string name="alert_req_otp">Please enter the OTP first for Verification.</string>
     <string name="alert_req_terms"><![CDATA[Please Accept the Terms & Conditions first, to continue.]]></string>
     <string name="alert_profile_success_update">Your Profile has been Updated Successfully.</string>
@@ -567,11 +507,8 @@
     <string name="ifsc_code_">IFSC Code*</string>
     <string name="enter_ifsc_code">Enter IFSC Code</string>
     <string name="enter_your_full_name">Enter Your Full Name</string>
-    <string name="enter_date_of_birth">Enter Date of Birth</string>
-    <string name="email_id_">Email ID*</string>
     <string name="enter_your_email_id">Enter Your Email ID</string>
     <string name="enter_mobile_number">Enter Mobile Number</string>
-    <string name="mobile_number_">Mobile Number*</string>
     <string name="nominee_name_">Nominee Name*</string>
     <string name="enter_nominee_name">Enter Nominee Name</string>
     <string name="relationship_">Relationship*</string>
@@ -584,7 +521,6 @@
     <string name="choose_income_slab">Choose Income Slab</string>
     <string name="income_slab_">Annual Income*</string>
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
-    <string name="wait_for_next_request">For the security of your account, your bank will allow you to Check Out again only after 5 minutes. Please try again after 5 minutes.</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
     <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.\n\nA small processing fee of Rs %s will be charged when you complete your debit card application.</string>
     <string name="apply_for_debit_cart">Apply for Debit Card</string>
@@ -624,14 +560,11 @@
     <string name="alert_try_later">Something went wrong. We\'re looking into it. Please try again later.</string>
     <string name="alert_kyc_on_hold">Your KYC is currently on hold. This is part of a standard procedure. We will inform you when it is approved.</string>
     <string name="alert_kyc_rejected">Your KYC has been rejected. Please re-apply with the correct details.</string>
-    <string name="alert_not_available">Your KYC records are unavailable. Kindly contact support@tarrakki.com to complete your KYC.</string>
     <string name="alert_kyc_deactivated">Your KYC records are unavailable. Kindly contact support@tarrakki.com to complete your KYC.</string>
     <string name="alert_kyc_registered">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
     <string name="alert_under_process">Your KYC registration is under way. We will inform you once your KYC has been approved.</string>
     <string name="alert_kyc_on_hold_due_to_incomplete">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
     <string name="alert_kyc_server_not_reachable">The web service you need to complete this action is currently unavailable. Please try again later.</string>
-    <string name="alert_otp_mandatory">Please Enter the OTP. Please do not share your OTP with anyone.</string>
-    <string name="alert_resend_otp">The OTP has been sent to you again.</string>
     <string name="tarrakki_correspondence_address">Tarrakki Correspondence Address</string>
     <string name="pls_entr_ur_adrs">Enter your address</string>
     <string name="pls_enter_your_city">Enter your city</string>
@@ -666,7 +599,6 @@
     <string name="atm_withdrawal">ATM Withdrawal</string>
     <string name="instant_withdrawal">Instant Withdrawal</string>
     <string name="minimum_investment">Minimum Investment</string>
-    <string name="five_handred_500">\u20B9500</string>
     <string name="one_handred_100">\u20B9100</string>
     <string name="ten_thousand_10_000">~\u20B910,000</string>
     <string name="one_thousand_to_ten_thousand_1_000_to_10_000">~\u20B91,000\nto \u20B910,000</string>
@@ -692,7 +624,6 @@
     <string name="choose_transaction">Choose Transaction</string>
     <string name="select_transaction">Select Transaction</string>
     <string name="issue_description_">Issue Description*</string>
-    <string name="enter_description">Enter Description</string>
     <string name="upload_a_picture_optional">UPLOAD A PICTURE/FILE(OPTIONAL)</string>
     <string name="hint_mydoc_jpg">mydoc.jpg</string>
     <string name="raise_ticket">Raise Ticket</string>
@@ -704,7 +635,6 @@
     <string name="goal_base_investment">Goal Based Investment</string>
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>
-    <string name="insta_redeem_is_not_availble">Insta-Redemption is currently not available for this folio.</string>
     <string name="do_you_want_to_enable_app_security">Do you want to enable screen lock?</string>
     <string name="debit_cart_request_sent">We have received your request for a debit card. Your debit card will be delivered to your KYC registered address in 10-15 working days.</string>
     <string name="success_">Success!</string>
@@ -719,7 +649,6 @@
     <string name="file">File</string>
     <string name="tap_to_explore">Tap To Explore</string>
     <string name="all_mutual_funds">All Mutual Funds</string>
-    <string name="tap_to_explore_all_mutual_funds">Tap To Explore All Mutual Funds</string>
     <string name="we_could_not_retrieve">We couldn’t retrieve the username from your social media account. Please change the privacy settings of your social media account and try again.</string>
     <string name="max_file_size_msg">File size can not be greater than 25 MB</string>
     <string name="redeem_confirm_msg">
@@ -730,7 +659,6 @@
         Those who redeemed or stopped their investments because of market dips, simply missed the bus.
     </string>
 
-    <string name="are_you_sure">Are You Sure</string>
     <string name="tell_us_more">Tell Us More</string>
     <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Nippon AMC\'s Website</a></i></string>
     <string name="are_you_sure_you_want_to_redeem">Are you sure you would like to redeem ?</string>
@@ -776,7 +704,6 @@
     <string name="upload_cancelled_cheque">Upload Cancelled Cheque</string>
     <string name="desc_bank_account">Bank document must have your name, bank name, branch name and IFSC.</string>
     <string name="alert_verify_bank_account">Please Add document.</string>
-    <string name="verified">Verified</string>
     <string name="update_bank_account">Update Bank Account</string>
     <string name="account_verification_is_pending">Your Account verification is pending. We will notify you once verified. Generally it takes 2–3 working days to be verified.</string>
     <string name="pls_select_your_tax_status">Please select your tax status.</string>
@@ -853,9 +780,7 @@
     <string name="enter_your_upi_id_vpa">Enter your UPI ID (VPA)</string>
     <string name="clear">Clear</string>
     <string name="alert_req_upi">Please Enter the UPI.</string>
-    <string name="time_out">Time Out</string>
     <string name="something_went_wrong">Something went wrong. Please try again!!</string>
-    <string name="something_went_wrong_please_try_again">The payment collect request sent to you is expired. Please try making the request again.</string>
     <string name="have_you_completed_the_payment">Have you completed the payment from your UPI App?</string>
     <string name="we_might_delayed_payment">We might receive a delayed payment confirmation at times. If you have completed the payment, please click Yes and continue.</string>
     <string name="thanks_for_your_confirmation">Thank you for the confirmation.</string>

@@ -1,12 +1,11 @@
 package com.tarrakki.api.model
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import android.os.Bundle
-import androidx.annotation.StringDef
-import androidx.fragment.app.FragmentActivity
 import android.text.TextUtils
 import android.view.View
+import androidx.annotation.StringDef
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import com.google.gson.annotations.SerializedName
 import com.tarrakki.App
 import com.tarrakki.R
@@ -17,7 +16,6 @@ import org.supportcompact.BR
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.color
-import org.supportcompact.ktx.format
 import org.supportcompact.ktx.parseAsReturnOrNA
 import org.supportcompact.ktx.startFragment
 
@@ -132,10 +130,16 @@ data class TransactionApiResponse(
             }
 
         val paymentType
-            get() = if (paymentMode == "DIRECT") {
-                "via Net Banking"
-            } else {
-                "via NEFT/RTGS"
+            get() = when {
+                "DIRECT".equals(paymentMode, true) -> {
+                    "via Net Banking"
+                }
+                "NEFT/RTGS".equals(paymentMode, true) -> {
+                    "via NEFT/RTGS"
+                }
+                else -> {
+                    "via UPI"
+                }
             }
 
         @get:Bindable

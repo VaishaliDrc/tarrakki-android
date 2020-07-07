@@ -31,10 +31,16 @@ data class TransactionStatusResponse(
         var isFirstSIP: String? = null
 
         var paymentType = ""
-            get() = if (paymentMode == "DIRECT") {
-                "via Net Banking"
-            } else {
-                "via NEFT/RTGS"
+            get() = when {
+                "DIRECT".equals(paymentMode, true) -> {
+                    "via Net Banking"
+                }
+                "NEFT/RTGS".equals(paymentMode, true) -> {
+                    "via NEFT/RTGS"
+                }
+                else -> {
+                    "via UPI"
+                }
             }
     }
 }
