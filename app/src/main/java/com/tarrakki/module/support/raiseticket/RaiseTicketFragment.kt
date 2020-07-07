@@ -3,16 +3,17 @@ package com.tarrakki.module.support.raiseticket
 
 import android.Manifest
 import android.app.Activity
-import androidx.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.OpenableColumns
 import android.provider.Settings
+import android.view.View
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import android.view.View
+import androidx.lifecycle.Observer
 import com.google.android.gms.common.util.IOUtils
 import com.tarrakki.R
 import com.tarrakki.api.model.SupportQueryListResponse
@@ -249,10 +250,9 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        val mFile = File(getPath(uri))
-        //var destinationFileName = mFile.nameWithoutExtension
-        //destinationFileName += ".${mFile.extension}"
-        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, mFile.name)))
+        var destinationFileName = "issue_image".getUDID()
+        destinationFileName += ".png"
+        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
@@ -302,8 +302,8 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                                 val filesizeInKB = filesize / 1024
                                 val filesizeinMB = filesizeInKB / 1024
                                 if (filesizeinMB < 25) {
-                                    val fileName = selectedUri.getFileName()?.replace(" ", "_")
-                                            ?: ""
+                                    val fileName = "ticket_file".getUDID()
+                                            .plus(selectedUri.getFileName()?.replace(" ", "_"))
                                     getViewModel().imgName.set(fileName)
                                     val mFile = File(getFileDownloadDir(), fileName)
                                     getViewModel().sendFile = Pair(1, mFile)
@@ -326,7 +326,7 @@ class RaiseTicketFragment : CoreFragment<RaiseTicketVM, FragmentRaiseTicketBindi
                     if (data != null) {
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
-                            val mFile = File(getPath(it))
+                            val mFile = File(getPath(it) ?: "")
                             getViewModel().imgName.set(imageUri.getFileName() ?: mFile.name)
                             ivUploadPic?.setImageURI(it)
                             getViewModel().sendFile = Pair(0, mFile)

@@ -325,6 +325,9 @@ interface WebserviceBuilder {
     @GET("banks/verify-pan-details/{userId}/")
     fun verificationPAN(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
 
+    @GET("banks/get-pan-details/{userId}/")
+    fun getPANDetails(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
+
     @FormUrlEncoded
     @POST("banks/gen-cashfree-token/{userId}/")
     fun getPaymentToken(

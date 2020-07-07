@@ -1,8 +1,8 @@
 package com.tarrakki.module.verifybankaccount
 
-import androidx.lifecycle.MutableLiveData
-import androidx.databinding.ObservableField
 import android.net.Uri
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.ApiClient
@@ -12,7 +12,6 @@ import com.tarrakki.api.model.ApiResponse
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.api.subscribeToSingle
-import com.tarrakki.module.ekyc.KYCData
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -31,7 +30,7 @@ class VerifyBankAccountVM : FragmentViewModel() {
     val uploadImage = ObservableField<String>("")
 
 
-    fun uploadBankDoc(userBankData: UserBanksResponse?, bankId: String): MutableLiveData<ApiResponse> {
+    fun uploadBankDoc(userBankData: UserBanksResponse?, bankId: String?): MutableLiveData<ApiResponse> {
         showProgress()
 
         //val id = mandateResponse.get()?.data?.id
@@ -51,7 +50,7 @@ class VerifyBankAccountVM : FragmentViewModel() {
                                 ifscCode,
                                 accountTypeSB,
                                 userId,
-                                RequestBody.create(MediaType.parse("text"), bankId),
+                                RequestBody.create(MediaType.parse("text"), bankId ?: ""),
                                 bankUserId, body),
                 apiNames = WebserviceBuilder.ApiNames.updateUserBankDetails,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
@@ -59,6 +58,10 @@ class VerifyBankAccountVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
+                                try {
+                                    file?.deleteOnExit()
+                                } catch (e: Exception) {
+                                }
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

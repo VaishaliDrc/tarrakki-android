@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
@@ -24,11 +25,9 @@ import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentUploadDobcertiBinding
 import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.module.account.AccountActivity
-import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.SignatureActivity
 import com.tarrakki.module.home.HomeActivity
-import com.tarrakki.module.home.HomeFragment
 import com.tarrakki.signatureDialog
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_upload_dobcerti.*
@@ -47,7 +46,7 @@ import java.io.File
  */
 class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobcertiBinding>() {
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
+    private val SAMPLE_CROPPED_IMAGE_NAME = "signature_image"
 
 
     override val isBackEnabled: Boolean
@@ -114,7 +113,7 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
     }
 
     private fun startCrop(@NonNull uri: Uri, isPhysically: Boolean = true) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
+        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME.getUDID()
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
@@ -134,7 +133,7 @@ class UploadDOBCertiFragment : CoreFragment<UploadDOBCertiVM, FragmentUploadDobc
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = "IMG_" + System.currentTimeMillis()
+        var destinationFileName = "birth_certificate".getUDID()
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(3f, 2f)

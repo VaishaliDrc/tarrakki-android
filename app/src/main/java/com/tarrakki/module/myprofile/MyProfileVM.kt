@@ -1,10 +1,10 @@
 package com.tarrakki.module.myprofile
 
-import androidx.lifecycle.MutableLiveData
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
 import android.net.Uri
 import android.view.View
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -95,11 +95,10 @@ class MyProfileVM : FragmentViewModel() {
     fun updateSignatureImage(signatureUri: Uri?): MutableLiveData<ApiResponse> {
         showProgress()
         var signatureImage: MultipartBody.Part? = null
-
         val userId = App.INSTANCE.getUserId()
-
+        var file: File? = null
         if (signatureUri != null) {
-            val file = File(getPath(signatureUri))
+            file = File(getPath(signatureUri) ?: "")
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             signatureImage = MultipartBody.Part.createFormData("signature_image", file.name, requestFile)
         }
@@ -115,6 +114,10 @@ class MyProfileVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
+                                try {
+                                    file?.deleteOnExit()
+                                } catch (e: Exception) {
+                                }
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -137,11 +140,10 @@ class MyProfileVM : FragmentViewModel() {
     fun updateProfileImage(profileUri: Uri?): MutableLiveData<ApiResponse> {
         showProgress()
         var profileImage: MultipartBody.Part? = null
-
         val userId = App.INSTANCE.getUserId()
-
+        var file: File? = null
         if (profileUri != null) {
-            val file = File(getPath(profileUri))
+            file = File(getPath(profileUri) ?: "")
             val requestFile = RequestBody.create(MediaType.parse("image/*"), file)
             profileImage = MultipartBody.Part.createFormData("user_profile_image", file.name, requestFile)
         }
@@ -157,6 +159,10 @@ class MyProfileVM : FragmentViewModel() {
                         if (o is ApiResponse) {
                             if (o.status?.code == 1) {
                                 response.value = o
+                                try {
+                                    file?.deleteOnExit()
+                                } catch (e: Exception) {
+                                }
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }

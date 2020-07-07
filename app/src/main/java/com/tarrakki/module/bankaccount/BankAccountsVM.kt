@@ -166,7 +166,6 @@ class BankAccountsVM : FragmentViewModel() {
                     apiNames = WebserviceBuilder.ApiNames.complateRegistration,
                     singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                         override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                            signatureFile.deleteOnExit()
                             dismissProgress()
                             if (o is ApiResponse) {
                                 o.printResponse()
@@ -178,6 +177,10 @@ class BankAccountsVM : FragmentViewModel() {
                                 }
                                 //apiResponse.value = o
                                 apiResponse.postValue(o)
+                                try {
+                                    signatureFile.deleteOnExit()
+                                } catch (e: Exception) {
+                                }
                             } else {
                                 EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
                             }

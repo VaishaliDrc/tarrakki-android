@@ -24,7 +24,7 @@ data class UserMandateDownloadResponse(
             @SerializedName("mandate_file")
             val mandateFile: String,
             @SerializedName("mandate_id")
-            val mandateId: String,
+            val mandateId: String?,
             @SerializedName("mandate_type")
             val mandateType: String,
             @SerializedName("mandate_upload_date")

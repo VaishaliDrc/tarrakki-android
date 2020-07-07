@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -47,7 +48,7 @@ const val DOB_CERTIFICATE_REQ_CODE = 121
 
 class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBinding>() {
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "SampleCropImage"
+    private val SAMPLE_CROPPED_IMAGE_NAME = "signature_image"
 
     override val isBackEnabled: Boolean
         get() = true
@@ -141,7 +142,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                             }
                             return@OnClickListener
                         }
-                         if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true) {
+                        if (getViewModel().kycData.value?.guardianName?.isNotEmpty() == true && getViewModel().kycData.value?.bobCirtificate?.isEmpty() == true) {
 //                            val f = UploadDOBCertiFragment.newInstance()
 //                            f.setTargetFragment(this, DOB_CERTIFICATE_REQ_CODE)
                             getViewModel().kycData.value?.bobCirtificate = ""
@@ -311,7 +312,7 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
     }
 
     private fun startCrop(@NonNull uri: Uri, isPhysically: Boolean = true) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
+        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME.getUDID()
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))

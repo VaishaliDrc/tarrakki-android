@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
@@ -35,6 +36,7 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import java.io.File
+import java.util.*
 
 const val PROFILE_EMAIL_DATA = "profile_email_data"
 const val PROFILE_MOBILE_DATA = "profile_mobile_data"
@@ -52,8 +54,8 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
 
     var isProfileClickable: Boolean? = false
 
-    private val SAMPLE_CROPPED_IMAGE_NAME = "ProfileImage"
-    private val SIGN_CROPPED_IMAGE_NAME = "SignCropImage"
+    private val SAMPLE_CROPPED_IMAGE_NAME = "img_profile"
+    private val SIGN_CROPPED_IMAGE_NAME = "signature_image"
 
     override val isBackEnabled: Boolean
         get() = true
@@ -463,7 +465,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME
+        var destinationFileName = SAMPLE_CROPPED_IMAGE_NAME.getUDID()
         destinationFileName += ".png"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(1f, 1f)
@@ -636,7 +638,7 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
     }
 
     private fun startSignCrop(@NonNull uri: Uri, isPhysically: Boolean = true) {
-        var destinationFileName = SIGN_CROPPED_IMAGE_NAME
+        var destinationFileName = SIGN_CROPPED_IMAGE_NAME.getUDID()
         destinationFileName += ".png"
         val options = context?.getCustomUCropOptions()
         val uCrop = com.tarrakki.ucrop.UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))

@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -142,7 +141,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     }
 
 
-    val observerHomeData = Observer<HomeData> {
+    private val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
             //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
             managePANBox()
@@ -214,106 +213,102 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             } else {
                 it.dismissKeyboard()
                 val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                getEncryptedPasswordForCAMPSApi().observe(this, Observer {
-                    it?.let { password ->
-                        getPANeKYCStatus(kyc.pan).observe(this, Observer {
-                            it?.let { kycStatus ->
-                                when {
-                                    /**
-                                     * UNDER_PROCESS = "01" & KYC_REGISTERED = "02"
-                                     * */
-                                    kycStatus.contains("02") || kycStatus.contains("01") -> {
-                                        getEKYCData(password, kyc).observe(this, Observer { data ->
-                                            data?.let { kyc ->
-                                                context?.confirmationDialog(
-                                                        title = getString(R.string.pls_select_your_tax_status),
-                                                        msg = "Note: Minor are individuals born after ${getDate(18).convertTo("dd MMM, yyyy")}.",
-                                                        btnPositive = getString(R.string.major),
-                                                        btnNegative = getString(R.string.minor),
-                                                        btnPositiveClick = {
-                                                            edtPanNo?.text?.clear()
-                                                            startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                                            postSticky(kyc)
-                                                        },
-                                                        btnNegativeClick = {
-                                                            edtPanNo?.text?.clear()
-                                                            kyc.guardianName = "${kyc.nameOfPANHolder}"
-                                                            startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
-                                                            postSticky(kyc)
-                                                        }
-                                                )
-                                            }
-                                        })
+                getPANeKYCStatus(kyc.pan).observe(this, Observer {
+                    it?.let { kycStatus ->
+                        when {
+                            /**
+                             * UNDER_PROCESS = "01" & KYC_REGISTERED = "02"
+                             * */
+                            kycStatus.contains("02") || kycStatus.contains("01") -> {
+                                getPANDetails(kyc).observe(this, Observer { data ->
+                                    data?.let { kyc ->
+                                        context?.confirmationDialog(
+                                                title = getString(R.string.pls_select_your_tax_status),
+                                                msg = "Note: Minor are individuals born after ${getDate(18).convertTo("dd MMM, yyyy")}.",
+                                                btnPositive = getString(R.string.major),
+                                                btnNegative = getString(R.string.minor),
+                                                btnPositiveClick = {
+                                                    edtPanNo?.text?.clear()
+                                                    startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                },
+                                                btnNegativeClick = {
+                                                    edtPanNo?.text?.clear()
+                                                    kyc.guardianName = "${kyc.nameOfPANHolder}"
+                                                    startFragment(KYCRegistrationAFragment.newInstance(), R.id.frmContainer)
+                                                    postSticky(kyc)
+                                                }
+                                        )
                                     }
-                                    /**
-                                     * ON_HOLD = "03"
-                                     * */
-                                    kycStatus.contains("03") -> {
-                                        if (kycStatus.firstOrNull()?.equals("03") == true) {
-                                            proceedVideoKYC(kyc)
-                                        } else {
-                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
-                                            eventKYCDataLog(kyc, "03")
-                                        }
-                                    }
-                                    /**
-                                     * KYC_REJECTED = "04"                                     *
-                                     * */
-                                    kycStatus.contains("04") -> {
-                                        if (kycStatus.firstOrNull()?.equals("04") == true) {
-                                            proceedVideoKYC(kyc)
-                                        } else {
-                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
-                                            eventKYCDataLog(kyc, "04")
-                                        }
-                                    }
-                                    kycStatus.contains("99") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
-                                        eventKYCDataLog(kyc, "99")
-                                    }
-                                    /**
-                                     * NOT_AVAILABLE = "05"
-                                     * */
-                                    kycStatus.contains("05") -> {
-                                        proceedVideoKYC(kyc)
-                                    }
-                                    kycStatus.contains("06") -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
-                                        eventKYCDataLog(kyc, "06")
-                                    }
-                                    kycStatus.contains("12") -> {
-                                        if (kycStatus.firstOrNull()?.equals("12") == true) {
-                                            proceedVideoKYC(kyc)
-                                        } else {
-                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
-                                            eventKYCDataLog(kyc, "12")
-                                        }
-                                    }
-                                    kycStatus.contains("11") -> {
-                                        if (kycStatus.firstOrNull()?.equals("11") == true) {
-                                            proceedVideoKYC(kyc)
-                                        } else {
-                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
-                                            eventKYCDataLog(kyc, "11")
-                                        }
-                                    }
-                                    kycStatus.contains("13") -> {
-                                        if (kycStatus.firstOrNull()?.equals("13") == true) {
-                                            proceedVideoKYC(kyc)
-                                        } else {
-                                            context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
-                                            eventKYCDataLog(kyc, "13")
-                                        }
-                                    }
-                                    else -> {
-                                        context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
-                                        eventKYCDataLog(kyc, "unknown")
-                                    }
+                                })
+                            }
+                            /**
+                             * ON_HOLD = "03"
+                             * */
+                            kycStatus.contains("03") -> {
+                                if (kycStatus.firstOrNull()?.equals("03") == true) {
+                                    proceedVideoKYC(kyc)
+                                } else {
+                                    context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold))
+                                    eventKYCDataLog(kyc, "03")
                                 }
                             }
-
-                        })
+                            /**
+                             * KYC_REJECTED = "04"                                     *
+                             * */
+                            kycStatus.contains("04") -> {
+                                if (kycStatus.firstOrNull()?.equals("04") == true) {
+                                    proceedVideoKYC(kyc)
+                                } else {
+                                    context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_rejected))
+                                    eventKYCDataLog(kyc, "04")
+                                }
+                            }
+                            kycStatus.contains("99") -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                eventKYCDataLog(kyc, "99")
+                            }
+                            /**
+                             * NOT_AVAILABLE = "05"
+                             * */
+                            kycStatus.contains("05") -> {
+                                proceedVideoKYC(kyc)
+                            }
+                            kycStatus.contains("06") -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
+                                eventKYCDataLog(kyc, "06")
+                            }
+                            kycStatus.contains("12") -> {
+                                if (kycStatus.firstOrNull()?.equals("12") == true) {
+                                    proceedVideoKYC(kyc)
+                                } else {
+                                    context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
+                                    eventKYCDataLog(kyc, "12")
+                                }
+                            }
+                            kycStatus.contains("11") -> {
+                                if (kycStatus.firstOrNull()?.equals("11") == true) {
+                                    proceedVideoKYC(kyc)
+                                } else {
+                                    context?.simpleAlert(App.INSTANCE.getString(R.string.alert_under_process))
+                                    eventKYCDataLog(kyc, "11")
+                                }
+                            }
+                            kycStatus.contains("13") -> {
+                                if (kycStatus.firstOrNull()?.equals("13") == true) {
+                                    proceedVideoKYC(kyc)
+                                } else {
+                                    context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
+                                    eventKYCDataLog(kyc, "13")
+                                }
+                            }
+                            else -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
+                                eventKYCDataLog(kyc, "unknown")
+                            }
+                        }
                     }
+
                 })
             }
         }

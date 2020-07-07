@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
@@ -24,10 +25,7 @@ import com.tarrakki.getCustomUCropOptions
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_verify_bank_account.*
 import org.supportcompact.CoreFragment
-import org.supportcompact.ktx.PermissionCallBack
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.takePick
+import org.supportcompact.ktx.*
 import org.supportcompact.utilise.ImageChooserUtil
 import org.supportcompact.utilise.ResourceUtils
 import java.io.File
@@ -108,7 +106,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
 
                         })
                     } else {
-                        getViewModel().uploadBankDoc(userBankData, bankId!!).observe(this, Observer {
+                        getViewModel().uploadBankDoc(userBankData, bankId).observe(this, Observer {
                             context?.simpleAlert(getString(R.string.account_will_activate_within)) {
                                 onBack(2)
                                 coreActivityVM?.onNewBank?.value = true
@@ -241,7 +239,7 @@ class VerifyBankAccountFragment : CoreFragment<VerifyBankAccountVM, FragmentVeri
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        var destinationFileName = "IMG_" + System.currentTimeMillis()
+        var destinationFileName = "verification_document".getUDID()
         destinationFileName += ".jpeg"
         val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         uCrop.withAspectRatio(3f, 2f)

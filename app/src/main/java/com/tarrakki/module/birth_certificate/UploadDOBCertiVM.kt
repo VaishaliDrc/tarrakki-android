@@ -40,6 +40,7 @@ class UploadDOBCertiVM : FragmentViewModel() {
             }*/
             val json = JsonObject()
             var dobCertificate: MultipartBody.Part? = null
+            var fileDOB: File? = null
             json.addProperty("pan_name", kycData.nameOfPANHolder)
             if (kycData.guardianName.isEmpty()) {
                 json.addProperty("pan_number", kycData.pan)
@@ -48,7 +49,8 @@ class UploadDOBCertiVM : FragmentViewModel() {
                 json.addProperty("date_of_birth", kycData.dob/*.toDate("dd MMM, yyyy").convertTo("dd/MM/yyyy")*/)
             } else {
                 try {
-                    dobCertificate = File(kycData.bobCirtificate).toMultipartBody("birth_certificate")
+                    fileDOB = File(kycData.bobCirtificate)
+                    dobCertificate = fileDOB.toMultipartBody("birth_certificate")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -94,13 +96,20 @@ class UploadDOBCertiVM : FragmentViewModel() {
                     apiNames = WebserviceBuilder.ApiNames.complateRegistration,
                     singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                         override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                            signatureFile.deleteOnExit()
+                            try {
+                                signatureFile.deleteOnExit()
+                            } catch (e: Exception) {
+                            }
                             dismissProgress()
                             if (o is ApiResponse) {
                                 o.printResponse()
                                 if (o.status?.code == 1) {
                                     App.INSTANCE.setCompletedRegistration(true)
                                     App.INSTANCE.setKYClVarified(true)
+                                    try {
+                                        fileDOB?.deleteOnExit()
+                                    } catch (e: Exception) {
+                                    }
                                 } else {
                                     eventKYCBSEErrorDataLog(kycData, "0")
                                 }

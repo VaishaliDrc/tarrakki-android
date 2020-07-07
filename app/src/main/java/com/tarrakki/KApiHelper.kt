@@ -322,7 +322,7 @@ fun investmentRecommendationToCart(thirdLevelCategoryId: Int, sipAmount: String,
 
 //const val PASSWORD = "kra\$36369"
 //const val PASSKEY = "SajanGandhi"
-
+/*
 fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
     EventBus.getDefault().post(SHOW_PROGRESS)
     val apiResponse = MutableLiveData<String>()
@@ -345,7 +345,7 @@ fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
                 }
             })
     return apiResponse
-}
+}*/
 
 /*fun getPANeKYCStatus(password: String, pan: String): MutableLiveData<List<String>> {
 
@@ -402,44 +402,7 @@ fun getEncryptedPasswordForCAMPSApi(): MutableLiveData<String> {
             })
     return apiResponse
 }*/
-
-fun getPANeKYCStatus(pan: String): MutableLiveData<List<String>> {
-
-    EventBus.getDefault().post(SHOW_PROGRESS)
-    val apiResponse = MutableLiveData<List<String>>()
-    val json = JsonObject()
-    json.addProperty("pan", pan)
-    val data = json.toString().toEncrypt()
-    json.printRequest()
-    data.printRequest()
-    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).verificationPAN(App.INSTANCE.getUserId(), data),
-            object : SingleCallback1<ApiResponse> {
-                override fun onSingleSuccess(o: ApiResponse) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    if (o.status?.code == 1) {
-                        o.printResponse()
-                        val data = o.data?.parseTo<VerifyPANApiResponse>()
-                        val kycStates: List<String> = arrayListOf(
-                                data?.data?.cAMSKRA ?: "",//"${data?.camskra}",
-                                data?.data?.cVLKRA ?: "",//"${data?.cvlkra}",
-                                data?.data?.nDMLKRA ?: "",//"${data?.ndmlkra}",
-                                data?.data?.dOTEXKRA ?: "",//"${data?.dotexkra}",
-                                data?.data?.kARVYKRA ?: "")//"${data?.karvykra}")
-                        apiResponse.value = kycStates
-                    } else {
-                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
-                    }
-                }
-
-                override fun onFailure(throwable: Throwable) {
-                    EventBus.getDefault().post(DISMISS_PROGRESS)
-                    throwable.postError()
-                    throwable.printStackTrace()
-                }
-            })
-    return apiResponse
-}
-
+/*
 fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
 
     EventBus.getDefault().post(SHOW_PROGRESS)
@@ -509,6 +472,105 @@ fun getEKYCData(password: String, kycData: KYCData): MutableLiveData<KYCData> {
                 override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
                     EventBus.getDefault().post(DISMISS_PROGRESS)
                     throwable.postError()
+                }
+            })
+    return apiResponse
+}*/
+
+
+fun getPANeKYCStatus(pan: String): MutableLiveData<List<String>> {
+
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<List<String>>()
+    val json = JsonObject()
+    json.addProperty("pan", pan)
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    data.printRequest()
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).verificationPAN(App.INSTANCE.getUserId(), data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o.status?.code == 1) {
+                        o.printResponse()
+                        val data = o.data?.parseTo<VerifyPANApiResponse>()
+                        val kycStates: List<String> = arrayListOf(
+                                data?.data?.cAMSKRA ?: "",//"${data?.camskra}",
+                                data?.data?.cVLKRA ?: "",//"${data?.cvlkra}",
+                                data?.data?.nDMLKRA ?: "",//"${data?.ndmlkra}",
+                                data?.data?.dOTEXKRA ?: "",//"${data?.dotexkra}",
+                                data?.data?.kARVYKRA ?: "")//"${data?.karvykra}")
+                        apiResponse.value = kycStates
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                    throwable.printStackTrace()
+                }
+            })
+    return apiResponse
+}
+
+fun getPANDetails(kycData: KYCData): MutableLiveData<KYCData> {
+
+    EventBus.getDefault().post(SHOW_PROGRESS)
+    val apiResponse = MutableLiveData<KYCData>()
+    val json = JsonObject()
+    json.addProperty("pan", kycData.pan)
+    val data = json.toString().toEncrypt()
+    json.printRequest()
+    data.printRequest()
+    subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getPANDetails(App.INSTANCE.getUserId(), data),
+            object : SingleCallback1<ApiResponse> {
+                override fun onSingleSuccess(o: ApiResponse) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    if (o.status?.code == 1) {
+                        val pan = o.data?.parseTo<PANDetails>()
+                        pan?.data?.panData?.let { data ->
+                            if ("R".equals(data.aPPRESSTATUS, true)) {
+                                //kyc.mobile = data.appmobno
+                                //kyc.email = data.appemail
+                                kycData.nameOfPANHolder = data.aPPNAME ?: ""
+                                kycData.fullName = data.aPPNAME ?: ""
+                                kycData.OCCcode = data.aPPOCC ?: ""
+                                if ("${data.aPPDOBDT}".contains("-")) {
+                                    kycData.dob = data.aPPDOBDT?.toDate("dd-MM-yyyy")?.convertTo("dd/MM/yyyy")
+                                            ?: ""
+                                } else {
+                                    kycData.dob = data.aPPDOBDT?.toDate("dd/MM/yyyy")?.convertTo("dd/MM/yyyy")
+                                            ?: ""//data.appdobdt ?: ""
+                                }
+                                kycData.gender = data.aPPGEN ?: ""
+                                kycData.address = "${data.aPPPERADD1}, ${data.aPPPERADD2}, ${data.aPPPERADD3}"
+                                kycData.pincode = data.aPPPERPINCD ?: ""
+                                kycData.city = data.aPPPERCITY ?: ""
+                                kycData.state = data.aPPPERSTATE ?: ""
+                                kycData.country = data.aPPPERCTRY ?: ""
+                                kycData.addressType = "01"
+                                kycData.kycMode = data.aPPKYCMODE ?: ""
+                                kycData.inPersonVerification = data.aPPIPVFLAG ?: ""
+                                apiResponse.value = kycData
+                            } else {
+                                eventKYCDataLog(kycData, "01|02")
+                                EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_alert_non_resident)))
+                            }
+                        }
+                        if (pan?.data?.panData == null) {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
+                        }
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))
+                    }
+                }
+
+                override fun onFailure(throwable: Throwable) {
+                    EventBus.getDefault().post(DISMISS_PROGRESS)
+                    throwable.postError()
+                    throwable.printStackTrace()
                 }
             })
     return apiResponse
@@ -823,12 +885,12 @@ fun getAddressAmountAPI(): MutableLiveData<AddressAmountData> {
             singleCallback = object : SingleCallback1<ApiResponse> {
                 override fun onSingleSuccess(o: ApiResponse) {
                     o.printResponse()
-                    if (o.status?.code == 1){
+                    if (o.status?.code == 1) {
                         val data = o.data?.parseTo<AddressAmountData>()
                         data?.let {
                             addressData.value = it
                         }
-                    }else{
+                    } else {
                         postError("${o.status?.message}")
                     }
                     EventBus.getDefault().post(DISMISS_PROGRESS)

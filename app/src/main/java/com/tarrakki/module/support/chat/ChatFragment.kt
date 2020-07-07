@@ -3,19 +3,20 @@ package com.tarrakki.module.support.chat
 
 import android.Manifest
 import android.app.Activity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import android.content.Intent
-import androidx.databinding.ViewDataBinding
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.provider.OpenableColumns
 import android.provider.Settings
-import androidx.annotation.NonNull
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.annotation.NonNull
+import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.util.IOUtils
 import com.tarrakki.*
@@ -24,7 +25,10 @@ import com.tarrakki.databinding.FragmentChatBinding
 import com.tarrakki.module.transactions.LoadMore
 import com.tarrakki.ucrop.UCrop
 import kotlinx.android.synthetic.main.fragment_chat.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
@@ -36,8 +40,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
-import kotlin.concurrent.thread
-import kotlin.coroutines.CoroutineContext
 
 /**
  * A simple [Fragment] subclass.
@@ -319,8 +321,10 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     }
 
     private fun startCrop(@NonNull uri: Uri) {
-        val mFile = File(getPath(uri))
-        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, mFile.name)))
+        //val mFile = File(getPath(uri) ?: "")
+        var destinationFileName = "issue_image".getUDID()
+        destinationFileName += ".png"
+        val uCrop = UCrop.of(uri, Uri.fromFile(File(context?.cacheDir, destinationFileName)))
         context?.getCustomUCropOptions()?.let { uCrop.withOptions(it) }
         uCrop.start(context!!, this)
     }
@@ -379,8 +383,8 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                                 val filesizeInKB = filesize / 1024
                                 val filesizeinMB = filesizeInKB / 1024
                                 if (filesizeinMB < 25) {
-                                    val fileName = selectedUri.getFileName()?.replace(" ", "_")
-                                            ?: ""
+                                    val fileName = "ticket_file".getUDID()
+                                            .plus(selectedUri.getFileName()?.replace(" ", "_"))
                                     val mFile = File(getFileDownloadDir(), fileName)
                                     getViewModel().sendFile = Pair(1, mFile)
                                     lifecycleScope.launch {
@@ -399,7 +403,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
                     if (data != null) {
                         val imageUri = UCrop.getOutput(data)
                         imageUri?.let {
-                            val mFile = File(getPath(it))
+                            val mFile = File(getPath(it) ?: "")
                             getViewModel().sendFile = Pair(0, mFile)
                             edtMessage?.text?.clear()
                             edtMessage?.dismissKeyboard()
