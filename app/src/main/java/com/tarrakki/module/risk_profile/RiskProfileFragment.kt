@@ -110,7 +110,7 @@ class RiskProfileFragment : CoreFragment<RiskProfileVM, FragmentRiskProfileBindi
                     res?.data?.let { report ->
                         data.add(RiskProfile(
                                 report.userName ?: "",
-                                "as on ".plus(report.reportDate?.toDate("MM/dd/yyyy")?.convertTo()),
+                                "as on ".plus(report.reportDate/*?.toDate("MM/dd/yyyy")?.convertTo()*/),
                                 report.userProfilePhoto ?: ""
                         ))
                         var observation = ""
