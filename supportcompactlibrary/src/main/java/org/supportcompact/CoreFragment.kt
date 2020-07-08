@@ -83,7 +83,7 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults.none { it != PackageManager.PERMISSION_GRANTED }) {
                     permissionCallBack?.permissionGranted()
                 } else {
                     if (checkPermissionRationale(permissions)) {
