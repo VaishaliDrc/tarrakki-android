@@ -86,7 +86,7 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
 
     var isShowing = false
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun showError(error: ShowError) {
         if (!isShowing) {
             isShowing = true

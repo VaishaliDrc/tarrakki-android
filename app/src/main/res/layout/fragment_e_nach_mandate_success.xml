@@ -324,7 +324,7 @@
                 android:layout_marginBottom="@dimen/space_4"
                 android:background="@drawable/shape_btn_idle_bg"
                 android:fontFamily="@font/lato_bold"
-                android:text="@string/invest"
+                android:text="@string/check_mandate_status"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/white" />

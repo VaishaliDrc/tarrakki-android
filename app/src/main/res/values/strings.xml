@@ -799,13 +799,13 @@
     
     <!--e_nach success mandate description-->
     <string name="your_e_nach_mandate_request">Your e-NACH mandate request has been registered successfully</string>
-    <string name="below_are_the_steps_to_complete_e_nach">Below are the steps to complete e-NACH Mandate Authentication:</string>
-    <string name="e_nach_step_one"> Click on the eNACH mandate link sent on your registered email or phone number.</string>
+    <string name="below_are_the_steps_to_complete_e_nach">Below are the steps to complete your e-NACH Mandate Authentication:</string>
+    <string name="e_nach_step_one">Click on the e-NACH mandate link sent on your registered email or phone number.</string>
     <string name="e_nach_step_two">Enter the OTP sent on your email id.</string>
     <string name="e_nach_step_three">Enter your Net Banking or Debit Card details.</string>
     <string name="e_nach_step_four">Complete the validation and close the window.</string>
     <string name="what_happens_next">What happens next?</string>
-    <string name="what_happens_next_desc">Within 7 working days, your bank will tell us about the approval of your mandate. We will email you once your mandate has been approved. and your tarrakki account is all set for you to start investing in SIPs.</string>
+    <string name="what_happens_next_desc">Within 7 working days, your Bank will tell us about the approval of your mandate. We will email you once your mandate has been approved, and your tarrakki account is all set for you to start investing in SIPs.</string>
     <string name="success">Success!</string>
 
 

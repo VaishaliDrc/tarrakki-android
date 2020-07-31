@@ -174,13 +174,8 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                         }else if(item.mandateType.equals("N")){
                             getViewModel().getMandateUserAuth(item.id.toString()).observe(this, Observer {
                                 it?.let {
-                                    val data = JSONObject(it.data?.toDecrypt())
-                                    if (it.status?.code == 1) {
-                                        context?.confirmationDialog(getString(R.string.send_authentication_email_success_msg), btnPositiveClick = {
-
-                                        })
-                                    }else
-                                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                                    context?.confirmationDialog(getString(R.string.send_authentication_email_success_msg), btnPositiveClick = {
+                                    })
                                 }
                             })
                             return@setOnClickListener
