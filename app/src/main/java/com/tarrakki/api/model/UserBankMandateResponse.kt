@@ -47,13 +47,23 @@ data class UserBankMandateResponse(
             get() {
                 return if (mandateType == "X") {
                     R.string.normally_take_
-                } else {
+                } else if (mandateType == "N"){
+                    R.string.normally_take_e_nach
+                } else if (mandateType == "I"){
                     R.string.normally_take_nach
-                }
+                }else 0
             }
 
         var btnUploadTxt: Int = R.string.complete_nach_mandate
-            get() = if (mandateType == "X") R.string.complete_nach_mandate else R.string.complete_isip_mandate
+            get() = if (mandateType == "X")
+                R.string.complete_nach_mandate
+            else if(mandateType == "N")
+                R.string.send_authentication_email
+            else if(mandateType == "I")
+                R.string.complete_isip_mandate
+            else
+                0
+
 
         var btnUploadVisibility: Int = View.VISIBLE
             get() = if (mandateType == "X")
@@ -68,9 +78,11 @@ data class UserBankMandateResponse(
             get() {
                 return if (mandateType == "X") {
                     R.string.nach_mandate
-                } else {
+                } else if(mandateType == "N"){
+                    R.string.e_nach_mandate
+                } else if(mandateType == "I"){
                     R.string.sip_mandate
-                }
+                }else 0
             }
 
         @DrawableRes

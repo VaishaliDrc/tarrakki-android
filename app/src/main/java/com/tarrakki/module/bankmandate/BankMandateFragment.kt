@@ -1,26 +1,28 @@
 package com.tarrakki.module.bankmandate
 
 
+import android.Manifest
 import androidx.lifecycle.Observer
 import android.os.Bundle
 import android.view.View
 import com.google.gson.Gson
-import com.tarrakki.App
-import com.tarrakki.BR
-import com.tarrakki.IS_FROM_BANK_ACCOUNT
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentBankMandateBinding
 import com.tarrakki.databinding.RowBankMandateListItemBinding
 import com.tarrakki.databinding.RowUserBankListMandateBinding
 import com.tarrakki.module.bankaccount.AddBankAccountFragment
 import kotlinx.android.synthetic.main.fragment_bank_mandate.*
+import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.KSelectionAdapter
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.events.Event
+import org.supportcompact.events.ShowError
+import org.supportcompact.ktx.checkSelfPermissions
+import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -156,7 +158,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                     binder?.isSelected = adapter.isItemViewToggled(position)
                     binder?.tvPending?.setBackgroundResource(item.statuscolor)
                     binder?.btnUploadSanned?.setOnClickListener {
-                        if (item.isISIP) { // is ISIP mandate
+                        if (item.mandateType.equals("I")) { // is ISIP mandate
                             getViewModel().getISIPMandateData(item.id.toString()).observe(this, Observer {
                                 it?.let {
                                     val data = JSONObject(it.data?.toDecrypt())
@@ -169,7 +171,21 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
                                 }
                             })
                             return@setOnClickListener
+                        }else if(item.mandateType.equals("N")){
+                            getViewModel().getMandateUserAuth(item.id.toString()).observe(this, Observer {
+                                it?.let {
+                                    val data = JSONObject(it.data?.toDecrypt())
+                                    if (it.status?.code == 1) {
+                                        context?.confirmationDialog(getString(R.string.send_authentication_email_success_msg), btnPositiveClick = {
+
+                                        })
+                                    }else
+                                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                                }
+                            })
+                            return@setOnClickListener
                         }
+
                         val bundle = Bundle().apply {
                             putBoolean(ISFROMDIRECTBANKMANDATE, true)
                             putString(MANDATEID, item.id.toString())

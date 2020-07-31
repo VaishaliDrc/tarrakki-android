@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.bankmandate.ENachSuccessMandateVM" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".module.bankmandate.ENachMandateSuccessFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_space"
+            android:orientation="vertical"
+            android:padding="@dimen/space_8">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/space_10">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/view2"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:elevation="12dp"
+                        app:cardBackgroundColor="@color/circular_bg"
+                        app:cardCornerRadius="32dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginTop="@dimen/space_8">
+
+                        <ImageView
+                            android:id="@+id/ivProfile"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:padding="@dimen/space_8"
+                            android:src="@drawable/ic_successful" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@string/success"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center"
+                        android:text="@string/your_e_nach_mandate_request"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:fontFamily="@font/lato_semibold"
+                        android:textStyle="italic"
+                        android:text="@string/below_are_the_steps_to_complete_e_nach"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:background="@drawable/bg_e_nach_success_step"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_one"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/lato_semibold"
+                            android:text="@string/e_nach_step_one"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/bg_e_nach_success_step"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_two"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:fontFamily="@font/lato_semibold"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/e_nach_step_two"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/bg_e_nach_success_step"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_three"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/lato_semibold"
+                            android:text="@string/e_nach_step_three"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/bg_e_nach_success_step"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/ic_four"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/lato_semibold"
+                            android:text="@string/e_nach_step_four"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_purple_round_rect"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:padding="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@string/what_happens_next"
+                        android:textSize="@dimen/_12sdp"
+                        android:textColor="@color/white"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/what_happens_next_desc"
+                        android:textColor="@color/white"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:background="@drawable/shape_cart_view"
+                android:elevation="@dimen/space_2"
+                android:padding="@dimen/space_10">
+
+                <ImageView
+                    android:id="@+id/ivBank"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    imgUrl="@{vm.bankLogo}"
+                    android:src="@drawable/temp_icici"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_8"
+                    android:layout_marginEnd="4dp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:maxLines="1"
+                    android:text="@{vm.bankName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/item_selected_color"
+                    app:layout_constraintBottom_toBottomOf="@id/ivBank"
+                    app:layout_constraintStart_toEndOf="@id/ivBank"
+                    app:layout_constraintTop_toTopOf="@id/ivBank"
+                    tools:text="ICICI Bank" />
+
+                <View
+                    android:id="@+id/mDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:background="@color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@+id/ivBank" />
+
+                <TextView
+                    android:id="@+id/tvAccountNoL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/account_number"
+                    android:textSize="@dimen/sp10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+                <TextView
+                    android:id="@+id/tvAccountNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@{vm.accountNumber}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAccountNoL"
+                    tools:text="1210000091052" />
+
+                <TextView
+                    android:id="@+id/tvBankMandateTypeL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/bank_mandate_type"
+                    android:textSize="@dimen/sp10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mDivider" />
+
+                <TextView
+                    android:id="@+id/tvBankMandateType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/e_nach_mandate"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:layout_constraintStart_toStartOf="@id/tvBankMandateTypeL"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBankMandateTypeL"
+                    tools:text="NACH Mandate" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <Button
+                android:id="@+id/btnInvest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginBottom="@dimen/space_4"
+                android:background="@drawable/shape_btn_idle_bg"
+                android:fontFamily="@font/lato_bold"
+                android:text="@string/invest"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

@@ -319,6 +319,10 @@ interface WebserviceBuilder {
     @GET("banks/cf-amount-address/{userId}/")
     fun getAddressAmount(@Path("userId") userId: String?): Observable<ApiResponse>
 
+    @GET("banks/user-mandate-auth-link/{mandateId}/")
+    fun getMandateUserAuth(@Path("mandateId") mandateId: String?): Observable<ApiResponse>
+
+
     /**
      * ApiNames to differentiate APIs
      */

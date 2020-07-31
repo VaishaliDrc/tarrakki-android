@@ -263,7 +263,9 @@
     <string name="we_will_inform_you">We\'ll keep you updated about the bank mandate status via email and sms.</string>
     <string name="bank_mandate_type">Bank Mandate Type</string>
     <string name="sip_mandate">ISIP Mandate</string>
-    <string name="selft_authorize_to_bank">Self-authorize your bank to auto-invest in SIPs of your choice. Login to your net-banking account online, and self-authorize your bank to auto-invest in SIPs of your choice at pre-determined intervals.</string>
+    <string name="e_nach_mandate">e-NACH Mandate</string>
+    <string name="e_nach_mandate_desc">Electronically validate your NACH mandate. Authorize your NACH mandate by entering your net-banking or debit card details. It takes 3-7days for the mandate to be accepted. </string>
+    <!-- <string name="selft_authorize_to_bank">Self-authorize your bank to auto-invest in SIPs of your choice. Login to your net-banking account online, and self-authorize your bank to auto-invest in SIPs of your choice at pre-determined intervals.</string>-->
     <string name="nach_mandate">NACH Mandate</string>
     <string name="we_provide_easiest_way_to">We provide the easiest way to do the NACH Mandate by generating the pre-filled e-Mandate form for you. All you need to do is take a print, sign the form, and upload it on the app. It will take 10 to 45 days for the approval but you can choose any maximum mandate limit.</string>
     <string name="download">Download</string>
@@ -276,7 +278,8 @@
     <string name="sign_scan_and_upload">Sign, Scan, and Upload.</string>
     <string name="please_double_check_">Please double check that all information is correct and your signature is legible before Submitting the Bank Mandate.</string>
     <string name="normally_take_">Normally takes 10-45 working days for approval.</string>
-    <string name="normally_take_nach">Normally takes 7-10 working days for approval.</string>
+    <string name="normally_take_nach">Normally takes 7-10 working days for approval</string>
+    <string name="normally_take_e_nach">Normally takes 7 working days for approval</string>
     <string name="note_to_investors_">Note to Investors:</string>
     <string name="note_to_investors_details">
         Before opting for an investment strategy, rethink your priorities as practi-cally as possible.
@@ -363,6 +366,7 @@
     <string name="order_confirm">Order Confirm</string>
     <string name="complete_nach_mandate">Complete NACH Mandate</string>
     <string name="complete_isip_mandate">Complete ISIP Mandate</string>
+    <string name="send_authentication_email">Send Authentication Email</string>
     <string name="coming_soon">Coming Soon.</string>
 
     <string name="pay_now">Pay Now</string>
@@ -791,5 +795,18 @@
     <string name="direct">DIRECT</string>
     <string name="NEFT_rtgs">NEFT/RTGS</string>
     <string name="please_select_payment_mode">Please select a payment mode</string>
+    <string name="send_authentication_email_success_msg">We have sent you an email having the web link for e-NACH Mandate Authentication. Please check the inbox of your registered email address.</string>
+    
+    <!--e_nach success mandate description-->
+    <string name="your_e_nach_mandate_request">Your e-NACH mandate request has been registered successfully</string>
+    <string name="below_are_the_steps_to_complete_e_nach">Below are the steps to complete e-NACH Mandate Authentication:</string>
+    <string name="e_nach_step_one"> Click on the eNACH mandate link sent on your registered email or phone number.</string>
+    <string name="e_nach_step_two">Enter the OTP sent on your email id.</string>
+    <string name="e_nach_step_three">Enter your Net Banking or Debit Card details.</string>
+    <string name="e_nach_step_four">Complete the validation and close the window.</string>
+    <string name="what_happens_next">What happens next?</string>
+    <string name="what_happens_next_desc">Within 7 working days, your bank will tell us about the approval of your mandate. We will email you once your mandate has been approved. and your tarrakki account is all set for you to start investing in SIPs.</string>
+    <string name="success">Success!</string>
+
 
 </resources>

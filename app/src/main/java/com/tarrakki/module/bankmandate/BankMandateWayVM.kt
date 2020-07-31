@@ -33,16 +33,28 @@ class BankMandateWayVM : FragmentViewModel() {
     val bankMandate = ObservableField<BankDetail>()
 
     init {
-        bankMandateWays.add(BankMandateWay(
+        /*bankMandateWays.add(BankMandateWay(
                 R.string.sip_mandate,
                 R.string.selft_authorize_to_bank,
                 R.drawable.icon_isip,
-                true))
+                true))*/
+
+
+    }
+
+    fun addBankMandateWays(amount: String) {
+        if (amount.toDoubleOrNull()!! <= 1000000)
+            bankMandateWays.add(BankMandateWay(
+                    R.string.e_nach_mandate,
+                    R.string.e_nach_mandate_desc,
+                    R.drawable.icon_isip,
+                    true))
 
         bankMandateWays.add(BankMandateWay(
                 R.string.nach_mandate,
                 R.string.we_provide_easiest_way_to,
-                R.drawable.icon_nach))
+                R.drawable.icon_nach,
+                if (amount.toDoubleOrNull()!! <= 1000000)false else true ))
 
         bankMandateWays.add(SingleButton(R.string.txtcontinue))
     }
@@ -50,7 +62,7 @@ class BankMandateWayVM : FragmentViewModel() {
     fun addMandateBank(bankId: Int?, amount: String, type: String)
             : MutableLiveData<ApiResponse> {
         val json = JsonObject()
-        json.addProperty("bank",bankId)
+        json.addProperty("bank", bankId)
         json.addProperty("amount", amount)
         json.addProperty("mandate_type", type)
         json.addProperty("user_id", App.INSTANCE.getUserId().toString())

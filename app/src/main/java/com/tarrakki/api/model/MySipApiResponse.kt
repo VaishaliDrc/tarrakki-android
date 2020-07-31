@@ -52,7 +52,14 @@ data class MySipData(
         get() = if (TextUtils.isEmpty(folioNumber)) "N/A" else folioNumber
 
     val mandateRes
-        get() = if ("x".equals(mandateType, true)) R.string.nach_mandate else R.string.sip_mandate
+        get() = if ("x".equals(mandateType, true))
+            R.string.nach_mandate
+        else if("n".equals(mandateType,true))
+            R.string.e_nach_mandate
+        else if("i".equals(mandateType,true))
+            R.string.sip_mandate
+        else 0
+
 
     val status
         get() = when {

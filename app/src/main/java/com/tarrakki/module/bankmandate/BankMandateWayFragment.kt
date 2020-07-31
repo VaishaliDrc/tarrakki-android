@@ -49,31 +49,33 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
 
     override fun createReference() {
         amount = arguments?.getString(AMOUNT).toString()
+        getViewModel().addBankMandateWays(amount)
+
 
         var selectedAt = 0
         rvBankMandateWay?.setUpMultiViewRecyclerAdapter(getViewModel().bankMandateWays) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
             binder.setVariable(BR.widget, item)
+
             binder.setVariable(BR.onAdd, View.OnClickListener {
-                if (context?.isCompletedRegistration() == true){
+                if (context?.isCompletedRegistration() == true) {
                     for (viewmodel in getViewModel().bankMandateWays) {
                         if (viewmodel is BankMandateWay) {
                             if (viewmodel.isSelected) {
-                                val type = if (viewmodel.title == R.string.sip_mandate) {
-                                    "I"
+                                val type = if (viewmodel.title == R.string.e_nach_mandate) {
+                                    "N"
                                 } else {
                                     "X"
                                 }
+
                                 getViewModel().addMandateBank(getViewModel().bankMandate.get()?.id, amount,
                                         type).observe(this, Observer {
-                                    if (viewmodel.title == R.string.sip_mandate) {
-                                        val data = it?.data?.parseTo<IMandateResponse>()
-                                        val html = data?.data_html
+                                    if (viewmodel.title == R.string.e_nach_mandate) {
+                                        val data = it?.data?.parseTo<UserMandateDownloadResponse>()
                                         val bundle = Bundle().apply {
                                             putString(AMOUNT, amount)
-                                            putBoolean(ISIPMANDATE, true)
-                                            putString(IMANDATEDATA, html)
+                                            putBoolean(ISIPMANDATE, false)
                                         }
-                                        startFragment(BankMandateFormFragment.newInstance(bundle), R.id.frmContainer)
+                                        startFragment(ENachMandateSuccessFragment.newInstance(bundle), R.id.frmContainer)
                                     } else {
                                         val data = it?.data?.parseTo<UserMandateDownloadResponse>()
                                         val bundle = Bundle().apply {
@@ -88,7 +90,7 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
                             }
                         }
                     }
-                }else{
+                } else {
                     context?.simpleAlert("Please first complete your registration to place the bank mandate request.")
                 }
             })

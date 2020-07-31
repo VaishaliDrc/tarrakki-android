@@ -46,9 +46,11 @@ data class ConfirmOrderResponse(
         val mandateType: String?
             get() = if ("X".equals(typeOfMandate, true)) {
                 App.INSTANCE.getString(R.string.nach_mandate)
-            } else {
+            } else if("N".equals(typeOfMandate,true)){
+                App.INSTANCE.getString(R.string.e_nach_mandate)
+            }else if("I".equals(typeOfMandate,true)){
                 App.INSTANCE.getString(R.string.sip_mandate)
-            }
+            }else ""
 
         val isApproveBank: Boolean?
             get() = if ("APPROVED" == mandateStatus) {

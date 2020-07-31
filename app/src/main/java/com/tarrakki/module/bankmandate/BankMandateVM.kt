@@ -131,6 +131,30 @@ class BankMandateVM : FragmentViewModel() {
         })
         return apiResponse
     }
+
+    fun getMandateUserAuth(mandateId: String?): MutableLiveData<ApiResponse> {
+        showProgress()
+        val apiResponse = MutableLiveData<ApiResponse>()
+        subscribeToSingle(ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getMandateUserAuth(mandateId), object : SingleCallback1<ApiResponse> {
+            override fun onSingleSuccess(o: ApiResponse) {
+                thread {
+                    o.printResponse()
+                    if (o.status?.code == 1) {
+                        apiResponse.postValue(o)
+                    } else {
+                        EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                    }
+                    dismissProgress()
+                }
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                dismissProgress()
+                throwable.postError()
+            }
+        })
+        return apiResponse
+    }
 }
 
 data class BankMandate(var name: String,
