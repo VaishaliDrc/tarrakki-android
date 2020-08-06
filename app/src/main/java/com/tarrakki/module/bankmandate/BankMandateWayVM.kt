@@ -42,8 +42,8 @@ class BankMandateWayVM : FragmentViewModel() {
 
     }
 
-    fun addBankMandateWays(amount: String) {
-        if (amount.toDoubleOrNull()!! <= 1000000)
+    fun addBankMandateWays(amount: String, eNachLimit: String?) {
+        if (amount.toDoubleOrNull()!! <= eNachLimit?.toDouble()!!)
             bankMandateWays.add(BankMandateWay(
                     R.string.e_nach_mandate,
                     R.string.e_nach_mandate_desc,
@@ -54,7 +54,7 @@ class BankMandateWayVM : FragmentViewModel() {
                 R.string.nach_mandate,
                 R.string.we_provide_easiest_way_to,
                 R.drawable.icon_nach,
-                if (amount.toDoubleOrNull()!! <= 1000000)false else true ))
+                if (amount.toDoubleOrNull()!! <= eNachLimit?.toDouble()!!)false else true ))
 
         bankMandateWays.add(SingleButton(R.string.txtcontinue))
     }

@@ -8,7 +8,6 @@ import android.view.View
 import com.tarrakki.BR
 import com.tarrakki.R
 import com.tarrakki.api.model.BankDetail
-import com.tarrakki.api.model.IMandateResponse
 import com.tarrakki.api.model.UserMandateDownloadResponse
 import com.tarrakki.api.model.parseTo
 import com.tarrakki.databinding.FragmentBankMandateWayBinding
@@ -18,6 +17,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.getENachLimit
 import org.supportcompact.ktx.isCompletedRegistration
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
@@ -49,7 +49,7 @@ class BankMandateWayFragment : CoreFragment<BankMandateWayVM, FragmentBankMandat
 
     override fun createReference() {
         amount = arguments?.getString(AMOUNT).toString()
-        getViewModel().addBankMandateWays(amount)
+        getViewModel().addBankMandateWays(amount, context?.getENachLimit())
 
 
         var selectedAt = 0

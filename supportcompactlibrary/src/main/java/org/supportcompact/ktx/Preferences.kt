@@ -6,6 +6,7 @@ package org.supportcompact.ktx
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.util.Log
 
 
 const val IS_LOGIN = "is_login"
@@ -26,6 +27,7 @@ const val IS_READY_TO_INVEST = "is_ready_to_invest"
 const val KYC_STATUS = "kyc_status"
 const val IS_REMAINING_FIELDS = "isRemainingFields"
 const val IS_REMARK = "isRemark"
+const val ENACH_LIMIT = "enach_limit"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -247,6 +249,14 @@ fun Context.getRemark(): String {
     return getPreferences.getString(IS_REMARK, "") ?: ""
 }
 
+fun Context.setENachLimit(enachLimit: String) {
+    return getPreferences.putString(ENACH_LIMIT, enachLimit)
+}
+
+fun Context.getENachLimit(): String {
+    return getPreferences.getString(ENACH_LIMIT, "100000") ?: ""
+}
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(IS_SOACIAL_LOGIN)
@@ -260,4 +270,5 @@ fun Context.clearUserData() {
     getPreferences.remove(ASK_FOR_SECURITY_LOCK)
     getPreferences.remove(KYC_STATUS)
     getPreferences.remove(IS_REMARK)
+    getPreferences.remove(ENACH_LIMIT)
 }

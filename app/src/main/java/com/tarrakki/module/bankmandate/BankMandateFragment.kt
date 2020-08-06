@@ -4,6 +4,7 @@ package com.tarrakki.module.bankmandate
 import android.Manifest
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.google.gson.Gson
 import com.tarrakki.*
@@ -21,15 +22,13 @@ import org.supportcompact.adapters.KSelectionAdapter
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.checkSelfPermissions
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.*
 
 const val ISFROMCONFIRMORDER = "isfromconfirmOrder"
 const val ISFROMDIRECTBANKMANDATE = "isfromdirectbankmandate"
 const val MANDATEID = "mandateid"
 const val MANDATE_ID = "mandate_id"
+const val UNDER_PROCESSING = "UNDER PROCESSING"
 
 class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBinding>() {
 
@@ -124,6 +123,7 @@ class BankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBindi
     fun getUserBankAPI(isRefreshing: Boolean = false) {
         getViewModel().getAllBanks().observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
+            context?.setENachLimit(it1?.data?.enachLimit.toString())
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
                 if (it1.data.bankDetails.size > 5) {
                     btnAdd?.visibility = View.GONE

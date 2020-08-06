@@ -11,6 +11,8 @@ data class UserBanksResponse(
 )
 
 data class Data(
+        @SerializedName("enach_limit")
+        var enachLimit: String?,
         @SerializedName("bank_details")
         val bankDetails: ArrayList<BankDetail>,
         @SerializedName("bank_detail")

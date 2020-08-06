@@ -23,6 +23,7 @@ import org.supportcompact.adapters.ChoiceMode
 import org.supportcompact.adapters.KSelectionAdapter
 import org.supportcompact.adapters.setUpAdapter
 import org.supportcompact.events.Event
+import org.supportcompact.ktx.setENachLimit
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -106,6 +107,7 @@ class AddBankMandateFragment : CoreFragment<BankMandateVM, FragmentBankMandateBi
     fun getUserBankAPI(isRefreshing: Boolean = false) {
         getViewModel().getAllBanks(isRefreshing).observe(this, Observer { it1 ->
             getViewModel().isAddVisible.set(true)
+            context?.setENachLimit(it1?.data?.enachLimit.toString())
             if (it1?.data?.bankDetails?.isNotEmpty() == true) {
                 getViewModel().isNoBankAccount.set(false)
                 if (isFromPaymentMode == true) {
