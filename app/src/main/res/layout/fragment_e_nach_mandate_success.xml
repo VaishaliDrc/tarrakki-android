@@ -75,6 +75,16 @@
                         android:text="@string/your_e_nach_mandate_request"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
+                 <TextView
+                        android:id="@+id/tvEnachContent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center"
+                        android:text="@string/your_e_nach_mandate_request_authentication"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
 
                     <View
                         android:layout_width="match_parent"

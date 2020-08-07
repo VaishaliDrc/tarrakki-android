@@ -799,6 +799,7 @@
     
     <!--e_nach success mandate description-->
     <string name="your_e_nach_mandate_request">Your e-NACH mandate request has been registered successfully</string>
+    <string name="your_e_nach_mandate_request_authentication">You will receive the e-NACH mandate authentication link on your registered email and phone number shortly in the next 1-3 minutes.</string>
     <string name="below_are_the_steps_to_complete_e_nach">Below are the steps to complete your e-NACH Mandate Authentication:</string>
     <string name="e_nach_step_one">Click on the e-NACH mandate link sent on your registered email or phone number.</string>
     <string name="e_nach_step_two">Enter the OTP sent on your email id.</string>
