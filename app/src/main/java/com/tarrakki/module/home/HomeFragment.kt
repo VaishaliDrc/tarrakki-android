@@ -20,6 +20,7 @@ import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
@@ -91,10 +92,16 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
         //openChromeTab()
         //openNetBankingPage()
+        //openTestWebview()
     }
 
     private fun managePANBox() {
         ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
+    }
+
+    private fun openTestWebview() {
+        startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+        postSticky(Event.REFRESH)
     }
 
     private fun openNetBankingPage() {

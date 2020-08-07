@@ -330,7 +330,7 @@ class ChatFragment : CoreFragment<ChatVM, FragmentChatBinding>() {
     }
 
     private suspend fun createFile(@NonNull uri: Uri, outputFile: File) {
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             getViewModel().showProgress()
             try {
                 val inputStream = context?.contentResolver?.openInputStream(uri)

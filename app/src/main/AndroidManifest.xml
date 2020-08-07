@@ -110,6 +110,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.account.AccountActivity"
+            android:configChanges="locale|layoutDirection|orientation"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />

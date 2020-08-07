@@ -1,12 +1,11 @@
 package com.tarrakki.module.changepassword
 
 
-import androidx.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.text.method.PasswordTransformationMethod
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentChangePasswordBinding
 import com.tarrakki.module.login.LoginActivity
@@ -48,9 +47,9 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
     }
 
     override fun createReference() {
-        isResetPassword = arguments?.getBoolean("isResetPassword")!!
+        isResetPassword = arguments?.getBoolean("isResetPassword") ?: false
         if (isResetPassword) {
-            getViewModel().token.set(arguments?.getString("token")!!)
+            getViewModel().token.set(arguments?.getString("token") ?: "")
             edtCPassword?.visibility = View.GONE
             btnSave?.text = getString(R.string.submit)
             coreActivityVM?.footerVisibility?.set(View.GONE)
