@@ -134,7 +134,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             if (packageName != null) {
                 customTabsIntent.intent.setPackage(packageName)
             }
-            customTabsIntent.launchUrl(activity, Uri.parse("https://m-investor-onboarding.signzy.tech/icici_prudential2/5d9c3d151d3dce5774055e52/5eaad38f31d9ef1845b86ce6/1588253460/main?ns=icici_Tarrakki"))
+            customTabsIntent.launchUrl(requireActivity(), Uri.parse("https://m-investor-onboarding.signzy.tech/icici_prudential2/5d9c3d151d3dce5774055e52/5eaad38f31d9ef1845b86ce6/1588253460/main?ns=icici_Tarrakki"))
         } catch (e: Exception) {
             context?.simpleAlert(getString(R.string.chrome_required_to_install)) {
                 context?.openPlayStore(CustomTabsHelper.STABLE_PACKAGE)

@@ -3,7 +3,6 @@ package com.tarrakki.module.home
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -14,7 +13,6 @@ import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.cart.CartFragment
-import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.EKYCRemainingDetailsFragment
 import com.tarrakki.module.ekyc.IS_FROM_VIDEO_KYC
 import com.tarrakki.module.ekyc.KYCData
@@ -62,7 +60,7 @@ class HomeActivity : BaseActivity() {
     override fun onStart() {
         super.onStart()
         // Branch init
-        if (!BuildConfig.FLAVOR.isTarrakki()) {
+        if (BuildConfig.FLAVOR.isTarrakki()) {
             setUpBranchIo()
         }
     }
@@ -87,6 +85,7 @@ class HomeActivity : BaseActivity() {
         try {
             val branch = Branch.getInstance(applicationContext)
             branch.initSession(branchReferralInitListener)
+            //branch.sessionBuilder(this).withCallback(branchReferralInitListener).withData(if (intent != null) intent.data else null).init()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -104,6 +103,11 @@ class HomeActivity : BaseActivity() {
             }
         }
         this.intent = intent
+        /*try {
+            Branch.sessionBuilder(this).withCallback(branchReferralInitListener).reInit()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
     }
 
     private fun resumeKYCProcess(intent: Intent) {

@@ -37,7 +37,9 @@ class App : CoreApp() {
         // Branch.setPlayStoreReferrerCheckTimeout(1000L)
 
         // Initialize the Branch SDK
-        if (!BuildConfig.FLAVOR.isTarrakki()) {
+        if (BuildConfig.FLAVOR.isTarrakki()) {
+            // Branch logging for debugging
+            //Branch.enableLogging();
             Branch.getAutoInstance(this)
         }
         //Sentry Tracking

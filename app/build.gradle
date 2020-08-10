@@ -32,7 +32,7 @@ android {
     }
     buildTypes {
         release {
-            debuggable false
+            debuggable true
             minifyEnabled MINIFY_ENABLE
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -160,10 +160,12 @@ dependencies {
 
     // required for all Android apps
     implementation 'io.branch.sdk.android:library:4.2.1'
+    implementation 'androidx.browser:browser:1.2.0'
+
 
     // required if your app is in the Google Play Store (tip: avoid using bundled play services libs)
     implementation 'com.google.firebase:firebase-appindexing:19.1.0' // App indexing
-    implementation 'com.google.android.gms:play-services-ads:19.2.0'
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 
 //    Sentry Traking
     implementation 'io.sentry:sentry-android:1.7.27'

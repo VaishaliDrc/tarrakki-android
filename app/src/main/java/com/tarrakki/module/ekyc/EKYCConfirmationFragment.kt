@@ -93,7 +93,7 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
                 if (packageName != null) {
                     customTabsIntent.intent.setPackage(packageName)
                 }
-                customTabsIntent.launchUrl(activity, Uri.parse(data.mobileAutoLoginUrl))
+                customTabsIntent.launchUrl(requireActivity(), Uri.parse(data.mobileAutoLoginUrl))
                 getViewModel().kycProcessInit = true
             } catch (e: Exception) {
                 context?.simpleAlert(getString(R.string.chrome_required_to_install)) {
