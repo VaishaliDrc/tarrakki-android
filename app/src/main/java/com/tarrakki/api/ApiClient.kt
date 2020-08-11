@@ -54,17 +54,17 @@ object ApiClient {
     /**
      * Staging Test Url
      **/
-    /*private const val BASE_URL = "http://13.235.141.219/api/v3/"
+    private const val BASE_URL = "http://13.235.141.219/api/v3/"
     const val IMAGE_BASE_URL = "http://13.235.141.219"
-    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"*/
+    const val BANK_REDIRECT_URL = "http://13.235.141.219/api/v3/transactions/payment-status/"
 
     /**
      * Live Url
      * https://www.
      **/
-    private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
+    /*private const val BASE_URL = "https://www.tarrakki.com/api/v3/" /// Latest url
     const val IMAGE_BASE_URL = "https://www.tarrakki.com" /// Latest url
-    const val BANK_REDIRECT_URL = "https://www.tarrakki.com/api/v3/transactions/payment-status/" /// Latest url
+    const val BANK_REDIRECT_URL = "https://www.tarrakki.com/api/v3/transactions/payment-status/" /// Latest url*/
 
 
     fun clear() {

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
-import com.tarrakki.TarrakkiSingleton
 import com.tarrakki.api.model.AddressAmountData
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
@@ -84,13 +83,13 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         btnApply?.setOnClickListener {
             // Call Payment Token API
             if (isValid()) {
-                val stage = "PROD"
-//                val stage = "TEST"
+//                val stage = "PROD"
+                val stage = "TEST"
                 getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
                     val params: MutableMap<String, String> = HashMap()
 
-//                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
-                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
+                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
+//                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
                     params[CFPaymentService.PARAM_ORDER_ID] = it.data.orderId
                     params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
                     params[CFPaymentService.PARAM_ORDER_NOTE] = title
@@ -173,13 +172,18 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
         if (event.getString("txStatus").equals("SUCCESS", true)) {
-            getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
-                it?.let { apiResponse ->
-                    context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
-                        onBack(2)
-                    }
-                }
-            })
+//            getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
+//                it?.let { apiResponse ->
+//                    context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+//                        onBack(2)
+//                    }
+//                }
+//            })
+
+            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+                onBack(2)
+            }
+
             //postError("SUCCESS")
 //            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent))
         } else {
