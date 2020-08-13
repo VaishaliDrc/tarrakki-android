@@ -809,5 +809,7 @@
     <string name="what_happens_next_desc">Within 7 working days, your Bank will tell us about the approval of your mandate. We will email you once your mandate has been approved, and your tarrakki account is all set for you to start investing in SIPs.</string>
     <string name="success">Success!</string>
 
+    <string name="alert_debit_card_min">The Name of Card must have at least 2 characters.</string>
+    <string name="alert_debit_card_invalid_char">The Name of Card can not be \'%s\'.</string>
 
 </resources>

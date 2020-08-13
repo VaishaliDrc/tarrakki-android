@@ -77,6 +77,8 @@
                     android:paddingEnd="@dimen/default_space"
                     android:paddingBottom="@dimen/space_8"
                     android:text="@={vm.cardHolerName}"
+                    android:maxLength="23"
+                    android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ "
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black"
                     android:textColorHint="@color/darker_gray" />
@@ -98,6 +100,7 @@
                     android:hint="Enter mothers maiden name"
                     android:inputType="textCapWords"
                     android:maxLines="1"
+                    android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ "
                     android:paddingStart="@dimen/default_space"
                     android:paddingTop="@dimen/space_8"
                     android:paddingEnd="@dimen/default_space"

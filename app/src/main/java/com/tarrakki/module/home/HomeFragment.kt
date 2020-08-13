@@ -328,13 +328,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         }
 
         clTarrakkiZyaada?.setOnClickListener {
-//            startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
         }
 
         tvViewPortfolio?.setOnClickListener {
-//            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
-                        startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
+            startFragment(PortfolioFragment.newInstance(), R.id.frmContainer)
         }
 
         mRefresh?.setOnRefreshListener {

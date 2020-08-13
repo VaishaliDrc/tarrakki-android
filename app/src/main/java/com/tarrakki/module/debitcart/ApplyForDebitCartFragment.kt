@@ -83,13 +83,13 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         btnApply?.setOnClickListener {
             // Call Payment Token API
             if (isValid()) {
-//                val stage = "PROD"
-                val stage = "TEST"
+                val stage = "PROD"
+//                val stage = "TEST"
                 getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
                     val params: MutableMap<String, String> = HashMap()
 
-                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
-//                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
+//                    params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
+                    params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
                     params[CFPaymentService.PARAM_ORDER_ID] = it.data.orderId
                     params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
                     params[CFPaymentService.PARAM_ORDER_NOTE] = title
@@ -126,14 +126,42 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         }
     }
 
+    private fun isCardValid(): Boolean{
+        if (getViewModel().cardHolerName.isEmpty()){
+            context?.simpleAlert(getString(R.string.alert_card_name_on_card))
+            return false
+        }else if (getViewModel().cardHolerName.get()?.length!! < 2){
+            context?.simpleAlert(getString(R.string.alert_debit_card_min))
+            return false
+        }else if (getViewModel().cardHolerName.get().equals("NOT GIVEN",true) ||
+                getViewModel().cardHolerName.get().equals("NA",true) ||
+                getViewModel().cardHolerName.get().equals("NO",true) ||
+                getViewModel().cardHolerName.get().equals("VISA",true) ||
+                getViewModel().cardHolerName.get().equals("N.A",true) ||
+                getViewModel().cardHolerName.get().equals("N.A.",true) ||
+                getViewModel().cardHolerName.get().equals("X",true) ||
+                getViewModel().cardHolerName.get().equals("XXX",true) ||
+                getViewModel().cardHolerName.get().equals("XX",true) ||
+                getViewModel().cardHolerName.get().equals("Y",true) ||
+                getViewModel().cardHolerName.get().equals("N",true)){
+            context?.simpleAlert(getString(R.string.alert_debit_card_invalid_char,getViewModel().cardHolerName.get()))
+            return false
+        }else{
+            return true
+        }
+    }
+
     private fun isValid(): Boolean {
         return when {
             getViewModel().folioNo.isEmpty() -> {
                 context?.simpleAlert(getString(R.string.alert_chhoose_folio_number))
                 false
             }
-            getViewModel().cardHolerName.isEmpty() -> {
+            /*getViewModel().cardHolerName.isEmpty() -> {
                 context?.simpleAlert(getString(R.string.alert_card_name_on_card))
+                false
+            }*/
+            !isCardValid() -> {
                 false
             }
             getViewModel().mothersName.isEmpty() -> {

@@ -26,6 +26,7 @@ import com.tarrakki.databinding.FragmentTarrakkiZyaadaBinding
 import com.tarrakki.databinding.PageTarrakkiZyaadaItemBinding
 import com.tarrakki.databinding.RowFundKeyInfoListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.funddetails.KeyInfo
@@ -257,6 +258,9 @@ class TarrakkiZyaadaFragment : CoreFragment<TarrakkiZyaadaVM, FragmentTarrakkiZy
                             }
                         })
                     }
+/*
+                    startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)
+                    postSticky(it)*/
                 })
             }
         })
