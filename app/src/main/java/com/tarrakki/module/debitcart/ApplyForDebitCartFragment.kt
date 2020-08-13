@@ -192,7 +192,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             if (getViewModel().addressAmountData.get()?.data?.userAddress?.isNotEmpty() == true) {
                 val address = getViewModel().addressAmountData.get()?.data?.userAddress
                 val addressSplit = address?.split(" ")
-                getViewModel().formattedAddress.set("${addressSplit?.get(0)} ${addressSplit?.get(1)} ${addressSplit?.get(2)} XXXX")
+                getViewModel().formattedAddress.set("${addressSplit?.getOrNull(0)?:""} ${addressSplit?.getOrNull(1)?:""} ${addressSplit?.getOrNull(2)?:""} XXXX")
             }
         }
     }
