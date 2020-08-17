@@ -64,16 +64,14 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
 
-            <!-- Branch URI Scheme -->
             <intent-filter>
-
                 <data
                     android:host="open"
                     android:scheme="tarrakki" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
             </intent-filter>
 
             <!-- Branch App Links (optional) -->
@@ -226,13 +224,13 @@
             android:value="ca-app-pub-3940256099942544~3347511713" />
 
         <!-- Branch install referrer tracking (optional) -->
-        <receiver
+        <!--<receiver
             android:name="io.branch.referral.InstallListener"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
     </application>
 

@@ -159,7 +159,8 @@ dependencies {
     }
 
     // required for all Android apps
-    implementation 'io.branch.sdk.android:library:4.2.1'
+    //implementation 'io.branch.sdk.android:library:4.2.1'
+    implementation 'io.branch.sdk.android:library:5.0.3'
     implementation 'androidx.browser:browser:1.2.0'
 
 

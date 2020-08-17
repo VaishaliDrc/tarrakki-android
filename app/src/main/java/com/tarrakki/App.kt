@@ -39,7 +39,6 @@ class App : CoreApp() {
         // Initialize the Branch SDK
         if (BuildConfig.FLAVOR.isTarrakki()) {
             // Branch logging for debugging
-            //Branch.enableLogging();
             Branch.getAutoInstance(this)
         }
         //Sentry Tracking

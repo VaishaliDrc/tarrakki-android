@@ -366,13 +366,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                 eventKYCDataLog(kyc, "99")
                             }
-                            kycStatus.contains("05") -> {
-                                proceedVideoKYC(kyc)
-                            }
-                            kycStatus.contains("06") -> {
-                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
-                                eventKYCDataLog(kyc, "06")
-                            }
                             kycStatus.contains("12") -> {
                                 if (kycStatus.firstOrNull()?.equals("12") == true) {
                                     proceedVideoKYC(kyc)
@@ -381,6 +374,11 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     eventKYCDataLog(kyc, "12")
                                 }
                             }
+                            kycStatus.contains("06") -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
+                                eventKYCDataLog(kyc, "06")
+                            }
+
                             kycStatus.contains("11") -> {
                                 if (kycStatus.firstOrNull()?.equals("11") == true) {
                                     proceedVideoKYC(kyc)
@@ -400,6 +398,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                             kycStatus.contains("99") -> {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                 eventKYCDataLog(kyc, "99")
+                            }
+                            kycStatus.contains("05") -> {
+                                proceedVideoKYC(kyc)
                             }
                             else -> {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))

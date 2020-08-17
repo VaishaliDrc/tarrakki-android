@@ -83,9 +83,9 @@ class HomeActivity : BaseActivity() {
 
     private fun setUpBranchIo() {
         try {
-            val branch = Branch.getInstance(applicationContext)
-            branch.initSession(branchReferralInitListener)
-            //branch.sessionBuilder(this).withCallback(branchReferralInitListener).withData(if (intent != null) intent.data else null).init()
+            /*val branch = Branch.getInstance(applicationContext)
+            branch.initSession(branchReferralInitListener)*/
+            Branch.sessionBuilder(this).withCallback(branchReferralInitListener).withData(if (intent != null) intent.data else null).init()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -103,11 +103,11 @@ class HomeActivity : BaseActivity() {
             }
         }
         this.intent = intent
-        /*try {
+        try {
             Branch.sessionBuilder(this).withCallback(branchReferralInitListener).reInit()
         } catch (e: Exception) {
             e.printStackTrace()
-        }*/
+        }
     }
 
     private fun resumeKYCProcess(intent: Intent) {

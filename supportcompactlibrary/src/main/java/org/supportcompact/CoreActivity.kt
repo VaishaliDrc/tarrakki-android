@@ -49,7 +49,9 @@ abstract class CoreActivity<VM : ActivityViewModel, DB : ViewDataBinding> : AppC
     override fun onResume() {
         super.onResume()
         overridePendingTransition(0, 0)
-        EventBus.getDefault().register(this)
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onPause() {

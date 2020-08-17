@@ -14,7 +14,6 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -276,16 +275,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                 eventKYCDataLog(kyc, "99")
                             }
-                            /**
-                             * NOT_AVAILABLE = "05"
-                             * */
-                            kycStatus.contains("05") -> {
-                                proceedVideoKYC(kyc)
-                            }
-                            kycStatus.contains("06") -> {
-                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
-                                eventKYCDataLog(kyc, "06")
-                            }
                             kycStatus.contains("12") -> {
                                 if (kycStatus.firstOrNull()?.equals("12") == true) {
                                     proceedVideoKYC(kyc)
@@ -293,6 +282,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_registered))
                                     eventKYCDataLog(kyc, "12")
                                 }
+                            }
+                            kycStatus.contains("06") -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_deactivated))
+                                eventKYCDataLog(kyc, "06")
                             }
                             kycStatus.contains("11") -> {
                                 if (kycStatus.firstOrNull()?.equals("11") == true) {
@@ -309,6 +302,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
                                     eventKYCDataLog(kyc, "13")
                                 }
+                            }
+                            /**
+                             * NOT_AVAILABLE = "05"
+                             * */
+                            kycStatus.contains("05") -> {
+                                proceedVideoKYC(kyc)
                             }
                             else -> {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
