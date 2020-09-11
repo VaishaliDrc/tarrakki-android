@@ -47,7 +47,9 @@
 
         <TextView
             android:id="@+id/tvLumpsum"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_32sdp"
             android:text="@string/enter_one_time_lumpsum_amount"
@@ -91,7 +93,9 @@
 
         <TextView
             android:id="@+id/tvSIPAmountL"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:text="@string/monthly_investment_amount_sip_"
@@ -136,7 +140,9 @@
 
         <TextView
             android:id="@+id/tvDurationsL"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
             android:text="@string/duration"

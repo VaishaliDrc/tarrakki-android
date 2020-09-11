@@ -29,7 +29,9 @@ data class HomeData(
             @SerializedName("kyc_status")
             val kycStatus: String?,
             @SerializedName("is_remaining_fields")
-            val isRemainingFields: String?
+            val isRemainingFields: String?,
+            @SerializedName("whatsapp_link")
+            val whatsappLink: String?
     ) {
         data class PortfolioDetails(
                 @SerializedName("current_value")

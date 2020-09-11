@@ -4,16 +4,24 @@ package com.tarrakki.module.home
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -34,6 +42,7 @@ import org.supportcompact.events.EventData
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
+
 const val CATEGORYNAME = "category_name"
 const val ISSINGLEINVESTMENT = "category_single_investment"
 const val ISTHEMATICINVESTMENT = "category_thematic_investment"
@@ -45,6 +54,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         get() = false
     override val title: String
         get() = getString(R.string.home)
+
+    var whatsapp = ""
 
     override fun getLayout(): Int {
         return R.layout.fragment_home
@@ -150,6 +161,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
     private val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
+            whatsapp = apiResponse.data.whatsappLink.toString()
             //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
             managePANBox()
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
@@ -260,9 +272,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     eventKYCDataLog(kyc, "03")
                                 }
                             }
-                            /**
-                             * KYC_REJECTED = "04"                                     *
-                             * */
                             kycStatus.contains("04") -> {
                                 if (kycStatus.firstOrNull()?.equals("04") == true) {
                                     proceedVideoKYC(kyc)
@@ -274,6 +283,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                             kycStatus.contains("99") -> {
                                 context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_server_not_reachable))
                                 eventKYCDataLog(kyc, "99")
+                            }
+                            kycStatus.contains("22") -> {
+                                context?.simpleAlert(App.INSTANCE.getString(R.string.alert_kyc_on_hold_due_to_incomplete))
+                                eventKYCDataLog(kyc, "22")
                             }
                             kycStatus.contains("12") -> {
                                 if (kycStatus.firstOrNull()?.equals("12") == true) {
@@ -295,7 +308,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     eventKYCDataLog(kyc, "11")
                                 }
                             }
-                            kycStatus.contains("13") -> {
+                            kycStatus.contains("13")-> {
                                 if (kycStatus.firstOrNull()?.equals("13") == true) {
                                     proceedVideoKYC(kyc)
                                 } else {
@@ -303,9 +316,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     eventKYCDataLog(kyc, "13")
                                 }
                             }
-                            /**
-                             * NOT_AVAILABLE = "05"
-                             * */
                             kycStatus.contains("05") -> {
                                 proceedVideoKYC(kyc)
                             }
@@ -318,6 +328,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
                 })
             }
+        }
+
+        btn_whatsapp?.setOnClickListener {
+            chatWhatsapp()
         }
 
         tvWhyTarrakkii?.setOnClickListener {
@@ -365,6 +379,47 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         })
     }
 
+    private fun whatsappInstalledOrNot(uri: String): Boolean {
+        val pm: PackageManager? = activity?.getPackageManager()
+        var appInstalled = false
+        appInstalled = try {
+            pm?.getPackageInfo(uri, PackageManager.GET_ACTIVITIES)
+            true
+        } catch (e: PackageManager.NameNotFoundException) {
+            false
+        }
+        return appInstalled
+    }
+
+    private fun chatWhatsapp(){
+        if (whatsapp.isNotEmpty()) {
+            val packageManager = context!!.packageManager
+            val i = Intent(Intent.ACTION_VIEW)
+            val phone = 917573059595
+            val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
+            if (isWhatsappInstalled) {
+                try {
+                    val url = "https://wa.me/$phone"
+                    i.setPackage("com.whatsapp")
+                    i.data = Uri.parse(whatsapp)
+                    if (i.resolveActivity(packageManager) != null) {
+                        context?.startActivity(i)
+                    }
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+            } else {
+                val uri = Uri.parse("market://details?id=com.whatsapp")
+                val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+                Toast.makeText(activity, "WhatsApp not Installed",
+                        Toast.LENGTH_SHORT).show()
+                startActivity(goToMarket)
+            }
+        }else{
+            toast("Please reload the home screen once to use this feature.")
+        }
+    }
+
     private fun proceedVideoKYC(kyc: KYCData) {
         edtPanNo?.text?.clear()
         startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
@@ -397,4 +452,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = HomeFragment().apply { arguments = basket }
     }
+
+
+
 }

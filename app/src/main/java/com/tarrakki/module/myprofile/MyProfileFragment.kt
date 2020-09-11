@@ -243,10 +243,11 @@ class MyProfileFragment : CoreFragment<MyProfileVM, FragmentMyProfileBinding>() 
         }
 
         edtEmail.setOnClickListener {
-            context?.updateEmailOrMobile(updateField = "${getViewModel().email.get()}") { email: String ->
+           /* context?.updateEmailOrMobile(updateField = "${getViewModel().email.get()}") { email: String ->
                 getViewModel().email.set(email)
                 onVerifyEmail()
-            }
+            }*/
+            context?.simpleAlert(getString(R.string.alert_change_email));
             /*if (i == EditorInfo.IME_ACTION_DONE) {
                 onVerifyEmail()
             }*/

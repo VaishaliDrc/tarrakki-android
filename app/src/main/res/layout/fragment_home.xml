@@ -18,6 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -487,6 +491,19 @@
 
 
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_whatsapp"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_whatsapp"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="#55CC6C"
+            android:layout_alignParentBottom="true"
+            app:maxImageSize="32dp"
+            android:layout_margin="@dimen/_16sdp"
+            android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

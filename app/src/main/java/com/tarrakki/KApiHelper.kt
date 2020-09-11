@@ -337,6 +337,12 @@ fun getPANeKYCStatus(pan: String): MutableLiveData<List<String>> {
                                 data?.data?.nDMLKRA ?: "",//"${data?.ndmlkra}",
                                 data?.data?.dOTEXKRA ?: "",//"${data?.dotexkra}",
                                 data?.data?.kARVYKRA ?: "")//"${data?.karvykra}")
+                       /* val kycStates: List<String> = arrayListOf(
+                                "05" ?: "",//"${data?.camskra}",
+                                "22" ?: "",//"${data?.cvlkra}",
+                                "05" ?: "",//"${data?.ndmlkra}",
+                                "05" ?: "",//"${data?.dotexkra}",
+                                "05" ?: "")//"${data?.karvykra}")*/
                         apiResponse.value = kycStates
                     } else {
                         EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.alert_try_later)))

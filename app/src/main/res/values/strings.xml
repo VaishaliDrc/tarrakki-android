@@ -562,12 +562,12 @@
     <string name="folio_">Folio:</string>
     <string name="alert_alert_non_resident">This app is currently only available for use to residents of India.</string>
     <string name="alert_try_later">Something went wrong. We\'re looking into it. Please try again later.</string>
-    <string name="alert_kyc_on_hold">Your KYC is currently on hold. This is part of a standard procedure. We will inform you when it is approved.</string>
-    <string name="alert_kyc_rejected">Your KYC has been rejected. Please re-apply with the correct details.</string>
-    <string name="alert_kyc_deactivated">Your KYC records are unavailable. Kindly contact support@tarrakki.com to complete your KYC.</string>
-    <string name="alert_kyc_registered">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
-    <string name="alert_under_process">Your KYC registration is under way. We will inform you once your KYC has been approved.</string>
-    <string name="alert_kyc_on_hold_due_to_incomplete">Your KYC records are incomplete. Kindly contact support@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_on_hold">Your KYC is currently on hold. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_rejected">Your KYC is rejected. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_deactivated">Your KYC records are unavailable. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_registered">Your KYC records are incomplete. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
+    <string name="alert_under_process">Your KYC application is incomplete. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
+    <string name="alert_kyc_on_hold_due_to_incomplete">Your KYC records are incomplete. Kindly contact kyc@tarrakki.com to complete your KYC.</string>
     <string name="alert_kyc_server_not_reachable">The web service you need to complete this action is currently unavailable. Please try again later.</string>
     <string name="tarrakki_correspondence_address">Tarrakki Correspondence Address</string>
     <string name="pls_entr_ur_adrs">Enter your address</string>
@@ -671,7 +671,7 @@
     <string name="app_update">App Update</string>
     <string name="alert_chhoose_folio_number">Please choose a folio number.</string>
     <string name="alert_card_name_on_card">Please enter your name as it is on the card.</string>
-    <string name="alert_card_mothers_name">Please enter your mother\'s maiden name. (This is your mother\'s name before her marriage.)</string>
+    <string name="alert_card_mothers_name">Please enter your mother\'s maiden name(This is your mother\'s Surname before her marriage).</string>
     <string name="alert_card_date_of_birth">Please enter your date of birth.</string>
     <string name="alert_ticket_issue_transaction">Please select the transaction.</string>
     <string name="alert_ticket_issue_description">Please describe your issue.</string>
@@ -812,4 +812,6 @@
     <string name="alert_debit_card_min">The Name of Card must have at least 2 characters.</string>
     <string name="alert_debit_card_invalid_char">The Name of Card can not be \'%s\'.</string>
 
+    <string name="whatsapp">Whatsapp</string>
+    <string name="alert_change_email">Please raise a support ticket or contact us on support@tarrakki.com to change email address.</string>
 </resources>
