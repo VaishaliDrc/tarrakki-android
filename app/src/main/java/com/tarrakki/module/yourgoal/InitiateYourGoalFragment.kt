@@ -60,7 +60,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
                         data.add(item)
                     }
                     val adapter = ArrayAdapter(
-                            activity,
+                            requireContext(),
                             R.layout.simple_spinner_item_gray_small,
                             data
                     )

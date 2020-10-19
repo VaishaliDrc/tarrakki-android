@@ -14,6 +14,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.os.Handler
 import android.text.*
 import android.text.method.LinkMovementMethod
@@ -42,7 +43,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.tarrakki.api.model.*
 import com.tarrakki.databinding.*
-import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.funddetails.FundDetailsFragment
 import com.tarrakki.module.funddetails.ITEM_ID
@@ -85,11 +85,7 @@ fun setRiskLevel(speedView: SpeedView, riskLevel: Int) {
         speedView.indicator = imageIndicator
     }
     speedView.sections.clear()
-    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
-            , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
-            , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
-            , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
-            , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
     speedView.setSpeedAt(riskLevel.toFloat() - 10)
 }
 
@@ -107,11 +103,7 @@ fun setRiskLevel(speedView: SpeedView, riskLevel: Float) {
         speedView.indicator = imageIndicator
     }
     speedView.sections.clear()
-    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f))
-            , Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f))
-            , Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f))
-            , Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f))
-            , Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
     speedView.setSpeedAt(riskLevel)
 }
 
@@ -219,7 +211,7 @@ fun applyForDebitCart(txt: TextView, folioData: ArrayList<FolioData>?) {
     txt.setOnClickListener {
         val mContext = txt.context
         if (mContext is androidx.fragment.app.FragmentActivity) {
-            getAddressAmountAPI().observe(mContext, androidx.lifecycle.Observer {addressAmountData ->
+            getAddressAmountAPI().observe(mContext, androidx.lifecycle.Observer { addressAmountData ->
                 /*TarrakkiSingleton.getInstance().debitCardAddress = it.data.userAddress
                 TarrakkiSingleton.getInstance().debitCardAmount = it.data.cashfreeAmount.toString()
                 startFragment(ApplyForDebitCartFragment.newInstance(), R.id.frmContainer)*/
@@ -331,7 +323,7 @@ fun applyCurrencyFormat(txt: TextView, enable: Boolean?) {
         txt.setOnLongClickListener {
             val clipboard = txt.context?.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager?
             val clip = ClipData.newPlainText("Message copied", txt.text)
-            clipboard?.primaryClip = clip
+            clipboard?.setPrimaryClip(clip)
             txt.context?.toast("Message copied")
             return@setOnLongClickListener true
         }
@@ -467,7 +459,7 @@ fun setIFSCCode(edt: EditText, isIFSCCode: Boolean) {
 }
 
 fun getTarrakkiDir(): File {
-    val root = Environment.getExternalStorageDirectory().absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}"
+    val root = App.INSTANCE.getExternalFilesDir(DIRECTORY_DOWNLOADS)?.absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}"
     val mFile = File(root)
     if (!mFile.exists()) {
         mFile.mkdirs()
@@ -476,7 +468,7 @@ fun getTarrakkiDir(): File {
 }
 
 fun getFileDownloadDir(): String {
-    val root = Environment.getExternalStorageDirectory().absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}/Download"
+    val root = App.INSTANCE.getExternalFilesDir(DIRECTORY_DOWNLOADS)?.absolutePath + "/${App.INSTANCE.getString(R.string.app_name)}/Download"
     val mFile = File(root)
     if (!mFile.exists()) {
         mFile.mkdirs()

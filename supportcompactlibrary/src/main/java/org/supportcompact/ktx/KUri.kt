@@ -131,10 +131,12 @@ private fun getDataColumn(uri: Uri?, selection: String?, selectionArgs: Array<St
     val projection = arrayOf(column)
 
     try {
-        cursor = CoreApp.getInstance().contentResolver.query(uri, projection, selection, selectionArgs, null)
-        if (cursor != null && cursor.moveToFirst()) {
-            val column_index = cursor.getColumnIndexOrThrow(column)
-            return cursor.getString(column_index)
+        uri?.let {
+            cursor = CoreApp.getInstance().contentResolver.query(uri, projection, selection, selectionArgs, null)
+        }
+        if (cursor != null && cursor?.moveToFirst() == true) {
+            val column_index = cursor?.getColumnIndexOrThrow(column)
+            return column_index?.let { cursor?.getString(it) }
         }
     } finally {
         cursor?.close()

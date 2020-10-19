@@ -83,7 +83,7 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
         var amount = 100000.0
         var durations = 3.0
         fundVM?.let { itVM ->
-            itVM.fundDetailsResponse.observe(this, Observer { fundDetailsResponse ->
+            itVM.fundDetailsResponse.observe(viewLifecycleOwner, Observer { fundDetailsResponse ->
                 fundDetailsResponse?.let { fund ->
                     binder?.fund = fund.fundsDetails
                     binder?.executePendingBindings()
@@ -331,14 +331,14 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                         }
                         context?.addFundPortfolioDialog(folios, minLumpSumAmount, minSIPAmount, itVM.fundDetailsResponse.value?.bseData) { folioNo, amountLumpsum, amountSIP ->
                             if (itVM.tarrakkiZyaadaId.isNullOrBlank()) {
-                                addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                addToCart(fund_id, amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(viewLifecycleOwner,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                             }
                                         })
                             } else {
-                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(this,
+                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP.toString(), amountLumpsum.toString(), folioNo).observe(viewLifecycleOwner,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -349,14 +349,14 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                     } else {
                         context?.investDialog(fund_id, minSIPAmount, minLumpSumAmount, itVM.fundDetailsResponse.value?.bseData) { amountLumpsum, amountSIP, fundId ->
                             if (itVM.tarrakkiZyaadaId.isNullOrBlank()) {
-                                addToCart(fundId, amountSIP, amountLumpsum).observe(this,
+                                addToCart(fundId, amountSIP, amountLumpsum).observe(viewLifecycleOwner,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
                                             }
                                         })
                             } else {
-                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP, amountLumpsum).observe(this,
+                                addToCartTarrakkiZyaada("${itVM.tarrakkiZyaadaId}", amountSIP, amountLumpsum).observe(viewLifecycleOwner,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
                                                 startFragment(CartFragment.newInstance(), R.id.frmContainer)
@@ -369,7 +369,7 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
             }
         }
         val adapter = ArrayAdapter.createFromResource(
-                activity,
+                requireContext(),
                 R.array.durations,
                 R.layout.simple_spinner_item_gray
         )

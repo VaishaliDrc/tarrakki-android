@@ -59,14 +59,14 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
         val categories = arrayListOf(getString(R.string.all))
         val subcategories = arrayListOf(getString(R.string.all))
         val adapter = ArrayAdapter(
-                activity,
+                requireContext(),
                 R.layout.simple_spinner_item,
                 categories
         )
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         spnCategory.adapter = adapter
         val adapterSub = ArrayAdapter(
-                activity,
+                requireContext(),
                 R.layout.simple_spinner_item,
                 subcategories
         )

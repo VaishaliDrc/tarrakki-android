@@ -171,7 +171,7 @@ fun Bitmap.scaleBitmap(newWidth: Int, newHeight: Int): Bitmap {
     val scaleMatrix = Matrix()
     scaleMatrix.setScale(scaleX, scaleY, pivotX, pivotY)
     val canvas = Canvas(resizedBitmap)
-    canvas.matrix = scaleMatrix
+    canvas.concat(scaleMatrix)
     canvas.drawBitmap(this, 0f, 0f, Paint(Paint.FILTER_BITMAP_FLAG))
     return resizedBitmap
 }

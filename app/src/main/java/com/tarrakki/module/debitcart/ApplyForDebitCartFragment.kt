@@ -126,27 +126,27 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
         }
     }
 
-    private fun isCardValid(): Boolean{
-        if (getViewModel().cardHolerName.isEmpty()){
+    private fun isCardValid(): Boolean {
+        if (getViewModel().cardHolerName.isEmpty()) {
             context?.simpleAlert(getString(R.string.alert_card_name_on_card))
             return false
-        }else if (getViewModel().cardHolerName.get()?.length!! < 2){
+        } else if (getViewModel().cardHolerName.get()?.length!! < 2) {
             context?.simpleAlert(getString(R.string.alert_debit_card_min))
             return false
-        }else if (getViewModel().cardHolerName.get().equals("NOT GIVEN",true) ||
-                getViewModel().cardHolerName.get().equals("NA",true) ||
-                getViewModel().cardHolerName.get().equals("NO",true) ||
-                getViewModel().cardHolerName.get().equals("VISA",true) ||
-                getViewModel().cardHolerName.get().equals("N.A",true) ||
-                getViewModel().cardHolerName.get().equals("N.A.",true) ||
-                getViewModel().cardHolerName.get().equals("X",true) ||
-                getViewModel().cardHolerName.get().equals("XXX",true) ||
-                getViewModel().cardHolerName.get().equals("XX",true) ||
-                getViewModel().cardHolerName.get().equals("Y",true) ||
-                getViewModel().cardHolerName.get().equals("N",true)){
-            context?.simpleAlert(getString(R.string.alert_debit_card_invalid_char,getViewModel().cardHolerName.get()))
+        } else if (getViewModel().cardHolerName.get().equals("NOT GIVEN", true) ||
+                getViewModel().cardHolerName.get().equals("NA", true) ||
+                getViewModel().cardHolerName.get().equals("NO", true) ||
+                getViewModel().cardHolerName.get().equals("VISA", true) ||
+                getViewModel().cardHolerName.get().equals("N.A", true) ||
+                getViewModel().cardHolerName.get().equals("N.A.", true) ||
+                getViewModel().cardHolerName.get().equals("X", true) ||
+                getViewModel().cardHolerName.get().equals("XXX", true) ||
+                getViewModel().cardHolerName.get().equals("XX", true) ||
+                getViewModel().cardHolerName.get().equals("Y", true) ||
+                getViewModel().cardHolerName.get().equals("N", true)) {
+            context?.simpleAlert(getString(R.string.alert_debit_card_invalid_char, getViewModel().cardHolerName.get()))
             return false
-        }else{
+        } else {
             return true
         }
     }
@@ -192,7 +192,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
             if (getViewModel().addressAmountData.get()?.data?.userAddress?.isNotEmpty() == true) {
                 val address = getViewModel().addressAmountData.get()?.data?.userAddress
                 val addressSplit = address?.split(" ")
-                getViewModel().formattedAddress.set("${addressSplit?.getOrNull(0)?:""} ${addressSplit?.getOrNull(1)?:""} ${addressSplit?.getOrNull(2)?:""} XXXX")
+                getViewModel().formattedAddress.set("${addressSplit?.getOrNull(0) ?: ""} ${addressSplit?.getOrNull(1) ?: ""} ${addressSplit?.getOrNull(2) ?: ""} XXXX")
             }
         }
     }
@@ -216,7 +216,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 //            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent))
         } else {
 //            postError(event.getString("txMsg"))
-            context?.simpleAlert(event.getString("txMsg"))
+            context?.simpleAlert(event.getString("txMsg") ?: "")
         }
         removeStickyEvent(event)
     }

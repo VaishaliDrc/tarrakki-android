@@ -123,8 +123,10 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
         request.setAllowedOverRoaming(false)
         request.setTitle("Tarrakki Downloading " + download_Uri.lastPathSegment)
         request.setDescription("Downloading " + download_Uri.lastPathSegment)
-        request.setVisibleInDownloadsUi(true)
-        request.setDestinationInExternalPublicDir("/Tarrakki", download_Uri.lastPathSegment)
+                .setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_DOCUMENTS,
+                        "/Tarrakki/${download_Uri.lastPathSegment}"  //Your User define(Non Standard Directory name)/File Name
+                )
         refid = downloadManager.enqueue(request)
     }
 
@@ -141,14 +143,10 @@ class DownloadBankMandateFromFragment : CoreFragment<DownloadBankMandateFromVM, 
     private fun loadPdf() {
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
-        // mWebView.settings.useWideViewPort = true
-        mWebView.settings.domStorageEnabled = true
+        mWebView.settings.useWideViewPort = true
         mWebView.settings.loadsImagesAutomatically = true
-        //mWebView.settings.setAppCachePath(context?.cacheDir?.absolutePath)
-        // mWebView.settings.setAppCacheEnabled(true)
-        //  mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
         mWebView.settings.setSupportMultipleWindows(false)
-
+        mWebView.clearCache(true)
         mWebView.webChromeClient = object : WebChromeClient() {
 
             override fun onProgressChanged(view: WebView, newProgress: Int) {

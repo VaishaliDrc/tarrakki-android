@@ -8,11 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -20,8 +16,6 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
-import com.tarrakki.module.cart.CartFragment
-import com.tarrakki.module.debitcart.ApplyForDebitCartFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -308,7 +302,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                                     eventKYCDataLog(kyc, "11")
                                 }
                             }
-                            kycStatus.contains("13")-> {
+                            kycStatus.contains("13") -> {
                                 if (kycStatus.firstOrNull()?.equals("13") == true) {
                                     proceedVideoKYC(kyc)
                                 } else {
@@ -391,31 +385,34 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         return appInstalled
     }
 
-    private fun chatWhatsapp(){
+    private fun chatWhatsapp() {
         if (whatsapp.isNotEmpty()) {
-            val packageManager = context!!.packageManager
-            val i = Intent(Intent.ACTION_VIEW)
-            val phone = 917573059595
-            val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
-            if (isWhatsappInstalled) {
-                try {
-                    val url = "https://wa.me/$phone"
-                    i.setPackage("com.whatsapp")
-                    i.data = Uri.parse(whatsapp)
-                    if (i.resolveActivity(packageManager) != null) {
-                        context?.startActivity(i)
+            try {
+                val packageManager = requireActivity().packageManager
+                val i = Intent(Intent.ACTION_VIEW)
+                val phone = 917573059595
+                val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
+                if (isWhatsappInstalled) {
+                    try {
+                        val url = "https://wa.me/$phone"
+                        i.setPackage("com.whatsapp")
+                        i.data = Uri.parse(whatsapp)
+                        if (i.resolveActivity(packageManager) != null) {
+                            context?.startActivity(i)
+                        }
+                    } catch (e: java.lang.Exception) {
+                        e.printStackTrace()
                     }
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
+                } else {
+                    val uri = Uri.parse("market://details?id=com.whatsapp")
+                    val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+                    Toast.makeText(activity, "WhatsApp not Installed",
+                            Toast.LENGTH_SHORT).show()
+                    startActivity(goToMarket)
                 }
-            } else {
-                val uri = Uri.parse("market://details?id=com.whatsapp")
-                val goToMarket = Intent(Intent.ACTION_VIEW, uri)
-                Toast.makeText(activity, "WhatsApp not Installed",
-                        Toast.LENGTH_SHORT).show()
-                startActivity(goToMarket)
+            } catch (e: Exception) {
             }
-        }else{
+        } else {
             toast("Please reload the home screen once to use this feature.")
         }
     }
@@ -452,7 +449,6 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         @JvmStatic
         fun newInstance(basket: Bundle? = null) = HomeFragment().apply { arguments = basket }
     }
-
 
 
 }
