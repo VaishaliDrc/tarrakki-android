@@ -1,14 +1,8 @@
 package com.tarrakki.module.funddetails.fragments
 
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -16,6 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -80,8 +80,14 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
 
         rvEarned?.isFocusable = false
         rvEarned?.isNestedScrollingEnabled = false
+
         var amount = 100000.0
         var durations = 3.0
+
+        var savingInterest : Double = 0.0
+        var fdInterest : Double = 0.0
+
+
         fundVM?.let { itVM ->
             itVM.fundDetailsResponse.observe(viewLifecycleOwner, Observer { fundDetailsResponse ->
                 fundDetailsResponse?.let { fund ->
@@ -111,15 +117,32 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                     edtYears.setText("${durations.toInt()}")
                     itVM.earningBase.add(TopHolding("Tarrakki Direct Plan", 100, r))
                     //earningBase.add(TopHolding("Regular Plan", 65, 8.5, 109300.00))
-                    itVM.earningBase.add(TopHolding("Fixed Deposit", 45, fund.fixedDepositReturn?.toDoubleOrNull()
-                            ?: 0.0))
-                    itVM.earningBase.add(TopHolding("Bank Savings Account", 40, fund.bankSavingsReturn?.toDoubleOrNull()
-                            ?: 0.0))
+
+                    //Calculation given by sajan
+//                    if (cell.lblScriptName.text == TRConstants.FUND_HISTORIC_COMPARISION_LIST.FUND_FIXED_DEPOSIT || cell.lblScriptName.text == TRConstants.FUND_HISTORIC_COMPARISION_LIST.FUND_BANK_SAVINGS) && self.txtFldDurType.text == TRConstants.RETURN_DURATION_TYPE.RETURN_DURATION_MONTH
+//                    {
+//                        let floatNoOfMonths = Float(self.txtFldInvstDuration.text!)!
+//                        floatPercentage = self.arrReturnsPercentage[self.arrFundCompList[indexPath.row]]! as? Float ?? 0.0
+//                        floatPercentage = (floatPercentage * floatNoOfMonths) / 12
+//                    }
+//                    else
+//                    {
+//                        floatPercentage = self.arrReturnsPercentage[self.arrFundCompList[indexPath.row]]! as? Float ?? 0.0
+//                    }
+
+                    fdInterest = fund.fixedDepositReturn?.toDoubleOrNull()?: 0.0
+                    itVM.earningBase.add(TopHolding("Fixed Deposit", 45, fdInterest))
+                    savingInterest = fund.bankSavingsReturn?.toDoubleOrNull()?: 0.0
+                    itVM.earningBase.add(TopHolding("Bank Savings Account", 40, savingInterest))
                     itVM.earningBase.forEach { item ->
+
+//                        item.amount = calculateReturns(amount, durations,item.percentageHolding)
+
+
                         item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                             durations
                         } else {
-                            durations / 12
+                            (durations / 12) * (12 / durations)
                         }, item.percentageHolding)
                     }
                     resetProgress(itVM.earningBase)
@@ -134,11 +157,18 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                                 try {
                                     amount = p.toString().replace(",", "").toDouble()
                                     itVM.earningBase.forEach { item ->
+
+//                                        item.amount = calculateReturns(amount, durations,item.percentageHolding)
+
+//                                        if ((item.name.equals("Fixed Deposit") || item.name.equals("Bank Savings Account")) && spnDuration?.selectedItemPosition == 1) {
+//                                            rtgetg
+//                                        }
+
                                         item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                             durations
                                         } else {
-                                            durations / 12
-                                        }, item.percentageHolding)
+                                            (durations / 12) * (12 / durations)
+                                        },item.percentageHolding)
                                     }
                                     resetProgress(itVM.earningBase)
                                     rvEarned?.adapter?.notifyDataSetChanged()
@@ -200,10 +230,31 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                                         }
                                         item.percentageHolding = r
                                     }
+                                    else{
+                                        if(spnDuration?.selectedItemPosition == 1 ){
+                                            if(item.name.equals("Fixed Deposit")){
+                                                item.percentageHolding = (fdInterest * durations)/12
+                                            }
+                                            else if(item.name.equals("Bank Savings Account")){
+                                                item.percentageHolding = (savingInterest * durations)/12
+                                            }
+                                        }
+                                        else{
+                                            if(item.name.equals("Fixed Deposit")){
+                                                item.percentageHolding = fdInterest
+                                            }
+                                            else if(item.name.equals("Bank Savings Account")){
+                                                item.percentageHolding = savingInterest
+                                            }
+                                        }
+                                    }
+
+//                                    item.amount = calculateReturns(amount, durations,item.percentageHolding)
+
                                     item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                         durations
                                     } else {
-                                        durations / 12
+                                        (durations / 12) * (12 / durations)
 
                                     }, item.percentageHolding)
                                 }
@@ -243,10 +294,31 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
                                 if (itVM.earningBase.indexOf(item) == 0) {
                                     item.percentageHolding = fund.getReturn(durations.toInt(), getDurations())
                                 }
+                                else{
+                                    if(spnDuration?.selectedItemPosition == 1 ){
+                                        if(item.name.equals("Fixed Deposit")){
+                                            item.percentageHolding = (fdInterest * durations)/12
+                                        }
+                                        else if(item.name.equals("Bank Savings Account")){
+                                            item.percentageHolding = (savingInterest * durations)/12
+                                        }
+                                    }
+                                    else{
+                                        if(item.name.equals("Fixed Deposit")){
+                                            item.percentageHolding = fdInterest
+                                        }
+                                        else if(item.name.equals("Bank Savings Account")){
+                                            item.percentageHolding = savingInterest
+                                        }
+                                    }
+                                }
+
+//                                item.amount = calculateReturns(amount, durations,item.percentageHolding)
+
                                 item.amount = calculateReturns(amount, if (spnDuration?.selectedItemPosition == 0) {
                                     durations
                                 } else {
-                                    durations / 12
+                                    (durations / 12) * (12 / durations)
                                 }, item.percentageHolding)
                             }
                             resetProgress(itVM.earningBase)
@@ -378,6 +450,19 @@ class PerformanceFragment : androidx.fragment.app.Fragment() {
         //edtInvestAmount?.filters = arrayOf(InputFilterMinMax(1))
         edtYears?.filters = arrayOf(InputFilterMinMax(1))
     }
+
+//    private fun getROI(item: TopHolding, durations: Double,roi: Double): Double {
+//        var ROI = item.percentageHolding
+//        if ((item.name.equals("Fixed Deposit") || item.name.equals("Bank Savings Account")) && spnDuration?.selectedItemPosition == 1) {
+//            return (item.percentageHolding * durations) / 12
+//        }
+//        return ROI
+//    }
+//
+//    private fun isFD(item: TopHolding): Boolean {
+//        return item.name.equals("Fixed Deposit")
+//    }
+
 
     fun getDurations(): Int {
         val d = spnDuration?.selectedItemPosition ?: 0
