@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanVM" />
+
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                tools:context=".module.home.HomeFragment">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/lyt_consumer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_space"
+                        android:layout_marginTop="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/default_space"
+                        android:layout_marginBottom="@dimen/space_16"
+                        android:background="@drawable/shape_cart_view"
+                        android:elevation="2dp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/space_16">
+
+                        <ImageView
+                            android:id="@+id/ivliqui"
+                            android:layout_width="@dimen/_70sdp"
+                            android:layout_height="60dp"
+                            android:adjustViewBounds="true"
+                            android:padding="@dimen/space_12"
+                            android:src="@drawable/ic_equity_advisory"
+                            tools:src="@drawable/ic_equity_advisory" />
+
+                        <TextView
+                            android:id="@+id/tvLiquiDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/ivliqui"
+                            android:lineSpacingExtra="@dimen/_2sdp"
+                            android:text="Liquiloans is a Peer to Peer Lending platform. The company uses technology to match borrowers and lenders and in the process eliminates the margin which is charged by traditional banks and NBFCs, thus, making borrowing cheaper and investing a more lucrative opportunity as compared to traditional investment avenues.more lucrative opportunity as compared to traditional investment avenues."
+                            android:textSize="@dimen/sp10"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <View
+                            android:id="@+id/view1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_below="@+id/tvLiquiDescription"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_5sdp"
+                            android:background="@color/darker_gray" />
+
+
+                        <TextView
+                            android:id="@+id/tvRiskLevel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/view1"
+                            android:layout_alignBottom="@+id/lyt_medium_risk"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:fontFamily="@font/lato_semibold"
+                            android:gravity="center_vertical"
+                            android:text="Risk Level"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:id="@+id/lyt_medium_risk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view1"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/ivliqui"
+                            android:background="@drawable/shape_medium_risk_bg"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_3sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/white_radius"
+                                android:fontFamily="@font/lato_semibold"
+                                android:paddingStart="@dimen/_3sdp"
+                                android:paddingEnd="@dimen/_3sdp"
+                                android:text="="
+                                android:textColor="@color/red" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:text="Medium Risk"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/sp9" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lyt_medium_return"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view1"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_toEndOf="@+id/lyt_medium_risk"
+                            android:background="@drawable/shape_risk_to_revord_level_bg"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/_3sdp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/white_radius"
+                                android:fontFamily="@font/lato_semibold"
+                                android:paddingStart="@dimen/_3sdp"
+                                android:paddingEnd="@dimen/_3sdp"
+                                android:text="="
+                                android:textColor="@color/active" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:layout_marginEnd="@dimen/_15sdp"
+                                android:text="Medium Return"
+                                android:textColor="@color/active"
+                                android:textSize="@dimen/sp9" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvTimeHorizon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvRiskLevel"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:fontFamily="@font/lato_semibold"
+                            android:gravity="center_vertical"
+                            android:text="Time Horizon"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvTimeHorizonValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvRiskLevel"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_toEndOf="@id/ivliqui"
+                            android:fontFamily="@font/lato_semibold"
+                            android:gravity="center_vertical"
+                            android:text="1 to 5 year" />
+
+                        <View
+                            android:id="@+id/view2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_below="@+id/tvTimeHorizonValue"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:background="@color/darker_gray" />
+
+                        <TextView
+                            android:id="@+id/tvInformation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/view2"
+                            android:fontFamily="@font/lato_semibold"
+                            android:gravity="center_vertical"
+                            android:text="Information"
+                            android:textColor="@color/black" />
+
+
+                        <LinearLayout
+                            android:id="@+id/lyt_borrowers_lender_gross_info"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvInformation"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvBorrowersValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:gravity="center_vertical"
+                                    android:text="@{vm.borrowers}"
+                                    android:textColor="@color/black" />
+
+
+                                <TextView
+                                    android:id="@+id/tvBorrowers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="BORROWERS"
+                                    android:textSize="@dimen/_9ssp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvLendersValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:gravity="center_vertical"
+                                    android:text="@{vm.lenders}"
+                                    android:textColor="@color/black" />
+
+
+                                <TextView
+                                    android:id="@+id/tvLenders"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="LENDERS" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvGrossNPAValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:gravity="center_vertical"
+                                    android:text="@{vm.gross_npa}"
+                                    android:textColor="@color/black" />
+
+
+                                <TextView
+                                    android:id="@+id/tvGrossNPA"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="GROSS NPA(%)" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lyt_disbursement"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lyt_borrowers_lender_gross_info"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvDisbursementalue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:gravity="center_vertical"
+                                    android:text="@{vm.disbursements}"
+                                    android:textColor="@color/black" />
+
+
+                                <TextView
+                                    android:id="@+id/tvDisbursement"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text='@{"DISBURSEMENT IN "+vm.disbursementMonth}' />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvTotalDisbursementValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:gravity="center_vertical"
+                                    android:text="@{vm.totalDisbursements}"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/tvTotalDisbursement"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="TOTAL DISBURSEMENT" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lyt_who_should_invest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_space"
+                        android:layout_marginTop="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/default_space"
+                        android:background="@drawable/shape_cart_view"
+                        android:elevation="2dp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/space_16">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/img_arrow"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lato_semibold"
+                                android:text="Who should invest in this product?"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/space_4"
+                                android:fontFamily="@font/lato_semibold"
+                                android:text="At Tarrakki. we recommend Liquiloans to investors who are seeking to get higher returns vs a debt Mutual Fund or a Bank Deposit and are willing to take slightly additional risk. Liquiloans only lends to prime borrowers that helps them keep their NPAs significantly lower than the industry average. If you are looking for predictable returns for your short term investments, this is an ideal product."
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/img_arrow"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_keyboard_arrow_right_dark_gray" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lyt_why_does_tarraki_recommend"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_space"
+                        android:layout_marginTop="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/default_space"
+                        android:background="@drawable/shape_cart_view"
+                        android:elevation="2dp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/space_16">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/img_arrow1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/lato_semibold"
+                                android:text="Why does Tarrakki recommend Liquiloans?"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                                android:textColor="@color/black" />
+
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/img_arrow1"
+                            android:layout_width="@dimen/_32sdp"
+                            android:layout_height="@dimen/_32sdp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_keyboard_arrow_right_dark_gray" />
+
+                    </RelativeLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvScheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/default_space"
+                        android:visibility="visible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/clConsumerLoanInvestment"
+                        tools:listitem="@layout/row_schema_item" />
+
+                    <TextView
+                        android:id="@+id/tvLiquiloansFAQ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center_vertical"
+                        android:text="Liquiloans FAQs" />
+
+                    <TextView
+                        android:id="@+id/tvWhatsappToInvest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@drawable/shape_whatsapp_bg"
+                        android:fontFamily="@font/lato_semibold"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/_10sdp"
+                        android:text="Whatsapp us to invest"
+                        android:textColor="@color/white" />
+
+
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

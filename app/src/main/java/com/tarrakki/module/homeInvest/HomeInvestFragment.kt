@@ -4,6 +4,7 @@ package com.tarrakki.module.homeInvest
 import android.os.Bundle
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentHomeInvestBinding
+import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestFundsFragment
 import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.supportcompact.CoreFragment
@@ -39,6 +40,10 @@ class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>
 
         lyt_advisory?.setOnClickListener {
             context?.simpleAlert(getString(R.string.coming_soon))
+        }
+
+        lyt_consumer?.setOnClickListener {
+            startFragment(ConsumerLoansLiquiLoanFragment.newInstance(), R.id.frmContainer)
         }
 
     }

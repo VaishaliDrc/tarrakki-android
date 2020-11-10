@@ -814,4 +814,13 @@
 
     <string name="whatsapp">Whatsapp</string>
     <string name="alert_change_email">Please raise a support ticket or contact us on support@tarrakki.com to change email address.</string>
+    <string name="consumer_loan_investment">Consumer Loan Investment</string>
+    <string name="earn_to_returns">Earn 7% to 11% returns</string>
+    <string name="highly_diversified">Highly diversified</string>
+    <string name="rbi_registered_p2p_nbfc">RBI Registered P2P-NBFC</string>
+    <string name="returns_of_investment">Returns of Investment</string>
+    <string name="minimum_amount">Minimum Amount</string>
+    <string name="lock_in_period">Lock-in Period</string>
+    <string name="your_liquiloans_portfolio">Your Liquiloans Portfolio</string>
+    <string name="invest_in_consumer_loans">Invest in Consumer Loans</string>
 </resources>

@@ -28,6 +28,7 @@ const val KYC_STATUS = "kyc_status"
 const val IS_REMAINING_FIELDS = "isRemainingFields"
 const val IS_REMARK = "isRemark"
 const val ENACH_LIMIT = "enach_limit"
+const val WHATSAPP_URI = "whatsapp_uri"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -255,6 +256,14 @@ fun Context.setENachLimit(enachLimit: String) {
 
 fun Context.getENachLimit(): String {
     return getPreferences.getString(ENACH_LIMIT, "100000") ?: ""
+}
+
+fun Context.setWhatsAppURI(whatsappUri: String) {
+    return getPreferences.putString(WHATSAPP_URI, whatsappUri)
+}
+
+fun Context.getWhatsAppURI(): String? {
+    return getPreferences.getString(WHATSAPP_URI, "`")
 }
 
 fun Context.clearUserData() {

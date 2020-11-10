@@ -322,6 +322,14 @@ interface WebserviceBuilder {
     @GET("banks/user-mandate-auth-link/{mandateId}/")
     fun getMandateUserAuth(@Path("mandateId") mandateId: String?): Observable<ApiResponse>
 
+    @GET("liquiloans/schemes/")
+    fun getLiquiloansScheme(): Observable<ApiResponse>
+
+    @GET("liquiloans/portfolio")
+    fun getLiquiloansPortfolio(
+            @Query("user_id") userId: String?
+    ): Observable<ApiResponse>
+
 
     /**
      * ApiNames to differentiate APIs

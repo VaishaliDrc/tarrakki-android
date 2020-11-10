@@ -156,6 +156,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
     private val observerHomeData = Observer<HomeData> {
         it?.let { apiResponse ->
             whatsapp = apiResponse.data.whatsappLink.toString()
+            context?.setWhatsAppURI(whatsapp)
             //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
             managePANBox()
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
