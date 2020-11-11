@@ -42,7 +42,7 @@ class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>
             context?.simpleAlert(getString(R.string.coming_soon))
         }
 
-        lyt_consumer?.setOnClickListener {
+        lyt_consume_liquiloans?.setOnClickListener {
             startFragment(ConsumerLoansLiquiLoanFragment.newInstance(), R.id.frmContainer)
         }
 

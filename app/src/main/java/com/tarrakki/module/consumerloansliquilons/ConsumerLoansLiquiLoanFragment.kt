@@ -14,12 +14,15 @@ import com.tarrakki.api.model.GetLiquiLoansSchemaBaseResponse
 import com.tarrakki.api.model.Scheme
 import com.tarrakki.databinding.FragmentConsumerLoanLiquiBinding
 import com.tarrakki.databinding.RowSchemaItemBinding
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_consumer_loan_liqui.*
 import kotlinx.android.synthetic.main.fragment_consumer_loan_liqui.mRefresh
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.getWhatsAppURI
+import org.supportcompact.ktx.startFragment
 import org.supportcompact.ktx.toast
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -117,9 +120,7 @@ class ConsumerLoansLiquiLoanFragment : CoreFragment<ConsumerLoansLiquiLoanVM, Fr
 
     override fun createReference() {
 
-        rvScheme?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
-
-        setHasOptionsMenu(false)
+        setHasOptionsMenu(true)
 
         rvScheme.isFocusable = false
         rvScheme.isNestedScrollingEnabled = false
@@ -140,6 +141,14 @@ class ConsumerLoansLiquiLoanFragment : CoreFragment<ConsumerLoansLiquiLoanVM, Fr
 
         tvWhatsappToInvest?.setOnClickListener {
             chatWhatsapp()
+        }
+
+        img_arrow_info?.setOnClickListener {
+            getViewModel().showInvestInfo.set(!getViewModel().showInvestInfo.get()!!)
+        }
+        tvLiquiloansFAQ?.setOnClickListener {
+            startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+            postSticky(Event.LIQUILOANS_FAQ)
         }
 
     }

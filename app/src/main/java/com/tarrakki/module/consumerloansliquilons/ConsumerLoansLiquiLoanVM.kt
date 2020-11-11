@@ -24,6 +24,7 @@ class ConsumerLoansLiquiLoanVM : FragmentViewModel(){
     var isShow = ObservableField<Boolean>()
     var lenders = ObservableField<String>()
     var totalDisbursements = ObservableField<String>()
+    var showInvestInfo = ObservableField<Boolean>(false)
 
     fun getLiquiloansSchemaAPI(): MutableLiveData<GetLiquiLoansSchemaBaseResponse> {
         val liquiloansData = MutableLiveData<GetLiquiLoansSchemaBaseResponse>()

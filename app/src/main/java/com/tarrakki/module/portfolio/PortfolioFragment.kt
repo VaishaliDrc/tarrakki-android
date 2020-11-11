@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPortfolioBinding
+import com.tarrakki.module.portfolio.fragments.LiquiLoanPortfolioFragment
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.module.portfolio.fragments.GoalBasedInvestmentFragment
 import com.tarrakki.module.portfolio.fragments.TarrakkiZyaadaPortfolioFragment
@@ -51,11 +52,13 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
         })
 
         getViewModel().getUserPortfolio()
+        getViewModel().getLiquiloansPortfolioAPI()
 
         val pages = arrayListOf(
                 Page(getString(R.string.goal_base_investment), GoalBasedInvestmentFragment.newInstance()),
                 Page(getString(R.string.direct_investment), DirectInvestmentFragment.newInstance()),
-                Page(getString(R.string.tarrakki_zyaada_investment), TarrakkiZyaadaPortfolioFragment.newInstance())
+                Page(getString(R.string.tarrakki_zyaada_investment), TarrakkiZyaadaPortfolioFragment.newInstance()),
+                Page(getString(R.string.liquiloans), LiquiLoanPortfolioFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
@@ -64,6 +67,7 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
 
     override fun onResume() {
         getViewModel().getUserPortfolio()
+        getViewModel().getLiquiloansPortfolioAPI()
         super.onResume()
     }
 

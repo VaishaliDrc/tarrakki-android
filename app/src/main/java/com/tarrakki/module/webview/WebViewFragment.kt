@@ -141,6 +141,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         coreActivityVM?.title?.set(context?.getString(R.string.bank_mandate))
                         mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL + "${arguments?.getString(PAGE_URL)}")
                     }
+                    Event.LIQUILOANS_FAQ -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.liquiloans_faq))
+                        mWebView?.loadUrl("https://www.liquiloans.com/faq")
+                    }
                     else -> {
                         /*coreActivityVM?.title?.set("Refresh")
                         mWebView?.loadUrl("https://app.digio.in/#/gateway/login/ENA2007131623555749W22CU3POQQKAP/vI3atY/sajgan2006@gmail.com?redirect_url=https:%2F%2Fwww.bsestarmf.in%2FENACHResponse.aspx&logo=https:%2F%2Fwww.bsestarmf.in%2Fimages%2Fbsestarmfnew.jpg")*/

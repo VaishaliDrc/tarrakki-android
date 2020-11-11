@@ -52,9 +52,7 @@
                             android:layout_width="@dimen/_70sdp"
                             android:layout_height="60dp"
                             android:adjustViewBounds="true"
-                            android:padding="@dimen/space_12"
-                            android:src="@drawable/ic_equity_advisory"
-                            tools:src="@drawable/ic_equity_advisory" />
+                            android:src="@drawable/liquiloans" />
 
                         <TextView
                             android:id="@+id/tvLiquiDescription"
@@ -94,7 +92,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/view1"
-                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:layout_toEndOf="@+id/ivliqui"
                             android:background="@drawable/shape_medium_risk_bg"
@@ -107,8 +105,8 @@
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/white_radius"
                                 android:fontFamily="@font/lato_semibold"
-                                android:paddingStart="@dimen/_3sdp"
-                                android:paddingEnd="@dimen/_3sdp"
+                                android:paddingStart="@dimen/_5sdp"
+                                android:paddingEnd="@dimen/_5sdp"
                                 android:text="="
                                 android:textColor="@color/red" />
 
@@ -143,8 +141,8 @@
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/white_radius"
                                 android:fontFamily="@font/lato_semibold"
-                                android:paddingStart="@dimen/_3sdp"
-                                android:paddingEnd="@dimen/_3sdp"
+                                android:paddingStart="@dimen/_5sdp"
+                                android:paddingEnd="@dimen/_5sdp"
                                 android:text="="
                                 android:textColor="@color/active" />
 
@@ -200,8 +198,8 @@
                             android:layout_below="@+id/view2"
                             android:fontFamily="@font/lato_semibold"
                             android:gravity="center_vertical"
-                            android:text="Information"
-                            android:textColor="@color/black" />
+                            android:text="@string/key_information"
+                            android:textColor="@color/equity_fund_color" />
 
 
                         <LinearLayout
@@ -234,8 +232,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text="BORROWERS"
-                                    android:textSize="@dimen/_9ssp" />
+                                    android:text="Borrowers"
+                                    android:textSize="@dimen/sp10" />
 
                             </LinearLayout>
 
@@ -260,7 +258,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text="LENDERS" />
+                                    android:text="Lenders"
+                                    android:textSize="@dimen/sp10" />
 
                             </LinearLayout>
 
@@ -286,7 +285,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text="GROSS NPA(%)" />
+                                    android:text="Gross NPA(%)"
+                                    android:textSize="@dimen/sp10" />
 
                             </LinearLayout>
 
@@ -322,7 +322,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text='@{"DISBURSEMENT IN "+vm.disbursementMonth}' />
+                                    android:text='@{"Disbursements In "+vm.disbursementMonth}'
+                                    android:textSize="@dimen/sp10" />
 
                             </LinearLayout>
 
@@ -346,7 +347,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text="TOTAL DISBURSEMENT" />
+                                    android:text="Total Disbursements"
+                                    android:textSize="@dimen/sp10" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -368,7 +370,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/img_arrow"
+                            android:layout_toStartOf="@id/img_arrow_info"
                             android:orientation="vertical">
 
                             <TextView
@@ -384,17 +386,19 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/space_4"
                                 android:fontFamily="@font/lato_semibold"
+                                visibility="@{vm.showInvestInfo ? View.VISIBLE : View.GONE}"
                                 android:text="At Tarrakki. we recommend Liquiloans to investors who are seeking to get higher returns vs a debt Mutual Fund or a Bank Deposit and are willing to take slightly additional risk. Liquiloans only lends to prime borrowers that helps them keep their NPAs significantly lower than the industry average. If you are looking for predictable returns for your short term investments, this is an ideal product."
                                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                         </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/img_arrow"
-                            android:layout_width="@dimen/_32sdp"
-                            android:layout_height="@dimen/_32sdp"
+                            android:id="@+id/img_arrow_info"
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
                             android:layout_alignParentEnd="true"
-                            android:src="@drawable/ic_keyboard_arrow_right_dark_gray" />
+                            android:rotation="@{vm.showInvestInfo ? 180:0}"
+                            android:src="@drawable/ic_arrow_down" />
 
                     </RelativeLayout>
 
@@ -402,6 +406,7 @@
                         android:id="@+id/lyt_why_does_tarraki_recommend"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:layout_marginStart="@dimen/default_space"
                         android:layout_marginTop="@dimen/default_space"
                         android:layout_marginEnd="@dimen/default_space"
@@ -439,10 +444,11 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvScheme"
                         android:layout_width="match_parent"
+                        android:visibility="visible"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/default_space"
+                        android:layout_marginTop="@dimen/default_space"
                         android:layout_marginEnd="@dimen/default_space"
-                        android:visibility="visible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -455,23 +461,42 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginStart="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:text="Liquiloans FAQs" />
 
-                    <TextView
-                        android:id="@+id/tvWhatsappToInvest"
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/_10sdp"
-                        android:background="@drawable/shape_whatsapp_bg"
-                        android:fontFamily="@font/lato_semibold"
                         android:gravity="center_horizontal"
                         android:padding="@dimen/_10sdp"
-                        android:text="Whatsapp us to invest"
-                        android:textColor="@color/white" />
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:background="@drawable/shape_whatsapp_bg">
+
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/whatsapp"
+                            android:layout_gravity="center_vertical"
+                           />
+
+                        <TextView
+                            android:id="@+id/tvWhatsappToInvest"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/lato_semibold"
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/_14ssp"
+                           android:layout_marginStart="@dimen/_5sdp"
+                            android:text="Whatsapp us to invest"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+
 
 
                 </LinearLayout>

@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
@@ -27,6 +28,7 @@ import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import org.supportcompact.CoreFragment
@@ -327,6 +329,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
         btn_whatsapp?.setOnClickListener {
             chatWhatsapp()
+        }
+
+        clConsumerLoanInvestment?.setOnClickListener {
+            startFragment(ConsumerLoansLiquiLoanFragment.newInstance(), R.id.frmContainer)
         }
 
         tvWhyTarrakkii?.setOnClickListener {

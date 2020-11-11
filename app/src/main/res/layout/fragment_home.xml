@@ -490,14 +490,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clTarrakkiZyaada">
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/tvConsumerLoanInvestmentlbl"
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/_170sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginBottom="@dimen/default_space"
-                        android:adjustViewBounds="true"
+                        android:layout_marginEnd="@dimen/_20sdp"
                         android:gravity="center_vertical"
-                        android:text="@string/consumer_loan_investment"
+                        android:src="@drawable/ic_consumer_liquilonas"
                         app:layout_constraintBottom_toTopOf="@id/barrier3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -525,7 +525,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_72sdp"
                         android:padding="@dimen/_8sdp"
-                        android:src="@drawable/key_benefits_1"
+                        android:src="@drawable/ic_earn_returns_home"
                         app:layout_constraintEnd_toStartOf="@id/ivCl2"
                         app:layout_constraintHorizontal_weight="3.25"
                         app:layout_constraintStart_toStartOf="parent"
@@ -551,7 +551,7 @@
                         android:layout_marginStart="@dimen/space_8"
                         android:layout_marginEnd="@dimen/space_8"
                         android:padding="@dimen/_8sdp"
-                        android:src="@drawable/key_benefits_2"
+                        android:src="@drawable/ic_highly_diversified"
                         app:layout_constraintEnd_toStartOf="@id/ivCl3"
                         app:layout_constraintHorizontal_weight="3.5"
                         app:layout_constraintStart_toEndOf="@id/ivCl1"
@@ -574,7 +574,7 @@
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:background="@color/darker_gray"
-                        app:layout_constraintBottom_toBottomOf="@id/tvCl2"
+                        app:layout_constraintBottom_toBottomOf="@id/tvCl1"
                         app:layout_constraintStart_toEndOf="@id/ivCl1"
                         app:layout_constraintTop_toTopOf="@id/ivCl2" />
 
@@ -583,7 +583,7 @@
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
                         android:background="@color/darker_gray"
-                        app:layout_constraintBottom_toBottomOf="@id/tvCl2"
+                        app:layout_constraintBottom_toBottomOf="@id/tvCl3"
                         app:layout_constraintEnd_toStartOf="@id/ivCl3"
                         app:layout_constraintTop_toTopOf="@id/ivCl2" />
 
@@ -593,7 +593,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_72sdp"
                         android:padding="@dimen/_8sdp"
-                        android:src="@drawable/key_benefits_3"
+                        android:src="@drawable/ic_rb_register_home"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="3.25"
                         app:layout_constraintStart_toEndOf="@id/ivCl2"

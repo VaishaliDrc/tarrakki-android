@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="onAddClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onRedeemClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onHideDetailsClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.api.model.GetLiquiLoanPortFolioData" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/shape_cart_view"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_16">
+
+            <TextView
+                android:id="@+id/tvTotalInvestment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/ivliqui"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:text="@string/total_investment"
+                android:textColor="@color/equity_fund_color"
+                android:textSize="@dimen/sp10" />
+
+            <TextView
+                android:id="@+id/tvTotalInvestmentValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:text='@{"₹"+vm.total_investment}'
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp10" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/space_16"
+            android:background="@drawable/shape_cart_view"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="@dimen/space_16">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvCurrentValuelbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_value"
+                    android:textColor="@color/equity_fund_color"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:id="@+id/tvCurrentValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:lineSpacingExtra="@dimen/_2sdp"
+                    android:text='@{"₹"+vm.current_value}'
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp10" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/darker_gray"
+                android:visibility="@{vm.hideDetails ? View.GONE : View.VISIBLE}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{vm.hideDetails ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/tvLiquidAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/liquid_amount"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:id="@+id/tvLiquidAmountValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:lineSpacingExtra="@dimen/_2sdp"
+                    android:text='@{"₹"+vm.liquid_amount}'
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp10" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="@{vm.hideDetails ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/tvLockInAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lock_in_amount"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp10" />
+
+                <TextView
+                    android:id="@+id/tvLockInAmountValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:lineSpacingExtra="@dimen/_2sdp"
+                    android:text='@{"₹"+vm.lock_in_amount}'
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp10" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/darker_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvAdd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{onAddClick}"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:text="@string/add"
+                    android:drawableStart="@drawable/ic_add_small"
+                    android:textColor="@color/conservative"
+                    android:textSize="@dimen/sp10" />
+
+
+                <TextView
+                    android:id="@+id/tvRedeem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_toEndOf="@+id/tvAdd"
+                    android:onClick="@{onRedeemClick}"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/ic_redeem"
+                    android:text="@string/redeem"
+                    android:textColor="@color/conservative"
+                    android:textSize="@dimen/sp10" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{onHideDetailsClick}"
+                    android:layout_alignParentEnd="true">
+
+
+                    <TextView
+                        android:id="@+id/tvHideDetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hide_details"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/conservative"
+                        android:textSize="@dimen/sp10" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@{vm.hideDetails ? @drawable/ic_arrow_down : @drawable/ic_arrow_up}"/>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_cart_view"
+            android:elevation="2dp"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_16">
+
+            <TextView
+                android:id="@+id/tvReturns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:text="@string/returns"
+                android:textColor="@color/equity_fund_color"
+                android:textSize="@dimen/sp10" />
+
+            <TextView
+                android:id="@+id/tvReturnsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:lineSpacingExtra="@dimen/_2sdp"
+                android:text='@{""+vm.xirr_return+"%"}'
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp10" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</layout>

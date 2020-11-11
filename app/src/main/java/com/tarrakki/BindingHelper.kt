@@ -1751,3 +1751,20 @@ fun Context.stopFundPortfolioDialog(mySipData: MySipData,
     v?.setBackgroundResource(android.R.color.transparent)
     mDialog.show()
 }
+
+
+fun Context.showComingSoonAddRedeemPortfolio() {
+    val mBinder = DialogLiquiloansComingSoonBinding.inflate(LayoutInflater.from(this))
+    val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
+
+
+    mBinder.tvClose.setOnClickListener {
+        mDialog.dismiss()
+        it.dismissKeyboard()
+    }
+
+    val v: View? = mDialog?.window?.decorView
+    v?.setBackgroundResource(android.R.color.transparent)
+    mDialog.show()
+}
+

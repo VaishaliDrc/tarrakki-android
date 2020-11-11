@@ -14,5 +14,6 @@ data class GetLiquiLoanPortFolioData(
         val modified: String,
         val total_investment: Double,
         val user: Int,
+        var hideDetails: Boolean =false,
         val xirr_return: Double
 )

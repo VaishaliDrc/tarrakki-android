@@ -187,7 +187,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/lyt_consumer"
+                android:id="@+id/lyt_consume_liquiloans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_space"
@@ -214,8 +214,8 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:padding="@dimen/space_12"
-                        android:src="@drawable/ic_equity_advisory"
-                        tools:src="@drawable/ic_equity_advisory" />
+                        android:src="@drawable/ic_consumer_loans_via_liquiloans"
+                        tools:src="@drawable/ic_consumer_loans_via_liquiloans" />
 
                 </androidx.cardview.widget.CardView>
 

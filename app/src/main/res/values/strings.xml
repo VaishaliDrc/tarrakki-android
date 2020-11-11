@@ -823,4 +823,11 @@
     <string name="lock_in_period">Lock-in Period</string>
     <string name="your_liquiloans_portfolio">Your Liquiloans Portfolio</string>
     <string name="invest_in_consumer_loans">Invest in Consumer Loans</string>
+    <string name="liquiloans">Liquiloans</string>
+    <string name="liquid_amount">Liquid Amount</string>
+    <string name="lock_in_amount">Lock-in Amount</string>
+    <string name="liquiloans_faq">Liquiloans FAQ</string>
+    <string name="contact_support_add_redeem">Contact support for any add/redeem support</string>
+    <string name="hide_details">Hide Details</string>
+    <string name="no_portfolio_found">No portfolio found</string>
 </resources>
