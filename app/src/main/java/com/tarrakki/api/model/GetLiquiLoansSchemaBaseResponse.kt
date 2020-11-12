@@ -22,7 +22,7 @@ data class DataPoint(
 data class Scheme(
         val id: Int,
         val lock_in_period: String,
-        val min_investment_amount: String,
+        val min_investment_amount: Double,
         val returns: String,
         val scheme_title: String,
         val scheme_type: String

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -54,7 +54,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:lineSpacingExtra="@dimen/_2sdp"
-                android:text='@{"₹"+vm.total_investment}'
+                app:dprice='@{vm.total_investment}'
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp10" />
         </RelativeLayout>
@@ -88,7 +88,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:lineSpacingExtra="@dimen/_2sdp"
-                    android:text='@{"₹"+vm.current_value}'
+                    app:dprice='@{vm.current_value}'
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp10" />
             </RelativeLayout>
@@ -121,7 +121,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:lineSpacingExtra="@dimen/_2sdp"
-                    android:text='@{"₹"+vm.liquid_amount}'
+                    app:dprice='@{vm.liquid_amount}'
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp10" />
             </RelativeLayout>
@@ -147,7 +147,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:lineSpacingExtra="@dimen/_2sdp"
-                    android:text='@{"₹"+vm.lock_in_amount}'
+                    app:dprice='@{vm.lock_in_amount}'
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp10" />
             </RelativeLayout>

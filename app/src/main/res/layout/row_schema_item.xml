@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:text='@{"₹"+schemeItem.min_investment_amount}'
+                    app:dprice='@{schemeItem.min_investment_amount}'
                     android:textColor="@color/black" />
 
             </LinearLayout>

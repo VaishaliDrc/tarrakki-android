@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:text="@string/coming_soon"
+            android:text="Coming Soon"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp"
             android:fontFamily="@font/lato_semibold"

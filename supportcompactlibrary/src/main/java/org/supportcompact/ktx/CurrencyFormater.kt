@@ -321,6 +321,8 @@ fun Double.toReturnAsPercentage() = dFormatter.format(this).plus("%")
 
 fun Double.toCharges() = dFormatterCharges.format(this).plus("%")
 
+fun Double.toComaSeparate() = (dFormatterWithoutRoundOff.format(this))
+
 fun parseToPercentageOrNA(num: String?): String {
     return try {
         val temp: Double? = num?.toDoubleOrNull()

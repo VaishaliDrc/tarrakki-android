@@ -355,6 +355,17 @@ fun applyCurrencyFormat(txt: TextView, amount: Double?, anim: Boolean?) {
     }
 }
 
+@BindingAdapter(value = ["comaSeparate", "anim"], requireAll = false)
+fun applyComaSeparateFormat(txt: TextView, amount: Double?, anim: Boolean?) {
+    amount?.let {
+        if (anim != null && anim) {
+            handleTextView((amount % 10).toInt(), amount.toInt(), txt)
+            return
+        }
+        txt.text = amount.toComaSeparate()
+    }
+}
+
 @BindingAdapter(value = ["price", "anim"], requireAll = false)
 fun applyCurrencyFormat(txt: TextView, amount: Int?, anim: Boolean?) {
     amount?.let {

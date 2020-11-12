@@ -14,6 +14,7 @@ import com.tarrakki.api.model.GetLiquiLoansSchemaBaseResponse
 import com.tarrakki.api.model.Scheme
 import com.tarrakki.databinding.FragmentConsumerLoanLiquiBinding
 import com.tarrakki.databinding.RowSchemaItemBinding
+import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_consumer_loan_liqui.*
 import kotlinx.android.synthetic.main.fragment_consumer_loan_liqui.mRefresh
@@ -23,6 +24,7 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.events.Event
 import org.supportcompact.ktx.getWhatsAppURI
 import org.supportcompact.ktx.startFragment
+import org.supportcompact.ktx.toComaSeparate
 import org.supportcompact.ktx.toast
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 
@@ -52,11 +54,25 @@ class ConsumerLoansLiquiLoanFragment : CoreFragment<ConsumerLoansLiquiLoanVM, Fr
             mRefresh?.isRefreshing = false
 
             if(it.data.data_points.isNotEmpty()){
-                getViewModel().borrowers.set(it.data.data_points.get(0).borrowers)
+                var borrowers =  it.data.data_points.get(0).borrowers
+
+                        if(borrowers.contains("+"))
+                            borrowers = borrowers.replace("+","")
+
+                borrowers = borrowers.toDoubleOrNull()?.toComaSeparate().toString()+"+"
+
+                var lenders =  it.data.data_points.get(0).lenders
+
+                        if(lenders.contains("+"))
+                            lenders = lenders.replace("+","")
+
+                lenders = lenders.toDoubleOrNull()?.toComaSeparate().toString()+"+"
+
+                getViewModel().borrowers.set(borrowers)
                 getViewModel().disbursementMonth.set(it.data.data_points.get(0).disbursement_month)
                 getViewModel().disbursements.set(it.data.data_points.get(0).disbursements)
                 getViewModel().totalDisbursements.set(it.data.data_points.get(0).total_disbursements)
-                getViewModel().lenders.set(it.data.data_points.get(0).lenders)
+                getViewModel().lenders.set(lenders)
                 getViewModel().gross_npa.set(it.data.data_points.get(0).gross_npa)
             }
 
@@ -147,8 +163,9 @@ class ConsumerLoansLiquiLoanFragment : CoreFragment<ConsumerLoansLiquiLoanVM, Fr
             getViewModel().showInvestInfo.set(!getViewModel().showInvestInfo.get()!!)
         }
         tvLiquiloansFAQ?.setOnClickListener {
-            startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
-            postSticky(Event.LIQUILOANS_FAQ)
+            /*startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+            postSticky(Event.LIQUILOANS_FAQ)*/
+            startFragment(SupportFragment.newInstance(), R.id.frmContainer)
         }
 
     }

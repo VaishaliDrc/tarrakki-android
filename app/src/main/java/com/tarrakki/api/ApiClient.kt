@@ -54,10 +54,9 @@ object ApiClient {
    /* *
      * Staging Test Url
      **/
-  /*  private const val BASE_URL = "http://192.168.24.51:8000/api/v1/"
+   /* private const val BASE_URL = "http://192.168.24.51:8000/api/v1/"
     const val IMAGE_BASE_URL = "http://192.168.24.51/"
-    const val BANK_REDIRECT_URL = "http://192.168.24.51:8000/api/v3/transactions/payment-status/"
-*/
+    const val BANK_REDIRECT_URL = "http://192.168.24.51:8000/api/v3/transactions/payment-status/"*/
     /**
      * Staging Test Url
      **/

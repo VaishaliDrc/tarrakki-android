@@ -61,6 +61,7 @@
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_toEndOf="@+id/ivliqui"
                             android:lineSpacingExtra="@dimen/_2sdp"
+                            android:justificationMode="inter_word"
                             android:text="Liquiloans is a Peer to Peer Lending platform. The company uses technology to match borrowers and lenders and in the process eliminates the margin which is charged by traditional banks and NBFCs, thus, making borrowing cheaper and investing a more lucrative opportunity as compared to traditional investment avenues.more lucrative opportunity as compared to traditional investment avenues."
                             android:textSize="@dimen/sp10"
                             app:layout_constraintStart_toStartOf="parent" />
@@ -80,7 +81,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_below="@+id/view1"
-                            android:layout_alignBottom="@+id/lyt_medium_risk"
+                            android:layout_alignBottom="@+id/lyt_medium_risk_return"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:fontFamily="@font/lato_semibold"
                             android:gravity="center_vertical"
@@ -88,83 +89,96 @@
                             android:textColor="@color/black" />
 
                         <LinearLayout
-                            android:id="@+id/lyt_medium_risk"
-                            android:layout_width="wrap_content"
+                            android:id="@+id/lyt_medium_risk_return"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/view1"
                             android:layout_marginStart="@dimen/_5sdp"
                             android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_toEndOf="@+id/ivliqui"
-                            android:background="@drawable/shape_medium_risk_bg"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_3sdp">
+                            android:layout_toEndOf="@+id/ivliqui">
 
-                            <TextView
+                            <LinearLayout
+                                android:id="@+id/lyt_medium_risk"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/white_radius"
-                                android:fontFamily="@font/lato_semibold"
-                                android:paddingStart="@dimen/_5sdp"
-                                android:paddingEnd="@dimen/_5sdp"
-                                android:text="="
-                                android:textColor="@color/red" />
+                                android:layout_height="match_parent"
+                                android:background="@drawable/shape_medium_risk_bg"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_3sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/white_radius"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:paddingStart="@dimen/_5sdp"
+                                    android:paddingEnd="@dimen/_5sdp"
+                                    android:text="="
+                                    android:textColor="@color/red" />
 
 
-                            <TextView
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:text="Medium Risk"
+                                    android:textColor="@color/red"
+                                    android:textSize="@dimen/sp9" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lyt_medium_return"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                android:layout_height="match_parent"
                                 android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:text="Medium Risk"
-                                android:textColor="@color/red"
-                                android:textSize="@dimen/sp9" />
+                                android:background="@drawable/shape_risk_to_revord_level_bg"
+                                android:orientation="horizontal"
+                                android:padding="@dimen/_3sdp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:background="@drawable/white_radius"
+                                    android:fontFamily="@font/lato_semibold"
+                                    android:paddingStart="@dimen/_5sdp"
+                                    android:paddingEnd="@dimen/_5sdp"
+                                    android:text="="
+                                    android:textColor="@color/active" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="@dimen/_5sdp"
+                                    android:layout_marginEnd="@dimen/_15sdp"
+                                    android:text="Medium Return"
+                                    android:textColor="@color/active"
+                                    android:textSize="@dimen/sp9" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:id="@+id/lyt_medium_return"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/view1"
-                            android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_toEndOf="@+id/lyt_medium_risk"
-                            android:background="@drawable/shape_risk_to_revord_level_bg"
-                            android:orientation="horizontal"
-                            android:padding="@dimen/_3sdp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:background="@drawable/white_radius"
-                                android:fontFamily="@font/lato_semibold"
-                                android:paddingStart="@dimen/_5sdp"
-                                android:paddingEnd="@dimen/_5sdp"
-                                android:text="="
-                                android:textColor="@color/active" />
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginStart="@dimen/_5sdp"
-                                android:layout_marginEnd="@dimen/_15sdp"
-                                android:text="Medium Return"
-                                android:textColor="@color/active"
-                                android:textSize="@dimen/sp9" />
-
-                        </LinearLayout>
+                        <View
+                            android:id="@+id/view3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.1dp"
+                            android:layout_below="@+id/tvRiskLevel"
+                            android:layout_marginTop="@dimen/_15sdp"
+                            android:layout_marginBottom="@dimen/_15sdp"
+                            android:background="@color/darker_gray" />
 
                         <TextView
                             android:id="@+id/tvTimeHorizon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvRiskLevel"
-                            android:layout_marginTop="@dimen/_20sdp"
+                            android:layout_below="@+id/view3"
                             android:fontFamily="@font/lato_semibold"
                             android:gravity="center_vertical"
                             android:text="Time Horizon"
@@ -174,20 +188,19 @@
                             android:id="@+id/tvTimeHorizonValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvRiskLevel"
+                            android:layout_below="@+id/view3"
                             android:layout_marginStart="@dimen/_10sdp"
-                            android:layout_marginTop="@dimen/_20sdp"
                             android:layout_toEndOf="@id/ivliqui"
                             android:fontFamily="@font/lato_semibold"
                             android:gravity="center_vertical"
-                            android:text="1 to 5 year" />
+                            android:text="1 month to 5 year" />
 
                         <View
                             android:id="@+id/view2"
                             android:layout_width="match_parent"
                             android:layout_height="0.1dp"
                             android:layout_below="@+id/tvTimeHorizonValue"
-                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_15sdp"
                             android:layout_marginBottom="@dimen/_15sdp"
                             android:background="@color/darker_gray" />
 
