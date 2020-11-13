@@ -815,7 +815,7 @@
     <string name="whatsapp">Whatsapp</string>
     <string name="alert_change_email">Please raise a support ticket or contact us on support@tarrakki.com to change email address.</string>
     <string name="consumer_loan_investment">Consumer Loan Investment</string>
-    <string name="earn_to_returns">Earn 7% to 11% returns</string>
+    <string name="earn_to_returns">Earn up to 7% - 10.5% Annualised</string>
     <string name="highly_diversified">Highly diversified</string>
     <string name="rbi_registered_p2p_nbfc">RBI Registered P2P-NBFC</string>
     <string name="returns_of_investment">Returns of investment</string>
@@ -830,4 +830,8 @@
     <string name="contact_support_add_redeem">Contact support for any add/redeem support</string>
     <string name="hide_details">Hide Details</string>
     <string name="no_portfolio_found">No portfolio found</string>
+    <string name="minimum_holding_period">Minimum Holding Period</string>
+    <string name="liquiloans_disclaimer">Disclaimer: Displayed values are as per the Estimate Portfolio Value (including accrued interest) post Liquiloans fee deduction (if any) as per the applicable fee structure. Portfolio numbers displayed are indicative in nature and actual returns and payout might differ.</string>
+    <string name="available_for_sale_amount">Available for Sale Amount</string>
+    <string name="minumum_holding_amount">Minimum Holding Amount</string>
 </resources>

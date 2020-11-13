@@ -39,6 +39,23 @@
                     tools:listitem="@layout/row_liquiloans_portfolio" />
 
                 <TextView
+                    android:id="@+id/tvNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rvLiquilonsPortfolio"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginEnd="@dimen/space_16"
+                    android:layout_marginBottom="@dimen/space_16"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:paddingEnd="@dimen/_16sdp"
+                    android:autoLink="web"
+                    android:justificationMode="inter_word"
+                    android:text="@string/liquiloans_disclaimer"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/notes_color"
+                    android:visibility="@{vm.isPortfolioEmpty==true?View.GONE:View.VISIBLE}" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
