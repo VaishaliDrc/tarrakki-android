@@ -171,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_4"
                         android:fontFamily="@font/lato_semibold"
-                        android:text="Diversify your debt investments by investing in India's leading RBI registered NBFC-P2P. Earn up to 7% - 10.5% Annualised returns. Build a highly liquid &amp; diversified debt portfolio. Ideal investment horizon from 1 month to 5 years."
+                        android:text="Diversify your debt investments by investing in India's leading RBI registered NBFC-P2P. Earn up to 7% - 10.5% Annualised. Build a highly liquid &amp; diversified debt portfolio. Ideal investment horizon from 1 month to 5 years."
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 </LinearLayout>
