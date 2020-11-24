@@ -61,9 +61,10 @@
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_toEndOf="@+id/ivliqui"
                             android:lineSpacingExtra="@dimen/_2sdp"
+                            android:fontFamily="@font/lato_semibold"
                             android:justificationMode="inter_word"
-                            android:text="Liquiloans is a Peer to Peer Lending platform. The company uses technology to match borrowers and lenders and in the process eliminates the margin which is charged by traditional banks and NBFCs, thus, making borrowing cheaper and investing a more lucrative opportunity as compared to traditional investment avenues.more lucrative opportunity as compared to traditional investment avenues."
-                            android:textSize="@dimen/sp10"
+                            android:text="Liquiloans is a Peer to Peer Lending platform. The company uses technology to match borrowers and lenders and in the process eliminates the margin which is charged by traditional banks and NBFCs, thus, making borrowing cheaper and investing a more lucrative opportunity as compared to traditional investment avenues."
+                            android:textSize="@dimen/_10ssp"
                             app:layout_constraintStart_toStartOf="parent" />
 
                         <View
@@ -125,7 +126,7 @@
                                     android:layout_marginEnd="@dimen/_15sdp"
                                     android:text="Medium Risk"
                                     android:textColor="@color/red"
-                                    android:textSize="@dimen/sp9" />
+                                    android:textSize="@dimen/_8ssp" />
 
                             </LinearLayout>
 
@@ -158,7 +159,7 @@
                                     android:layout_marginEnd="@dimen/_15sdp"
                                     android:text="Medium Return"
                                     android:textColor="@color/active"
-                                    android:textSize="@dimen/sp9" />
+                                    android:textSize="@dimen/_8ssp" />
 
                             </LinearLayout>
 
@@ -193,7 +194,7 @@
                             android:layout_toEndOf="@id/ivliqui"
                             android:fontFamily="@font/lato_semibold"
                             android:gravity="center_vertical"
-                            android:text="1 month to 5 year" />
+                            android:text="1 month to 5 years" />
 
                         <View
                             android:id="@+id/view2"
@@ -312,17 +313,18 @@
                             android:layout_below="@+id/lyt_borrowers_lender_gross_info"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:weightSum="3">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:paddingEnd="@dimen/_5sdp"
                                 android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/tvDisbursementalue"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/lato_semibold"
                                     android:gravity="center_vertical"
@@ -332,7 +334,7 @@
 
                                 <TextView
                                     android:id="@+id/tvDisbursement"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:text='@{"Disbursements In "+vm.disbursementMonth}'
@@ -348,7 +350,7 @@
 
                                 <TextView
                                     android:id="@+id/tvTotalDisbursementValue"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/lato_semibold"
                                     android:gravity="center_vertical"
@@ -357,7 +359,7 @@
 
                                 <TextView
                                     android:id="@+id/tvTotalDisbursement"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:text="Total Disbursements"
@@ -399,9 +401,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/space_4"
                                 android:fontFamily="@font/lato_semibold"
+                                android:textSize="@dimen/_10ssp"
                                 visibility="@{vm.showInvestInfo ? View.VISIBLE : View.GONE}"
-                                android:text="At Tarrakki. we recommend Liquiloans to investors who are seeking to get higher returns vs a debt Mutual Fund or a Bank Deposit and are willing to take slightly additional risk. Liquiloans only lends to prime borrowers that helps them keep their NPAs significantly lower than the industry average. If you are looking for predictable returns for your short term investments, this is an ideal product."
-                                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+                                android:text="At Tarrakki, we recommend Liquiloans to investors who are seeking to get higher returns vs a debt Mutual Fund or a Bank Deposit and are willing to take slightly additional risk. Liquiloans only lends to prime borrowers that helps them keep their NPAs significantly lower than the industry average. If you are looking for predictable returns for your short term investments, this is an ideal product."/>
 
                         </LinearLayout>
 

@@ -55,6 +55,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
     }
 
     var isRedirecting = false
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
         setHasOptionsMenu(true)
@@ -130,7 +131,7 @@ class NetBankingFragment : CoreFragment<NetBankingVM, FragmentNetBankingBinding>
 
         getViewModel().onPage.observe(this, Observer {
             it?.let { page ->
-                mWebView?.loadData(page, "text/html", "UTF-8")
+                mWebView.loadDataWithBaseURL(null, page, "text/html", "utf-8", null);
             }
         })
 

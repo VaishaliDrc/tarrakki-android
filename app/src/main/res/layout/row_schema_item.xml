@@ -63,6 +63,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text='@{"up to "+schemeItem.returns+"%"+ " Annualised"}'
+                    android:textSize="@dimen/_9ssp"
                     android:textColor="@color/black" />
 
             </LinearLayout>
@@ -95,6 +96,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     app:dprice='@{schemeItem.min_investment_amount}'
+                    android:textSize="@dimen/_9ssp"
                     android:textColor="@color/black" />
 
             </LinearLayout>
@@ -128,6 +130,7 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@{schemeItem.lock_in_period}"
+                    android:textSize="@dimen/_9ssp"
                     android:textColor="@color/black" />
 
             </LinearLayout>
