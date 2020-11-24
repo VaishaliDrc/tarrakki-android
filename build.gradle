@@ -35,6 +35,7 @@ project.ext {
     TARGET_SDK_VERSION = 29
     MIN_SDK_VERSION = 21
 
+
     VERSION_CODE = 29
     VERSION_NAME = "1.2.7"
 
