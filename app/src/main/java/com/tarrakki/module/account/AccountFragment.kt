@@ -168,29 +168,50 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 if (item is VideoKYCStatus) {
                     getViewModel().needToCheckStatus = true
                     val kyc = KYCData(edtPanNo.text.toString(), "${App.INSTANCE.getEmail()}", "${App.INSTANCE.getMobile()}")
-                    when {
-                        (item.status == KYC_STATUS_UNDER_PROCESS || item.status == KYC_STATUS_REJECTED) && App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
-                            startFragment(BankAccountsFragment.newInstance(Bundle().apply {
-                                putBoolean(IS_FROM_VIDEO_KYC, true)
-                                putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
-                            }), R.id.frmContainer)
-                            postSticky(kyc)
-                        }
-                        (item.status == KYC_STATUS_UNDER_PROCESS || item.status == KYC_STATUS_REJECTED) && App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
-                            startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
-                            postSticky(kyc)
-                        }
-                        else -> {
-                            /*apiApplyForNewKYC().observe(this, Observer {
-                                it?.let {
-                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
-                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
-                                    postSticky(kyc)
-                                }
-                            })*/
+//                    when {
+//                        (item.status == KYC_STATUS_UNDER_PROCESS || item.status == KYC_STATUS_REJECTED) && App.INSTANCE.getRemainingFields().toIntOrNull() == 1 -> {
+//                            startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+//                                putBoolean(IS_FROM_VIDEO_KYC, true)
+//                                putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+//                            }), R.id.frmContainer)
+//                            postSticky(kyc)
+//                        }
+//                        (item.status == KYC_STATUS_UNDER_PROCESS || item.status == KYC_STATUS_REJECTED) && App.INSTANCE.getRemainingFields().toIntOrNull() == 2 -> {
+//                            startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+//                            postSticky(kyc)
+//                        }
+//                        else -> {
+//                            /*apiApplyForNewKYC().observe(this, Observer {
+//                                it?.let {
+//                                    kyc.mobileAutoLoginUrl = it.data?.mobileAutoLoginUrl
+//                                    startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+//                                    postSticky(kyc)
+//                                }
+//                            })*/
+//                            startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+//                            postSticky(kyc)
+//                        }
+//                    }
+
+                    if ((item.status == KYC_STATUS_UNDER_PROCESS || item.status == KYC_STATUS_APPROVED)) {
+                        if (App.INSTANCE.getRemainingFields().isNotEmpty() && App.INSTANCE.getRemainingFields().toInt() > 0) {
+                            if (App.INSTANCE.getRemainingFields().toInt() == 1) {
+                                startFragment(BankAccountsFragment.newInstance(Bundle().apply {
+                                    putBoolean(IS_FROM_VIDEO_KYC, true)
+                                    putBoolean(IS_FROM_COMLETE_REGISTRATION, true)
+                                }), R.id.frmContainer)
+                                postSticky(kyc)
+                            } else {
+                                startFragment(EKYCRemainingDetailsFragment.newInstance(), R.id.frmContainer)
+                                postSticky(kyc)
+                            }
+                        } else {
                             startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
                             postSticky(kyc)
                         }
+                    } else {
+                        startFragment(EKYCConfirmationFragment.newInstance(), R.id.frmContainer)
+                        postSticky(kyc)
                     }
                 }
 
@@ -390,7 +411,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                                     eventKYCDataLog(kyc, "11")
                                 }
                             }
-                            kycStatus.contains("13")-> {
+                            kycStatus.contains("13") -> {
                                 if (kycStatus.firstOrNull()?.equals("13") == true) {
                                     proceedVideoKYC(kyc)
                                 } else {
