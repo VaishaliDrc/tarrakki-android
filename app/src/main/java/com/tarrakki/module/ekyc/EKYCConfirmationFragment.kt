@@ -19,6 +19,7 @@ import com.tarrakki.R
 import com.tarrakki.databinding.FragmentEkycconfirmationBinding
 import com.tarrakki.fcm.ACTION_CLOSE_KYC_PORTAL
 import com.tarrakki.fcm.IS_FROM_NOTIFICATION
+import com.tarrakki.fcm.eventPanKYCNonVerified
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.home.HomeActivity
@@ -57,6 +58,9 @@ class EKYCConfirmationFragment : CoreFragment<EKYCConfirmationVM, FragmentEkycco
     }
 
     override fun createReference() {
+
+        eventPanKYCNonVerified()
+
         context?.let {
             androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).registerReceiver(OnKYCSuccess, IntentFilter(ACTION_CLOSE_KYC_PORTAL))
         }

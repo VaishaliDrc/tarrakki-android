@@ -14,6 +14,7 @@ import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionConfirmBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
+import com.tarrakki.fcm.eventInvestInMutualFund
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.confirmorder.ConfirmOrderFragment
@@ -192,6 +193,9 @@ class TransactionConfirmFragment : CoreFragment<TransactionConfirmVM, FragmentTr
     private fun setOrderItemsAdapter(list: List<TransactionStatus>) {
         val temp = list.filter { it.isSuccess }
         getViewModel().isFailed.set(temp.isEmpty())
+        if(getViewModel().isFailed.get() == false){
+            eventInvestInMutualFund()
+        }
         val adapter = setUpAdapter(list as MutableList<TransactionStatus>,
                 ChoiceMode.NONE,
                 R.layout.row_transaction_confirm,

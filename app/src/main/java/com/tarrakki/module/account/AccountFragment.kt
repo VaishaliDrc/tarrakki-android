@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.databinding.FragmentAccountBinding
 import com.tarrakki.databinding.RowAccountMenuItemBinding
+import com.tarrakki.fcm.eventPanKYCVerified
 import com.tarrakki.module.bankaccount.BankAccountsFragment
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.changepassword.ChangePasswordFragment
@@ -344,6 +345,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                     it?.let { kycStatus ->
                         when {
                             kycStatus.contains("02") || kycStatus.contains("01") -> {
+                                eventPanKYCVerified()
                                 getPANDetails(kyc).observe(this, Observer { data ->
                                     data?.let { kyc ->
                                         getViewModel().needToCheckStatus = true

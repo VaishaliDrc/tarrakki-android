@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.*
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.FragmentHomeBinding
+import com.tarrakki.fcm.eventPanKYCVerified
 import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.goal.GoalFragment
@@ -236,6 +237,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                              * UNDER_PROCESS = "01" & KYC_REGISTERED = "02"
                              * */
                             kycStatus.contains("02") || kycStatus.contains("01") -> {
+                                eventPanKYCVerified()
                                 getPANDetails(kyc).observe(this, Observer { data ->
                                     data?.let { kyc ->
                                         context?.confirmationDialog(
