@@ -103,12 +103,19 @@ class LoginActivity : CoreActivity<LoginVM, ActivityLoginBinding>(), GoogleSignI
             loginResponse?.let {
                 ApiClient.clear()
                 loginResponse.token?.let { it1 -> setLoginToken(it1) }
+                var bundle = Bundle()
                 loginResponse.userId?.let { it1 ->
                     setUserId(it1)
-                    onLoginEventFire(it1)
+//                    onLoginEventFire(it1)
+                    bundle.putString("user_id", it1)
                 }
-                loginResponse.email?.let { it1 -> setEmail(it1) }
-                loginResponse.mobile?.let { it1 -> setMobile(it1) }
+                loginResponse.email?.let { it1 -> setEmail(it1)
+                    bundle.putString("email_id", it1)
+                }
+                loginResponse.mobile?.let { it1 -> setMobile(it1)
+                    bundle.putString("mobile_number", it1)
+                }
+                onLoginEventFire(bundle)
                 loginResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
                 loginResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
                 loginResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }

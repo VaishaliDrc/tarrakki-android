@@ -1,6 +1,7 @@
 package com.tarrakki.module.otp
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.tarrakki.App
 import com.tarrakki.R
@@ -96,12 +97,22 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                                         getViewModel().onSignUp(it).observe(this, Observer { signUpResponse ->
                                             signUpResponse?.let {
                                                 signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                                var bundle = Bundle()
                                                 signUpResponse.userId?.let { it1 ->
                                                     setUserId(it1)
-                                                    onSignUpEventFire(it1)
+//                                                    onSignUpEventFire(it1)
+                                                    bundle.putString("user_id", it1)
                                                 }
-                                                signUpResponse.email?.let { it1 -> setEmail(it1) }
-                                                signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                                signUpResponse.email?.let { it1 ->
+                                                    setEmail(it1)
+                                                    bundle.putString("email_id", it1)
+                                                }
+
+                                                signUpResponse.mobile?.let { it1 ->
+                                                    setMobile(it1)
+                                                    bundle.putString("mobile_number", it1)
+                                                }
+                                                onSignUpEventFire(bundle)
                                                 signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
                                                 signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
                                                 signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
@@ -166,12 +177,22 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                             getViewModel().verifySocialOTP(it1).observe(this, Observer { signUpResponse ->
                                 signUpResponse?.let {
                                     signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                    var bundle = Bundle()
                                     signUpResponse.userId?.let { it1 ->
                                         setUserId(it1)
-                                        onSignUpEventFire(it1)
+//                                                    onSignUpEventFire(it1)
+                                        bundle.putString("user_id", it1)
                                     }
-                                    signUpResponse.email?.let { it1 -> setEmail(it1) }
-                                    signUpResponse.mobile?.let { it1 -> setMobile(it1) }
+                                    signUpResponse.email?.let { it1 ->
+                                        setEmail(it1)
+                                        bundle.putString("email_id", it1)
+                                    }
+
+                                    signUpResponse.mobile?.let { it1 ->
+                                        setMobile(it1)
+                                        bundle.putString("mobile_number", it1)
+                                    }
+                                    onSignUpEventFire(bundle)
                                     signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
                                     signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
                                     signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
@@ -189,8 +210,7 @@ class OtpVerificationActivity : CoreActivity<OptVerificationsVM, ActivityOtpVeri
                 }
 
                 if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
-                    getViewModel().forgotPasswordVerifyOTP(getViewModel().otp.get()
-                            , getViewModel().otpId.get()).observe(this,
+                    getViewModel().forgotPasswordVerifyOTP(getViewModel().otp.get(), getViewModel().otpId.get()).observe(this,
                             Observer { apiResponse ->
                                 val intent = Intent(this, ResetPasswordActivity::class.java)
                                 intent.putExtra("token", apiResponse?.token)
