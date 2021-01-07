@@ -24,6 +24,7 @@ import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
+import com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListFragment
 import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
@@ -160,6 +161,8 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         it?.let { apiResponse ->
             whatsapp = apiResponse.data.whatsappLink.toString()
             context?.setWhatsAppURI(whatsapp)
+            context?.setTarakkiPro(it.data.isTarrakkiPro)
+            context?.setTarakkiProMsg(it.data.tarrakkiProMsg?:"")
             //ll_complete_verification?.visibility = if (context?.getKYCStatus()?.isNotBlank() == true || context?.isCompletedRegistration() == true || context?.isKYCVerified() == true) View.GONE else View.VISIBLE
             managePANBox()
             rvHomeItem.setUpMultiViewRecyclerAdapter(getViewModel().homeSections) { item, binder, position ->
@@ -182,7 +185,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 })
                 binder.executePendingBindings()
             }
-            rvHomeItem.visibility = View.VISIBLE
+            rvHomeItem.visibility = View.GONE
             getViewModel().redirectToInvestmentStratergy.value?.let {
                 getViewModel().redirectToInvestmentStratergy.value = it
             }
@@ -337,6 +340,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
             startFragment(ConsumerLoansLiquiLoanFragment.newInstance(), R.id.frmContainer)
         }
 
+        clPrimeInvestor?.setOnClickListener {
+            App.INSTANCE.primeInvestorList.clear()
+            startFragment(PrimeInvestorMutualFundListFragment.newInstance(), R.id.frmContainer)
+        }
+
         tvWhyTarrakkii?.setOnClickListener {
             getViewModel().whayTarrakki.get()?.let {
                 getViewModel().whayTarrakki.set(!it)
@@ -398,14 +406,11 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         if (whatsapp.isNotEmpty()) {
             try {
                 val packageManager = requireActivity().packageManager
-                val i = Intent(Intent.ACTION_VIEW)
-                val phone = 917573059595
                 val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
                 if (isWhatsappInstalled) {
                     try {
-                        val url = "https://wa.me/$phone"
+                        val i = Intent(Intent.ACTION_VIEW,Uri.parse(whatsapp))
                         i.setPackage("com.whatsapp")
-                        i.data = Uri.parse(whatsapp)
                         if (i.resolveActivity(packageManager) != null) {
                             context?.startActivity(i)
                         }
@@ -437,6 +442,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         when (event) {
             Event.OPEN_TARRAKKI_ZYAADA -> {
                 clTarrakkiZyaada?.performClick()
+                removeStickyEvent(event)
+            }
+            Event.OPEN_LIQUILOANS ->{
+                clConsumerLoanInvestment?.performClick()
                 removeStickyEvent(event)
             }
             else -> super.onEvent(event)

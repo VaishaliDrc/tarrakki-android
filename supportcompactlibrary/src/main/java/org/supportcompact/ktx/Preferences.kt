@@ -6,7 +6,6 @@ package org.supportcompact.ktx
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import android.util.Log
 
 
 const val IS_LOGIN = "is_login"
@@ -29,6 +28,8 @@ const val IS_REMAINING_FIELDS = "isRemainingFields"
 const val IS_REMARK = "isRemark"
 const val ENACH_LIMIT = "enach_limit"
 const val WHATSAPP_URI = "whatsapp_uri"
+const val TARRAKKI_PRO = "tarrakki_pro"
+const val TARRAKKI_PRO_MSG = "tarrakki_pro_msg"
 
 public val Context.getPreferences: SharedPreferences
     get() {
@@ -266,6 +267,27 @@ fun Context.getWhatsAppURI(): String? {
     return getPreferences.getString(WHATSAPP_URI, "`")
 }
 
+fun Context.setTarakkiPro(status: String?) {
+    if (status.equals("true", true))
+        return getPreferences.putBoolean(TARRAKKI_PRO, true)
+    else
+        return getPreferences.putBoolean(TARRAKKI_PRO, false)
+}
+
+fun Context.getTarakkiPro(): Boolean? {
+    return getPreferences.getBoolean(TARRAKKI_PRO, false)
+}
+
+fun Context.setTarakkiProMsg(msg: String?) {
+
+    return getPreferences.putString(TARRAKKI_PRO_MSG, msg)
+}
+
+fun Context.getTarakkiProMsg(): String? {
+    return getPreferences.getString(TARRAKKI_PRO_MSG,"")
+}
+
+
 fun Context.clearUserData() {
     getPreferences.remove(IS_LOGIN)
     getPreferences.remove(IS_SOACIAL_LOGIN)
@@ -280,4 +302,6 @@ fun Context.clearUserData() {
     getPreferences.remove(KYC_STATUS)
     getPreferences.remove(IS_REMARK)
     getPreferences.remove(ENACH_LIMIT)
+    getPreferences.remove(TARRAKKI_PRO)
+    getPreferences.remove(TARRAKKI_PRO_MSG)
 }

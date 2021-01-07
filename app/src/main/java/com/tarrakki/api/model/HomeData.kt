@@ -31,7 +31,11 @@ data class HomeData(
             @SerializedName("is_remaining_fields")
             val isRemainingFields: String?,
             @SerializedName("whatsapp_link")
-            val whatsappLink: String?
+            val whatsappLink: String?,
+            @SerializedName("tarrakki_pro")
+            val isTarrakkiPro: String?,
+            @SerializedName("tarrakki_pro_msg")
+            val tarrakkiProMsg: String?,
     ) {
         data class PortfolioDetails(
                 @SerializedName("current_value")

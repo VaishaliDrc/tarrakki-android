@@ -293,6 +293,13 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             }
             return@setOnEditorActionListener false
         }
+
+        imgSearch.setOnClickListener {
+            it.dismissKeyboard()
+            edtSearch.clearFocus()
+            getViewModel().searchBy.value = edtSearch?.text.toString()
+        }
+
         getViewModel().loadMore.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 getViewModel().response.value?.let { investmentFunds ->

@@ -52,6 +52,7 @@ import com.tarrakki.speedometer.components.Section
 import com.tarrakki.speedometer.components.indicators.ImageIndicator
 import net.cachapa.expandablelayout.ExpandableLayout
 import org.greenrobot.eventbus.EventBus
+import org.supportcompact.CoreApp
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setAutoWrapContentPageAdapter
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -746,6 +747,22 @@ fun requestToEdit(txt: EditText, requestToEdit: Boolean?) {
 @BindingAdapter("color")
 fun setFont(textView: TextView, color: Int) {
     textView.setTextColor(textView.context.color(color))
+}
+
+@BindingAdapter("primeColor")
+fun setFont(textView: TextView, color: String) {
+    if(color.isNotEmpty()){
+        when(color.get(0)){
+            'B'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.buy))
+            'S'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.sell))
+            'H'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.hold))
+            else -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.colorPrimary))
+        }
+    }
+    else{
+        textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.colorPrimary))
+    }
+
 }
 
 fun handleTextView(initialValue: Int, finalValue: Int, textview: TextView) {

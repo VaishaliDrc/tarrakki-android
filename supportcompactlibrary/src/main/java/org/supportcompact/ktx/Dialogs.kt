@@ -90,6 +90,29 @@ fun Context.appForceUpdate(title: String, msg: String, btnTitle: String, positiv
     mDialog.create().show()*/
 }
 
+fun Context.limitExceed(title: String, msg: String, btnTitle: String, positiveButton: (() -> Unit)? = null,cancelButton: (() -> Unit)? = null) {
+    val mDialog = PrettyDialog(this)
+    mDialog.setCancelable(false)
+    mDialog.setIcon(R.drawable.ic_info_white)
+            .setTitle(title)
+            .setMessage(msg)
+            .addButton(btnTitle, R.color.white, R.color.btn_bg_color) {
+                positiveButton?.invoke()
+                mDialog.dismiss()
+            }
+            .addButton("Cancel", R.color.white, R.color.btn_bg_color) {
+                cancelButton?.invoke()
+                mDialog.dismiss()
+            }.show()
+    /*val mDialog: AlertDialog.Builder = AlertDialog.Builder(this)
+    mDialog.setTitle(title)
+            .setMessage(msg)
+            .setPositiveButton(getString(R.string.ok)) { _: DialogInterface, _: Int ->
+                positiveButton?.invoke()
+            }
+    mDialog.create().show()*/
+}
+
 fun Context.confirmationDialog(msg: String, btnPositiveClick: (() -> Unit)? = null, btnNegativeClick: (() -> Unit)? = null) {
     if ((this as Activity).isFinishing) return
     val mDialog = PrettyDialog(this)

@@ -39,4 +39,9 @@
         <item name="android:background">@drawable/rounded_dialog</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/rating_yellow</item>
+        <item name="colorControlNormal">@color/rating_yellow</item>
+    </style>
+
 </resources>

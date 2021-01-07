@@ -95,6 +95,7 @@ class AccountVM : FragmentViewModel() {
             //accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.notifications), R.drawable.ic_notifications))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.about_us), R.drawable.ic_about_us))
         } else {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_risk_assessment))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
@@ -108,6 +109,7 @@ class AccountVM : FragmentViewModel() {
             //accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.notifications), R.drawable.ic_notifications))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.privacy_policy), R.drawable.ic_privacy_policy))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.terms_and_condditions), R.drawable.ic_terms_conditions))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.about_us), R.drawable.ic_about_us))
         }
         //accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.apply_for_debit_cart), R.drawable.ic_debit_cart))
     }

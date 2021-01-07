@@ -13,11 +13,16 @@ import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.HomeSection
 import com.tarrakki.module.invest.InvestFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
+import com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import com.tarrakki.onInvestmentStrategies
 import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.*
+import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.clPrimeInvestor
+import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.clTarrakkiZyaada
+import kotlinx.android.synthetic.main.fragment_explore_all_invest_funds.mRefresh
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -88,6 +93,11 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
 
         clTarrakkiZyaada?.setOnClickListener {
             startFragment(TarrakkiZyaadaFragment.newInstance(), R.id.frmContainer)
+        }
+
+        clPrimeInvestor?.setOnClickListener {
+            App.INSTANCE.primeInvestorList.clear()
+            startFragment(PrimeInvestorMutualFundListFragment.newInstance(), R.id.frmContainer)
         }
 
         llExploreFunds?.setOnClickListener {

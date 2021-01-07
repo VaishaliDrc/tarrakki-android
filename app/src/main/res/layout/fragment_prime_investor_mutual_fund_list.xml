@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListVM" />
+
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EFEFEF"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/prime_investor_list_top_background"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="@{vm.isHeaderVisible()}"
+                android:paddingStart="@dimen/_8sdp"
+                android:paddingTop="@dimen/_16sdp"
+                android:paddingEnd="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_16sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@{vm.headerText}"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/_16ssp" />
+
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:elevation="16dp"
+                app:cardCornerRadius="@dimen/_12ssp">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/mScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:overScrollMode="never">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvSelectFundslbl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:fontFamily="@font/lato_bold"
+                            android:text="@string/select_your_funds"
+                            android:textColor="#404040"
+                            android:textSize="@dimen/_12ssp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RadioGroup
+                            android:id="@+id/rgSelectFunds"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:orientation="horizontal"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvSelectFundslbl">
+
+                            <RadioButton
+                                android:id="@+id/rbGrowthScheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/colorPrimary"
+                                android:checked="true"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/growth_scheme"
+                                android:textColor="#404040"
+                                android:textSize="@dimen/_10ssp" />
+
+                            <RadioButton
+                                android:id="@+id/rbDividendScheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_24sdp"
+                                android:buttonTint="@color/colorPrimary"
+                                android:fontFamily="@font/lato_regular"
+                                android:text="@string/dividend_scheme"
+                                android:textColor="#404040"
+                                android:textSize="@dimen/_10ssp" />
+
+                        </RadioGroup>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_8sdp"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:background="@drawable/shape_edt_gray_round"
+                            android:gravity="center|start"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/edtSearch"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:hint="@string/search"
+                                android:imeOptions="actionSearch"
+                                android:maxLines="1"
+                                android:padding="@dimen/_8sdp"
+                                android:singleLine="true"
+                                android:text="@={vm.search}"
+                                android:textColor="#707070"
+                                android:textSize="@dimen/_10ssp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/rgSelectFunds" />
+
+                            <ImageView
+                                android:id="@+id/imgSearch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/_8sdp"
+                                android:padding="@dimen/_8sdp"
+                                android:src="@drawable/ic_search" />
+
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtSchemeName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:background="#B3EEF2"
+                            android:drawableEnd="@drawable/ic_sort"
+                            android:gravity="center|start"
+                            android:padding="@dimen/_12sdp"
+                            android:text="@string/scheme_name"
+                            android:textColor="#404040"
+                            android:textSize="@dimen/_12ssp"
+                            app:fontFamily="@font/lato_bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/edtSearch" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvScheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtSchemeName"
+                            tools:listitem="@layout/row_prime_investor_mutual_fund_list"
+                            tools:visibility="gone" />
+
+                        <ProgressBar
+                            android:id="@+id/pbLoadMore"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:scaleX="0.6"
+                            android:scaleY="0.6"
+                            android:visibility="@{vm.loadMore?View.VISIBLE:View.GONE}" />
+
+                        <TextView
+                            android:id="@+id/tvNoDataFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/default_space"
+                            android:layout_marginBottom="@dimen/default_space"
+                            android:gravity="center"
+                            android:padding="@dimen/default_space"
+                            android:text="@string/no_data_found"
+                            android:textColor="@color/black"
+                            android:visibility="@{vm.tvNoDataFoundVisibility}" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/llSaveForReview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_space"
+                android:background="@drawable/shape_green_round_corner"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center_horizontal"
+                    android:text="@string/save_for_review"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp" />
+
+            </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>

@@ -99,9 +99,8 @@ class ConsumerLoansLiquiLoanFragment : CoreFragment<ConsumerLoansLiquiLoanVM, Fr
                 val isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp")
                 if (isWhatsappInstalled) {
                     try {
-                        val url = "https://wa.me/$phone"
+                        val i = Intent(Intent.ACTION_VIEW,Uri.parse(App.INSTANCE.getWhatsAppURI()))
                         i.setPackage("com.whatsapp")
-                        i.data = Uri.parse(App.INSTANCE.getWhatsAppURI())
                         if (i.resolveActivity(packageManager) != null) {
                             context?.startActivity(i)
                         }

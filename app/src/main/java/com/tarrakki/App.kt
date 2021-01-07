@@ -2,6 +2,7 @@ package com.tarrakki
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.tarrakki.api.model.Fundd
 import com.tarrakki.api.model.HomeData
 import io.branch.referral.Branch
 import io.sentry.Sentry
@@ -24,6 +25,7 @@ class App : CoreApp() {
     var needToLoadTransactionScreen = -1
     var openChat: Pair<Boolean, String>? = null
     lateinit var firebaseAnalytics: FirebaseAnalytics
+    val primeInvestorList : ArrayList<Fundd?> = ArrayList()
 
     override fun onCreate() {
         super.onCreate()

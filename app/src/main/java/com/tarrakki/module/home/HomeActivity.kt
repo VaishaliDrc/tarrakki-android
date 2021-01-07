@@ -153,6 +153,9 @@ class HomeActivity : BaseActivity() {
                         e.printStackTrace()
                     }
                 }
+                else if (referringParams?.optString("~referring_link")?.contains("liquiloans") == true) {
+                    postSticky(Event.OPEN_LIQUILOANS)
+                }
                 /*if(referringParams?.optBoolean("+clicked_branch_link") == true){
                 }*/
                 // Retrieve deeplink keys from 'referringParams' and evaluate the values to determine where to route the user

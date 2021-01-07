@@ -145,6 +145,14 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         coreActivityVM?.title?.set(context?.getString(R.string.liquiloans_faq))
                         mWebView?.loadUrl("https://www.liquiloans.com/faq")
                     }
+                    Event.PRIME_INVESTOR_TERMS_AND_CONDITIONS_PAGE -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.terms_and_condditions))
+                        mWebView?.loadUrl("https://primeinvestor.in/disclosures-and-disclaimers/")
+                    }
+                    Event.ABOUT_US -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.about_us))
+                        mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL + "/about_mob/")
+                    }
                     else -> {
                         /*coreActivityVM?.title?.set("Refresh")
                         mWebView?.loadUrl("https://app.digio.in/#/gateway/login/ENA2007131623555749W22CU3POQQKAP/vI3atY/sajgan2006@gmail.com?redirect_url=https:%2F%2Fwww.bsestarmf.in%2FENACHResponse.aspx&logo=https:%2F%2Fwww.bsestarmf.in%2Fimages%2Fbsestarmfnew.jpg")*/

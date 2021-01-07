@@ -275,6 +275,10 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         //context?.simpleAlert(getString(R.string.coming_soon))
                         startFragment(SupportFragment.newInstance(), R.id.frmContainer)
                     }
+                    R.drawable.ic_about_us -> {
+                        startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                        postSticky(Event.ABOUT_US)
+                    }
                 }
             }
         }

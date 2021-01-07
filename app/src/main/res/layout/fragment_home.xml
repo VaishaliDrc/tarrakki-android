@@ -488,7 +488,7 @@
                     android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clTarrakkiZyaada">
+                    app:layout_constraintTop_toBottomOf="@+id/clPrimeInvestor">
 
                     <ImageView
                         android:id="@+id/tvConsumerLoanInvestmentlbl"
@@ -615,11 +615,170 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clPrimeInvestor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="@dimen/space_2"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clTarrakkiZyaada">
+
+
+                    <ImageView
+                        android:id="@+id/tvPrimeInvestorlbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/ic_mf_assistant"
+                        app:layout_constraintBottom_toTopOf="@id/barrier4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+<!--                    <TextView-->
+<!--                        -->
+<!--                        android:id="@+id/tvPrimeInvestorlbl"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="@dimen/default_space"-->
+<!--                        android:fontFamily="@font/lato_bold"-->
+<!--                        android:text="@string/tarrakki_mf_assistant"-->
+<!--                        android:textColor="@android:color/black"-->
+<!--                        -->
+<!--                        tools:text="Tarrakki MF Assistant" />-->
+                    <ImageView
+                        android:id="@+id/ivPrimeInvestor"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@drawable/page_selected"
+                        android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/tvPrimeInvestorlbl"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvPrimeInvestorlbl" />
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="tvPrimeInvestorlbl" />
+                    <ImageView
+                        android:id="@+id/ivPrimeInvestorCl1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_buysellhold_recommendation"
+                        app:layout_constraintEnd_toStartOf="@id/ivPrimeInvestorCl2"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/barrier4" />
+                    <TextView
+                        android:id="@+id/tvPrimeInvestorCl1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingEnd="8dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/buy_sell_hold_recommendation"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivPrimeInvestorCl1"
+                        app:layout_constraintStart_toStartOf="@id/ivPrimeInvestorCl1"
+                        app:layout_constraintTop_toBottomOf="@id/ivPrimeInvestorCl1" />
+                    <ImageView
+                        android:id="@+id/ivPrimeInvestorCl2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_62sdp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_five_stars"
+                        app:layout_constraintEnd_toStartOf="@id/ivPrimeInvestorCl3"
+                        app:layout_constraintHorizontal_weight="3.5"
+                        app:layout_constraintStart_toEndOf="@id/ivPrimeInvestorCl1"
+                        app:layout_constraintTop_toBottomOf="@id/barrier4" />
+                    <TextView
+                        android:id="@+id/tvPrimeInvestorCl2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/know_the_star_rating_of_the_fund"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivPrimeInvestorCl2"
+                        app:layout_constraintStart_toStartOf="@id/ivPrimeInvestorCl2"
+                        app:layout_constraintTop_toBottomOf="@id/ivPrimeInvestorCl2" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvPrimeInvestorCl2"
+                        app:layout_constraintStart_toEndOf="@id/ivPrimeInvestorCl1"
+                        app:layout_constraintTop_toTopOf="@id/ivPrimeInvestorCl2" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvPrimeInvestorCl2"
+                        app:layout_constraintEnd_toStartOf="@id/ivPrimeInvestorCl3"
+                        app:layout_constraintTop_toTopOf="@id/ivPrimeInvestorCl2" />
+                    <ImageView
+                        android:id="@+id/ivPrimeInvestorCl3"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic__twenty_five_hundred__funds"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toEndOf="@id/ivPrimeInvestorCl2"
+                        app:layout_constraintTop_toBottomOf="@id/barrier4" />
+                    <TextView
+                        android:id="@+id/tvPrimeInvestorCl3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingStart="8dp"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/over_twenty_five_hundred_mutual_funds"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivPrimeInvestorCl3"
+                        app:layout_constraintStart_toStartOf="@id/ivPrimeInvestorCl3"
+                        app:layout_constraintTop_toBottomOf="@id/ivPrimeInvestorCl3" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_powered_by_primeinvestor"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/tvPrimeInvestorCl2"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_20sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clConsumerLoanInvestment"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHomeItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

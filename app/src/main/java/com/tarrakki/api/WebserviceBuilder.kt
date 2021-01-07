@@ -1,5 +1,6 @@
 package com.tarrakki.api
 
+import com.google.gson.JsonObject
 import com.tarrakki.api.model.ApiResponse
 import io.reactivex.Observable
 import okhttp3.MultipartBody
@@ -330,6 +331,21 @@ interface WebserviceBuilder {
             @Query("user_id") userId: String?
     ): Observable<ApiResponse>
 
+    @GET("fund-details/prime_funds")
+    fun getMutualFunds(
+            @Query("user_id") userId: String?,
+            @Query("search_by_name") search_by_name: String?,
+            @Query("sort_by") sort_by: String?,
+            @Query("is_dividend") is_dividend: Boolean?,
+            @Query("is_growth") is_growth: Boolean?,
+            @Query("offset") offset: Int?,
+            @Query("limit") limit: Int?
+    ): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("fund-details/prime_funds/review/")
+    fun getFundsReviews(@Field("data") data: String): Observable<ApiResponse>
+
 
     /**
      * ApiNames to differentiate APIs
@@ -340,6 +356,6 @@ interface WebserviceBuilder {
         addtocart, forgotPasswordVerifyOTP, resetPassword, investmentRecommendation, getAllBanks, addBankDetails,
         deleteSavedGoals, getEKYCPage, complateRegistration, uploadNACHMandate, KYCData, transactions,
         mandateConfirmOrder, ConfirmOrderResponse, PaymentResponse, UserPortfolio, logout, updateUserBankDetails,
-        getPaymentToken, getAddressAndAmount
+        getPaymentToken, getAddressAndAmount, getFundsReview
     }
 }

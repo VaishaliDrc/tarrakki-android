@@ -61,6 +61,7 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
                 Page(getString(R.string.liquiloans), LiquiLoanPortfolioFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false
+        mPager?.offscreenPageLimit = 1
         mPager?.setFragmentPagerAdapter(childFragmentManager, pages)
         mTab?.setupWithViewPager(mPager, true)
     }

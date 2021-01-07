@@ -115,6 +115,10 @@ abstract class CoreFragment<VM : FragmentViewModel, DB : ViewDataBinding> : andr
         }
     }
 
+    protected fun onTitleChange(title:String) {
+        coreActivityVM?.title?.set(title)
+    }
+
     fun post(data: Any) {
         EventBus.getDefault().post(data)
     }

@@ -234,6 +234,7 @@
     <string name="support">Support</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_condditions"><![CDATA[Terms & Conditions]]></string>
+    <string name="about_us">About Us</string>
     <string name="current_password">Current Password*</string>
     <string name="new_password">New Password*</string>
     <string name="confirm_new_password">Confirm New Password*</string>
@@ -796,7 +797,7 @@
     <string name="NEFT_rtgs">NEFT/RTGS</string>
     <string name="please_select_payment_mode">Please select a payment mode</string>
     <string name="send_authentication_email_success_msg">We have sent you an email having the web link for e-NACH Mandate Authentication. Please check the inbox of your registered email address.</string>
-    
+
     <!--e_nach success mandate description-->
     <string name="your_e_nach_mandate_request">Your e-NACH mandate request has been registered successfully</string>
     <string name="your_e_nach_mandate_request_authentication">You will receive the e-NACH mandate authentication link on your registered email and phone number shortly in the next 1-3 minutes.</string>
@@ -834,4 +835,28 @@
     <string name="liquiloans_disclaimer">Disclaimer: Displayed values are as per the Estimate Portfolio Value (including accrued interest) post Liquiloans fee deduction (if any) as per the applicable fee structure. Portfolio numbers displayed are indicative in nature and actual returns and payout might differ.</string>
     <string name="available_for_sale_amount">Available for Sale Amount</string>
     <string name="minumum_holding_amount">Minimum Holding Amount</string>
+
+    <!--    Prime Investor-->
+    <string name="tarrakki_mf_assistant">Tarrakki MF Assistant</string>
+    <string name="buy_sell_hold_recommendation">Buy/Sell/Hold Recommendation</string>
+    <string name="know_the_star_rating_of_the_fund">Know The Star Rating of The Fund</string>
+    <string name="over_twenty_five_hundred_mutual_funds">Over 2500+ Mutual Funds</string>
+    <string name="select_your_funds">Select Your Funds</string>
+    <string name="growth_scheme">Growth Scheme</string>
+    <string name="dividend_scheme">Dividend Scheme</string>
+    <string name="search">Search</string>
+    <string name="scheme_name">Scheme Name</string>
+    <string name="save_for_review">Save For Review</string>
+    <string name="please_add_fund">Please add fund</string>
+    <string name="remove">Remove</string>
+    <string name="your_funds_for_review">Your Funds For Review</string>
+    <string name="review">Review</string>
+    <string name="are_you_sure_you_want_to_remove">Are you sure you want to remove</string>
+    <string name="prime_investor_disclaimer">Disclaimer: The information, opinions and estimates contained herein has been obtained from the sources considered to be authentic and reliable. However, Tarrakki will not be responsible for any error or inaccuracy or for any losses suffered on account of the information contained herein.</string>
+    <string name="category_column">Category:</string>
+    <string name="prime_rating_column">Prime Rating:</string>
+    <string name="prime_review_column">Prime Review:</string>
+    <string name="tarrakki_pro">Tarrakki Pro</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="maximum_limit_reached">You can select maximum 15 funds.</string>
 </resources>

@@ -32,7 +32,7 @@ class LiquiLoanPortfolioFragment : CoreFragment<PortfolioVM, FragmentLiquiloanPo
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
-        get() = getString(R.string.your_liquiloans_portfolio)
+        get() = getString(R.string.portfolio)
 
     override fun getLayout(): Int {
         return R.layout.fragment_liquiloan_portfolio

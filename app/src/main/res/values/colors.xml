@@ -52,4 +52,9 @@
     <color name="moderately_aggressive">#E56C00</color>
     <color name="aggressive">#C00D11</color>
 
+    <color name="buy">#58BB60</color>
+    <color name="sell">#EE2929</color>
+    <color name="hold">#EF7C40</color>
+    <color name="rating_yellow">#F4A343</color>
+
 </resources>

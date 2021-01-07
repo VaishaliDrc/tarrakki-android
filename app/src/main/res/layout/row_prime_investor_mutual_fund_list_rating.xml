@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="androidx.core.content.ContextCompat"/>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.api.model.RatingList" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_space"
+            android:layout_marginEnd="@dimen/default_space"
+            android:background="@color/white"
+            android:elevation="16dp"
+            app:cardCornerRadius="@dimen/_12ssp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/_8sdp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_prime_investor_rating"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center|start"
+                    android:padding="@dimen/_12sdp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{vm.fundName}"
+                    android:textColor="#404040"
+                    android:textSize="@dimen/_12ssp" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:layout_gravity="center|start"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="#404040"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/category_column" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="#404040"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@{vm.category}"
+                        tools:text="rgjkdfjgdjfgkjdfgdjkfghdkjg"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:layout_gravity="center|start"
+                    android:gravity="center|start"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="#404040"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/prime_rating_column" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:theme="@style/RatingBar"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvRatingEmpty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="@color/rating_yellow"
+                        app:fontFamily="@font/lato_bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/lato_regular"
+                        tools:text="Lorem Ipsum"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:layout_gravity="top|start"
+                    android:gravity="top|start"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/_10ssp"
+                        android:textColor="#404040"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/prime_review_column" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:textSize="@dimen/_10ssp"
+                        primeColor="@{vm.primeReview}"
+                        app:fontFamily="@font/lato_bold"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@{vm.primeReview}"
+                        tools:text="Lorem Ipsum"/>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

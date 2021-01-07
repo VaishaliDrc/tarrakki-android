@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.api.model.Fundd" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llMutualFundList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_12sdp"
+        android:gravity="start|center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="2"
+            android:text="@{vm.name}"
+            android:textColor="#404040"
+            android:textSize="@dimen/_10ssp"
+            tools:text="Aditya Birla SL Active Debt Multi-Manager FOF(G-Direct Plan)" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{vm.isAdded? @drawable/shape_orange_round_corner_border : @drawable/shape_green_round_corner}"
+            android:gravity="center"
+            android:minEms="6"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="@{vm.status}"
+            android:textColor="@{vm.isAdded? @color/hold : @color/white}"
+            android:textSize="@dimen/_10ssp"
+            tools:text="Added" />
+
+
+    </LinearLayout>
+</layout>

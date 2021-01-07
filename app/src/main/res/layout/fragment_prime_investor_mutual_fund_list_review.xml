@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListReviewVM" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EFEFEF"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_space"
+                android:layout_marginTop="@dimen/default_space"
+                android:layout_marginEnd="@dimen/default_space"
+                android:background="@color/white"
+                android:elevation="16dp"
+                app:cardCornerRadius="@dimen/_12ssp">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/mScrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/default_space"
+                    android:fillViewport="true"
+                    android:overScrollMode="never">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants"
+                        android:focusableInTouchMode="true"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_prime_investor_review"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center|start"
+                            android:padding="@dimen/_12sdp"
+                            android:text="@string/your_funds_for_review"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtSchemeName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#B3EEF2"
+                            android:drawableEnd="@drawable/ic_sort"
+                            android:gravity="center|start"
+                            android:padding="@dimen/_12sdp"
+                            app:fontFamily="@font/lato_bold"
+                            android:text="@string/scheme_name"
+                            android:textColor="#404040"
+                            android:textSize="@dimen/_12ssp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvScheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_4sdp"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/txtSchemeName"
+                            tools:listitem="@layout/row_prime_investor_mutual_fund_list_review"
+                            tools:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/tvNoDataFound"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/default_space"
+                            android:layout_marginBottom="@dimen/default_space"
+                            android:gravity="center"
+                            android:padding="@dimen/default_space"
+                            android:text="@string/no_data_found"
+                            android:textColor="@color/black"
+                            android:visibility="@{vm.tvNoDataFoundVisibility}" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSaveForReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_space"
+            android:background="@drawable/shape_green_round_corner"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/lato_semibold"
+                android:gravity="center_horizontal"
+                android:text="@string/review"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp" />
+
+        </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

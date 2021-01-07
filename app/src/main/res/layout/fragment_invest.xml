@@ -37,25 +37,42 @@
                     android:orientation="vertical"
                     android:padding="@dimen/default_space">
 
-                    <EditText
-                        android:id="@+id/edtSearch"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_edt_white_round"
-                        android:drawableEnd="@drawable/ic_search_white_24dp"
-                        android:hint="@string/find_your_mutual_fund"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:paddingStart="@dimen/space_16"
-                        android:paddingTop="@dimen/space_6"
-                        android:paddingEnd="@dimen/space_8"
-                        android:paddingBottom="@dimen/space_6"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
-                        android:textColorHint="@android:color/white"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/edtSearch"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:layout_weight="1"
+                            android:hint="@string/find_your_mutual_fund"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:paddingStart="@dimen/space_16"
+                            android:paddingTop="@dimen/space_6"
+                            android:paddingEnd="@dimen/space_8"
+                            android:paddingBottom="@dimen/space_6"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white" />
+
+
+                        <ImageView
+                            android:id="@+id/imgSearch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_8sdp"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:src="@drawable/ic_search_white_24dp"/>
+
+
+                    </LinearLayout>
 
                     <net.cachapa.expandablelayout.ExpandableLayout
                         android:id="@+id/expandableLayout"
