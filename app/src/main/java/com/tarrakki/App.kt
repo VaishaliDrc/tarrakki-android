@@ -1,6 +1,8 @@
 package com.tarrakki
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
+import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.Fundd
 import com.tarrakki.api.model.HomeData
@@ -25,6 +27,8 @@ class App : CoreApp() {
     var needToLoadTransactionScreen = -1
     var openChat: Pair<Boolean, String>? = null
     lateinit var firebaseAnalytics: FirebaseAnalytics
+    lateinit var fbAppEventsLogger : AppEventsLogger
+
     val primeInvestorList : ArrayList<Fundd?> = ArrayList()
 
     override fun onCreate() {
@@ -32,6 +36,7 @@ class App : CoreApp() {
         INSTANCE = this
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        fbAppEventsLogger = AppEventsLogger.newLogger(this)
         cartCount.value = 0
 
         // This is needed to deferred deep link from an Android Instant App to a full app

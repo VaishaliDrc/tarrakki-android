@@ -22,6 +22,7 @@ import com.tarrakki.api.model.BankDetail
 import com.tarrakki.api.model.UserBanksResponse
 import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.FragmentBankAccountsBinding
+import com.tarrakki.fcm.eventBSERegistration
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.account.AccountFragment
 import com.tarrakki.module.birth_certificate.UploadDOBCertiFragment
@@ -362,6 +363,8 @@ class BankAccountsFragment : CoreFragment<BankAccountsVM, FragmentBankAccountsBi
                                 getViewModel().kycData.value?.let { kycData ->
                                     getViewModel().completeRegistrations(File(filePath), kycData).observe(this, Observer { apiResponse ->
                                         apiResponse?.let {
+                                            // sending firebase and facebook event for BSE Registration
+                                            eventBSERegistration()
                                             //{"data": {"ready_to_invest": false}}*#$*
                                             val json = JSONObject("${it.data?.toDecrypt()}")
                                             val isReadyToInvest = json.optJSONObject("data")?.optBoolean("ready_to_invest") == true

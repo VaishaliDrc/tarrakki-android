@@ -10,6 +10,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.AddressAmountData
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.databinding.FragmentApplyForDebitCartBinding
+import com.tarrakki.fcm.eventTZDebitCardRequest
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder
 import kotlinx.android.synthetic.main.fragment_apply_for_debit_cart.*
 import org.greenrobot.eventbus.Subscribe
@@ -207,7 +208,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 //                    }
 //                }
 //            })
-
+            eventTZDebitCardRequest()
             context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
                 onBack(2)
             }

@@ -19,6 +19,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         clMain?.setBackgroundResource(if (BuildConfig.FLAVOR.isTarrakki()) R.drawable.splash else R.drawable.splash_rural)
+    //    App.INSTANCE.fbAppEventsLogger.logEvent("TestEvent");
 //        printHasKey()
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
         Handler().postDelayed({
