@@ -25,6 +25,7 @@ import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListFragment
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
 import com.tarrakki.module.yourgoal.KEY_GOAL_ID
@@ -338,6 +339,10 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
         clConsumerLoanInvestment?.setOnClickListener {
             startFragment(ConsumerLoansLiquiLoanFragment.newInstance(), R.id.frmContainer)
+        }
+
+        clTarrakkiPro?.setOnClickListener {
+            startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
         }
 
         clPrimeInvestor?.setOnClickListener {

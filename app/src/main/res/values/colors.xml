@@ -57,4 +57,7 @@
     <color name="hold">#EF7C40</color>
     <color name="rating_yellow">#F4A343</color>
 
+    <color name="bg_choose_plan">#494A53</color>
+    <color name="bg_choose_plan_purple">#48194A</color>
+
 </resources>

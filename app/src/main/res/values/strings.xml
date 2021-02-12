@@ -799,6 +799,44 @@
     <string name="please_select_payment_mode">Please select a payment mode</string>
     <string name="send_authentication_email_success_msg">We have sent you an email having the web link for e-NACH Mandate Authentication. Please check the inbox of your registered email address.</string>
 
+    <!--Tarrakki Pro Benefits List-->
+    <string name="buy_sell_recommendation">Buy/Sell/Hold Recommendations on Mutual Fund</string>
+    <string name="prime_ratings">Prime Ratings</string>
+    <string name="mutual_fund_advisory">Mutual Fund Advisory</string>
+    <string name="detailed_risk">Detailed Risk Assessment</string>
+    <string name="portfolio_health_check_up">Portfolio Health Check Up (Quarterly)</string>
+    <string name="on_call_appointment">On Call Appointment with a Wealth Manager (Monthly)</string>
+    <string name="portfolio_analytics">Portfolio Analytics</string>
+    <string name="choose_plan">Choose a plan</string>
+    <string name="six_month">6 Month</string>
+    <string name="three_month">3 Month</string>
+
+    <string name="equity_advisory">Equity Advisory</string>
+    <string name="what_is_equity_advisory">What is Equity Advisory?</string>
+    <string name="what_you_will_get">What you will get?</string>
+
+    <string name="set_call_with_adviser">Set a call with our adviser</string>
+
+    <string name="in_a_rapidly_changing">
+        In a rapidly changing business environment, it is difficult to pick a good stock to invest in. Choosing the right stock to invest in is one of the major problems investors in India face.
+        \n\nEquities can be a high-risk, high-return investment.One should always invest in direct stocks that are backed by in-depth fundamental research and analysis.
+        \n\nGetting the right buy/sell/hold advice is essential when you build an equity portfolio.</string>
+
+    <string name="build_your_perfect">Build your perfect equity portfolio with Tarrakki Equity Advisory. We will advice you on what to buy, when to buy and most important - when to SELL!</string>
+    <string name="tarrakki_equity_advisory_combines">Tarrakki Equity Advisory combines the best Mutual Fund and PMS experience to give a truly attractive offering.</string>
+
+    <string name="sebi_registered_investment">SEBI Registered Investment Advisor (neither brokers nor associated with stock market intermediaries)</string>
+    <string name="unbiased_research">Unbiased research &amp; advisory</string>
+    <string name="well_researched">Well researched stock ideas</string>
+    <string name="complete_control">Complete control of your broking account</string>
+
+
+    <string name="model_portfolio">Model portfolio of 15–25 stocks</string>
+    <string name="recommended_weight">Recommended weightages</string>
+    <string name="monthly_uopdates">Monthly updates</string>
+    <string name="buy_sell_hold">Buy-Sell-Hold reminders over email and WhatsApp</string>
+    <string name="dedicated_helpdesk">Dedicated helpdesk</string>
+
     <!--e_nach success mandate description-->
     <string name="your_e_nach_mandate_request">Your e-NACH mandate request has been registered successfully</string>
     <string name="your_e_nach_mandate_request_authentication">You will receive the e-NACH mandate authentication link on your registered email and phone number shortly in the next 1-3 minutes.</string>
@@ -823,6 +861,9 @@
     <string name="returns_of_investment">Returns on Investment</string>
     <string name="minimum_amount">Minimum amount</string>
     <string name="lock_in_period">Lock-in period</string>
+    <string name="premium_support">Premium Customer Support</string>
+    <string name="portfolio_construction">Portfolio Construction</string>
+    <string name="mutual_recommend">Mutual Funds Recommendations</string>
     <string name="your_liquiloans_portfolio">Your Liquiloans Portfolio</string>
     <string name="invest_in_consumer_loans">Invest in Consumer Loans</string>
     <string name="liquiloans">Liquiloans</string>
@@ -839,7 +880,7 @@
 
     <!--    Prime Investor-->
     <string name="tarrakki_mf_assistant">Tarrakki MF Assistant</string>
-    <string name="buy_sell_hold_recommendation">Buy/Sell/Hold Recommendation</string>
+    <string name="buy_sell_hold_recommendation">Buy/Sell/Hold Recommendation on Mutual Fund</string>
     <string name="know_the_star_rating_of_the_fund">Know The Star Rating of The Fund</string>
     <string name="over_twenty_five_hundred_mutual_funds">Over 2500+ Mutual Funds</string>
     <string name="select_your_funds">Select Your Funds</string>

@@ -15,6 +15,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.Fundd
 import com.tarrakki.databinding.FragmentPrimeInvestorMutualFundListReviewBinding
 import com.tarrakki.databinding.RowPrimeInvestorMutualFundListReviewBinding
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import kotlinx.android.synthetic.main.fragment_prime_investor_mutual_fund_list_review.*
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
@@ -74,7 +75,8 @@ class PrimeInvestorMutualFundListReviewFragment : CoreFragment<PrimeInvestorMutu
         getViewModel().isLimitExceed.observe(this, Observer {
             if (it.isNullOrEmpty() == false) {
                 context?.limitExceed(getString(R.string.app_name), it, positiveButton = {
-                    chatWhatsapp()
+                    startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                   // chatWhatsapp()
                 }, btnTitle = getString(R.string.contact_us))
             }
         })

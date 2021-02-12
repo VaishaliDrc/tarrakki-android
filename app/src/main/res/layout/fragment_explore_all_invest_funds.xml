@@ -398,6 +398,148 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clTarrakkiPro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="@dimen/space_2"
+                    android:orientation="vertical"
+                    android:padding="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <ImageView
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:id="@+id/ivTarrakiProlbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/default_space"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/ic_tarrakki_pro"
+                        app:layout_constraintBottom_toTopOf="@id/barrier5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/ivTarrakiPro"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@drawable/page_selected"
+                        android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/ivTarrakiProlbl"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/ivTarrakiProlbl" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="ivTarrakiProlbl" />
+
+                    <ImageView
+                        android:id="@+id/ivTp1"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_premium_customer_support"
+                        app:layout_constraintEnd_toStartOf="@id/ivTp2"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/barrier5" />
+
+                    <TextView
+                        android:id="@+id/tvTp1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingEnd="8dp"
+                        android:text="@string/premium_support"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivTp1"
+                        app:layout_constraintStart_toStartOf="@id/ivTp1"
+                        app:layout_constraintTop_toBottomOf="@id/ivTp1" />
+
+                    <ImageView
+                        android:id="@+id/ivTp2"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:layout_marginStart="@dimen/space_8"
+                        android:layout_marginEnd="@dimen/space_8"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_portfolio__construction"
+                        app:layout_constraintEnd_toStartOf="@id/ivTp3"
+                        app:layout_constraintHorizontal_weight="3.5"
+                        app:layout_constraintStart_toEndOf="@id/ivTp1"
+                        app:layout_constraintTop_toBottomOf="@id/barrier5" />
+
+                    <TextView
+                        android:id="@+id/tvTp2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:text="@string/portfolio_construction"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivTp2"
+                        app:layout_constraintStart_toStartOf="@id/ivTp2"
+                        app:layout_constraintTop_toBottomOf="@id/ivTp2" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvTp1"
+                        app:layout_constraintStart_toEndOf="@id/ivTp1"
+                        app:layout_constraintTop_toTopOf="@id/ivTp2" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:background="@color/darker_gray"
+                        app:layout_constraintBottom_toBottomOf="@id/tvtp3"
+                        app:layout_constraintEnd_toStartOf="@id/ivTp3"
+                        app:layout_constraintTop_toTopOf="@id/ivTp2" />
+
+
+                    <ImageView
+                        android:id="@+id/ivTp3"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:padding="@dimen/_8sdp"
+                        android:src="@drawable/ic_mutual_funds_recommendations"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="3.25"
+                        app:layout_constraintStart_toEndOf="@id/ivTp2"
+                        app:layout_constraintTop_toBottomOf="@id/barrier5" />
+
+                    <TextView
+                        android:id="@+id/tvtp3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:gravity="center"
+                        android:paddingStart="8dp"
+                        android:text="@string/mutual_recommend"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="@id/ivTp3"
+                        app:layout_constraintStart_toStartOf="@id/ivTp3"
+                        app:layout_constraintTop_toBottomOf="@id/ivTp3" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMutualFunds"
                     android:layout_width="match_parent"
