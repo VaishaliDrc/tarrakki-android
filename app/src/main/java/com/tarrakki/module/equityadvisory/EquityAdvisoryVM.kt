@@ -16,6 +16,7 @@ import org.supportcompact.FragmentViewModel
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.events.ShowError
 import org.supportcompact.ktx.*
+import kotlin.concurrent.thread
 
 class EquityAdvisoryVM : FragmentViewModel() {
 
@@ -23,12 +24,19 @@ class EquityAdvisoryVM : FragmentViewModel() {
     val whyTarrakkiList = arrayListOf<WhyTarrakkiList>()
     val equityBenefitList = arrayListOf<WhyTarrakkiList>()
     var firstPlanPrice = 0
+    var tarrakkiProAndEquityPricingResponse = MutableLiveData<TarrakkiProAndEquityPricingResponse>()
 
     init {
         setTarrakkiList()
         setEquityBenefitList()
         firstPlanPrice = 356
 
+    }
+
+    fun getRandomOrderId():String{
+        val tsLong = System.currentTimeMillis()
+        val ts = tsLong.toString()
+        return ts + "equ"
     }
 
     private fun setTarrakkiList() {
@@ -50,29 +58,58 @@ class EquityAdvisoryVM : FragmentViewModel() {
 
     }
 
-    fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
+
+    fun getTarrakkiAndWquityPricing(): MutableLiveData<TarrakkiProAndEquityPricingResponse> {
+        subscribeToSingle(
+                ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTarrakkiProAndEquityPricing(),
+                object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        thread {
+                            if (o.status?.code == 1) {
+                                o.printResponse()
+                                val res = o.data?.parseTo<TarrakkiProAndEquityPricingResponse>()
+                                tarrakkiProAndEquityPricingResponse.postValue(res)
+                            } else {
+                                postError("${o.status?.message}")
+                            }
+                            dismissProgress()
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return tarrakkiProAndEquityPricingResponse
+    }
+
+
+    fun getPaymentTokenAPI(): MutableLiveData<PaymentTokenData> {
         val apiResponse = MutableLiveData<PaymentTokenData>()
         showProgress()
         val json = JsonObject()
-        json.addProperty("amount", "600"  )
-        json.addProperty("order_id",  "123456789012" )
-        json.addProperty("currency", "INR")
+        json.addProperty("amount", "600")
+        json.addProperty("order_id", getRandomOrderId())
+        json.addProperty("tranx_type", "pro_3")
+
         val data = json.toString().toEncrypt()
         json.printRequest()
         data.printRequest()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .getPaymentToken(App.INSTANCE.getUserId(),data),
+                        .getTProAndEquityPaymentToken(App.INSTANCE.getUserId(), data),
 
                 singleCallback = object : SingleCallback1<ApiResponse> {
                     override fun onSingleSuccess(o: ApiResponse) {
                         o.printResponse()
-                        if (o.status?.code == 1){
+                        if (o.status?.code == 1) {
                             val data = o.data?.parseTo<PaymentTokenData>()
                             data?.let {
                                 apiResponse.value = it
                             }
-                        }else{
+                        } else {
                             postError("${o.status?.message}")
                         }
                         dismissProgress()
@@ -86,7 +123,6 @@ class EquityAdvisoryVM : FragmentViewModel() {
         )
         return apiResponse
     }
-
 
 
 }

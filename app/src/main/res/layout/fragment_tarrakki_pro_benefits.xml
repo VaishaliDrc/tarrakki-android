@@ -60,145 +60,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvProBenefits" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clPlanFirst"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:id="@+id/rvProPlan"
+                enableNestedScrollView="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:background="@color/bg_choose_plan"
-                app:layout_constraintTop_toBottomOf="@+id/tvChoosePlan">
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/tvChoosePlan"
+                tools:itemCount="2"
+                tools:listitem="@layout/row_tarrakki_pro_plan" />
 
-                <TextView
-                    android:id="@+id/tvPlanMonthFirst"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_18sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="@string/six_month"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@+id/tvPlanMonthFirst"
-                    app:layout_constraintStart_toStartOf="@+id/tvPlanMonthFirst"
-                    android:id="@+id/tvTotalPriceFirst"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/lato_regular"
-                    android:textSize="@dimen/_12ssp"
-                    android:text="Total Price 1650"
-                    android:layout_width="wrap_content"
-                    android:paddingBottom="@dimen/_15sdp"
-                    android:layout_height="wrap_content"/>
 
-                <ImageView
-                    android:layout_marginEnd="@dimen/_18sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/ivNextArrow"
-                    android:src="@drawable/ic_forward_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tvPlanPriceFirst"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="Rs 275"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintEnd_toStartOf="@+id/ivNextArrow"
-                    app:layout_constraintTop_toTopOf="@+id/tvPlanMonthFirst" />
-
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@+id/tvPlanPriceFirst"
-                    app:layout_constraintEnd_toStartOf="@+id/ivNextArrow"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/lato_regular"
-                    android:textSize="@dimen/_12ssp"
-                    android:text="@string/monthly"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clPlanSecond"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:background="@color/bg_choose_plan"
-                app:layout_constraintTop_toBottomOf="@+id/clPlanFirst">
-
-                <TextView
-                    android:id="@+id/tvPlanMonthSecond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_18sdp"
-                    android:layout_marginTop="@dimen/_15sdp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="@string/three_month"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@+id/tvPlanMonthSecond"
-                    app:layout_constraintStart_toStartOf="@+id/tvPlanMonthSecond"
-                    android:id="@+id/tvTotalPriceSecond"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/lato_regular"
-                    android:textSize="@dimen/_12ssp"
-                    android:text="Total Price 999"
-                    android:layout_width="wrap_content"
-                    android:paddingBottom="@dimen/_15sdp"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
-                    android:layout_marginEnd="@dimen/_18sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:id="@+id/ivNextArrowSecond"
-                    android:src="@drawable/ic_forward_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/tvPlanPriceSecond"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    android:fontFamily="@font/lato_bold"
-                    android:text="Rs 333"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15ssp"
-                    app:layout_constraintEnd_toStartOf="@+id/ivNextArrowSecond"
-                    app:layout_constraintTop_toTopOf="@+id/tvPlanMonthSecond" />
-
-                <TextView
-                    app:layout_constraintTop_toBottomOf="@+id/tvPlanPriceSecond"
-                    app:layout_constraintEnd_toStartOf="@+id/ivNextArrowSecond"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/lato_regular"
-                    android:textSize="@dimen/_12ssp"
-                    android:text="@string/monthly"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    android:layout_height="wrap_content"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

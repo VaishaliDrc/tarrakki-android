@@ -21,6 +21,7 @@ import com.tarrakki.module.bankmandate.MANDATEID
 import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
 import org.greenrobot.eventbus.Subscribe
@@ -69,6 +70,8 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orders.clear()
             val orderTotal = OrderTotal()
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
+            orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
+            orderTotal.recommendationLeft = "(You have ${intNumbertoStringNumber(confirmOrderResponse?.data?.userTrials!!)} free recommendations left)"
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
                     ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
@@ -167,6 +170,10 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     }
                 })
 
+                binder.setVariable(BR.onTarrakkiProClick, View.OnClickListener {
+                    startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                })
+
                 binder.setVariable(BR.onCheckedChange, View.OnClickListener {
                     if (item is ConfirmOrderResponse.Data.OrderLine) {
                         if (confirmOrderResponse?.data?.isApproveBank == true) {
@@ -186,6 +193,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         }
                     }
                 })
+
 
                 binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
                     if (confirmOrderResponse?.data?.isSIP == true) {

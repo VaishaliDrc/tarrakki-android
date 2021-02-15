@@ -13,6 +13,10 @@
             name="onBankMandateChange"
             type="android.view.View.OnClickListener" />
 
+        <variable
+            name="onTarrakkiProClick"
+            type="android.view.View.OnClickListener" />
+
         <import type="android.view.View" />
 
     </data>
@@ -24,7 +28,21 @@
         android:layout_marginEnd="@dimen/default_space"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvRecommendationLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            tools:text="(You have Two free recommendations left)"
+            android:text="@{widget.recommendationLeft}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black" />
+
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="@dimen/_70sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_cart_view"
@@ -99,6 +117,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/disclaimer_color"
             android:visibility="@{widget.isBankMandateVisible?View.VISIBLE:View.GONE}" />
+
+        <TextView
+            android:id="@+id/tvGetTPro"
+            android:padding="@dimen/_12sdp"
+            android:background="@drawable/bg_get_pro_sky"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="@{widget.isTarrakkiPro()?View.GONE:View.VISIBLE}"
+            android:onClick="@{onTarrakkiProClick}"
+            android:text="Get Tarrakki Pro at 275 per month"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/black"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="@dimen/_12ssp"
+            android:gravity="center" />
 
 
     </LinearLayout>

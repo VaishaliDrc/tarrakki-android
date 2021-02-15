@@ -5,22 +5,41 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.Observer
 import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.MySipApiResponse
+import com.tarrakki.api.model.MySipData
+import com.tarrakki.api.model.TarrakkiProAndEquityPricingResponse
+import com.tarrakki.api.model.TarrakkiProPrice
 import com.tarrakki.databinding.FragmentEquityAdvisoryBinding
+import com.tarrakki.databinding.RowEquityPlanBinding
 import com.tarrakki.databinding.RowWhyTarrakkiItemBinding
 import com.tarrakki.fcm.eventTZDebitCardRequest
+import com.tarrakki.module.portfolio.StopSIP
+import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import com.tarrakki.module.support.SupportFragment
+import com.tarrakki.module.transactions.LoadMore
+import com.tarrakki.stopFundPortfolioDialog
+import kotlinx.android.synthetic.main.fragment_completed_transactions.*
+import kotlinx.android.synthetic.main.fragment_completed_transactions.tvNoItem
 import kotlinx.android.synthetic.main.fragment_equity_advisory.*
-import kotlinx.android.synthetic.main.fragment_equity_advisory.tvFAQs
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada.*
+import kotlinx.android.synthetic.main.fragment_home.mRefresh
+import kotlinx.android.synthetic.main.fragment_my_sip.*
+import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.supportcompact.BR
 import org.supportcompact.CoreFragment
+import org.supportcompact.adapters.WidgetsViewModel
+import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.*
 import java.util.HashMap
@@ -28,6 +47,7 @@ import java.util.HashMap
 
 class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvisoryBinding>() {
 
+    lateinit var response: Observer<TarrakkiProAndEquityPricingResponse>
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -54,8 +74,7 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
                 getViewModel().equityAdvisoryVisibility.set(!it)
             }
         }
-        tvPlanPriceFirst.text = "₹ ${getViewModel().firstPlanPrice}"
-        tvTotalPriceFirst.text = "Total Price ₹ ${getViewModel().firstPlanPrice * 6}"
+
 
         rvWhyTarrakki?.setUpRecyclerView(R.layout.row_why_tarrakki_item, getViewModel().whyTarrakkiList) { item: WhyTarrakkiList, binder: RowWhyTarrakkiItemBinding, position ->
             binder.menu = item
@@ -75,9 +94,22 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
             chatWhatsApp()
         }
 
-        clPlanFirst.setOnClickListener {
-            completePayment()
+
+        response = Observer {
+            it?.let { data ->
+                data.tarrakkiProAndEquityPriceData?.let { price ->
+                    rvEquityPlan.visibility = if (price.isEquityAdvisory!!) View.GONE else View.VISIBLE
+
+                    rvEquityPlan?.setUpRecyclerView(R.layout.row_equity_plan,  price.equityAdvisoryPricing!!) { item: TarrakkiProPrice, binder: RowEquityPlanBinding, position ->
+                        binder.data = item
+                        binder.executePendingBindings()
+                    }
+
+                }
+            }
         }
+
+        getViewModel().getTarrakkiAndWquityPricing().observe(this, response)
 
     }
 
@@ -167,7 +199,7 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
         if (event.getString("txStatus").equals("SUCCESS", true)) {
-            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), event.getString("txMsg")?:"") {
                 //   onBack(2)
             }
         } else {

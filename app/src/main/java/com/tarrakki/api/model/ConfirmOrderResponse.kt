@@ -32,10 +32,14 @@ data class ConfirmOrderResponse(
             val totalSip: Double,
             @SerializedName("user_id")
             val userId: Int,
+            @SerializedName("user_trials")
+            val userTrials: Int,
             @SerializedName("mandate_status")
             val mandateStatus: String,
             @SerializedName("is_sip")
             val isSIP: Boolean,
+            @SerializedName("is_tarrakki_pro")
+            val isTarrakkiPro: Boolean,
             @SerializedName("mandate_type")
             val typeOfMandate: String?
     ) {
@@ -66,6 +70,8 @@ data class ConfirmOrderResponse(
                 val fundIdId: Int,
                 @SerializedName("fund_id__scheme_type")
                 val fundIdSchemeType: String,
+                @SerializedName("prime_rating")
+                val primeRating: PrimeRating,
                 @SerializedName("id")
                 val id: Int,
                 @SerializedName("lumpsum_order_state")
@@ -74,6 +80,7 @@ data class ConfirmOrderResponse(
                 val orderIdId: Int,
                 @SerializedName("sip_order_state")
                 val sipOrderState: String
+
         ) : BaseObservable(), WidgetsViewModel {
 
             @SerializedName("lumpsum_amount")
@@ -129,5 +136,12 @@ data class ConfirmOrderResponse(
             }
 
         }
+
+        data class PrimeRating(
+                @SerializedName("prime_rating")
+                val primeRating: String,
+                @SerializedName("prime_review")
+                val primeReview: String,
+        )
     }
 }

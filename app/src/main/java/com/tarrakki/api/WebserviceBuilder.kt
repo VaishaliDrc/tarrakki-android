@@ -263,6 +263,9 @@ interface WebserviceBuilder {
     @GET("configurations/get-maintenance-details/")
     fun getMaintenanceDetails(): Observable<ApiResponse>
 
+    @GET("configurations/get-price-details/")
+    fun getTarrakkiProAndEquityPricing(): Observable<ApiResponse>
+
     @GET("transactions/my-sip/{userId}/")
     fun getMySip(@Path("userId") userId: String?, @Query("data") data: String): Observable<ApiResponse>
 
@@ -314,6 +317,12 @@ interface WebserviceBuilder {
     @FormUrlEncoded
     @POST("banks/gen-cashfree-token/{userId}/")
     fun getPaymentToken(
+            @Path("userId") userId: String?, @Field("data") data: String
+    ): Observable<ApiResponse>
+
+    @FormUrlEncoded
+    @POST("tarrakki/zyaada/gen-cashfree-token/{userId}/")
+    fun getTProAndEquityPaymentToken(
             @Path("userId") userId: String?, @Field("data") data: String
     ): Observable<ApiResponse>
 

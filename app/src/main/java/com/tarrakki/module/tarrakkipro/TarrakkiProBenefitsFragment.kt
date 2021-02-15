@@ -1,14 +1,23 @@
 package com.tarrakki.module.tarrakkipro
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.R
+import com.tarrakki.api.model.TarrakkiProAndEquityPricingResponse
+import com.tarrakki.api.model.TarrakkiProPrice
 import com.tarrakki.databinding.FragmentTarrakkiProBenefitsBinding
+import com.tarrakki.databinding.RowEquityPlanBinding
 import com.tarrakki.databinding.RowProBenefitItemBinding
+import com.tarrakki.databinding.RowTarrakkiProPlanBindingImpl
+import kotlinx.android.synthetic.main.fragment_equity_advisory.*
 import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
+import kotlinx.android.synthetic.main.row_tarrakki_pro_plan.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
@@ -19,6 +28,7 @@ import org.supportcompact.ktx.simpleAlert
 import java.util.HashMap
 
 class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakkiProBenefitsBinding>() {
+    lateinit var response: Observer<TarrakkiProAndEquityPricingResponse>
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -55,18 +65,27 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
             binder.executePendingBindings()
         }
 
-        clPlanFirst.setOnClickListener {
-            completePayment()
+
+        response = Observer {
+            it?.let { data ->
+                data.tarrakkiProAndEquityPriceData?.let { price ->
+                    rvProPlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
+                    tvChoosePlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
+
+                    rvProPlan?.setUpRecyclerView(R.layout.row_tarrakki_pro_plan, price.tarrakkiProPricing!!) { item: TarrakkiProPrice, binder: RowTarrakkiProPlanBindingImpl, position ->
+                        binder.data = item
+                        binder.root.clPlanFirst.setOnClickListener {
+
+                        }
+                        binder.executePendingBindings()
+                    }
+
+                }
+            }
         }
 
-        clPlanSecond.setOnClickListener {
-            completePayment()
-        }
+        getViewModel().getTarrakkiAndWquityPricing().observe(this, response)
 
-        tvPlanPriceFirst.text = "₹ ${getViewModel().firstPlanPrice}"
-        tvPlanPriceSecond.text = "₹ ${getViewModel().SecondPlanPrice}"
-        tvTotalPriceFirst.text = "Total Price ₹ ${getViewModel().firstPlanPrice * 6}"
-        tvTotalPriceSecond.text = "Total Price ₹ ${getViewModel().SecondPlanPrice * 3}"
     }
 
     private fun completePayment() {

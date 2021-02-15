@@ -133,6 +133,51 @@
             app:layout_constraintTop_toBottomOf="@id/tvDateL"
             tools:checked="true" />
 
+        <TextView
+            android:id="@+id/tvPrimeRatingSIP"
+            app:layout_constraintTop_toBottomOf="@+id/cbSIP"
+            app:layout_constraintStart_toStartOf="@+id/cbSIP"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:text="Prime Rating:"
+            android:fontFamily="@font/lato_regular"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginTop="@dimen/_5sdp"
+            android:src="@drawable/ic_lock_purple"
+            android:id="@+id/ivLockPrimeRatingSIP"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintTop_toBottomOf="@+id/cbSIP"
+            app:layout_constraintStart_toEndOf="@+id/tvPrimeRatingSIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvPrimeRecommendSIP"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrimeRatingSIP"
+            app:layout_constraintStart_toStartOf="@+id/cbSIP"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:text="Prime Recommendation:"
+            android:fontFamily="@font/lato_regular"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_lock_purple"
+            android:id="@+id/ivLockPrimeRecommendSIP"
+            app:layout_constraintTop_toBottomOf="@+id/tvPrimeRatingSIP"
+            app:layout_constraintStart_toEndOf="@+id/tvPrimeRecommendSIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"

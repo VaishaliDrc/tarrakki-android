@@ -59,5 +59,7 @@
 
     <color name="bg_choose_plan">#494A53</color>
     <color name="bg_choose_plan_purple">#48194A</color>
+    <color name="bg_pro_sky">#ADEFEE</color>
+
 
 </resources>

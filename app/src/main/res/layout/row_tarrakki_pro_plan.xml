@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.tarrakki.api.model.TarrakkiProPrice" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPlanFirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/bg_choose_plan"
+        app:layout_constraintTop_toBottomOf="@+id/tvChoosePlan">
+
+        <TextView
+            android:id="@+id/tvPlanMonthFirst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:fontFamily="@font/lato_bold"
+            android:text="@{data.planDuration+' '+@string/months}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            tools:text="3 Months"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/tvPlanMonthFirst"
+            app:layout_constraintStart_toStartOf="@+id/tvPlanMonthFirst"
+            android:id="@+id/tvTotalPriceFirst"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_regular"
+            android:textSize="@dimen/_12ssp"
+            android:text="@{@string/total_price+' '+data.totalPrice}"
+            android:layout_width="wrap_content"
+            android:paddingBottom="@dimen/_15sdp"
+            tools:text="Total Price 288"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginEnd="@dimen/_18sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/ivNextArrow"
+            android:src="@drawable/ic_forward_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvPlanPriceFirst"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:fontFamily="@font/lato_bold"
+            android:text="@{@string/rs_symbol+' '+data.price}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            tools:text="@string/rs_symbol"
+            app:layout_constraintEnd_toStartOf="@+id/ivNextArrow"
+            app:layout_constraintTop_toTopOf="@+id/tvPlanMonthFirst" />
+
+        <TextView
+            app:layout_constraintTop_toBottomOf="@+id/tvPlanPriceFirst"
+            app:layout_constraintEnd_toStartOf="@+id/ivNextArrow"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_regular"
+            android:textSize="@dimen/_12ssp"
+            android:text="@string/monthly"
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

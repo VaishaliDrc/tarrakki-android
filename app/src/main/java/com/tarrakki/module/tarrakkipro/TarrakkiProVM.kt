@@ -1,29 +1,28 @@
 package com.tarrakki.module.tarrakkipro
 
-import android.text.TextUtils
-import android.view.View
 import androidx.annotation.DrawableRes
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.App
-import com.tarrakki.BuildConfig
 import com.tarrakki.R
-import com.tarrakki.api.*
+import com.tarrakki.api.ApiClient
+import com.tarrakki.api.SingleCallback1
+import com.tarrakki.api.WebserviceBuilder
 import com.tarrakki.api.model.*
-import com.tarrakki.getVisibility
-import org.greenrobot.eventbus.EventBus
+import com.tarrakki.api.subscribeToSingle
 import org.supportcompact.FragmentViewModel
-import org.supportcompact.adapters.WidgetsViewModel
-import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.dismissProgress
+import org.supportcompact.ktx.getUserId
+import org.supportcompact.ktx.postError
+import org.supportcompact.ktx.showProgress
+import kotlin.concurrent.thread
 
 class TarrakkiProVM : FragmentViewModel() {
 
     val proBenefitList = arrayListOf<ProbenefitList>()
     var firstPlanPrice = 0
     var SecondPlanPrice = 0
+    var tarrakkiProAndEquityPricingResponse = MutableLiveData<TarrakkiProAndEquityPricingResponse>()
 
 
     init {
@@ -32,6 +31,11 @@ class TarrakkiProVM : FragmentViewModel() {
         SecondPlanPrice = 300
     }
 
+      fun getRandomOrderId():String{
+        val tsLong = System.currentTimeMillis()
+        val ts = tsLong.toString()
+        return ts + "pro"
+    }
 
 
     private fun setBenefitList() {
@@ -48,19 +52,45 @@ class TarrakkiProVM : FragmentViewModel() {
 
     }
 
+    fun getTarrakkiAndWquityPricing(): MutableLiveData<TarrakkiProAndEquityPricingResponse> {
+        subscribeToSingle(
+                ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getTarrakkiProAndEquityPricing(),
+                object : SingleCallback1<ApiResponse> {
+                    override fun onSingleSuccess(o: ApiResponse) {
+                        thread {
+                            if (o.status?.code == 1) {
+                                o.printResponse()
+                                val res = o.data?.parseTo<TarrakkiProAndEquityPricingResponse>()
+                                tarrakkiProAndEquityPricingResponse.postValue(res)
+                            } else {
+                                postError("${o.status?.message}")
+                            }
+                            dismissProgress()
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable) {
+                        throwable.postError()
+                        dismissProgress()
+                    }
+                }
+        )
+        return tarrakkiProAndEquityPricingResponse
+    }
+
     fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
         val apiResponse = MutableLiveData<PaymentTokenData>()
         showProgress()
         val json = JsonObject()
         json.addProperty("amount", "600"  )
-        json.addProperty("order_id",  "123456789012" )
+        json.addProperty("order_id",  getRandomOrderId())
         json.addProperty("currency", "INR")
         val data = json.toString().toEncrypt()
         json.printRequest()
         data.printRequest()
         subscribeToSingle(
                 observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java)
-                        .getPaymentToken(App.INSTANCE.getUserId(),data),
+                        .getTProAndEquityPaymentToken(App.INSTANCE.getUserId(),data),
 
                 singleCallback = object : SingleCallback1<ApiResponse> {
                     override fun onSingleSuccess(o: ApiResponse) {
