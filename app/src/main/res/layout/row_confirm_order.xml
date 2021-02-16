@@ -14,6 +14,10 @@
         <variable
             name="onCheckedChange"
             type="android.view.View.OnClickListener" />
+        <variable
+            name="onLockClick"
+            type="android.view.View.OnClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,17 +139,66 @@
 
         <TextView
             android:id="@+id/tvPrimeRatingSIP"
+            android:layout_marginStart="@dimen/_4sdp"
             app:layout_constraintTop_toBottomOf="@+id/cbSIP"
-            app:layout_constraintStart_toStartOf="@+id/cbSIP"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/_10sdp"
             android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
-            android:text="Prime Rating:"
+            android:text="@string/prime_rating"
             android:fontFamily="@font/lato_regular"
             android:layout_height="wrap_content"/>
 
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/llcRating"
+            app:layout_constraintTop_toTopOf="@+id/tvPrimeRatingSIP"
+            app:layout_constraintStart_toEndOf="@+id/tvPrimeRatingSIP"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPrimeRatingSIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:gravity="center|start"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                app:layout_constraintTop_toTopOf="@+id/tvPrimeRatingSIP"
+                app:layout_constraintStart_toEndOf="@+id/tvPrimeRatingSIP"
+                app:layout_constraintBottom_toBottomOf="@+id/tvPrimeRatingSIP"
+                android:id="@+id/ratingBarCO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="@{widget.primeRatingData.starRating}"
+                android:visibility="@{widget.primeRatingData.isRatingBarVisible()?View.VISIBLE:View.GONE}"
+                android:layout_marginStart="@dimen/_5sdp"
+                style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/RatingBar"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                app:layout_constraintTop_toTopOf="@+id/tvPrimeRatingSIP"
+                app:layout_constraintStart_toEndOf="@+id/ratingBarCO"
+                android:id="@+id/tvRatingEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:textSize="@dimen/_10ssp"
+                android:textColor="@color/rating_yellow"
+                app:fontFamily="@font/lato_bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{widget.primeRatingData.ratingEmptyText}"
+                android:visibility="@{widget.primeRatingData.isRatingEmptyVisible()?View.VISIBLE:View.GONE}"
+                android:fontFamily="@font/lato_regular"
+                tools:text="Lorem Ipsum"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <ImageView
+            android:onClick="@{onLockClick}"
+            android:visibility="visible"
             android:layout_marginTop="@dimen/_5sdp"
             android:src="@drawable/ic_lock_purple"
             android:id="@+id/ivLockPrimeRatingSIP"
@@ -155,19 +208,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
         <TextView
             android:id="@+id/tvPrimeRecommendSIP"
             app:layout_constraintTop_toBottomOf="@+id/tvPrimeRatingSIP"
-            app:layout_constraintStart_toStartOf="@+id/cbSIP"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
-            android:text="Prime Recommendation:"
+            android:text="@string/prime_recommennd"
             android:fontFamily="@font/lato_regular"
             android:layout_height="wrap_content"/>
 
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvPrimeRecommned"
+            app:layout_constraintTop_toTopOf="@+id/tvPrimeRecommendSIP"
+            app:layout_constraintStart_toEndOf="@+id/tvPrimeRecommendSIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:textSize="@dimen/_10ssp"
+            primeColor="@{widget.primeRatingData.primeReview}"
+            app:fontFamily="@font/lato_bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:fontFamily="@font/lato_regular"
+            android:text="@{widget.primeRatingData.primeReview}"
+            tools:text="Lorem Ipsum"/>
+
+
         <ImageView
+            android:onClick="@{onLockClick}"
+            android:visibility="visible"
             android:padding="@dimen/_5sdp"
             android:src="@drawable/ic_lock_purple"
             android:id="@+id/ivLockPrimeRecommendSIP"
@@ -176,7 +252,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupLocks"
+            app:constraint_referenced_ids="ivLockPrimeRatingSIP,ivLockPrimeRecommendSIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         <androidx.constraintlayout.widget.Guideline

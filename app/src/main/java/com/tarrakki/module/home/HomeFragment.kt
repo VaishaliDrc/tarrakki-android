@@ -205,7 +205,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 if (item is HomeData.Data.Goal) {
                     startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
                 } else if (item is HomeData.Data.Category.SecondLevelCategory) {
-                    activity?.onInvestmentStrategies(item)
+                    activity?.onInvestmentStrategies(this,item)
                 }
                 App.INSTANCE.widgetsViewModel.value = null
             }
@@ -219,7 +219,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                         ?.filterIsInstance<HomeData.Data.Category.SecondLevelCategory>()
                         ?.firstOrNull { "${it.id}" == "$id" }
                 result?.let { item ->
-                    activity?.onInvestmentStrategies(item)
+                    activity?.onInvestmentStrategies(this,item)
                     getViewModel().redirectToInvestmentStratergy.value = null
                 }
             }

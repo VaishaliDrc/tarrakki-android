@@ -1,13 +1,17 @@
 package com.tarrakki
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.provider.Settings
+import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
 import com.tarrakki.api.*
 import com.tarrakki.api.model.*
 import com.tarrakki.module.ekyc.KYCData
 import com.tarrakki.module.ekyc.eventKYCDataLog
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -207,7 +211,7 @@ fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, fo
     return apiResponse
 }
 
-fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: BigInteger,
+fun investmentRecommendation(fragment: Fragment,thirdLevelCategoryId: Int, sipAmount: BigInteger,
                              lumpsumAmount: BigInteger, addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<InvestmentRecommendFundResponse> {
     val apiResponse = MutableLiveData<InvestmentRecommendFundResponse>()
@@ -246,6 +250,10 @@ fun investmentRecommendation(thirdLevelCategoryId: Int, sipAmount: BigInteger,
                                 val data = o.data?.parseTo<InvestmentRecommendFundResponse>()
                                 apiResponse.postValue(data)
                             }
+                        }else if(o.status?.code == 8){
+                            fragment.requireContext()?.limitExceed(fragment.requireContext().getString(R.string.app_name), "${o.status?.message}", positiveButton = {
+                                fragment.startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                            }, btnTitle = fragment.requireContext().getString(R.string.tarrakki_pro))
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }

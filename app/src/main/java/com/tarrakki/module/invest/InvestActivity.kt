@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.TextView
+import com.gocashfree.cashfreesdk.CFPaymentService
 import com.tarrakki.App
 import com.tarrakki.BaseActivity
 import com.tarrakki.R
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.homeInvest.HomeInvestFragment
 import org.supportcompact.ktx.cartCount
+import org.supportcompact.ktx.postError
 import org.supportcompact.ktx.startFragment
 
 class InvestActivity : BaseActivity() {
@@ -51,5 +53,21 @@ class InvestActivity : BaseActivity() {
             }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Same request code for all payment APIs.
+//        Log.d(TAG, "ReqCode : " + CFPaymentService.REQ_CODE);
+        if (requestCode == CFPaymentService.REQ_CODE) {
+            if (data != null) {
+                val bundle = data.extras
+                if (bundle != null) {
+                    postSticky(bundle)
+                } else {
+                    postError(R.string.something_went_wrong)
+                }
+            }
+        }
     }
 }

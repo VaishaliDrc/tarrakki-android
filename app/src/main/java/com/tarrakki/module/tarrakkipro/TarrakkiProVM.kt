@@ -31,7 +31,7 @@ class TarrakkiProVM : FragmentViewModel() {
         SecondPlanPrice = 300
     }
 
-      fun getRandomOrderId():String{
+      private fun getRandomOrderId():String{
         val tsLong = System.currentTimeMillis()
         val ts = tsLong.toString()
         return ts + "pro"
@@ -78,13 +78,13 @@ class TarrakkiProVM : FragmentViewModel() {
         return tarrakkiProAndEquityPricingResponse
     }
 
-    fun getPaymentTokenAPI():MutableLiveData<PaymentTokenData> {
+    fun getPaymentTokenAPI(amount : Int, planType : String):MutableLiveData<PaymentTokenData> {
         val apiResponse = MutableLiveData<PaymentTokenData>()
         showProgress()
         val json = JsonObject()
-        json.addProperty("amount", "600"  )
+        json.addProperty("amount", amount)
         json.addProperty("order_id",  getRandomOrderId())
-        json.addProperty("currency", "INR")
+        json.addProperty("tranx_type", planType)
         val data = json.toString().toEncrypt()
         json.printRequest()
         data.printRequest()

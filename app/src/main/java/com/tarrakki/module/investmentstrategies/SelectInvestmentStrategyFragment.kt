@@ -11,11 +11,13 @@ import com.tarrakki.module.home.CATEGORYNAME
 import com.tarrakki.module.home.ISSINGLEINVESTMENT
 import com.tarrakki.module.home.ISTHEMATICINVESTMENT
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import kotlinx.android.synthetic.main.fragment_select_investment_strategies.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setWrapContentPageAdapter
+import org.supportcompact.ktx.limitExceed
 import org.supportcompact.ktx.startFragment
 import java.util.*
 
@@ -47,7 +49,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             if (getViewModel().isThematicInvestment.get() == true) {
                 getViewModel().thirdlevel.get()?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                        investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                 androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 1)
@@ -65,7 +67,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                 val category = getViewModel().secondlevel.get()
                 category?.thirdLevelCategory?.get(0)?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                        investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                 androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 2)
@@ -146,7 +148,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             }
             binder.btnSelect.setOnClickListener {
                 context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                    investmentRecommendation(thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                    investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                             androidx.lifecycle.Observer { response ->
                                 val bundle = Bundle().apply {
                                     putInt("isFrom", 1)

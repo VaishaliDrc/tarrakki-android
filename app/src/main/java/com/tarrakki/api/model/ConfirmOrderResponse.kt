@@ -71,7 +71,7 @@ data class ConfirmOrderResponse(
                 @SerializedName("fund_id__scheme_type")
                 val fundIdSchemeType: String,
                 @SerializedName("prime_rating")
-                val primeRating: PrimeRating,
+                val primeRatingData: PrimeRating,
                 @SerializedName("id")
                 val id: Int,
                 @SerializedName("lumpsum_order_state")
@@ -142,6 +142,41 @@ data class ConfirmOrderResponse(
                 val primeRating: String,
                 @SerializedName("prime_review")
                 val primeReview: String,
-        )
+        ){
+            val rating = primeRating?.toFloatOrNull()
+            val isRatingBarVisible : Boolean
+            get() = !(rating == null|| rating == 0.0f)
+
+            val isRatingEmptyVisible : Boolean
+                get() = rating == null|| rating == 0.0f
+
+            val ratingEmptyText : String get() =
+                    if(rating == null|| rating == 0.0f) primeRating else ""
+            val starRating : Float get() =
+                if(rating == null) 0.0f else rating
+
+
+
+        }
     }
 }
+
+
+/*
+if(rating == null){
+    binder.tvRatingEmpty.visibility = View.VISIBLE
+    binder.ratingBar.visibility = View.GONE
+    binder.tvRatingEmpty.text = item?.primeRating
+}
+else{
+    if(rating == 0.0f){
+        binder.tvRatingEmpty.visibility = View.VISIBLE
+        binder.ratingBar.visibility = View.GONE
+        binder.tvRatingEmpty.text = "Unrated"
+    }
+    else{
+        binder.tvRatingEmpty.visibility = View.GONE
+        binder.ratingBar.visibility = View.VISIBLE
+        binder.ratingBar.rating = rating
+    }
+}*/

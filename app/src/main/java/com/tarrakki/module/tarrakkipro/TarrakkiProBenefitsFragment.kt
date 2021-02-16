@@ -15,6 +15,8 @@ import com.tarrakki.databinding.FragmentTarrakkiProBenefitsBinding
 import com.tarrakki.databinding.RowEquityPlanBinding
 import com.tarrakki.databinding.RowProBenefitItemBinding
 import com.tarrakki.databinding.RowTarrakkiProPlanBindingImpl
+import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
+import com.tarrakki.module.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_equity_advisory.*
 import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
 import kotlinx.android.synthetic.main.row_tarrakki_pro_plan.view.*
@@ -25,10 +27,12 @@ import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.ktx.getEmail
 import org.supportcompact.ktx.getMobile
 import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 import java.util.HashMap
 
 class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakkiProBenefitsBinding>() {
     lateinit var response: Observer<TarrakkiProAndEquityPricingResponse>
+    private var planKey = "pro_"
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
@@ -75,7 +79,7 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
                     rvProPlan?.setUpRecyclerView(R.layout.row_tarrakki_pro_plan, price.tarrakkiProPricing!!) { item: TarrakkiProPrice, binder: RowTarrakkiProPlanBindingImpl, position ->
                         binder.data = item
                         binder.root.clPlanFirst.setOnClickListener {
-
+                            completePayment((item.totalPrice.toInt()*item.planDuration!!.toInt()),planKey+item.planDuration)
                         }
                         binder.executePendingBindings()
                     }
@@ -88,11 +92,11 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
 
     }
 
-    private fun completePayment() {
+    private fun completePayment(amount : Int, planType : String) {
         // Call Payment Token API
         //     val stage = "PROD"
         val stage = "TEST"
-        getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
+        getViewModel().getPaymentTokenAPI(amount,planType).observe(this, androidx.lifecycle.Observer {
             val params: MutableMap<String, String> = HashMap()
 
             params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
@@ -120,7 +124,6 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
             )
         })
 
-
     }
 
 
@@ -133,11 +136,13 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
         if (event.getString("txStatus").equals("SUCCESS", true)) {
-            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
-                //   onBack(2)
+            context?.simpleAlert(App.INSTANCE.getString(R.string.success_), event.getString("txMsg")?:"") {
+                startFragment(HomeFragment.newInstance(), R.id.frmContainer)
             }
         } else {
-            context?.simpleAlert(event.getString("txMsg") ?: "")
+            event.getString("txMsg")?.let {
+                context?.simpleAlert(it)
+            }
         }
         removeStickyEvent(event)
     }

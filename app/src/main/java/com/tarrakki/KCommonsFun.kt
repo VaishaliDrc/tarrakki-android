@@ -12,6 +12,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TableRow
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.tarrakki.api.ApiClient
 import com.tarrakki.api.model.HomeData
 import com.tarrakki.databinding.DialogZoomInOutImageBinding
@@ -94,7 +95,7 @@ fun getReturnLevel(returnType: String?): String {
     }
 }
 
-fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(item: HomeData.Data.Category.SecondLevelCategory) {
+fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Fragment,item: HomeData.Data.Category.SecondLevelCategory) {
     if (!item.isGoal) {
         if (item.isThematic) {
             val bundle = Bundle().apply {
@@ -115,7 +116,7 @@ fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(item: HomeDat
                         EventBus.getDefault().postSticky(item)
                     } else {
                         this?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
-                            investmentRecommendation(thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                            investmentRecommendation(fragment,thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                     androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putString("sip", amountSIP.toString())

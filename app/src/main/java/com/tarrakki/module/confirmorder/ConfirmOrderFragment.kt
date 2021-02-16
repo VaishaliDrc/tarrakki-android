@@ -24,11 +24,13 @@ import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
 import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
+import kotlinx.android.synthetic.main.row_confirm_order.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
+import org.supportcompact.ktx.confirmationDialog
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 import java.math.BigInteger
@@ -84,6 +86,18 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     val binding = binder as RowConfirmOrderBinding
                     binding.cbSIP.isEnabled = confirmOrderResponse?.data?.isApproveBank==true
                 }*/
+
+                if (binder is RowConfirmOrderBinding) {
+                    if (confirmOrderResponse?.data?.isTarrakkiPro) {
+                        binder.groupLocks.visibility = View.GONE
+                        binder.llcRating.visibility = View.VISIBLE
+                        binder.tvPrimeRecommned.visibility = View.VISIBLE
+                    } else {
+                        binder.groupLocks.visibility = View.VISIBLE
+                        binder.llcRating.visibility = View.GONE
+                        binder.tvPrimeRecommned.visibility = View.GONE
+                    }
+                }
 
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     if (confirmOrderResponse?.data?.isSIP == true) {
@@ -170,6 +184,22 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     }
                 })
 
+                binder.setVariable(BR.onLockClick, View.OnClickListener {
+                    if (binder is RowConfirmOrderBinding) {
+                        if (confirmOrderResponse?.data?.userTrials!! == 0) {
+                            context?.simpleAlert(resources.getString(R.string.no_free_trial_left))
+                        } else {
+                            context?.confirmationDialog(getString(R.string.free_recommendation_use_alert, intNumbertoStringNumber(confirmOrderResponse?.data?.userTrials!!)),
+                                    btnPositiveClick = {
+                                        binder.groupLocks.visibility = View.GONE
+                                        binder.llcRating.visibility = View.VISIBLE
+                                        binder.tvPrimeRecommned.visibility = View.VISIBLE
+                                    }
+                            )
+                        }
+                    }
+                })
+
                 binder.setVariable(BR.onTarrakkiProClick, View.OnClickListener {
                     startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
                 })
@@ -193,7 +223,6 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         }
                     }
                 })
-
 
                 binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
                     if (confirmOrderResponse?.data?.isSIP == true) {
