@@ -449,7 +449,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_62sdp"
                         android:padding="@dimen/_8sdp"
-                        android:src="@drawable/ic_premium_customer_support"
+                        android:src="@drawable/ic_premium_customer_support_section"
                         app:layout_constraintEnd_toStartOf="@id/ivTp2"
                         app:layout_constraintHorizontal_weight="3.25"
                         app:layout_constraintStart_toStartOf="parent"
