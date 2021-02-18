@@ -49,7 +49,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             if (getViewModel().isThematicInvestment.get() == true) {
                 getViewModel().thirdlevel.get()?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                        investmentRecommendation(this,true,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                 androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 1)
@@ -67,7 +67,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
                 val category = getViewModel().secondlevel.get()
                 category?.thirdLevelCategory?.get(0)?.let { it1 ->
                     context?.investmentStragiesDialog(it1) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                        investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                        investmentRecommendation(this,true,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                 androidx.lifecycle.Observer { response ->
                                     val bundle = Bundle().apply {
                                         putInt("isFrom", 2)
@@ -148,7 +148,7 @@ class SelectInvestmentStrategyFragment : CoreFragment<SelectInvestmentStrategyVM
             }
             binder.btnSelect.setOnClickListener {
                 context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                    investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                    investmentRecommendation(this,true,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                             androidx.lifecycle.Observer { response ->
                                 val bundle = Bundle().apply {
                                     putInt("isFrom", 1)

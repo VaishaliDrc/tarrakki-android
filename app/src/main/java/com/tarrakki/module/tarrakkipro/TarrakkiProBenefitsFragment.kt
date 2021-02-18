@@ -17,7 +17,6 @@ import com.tarrakki.databinding.RowProBenefitItemBinding
 import com.tarrakki.databinding.RowTarrakkiProPlanBindingImpl
 import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.home.HomeFragment
-import kotlinx.android.synthetic.main.fragment_equity_advisory.*
 import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
 import kotlinx.android.synthetic.main.row_tarrakki_pro_plan.view.*
 import org.greenrobot.eventbus.Subscribe
@@ -75,6 +74,8 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
                 data.tarrakkiProAndEquityPriceData?.let { price ->
                     rvProPlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
                     tvChoosePlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
+                    tvMsgPlan.visibility = if (price.isTarrakkiPro!!) View.VISIBLE else View.GONE
+                    tvMsgPlan.text = if (price.isTarrakkiPro!!) price.msgForTarrakkiPro else ""
 
                     rvProPlan?.setUpRecyclerView(R.layout.row_tarrakki_pro_plan, price.tarrakkiProPricing!!) { item: TarrakkiProPrice, binder: RowTarrakkiProPlanBindingImpl, position ->
                         binder.data = item

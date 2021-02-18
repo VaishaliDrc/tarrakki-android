@@ -95,7 +95,7 @@ fun getReturnLevel(returnType: String?): String {
     }
 }
 
-fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Fragment,item: HomeData.Data.Category.SecondLevelCategory) {
+fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Fragment,navigateToTPro: Boolean,item: HomeData.Data.Category.SecondLevelCategory) {
     if (!item.isGoal) {
         if (item.isThematic) {
             val bundle = Bundle().apply {
@@ -116,7 +116,7 @@ fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Frag
                         EventBus.getDefault().postSticky(item)
                     } else {
                         this?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
-                            investmentRecommendation(fragment,thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                            investmentRecommendation(fragment,navigateToTPro,thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                     androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putString("sip", amountSIP.toString())

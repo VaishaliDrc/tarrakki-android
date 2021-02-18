@@ -211,7 +211,7 @@ fun addToCartPortfolio(fundId: Int, sipAmount: String, lumpsumAmount: String, fo
     return apiResponse
 }
 
-fun investmentRecommendation(fragment: Fragment,thirdLevelCategoryId: Int, sipAmount: BigInteger,
+fun investmentRecommendation(fragment: Fragment,navigateToTPro: Boolean,thirdLevelCategoryId: Int, sipAmount: BigInteger,
                              lumpsumAmount: BigInteger, addToCart: Int, isShowProgress: Boolean = true)
         : MutableLiveData<InvestmentRecommendFundResponse> {
     val apiResponse = MutableLiveData<InvestmentRecommendFundResponse>()
@@ -251,9 +251,13 @@ fun investmentRecommendation(fragment: Fragment,thirdLevelCategoryId: Int, sipAm
                                 apiResponse.postValue(data)
                             }
                         }else if(o.status?.code == 8){
-                            fragment.requireContext()?.limitExceed(fragment.requireContext().getString(R.string.app_name), "${o.status?.message}", positiveButton = {
-                                fragment.startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
-                            }, btnTitle = fragment.requireContext().getString(R.string.tarrakki_pro))
+                            if(navigateToTPro) {
+                                fragment.requireContext()?.limitExceed(fragment.requireContext().getString(R.string.app_name), "${o.status?.message}", positiveButton = {
+                                    fragment.startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                                }, btnTitle = fragment.requireContext().getString(R.string.tarrakki_pro))
+                            }else{
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
                         } else {
                             EventBus.getDefault().post(ShowError("${o.status?.message}"))
                         }

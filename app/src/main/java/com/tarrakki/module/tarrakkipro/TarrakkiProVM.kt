@@ -34,7 +34,7 @@ class TarrakkiProVM : FragmentViewModel() {
       private fun getRandomOrderId():String{
         val tsLong = System.currentTimeMillis()
         val ts = tsLong.toString()
-        return ts + "pro"
+        return ts + "PRO"
     }
 
 

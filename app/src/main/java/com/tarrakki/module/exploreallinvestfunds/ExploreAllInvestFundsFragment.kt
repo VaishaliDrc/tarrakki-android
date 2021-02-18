@@ -118,7 +118,7 @@ class ExploreAllInvestFundsFragment : CoreFragment<ExploreAllInvestmentFundsVM, 
             if (item is HomeData.Data.Goal) {
                 startFragment(InitiateYourGoalFragment.newInstance(Bundle().apply { putString(KEY_GOAL_ID, "${item.id}") }), R.id.frmContainer)
             } else if (item is HomeData.Data.Category.SecondLevelCategory) {
-                activity?.onInvestmentStrategies(this,item)
+                activity?.onInvestmentStrategies(this,false,item)
             }
         })
 

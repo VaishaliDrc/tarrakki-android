@@ -908,6 +908,7 @@
     <string name="prime_rating_column">Prime Rating:</string>
     <string name="prime_review_column">Prime Review:</string>
     <string name="tarrakki_pro">Tarrakki Pro</string>
+    <string name="get_t_pro">Get Tarrakki Pro at \u20B9%1$s per month</string>
     <string name="contact_us">Contact Us</string>
     <string name="maximum_limit_reached">You can select maximum 15 funds.</string>
 </resources>

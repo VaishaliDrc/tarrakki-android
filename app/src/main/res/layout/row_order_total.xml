@@ -35,6 +35,8 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_gravity="center"
             android:gravity="center"
+            android:paddingBottom="@dimen/_70sdp"
+            android:visibility="@{widget.isTarrakkiPro()?View.GONE:View.VISIBLE}"
             tools:text="(You have Two free recommendations left)"
             android:text="@{widget.recommendationLeft}"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -42,7 +44,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginTop="@dimen/_70sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_cart_view"

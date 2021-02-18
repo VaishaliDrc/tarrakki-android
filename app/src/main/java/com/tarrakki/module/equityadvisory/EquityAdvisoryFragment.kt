@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.fragment_equity_advisory.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.mRefresh
 import kotlinx.android.synthetic.main.fragment_my_sip.*
-import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
 import kotlinx.android.synthetic.main.row_tarrakki_pro_plan.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -102,6 +101,8 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
             it?.let { data ->
                 data.tarrakkiProAndEquityPriceData?.let { price ->
                     rvEquityPlan.visibility = if (price.isEquityAdvisory!!) View.GONE else View.VISIBLE
+                    tvMsgPlan.visibility = if (price.isTarrakkiPro!!) View.VISIBLE else View.GONE
+                    tvMsgPlan.text = if (price.isTarrakkiPro!!) price.msgForEquityAdvisory else ""
 
                     rvEquityPlan?.setUpRecyclerView(R.layout.row_equity_plan,  price.equityAdvisoryPricing!!) { item: TarrakkiProPrice, binder: RowEquityPlanBinding, position ->
                         binder.data = item

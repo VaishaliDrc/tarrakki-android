@@ -5,6 +5,7 @@ import android.text.Html
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.tarrakki.App
@@ -16,6 +17,7 @@ import com.tarrakki.api.model.UserBankMandateResponse
 import com.tarrakki.api.model.toJson
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
+import com.tarrakki.databinding.RowOrderTotalBinding
 import com.tarrakki.investmentRecommendation
 import com.tarrakki.module.bankaccount.SingleButton
 import com.tarrakki.module.bankmandate.BankMandateFragment
@@ -34,10 +36,7 @@ import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.confirmationDialog
-import org.supportcompact.ktx.simpleAlert
-import org.supportcompact.ktx.startFragment
-import org.supportcompact.ktx.toCurrencyBigInt
+import org.supportcompact.ktx.*
 import java.math.BigInteger
 
 const val IS_FROM_CONFIRM_ORDER = "is_from_confirm_order"
@@ -50,7 +49,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
         get() = getString(R.string.order_confirm)
     val orders = arrayListOf<WidgetsViewModel>()
     private var orderId: Int? = -1
-    private var isShowRecommendation = false
+    var textChnage: ObservableField<Int> = ObservableField(0)
 
     override fun getLayout(): Int {
         return R.layout.fragment_confirm_order
@@ -80,6 +79,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
             orderTotal.recommendationLeft = "(You have ${intNumbertoStringNumber(confirmOrderResponse?.data?.userTrials!!)} free recommendations left)"
+            textChnage.set(confirmOrderResponse?.data?.userTrials)
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
                     ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
@@ -93,8 +93,43 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     binding.cbSIP.isEnabled = confirmOrderResponse?.data?.isApproveBank==true
                 }*/
 
+                textChnage.observe {
+                    if (binder is RowOrderTotalBinding && it >= 0) {
+                        binder.tvRecommendationLeft.text = "(You have ${intNumbertoStringNumber(it)} free recommendations left)"
+                    }
+                }
+
+                confirmOrderResponse?.data?.proPrice?.let {
+                    if (binder is RowOrderTotalBinding) {
+                        binder.tvGetTPro.text = getString(R.string.get_t_pro,it)
+                    }
+
+                }
+
                 if (binder is RowConfirmOrderBinding) {
-                    if (confirmOrderResponse?.data?.isTarrakkiPro || isShowRecommendation) {
+
+                    if (item is ConfirmOrderResponse.Data.OrderLine) {
+                        val rating = item?.primeRatingData?.primeRating?.toFloatOrNull()
+                        if(rating == null){
+                            binder.tvRatingEmpty.visibility = View.VISIBLE
+                            binder.ratingBarCO.visibility = View.GONE
+                            binder.tvRatingEmpty.text = item?.primeRatingData?.primeReview
+                        }
+                        else{
+                            if(rating == 0.0f){
+                                binder.tvRatingEmpty.visibility = View.VISIBLE
+                                binder.ratingBarCO.visibility = View.GONE
+                                binder.tvRatingEmpty.text = item?.primeRatingData?.primeReview
+                            }
+                            else{
+                                binder.tvRatingEmpty.visibility = View.GONE
+                                binder.ratingBarCO.visibility = View.VISIBLE
+                                binder.ratingBarCO.rating = rating
+                            }
+                        }
+                    }
+
+                    if (confirmOrderResponse?.data?.isTarrakkiPro) {
                         binder.groupLocks.visibility = View.GONE
                         binder.llcRating.visibility = View.VISIBLE
                         binder.tvPrimeRecommned.visibility = View.VISIBLE
@@ -105,14 +140,21 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     }
                 }
 
+
+
                 binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
                     if (confirmOrderResponse?.data?.isSIP == true) {
                         if (TextUtils.isEmpty(confirmOrderResponse.data.mandateId)) {
                             context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
                             return@OnClickListener
                         } else {
-
-                            if (confirmOrderResponse?.data?.isTarrakkiPro && confirmOrderResponse.data.orderLines[0].primeRatingData.primeReview.get(0).equals('S', true)) {
+                            var isSell = false
+                            for (i in confirmOrderResponse!!.data.orderLines) {
+                                if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                                    isSell = true
+                                }
+                            }
+                            if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
 
                                 context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert),
                                         btnPositive = getString(R.string.yes),
@@ -199,8 +241,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                         }
                     } else {
-
-                        if (confirmOrderResponse?.data?.isTarrakkiPro && confirmOrderResponse.data.orderLines[0].primeRatingData.primeReview.get(0).equals('S', true)) {
+                        var isSell = false
+                        for (i in confirmOrderResponse!!.data.orderLines) {
+                            if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                                isSell = true
+                            }
+                        }
+                        if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
                             context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert),
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
@@ -290,23 +337,30 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 binder.setVariable(BR.onLockClick, View.OnClickListener {
                     if (binder is RowConfirmOrderBinding) {
-                        if (confirmOrderResponse?.data?.userTrials!! <= 0) {
+                        if (textChnage?.get()!! <= 0) {
                             context?.simpleAlert(resources.getString(R.string.no_free_trial_left))
                         } else {
-                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.free_recommendation_use_alert, intNumbertoStringNumber(confirmOrderResponse?.data?.userTrials!!)),
+                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.free_recommendation_use_alert, intNumbertoStringNumber(textChnage.get()!!)),
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
                                     btnPositiveClick = {
-                                        investmentRecommendation(this, confirmOrderResponse?.data?.id, confirmOrderResponse?.data?.totalSip.toString().toCurrencyBigInt(), confirmOrderResponse?.data?.totalLumpsum.toString().toCurrencyBigInt(), 0).observe(this,
-                                                androidx.lifecycle.Observer { response ->
-                                                    isShowRecommendation = true
-                                                    getData()
-                                                })
-                                    }
-                            )
+                                        if (item is ConfirmOrderResponse.Data.OrderLine) {
+                                            getViewModel().getFundsReview(item.fundIdId.toString()).observe(this, Observer {
+                                                it?.let { response ->
+                                                    binder.groupLocks.visibility = View.GONE
+                                                    binder.llcRating.visibility = View.VISIBLE
+                                                    binder.tvPrimeRecommned.visibility = View.VISIBLE
+                                                    textChnage.set(textChnage?.get()?.dec())
+                                                }
+                                            })
+                                        }
+                                    })
+
                         }
                     }
+
                 })
+
 
                 binder.setVariable(BR.onTarrakkiProClick, View.OnClickListener {
                     startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
@@ -331,6 +385,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         }
                     }
                 })
+
 
                 binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
                     if (confirmOrderResponse?.data?.isSIP == true) {

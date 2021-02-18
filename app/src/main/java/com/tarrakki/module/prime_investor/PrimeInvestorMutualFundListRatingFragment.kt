@@ -13,6 +13,7 @@ import com.tarrakki.R
 import com.tarrakki.api.model.RatingList
 import com.tarrakki.databinding.FragmentPrimeInvestorMutualFundListRatingBinding
 import com.tarrakki.databinding.RowPrimeInvestorMutualFundListRatingBinding
+import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import kotlinx.android.synthetic.main.fragment_prime_investor_mutual_fund_list_rating.*
 import kotlinx.android.synthetic.main.fragment_prime_investor_mutual_fund_list_review.rvScheme
 import kotlinx.android.synthetic.main.row_prime_investor_mutual_fund_list_rating.*
@@ -122,10 +123,11 @@ class PrimeInvestorMutualFundListRatingFragment : CoreFragment<PrimeInvestorMutu
                         })
                     }
                     else{
-                        if(isDialogVisible == false){
+                        if(!isDialogVisible){
                             isDialogVisible = true
                             context?.limitExceed(getString(R.string.app_name), context?.getTarakkiProMsg()?:"", positiveButton = {
-                                chatWhatsapp()
+                                startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                               // chatWhatsapp()
                                 isDialogVisible = false
                             }, btnTitle = getString(R.string.contact_us),cancelButton = {
                                 postSticky(Event.FIRST_TAB)

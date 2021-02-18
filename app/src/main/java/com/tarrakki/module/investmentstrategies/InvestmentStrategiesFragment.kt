@@ -53,7 +53,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                     it as ArrayList<HomeData.Data.Category.SecondLevelCategory>) { item: HomeData.Data.Category.SecondLevelCategory, binder: RowInvestmentStrategiesItemBinding, position: Int ->
                 binder.widget = item
                 binder.root.setOnClickListener { view ->
-                    activity?.onInvestmentStrategies(this,item)
+                    activity?.onInvestmentStrategies(this,false,item)
                 }
                 binder.executePendingBindings()
             }
@@ -76,7 +76,7 @@ class InvestmentStrategiesFragment : CoreFragment<InvestmentStrategiesVM, Fragme
                         EventBus.getDefault().postSticky(item)
                     } else {
                         context?.investmentStragiesDialog(item) { thirdLevelCategory, amountLumpsum, amountSIP ->
-                            investmentRecommendation(this,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
+                            investmentRecommendation(this,false,thirdLevelCategory.id, amountSIP, amountLumpsum, 0).observe(this,
                                     androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putInt("isFrom", 2)

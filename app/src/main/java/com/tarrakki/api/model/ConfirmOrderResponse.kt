@@ -41,7 +41,10 @@ data class ConfirmOrderResponse(
             @SerializedName("is_tarrakki_pro")
             val isTarrakkiPro: Boolean,
             @SerializedName("mandate_type")
-            val typeOfMandate: String?
+            val typeOfMandate: String?,
+            @SerializedName("pro_price")
+            val proPrice: String?
+
     ) {
 
         val bankName: String?
@@ -142,22 +145,22 @@ data class ConfirmOrderResponse(
                 val primeRating: String,
                 @SerializedName("prime_review")
                 val primeReview: String,
-        ){
+        )/*{
             val rating = primeRating?.toFloatOrNull()
-            val isRatingBarVisible : Boolean
-            get() = !(rating == null|| rating == 0.0f)
 
             val isRatingEmptyVisible : Boolean
                 get() = rating == null|| rating == 0.0f
 
             val ratingEmptyText : String get() =
                     if(rating == null|| rating == 0.0f) primeRating else ""
+//            val isRatingBarVisible : Boolean
+//                get() = !(rating == null|| rating == 0.0f)
             val starRating : Float get() =
                 if(rating == null) 0.0f else rating
 
 
 
-        }
+        }*/
     }
 }
 

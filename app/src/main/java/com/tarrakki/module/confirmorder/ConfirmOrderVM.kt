@@ -2,6 +2,7 @@ package com.tarrakki.module.confirmorder
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
@@ -195,7 +196,53 @@ class ConfirmOrderVM : FragmentViewModel() {
         )
         return confirmApiResponse
     }
+
+    fun getFundsReview(orderLineFundId: String ) : MutableLiveData<PrimeInvestorMutualFundRatingListResponse>{
+        val Data = MutableLiveData<PrimeInvestorMutualFundRatingListResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JsonArray()
+        json.add(orderLineFundId)
+
+        val req = JsonObject()
+        req.addProperty("user_id", App.INSTANCE.getUserId())
+        req.add("fund_ids",json)
+
+        val data = req.toString().toEncrypt()
+//        e("Request Encrypted Data=>$data")
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient().create(WebserviceBuilder::class.java).getFundsReviews(data),
+                apiNames = WebserviceBuilder.ApiNames.getFundsReview,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            if (o.status?.code == 1) {
+                                val data = o.data?.parseTo<PrimeInvestorMutualFundRatingListResponse>()
+                                Data.value = data
+                            }
+                            else if (o.status?.code == 8) {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                            else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return Data
+    }
 }
+
+
+
 
 class OrderTotal : WidgetsViewModel {
 
