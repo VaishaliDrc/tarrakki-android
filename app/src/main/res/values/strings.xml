@@ -425,8 +425,7 @@
     <string name="prime_rating">Prime Rating:</string>
     <string name="prime_recommennd">Prime Recommendation:</string>
     <string name="no_free_trial_left">You have no free recommendations left.</string>
-    <string name="free_recommendation_use_alert">You have %1$s free recommendations left.
-    \nAre you sure you want to use your free recommendations?</string>
+    <string name="free_recommendation_use_alert">You have %1$s free recommendations left. Are you sure you want to use your free recommendations?</string>
     <string name="recommendation_sell_alert">Prime Recommendation for this fund:SELL\nAre you sure you would like to invest?</string>
     <string name="number_of_unites_redeemed">Number of Units redeemed</string>
     <string name="amount_will_be_credited_in_2_4_business_days_depending_on_the_amc">Amount will be credited in 1-3 business days depending on the AMC.</string>
@@ -815,7 +814,7 @@
     <string name="portfolio_analytics">Portfolio Analytics</string>
     <string name="choose_plan">Choose a plan</string>
     <string name="months"> Months</string>
-    <string name="total_price">Total Price </string>
+    <string name="total_price">Total Price \u20B9</string>
     <string name="three_month">3 Month</string>
 
 

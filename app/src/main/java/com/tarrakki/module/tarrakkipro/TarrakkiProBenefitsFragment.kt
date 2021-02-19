@@ -80,7 +80,7 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
                     rvProPlan?.setUpRecyclerView(R.layout.row_tarrakki_pro_plan, price.tarrakkiProPricing!!) { item: TarrakkiProPrice, binder: RowTarrakkiProPlanBindingImpl, position ->
                         binder.data = item
                         binder.root.clPlanFirst.setOnClickListener {
-                            completePayment((item.totalPrice.toInt()*item.planDuration!!.toInt()),planKey+item.planDuration)
+                            completePayment((item.price!!.toInt()*item.planDuration!!.toInt()),planKey+item.planDuration)
                         }
                         binder.executePendingBindings()
                     }
