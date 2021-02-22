@@ -101,13 +101,13 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
             it?.let { data ->
                 data.tarrakkiProAndEquityPriceData?.let { price ->
                     rvEquityPlan.visibility = if (price.isEquityAdvisory!!) View.GONE else View.VISIBLE
-                    tvMsgPlan.visibility = if (price.isTarrakkiPro!!) View.VISIBLE else View.GONE
-                    tvMsgPlan.text = if (price.isTarrakkiPro!!) price.msgForEquityAdvisory else ""
+                    tvMsgPlan.visibility = if (price.isEquityAdvisory!!) View.VISIBLE else View.GONE
+                    tvMsgPlan.text = if (price.isEquityAdvisory!!) price.msgForEquityAdvisory else ""
 
                     rvEquityPlan?.setUpRecyclerView(R.layout.row_equity_plan,  price.equityAdvisoryPricing!!) { item: TarrakkiProPrice, binder: RowEquityPlanBinding, position ->
                         binder.data = item
                         binder.root.clPlanFirst.setOnClickListener {
-                            completePayment((item.totalPrice.toInt()*item.planDuration!!.toInt()),planKey+item.planDuration)
+                            completePayment((item.price!!.toInt()*item.planDuration!!.toInt()),planKey+item.planDuration)
                         }
                         binder.executePendingBindings()
                     }
