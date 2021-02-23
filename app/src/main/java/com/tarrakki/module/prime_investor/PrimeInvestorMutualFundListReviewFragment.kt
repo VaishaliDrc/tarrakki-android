@@ -77,7 +77,7 @@ class PrimeInvestorMutualFundListReviewFragment : CoreFragment<PrimeInvestorMutu
                 context?.limitExceed(getString(R.string.app_name), it, positiveButton = {
                     startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
                    // chatWhatsapp()
-                }, btnTitle = getString(R.string.contact_us))
+                }, btnTitle = getString(R.string.subscribe_now))
             }
         })
 

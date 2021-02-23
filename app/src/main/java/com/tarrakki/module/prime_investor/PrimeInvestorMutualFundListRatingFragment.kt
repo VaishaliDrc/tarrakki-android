@@ -87,8 +87,9 @@ class PrimeInvestorMutualFundListRatingFragment : CoreFragment<PrimeInvestorMutu
         getViewModel().isLimitExceed.observe(this, Observer {
             if (it.isNullOrEmpty() == false) {
                 context?.limitExceed(getString(R.string.app_name), it, positiveButton = {
-                    chatWhatsapp()
-                }, btnTitle = getString(R.string.contact_us))
+                    startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                   // chatWhatsapp()
+                }, btnTitle = getString(R.string.subscribe_now))
             }
         })
     }
@@ -129,7 +130,7 @@ class PrimeInvestorMutualFundListRatingFragment : CoreFragment<PrimeInvestorMutu
                                 startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
                                // chatWhatsapp()
                                 isDialogVisible = false
-                            }, btnTitle = getString(R.string.contact_us),cancelButton = {
+                            }, btnTitle = getString(R.string.subscribe_now),cancelButton = {
                                 postSticky(Event.FIRST_TAB)
                                 isDialogVisible = false
                             })

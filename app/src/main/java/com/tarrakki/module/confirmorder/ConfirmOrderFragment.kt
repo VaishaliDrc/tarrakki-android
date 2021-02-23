@@ -78,7 +78,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             val orderTotal = OrderTotal()
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
-            orderTotal.recommendationLeft = "(You have ${intNumbertoStringNumber(confirmOrderResponse?.data?.userTrials!!)} free recommendations left)"
+            orderTotal.recommendationLeft = "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free recommendations left)"
             textChnage.set(confirmOrderResponse?.data?.userTrials)
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
@@ -95,7 +95,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 textChnage.observe {
                     if (binder is RowOrderTotalBinding && it >= 0) {
-                        binder.tvRecommendationLeft.text = "(You have ${intNumbertoStringNumber(it)} free recommendations left)"
+                        binder.tvRecommendationLeft.text = "(You have ${intNumberToStringNumber(it)} free recommendations left)"
                     }
                 }
 
@@ -340,7 +340,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         if (textChnage?.get()!! <= 0) {
                             context?.simpleAlert(resources.getString(R.string.no_free_trial_left))
                         } else {
-                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.free_recommendation_use_alert, intNumbertoStringNumber(textChnage.get()!!)),
+                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.free_recommendation_use_alert, intNumberToStringNumber(textChnage.get()!!)),
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
                                     btnPositiveClick = {

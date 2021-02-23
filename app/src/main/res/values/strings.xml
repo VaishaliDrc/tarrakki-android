@@ -871,7 +871,7 @@
     <string name="lock_in_period">Lock-in period</string>
     <string name="premium_support">Premium Customer Support</string>
     <string name="portfolio_construction">Portfolio Construction</string>
-    <string name="mutual_recommend">Mutual Funds Recommendations</string>
+    <string name="mutual_recommend">Mutual Funds\nRecommendations</string>
     <string name="your_liquiloans_portfolio">Your Liquiloans Portfolio</string>
     <string name="invest_in_consumer_loans">Invest in Consumer Loans</string>
     <string name="liquiloans">Liquiloans</string>
@@ -909,5 +909,7 @@
     <string name="tarrakki_pro">Tarrakki Pro</string>
     <string name="get_t_pro">Get Tarrakki Pro at \u20B9%1$s per month</string>
     <string name="contact_us">Contact Us</string>
+    <string name="subscribe_now">Subscribe Now</string>
+
     <string name="maximum_limit_reached">You can select maximum 15 funds.</string>
 </resources>
