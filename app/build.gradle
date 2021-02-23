@@ -189,6 +189,9 @@ dependencies {
 
     //Facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:6.1.0'
+
+    //Appsflyer sdk
+    implementation 'com.appsflyer:af-android-sdk:6.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

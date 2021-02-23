@@ -1,7 +1,10 @@
 package com.tarrakki
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.appsflyer.AppsFlyerConversionListener
+import com.appsflyer.AppsFlyerLib
 import com.facebook.appevents.AppEventsLogger
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.tarrakki.api.model.Fundd
@@ -28,6 +31,7 @@ class App : CoreApp() {
     var openChat: Pair<Boolean, String>? = null
     lateinit var firebaseAnalytics: FirebaseAnalytics
     lateinit var fbAppEventsLogger : AppEventsLogger
+    private val devKey = "RyRefh8bWTSFpGFbuwPDVM"
 
     val primeInvestorList : ArrayList<Fundd?> = ArrayList()
 
@@ -50,6 +54,37 @@ class App : CoreApp() {
         }
         //Sentry Tracking
         Sentry.init("https://e33bb6ed55444fc69342ecfe5f38c2ed@sentry.drcsystems.com/13", AndroidSentryClientFactory(this))
+
+        initializeAppsflyer()
+    }
+
+    private fun initializeAppsflyer() {
+        val conversionDataListener  = object : AppsFlyerConversionListener {
+            override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
+                data?.let { cvData ->
+                    cvData.map {
+                        Log.e("AppsflyerLog", "conversion_attribute:  ${it.key} = ${it.value}")
+                    }
+                }
+            }
+            override fun onConversionDataFail(error: String?) {
+                Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
+            }
+
+            override fun onAppOpenAttribution(data: MutableMap<String, String>?) {
+                data?.map {
+                    Log.d("AppsflyerLog", "onAppOpen_attribute: ${it.key} = ${it.value}")
+                }
+            }
+
+            override fun onAttributionFailure(error: String?) {
+                Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
+            }
+        }
+
+        AppsFlyerLib.getInstance().init(devKey, conversionDataListener, this)
+        AppsFlyerLib.getInstance().setDebugLog(true)
+        AppsFlyerLib.getInstance().start(this)
     }
 
     companion object {

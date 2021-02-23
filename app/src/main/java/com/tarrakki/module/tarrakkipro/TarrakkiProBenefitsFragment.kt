@@ -15,6 +15,7 @@ import com.tarrakki.databinding.FragmentTarrakkiProBenefitsBinding
 import com.tarrakki.databinding.RowEquityPlanBinding
 import com.tarrakki.databinding.RowProBenefitItemBinding
 import com.tarrakki.databinding.RowTarrakkiProPlanBindingImpl
+import com.tarrakki.fcm.onTarrakkiProSignUp
 import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_tarrakki_pro_benefits.*
@@ -137,6 +138,7 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
         if (event.getString("txStatus").equals("SUCCESS", true)) {
+            onTarrakkiProSignUp()
             context?.simpleAlert(App.INSTANCE.getString(R.string.success_), event.getString("txMsg")?:"") {
                 startFragment(HomeFragment.newInstance(), R.id.frmContainer)
             }

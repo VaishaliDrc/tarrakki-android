@@ -22,6 +22,7 @@ import com.tarrakki.databinding.FragmentEquityAdvisoryBinding
 import com.tarrakki.databinding.RowEquityPlanBinding
 import com.tarrakki.databinding.RowWhyTarrakkiItemBinding
 import com.tarrakki.fcm.eventTZDebitCardRequest
+import com.tarrakki.fcm.onEquityAdvisorySignUp
 import com.tarrakki.module.home.HomeFragment
 import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
@@ -205,6 +206,7 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEvent(event: Bundle) {
+        onEquityAdvisorySignUp()
         if (event.getString("txStatus").equals("SUCCESS", true)) {
             context?.simpleAlert(App.INSTANCE.getString(R.string.success_), event.getString("txMsg")?:"") {
                 startFragment(HomeFragment.newInstance(), R.id.frmContainer)

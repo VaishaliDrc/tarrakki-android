@@ -262,3 +262,14 @@ fun lumpsumMultiplier(amount: String): String {
 fun SIPMultiplier(amount: String): String {
     return "The SIP amount should be a multiple of $amount."
 }
+
+fun Bundle.bundleToMap(): Map<String, String?>? {
+    val map: MutableMap<String, String?> = HashMap()
+    val ks = this.keySet()
+    val iterator: Iterator<String> = ks.iterator()
+    while (iterator.hasNext()) {
+        val key = iterator.next()
+        map[key] = this.getString(key)
+    }
+    return map
+}
