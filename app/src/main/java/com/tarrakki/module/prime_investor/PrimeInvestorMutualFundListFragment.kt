@@ -226,8 +226,9 @@ class PrimeInvestorMutualFundListFragment : CoreFragment<PrimeInvestorMutualFund
 
     override fun onResume() {
         super.onResume()
-        if (getViewModel().schemaList.isNotEmpty())
-            setPrimeListData()
+       // if (getViewModel().schemaList.isNotEmpty())
+        //    setPrimeListData()
+        callApi()
     }
 
     private fun setPrimeListData() {

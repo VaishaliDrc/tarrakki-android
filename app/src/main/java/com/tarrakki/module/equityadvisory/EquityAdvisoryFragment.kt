@@ -28,6 +28,7 @@ import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.LoadMore
+import com.tarrakki.module.webview.WebViewFragment
 import com.tarrakki.stopFundPortfolioDialog
 import kotlinx.android.synthetic.main.fragment_completed_transactions.*
 import kotlinx.android.synthetic.main.fragment_completed_transactions.tvNoItem
@@ -43,6 +44,7 @@ import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import java.util.HashMap
 
@@ -94,7 +96,9 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
         }
 
         tvSetCallWithAdviser?.setOnClickListener {
-            chatWhatsApp()
+            startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+            postSticky(Event.SET_A_CALL_WITH_ADVISER)
+           // chatWhatsApp()
         }
 
 

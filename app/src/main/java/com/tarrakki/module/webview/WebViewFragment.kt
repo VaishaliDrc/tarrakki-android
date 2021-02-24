@@ -153,6 +153,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         coreActivityVM?.title?.set(context?.getString(R.string.about_us))
                         mWebView?.loadUrl(ApiClient.IMAGE_BASE_URL + "/about_mob/")
                     }
+                    Event.SET_A_CALL_WITH_ADVISER -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.set_call_with_adviser))
+                        mWebView?.loadUrl("https://calendly.com/shriram-sharma/30min")
+                    }
                     else -> {
                         /*coreActivityVM?.title?.set("Refresh")
                         mWebView?.loadUrl("https://app.digio.in/#/gateway/login/ENA2007131623555749W22CU3POQQKAP/vI3atY/sajgan2006@gmail.com?redirect_url=https:%2F%2Fwww.bsestarmf.in%2FENACHResponse.aspx&logo=https:%2F%2Fwww.bsestarmf.in%2Fimages%2Fbsestarmfnew.jpg")*/
