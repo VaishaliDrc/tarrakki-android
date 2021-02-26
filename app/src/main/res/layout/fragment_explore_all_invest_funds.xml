@@ -408,11 +408,11 @@
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2"
                     android:orientation="vertical"
-                    android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
                     <ImageView
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:id="@+id/ivTarrakiProlbl"
@@ -427,6 +427,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
+                        android:layout_margin="@dimen/_8sdp"
                         android:id="@+id/ivTarrakiPro"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
@@ -449,6 +450,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_62sdp"
                         android:padding="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
                         android:src="@drawable/ic_premium_customer_support_section"
                         app:layout_constraintEnd_toStartOf="@id/ivTp2"
                         app:layout_constraintHorizontal_weight="3.25"
@@ -461,7 +463,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:gravity="center"
-                        android:paddingEnd="8dp"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_8sdp"
                         android:text="@string/premium_support"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp1"
@@ -487,6 +491,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:gravity="center"
+                        android:paddingEnd="@dimen/_4sdp"
+                        android:paddingStart="@dimen/_4sdp"
+                        android:paddingBottom="@dimen/_8sdp"
                         android:text="@string/portfolio_construction"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp2"
@@ -517,6 +524,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_62sdp"
                         android:padding="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:src="@drawable/ic_mutual_funds_recommendations"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_weight="3.25"
@@ -529,7 +537,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:gravity="center"
-                        android:paddingStart="8dp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingEnd="@dimen/_2sdp"
                         android:text="@string/mutual_recommend"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp3"
