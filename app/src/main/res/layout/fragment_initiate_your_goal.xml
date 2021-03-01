@@ -44,9 +44,9 @@
                     android:elevation="12dp"
                     app:cardBackgroundColor="@color/circular_bg"
                     app:cardCornerRadius="72dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:id="@+id/imageView1"
@@ -117,45 +117,9 @@
                 android:visibility="@{vm.hasQuestions?View.VISIBLE:View.GONE}">
 
                 <TextView
-                    android:id="@+id/tvQ1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/lato_semibold"
-                    android:gravity="center"
-                    android:text="@{goal.initQ1}"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/semi_black"
-                    android:visibility="@{goal.initQ1Visibility()}"
-                    app:layout_constraintTop_toBottomOf="@+id/view2"
-                    tools:text="Which of the following would you like to purchase?" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/space_32"
-                    android:layout_marginTop="@dimen/default_space"
-                    android:layout_marginEnd="@dimen/space_32"
-                    android:background="@drawable/shape_edt_gray_round"
-                    android:visibility="@{goal.initQ1Visibility()}"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
-
-                    <Spinner
-                        android:id="@+id/spnCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:prompt="@string/car"
-                        android:spinnerMode="dialog" />
-
-                </FrameLayout>
-
-                <TextView
                     android:id="@+id/tvQ2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/space_32"
                     android:fontFamily="@font/lato_semibold"
                     android:gravity="center"
                     android:text="@{goal.initQ2}"
@@ -189,6 +153,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvFPDetails"
                     tools:hint="@string/l_e_honda_city" />
+
+                <TextView
+                    android:id="@+id/tvQ1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_32"
+                    android:fontFamily="@font/lato_semibold"
+                    android:gravity="center"
+                    android:text="@{goal.initQ1}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/semi_black"
+                    android:visibility="@{goal.initQ1Visibility()}"
+                    app:layout_constraintTop_toBottomOf="@+id/view2"
+                    tools:text="Which of the following would you like to purchase?" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_32"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/space_32"
+                    android:background="@drawable/shape_edt_gray_round"
+                    android:visibility="@{goal.initQ1Visibility()}"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineVCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCategoryL">
+
+                    <Spinner
+                        android:id="@+id/spnCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:prompt="@string/car"
+                        android:spinnerMode="dialog" />
+
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/btnContinue"

@@ -78,7 +78,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             val orderTotal = OrderTotal()
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
-            orderTotal.recommendationLeft = "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free recommendations left)"
+            var alertMessage = ""
+            if (textChnage?.get() == 1 || textChnage?.get() == 0)
+            {
+                alertMessage =  "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free review left)"
+            }else{
+                alertMessage = "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free reviews left)"
+            }
+            orderTotal.recommendationLeft = alertMessage
             textChnage.set(confirmOrderResponse?.data?.userTrials)
             confirmOrderResponse?.data?.orderLines?.let { orders.addAll(it) }
             orderTotal.total = ((confirmOrderResponse?.data?.totalLumpsum
@@ -95,7 +102,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 textChnage.observe {
                     if (binder is RowOrderTotalBinding && it >= 0) {
-                        binder.tvRecommendationLeft.text = "(You have ${intNumberToStringNumber(it)} free recommendations left)"
+                        if (textChnage?.get() == 1 || textChnage?.get() == 0)
+                        {
+                            alertMessage =  "(You have ${intNumberToStringNumber(it)} free review left)"
+                        }else{
+                            alertMessage = "(You have ${intNumberToStringNumber(it)} free reviews left)"
+                        }
+                        binder.tvRecommendationLeft.text = alertMessage
                     }
                 }
 
@@ -340,7 +353,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                         if (textChnage?.get()!! <= 0) {
                             context?.simpleAlert(resources.getString(R.string.no_free_trial_left))
                         } else {
-                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.free_recommendation_use_alert, intNumberToStringNumber(textChnage.get()!!)),
+                                var alertMessageDialog = ""
+                                    if (textChnage?.get() == 1 )
+                                    {
+                                        alertMessageDialog =  getString(R.string.free_review_use_alert, intNumberToStringNumber(textChnage.get()!!))
+                                    }else{
+                                        alertMessageDialog =  getString(R.string.free_reviews_use_alert, intNumberToStringNumber(textChnage.get()!!))
+                                    }
+                            context?.confirmationDialog(getString(R.string.app_name),alertMessageDialog,
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
                                     btnPositiveClick = {

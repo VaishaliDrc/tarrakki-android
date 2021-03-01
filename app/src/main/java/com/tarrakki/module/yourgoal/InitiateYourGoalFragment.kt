@@ -3,6 +3,7 @@ package com.tarrakki.module.yourgoal
 
 import androidx.lifecycle.Observer
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.AdapterView
@@ -49,6 +50,7 @@ class InitiateYourGoalFragment : CoreFragment<YourGoalVM, FragmentInitiateYourGo
         val data = arrayListOf<String>()//resources.getStringArray(R.array.automobile)
         getViewModel().goalVM.observe(this, Observer { it ->
             it?.let { goal ->
+                Log.e("Goal",goal.toString())
                 goal.questions = goal.questions.sortedBy { q -> q.questionOrder }
                 getViewModel().hasQuestions.set(goal.introQuestions?.isNotEmpty() == true)
                 getBinding().goal = goal
