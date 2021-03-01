@@ -113,16 +113,20 @@ data class Goal(
             )
 
             fun getInitQ1(): String {
-                return if (introQuestions?.isNotEmpty() == true) introQuestions[0].question else ""
+                val questions =  introQuestions?.find { "Select".equals(it.questionType, true)  }
+                return if (questions?.question?.isNotBlank() == true) questions?.question else ""
+               // return if (introQuestions?.isNotEmpty() == true) introQuestions[0].question else ""
             }
 
             fun getInitQ2(): String {
-                return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 2)
+                val questions =  introQuestions?.find { "Text".equals(it.questionType, true)  }
+                return if (questions?.question?.isNotBlank() == true) questions?.question else ""
+                /*return if (introQuestions?.isNotEmpty() == true && introQuestions.size == 2)
                     introQuestions[1].question
                 else if (introQuestions?.isNotEmpty() == true && introQuestions.size == 1)
                     introQuestions[0].question
                 else
-                    ""
+                    ""*/
             }
 
             fun getInitHint(): String? {
