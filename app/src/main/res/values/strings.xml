@@ -424,7 +424,7 @@
     <string name="make_the_first_investment_of_sip_today">Make the first investment of SIP today.</string>
     <string name="prime_rating">Prime Rating:</string>
     <string name="prime_recommennd">Prime Recommendation:</string>
-    <string name="no_free_trial_left">You have no free review left.</string>
+    <string name="no_free_trial_left">You have no free reviews left.</string>
     <string name="free_reviews_use_alert">You have %1$s free reviews left. Are you sure you want to use your free reviews?</string>
     <string name="free_review_use_alert">You have %1$s free review left. Are you sure you want to use your free review?</string>
     <string name="recommendation_sell_alert">Prime Recommendation for this fund:SELL\nAre you sure you would like to invest?</string>

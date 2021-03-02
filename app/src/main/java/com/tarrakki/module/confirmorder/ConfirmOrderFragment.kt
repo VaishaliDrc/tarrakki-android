@@ -79,7 +79,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
             var alertMessage = ""
-            if (textChnage?.get() == 1 || textChnage?.get() == 0)
+            if (textChnage?.get() == 1 )
             {
                 alertMessage =  "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free review left)"
             }else{
@@ -102,7 +102,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 textChnage.observe {
                     if (binder is RowOrderTotalBinding && it >= 0) {
-                        if (textChnage?.get() == 1 || textChnage?.get() == 0)
+                        if (textChnage?.get() == 1)
                         {
                             alertMessage =  "(You have ${intNumberToStringNumber(it)} free review left)"
                         }else{
