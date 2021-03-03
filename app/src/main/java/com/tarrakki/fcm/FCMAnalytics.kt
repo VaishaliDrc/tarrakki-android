@@ -29,9 +29,9 @@ fun onLoginEventFire(bundle: Bundle) {
 //        val bundle = Bundle()
 //        bundle.putString("user_id", userId)
         logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
-        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id",""))
+        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id", ""))
         logAppsflyerEvents(FirebaseAnalytics.Event.LOGIN, bundle)
-        logFbEvent(LOGIN,bundle)
+        logFbEvent(LOGIN, bundle)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -42,7 +42,7 @@ fun onSignUpEventFire(bundle: Bundle) {
 //        val bundle = Bundle()
 //        bundle.putString("user_id", userId)
         logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
-        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id",""))
+        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id", ""))
         logAppsflyerEvents(FirebaseAnalytics.Event.SIGN_UP, bundle)
     } catch (e: Exception) {
         e.printStackTrace()
@@ -145,28 +145,32 @@ fun onEquityAdvisorySignUp() {
 }
 
 
-fun logEvent(key: String,bundle: Bundle){
+fun logEvent(key: String, bundle: Bundle) {
     try {
         if (!BuildConfig.DEBUG) {
-            App.INSTANCE.firebaseAnalytics.logEvent(key,bundle)
+            App.INSTANCE.firebaseAnalytics.logEvent(key, bundle)
         }
-    }
-    catch (e:Exception){
+    } catch (e: Exception) {
 
     }
 }
 
-fun logFbEvent(key: String,bundle: Bundle){
+fun logFbEvent(key: String, bundle: Bundle) {
     try {
         if (!BuildConfig.DEBUG) {
-            App.INSTANCE.fbAppEventsLogger.logEvent(key,bundle)
+            App.INSTANCE.fbAppEventsLogger.logEvent(key, bundle)
         }
-    }
-    catch (e:Exception){
+    } catch (e: Exception) {
 
     }
 }
 
-fun logAppsflyerEvents(key: String, bundle: Bundle){
-    AppsFlyerLib.getInstance().logEvent(getApplicationContext(), key, bundle.bundleToMap())
+fun logAppsflyerEvents(key: String, bundle: Bundle) {
+    try {
+        if (!BuildConfig.DEBUG) {
+            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), key, bundle.bundleToMap())
+        }
+    } catch (e: Exception) {
+
+    }
 }

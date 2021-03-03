@@ -128,13 +128,13 @@ class EquityAdvisoryFragment : CoreFragment<EquityAdvisoryVM, FragmentEquityAdvi
 
     private fun completePayment(amount : Int, planType : String) {
         // Call Payment Token API
-        //     val stage = "PROD"
-        val stage = "TEST"
+             val stage = "PROD"
+      //  val stage = "TEST"
         getViewModel().getPaymentTokenAPI(amount,planType).observe(this, androidx.lifecycle.Observer {
             val params: MutableMap<String, String> = HashMap()
 
-            params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
-            //          params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
+          //  params[CFPaymentService.PARAM_APP_ID] = "7996f54418f5378b2f70668f6997"  // STG APP ID
+                      params[CFPaymentService.PARAM_APP_ID] = "23824e9bcfb6946347bb6c9de42832"  // LIVE APP ID
             params[CFPaymentService.PARAM_ORDER_ID] = it.data.orderId
             params[CFPaymentService.PARAM_ORDER_AMOUNT] = it.data.amount
             params[CFPaymentService.PARAM_ORDER_NOTE] = title
