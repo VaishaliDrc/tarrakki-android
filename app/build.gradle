@@ -152,6 +152,10 @@ dependencies {
     // Recommended: Add the Google Analytics SDK.
     implementation 'com.google.firebase:firebase-analytics:18.0.2'
 
+    //In - App messaging
+    implementation platform('com.google.firebase:firebase-bom:26.6.0')
+    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.5'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

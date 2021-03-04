@@ -83,7 +83,9 @@ class App : CoreApp() {
         }
 
         AppsFlyerLib.getInstance().init(devKey, conversionDataListener, this)
-        AppsFlyerLib.getInstance().setDebugLog(true)
+        AppsFlyerLib.getInstance().setDebugLog(false)
+        AppsFlyerLib.getInstance().setCollectIMEI(false)
+        AppsFlyerLib.getInstance().setCollectAndroidID(false)
         AppsFlyerLib.getInstance().start(this)
     }
 
