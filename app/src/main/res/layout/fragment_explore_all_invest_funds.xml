@@ -465,7 +465,7 @@
                         android:gravity="center"
                         android:paddingEnd="@dimen/_2sdp"
                         android:paddingStart="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:text="@string/premium_support"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp1"
@@ -493,7 +493,7 @@
                         android:gravity="center"
                         android:paddingEnd="@dimen/_4sdp"
                         android:paddingStart="@dimen/_4sdp"
-                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:text="@string/portfolio_construction"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp2"
@@ -504,18 +504,22 @@
                         android:layout_width="1dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
                         android:background="@color/darker_gray"
                         app:layout_constraintBottom_toBottomOf="@id/tvTp1"
                         app:layout_constraintStart_toEndOf="@id/ivTp1"
+                        app:layout_constraintEnd_toStartOf="@+id/ivTp2"
                         app:layout_constraintTop_toTopOf="@id/ivTp2" />
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
                         android:background="@color/darker_gray"
                         app:layout_constraintBottom_toBottomOf="@id/tvtp3"
                         app:layout_constraintEnd_toStartOf="@id/ivTp3"
+                        app:layout_constraintStart_toEndOf="@+id/ivTp2"
                         app:layout_constraintTop_toTopOf="@id/ivTp2" />
 
 
@@ -537,9 +541,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/_8sdp"
-                        android:paddingStart="@dimen/_2sdp"
-                        android:paddingEnd="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_1sdp"
+                        android:paddingEnd="@dimen/_1sdp"
                         android:text="@string/mutual_recommend"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp3"

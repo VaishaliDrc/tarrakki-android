@@ -207,7 +207,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_semibold"
-                android:padding="@dimen/_4sdp"
                 android:text="@string/faqs"
                 android:textColor="@color/bg_choose_plan_purple"
                 android:textSize="@dimen/_12ssp"
@@ -216,7 +215,6 @@
 
 
             <TextView
-                android:drawableStart="@drawable/ic_phone_call"
                 android:background="@drawable/line_purple"
                 android:letterSpacing="0.01"
                 android:id="@+id/tvSetCallWithAdviser"
@@ -224,7 +222,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_semibold"
-                android:padding="@dimen/_4sdp"
                 android:text="@string/set_call_with_adviser"
                 android:textColor="@color/bg_choose_plan_purple"
                 android:textSize="@dimen/_12ssp"
@@ -232,7 +229,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvMsgPlan" />
 
             <ImageView
-               android:visibility="gone"
+               android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
@@ -240,7 +237,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tvSetCallWithAdviser"
                 app:layout_constraintEnd_toStartOf="@+id/tvSetCallWithAdviser"
                 app:layout_constraintTop_toTopOf="@+id/tvSetCallWithAdviser" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

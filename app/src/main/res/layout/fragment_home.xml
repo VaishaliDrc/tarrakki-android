@@ -347,7 +347,7 @@
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2"
                     android:orientation="vertical"
-                    android:padding="8dp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/llWhyTarrakki">
@@ -364,15 +364,15 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:id="@+id/ivTarrakkiZyaada"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/tvKeyBenefits"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvKeyBenefits" />
+                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier2"
@@ -486,7 +486,7 @@
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2"
                     android:orientation="vertical"
-                    android:padding="8dp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clTarrakkiZyaada">
@@ -498,7 +498,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/default_space"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:src="@drawable/ic_mf_assistant"
                         app:layout_constraintBottom_toTopOf="@id/barrier4"
                         app:layout_constraintStart_toStartOf="parent"
@@ -515,15 +515,15 @@
 <!--                        -->
 <!--                        tools:text="Tarrakki MF Assistant" />-->
                     <ImageView
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:id="@+id/ivPrimeInvestor"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/tvPrimeInvestorlbl"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvPrimeInvestorlbl" />
+                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier4"
                         android:layout_width="wrap_content"
@@ -638,7 +638,7 @@
                     android:background="@drawable/shape_cart_view"
                     android:elevation="@dimen/space_2"
                     android:orientation="vertical"
-                    android:padding="8dp"
+                    android:padding="@dimen/_8sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clPrimeInvestor">
@@ -647,24 +647,24 @@
                         android:id="@+id/tvConsumerLoanInvestmentlbl"
                         android:layout_width="@dimen/_170sdp"
                         android:layout_height="@dimen/_40sdp"
-                        android:layout_marginBottom="@dimen/default_space"
+                        android:layout_marginBottom="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_20sdp"
-                        android:gravity="center_vertical"
+                        android:gravity="top"
+                        android:paddingBottom="@dimen/_20sdp"
                         android:src="@drawable/ic_consumer_liquilonas"
-                        app:layout_constraintBottom_toTopOf="@id/barrier3"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/ivConsumerLoanInvestment"
                         android:layout_width="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/tvConsumerLoanInvestmentlbl"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tvConsumerLoanInvestmentlbl" />
+                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier3"
@@ -786,8 +786,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/clConsumerLoanInvestment">
 
                     <ImageView
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:paddingTop="5dp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:paddingBottom="5dp"
                         android:id="@+id/ivTarrakiProlbl"
                         android:layout_width="wrap_content"
@@ -801,16 +800,16 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:layout_margin="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:id="@+id/ivTarrakiPro"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
                         android:background="@drawable/page_selected"
                         android:src="@drawable/ic_keyboard_arrow_right_dark_gray"
                         android:tint="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@id/ivTarrakiProlbl"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/ivTarrakiProlbl" />
+                         app:layout_constraintEnd_toEndOf="parent"
+                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/barrier5"
@@ -839,7 +838,7 @@
                         android:gravity="center"
                         android:paddingEnd="@dimen/_2sdp"
                         android:paddingStart="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:text="@string/premium_support"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp1"
@@ -867,7 +866,7 @@
                         android:gravity="center"
                         android:paddingEnd="@dimen/_4sdp"
                         android:paddingStart="@dimen/_4sdp"
-                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_10sdp"
                         android:text="@string/portfolio_construction"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp2"
@@ -878,6 +877,7 @@
                         android:layout_width="1dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
                         android:background="@color/darker_gray"
                         app:layout_constraintBottom_toBottomOf="@id/tvTp1"
                         app:layout_constraintStart_toEndOf="@id/ivTp1"
@@ -887,6 +887,7 @@
                         android:layout_width="1dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_6sdp"
                         android:background="@color/darker_gray"
                         app:layout_constraintBottom_toBottomOf="@id/tvtp3"
                         app:layout_constraintEnd_toStartOf="@id/ivTp3"
@@ -911,9 +912,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
                         android:gravity="center"
-                        android:paddingBottom="@dimen/_8sdp"
-                        android:paddingStart="@dimen/_2sdp"
-                        android:paddingEnd="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:paddingStart="@dimen/_1sdp"
+                        android:paddingEnd="@dimen/_1sdp"
                         android:text="@string/mutual_recommend"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="@id/ivTp3"
