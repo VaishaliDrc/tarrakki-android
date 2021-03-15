@@ -1,9 +1,7 @@
 package com.tarrakki.module.confirmorder
 
 import android.os.Bundle
-import android.text.Html
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.databinding.ViewDataBinding
@@ -18,7 +16,6 @@ import com.tarrakki.api.model.toJson
 import com.tarrakki.databinding.FragmentConfirmOrderBinding
 import com.tarrakki.databinding.RowConfirmOrderBinding
 import com.tarrakki.databinding.RowOrderTotalBinding
-import com.tarrakki.investmentRecommendation
 import com.tarrakki.module.bankaccount.SingleButton
 import com.tarrakki.module.bankmandate.BankMandateFragment
 import com.tarrakki.module.bankmandate.ISFROMCONFIRMORDER
@@ -26,17 +23,18 @@ import com.tarrakki.module.bankmandate.MANDATEID
 import com.tarrakki.module.paymentmode.PaymentModeFragment
 import com.tarrakki.module.paymentmode.SUCCESSTRANSACTION
 import com.tarrakki.module.paymentmode.SUCCESS_ORDERS
-import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
 import com.tarrakki.module.transactionConfirm.TransactionConfirmFragment
 import kotlinx.android.synthetic.main.fragment_confirm_order.*
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
-import org.supportcompact.ktx.*
+import org.supportcompact.ktx.confirmationDialog
+import org.supportcompact.ktx.observe
+import org.supportcompact.ktx.simpleAlert
+import org.supportcompact.ktx.startFragment
 import java.math.BigInteger
 
 const val IS_FROM_CONFIRM_ORDER = "is_from_confirm_order"
@@ -169,10 +167,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             }
                             if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
 
-                                context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert),
+                                val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                                ivConfirmOrderblur.visibility= View.VISIBLE
+
+                                context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
                                         btnPositive = getString(R.string.yes),
                                         btnNegative = getString(R.string.no),
                                         btnPositiveClick = {
+                                            ivConfirmOrderblur.visibility= View.GONE
                                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
                                                 if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
@@ -210,6 +212,9 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                                     }
                                                 }
                                             })
+                                        },
+                                        btnNegativeClick = {
+                                            ivConfirmOrderblur.visibility= View.GONE
                                         }
                                 )
                             } else {
@@ -261,10 +266,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                             }
                         }
                         if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
-                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert),
+                            val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                            ivConfirmOrderblur.visibility= View.VISIBLE
+                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
                                     btnPositiveClick = {
+                                        ivConfirmOrderblur.visibility= View.GONE
                                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                             App.INSTANCE.cartCount.value = it?.data?.cartCount
                                             if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
@@ -302,6 +310,9 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                                 }
                                             }
                                         })
+                                    },
+                                    btnNegativeClick = {
+                                        ivConfirmOrderblur.visibility= View.GONE
                                     }
                             )
                         } else {
@@ -350,9 +361,14 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 binder.setVariable(BR.onLockClick, View.OnClickListener {
                     if (binder is RowConfirmOrderBinding) {
+                        ivConfirmOrderblur.visibility= View.VISIBLE
                         if (textChnage?.get()!! <= 0) {
-                            context?.simpleAlert(resources.getString(R.string.no_free_trial_left))
+                            context?.simpleAlert(resources.getString(R.string.no_free_trial_left),
+                            positiveButton = {
+                                ivConfirmOrderblur.visibility= View.GONE
+                            })
                         } else {
+                            ivConfirmOrderblur.visibility= View.VISIBLE
                                 var alertMessageDialog = ""
                                     if (textChnage?.get() == 1 )
                                     {
@@ -364,6 +380,7 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                     btnPositive = getString(R.string.yes),
                                     btnNegative = getString(R.string.no),
                                     btnPositiveClick = {
+                                        ivConfirmOrderblur.visibility= View.GONE
                                         if (item is ConfirmOrderResponse.Data.OrderLine) {
                                             getViewModel().getFundsReview(item.fundIdId.toString()).observe(this, Observer {
                                                 it?.let { response ->
@@ -374,7 +391,10 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                                 }
                                             })
                                         }
-                                    })
+                                    },
+                            btnNegativeClick = {
+                                ivConfirmOrderblur.visibility= View.GONE
+                            })
 
                         }
                     }

@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.annotation.ArrayRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import libs.mjn.prettydialog.PrettyDialog
 import org.supportcompact.R
+import org.supportcompact.prettydialog.PrettyDialog
 
 /**
  * Created by jayeshparkariya on 28/2/18.

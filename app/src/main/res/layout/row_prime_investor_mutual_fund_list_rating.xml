@@ -23,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_space"
-            android:layout_marginEnd="@dimen/default_space"
             android:background="@color/white"
             android:elevation="16dp"
             app:cardCornerRadius="@dimen/_12ssp">
@@ -31,7 +30,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_12sdp"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -52,7 +51,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_8sdp"
                     android:layout_gravity="center|start"
                     android:gravity="center|start"
                     android:orientation="horizontal">
@@ -85,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_8sdp"
                     android:layout_gravity="center|start"
                     android:gravity="center|start"
                     android:orientation="horizontal">
@@ -126,7 +123,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_8sdp"
                     android:layout_gravity="top|start"
                     android:gravity="top|start"
                     android:orientation="horizontal">

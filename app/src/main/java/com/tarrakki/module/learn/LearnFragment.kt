@@ -67,7 +67,7 @@ class LearnFragment : CoreFragment<LearnVM, FragmentLearnBinding>() {
                             })
                             binder.executePendingBindings()
                             if (item is LoadMore && !item.isLoading && mRefresh?.isRefreshing == false) {
-                                item.isLoading = true
+                               // item.isLoading = true
                                 loadMoreObservable.value = blogResponse.offset
                             }
                         }

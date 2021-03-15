@@ -29,9 +29,9 @@ fun onLoginEventFire(bundle: Bundle) {
 //        val bundle = Bundle()
 //        bundle.putString("user_id", userId)
         logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
-        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id", ""))
-        logAppsflyerEvents(FirebaseAnalytics.Event.LOGIN, bundle)
         logFbEvent(LOGIN, bundle)
+        AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id", ""))
+        logAppsflyerEvents(FirebaseAnalytics.Event.LOGIN)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -43,7 +43,7 @@ fun onSignUpEventFire(bundle: Bundle) {
 //        bundle.putString("user_id", userId)
         logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle)
         AppsFlyerLib.getInstance().setCustomerUserId(bundle.getString("user_id", ""))
-        logAppsflyerEvents(FirebaseAnalytics.Event.SIGN_UP, bundle)
+        logAppsflyerEvents(FirebaseAnalytics.Event.SIGN_UP)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -57,7 +57,7 @@ fun eventPanKYCVerified() {
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
         logEvent(PANCARDKYCVERIFIED, bundle)
         logFbEvent(PANCARDKYCVERIFIED, bundle)
-        logAppsflyerEvents(PANCARDKYCVERIFIED, bundle)
+        logAppsflyerEvents(PANCARDKYCVERIFIED)
 
     } catch (e: Exception) {
         e.printStackTrace()
@@ -72,7 +72,7 @@ fun eventPanKYCNonVerified() {
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
         logEvent(PANCARDKYCNOTVERIFIED, bundle)
         logFbEvent(PANCARDKYCNOTVERIFIED, bundle)
-        logAppsflyerEvents(PANCARDKYCNOTVERIFIED, bundle)
+        logAppsflyerEvents(PANCARDKYCNOTVERIFIED)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -86,7 +86,7 @@ fun eventTZDebitCardRequest() {
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
         logEvent(TZDebitCardRequest, bundle)
         logFbEvent(TZDebitCardRequest, bundle)
-        logAppsflyerEvents(TZDebitCardRequest, bundle)
+        logAppsflyerEvents(TZDebitCardRequest)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -100,7 +100,7 @@ fun eventBSERegistration() {
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
         logEvent(BSERegistration, bundle)
         logFbEvent(BSERegistration, bundle)
-        logAppsflyerEvents(BSERegistration, bundle)
+        logAppsflyerEvents(BSERegistration)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -114,7 +114,7 @@ fun eventInvestInMutualFund() {
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
         logEvent(INVESTINMUTUALFUNDS, bundle)
         logFbEvent(INVESTINMUTUALFUNDS, bundle)
-        logAppsflyerEvents(INVESTINMUTUALFUNDS, bundle)
+        logAppsflyerEvents(INVESTINMUTUALFUNDS)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -126,7 +126,7 @@ fun onTarrakkiProSignUp() {
         bundle.putString("user_id", App.INSTANCE.getUserId())
         bundle.putString("email_id", App.INSTANCE.getEmail())
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
-        logAppsflyerEvents(TARRAKKIPROSIGNUP, bundle)
+        logAppsflyerEvents(TARRAKKIPROSIGNUP)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -138,7 +138,7 @@ fun onEquityAdvisorySignUp() {
         bundle.putString("user_id", App.INSTANCE.getUserId())
         bundle.putString("email_id", App.INSTANCE.getEmail())
         bundle.putString("mobile_number", App.INSTANCE.getMobile())
-        logAppsflyerEvents(EQUITYADVISORYSIGNUP, bundle)
+        logAppsflyerEvents(EQUITYADVISORYSIGNUP)
     } catch (e: Exception) {
         e.printStackTrace()
     }
@@ -165,10 +165,10 @@ fun logFbEvent(key: String, bundle: Bundle) {
     }
 }
 
-fun logAppsflyerEvents(key: String, bundle: Bundle) {
+fun logAppsflyerEvents(key: String) {
     try {
         if (!BuildConfig.DEBUG) {
-            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), key, bundle.bundleToMap())
+            AppsFlyerLib.getInstance().logEvent(getApplicationContext(), key, null)
         }
     } catch (e: Exception) {
 

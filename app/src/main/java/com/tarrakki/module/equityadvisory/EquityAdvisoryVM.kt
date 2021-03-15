@@ -20,7 +20,7 @@ import kotlin.concurrent.thread
 
 class EquityAdvisoryVM : FragmentViewModel() {
 
-    var equityAdvisoryVisibility = ObservableField(BuildConfig.FLAVOR.isTarrakki())
+    var equityAdvisoryVisibility = ObservableField(false)
     val whyTarrakkiList = arrayListOf<WhyTarrakkiList>()
     val equityBenefitList = arrayListOf<WhyTarrakkiList>()
     var firstPlanPrice = 0

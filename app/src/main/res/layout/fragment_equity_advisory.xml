@@ -30,14 +30,14 @@
                 android:id="@+id/tvWhatIsEquity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@{vm.equityAdvisoryVisibility ? @drawable/ic_arrow_up : @drawable/ic_arrow_down}"
+                android:drawableEnd="@{vm.equityAdvisoryVisibility ? @drawable/ic_arrow_up_purple : @drawable/ic_arrow_down_purple}"
                 android:fontFamily="@font/lato_semibold"
                 android:text="@string/what_is_equity_advisory"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:drawableEnd="@drawable/ic_arrow_up"
+                tools:drawableEnd="@drawable/ic_arrow_up_purple"
                 tools:text="@string/what_is_equity_advisory" />
 
             <ImageView
@@ -60,33 +60,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivBottomlineFirst">
 
-                <TextView
-                    android:id="@+id/tvWhyTarrakkiiReason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:fontFamily="@font/lato_regular"
-                    android:text="@string/in_a_rapidly_changing"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
-                    tools:text="@string/in_a_rapidly_changing" />
+               <androidx.constraintlayout.widget.ConstraintLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+                   <TextView
+                       app:layout_constraintTop_toTopOf="parent"
+                       app:layout_constraintStart_toStartOf="parent"
+                       android:id="@+id/tvWhyTarrakkiiReason"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="8dp"
+                       android:layout_marginEnd="@dimen/_5sdp"
+                       android:fontFamily="@font/lato_regular"
+                       android:text="@string/in_a_rapidly_changing"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/_11ssp"
+                       tools:text="@string/in_a_rapidly_changing" />
+
+                   <TextView
+                       android:id="@+id/tvBuildYourPerfect"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="@dimen/_10sdp"
+                       android:layout_marginEnd="@dimen/_5sdp"
+                       android:fontFamily="@font/lato_bold"
+                       android:text="@string/build_your_perfect"
+                       android:textColor="@color/black"
+                       android:textSize="@dimen/_11ssp"
+                       app:layout_constraintTop_toBottomOf="@+id/tvWhyTarrakkiiReason"
+                       tools:text="@string/build_your_perfect" />
+
+
+               </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 
 
-            <TextView
-                android:id="@+id/tvBuildYourPerfect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:fontFamily="@font/lato_bold"
-                android:text="@string/build_your_perfect"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_11ssp"
-                app:layout_constraintTop_toBottomOf="@+id/elWhatIsEquity"
-                tools:text="@string/build_your_perfect" />
 
             <TextView
                 android:id="@+id/tvWhyTarrakki"
@@ -98,7 +109,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvBuildYourPerfect"
+                app:layout_constraintTop_toBottomOf="@+id/elWhatIsEquity"
                 tools:text="@string/why_tarrakki" />
 
             <ImageView

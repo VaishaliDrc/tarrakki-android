@@ -9,16 +9,36 @@
             name="vm"
             type="com.tarrakki.module.confirmorder.ConfirmOrderVM" />
     </data>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvOrders"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="@dimen/default_space"
-        app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:context=".module.confirmorder.ConfirmOrderFragment"
-        tools:listitem="@layout/row_confirm_order" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOrders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingTop="@dimen/default_space"
+            app:dividerV="@{@drawable/shape_transferant_divider_16dp}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".module.confirmorder.ConfirmOrderFragment"
+            tools:listitem="@layout/row_confirm_order" />
+
+
+        <ImageView
+            android:id="@+id/ivConfirmOrderblur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/blur_confirm_order"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </layout>
