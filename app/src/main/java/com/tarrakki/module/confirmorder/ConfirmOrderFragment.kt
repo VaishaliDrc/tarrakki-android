@@ -76,11 +76,21 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
             val orderTotal = OrderTotal()
             orderTotal.isBankMandateVisible = confirmOrderResponse?.data?.isSIP
             orderTotal.isTarrakkiPro = confirmOrderResponse?.data?.isTarrakkiPro
+            confirmOrderResponse?.data?.isTarrakkiPro?.let { isTPro ->
+                if (isTPro) {
+                    btnGetTPro.visibility = View.GONE
+                } else {
+                    confirmOrderResponse?.data?.proPrice?.let {
+                        btnGetTPro.text = getString(R.string.get_t_pro, it)
+                        btnGetTPro.visibility = View.VISIBLE
+                    }
+                }
+            }
+
             var alertMessage = ""
-            if (textChnage?.get() == 1 )
-            {
-                alertMessage =  "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free review left)"
-            }else{
+            if (textChnage?.get() == 1) {
+                alertMessage = "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free review left)"
+            } else {
                 alertMessage = "(You have ${intNumberToStringNumber(confirmOrderResponse?.data?.userTrials!!)} free reviews left)"
             }
             orderTotal.recommendationLeft = alertMessage
@@ -90,7 +100,13 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                     ?: 0.0) + (confirmOrderResponse?.data?.totalSip ?: 0.0))
             orderTotal.bank = if (!TextUtils.isEmpty(confirmOrderResponse?.data?.bank)) "${confirmOrderResponse?.data?.bankName}" else "Choose Bank"
             orders.add(orderTotal)
-            orders.add(SingleButton(R.string.place_order))
+            //  orders.add(SingleButton(R.string.place_order))
+            btnPlaceOrder.setOnClickListener {
+                placeOrder(confirmOrderResponse)
+            }
+            btnGetTPro.setOnClickListener {
+                startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+            }
             rvOrders?.setUpMultiViewRecyclerAdapter(orders) { item: WidgetsViewModel, binder: ViewDataBinding, position: Int ->
                 binder.setVariable(BR.widget, item)
                 /*if (item is ConfirmOrderResponse.Data.OrderLine){
@@ -100,39 +116,36 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
 
                 textChnage.observe {
                     if (binder is RowOrderTotalBinding && it >= 0) {
-                        if (textChnage?.get() == 1)
-                        {
-                            alertMessage =  "(You have ${intNumberToStringNumber(it)} free review left)"
-                        }else{
+                        if (textChnage?.get() == 1) {
+                            alertMessage = "(You have ${intNumberToStringNumber(it)} free review left)"
+                        } else {
                             alertMessage = "(You have ${intNumberToStringNumber(it)} free reviews left)"
                         }
                         binder.tvRecommendationLeft.text = alertMessage
                     }
                 }
 
-                confirmOrderResponse?.data?.proPrice?.let {
-                    if (binder is RowOrderTotalBinding) {
-                        binder.tvGetTPro.text = getString(R.string.get_t_pro,it)
-                    }
-
-                }
+//                confirmOrderResponse?.data?.proPrice?.let {
+//                    if (binder is RowOrderTotalBinding) {
+//                        binder.tvGetTPro.text = getString(R.string.get_t_pro, it)
+//                    }
+//
+//                }
 
                 if (binder is RowConfirmOrderBinding) {
 
                     if (item is ConfirmOrderResponse.Data.OrderLine) {
                         val rating = item?.primeRatingData?.primeRating?.toFloatOrNull()
-                        if(rating == null){
+                        if (rating == null) {
                             binder.tvRatingEmpty.visibility = View.VISIBLE
                             binder.ratingBarCO.visibility = View.GONE
                             binder.tvRatingEmpty.text = item?.primeRatingData?.primeReview
-                        }
-                        else{
-                            if(rating == 0.0f){
+                        } else {
+                            if (rating == 0.0f) {
                                 binder.tvRatingEmpty.visibility = View.VISIBLE
                                 binder.ratingBarCO.visibility = View.GONE
                                 binder.tvRatingEmpty.text = item?.primeRatingData?.primeReview
-                            }
-                            else{
+                            } else {
                                 binder.tvRatingEmpty.visibility = View.GONE
                                 binder.ratingBarCO.visibility = View.VISIBLE
                                 binder.ratingBarCO.rating = rating
@@ -152,72 +165,317 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                 }
 
 
+                /* binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
+                     if (confirmOrderResponse?.data?.isSIP == true) {
+                         if (TextUtils.isEmpty(confirmOrderResponse.data.mandateId)) {
+                             context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
+                             return@OnClickListener
+                         } else {
+                             var isSell = false
+                             for (i in confirmOrderResponse!!.data.orderLines) {
+                                 if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                                     isSell = true
+                                 }
+                             }
+                             if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
 
-                binder.setVariable(BR.onAdd, View.OnClickListener { it1 ->
-                    if (confirmOrderResponse?.data?.isSIP == true) {
-                        if (TextUtils.isEmpty(confirmOrderResponse.data.mandateId)) {
-                            context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
-                            return@OnClickListener
+                                 val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                                 ivConfirmOrderblur.visibility= View.VISIBLE
+
+                                 context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
+                                         btnPositive = getString(R.string.yes),
+                                         btnNegative = getString(R.string.no),
+                                         btnPositiveClick = {
+                                             ivConfirmOrderblur.visibility= View.GONE
+                                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
+                                                 if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                                     it?.let { it2 -> postSticky(it2) }
+                                                     if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                                                         val failed = FailedTransactions(it.data.failedTransactions)
+                                                         postSticky(failed)
+                                                     }
+                                                 } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                                     val transaction = arrayListOf<Int>()
+                                                     for (funds in it.data.orders) {
+                                                         if (funds.lumpsumTransactionId != 0) {
+                                                             transaction.add(funds.lumpsumTransactionId)
+                                                         }
+                                                         if (funds.sipTransactionId != 0) {
+                                                             transaction.add(funds.sipTransactionId)
+                                                         }
+                                                     }
+                                                     val bundle = Bundle().apply {
+                                                         putString(SUCCESSTRANSACTION, transaction.toString())
+                                                         putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                                                         putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                                     }
+                                                     startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                                     it.data.failedTransactions?.let { list ->
+                                                         val failed = FailedTransactions(list)
+                                                         postSticky(failed)
+                                                     }
+                                                 } else {
+                                                     startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                                     it?.data?.failedTransactions?.let { list ->
+                                                         val failed = FailedTransactions(list)
+                                                         postSticky(failed)
+                                                     }
+                                                 }
+                                             })
+                                         },
+                                         btnNegativeClick = {
+                                             ivConfirmOrderblur.visibility= View.GONE
+                                         }
+                                 )
+                             } else {
+                                 getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                     App.INSTANCE.cartCount.value = it?.data?.cartCount
+                                     if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                         startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                         it?.let { it2 -> postSticky(it2) }
+                                         if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                                             val failed = FailedTransactions(it.data.failedTransactions)
+                                             postSticky(failed)
+                                         }
+                                     } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                         val transaction = arrayListOf<Int>()
+                                         for (funds in it.data.orders) {
+                                             if (funds.lumpsumTransactionId != 0) {
+                                                 transaction.add(funds.lumpsumTransactionId)
+                                             }
+                                             if (funds.sipTransactionId != 0) {
+                                                 transaction.add(funds.sipTransactionId)
+                                             }
+                                         }
+                                         val bundle = Bundle().apply {
+                                             putString(SUCCESSTRANSACTION, transaction.toString())
+                                             putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                                             putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                         }
+                                         startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                         it.data.failedTransactions?.let { list ->
+                                             val failed = FailedTransactions(list)
+                                             postSticky(failed)
+                                         }
+                                     } else {
+                                         startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                         it?.data?.failedTransactions?.let { list ->
+                                             val failed = FailedTransactions(list)
+                                             postSticky(failed)
+                                         }
+                                     }
+                                 })
+                             }
+
+                         }
+                     } else {
+                         var isSell = false
+                         for (i in confirmOrderResponse!!.data.orderLines) {
+                             if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                                 isSell = true
+                             }
+                         }
+                         if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
+                             val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                             ivConfirmOrderblur.visibility= View.VISIBLE
+                             context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
+                                     btnPositive = getString(R.string.yes),
+                                     btnNegative = getString(R.string.no),
+                                     btnPositiveClick = {
+                                         ivConfirmOrderblur.visibility= View.GONE
+                                         getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                             App.INSTANCE.cartCount.value = it?.data?.cartCount
+                                             if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                                 startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                                 it?.let { it2 -> postSticky(it2) }
+                                                 if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                                                     val failed = FailedTransactions(it.data.failedTransactions)
+                                                     postSticky(failed)
+                                                 }
+                                             } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                                 val transaction = arrayListOf<Int>()
+                                                 for (funds in it.data.orders) {
+                                                     if (funds.lumpsumTransactionId != 0) {
+                                                         transaction.add(funds.lumpsumTransactionId)
+                                                     }
+                                                     if (funds.sipTransactionId != 0) {
+                                                         transaction.add(funds.sipTransactionId)
+                                                     }
+                                                 }
+                                                 val bundle = Bundle().apply {
+                                                     putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                                                     putString(SUCCESSTRANSACTION, transaction.toString())
+                                                     putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                                 }
+                                                 startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                                 it.data.failedTransactions?.let { list ->
+                                                     val failed = FailedTransactions(list)
+                                                     postSticky(failed)
+                                                 }
+                                             } else {
+                                                 startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                                 it?.data?.failedTransactions?.let { list ->
+                                                     val failed = FailedTransactions(list)
+                                                     postSticky(failed)
+                                                 }
+                                             }
+                                         })
+                                     },
+                                     btnNegativeClick = {
+                                         ivConfirmOrderblur.visibility= View.GONE
+                                     }
+                             )
+                         } else {
+                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
+                                 if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                                     startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                                     it?.let { it2 -> postSticky(it2) }
+                                     if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                                         val failed = FailedTransactions(it.data.failedTransactions)
+                                         postSticky(failed)
+                                     }
+                                 } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                                     val transaction = arrayListOf<Int>()
+                                     for (funds in it.data.orders) {
+                                         if (funds.lumpsumTransactionId != 0) {
+                                             transaction.add(funds.lumpsumTransactionId)
+                                         }
+                                         if (funds.sipTransactionId != 0) {
+                                             transaction.add(funds.sipTransactionId)
+                                         }
+                                     }
+                                     val bundle = Bundle().apply {
+                                         putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                                         putString(SUCCESSTRANSACTION, transaction.toString())
+                                         putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                                     }
+                                     startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                                     it.data.failedTransactions?.let { list ->
+                                         val failed = FailedTransactions(list)
+                                         postSticky(failed)
+                                     }
+                                 } else {
+                                     startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                                     it?.data?.failedTransactions?.let { list ->
+                                         val failed = FailedTransactions(list)
+                                         postSticky(failed)
+                                     }
+                                 }
+                             })
+                         }
+
+
+                     }
+                 })*/
+
+                binder.setVariable(BR.onLockClick, View.OnClickListener {
+                    if (binder is RowConfirmOrderBinding) {
+                        ivConfirmOrderblur.visibility = View.VISIBLE
+                        if (textChnage?.get()!! <= 0) {
+                            context?.simpleAlert(resources.getString(R.string.no_free_trial_left),
+                                    positiveButton = {
+                                        ivConfirmOrderblur.visibility = View.GONE
+                                    })
                         } else {
-                            var isSell = false
-                            for (i in confirmOrderResponse!!.data.orderLines) {
-                                if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
-                                    isSell = true
-                                }
+                            ivConfirmOrderblur.visibility = View.VISIBLE
+                            var alertMessageDialog = ""
+                            if (textChnage?.get() == 1) {
+                                alertMessageDialog = getString(R.string.free_review_use_alert, intNumberToStringNumber(textChnage.get()!!))
+                            } else {
+                                alertMessageDialog = getString(R.string.free_reviews_use_alert, intNumberToStringNumber(textChnage.get()!!))
                             }
-                            if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
-
-                                val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
-                                ivConfirmOrderblur.visibility= View.VISIBLE
-
-                                context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
-                                        btnPositive = getString(R.string.yes),
-                                        btnNegative = getString(R.string.no),
-                                        btnPositiveClick = {
-                                            ivConfirmOrderblur.visibility= View.GONE
-                                            getViewModel().checkoutConfirmOrder().observe(this, Observer {
-                                                App.INSTANCE.cartCount.value = it?.data?.cartCount
-                                                if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
-                                                    startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                                                    it?.let { it2 -> postSticky(it2) }
-                                                    if (it?.data?.failedTransactions?.isNotEmpty() == true) {
-                                                        val failed = FailedTransactions(it.data.failedTransactions)
-                                                        postSticky(failed)
-                                                    }
-                                                } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
-                                                    val transaction = arrayListOf<Int>()
-                                                    for (funds in it.data.orders) {
-                                                        if (funds.lumpsumTransactionId != 0) {
-                                                            transaction.add(funds.lumpsumTransactionId)
-                                                        }
-                                                        if (funds.sipTransactionId != 0) {
-                                                            transaction.add(funds.sipTransactionId)
-                                                        }
-                                                    }
-                                                    val bundle = Bundle().apply {
-                                                        putString(SUCCESSTRANSACTION, transaction.toString())
-                                                        putString(SUCCESS_ORDERS, it.data.orders.toJson())
-                                                        putBoolean(IS_FROM_CONFIRM_ORDER, true)
-                                                    }
-                                                    startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
-                                                    it.data.failedTransactions?.let { list ->
-                                                        val failed = FailedTransactions(list)
-                                                        postSticky(failed)
-                                                    }
-                                                } else {
-                                                    startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
-                                                    it?.data?.failedTransactions?.let { list ->
-                                                        val failed = FailedTransactions(list)
-                                                        postSticky(failed)
-                                                    }
+                            context?.confirmationDialog(getString(R.string.app_name), alertMessageDialog,
+                                    btnPositive = getString(R.string.yes),
+                                    btnNegative = getString(R.string.no),
+                                    btnPositiveClick = {
+                                        ivConfirmOrderblur.visibility = View.GONE
+                                        if (item is ConfirmOrderResponse.Data.OrderLine) {
+                                            getViewModel().getFundsReview(item.fundIdId.toString()).observe(this, Observer {
+                                                it?.let { response ->
+                                                    binder.groupLocks.visibility = View.GONE
+                                                    binder.llcRating.visibility = View.VISIBLE
+                                                    binder.tvPrimeRecommned.visibility = View.VISIBLE
+                                                    textChnage.set(textChnage?.get()?.dec())
                                                 }
                                             })
-                                        },
-                                        btnNegativeClick = {
-                                            ivConfirmOrderblur.visibility= View.GONE
                                         }
-                                )
-                            } else {
+                                    },
+                                    btnNegativeClick = {
+                                        ivConfirmOrderblur.visibility = View.GONE
+                                    })
+
+                        }
+                    }
+
+                })
+
+
+              /*  binder.setVariable(BR.onTarrakkiProClick, View.OnClickListener {
+                    startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+                })*/
+
+                binder.setVariable(BR.onCheckedChange, View.OnClickListener {
+                    if (item is ConfirmOrderResponse.Data.OrderLine) {
+                        if (confirmOrderResponse?.data?.isApproveBank == true) {
+                            if (binder is RowConfirmOrderBinding) {
+                                binder.cbSIP.isChecked = item.isFirstInstallmentSIP
+                            }
+                            val isFirstSIP = !item.isFirstInstallmentSIP
+                            getViewModel().updateFirstSIPFlag(item, isFirstSIP).observe(this, Observer {
+                                item.isFirstInstallmentSIP = isFirstSIP
+                                getData()
+                            })
+                        } else {
+                            if (binder is RowConfirmOrderBinding) {
+                                binder.cbSIP.isChecked = !binder.cbSIP.isChecked
+                            }
+                            context?.simpleAlert(getString(R.string.alert_warn_uncheck_mandate))
+                        }
+                    }
+                })
+
+
+                binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
+                    if (confirmOrderResponse?.data?.isSIP == true) {
+                        val bundle = Bundle().apply {
+                            putBoolean(ISFROMCONFIRMORDER, true)
+                            confirmOrderResponse.data.mandateId?.let { it1 -> putString(MANDATEID, it1) }
+                        }
+                        startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
+                    }
+                })
+
+                binder.executePendingBindings()
+            }
+        }
+    }
+
+    private fun placeOrder(confirmOrderResponse: ConfirmOrderResponse) {
+
+        if (confirmOrderResponse?.data?.isSIP == true) {
+            if (TextUtils.isEmpty(confirmOrderResponse.data.mandateId)) {
+                context?.simpleAlert(getString(R.string.alert_req_bank_mandate))
+                return
+            } else {
+                var isSell = false
+                for (i in confirmOrderResponse!!.data.orderLines) {
+                    if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                        isSell = true
+                    }
+                }
+                if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
+
+                    val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                    ivConfirmOrderblur.visibility = View.VISIBLE
+
+                    context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert, sellInRed),
+                            btnPositive = getString(R.string.yes),
+                            btnNegative = getString(R.string.no),
+                            btnPositiveClick = {
+                                ivConfirmOrderblur.visibility = View.GONE
                                 getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                     App.INSTANCE.cartCount.value = it?.data?.cartCount
                                     if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
@@ -255,67 +513,67 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                         }
                                     }
                                 })
+                            },
+                            btnNegativeClick = {
+                                ivConfirmOrderblur.visibility = View.GONE
                             }
-
-                        }
-                    } else {
-                        var isSell = false
-                        for (i in confirmOrderResponse!!.data.orderLines) {
-                            if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
-                                isSell = true
+                    )
+                } else {
+                    getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                        App.INSTANCE.cartCount.value = it?.data?.cartCount
+                        if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                            startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                            it?.let { it2 -> postSticky(it2) }
+                            if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                                val failed = FailedTransactions(it.data.failedTransactions)
+                                postSticky(failed)
                             }
-                        }
-                        if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
-                            val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
-                            ivConfirmOrderblur.visibility= View.VISIBLE
-                            context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert,sellInRed),
-                                    btnPositive = getString(R.string.yes),
-                                    btnNegative = getString(R.string.no),
-                                    btnPositiveClick = {
-                                        ivConfirmOrderblur.visibility= View.GONE
-                                        getViewModel().checkoutConfirmOrder().observe(this, Observer {
-                                            App.INSTANCE.cartCount.value = it?.data?.cartCount
-                                            if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
-                                                startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
-                                                it?.let { it2 -> postSticky(it2) }
-                                                if (it?.data?.failedTransactions?.isNotEmpty() == true) {
-                                                    val failed = FailedTransactions(it.data.failedTransactions)
-                                                    postSticky(failed)
-                                                }
-                                            } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
-                                                val transaction = arrayListOf<Int>()
-                                                for (funds in it.data.orders) {
-                                                    if (funds.lumpsumTransactionId != 0) {
-                                                        transaction.add(funds.lumpsumTransactionId)
-                                                    }
-                                                    if (funds.sipTransactionId != 0) {
-                                                        transaction.add(funds.sipTransactionId)
-                                                    }
-                                                }
-                                                val bundle = Bundle().apply {
-                                                    putString(SUCCESS_ORDERS, it.data.orders.toJson())
-                                                    putString(SUCCESSTRANSACTION, transaction.toString())
-                                                    putBoolean(IS_FROM_CONFIRM_ORDER, true)
-                                                }
-                                                startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
-                                                it.data.failedTransactions?.let { list ->
-                                                    val failed = FailedTransactions(list)
-                                                    postSticky(failed)
-                                                }
-                                            } else {
-                                                startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
-                                                it?.data?.failedTransactions?.let { list ->
-                                                    val failed = FailedTransactions(list)
-                                                    postSticky(failed)
-                                                }
-                                            }
-                                        })
-                                    },
-                                    btnNegativeClick = {
-                                        ivConfirmOrderblur.visibility= View.GONE
-                                    }
-                            )
+                        } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                            val transaction = arrayListOf<Int>()
+                            for (funds in it.data.orders) {
+                                if (funds.lumpsumTransactionId != 0) {
+                                    transaction.add(funds.lumpsumTransactionId)
+                                }
+                                if (funds.sipTransactionId != 0) {
+                                    transaction.add(funds.sipTransactionId)
+                                }
+                            }
+                            val bundle = Bundle().apply {
+                                putString(SUCCESSTRANSACTION, transaction.toString())
+                                putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                                putBoolean(IS_FROM_CONFIRM_ORDER, true)
+                            }
+                            startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                            it.data.failedTransactions?.let { list ->
+                                val failed = FailedTransactions(list)
+                                postSticky(failed)
+                            }
                         } else {
+                            startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                            it?.data?.failedTransactions?.let { list ->
+                                val failed = FailedTransactions(list)
+                                postSticky(failed)
+                            }
+                        }
+                    })
+                }
+
+            }
+        } else {
+            var isSell = false
+            for (i in confirmOrderResponse!!.data.orderLines) {
+                if (i.primeRatingData.primeReview.get(0).equals('S', true)) {
+                    isSell = true
+                }
+            }
+            if (confirmOrderResponse?.data?.isTarrakkiPro && isSell) {
+                val sellInRed = "<b><font color='#EE0000'>SELL</font></b>"
+                ivConfirmOrderblur.visibility = View.VISIBLE
+                context?.confirmationDialog(getString(R.string.app_name), getString(R.string.recommendation_sell_alert, sellInRed),
+                        btnPositive = getString(R.string.yes),
+                        btnNegative = getString(R.string.no),
+                        btnPositiveClick = {
+                            ivConfirmOrderblur.visibility = View.GONE
                             getViewModel().checkoutConfirmOrder().observe(this, Observer {
                                 App.INSTANCE.cartCount.value = it?.data?.cartCount
                                 if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
@@ -353,93 +611,54 @@ class ConfirmOrderFragment : CoreFragment<ConfirmOrderVM, FragmentConfirmOrderBi
                                     }
                                 }
                             })
+                        },
+                        btnNegativeClick = {
+                            ivConfirmOrderblur.visibility = View.GONE
                         }
-
-
-                    }
-                })
-
-                binder.setVariable(BR.onLockClick, View.OnClickListener {
-                    if (binder is RowConfirmOrderBinding) {
-                        ivConfirmOrderblur.visibility= View.VISIBLE
-                        if (textChnage?.get()!! <= 0) {
-                            context?.simpleAlert(resources.getString(R.string.no_free_trial_left),
-                            positiveButton = {
-                                ivConfirmOrderblur.visibility= View.GONE
-                            })
-                        } else {
-                            ivConfirmOrderblur.visibility= View.VISIBLE
-                                var alertMessageDialog = ""
-                                    if (textChnage?.get() == 1 )
-                                    {
-                                        alertMessageDialog =  getString(R.string.free_review_use_alert, intNumberToStringNumber(textChnage.get()!!))
-                                    }else{
-                                        alertMessageDialog =  getString(R.string.free_reviews_use_alert, intNumberToStringNumber(textChnage.get()!!))
-                                    }
-                            context?.confirmationDialog(getString(R.string.app_name),alertMessageDialog,
-                                    btnPositive = getString(R.string.yes),
-                                    btnNegative = getString(R.string.no),
-                                    btnPositiveClick = {
-                                        ivConfirmOrderblur.visibility= View.GONE
-                                        if (item is ConfirmOrderResponse.Data.OrderLine) {
-                                            getViewModel().getFundsReview(item.fundIdId.toString()).observe(this, Observer {
-                                                it?.let { response ->
-                                                    binder.groupLocks.visibility = View.GONE
-                                                    binder.llcRating.visibility = View.VISIBLE
-                                                    binder.tvPrimeRecommned.visibility = View.VISIBLE
-                                                    textChnage.set(textChnage?.get()?.dec())
-                                                }
-                                            })
-                                        }
-                                    },
-                            btnNegativeClick = {
-                                ivConfirmOrderblur.visibility= View.GONE
-                            })
-
+                )
+            } else {
+                getViewModel().checkoutConfirmOrder().observe(this, Observer {
+                    App.INSTANCE.cartCount.value = it?.data?.cartCount
+                    if (!it?.data?.orders.isNullOrEmpty() && it?.data?.totalPayableAmount ?: BigInteger.ZERO > BigInteger.ZERO) {
+                        startFragment(PaymentModeFragment.newInstance(), R.id.frmContainer)
+                        it?.let { it2 -> postSticky(it2) }
+                        if (it?.data?.failedTransactions?.isNotEmpty() == true) {
+                            val failed = FailedTransactions(it.data.failedTransactions)
+                            postSticky(failed)
                         }
-                    }
-
-                })
-
-
-                binder.setVariable(BR.onTarrakkiProClick, View.OnClickListener {
-                    startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
-                })
-
-                binder.setVariable(BR.onCheckedChange, View.OnClickListener {
-                    if (item is ConfirmOrderResponse.Data.OrderLine) {
-                        if (confirmOrderResponse?.data?.isApproveBank == true) {
-                            if (binder is RowConfirmOrderBinding) {
-                                binder.cbSIP.isChecked = item.isFirstInstallmentSIP
+                    } else if (it?.data?.orders != null && it.data.orders.isNotEmpty() && it.data.totalPayableAmount == BigInteger.ZERO) {
+                        val transaction = arrayListOf<Int>()
+                        for (funds in it.data.orders) {
+                            if (funds.lumpsumTransactionId != 0) {
+                                transaction.add(funds.lumpsumTransactionId)
                             }
-                            val isFirstSIP = !item.isFirstInstallmentSIP
-                            getViewModel().updateFirstSIPFlag(item, isFirstSIP).observe(this, Observer {
-                                item.isFirstInstallmentSIP = isFirstSIP
-                                getData()
-                            })
-                        } else {
-                            if (binder is RowConfirmOrderBinding) {
-                                binder.cbSIP.isChecked = !binder.cbSIP.isChecked
+                            if (funds.sipTransactionId != 0) {
+                                transaction.add(funds.sipTransactionId)
                             }
-                            context?.simpleAlert(getString(R.string.alert_warn_uncheck_mandate))
                         }
-                    }
-                })
-
-
-                binder.setVariable(BR.onBankMandateChange, View.OnClickListener {
-                    if (confirmOrderResponse?.data?.isSIP == true) {
                         val bundle = Bundle().apply {
-                            putBoolean(ISFROMCONFIRMORDER, true)
-                            confirmOrderResponse.data.mandateId?.let { it1 -> putString(MANDATEID, it1) }
+                            putString(SUCCESS_ORDERS, it.data.orders.toJson())
+                            putString(SUCCESSTRANSACTION, transaction.toString())
+                            putBoolean(IS_FROM_CONFIRM_ORDER, true)
                         }
-                        startFragment(BankMandateFragment.newInstance(bundle), R.id.frmContainer)
+                        startFragment(TransactionConfirmFragment.newInstance(bundle), R.id.frmContainer)
+                        it.data.failedTransactions?.let { list ->
+                            val failed = FailedTransactions(list)
+                            postSticky(failed)
+                        }
+                    } else {
+                        startFragment(TransactionConfirmFragment.newInstance(), R.id.frmContainer)
+                        it?.data?.failedTransactions?.let { list ->
+                            val failed = FailedTransactions(list)
+                            postSticky(failed)
+                        }
                     }
                 })
-
-                binder.executePendingBindings()
             }
+
+
         }
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

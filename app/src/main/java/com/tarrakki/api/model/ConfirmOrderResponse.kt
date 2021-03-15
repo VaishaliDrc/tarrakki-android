@@ -117,7 +117,7 @@ data class ConfirmOrderResponse(
                 get() = if (hasSIP == View.VISIBLE && hasLumpsum == View.VISIBLE) View.VISIBLE else View.GONE
 
             val title: Int
-                get() = if (hasSIP == View.VISIBLE) R.string.sip else R.string.lumpsum
+                get() = if (hasLumpsum == View.VISIBLE) R.string.lumpsum else R.string.sip
 
             val amount: String?
                 get() = if (hasSIP == View.VISIBLE) sipAmount else lumpsumAmount

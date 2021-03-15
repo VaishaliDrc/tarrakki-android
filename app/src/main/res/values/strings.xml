@@ -429,7 +429,7 @@
     <string name="free_review_use_alert">You have %1$s free review left. Are you sure you want to use your free review?</string>
     <string name="recommendation_sell_alert">
             Prime Review for this fund: %1$s
-       <br></br>
+        &lt;br /&gt;
             Are you sure you would like to invest?
     </string>
     <string name="number_of_unites_redeemed">Number of Units redeemed</string>
