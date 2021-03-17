@@ -34,6 +34,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import org.supportcompact.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
 import static android.widget.ImageView.ScaleType.CENTER_INSIDE;
 
@@ -42,7 +44,7 @@ public class PrettyDialog extends AppCompatDialog {
 
     Resources resources;
     LinearLayout ll_content, ll_buttons;
-    PrettyDialogCircularImageView iv_icon;
+    CircleImageView iv_icon;
     RotateAnimation close_rotation_animation;
     boolean icon_animation = true;
     TextView tv_title, tv_message;
@@ -69,7 +71,7 @@ public class PrettyDialog extends AppCompatDialog {
     private void setupViews_Base(){
         ll_content = (LinearLayout) findViewById(R.id.ll_content);
         ll_buttons = (LinearLayout) findViewById(R.id.ll_buttons);
-        iv_icon = (PrettyDialogCircularImageView) findViewById(R.id.iv_icon);
+        iv_icon = (CircleImageView) findViewById(R.id.iv_icon);
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0, resources.getDimensionPixelSize(R.dimen.pdlg_icon_size)/2, 0, 0);

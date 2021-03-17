@@ -206,7 +206,7 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/lato_bold"
-                android:text="@string/choose_plan"
+                android:text=""
                 android:textColor="@color/bg_choose_plan_purple"
                 android:textSize="@dimen/_14ssp" />
 
