@@ -86,8 +86,8 @@ fun setRiskLevel(speedView: SpeedView, riskLevel: Int) {
         speedView.indicator = imageIndicator
     }
     speedView.sections.clear()
-    speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
-    speedView.setSpeedAt(riskLevel.toFloat() - 10)
+  //  speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    speedView.setSpeedAt(riskLevel.toFloat() - 7)
 }
 
 

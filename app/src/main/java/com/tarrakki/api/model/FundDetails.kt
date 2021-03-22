@@ -277,15 +277,17 @@ data class FundsDetails(
     var assetsDate: String = ""
         get() = fnaSurveyedFundNetAssetsDate?.toDate()?.convertTo() ?: "N/A"
 
-    var riskProgress = 20
+    var riskProgress = 16
         get() = when {
-            "Low Risk".equals(fscbiIndianRiskLevel, true) -> 20
-            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 40
-            "Medium Risk".equals(fscbiIndianRiskLevel, true) -> 60
-            "Moderate Risk".equals(fscbiIndianRiskLevel, true) -> 60
-            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 80
-            "High Risk".equals(fscbiIndianRiskLevel, true) -> 100
-            else -> 20
+            "Low Risk".equals(fscbiIndianRiskLevel, true) -> 16
+            "Moderately Low risk".equals(fscbiIndianRiskLevel, true) -> 32
+            "Low to Moderate Risk".equals(fscbiIndianRiskLevel, true) -> 32
+            "Medium Risk".equals(fscbiIndianRiskLevel, true) -> 48
+            "Moderate Risk".equals(fscbiIndianRiskLevel, true) -> 48
+            "Moderately High risk".equals(fscbiIndianRiskLevel, true) -> 64
+            "High Risk".equals(fscbiIndianRiskLevel, true) -> 80
+            "Very High Risk".equals(fscbiIndianRiskLevel, true) -> 100
+            else -> 16
         }
 
     val riskProgressColor
