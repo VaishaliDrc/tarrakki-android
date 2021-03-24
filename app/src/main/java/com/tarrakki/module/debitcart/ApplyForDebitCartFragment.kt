@@ -83,7 +83,7 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
 
         btnApply?.setOnClickListener {
             // Call Payment Token API
-            if (isValid()) {
+  /*          if (isValid()) {
                 val stage = "PROD"
 //                val stage = "TEST"
                 getViewModel().getPaymentTokenAPI().observe(this, androidx.lifecycle.Observer {
@@ -113,17 +113,18 @@ class ApplyForDebitCartFragment : CoreFragment<DebitCartInfoVM, FragmentApplyFor
                             false
                     )
                 })
+            }*/
+            //TODO : Call below code for request debitcard without payment
+            if (isValid()) {
+                getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
+                    it?.let { apiResponse ->
+                        eventTZDebitCardRequest()
+                        context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
+                            onBack(2)
+                        }
+                    }
+                })
             }
-            //TODO : Call below code after successfull payment
-//            if (isValid()) {
-//                getViewModel().applyForDebitCart().observe(this, androidx.lifecycle.Observer {
-//                    it?.let { apiResponse ->
-//                        context?.simpleAlert(App.INSTANCE.getString(R.string.success_), App.INSTANCE.getString(R.string.debit_cart_request_sent)) {
-//                            onBack(2)
-//                        }
-//                    }
-//                })
-//            }
         }
     }
 

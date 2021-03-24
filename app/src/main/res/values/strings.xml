@@ -538,7 +538,7 @@
     <string name="income_slab_">Annual Income*</string>
     <string name="go_back_from_bank">Are you sure you want to go back?</string>
     <string name="alert_are_you_sure_to_delete_transactions">Are you sure you want to Delete the Selected Transaction Records?</string>
-    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.\n\nA small processing fee of Rs %s will be charged when you complete your debit card application.</string>
+    <string name="debit_cart_info">When you make an investment in Nippon India Liquid Fund using Tarrakki, you are eligible to apply for a Nippon Anytime Money Card, powered by Tarrakki, Nippon India Liquid Fund, and Visa.\n\nThis card is linked to the Nippon India Liquid Fund investment, and allows you to instantly withdraw or spend money against your mutual fund investment. The card is valid at Visa enabled ATMs and merchant outlets all over India.\n\nThis card will be shipped to the address mentioned as per your KYC records.</string>
     <string name="apply_for_debit_cart">Apply for Debit Card</string>
     <string name="apply_now">Apply Now</string>
     <string name="apply">Apply</string>
@@ -550,7 +550,7 @@
     <string name="what_is_tarrakki_zyaada_details">
         When you park your money in Tarrakki Zyaada, your money will be invested in the Nippon India Liquid Fund, which can give you potentially higher returns than your Bank Savings Account or a Fixed Deposit.
         \n\nWith your Tarrakki Zyaada investment, you get a Nippon Anytime Money Card, powered by HDFC Bank and Visa. This card enables you to use the money you have invested, should you want to. You can link this card to your online shopping account, use it for your Uber/Ola rides, and even book movie tickets online. It literally acts like a Bank Debit Card.
-        \n\nThis card is linked to your investment in Nippon India Liquid Fund and allows you to instantly withdraw or spend money against your Mutual Fund investment. This card is valid at Visa enabled ATMs and merchant outlets all over India. There are no charges of using the card at any ATM or Visa point of sale in India. Tarrakki charges a one-time card processing fee of Rs %s when you apply for the Visa Debit Card. These fees help us provide you the best customer support.
+        \n\nThis card is linked to your investment in Nippon India Liquid Fund and allows you to instantly withdraw or spend money against your Mutual Fund investment. This card is valid at Visa enabled ATMs and merchant outlets all over India. There are no charges of using the card at any ATM or Visa point of sale in India.
         \n\nIt\'s like parking your money in a bank savings account, but with the opportunity to earn almost double the returns.
     </string>
     <string name="where_is_my_money_invested">Where is my money invested?</string>
