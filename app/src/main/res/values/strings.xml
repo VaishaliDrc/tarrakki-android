@@ -186,6 +186,25 @@
     <string name="enter_otp">Enter OTP*</string>
     <string name="pan_number">PAN Number</string>
     <string name="mobile_number">Mobile Number</string>
+
+
+    <string name="we_have_sent_otp">We have sent you OTP on %1$s</string>
+    <string name="did_not_receive_otp">Didn\'t Receive OTP?</string>
+    <string name="resend">Resend</string>
+    <string name="send_otp_via_call">Send OTP via call</string>
+    <string name="we_promise_not_spam">We promise not spam you</string>
+    <string name="continues">Continue</string>
+    <string name="enter_email_address_otp">Enter email address OTP</string>
+    <string name="enter_mobile_otp">Enter mobile number OTP</string>
+    <string name="your_registration_is_almost">Your registration is almost complete</string>
+    <string name="enter_your_mobile">Enter your mobile number</string>
+    <string name="enter_your_email">Enter your email address</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="enter_your_email_or_mobile">Enter your email address or mobile number</string>
+    <string name="by_continue_terms_and_policy">By continuing, I agree to the Terms &amp; conditions and privacy policy</string>
+
+
     <string name="read_more">Read More</string>
     <string name="standard_deviation">Standard Deviation(5yr)</string>
     <string name="share">Share</string>
@@ -453,6 +472,7 @@
     <string name="pls_enter_password">Please enter Password.</string>
     <string name="pls_enter_mobile_number">Please enter Mobile Number.</string>
     <string name="pls_enter_valid_indian_mobile_number">Please enter a valid Indian Mobile Number.</string>
+    <string name="pls_enter_valid_mobile_number_or_email">Please enter a valid Email or Indian Mobile Number.</string>
     <string name="pls_enter_confirm_password">Please enter Confirm Password.</string>
     <string name="send_nach_mandate_form_email">Send NACH Mandate Form Via Email</string>
     <string name="download_nach_mandate_form">Download NACH Mandate Form</string>
@@ -818,6 +838,7 @@
     <string name="on_call_appointment">On Call Appointment with a Wealth Manager (Monthly)</string>
     <string name="portfolio_analytics">Portfolio Analytics</string>
     <string name="choose_plan">Choose a plan</string>
+    <string name="fees_for_investments">*Fees for investments upro Rs 1Cr</string>
     <string name="months"> Months</string>
     <string name="total_price">Total Price \u20B9</string>
     <string name="three_month">3 Month</string>

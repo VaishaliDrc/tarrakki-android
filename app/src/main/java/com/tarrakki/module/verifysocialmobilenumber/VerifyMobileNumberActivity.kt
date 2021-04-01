@@ -1,0 +1,268 @@
+package com.tarrakki.module.verifysocialmobilenumber
+
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.View
+import androidx.lifecycle.Observer
+import com.tarrakki.App
+import com.tarrakki.R
+import com.tarrakki.api.model.ApiResponse
+import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.model.toDecrypt
+import com.tarrakki.databinding.ActivityVerifyMobileNumberBinding
+import com.tarrakki.fcm.onSignUpEventFire
+import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.*
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvResendOtp
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.json.JSONObject
+import org.supportcompact.CoreActivity
+import org.supportcompact.ktx.*
+
+class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVerifyMobileNumberBinding>() {
+
+    var data: JSONObject? = null
+    var userOtp: String = ""
+
+    override fun getLayout(): Int {
+        return R.layout.activity_verify_mobile_number
+    }
+
+    override fun createViewModel(): Class<out VerifySocialMobileVM> {
+        return VerifySocialMobileVM::class.java
+    }
+
+    override fun setVM(binding: ActivityVerifyMobileNumberBinding) {
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
+    }
+
+    override fun createReference() {
+
+        getViewModel().resendOtpObserver.observe { second ->
+            if (second <= 0) {
+                tvTimer.visibility = View.INVISIBLE
+                tvResendOtp.isClickable = true
+                tvSendOtpViaCall.isClickable = true
+
+            } else {
+                tvTimer.visibility = View.VISIBLE
+                tvTimer.text = "00:$second"
+                tvResendOtp.isClickable = false
+                tvSendOtpViaCall.isClickable = false
+            }
+        }
+
+        getViewModel().startTimer(45)
+
+        val getOtp = Observer<ApiResponse> { apiResponse ->
+            apiResponse?.let { response ->
+                response.printResponse();
+                val json = JSONObject(response.data?.toDecrypt())
+                //getViewModel().otp.set(json.optString("otp"))
+
+            }
+        }
+
+        setFocuseListener()
+        ivBack.setOnClickListener {
+            finish()
+        }
+        if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+            data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
+            data?.optString("mobile")?.let {
+                if(data?.optString("mobile").toString().isNotEmpty())
+                etMobile.setText("+91 ${data!!.optString("mobile")}")
+            }
+        }
+
+        btnContinue.setOnClickListener {
+            it.dismissKeyboard()
+            if (isValidOTP()) {
+                getViewModel().getOTP.value?.let { otp ->
+                    otp.data?.let { it1 ->
+                        getViewModel().verifySocialOTP(userOtp, it1).observe(this, Observer { signUpResponse ->
+                            signUpResponse?.let {
+                                signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                var bundle = Bundle()
+                                signUpResponse.userId?.let { it1 ->
+                                    setUserId(it1)
+//                                                    onSignUpEventFire(it1)
+                                    bundle.putString("user_id", it1)
+                                }
+                                signUpResponse.email?.let { it1 ->
+                                    setEmail(it1)
+                                    bundle.putString("email_id", it1)
+                                }
+
+                                signUpResponse.mobile?.let { it1 ->
+                                    setMobile(it1)
+                                    bundle.putString("mobile_number", it1)
+                                }
+                                onSignUpEventFire(bundle)
+                                signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                                signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                                signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                                signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
+                                signUpResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
+                                signUpResponse.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
+                                setSocialLogin(true)
+                                setIsLogin(true)
+                                startActivity<HomeActivity>()
+                                finishAffinity()
+                            }
+                        })
+                    }
+                }
+            }
+
+        }
+
+        tvResendOtp.setOnClickListener {
+            getViewModel().startTimer(46)
+            if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+                getViewModel().getOTP.value?.let { otp ->
+                    otp.data?.let { it1 ->
+                        getViewModel().getNewOTP(it1).observe(this, getOtp)
+                    }
+                }
+            }
+        }
+        tvSendOtpViaCall.setOnClickListener {
+            getViewModel().startTimer(46)
+            if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
+                getViewModel().getOTP.value?.let { otp ->
+                    otp.data?.let { it1 ->
+                        getViewModel().getCallOTP(it1).observe(this, getOtp)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    private fun isValidOTP(): Boolean {
+        if ((etOTPOne.text.toString() + etOTPTwo.text.toString() + etOTPThree.text.toString() + etOTPFour.text.toString() + etOTPFive.text.toString() + etOTPSix.text.toString()).length == 6) {
+            userOtp = (etOTPOne.text.toString() + etOTPTwo.text.toString() + etOTPThree.text.toString() + etOTPFour.text.toString() + etOTPFive.text.toString() + etOTPSix.text.toString())
+            return true
+        } else {
+            simpleAlert(getString(R.string.alert_req_otp))
+            return false
+        }
+
+    }
+
+    private fun setFocuseListener() {
+
+        etOTPOne.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPOne.text.length == 1) {
+                    etOTPTwo.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+        etOTPTwo.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPTwo.text.length == 1) {
+                    etOTPThree.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+
+        etOTPThree.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPThree.text.length == 1) {
+                    etOTPFour.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+
+        etOTPFour.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPFour.text.length == 1) {
+                    etOTPFive.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+
+        etOTPFive.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPFive.text.length == 1) {
+                    etOTPSix.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+
+        etOTPSix.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (etOTPFive.text.length == 1) {
+                    //  etOTPSix.clearFocus()
+
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
+                                           after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
+                                       count: Int) {
+            }
+        })
+
+
+    }
+
+    @Subscribe(sticky = true)
+    fun onReceive(apiResponse: ApiResponse) {
+        if (getViewModel().getOTP.value == null) {
+            getViewModel().getOTP.value = apiResponse
+            EventBus.getDefault().removeStickyEvent(apiResponse)
+        }
+    }
+}

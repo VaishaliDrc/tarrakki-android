@@ -93,6 +93,18 @@
                 tools:listitem="@layout/row_tarrakki_pro_plan" />
 
 
+            <TextView
+                android:id="@+id/tvFeesInfo"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12ssp"
+                android:text="@string/fees_for_investments"
+                app:layout_constraintTop_toBottomOf="@+id/rvProPlan"
+                app:layout_constraintStart_toStartOf="@+id/rvProPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
 
 
 

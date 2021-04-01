@@ -51,6 +51,11 @@ interface WebserviceBuilder {
     @POST("users/get_otp/")
     fun verifyOTP(@Field("data") data: String): Observable<ApiResponse>
 
+
+    @FormUrlEncoded
+    @POST("users/verify-otp/")
+    fun verifyMobileOrEmailOTP(@Field("data") data: String): Observable<ApiResponse>
+
     @GET("fund-details/get_fund/")
     fun getFunds(@Query("data") data: String): Observable<ApiResponse>
 
@@ -229,7 +234,11 @@ interface WebserviceBuilder {
 
     @FormUrlEncoded
     @POST("users/social_auth/")
-    fun socialSignUp(@Field("data") data: String): Observable<ApiResponse>
+    fun socialSignUp(@Field("data") data: String): Observable<ApiResponse>@FormUrlEncoded
+
+
+    @POST("users/signup-signin/")
+    fun simpleSingupSignin(@Field("data") data: String): Observable<ApiResponse>
 
     @POST("users/logout/{user_id}")
     fun logout(@Path("user_id") userId: String?): Observable<ApiResponse>

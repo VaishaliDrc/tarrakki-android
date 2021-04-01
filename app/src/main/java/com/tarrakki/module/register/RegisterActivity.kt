@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_register.edtPassword
 import kotlinx.android.synthetic.main.activity_register.llGpl
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreActivity
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 
 const val SIGNUP_DATA = "signup_data"
@@ -71,6 +72,7 @@ class RegisterActivity : CoreActivity<RegisterVM, ActivityRegisterBinding>(), Go
 
             override fun onClick(widget: View) {
                 startActivity<CMSPagesActivity>()
+                postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
             }
 
             override fun updateDrawState(ds: TextPaint) {

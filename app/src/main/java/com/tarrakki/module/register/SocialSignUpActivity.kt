@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_social_sign_up.*
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 
 const val SOACIAL_SIGNUP_DATA = "social_signup_data"
@@ -48,6 +49,7 @@ class SocialSignUpActivity : CoreActivity<RegisterVM, ActivitySocialSignUpBindin
 
             override fun onClick(widget: View) {
                 startActivity<CMSPagesActivity>()
+                postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
             }
 
             override fun updateDrawState(ds: TextPaint) {

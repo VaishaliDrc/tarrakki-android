@@ -18,7 +18,7 @@ class CMSPagesActivity : BaseActivity() {
         super.createReference()
         getViewModel().footerVisibility.set(View.GONE)
         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
-        postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
+      //  postSticky(Event.TERMS_AND_CONDITIONS_PAGE)
     }
 
     override fun onBackPressed() {

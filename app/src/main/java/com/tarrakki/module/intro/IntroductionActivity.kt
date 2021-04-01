@@ -9,6 +9,7 @@ import com.tarrakki.checkAppUpdate
 import com.tarrakki.databinding.ActivityInroductionBinding
 import com.tarrakki.databinding.LayoutIntroducationItemBinding
 import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.login.NewLoginActivity
 import com.tarrakki.module.register.RegisterActivity
 import kotlinx.android.synthetic.main.activity_inroduction.*
 import org.supportcompact.CoreActivity
@@ -35,7 +36,7 @@ class IntroductionActivity : CoreActivity<IntroducationVM, ActivityInroductionBi
 
         btn_existing_user?.setOnClickListener {
             setFirsttimeInstalled(false)
-            startActivity<LoginActivity>()
+            startActivity<NewLoginActivity>()
             finish()
         }
         btn_new_user?.setOnClickListener {

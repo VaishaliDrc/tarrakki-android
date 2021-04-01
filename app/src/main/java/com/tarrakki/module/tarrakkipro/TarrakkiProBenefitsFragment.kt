@@ -74,6 +74,7 @@ class TarrakkiProBenefitsFragment : CoreFragment<TarrakkiProVM, FragmentTarrakki
             it?.let { data ->
                 data.tarrakkiProAndEquityPriceData?.let { price ->
                     rvProPlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
+                    tvFeesInfo.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
                     tvChoosePlan.visibility = if (price.isTarrakkiPro!!) View.GONE else View.VISIBLE
                     tvMsgPlan.visibility = if (price.isTarrakkiPro!!) View.VISIBLE else View.GONE
                     tvMsgPlan.text = if (price.isTarrakkiPro!!) price.msgForTarrakkiPro else ""
