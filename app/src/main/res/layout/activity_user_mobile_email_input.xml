@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.tarrakki.module.verifymobileoremail.VerifyMobileOrEmailVM" />
+            type="com.tarrakki.module.verifymobileoremail.UserMobileEmailInputVM" />
     </data>
 
     <ScrollView
@@ -33,7 +33,7 @@
 
             <EditText
                 android:layout_marginTop="@dimen/_35sdp"
-                android:id="@+id/etFirstname"
+                android:id="@+id/etFirstName"
                 android:maxEms="15"
                 android:maxLength="15"
                 android:gravity="center_vertical"
@@ -67,7 +67,7 @@
                 android:gravity="center_vertical"
                 android:layout_width="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/etFirstname"
+                app:layout_constraintStart_toEndOf="@+id/etFirstName"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_20sdp"

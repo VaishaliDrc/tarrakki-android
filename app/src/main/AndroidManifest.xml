@@ -44,7 +44,8 @@
         tools:node="merge"
         tools:replace="android:allowBackup,android:name,android:label"
         tools:targetApi="p">
-        <activity android:name=".module.verifymobileoremail.UserMobileEmailInputActivity"></activity>
+        <activity android:name=".module.setpassword.SetPasswordActivity"></activity>
+        <activity android:name=".module.verifymobileoremail.UserMobileEmailInputActivity" />
         <activity android:name=".module.verifymobileoremail.VerifyMobileOrEmailActivity" />
         <activity android:name=".module.checkkycstatusbypan.CheckKYCStatusByPAN" />
         <activity android:name=".module.verifysocialmobilenumber.EnterMobileNumberActivity" />

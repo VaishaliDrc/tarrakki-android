@@ -56,6 +56,9 @@ interface WebserviceBuilder {
     @POST("users/verify-otp/")
     fun verifyMobileOrEmailOTP(@Field("data") data: String): Observable<ApiResponse>
 
+    @GET("users/verify-otp/")
+    fun sendOTPWithUserData(@Query("data") data: String): Observable<ApiResponse>
+
     @GET("fund-details/get_fund/")
     fun getFunds(@Query("data") data: String): Observable<ApiResponse>
 

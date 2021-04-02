@@ -1,77 +1,67 @@
-package com.tarrakki.module.verifysocialmobilenumber
+package com.tarrakki.module.setpassword
 
-import android.os.Handler
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.JsonObject
-import com.tarrakki.App
-import com.tarrakki.BuildConfig
-import com.tarrakki.R
+import com.tarrakki.*
 import com.tarrakki.api.*
 import com.tarrakki.api.model.*
-import com.tarrakki.isTarrakki
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.e
+import org.supportcompact.ktx.*
 import kotlin.concurrent.thread
 
-class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
+class SetPasswordVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
-    val resendOtpObserver = ObservableField(45)
-    var resendOtpTimer = 45
-    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
-    val getOTP = MutableLiveData<ApiResponse>()
-    val otpId = ObservableField("")
+    /*val userName = ObservableField("saumya.shah@gmail.com")
+    val password = ObservableField("Drc@1234")*/
+    val userName = ObservableField("")
+    val password = ObservableField("")
     val email = ObservableField("")
+    val mobile = ObservableField("")
+    val token = ObservableField("")
+    val onLogin = MutableLiveData<LoginResponse>()
+    val isTarrakki = BuildConfig.FLAVOR.isTarrakki()
+    val isPasswordShow = ObservableField(false)
+    val onSignUp = MutableLiveData<SignUpresponse>()
 
 
-    fun socialSignUp(json: JSONObject): MutableLiveData<ApiResponse> {
-        val getOTP = MutableLiveData<ApiResponse>()
+    fun doLogin(): MutableLiveData<LoginResponse> {
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        val json = JsonObject()
+        json.addProperty("username", "${userName.get()}")
+        json.addProperty("password", "${password.get()}")
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+
         e("Plain Data=>", json.toString())
-        val data = AES.encrypt(json.toString())
-        e("Encrypted Data=>", data)
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).socialSignUp(data),
-                apiNames = WebserviceBuilder.ApiNames.onSignUp,
-                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
-                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
-                        if (o is ApiResponse) {
-                            o.printResponse()
-                            if (o.status?.code == 2) {
-                                getOTP.value = o
-                            } else {
-                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
-                            }
-                        } else {
-                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
-                        }
-                    }
-
-                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
-                        EventBus.getDefault().post(DISMISS_PROGRESS)
-                        EventBus.getDefault().post(ShowError("${throwable.message}"))
-                    }
-                }
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).onLogin(authData),
+                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                singleCallback = this@SetPasswordVM
         )
-        return getOTP
+        return onLogin
     }
 
-    fun verifySocialOTP(otp:String,encryptedData: String): MutableLiveData<SignUpresponse> {
-        val onSignUp = MutableLiveData<SignUpresponse>()
+
+
+    fun onSignUp(): MutableLiveData<SignUpresponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
-        val json = JSONObject(encryptedData.toDecrypt())
-        json.put("otp", otp)
-        val data = json.toString().toEncrypt()
-        e("Plain Data=>", data.toDecrypt())
-        e("Encrypted Data=>", data)
+        val json = JsonObject()
+        json.addProperty("email", "${email.get()}".toLowerCase().trim())
+        json.addProperty("mobile", "${mobile.get()}")
+        json.addProperty("password", "${password.get()}")
+        json.addProperty("promocode", "")
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
         subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).verifyOTP(data),
-                apiNames = WebserviceBuilder.ApiNames.verifyOTP,
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).onSignUp(authData),
+                apiNames = WebserviceBuilder.ApiNames.onSignUp,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
@@ -97,56 +87,10 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         return onSignUp
     }
 
-    fun startTimer(timeLimit : Int){
-        resendOtpTimer = timeLimit
-        val handler = Handler()
-        val r: Runnable = object : Runnable {
-            override fun run() {
-                resendOtpTimer--
-                resendOtpObserver.set(resendOtpTimer)
-                if (resendOtpTimer <= 0){
-                    handler.removeCallbacks(this)
-                }else {
-                    handler.postDelayed(this, 1000)
-                }
-            }
-        }
-        handler.postDelayed(r, 1000)
-    }
 
-    fun getNewOTP(encryptedData: String): MutableLiveData<ApiResponse> {
-        EventBus.getDefault().post(SHOW_PROGRESS)
-        val json = JSONObject(encryptedData.toDecrypt())
-        val data = json.toString().toEncrypt()
-        e("Plain Data=>", data.toDecrypt())
-        e("Encrypted Data=>", data)
-        subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
-                apiNames = WebserviceBuilder.ApiNames.getOTP,
-                singleCallback = this@VerifySocialMobileVM
-        )
-        return getOTP
-    }
-
-    fun getCallOTP(encryptedData: String): MutableLiveData<ApiResponse> {
-        EventBus.getDefault().post(SHOW_PROGRESS)
-        val json = JSONObject(encryptedData.toDecrypt())
-
-        val data = json.toString().toEncrypt()
-        json.put("voice", true)
-        e("Plain Data=>", data.toDecrypt())
-        e("Encrypted Data=>", data)
-        subscribeToSingle(
-                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
-                apiNames = WebserviceBuilder.ApiNames.getOTP,
-                singleCallback = this@VerifySocialMobileVM
-        )
-        return getOTP
-    }
-
-    fun forgotPasswordSendOTP(): MutableLiveData<ForgotPasswordEmailResponse> {
+    fun forgotPassword(): MutableLiveData<ForgotPasswordEmailResponse> {
         val json = JsonObject()
-        json.addProperty("email", "${email.get()}".toLowerCase().trim())
+        json.addProperty("email", "${userName.get()}".toLowerCase().trim())
         json.addProperty("type", "forgot_password")
         val data = json.toString().toEncrypt()
         json.printRequest()
@@ -185,18 +129,18 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         return apiResponse
     }
 
-    fun forgotPasswordVerifyOTP(otp: String?, otpId: String?): MutableLiveData<ForgotPasswordVerifyOtpResponse> {
+    fun resetPassword(): MutableLiveData<ApiResponse> {
         val json = JsonObject()
-        json.addProperty("otp", otp)
-        json.addProperty("otp_id", otpId)
+        json.addProperty("token",token.get().toString())
+        json.addProperty("password", password.get().toString())
         val data = json.toString().toEncrypt()
 
-        val apiResponse = MutableLiveData<ForgotPasswordVerifyOtpResponse>()
+        val apiResponse = MutableLiveData<ApiResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java)
-                        .verifyForgotOTP(data),
-                apiNames = WebserviceBuilder.ApiNames.forgotPassword,
+                        .resetPassword(data),
+                apiNames = WebserviceBuilder.ApiNames.resetPassword,
                 singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
                     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
                         EventBus.getDefault().post(DISMISS_PROGRESS)
@@ -204,10 +148,7 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
                             e("Api Response=>${o.data?.toDecrypt()}")
                             o.printResponse()
                             if (o.status?.code == 1) {
-                                thread {
-                                    val forgotPasswordVerifyOTP = o.data?.parseTo<ForgotPasswordVerifyOtpResponse>()
-                                    apiResponse.postValue(forgotPasswordVerifyOTP)
-                                }
+                                apiResponse.value = o
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -227,16 +168,13 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
 
 
 
-
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         if (o is ApiResponse) {
-            if ((o.status?.code == 1)) {
-                when (apiNames) {
-                    WebserviceBuilder.ApiNames.getOTP -> {
-                        getOTP.value = o
-                    }
-                }
+            o.printResponse()
+            if (o.status?.code == 1) {
+                val data = o.data?.parseTo<LoginResponse>()
+                onLogin.value = data
             } else {
                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
             }
@@ -249,7 +187,4 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         EventBus.getDefault().post(DISMISS_PROGRESS)
         EventBus.getDefault().post(ShowError("${throwable.message}"))
     }
-
-
-
 }

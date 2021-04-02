@@ -1,11 +1,13 @@
 package com.tarrakki.module.verifysocialmobilenumber
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.api.model.ApiResponse
@@ -13,9 +15,16 @@ import com.tarrakki.api.model.printResponse
 import com.tarrakki.api.model.toDecrypt
 import com.tarrakki.databinding.ActivityVerifyMobileNumberBinding
 import com.tarrakki.fcm.onSignUpEventFire
+import com.tarrakki.module.forgotpassword.FORGOTPASSWORD_DATA
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.login.LOGIN_DATA
+import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
+import com.tarrakki.module.resetPassword.ResetPasswordActivity
+import com.tarrakki.module.setpassword.SetPasswordActivity
+import kotlinx.android.synthetic.main.activity_new_login.*
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.*
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.btnContinue
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvResendOtp
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -80,43 +89,63 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             }
         }
 
+        if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
+            data = JSONObject(intent.getStringExtra(FORGOTPASSWORD_DATA))
+            getViewModel().email.set(data?.optString("email").toString())
+            getViewModel().otpId.set(data?.optString("otp_id").toString())
+            //getViewModel().otp.set(data?.optString("otp").toString())
+        }
+
         btnContinue.setOnClickListener {
             it.dismissKeyboard()
             if (isValidOTP()) {
-                getViewModel().getOTP.value?.let { otp ->
-                    otp.data?.let { it1 ->
-                        getViewModel().verifySocialOTP(userOtp, it1).observe(this, Observer { signUpResponse ->
-                            signUpResponse?.let {
-                                signUpResponse.token?.let { it1 -> setLoginToken(it1) }
-                                var bundle = Bundle()
-                                signUpResponse.userId?.let { it1 ->
-                                    setUserId(it1)
+                if (intent.hasExtra(SIGNUP_DATA)) {
+                    getViewModel().getOTP.value?.let { otp ->
+                        otp.data?.let { it1 ->
+                            getViewModel().verifySocialOTP(userOtp, it1).observe(this, Observer { signUpResponse ->
+                                signUpResponse?.let {
+                                    signUpResponse.token?.let { it1 -> setLoginToken(it1) }
+                                    var bundle = Bundle()
+                                    signUpResponse.userId?.let { it1 ->
+                                        setUserId(it1)
 //                                                    onSignUpEventFire(it1)
-                                    bundle.putString("user_id", it1)
-                                }
-                                signUpResponse.email?.let { it1 ->
-                                    setEmail(it1)
-                                    bundle.putString("email_id", it1)
-                                }
+                                        bundle.putString("user_id", it1)
+                                    }
+                                    signUpResponse.email?.let { it1 ->
+                                        setEmail(it1)
+                                        bundle.putString("email_id", it1)
+                                    }
 
-                                signUpResponse.mobile?.let { it1 ->
-                                    setMobile(it1)
-                                    bundle.putString("mobile_number", it1)
+                                    signUpResponse.mobile?.let { it1 ->
+                                        setMobile(it1)
+                                        bundle.putString("mobile_number", it1)
+                                    }
+                                    onSignUpEventFire(bundle)
+                                    signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
+                                    signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
+                                    signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
+                                    signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
+                                    signUpResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
+                                    signUpResponse.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
+                                    setSocialLogin(true)
+                                    setIsLogin(true)
+                                    startActivity<HomeActivity>()
+                                    finishAffinity()
                                 }
-                                onSignUpEventFire(bundle)
-                                signUpResponse.isMobileVerified?.let { it1 -> setMobileVerified(it1) }
-                                signUpResponse.isEmailActivated?.let { it1 -> setEmailVerified(it1) }
-                                signUpResponse.isKycVerified?.let { it1 -> setKYClVarified(it1) }
-                                signUpResponse.completeRegistration?.let { it1 -> setCompletedRegistration(it1) }
-                                signUpResponse.kycStatus?.let { App.INSTANCE.setKYCStatus(it) }
-                                signUpResponse.isRemainingFields?.let { App.INSTANCE.setRemainingFields(it) }
-                                setSocialLogin(true)
-                                setIsLogin(true)
-                                startActivity<HomeActivity>()
-                                finishAffinity()
-                            }
-                        })
+                            })
+                        }
                     }
+                }
+                if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
+                    getViewModel().forgotPasswordVerifyOTP(userOtp, getViewModel().otpId.get()).observe(this,
+                            Observer { apiResponse ->
+                                val json = JsonObject()
+                                json.addProperty("token", apiResponse?.token)
+                                val intent = Intent(this, SetPasswordActivity::class.java)
+                                intent.putExtra(FORGOTPASSWORD_DATA, json.toString())
+                                startActivity(intent)
+                                finish()
+                            })
                 }
             }
 
@@ -128,22 +157,29 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
                         getViewModel().getNewOTP(it1).observe(this, getOtp)
+                        simpleAlert(getString(R.string.resend_otp_alert))
                     }
                 }
             }
+            if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
+                getViewModel().forgotPasswordSendOTP().observe(this, Observer { apiResponse ->
+                    getViewModel().otpId.set(apiResponse?.otpId.toString())
+                    //getViewModel().otp.set(apiResponse?.otp.toString())
+                })
+            }
         }
+
         tvSendOtpViaCall.setOnClickListener {
             getViewModel().startTimer(46)
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
                         getViewModel().getCallOTP(it1).observe(this, getOtp)
+                        simpleAlert(getString(R.string.call_submitted))
                     }
                 }
             }
         }
-
-
     }
 
     private fun isValidOTP(): Boolean {

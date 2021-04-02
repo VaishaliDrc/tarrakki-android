@@ -3,6 +3,7 @@ package com.tarrakki.module.verifymobileoremail
 import android.os.Handler
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.BuildConfig
 import com.tarrakki.R
@@ -13,9 +14,7 @@ import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
 import org.supportcompact.ActivityViewModel
 import org.supportcompact.events.ShowError
-import org.supportcompact.ktx.DISMISS_PROGRESS
-import org.supportcompact.ktx.SHOW_PROGRESS
-import org.supportcompact.ktx.e
+import org.supportcompact.ktx.*
 
 class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiNames> {
 
@@ -32,17 +31,26 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
     val getOTP = MutableLiveData<ApiResponse>()
 
 
-    fun verifyEmailOrMobileOTP(otp:String): MutableLiveData<OTPVerifyResponse> {
+    fun verifyEmailOrMobileOTP(otp: String): MutableLiveData<OTPVerifyResponse> {
         val onVerified = MutableLiveData<OTPVerifyResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JSONObject()
         json.put("otp", otp)
         json.put("otp_id", otpId.get())
-        if(isEmailVerified.get()!!){
+
+        if (!isEmailVerified.get()!! && !isMobileVerified.get()!!) {
+            if (hasEmail.get()!!) {
+                json.put("email", email.get())
+                json.put("type", "email_signup")
+            } else {
+                json.put("mobile", mobile.get())
+                json.put("type", "mobile_signup")
+            }
+        } else if (isEmailVerified.get()!!) {
             json.put("mobile", mobile.get())
             json.put("type", "mobile_signup")
-        }else{
-            json.put("mobile", email.get())
+        } else {
+            json.put("email", email.get())
             json.put("type", "email_signup")
         }
 
@@ -77,16 +85,108 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
         return onVerified
     }
 
-    fun startTimer(timeLimit : Int){
+
+    fun resendOTP(): MutableLiveData<ApiResponse> {
+        /***
+        call API to resend otp to mobile or email
+         * */
+        showProgress()
+        val json = JsonObject()
+        var emailOrMobile = ""
+        if (!isEmailVerified.get()!! && !isMobileVerified.get()!!) {
+            if (hasEmail.get()!!) {
+                emailOrMobile = email.get()!!
+            } else {
+                emailOrMobile = mobile.get()!!
+            }
+        } else if (isEmailVerified.get()!!) {
+            emailOrMobile = mobile.get()!!
+        } else {
+            emailOrMobile = email.get()!!
+        }
+        json.addProperty("email_or_mobile", emailOrMobile)
+        // json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).simpleSingupSignin(authData),
+                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                                val response = o.data?.parseTo<NormalLoginResponse>()!!.loginData
+                                otpId.set(response?.otpId)
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        this@VerifyMobileOrEmailVM.onFailure(throwable, apiNames)
+                    }
+                }
+        )
+        return getOTP
+    }
+
+    fun sendOTpViaCall(): MutableLiveData<ApiResponse> {
+        /***
+        call API to resend otp to mobile or email
+         * */
+        showProgress()
+        val json = JsonObject()
+        json.addProperty("email_or_mobile", mobile.get())
+        json.addProperty("voice", true)
+
+        // json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+
+        e("Plain Data=>", json.toString())
+        val authData = AES.encrypt(json.toString())
+        e("Encrypted Data=>", authData)
+        subscribeToSingle(
+                observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).simpleSingupSignin(authData),
+                apiNames = WebserviceBuilder.ApiNames.onLogin,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        dismissProgress()
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                                val response = o.data?.parseTo<NormalLoginResponse>()!!.loginData
+                                otpId.set(response?.otpId)
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        this@VerifyMobileOrEmailVM.onFailure(throwable, apiNames)
+                    }
+                }
+        )
+        return getOTP
+    }
+
+
+    fun startTimer(timeLimit: Int) {
         resendOtpTimer = timeLimit
         val handler = Handler()
         val r: Runnable = object : Runnable {
             override fun run() {
                 resendOtpTimer--
                 resendOtpObserver.set(resendOtpTimer)
-                if (resendOtpTimer <= 0){
+                if (resendOtpTimer <= 0) {
                     handler.removeCallbacks(this)
-                }else {
+                } else {
                     handler.postDelayed(this, 1000)
                 }
             }
@@ -125,7 +225,6 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
     }
 
 
-
     override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
         EventBus.getDefault().post(DISMISS_PROGRESS)
         if (o is ApiResponse) {
@@ -147,7 +246,6 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
         EventBus.getDefault().post(DISMISS_PROGRESS)
         EventBus.getDefault().post(ShowError("${throwable.message}"))
     }
-
 
 
 }

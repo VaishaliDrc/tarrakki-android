@@ -1,11 +1,13 @@
 package com.tarrakki.module.verifymobileoremail
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
+import com.google.gson.JsonObject
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.ActivityEnterMobileNumberBinding
@@ -13,8 +15,10 @@ import com.tarrakki.databinding.ActivityVerifyMobileNumberBinding
 import com.tarrakki.databinding.ActivityVerifyMobileOrEmailBinding
 import com.tarrakki.fcm.onSignUpEventFire
 import com.tarrakki.module.home.HomeActivity
+import com.tarrakki.module.login.LoginActivity
 import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
+import com.tarrakki.module.setpassword.SetPasswordActivity
 import com.tarrakki.module.verifysocialmobilenumber.VerifySocialMobileVM
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.*
 import kotlinx.android.synthetic.main.activity_verify_mobile_or_email.*
@@ -38,20 +42,20 @@ import org.supportcompact.ktx.*
 class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, ActivityVerifyMobileOrEmailBinding>() {
 
     var userOtp: String = ""
-        override fun getLayout(): Int {
-            return R.layout.activity_verify_mobile_or_email
-        }
+    override fun getLayout(): Int {
+        return R.layout.activity_verify_mobile_or_email
+    }
 
-        override fun createViewModel(): Class<out VerifyMobileOrEmailVM> {
-            return VerifyMobileOrEmailVM::class.java
-        }
+    override fun createViewModel(): Class<out VerifyMobileOrEmailVM> {
+        return VerifyMobileOrEmailVM::class.java
+    }
 
-        override fun setVM(binding: ActivityVerifyMobileOrEmailBinding) {
-            binding.vm = getViewModel()
-            binding.executePendingBindings()
-        }
+    override fun setVM(binding: ActivityVerifyMobileOrEmailBinding) {
+        binding.vm = getViewModel()
+        binding.executePendingBindings()
+    }
 
-        override fun createReference() {
+    override fun createReference() {
 
         setFocuseListener()
 
@@ -88,7 +92,7 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             getViewModel().otpId.set(data.optInt("otp_id"))
         }
 
-        if (!getViewModel().isMobileVerified.get()!! && !getViewModel().isMobileVerified.get()!!) {
+        if (!getViewModel().isMobileVerified.get()!! && !getViewModel().isEmailVerified.get()!!) {
             if (getViewModel().hasEmail.get()!!) {
                 tvOtpSent.visibility = View.VISIBLE
                 tvSendOtpViaCall.visibility = View.GONE
@@ -123,14 +127,38 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             if (isValidOTP()) {
                 getViewModel().verifyEmailOrMobileOTP(userOtp).observe(this, Observer { verificationResponse ->
                     verificationResponse?.let {
-                        if(it.isEmailVerified || it.isMobileVerified){
-                            startActivity<UserMobileEmailInputActivity>()
+                        val json = JsonObject()
+                        if (it.isEmailVerified && it.isMobileVerified) {
+                            json.addProperty("email", it.email)
+                            json.addProperty("mobile", it.mobile)
+                            val intent = Intent(this, SetPasswordActivity::class.java)
+                            intent.putExtra(SIGNUP_DATA, json.toString())
+                            startActivity(intent)
+                            finish()
+                        } else if (it.isEmailVerified || it.isMobileVerified) {
+                            json.addProperty("email", it.email)
+                            json.addProperty("mobile", it.mobile)
+                            json.addProperty("is_email_verified", it.isEmailVerified)
+                            json.addProperty("is_mobile_verified", it.isMobileVerified)
+                            val intent = Intent(this, UserMobileEmailInputActivity::class.java)
+                            intent.putExtra(SIGNUP_DATA, json.toString())
+                            startActivity(intent)
                             finish()
                         }
 
                     }
                 })
             }
+        }
+
+        tvResendOtp.setOnClickListener {
+            getViewModel().startTimer(46)
+            getViewModel().resendOTP()
+        }
+
+        tvSendOtpViaCall.setOnClickListener {
+            getViewModel().startTimer(46)
+            getViewModel().sendOTpViaCall()
         }
 
 

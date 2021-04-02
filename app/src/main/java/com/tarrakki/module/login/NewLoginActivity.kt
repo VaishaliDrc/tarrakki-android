@@ -19,8 +19,10 @@ import com.tarrakki.fcm.onLoginEventFire
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.register.SIGNUP_DATA
 import com.tarrakki.module.register.SOACIAL_SIGNUP_DATA
+import com.tarrakki.module.setpassword.SetPasswordActivity
 import com.tarrakki.module.socialauthhelper.GoogleSignInHelper
 import com.tarrakki.module.socialauthhelper.GoogleSignInListener
+import com.tarrakki.module.verifymobileoremail.UserMobileEmailInputActivity
 import com.tarrakki.module.verifymobileoremail.VerifyMobileOrEmailActivity
 import com.tarrakki.module.verifymobileoremail.VerifyMobileOrEmailVM
 import com.tarrakki.module.verifysocialmobilenumber.EnterMobileNumberActivity
@@ -34,6 +36,7 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.adapters.setPageAdapter
 
+const val LOGIN_DATA = "login_data"
 class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), GoogleSignInListener {
 
     var mGoogleSignInHelper: GoogleSignInHelper? = null
@@ -103,25 +106,43 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
 
         getViewModel().onNormalLogin.observe(this, Observer {
             it?.let { apiResponse ->
-
                 val json = JsonObject()
                 val response = apiResponse.data?.parseTo<NormalLoginResponse>()!!.loginData
-                Log.e("NormalResponse",response.toString())
-                if (response!!.isEmailVerified && response!!.isMobileVerified && !response.isRegistered) {
-
-                } else if (response!!.isEmailVerified || response!!.isMobileVerified) {
-
-                } else {
-                    json.addProperty("is_mobile", response!!.isMobile)
-                    json.addProperty("is_email", response!!.isEmail)
-                    json.addProperty("email", response.email)
-                    json.addProperty("mobile", response.mobile)
-                    json.addProperty("is_email_verified", response.isEmailVerified)
-                    json.addProperty("is_mobile_verified", response.isMobileVerified)
-                    json.addProperty("otp_id", response.otpId)
-                    val intent = Intent(this, VerifyMobileOrEmailActivity::class.java)
-                    intent.putExtra(SIGNUP_DATA, json.toString())
+                if (apiResponse.status?.code == 2) {
+                    json.addProperty("username", etEmail.text.trim().toString())
+                    val intent = Intent(this, SetPasswordActivity::class.java)
+                    intent.putExtra(LOGIN_DATA, json.toString())
                     startActivity(intent)
+
+                } else if (apiResponse.status?.code == 1) {
+
+                    if (response!!.isEmailVerified && response!!.isMobileVerified && !response.isRegistered) {
+                        json.addProperty("email", response.email)
+                        json.addProperty("mobile", response.mobile)
+                        val intent = Intent(this, SetPasswordActivity::class.java)
+                        intent.putExtra(SIGNUP_DATA, json.toString())
+                        startActivity(intent)
+
+                    } else if (response!!.isEmailVerified || response!!.isMobileVerified) {
+                        json.addProperty("email", response.email)
+                        json.addProperty("mobile", response.mobile)
+                        json.addProperty("is_email_verified", response.isEmailVerified)
+                        json.addProperty("is_mobile_verified", response.isMobileVerified)
+                        val intent = Intent(this, UserMobileEmailInputActivity::class.java)
+                        intent.putExtra(SIGNUP_DATA, json.toString())
+                        startActivity(intent)
+                    } else {
+                        json.addProperty("is_mobile", response!!.isMobile)
+                        json.addProperty("is_email", response!!.isEmail)
+                        json.addProperty("email", response.email)
+                        json.addProperty("mobile", response.mobile)
+                        json.addProperty("is_email_verified", response.isEmailVerified)
+                        json.addProperty("is_mobile_verified", response.isMobileVerified)
+                        json.addProperty("otp_id", response.otpId)
+                        val intent = Intent(this, VerifyMobileOrEmailActivity::class.java)
+                        intent.putExtra(SIGNUP_DATA, json.toString())
+                        startActivity(intent)
+                    }
                 }
             }
         })
