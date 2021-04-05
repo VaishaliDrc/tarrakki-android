@@ -44,20 +44,36 @@
         tools:node="merge"
         tools:replace="android:allowBackup,android:name,android:label"
         tools:targetApi="p">
-        <activity android:name=".module.setpassword.SetPasswordActivity"></activity>
-        <activity android:name=".module.verifymobileoremail.UserMobileEmailInputActivity" />
-        <activity android:name=".module.verifymobileoremail.VerifyMobileOrEmailActivity" />
+        <activity
+            android:name=".module.setpassword.SetPasswordActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.verifymobileoremail.UserMobileEmailInputActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.verifymobileoremail.VerifyMobileOrEmailActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".module.checkkycstatusbypan.CheckKYCStatusByPAN" />
-        <activity android:name=".module.verifysocialmobilenumber.EnterMobileNumberActivity" />
+        <activity
+            android:name=".module.verifysocialmobilenumber.EnterMobileNumberActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.verifysocialmobilenumber.VerifyMobileNumberActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" />
         <activity
             android:name=".module.login.NewLoginActivity"
+            android:theme="@style/AppThemeWithSlideAnimation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppWindowBGThem"
             android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" />
         <activity
             android:name=".module.splash.SplashActivity"

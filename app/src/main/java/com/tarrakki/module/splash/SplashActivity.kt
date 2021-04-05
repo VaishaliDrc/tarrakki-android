@@ -12,6 +12,7 @@ import com.tarrakki.R
 import com.tarrakki.isTarrakki
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.intro.IntroductionActivity
+import com.tarrakki.module.login.NewLoginActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.supportcompact.ktx.isLogin
 import org.supportcompact.ktx.printHasKey
@@ -57,7 +58,8 @@ class SplashActivity : AppCompatActivity() {
                 //App.INSTANCE.isLoggedIn.value = isLogin()
                 startActivity<HomeActivity>()
             } else {
-                startActivity<IntroductionActivity>()
+               // startActivity<IntroductionActivity>()
+                startActivity<NewLoginActivity>()
                 //startActivity<MaintenanceActivity>()
             }
             //  }

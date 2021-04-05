@@ -144,10 +144,13 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         return getOTP
     }
 
-    fun forgotPasswordSendOTP(): MutableLiveData<ForgotPasswordEmailResponse> {
+    fun forgotPasswordSendOTP(isCall : Boolean): MutableLiveData<ForgotPasswordEmailResponse> {
         val json = JsonObject()
         json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("type", "forgot_password")
+        if(isCall){
+            json.addProperty("voice", true)
+        }
         val data = json.toString().toEncrypt()
         json.printRequest()
         data.printRequest()

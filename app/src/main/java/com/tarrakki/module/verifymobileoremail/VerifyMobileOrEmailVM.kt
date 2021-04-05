@@ -47,9 +47,11 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
                 json.put("type", "mobile_signup")
             }
         } else if (isEmailVerified.get()!!) {
+            json.put("email", email.get())
             json.put("mobile", mobile.get())
             json.put("type", "mobile_signup")
         } else {
+            json.put("mobile", mobile.get())
             json.put("email", email.get())
             json.put("type", "email_signup")
         }

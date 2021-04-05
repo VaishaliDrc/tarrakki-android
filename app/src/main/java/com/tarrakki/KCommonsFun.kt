@@ -21,6 +21,7 @@ import com.tarrakki.module.home.ISSINGLEINVESTMENT
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.investmentstrategies.SelectInvestmentStrategyFragment
 import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.login.NewLoginActivity
 import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
 import com.tarrakki.module.recommended.RecommendedBaseOnRiskLevelFragment
 import com.tarrakki.module.yourgoal.InitiateYourGoalFragment
@@ -183,7 +184,7 @@ fun Context?.onLogout() {
         it.clearUserData()
         ApiClient.clear()
         EventBus.getDefault().removeAllStickyEvents()
-        startActivity(Intent(it, LoginActivity::class.java))
+        startActivity(Intent(it, NewLoginActivity::class.java))
         androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(it).sendBroadcast(Intent(ACTION_FINISH_ALL_TASK))
     }
 }

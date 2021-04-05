@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentChangePasswordBinding
 import com.tarrakki.module.login.LoginActivity
+import com.tarrakki.module.login.NewLoginActivity
 import kotlinx.android.synthetic.main.fragment_change_password.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.ktx.isValidPassword
@@ -60,7 +61,7 @@ class ChangePasswordFragment : CoreFragment<ChangePasswordVM, FragmentChangePass
                 if (resetPassValidation()) {
                     getViewModel().resetPassword().observe(this, Observer { apiResponse ->
                         context?.simpleAlert(getString(R.string.alert_profile_reset)) {
-                            val intent = Intent(activity, LoginActivity::class.java)
+                            val intent = Intent(activity, NewLoginActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
                         }

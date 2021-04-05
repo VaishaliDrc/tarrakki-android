@@ -109,7 +109,7 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             if (getViewModel().isMobileVerified.get()!!) {
                 tvOtpSent.visibility = View.VISIBLE
                 tvSendOtpViaCall.visibility = View.GONE
-                tvOtpSent.text = resources.getString(R.string.we_have_sent_otp, getViewModel().email)
+                tvOtpSent.text = resources.getString(R.string.we_have_sent_otp, getViewModel().email.get())
                 tvEnterOTP.text = resources.getString(R.string.enter_email_address_otp)
                 tvNotSpam.setCompoundDrawables(null, null, null, null)
                 tvNotSpam.text = resources.getString(R.string.your_registration_is_almost)

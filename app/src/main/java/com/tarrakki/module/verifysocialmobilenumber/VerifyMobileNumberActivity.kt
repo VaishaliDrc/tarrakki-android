@@ -87,12 +87,18 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 if(data?.optString("mobile").toString().isNotEmpty())
                 etMobile.setText("+91 ${data!!.optString("mobile")}")
             }
+            etMobile.visibility = View.VISIBLE
+            tvNotSpam.visibility = View.VISIBLE
+            tvEnterOTP.text = resources.getString(R.string.enter_otp)
         }
 
         if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
             data = JSONObject(intent.getStringExtra(FORGOTPASSWORD_DATA))
             getViewModel().email.set(data?.optString("email").toString())
             getViewModel().otpId.set(data?.optString("otp_id").toString())
+            etMobile.visibility = View.GONE
+            tvNotSpam.visibility = View.GONE
+            tvEnterOTP.text = resources.getString(R.string.enter_otp_sent_on_your_mobile)
             //getViewModel().otp.set(data?.optString("otp").toString())
         }
 
@@ -162,9 +168,9 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 }
             }
             if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
-                getViewModel().forgotPasswordSendOTP().observe(this, Observer { apiResponse ->
+                getViewModel().forgotPasswordSendOTP(false).observe(this, Observer { apiResponse ->
                     getViewModel().otpId.set(apiResponse?.otpId.toString())
-                    //getViewModel().otp.set(apiResponse?.otp.toString())
+                    simpleAlert(getString(R.string.resend_otp_alert))
                 })
             }
         }
@@ -179,6 +185,14 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                     }
                 }
             }
+
+            if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
+                getViewModel().forgotPasswordSendOTP(true).observe(this, Observer { apiResponse ->
+                    getViewModel().otpId.set(apiResponse?.otpId.toString())
+                    simpleAlert(getString(R.string.call_submitted))
+                })
+            }
+
         }
     }
 
