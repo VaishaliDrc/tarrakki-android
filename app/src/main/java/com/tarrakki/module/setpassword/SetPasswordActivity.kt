@@ -49,6 +49,11 @@ class SetPasswordActivity : CoreActivity<SetPasswordVM, ActivitySetPasswordBindi
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+    }
+
     override fun createReference() {
         var data: JSONObject? = null
         ivBack.setOnClickListener {

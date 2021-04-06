@@ -54,6 +54,10 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+    }
 
     override fun createReference() {
         mGoogleSignInHelper = GoogleSignInHelper(this, this)

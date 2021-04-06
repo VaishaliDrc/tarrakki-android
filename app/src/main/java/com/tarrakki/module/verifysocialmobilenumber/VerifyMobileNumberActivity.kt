@@ -62,6 +62,11 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+    }
+
     override fun createReference() {
 
         getViewModel().resendOtpObserver.observe { second ->

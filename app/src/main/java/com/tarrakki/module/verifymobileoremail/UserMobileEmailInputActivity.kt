@@ -41,6 +41,11 @@ class UserMobileEmailInputActivity : CoreActivity<UserMobileEmailInputVM, Activi
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+    }
+
     override fun createReference() {
         setTextWatcher()
         ivBack.setOnClickListener {

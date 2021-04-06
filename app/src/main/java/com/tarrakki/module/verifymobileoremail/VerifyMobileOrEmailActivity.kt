@@ -55,6 +55,11 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
         binding.executePendingBindings()
     }
 
+    override fun onResume() {
+        super.onResume()
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right)
+    }
+
     override fun createReference() {
 
         setFocuseListener()
