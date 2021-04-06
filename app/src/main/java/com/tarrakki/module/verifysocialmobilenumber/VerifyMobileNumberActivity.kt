@@ -25,7 +25,19 @@ import com.tarrakki.module.setpassword.SetPasswordActivity
 import kotlinx.android.synthetic.main.activity_new_login.*
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.*
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.btnContinue
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPFive
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPFour
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPOne
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPSix
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPThree
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.etOTPTwo
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.ivBack
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvEnterOTP
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvNotSpam
 import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvResendOtp
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvSendOtpViaCall
+import kotlinx.android.synthetic.main.activity_verify_mobile_number.tvTimer
+import kotlinx.android.synthetic.main.activity_verify_mobile_or_email.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
@@ -60,7 +72,11 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
 
             } else {
                 tvTimer.visibility = View.VISIBLE
-                tvTimer.text = "00:$second"
+                if(second < 10){
+                    tvTimer.text = "00:0$second"
+                }else {
+                    tvTimer.text = "00:$second"
+                }
                 tvResendOtp.isClickable = false
                 tvSendOtpViaCall.isClickable = false
             }

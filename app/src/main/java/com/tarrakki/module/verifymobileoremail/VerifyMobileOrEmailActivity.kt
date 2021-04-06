@@ -71,7 +71,11 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
 
             } else {
                 tvTimer.visibility = View.VISIBLE
-                tvTimer.text = "00:$second"
+                if(second < 10){
+                    tvTimer.text = "00:0$second"
+                }else {
+                    tvTimer.text = "00:$second"
+                }
                 tvResendOtp.isClickable = false
                 tvSendOtpViaCall.isClickable = false
             }
