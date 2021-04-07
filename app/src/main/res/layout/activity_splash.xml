@@ -8,7 +8,7 @@
     android:background="@drawable/splash"
     tools:context=".module.splash.SplashActivity" >
 
-    <VideoView
+    <androidx.appcompat.widget.AppCompatImageView
         android:visibility="gone"
         android:id="@+id/videoSplash"
         android:layout_width="match_parent"

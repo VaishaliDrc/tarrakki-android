@@ -33,7 +33,7 @@
             <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                 android:id="@+id/pager_intro"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/pageIndicator"

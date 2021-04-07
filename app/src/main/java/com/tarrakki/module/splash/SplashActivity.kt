@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.tarrakki.App
 import com.tarrakki.BuildConfig
 import com.tarrakki.R
@@ -30,15 +31,18 @@ class SplashActivity : AppCompatActivity() {
 
         if (BuildConfig.FLAVOR.isTarrakki()){
             videoSplash.visibility = View.VISIBLE
-            val video  = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash_video)
+
+            /*val video  = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash_video)
             videoSplash.setVideoURI(video)
 
             videoSplash.setOnCompletionListener(object : MediaPlayer.OnCompletionListener{
                 override  fun onCompletion(mp: MediaPlayer?) {
-                    startNextActivity(600)
+
                 }
             })
-            videoSplash.start()
+            videoSplash.start()*/
+            Glide.with(this).load(R.drawable.splash_gif).into(videoSplash)
+            startNextActivity(2000)
         }else{
             videoSplash.visibility = View.GONE
             clMain?.setBackgroundResource(R.drawable.splash_rural)
