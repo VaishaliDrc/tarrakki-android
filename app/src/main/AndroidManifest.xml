@@ -52,11 +52,13 @@
         <activity
             android:name=".module.verifymobileoremail.UserMobileEmailInputActivity"
             android:theme="@style/AppThemeWithSlideAnimation"
+            android:windowSoftInputMode="adjustPan|stateVisible"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".module.verifymobileoremail.VerifyMobileOrEmailActivity"
             android:theme="@style/AppThemeWithSlideAnimation"
+            android:windowSoftInputMode="adjustPan|stateVisible"
             android:screenOrientation="portrait" />
 
         <activity android:name=".module.checkkycstatusbypan.CheckKYCStatusByPAN" />
@@ -69,12 +71,12 @@
             android:name=".module.verifysocialmobilenumber.VerifyMobileNumberActivity"
             android:theme="@style/AppThemeWithSlideAnimation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".module.login.NewLoginActivity"
             android:theme="@style/AppThemeWithSlideAnimation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" />
+            android:windowSoftInputMode="adjustPan|stateVisible" />
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait">
