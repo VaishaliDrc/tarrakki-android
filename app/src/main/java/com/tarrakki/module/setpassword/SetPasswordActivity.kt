@@ -15,7 +15,6 @@ import com.tarrakki.api.ApiClient
 import com.tarrakki.databinding.ActivitySetPasswordBinding
 import com.tarrakki.fcm.onLoginEventFire
 import com.tarrakki.fcm.onSignUpEventFire
-import com.tarrakki.module.checkkycstatusbypan.CheckKYCStatusByPAN
 import com.tarrakki.module.forgotpassword.FORGOTPASSWORD_DATA
 import com.tarrakki.module.home.HomeActivity
 import com.tarrakki.module.login.LOGIN_DATA
@@ -79,6 +78,8 @@ class SetPasswordActivity : CoreActivity<SetPasswordVM, ActivitySetPasswordBindi
             tvForgotPassword.visibility = View.GONE
             getViewModel().email.set(data.optString("email"))
             getViewModel().mobile.set(data.optString("mobile"))
+            getViewModel().firstName.set(data.optString("first_name"))
+            getViewModel().lastName.set(data.optString("last_name"))
 
         }
 

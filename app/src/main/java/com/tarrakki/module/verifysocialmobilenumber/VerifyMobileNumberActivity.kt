@@ -126,7 +126,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         btnContinue.setOnClickListener {
             it.dismissKeyboard()
             if (isValidOTP()) {
-                if (intent.hasExtra(SIGNUP_DATA)) {
+                if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                     getViewModel().getOTP.value?.let { otp ->
                         otp.data?.let { it1 ->
                             getViewModel().verifySocialOTP(userOtp, it1).observe(this, Observer { signUpResponse ->

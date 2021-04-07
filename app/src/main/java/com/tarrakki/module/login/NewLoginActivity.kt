@@ -123,6 +123,9 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
                     if (response!!.isEmailVerified && response!!.isMobileVerified && !response.isRegistered) {
                         json.addProperty("email", response.email)
                         json.addProperty("mobile", response.mobile)
+                        json.addProperty("first_name", response.firstName)
+                        json.addProperty("last_name", response.last_name)
+
                         val intent = Intent(this, SetPasswordActivity::class.java)
                         intent.putExtra(SIGNUP_DATA, json.toString())
                         startActivity(intent)

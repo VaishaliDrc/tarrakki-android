@@ -140,6 +140,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
                         if (it.isEmailVerified && it.isMobileVerified) {
                             json.addProperty("email", it.email)
                             json.addProperty("mobile", it.mobile)
+                            json.addProperty("first_name", it.firstName)
+                            json.addProperty("last_name", it.last_name)
                             val intent = Intent(this, SetPasswordActivity::class.java)
                             intent.putExtra(SIGNUP_DATA, json.toString())
                             startActivity(intent)

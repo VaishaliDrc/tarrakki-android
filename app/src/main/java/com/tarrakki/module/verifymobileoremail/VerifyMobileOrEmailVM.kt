@@ -145,7 +145,7 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
         showProgress()
         val json = JsonObject()
         json.addProperty("email_or_mobile", mobile.get())
-        json.addProperty("voice", true)
+        json.addProperty("voice", "true")
 
         // json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
 

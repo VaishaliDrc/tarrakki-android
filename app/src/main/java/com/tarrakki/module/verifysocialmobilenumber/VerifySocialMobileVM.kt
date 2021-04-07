@@ -133,7 +133,7 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         val json = JSONObject(encryptedData.toDecrypt())
 
         val data = json.toString().toEncrypt()
-        json.put("voice", true)
+        json.put("voice", "true")
         e("Plain Data=>", data.toDecrypt())
         e("Encrypted Data=>", data)
         subscribeToSingle(
@@ -149,7 +149,7 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         json.addProperty("email", "${email.get()}".toLowerCase().trim())
         json.addProperty("type", "forgot_password")
         if(isCall){
-            json.addProperty("voice", true)
+            json.addProperty("voice", "true")
         }
         val data = json.toString().toEncrypt()
         json.printRequest()

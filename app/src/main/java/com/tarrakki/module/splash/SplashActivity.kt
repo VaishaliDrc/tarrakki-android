@@ -42,7 +42,7 @@ class SplashActivity : AppCompatActivity() {
             })
             videoSplash.start()*/
             Glide.with(this).load(R.drawable.splash_gif).into(videoSplash)
-            startNextActivity(2000)
+            startNextActivity(2300)
         }else{
             videoSplash.visibility = View.GONE
             clMain?.setBackgroundResource(R.drawable.splash_rural)
