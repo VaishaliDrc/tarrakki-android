@@ -91,6 +91,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
 
         val getOtp = Observer<ApiResponse> { apiResponse ->
             apiResponse?.let { response ->
+                getViewModel().startTimer(46)
                 response.printResponse();
                 val json = JSONObject(response.data?.toDecrypt())
                 //getViewModel().otp.set(json.optString("otp"))
@@ -179,7 +180,6 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         }
 
         tvResendOtp.setOnClickListener {
-            getViewModel().startTimer(46)
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
@@ -191,13 +191,14 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
                 getViewModel().forgotPasswordSendOTP(false).observe(this, Observer { apiResponse ->
                     getViewModel().otpId.set(apiResponse?.otpId.toString())
+                    getViewModel().startTimer(46)
                     simpleAlert(getString(R.string.resend_otp_alert))
                 })
             }
         }
 
         tvSendOtpViaCall.setOnClickListener {
-            getViewModel().startTimer(46)
+
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
@@ -210,6 +211,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
                 getViewModel().forgotPasswordSendOTP(true).observe(this, Observer { apiResponse ->
                     getViewModel().otpId.set(apiResponse?.otpId.toString())
+                    getViewModel().startTimer(46)
                     simpleAlert(getString(R.string.call_submitted))
                 })
             }

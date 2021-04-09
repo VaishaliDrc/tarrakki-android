@@ -163,12 +163,10 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
         }
 
         tvResendOtp.setOnClickListener {
-            getViewModel().startTimer(46)
             getViewModel().resendOTP()
         }
 
         tvSendOtpViaCall.setOnClickListener {
-            getViewModel().startTimer(46)
             getViewModel().sendOTpViaCall()
         }
 

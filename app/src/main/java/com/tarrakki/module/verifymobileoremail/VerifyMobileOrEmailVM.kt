@@ -124,6 +124,7 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                                 val response = o.data?.parseTo<NormalLoginResponse>()!!.loginData
                                 otpId.set(response?.otpId)
+                                startTimer(46)
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
@@ -164,6 +165,7 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                                 val response = o.data?.parseTo<NormalLoginResponse>()!!.loginData
                                 otpId.set(response?.otpId)
+                               startTimer(46)
                             } else {
                                 EventBus.getDefault().post(ShowError("${o.status?.message}"))
                             }
