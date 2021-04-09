@@ -57,7 +57,7 @@
             android:ellipsize="end"
             android:inputType="text"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins"
             android:textColorHint="@color/auto_cancel"

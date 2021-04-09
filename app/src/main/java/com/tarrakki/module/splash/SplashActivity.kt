@@ -30,29 +30,18 @@ class SplashActivity : AppCompatActivity() {
         //e(AES.decrypt("22wXlL93Gr46ttJkQKk+o894Wf2bODbIzEv8MleBnVDowT3mODh0COob3e8FRxF/H3WO84QcuYDsA7rxl94Y0g=="))
 
         if (BuildConfig.FLAVOR.isTarrakki()){
-            videoSplash.visibility = View.VISIBLE
-
-            /*val video  = Uri.parse("android.resource://" + packageName + "/" + R.raw.splash_video)
-            videoSplash.setVideoURI(video)
-
-            videoSplash.setOnCompletionListener(object : MediaPlayer.OnCompletionListener{
-                override  fun onCompletion(mp: MediaPlayer?) {
-
-                }
-            })
-            videoSplash.start()*/
-            Glide.with(this).load(R.drawable.splash_gif).into(videoSplash)
-            startNextActivity(2300)
+            groupAllView.visibility = View.VISIBLE
+            startNextActivity()
         }else{
-            videoSplash.visibility = View.GONE
+            groupAllView.visibility = View.GONE
             clMain?.setBackgroundResource(R.drawable.splash_rural)
-            startNextActivity(2500)
+            startNextActivity()
         }
 
 
     }
 
-    private fun startNextActivity(delayTime:Long) {
+    private fun startNextActivity() {
         Handler().postDelayed({
             /* if (isFirsttimeInstalled()) {
                  startActivity<IntroductionActivity>()
@@ -68,6 +57,6 @@ class SplashActivity : AppCompatActivity() {
             }
             //  }
             finish()
-        }, delayTime)
+        }, 2500)
     }
 }

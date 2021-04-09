@@ -194,7 +194,7 @@
     <string name="resend_otp_alert">The OTP you generated has been sent to you. Please do not share your OTP with anyone.</string>
     <string name="send_otp_via_call">Send OTP via call</string>
     <string name="call_submitted">Call submitted successfully.</string>
-    <string name="we_promise_not_spam">We promise not spam you</string>
+    <string name="we_promise_not_spam">We promise not to spam you</string>
     <string name="you_are_on_final_step">You are on the final step for registration</string>
     <string name="enter_otp_sent_on_your_mobile">Enter OTP sent on your registered mobile number</string>
     <string name="continues">Continue</string>
@@ -207,6 +207,7 @@
     <string name="last_name">Last Name</string>
     <string name="enter_your_email_or_mobile">Enter your email address or mobile number</string>
     <string name="by_continue_terms_and_policy">By continuing, I agree to the Terms &amp; conditions and privacy policy</string>
+    <string name="your_data_is_secure">Your data is secure with AES-256 Encryption</string>
 
 
     <string name="read_more">Read More</string>

@@ -1,18 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/clMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.splash.SplashActivity" >
+    tools:context=".module.splash.SplashActivity">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/animationView"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="1:0.4"
+        app:lottie_speed="0.7"
+        android:layout_height="0dp"
+        app:lottie_rawRes="@raw/tarrakki_new"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"/>
+
+
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:id="@+id/videoSplash"
+        android:id="@+id/ivBSE"
+        android:src="@drawable/ic_bse_splash"
+        app:layout_constraintBottom_toTopOf="@+id/tvYourDataSecure"
+        app:layout_constraintEnd_toStartOf="@+id/ivARN"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivARN"
+        android:src="@drawable/ic_arn_splash"
+        app:layout_constraintBottom_toTopOf="@+id/tvYourDataSecure"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSEBI"
+        android:src="@drawable/ic_sebi_splash"
+        app:layout_constraintBottom_toTopOf="@+id/tvYourDataSecure"
+        app:layout_constraintStart_toEndOf="@+id/ivARN"
+        android:layout_marginStart="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tvYourDataSecure"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:gravity="center"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/your_data_is_secure"
+        android:textColor="@color/auto_cancel"
+        android:textSize="@dimen/_9ssp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupAllView"
+        app:constraint_referenced_ids="tvYourDataSecure,ivBSE,ivARN,ivSEBI,animationView"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"/>
 
 
 

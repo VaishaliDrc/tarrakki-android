@@ -196,6 +196,9 @@ dependencies {
 
     //Appsflyer sdk
     implementation 'com.appsflyer:af-android-sdk:6.0.0'
+
+    // Lottie animation
+    implementation 'com.airbnb.android:lottie:3.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
