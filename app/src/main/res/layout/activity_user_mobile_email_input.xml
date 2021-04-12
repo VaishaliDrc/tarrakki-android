@@ -54,7 +54,7 @@
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/auto_cancel"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@+id/ivBack" />
@@ -82,7 +82,7 @@
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/auto_cancel"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@+id/ivBack" />
@@ -108,7 +108,7 @@
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/auto_cancel"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@+id/etLastName" />
@@ -134,7 +134,7 @@
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/auto_cancel"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@+id/etEmail" />

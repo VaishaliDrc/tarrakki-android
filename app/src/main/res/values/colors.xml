@@ -19,6 +19,8 @@
     <color name="semi_black">#323232</color>
     <color name="semi_white">#EADDEA</color>
     <color name="black">#000000</color>
+    <color name="light_black">#222222 </color>
+    <color name="border_gray">#AAAAAA </color>
     <color name="circular_bg">#D1F3F5</color>
     <color name="fb_color">#3B5998</color>
     <color name="g_plus_color">#CC5B3B</color>

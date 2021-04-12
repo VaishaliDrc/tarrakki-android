@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_30sdp"
-                android:fontFamily="@font/poppins_medium"
+                android:fontFamily="@font/poppins"
                 android:text="@string/we_have_sent_otp"
-                android:textColor="@color/bg_choose_plan"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toBottomOf="@+id/ivBack" />
@@ -54,7 +54,7 @@
                 android:layout_marginTop="@dimen/_30sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/enter_email_address_otp"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvOtpSent" />
@@ -71,16 +71,15 @@
                 android:inputType="number"
                 android:maxEms="1"
                 android:maxLength="1"
+                android:textColor="@color/light_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEnterOTP"
 
                 />
 
             <EditText
-
                 android:id="@+id/etOTPTwo"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
@@ -91,6 +90,7 @@
                 android:inputType="number"
                 android:maxEms="1"
                 android:maxLength="1"
+                android:textColor="@color/light_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPThree"
@@ -98,7 +98,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvEnterOTP" />
 
             <EditText
-
                 android:id="@+id/etOTPThree"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
@@ -109,6 +108,7 @@
                 android:inputType="number"
                 android:maxEms="1"
                 android:maxLength="1"
+                android:textColor="@color/light_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPFour"
@@ -126,6 +126,7 @@
                 android:gravity="center"
                 android:inputType="number"
                 android:maxEms="1"
+                android:textColor="@color/light_black"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
@@ -145,6 +146,7 @@
                 android:inputType="number"
                 android:maxEms="1"
                 android:maxLength="1"
+                android:textColor="@color/light_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPSix"
@@ -163,6 +165,7 @@
                 android:inputType="number"
                 android:maxEms="1"
                 android:maxLength="1"
+                android:textColor="@color/light_black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -175,7 +178,7 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_semibold"
                 android:text="00:45"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_14ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -190,7 +193,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/did_not_receive_otp"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 android:gravity="end"
                 app:layout_constraintHorizontal_chainStyle="packed"
@@ -200,28 +203,28 @@
 
             <TextView
                 android:layout_marginStart="@dimen/_4sdp"
-                android:background="@drawable/line_black"
+                android:background="@drawable/line_gray_new"
                 android:id="@+id/tvResendOtp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/resend"
-                android:textColor="@color/black"
+                android:textColor="@color/border_gray"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvNotReceiveOtp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
             <TextView
-                android:background="@drawable/line_black"
+                android:background="@drawable/line_gray_new"
                 android:id="@+id/tvSendOtpViaCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/send_otp_via_call"
-                android:textColor="@color/black"
+                android:textColor="@color/border_gray"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

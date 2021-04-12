@@ -85,6 +85,8 @@ class UserMobileEmailInputActivity : CoreActivity<UserMobileEmailInputVM, Activi
                             json.addProperty("mobile", getViewModel().mobile.get())
                             json.addProperty("is_email_verified", getViewModel().isEmailVerified.get())
                             json.addProperty("is_mobile_verified", getViewModel().isMobileVerified.get())
+                            json.addProperty("first_name", getViewModel().firstName.get())
+                            json.addProperty("last_name", getViewModel().lastName.get())
                             json.addProperty("otp_id", it)
                             val intent = Intent(this, VerifyMobileOrEmailActivity::class.java)
                             intent.putExtra(SIGNUP_DATA, json.toString())

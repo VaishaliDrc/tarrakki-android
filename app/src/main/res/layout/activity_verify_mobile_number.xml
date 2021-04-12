@@ -53,7 +53,7 @@
                 android:paddingEnd="@dimen/_5sdp"
                 android:paddingBottom="@dimen/_10sdp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textColorHint="@color/auto_cancel"
                 android:textSize="@dimen/_12ssp"
                 app:layout_constraintTop_toBottomOf="@+id/ivBack" />
@@ -85,6 +85,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
 
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +106,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPThree"
                 app:layout_constraintStart_toEndOf="@+id/etOTPOne"
@@ -123,6 +125,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPFour"
                 app:layout_constraintStart_toEndOf="@+id/etOTPTwo"
@@ -141,6 +144,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPFive"
                 app:layout_constraintStart_toEndOf="@+id/etOTPThree"
@@ -159,6 +163,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toStartOf="@+id/etOTPSix"
                 app:layout_constraintStart_toEndOf="@+id/etOTPFour"
@@ -177,6 +182,7 @@
                 android:maxEms="1"
                 android:maxLength="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEnterOTP" />
@@ -188,10 +194,10 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:fontFamily="@font/lato_semibold"
                 android:text="00:45"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_14ssp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etOTPSix" />
 
 
@@ -202,45 +208,43 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:fontFamily="@font/poppins"
-                android:text="@string/did_not_receive_otp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13ssp"
                 android:gravity="end"
+                android:text="@string/did_not_receive_otp"
+                android:textColor="@color/light_black"
+                android:textSize="@dimen/_13ssp"
+                app:layout_constraintEnd_toStartOf="@+id/tvResendOtp"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvResendOtp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
             <TextView
-                android:layout_marginStart="@dimen/_4sdp"
-                android:background="@drawable/line_black"
                 android:id="@+id/tvResendOtp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/line_black"
                 android:fontFamily="@font/poppins"
                 android:text="@string/resend"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvNotReceiveOtp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
 
             <TextView
-                android:background="@drawable/line_black"
                 android:id="@+id/tvSendOtpViaCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/line_black"
                 android:fontFamily="@font/poppins"
                 android:text="@string/send_otp_via_call"
-                android:textColor="@color/black"
+                android:textColor="@color/light_black"
                 android:textSize="@dimen/_13ssp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNotReceiveOtp" />
-
-
 
 
             <TextView

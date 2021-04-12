@@ -146,6 +146,8 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
                         json.addProperty("is_email_verified", response.isEmailVerified)
                         json.addProperty("is_mobile_verified", response.isMobileVerified)
                         json.addProperty("otp_id", response.otpId)
+                        json.addProperty("first_name", "")
+                        json.addProperty("last_name", "")
                         val intent = Intent(this, VerifyMobileOrEmailActivity::class.java)
                         intent.putExtra(SIGNUP_DATA, json.toString())
                         startActivity(intent)

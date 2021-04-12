@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
 import com.tarrakki.App
@@ -72,6 +73,10 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         getViewModel().resendOtpObserver.observe { second ->
             if (second <= 0) {
                 tvTimer.visibility = View.INVISIBLE
+                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.light_black))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.light_black))
+                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
+                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
                 tvResendOtp.isClickable = true
                 tvSendOtpViaCall.isClickable = true
 
@@ -82,6 +87,10 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 }else {
                     tvTimer.text = "00:$second"
                 }
+                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
+                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
+                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
                 tvResendOtp.isClickable = false
                 tvSendOtpViaCall.isClickable = false
             }
@@ -251,6 +260,8 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             override fun afterTextChanged(s: Editable) {
                 if (etOTPTwo.text.length == 1) {
                     etOTPThree.requestFocus()
+                }else if(etOTPTwo.text.isEmpty()){
+                    etOTPOne.requestFocus()
                 }
             }
 
@@ -267,6 +278,8 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             override fun afterTextChanged(s: Editable) {
                 if (etOTPThree.text.length == 1) {
                     etOTPFour.requestFocus()
+                }else if(etOTPThree.text.isEmpty()){
+                    etOTPTwo.requestFocus()
                 }
             }
 
@@ -283,6 +296,8 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             override fun afterTextChanged(s: Editable) {
                 if (etOTPFour.text.length == 1) {
                     etOTPFive.requestFocus()
+                }else if(etOTPFour.text.isEmpty()){
+                    etOTPThree.requestFocus()
                 }
             }
 
@@ -299,6 +314,8 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             override fun afterTextChanged(s: Editable) {
                 if (etOTPFive.text.length == 1) {
                     etOTPSix.requestFocus()
+                }else if(etOTPFive.text.isEmpty()){
+                    etOTPFour.requestFocus()
                 }
             }
 
@@ -313,9 +330,11 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
 
         etOTPSix.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                if (etOTPFive.text.length == 1) {
+                if (etOTPSix.text.length == 1) {
                     //  etOTPSix.clearFocus()
 
+                }else if(etOTPSix.text.isEmpty()){
+                    etOTPFive.requestFocus()
                 }
             }
 

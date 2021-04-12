@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
 import com.tarrakki.App
@@ -71,6 +72,10 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
         getViewModel().resendOtpObserver.observe { second ->
             if (second <= 0) {
                 tvTimer.visibility = View.INVISIBLE
+                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.light_black))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.light_black))
+                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
+                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
                 tvResendOtp.isClickable = true
                 tvSendOtpViaCall.isClickable = true
 
@@ -81,6 +86,10 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
                 }else {
                     tvTimer.text = "00:$second"
                 }
+                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
+                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
+                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
                 tvResendOtp.isClickable = false
                 tvSendOtpViaCall.isClickable = false
             }
@@ -99,6 +108,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             getViewModel().isMobileVerified.set(data.optBoolean("is_mobile_verified"))
             getViewModel().isEmailVerified.set(data.optBoolean("is_email_verified"))
             getViewModel().otpId.set(data.optInt("otp_id"))
+            getViewModel().firstName.set(data.optString("first_name"))
+            getViewModel().lastName.set(data.optString("last_name"))
         }
 
         if (!getViewModel().isMobileVerified.get()!! && !getViewModel().isEmailVerified.get()!!) {
@@ -163,7 +174,11 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
         }
 
         tvResendOtp.setOnClickListener {
-            getViewModel().resendOTP()
+            if (!getViewModel().isEmailVerified.get()!! && !getViewModel().isMobileVerified.get()!!) {
+                getViewModel().resendOTP()
+            }else{
+                getViewModel().reSendEmailOrMobileOTP()
+            }
         }
 
         tvSendOtpViaCall.setOnClickListener {
@@ -206,6 +221,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             override fun afterTextChanged(s: Editable) {
                 if (etOTPTwo.text.length == 1) {
                     etOTPThree.requestFocus()
+                }else if(etOTPTwo.text.isEmpty()){
+                    etOTPOne.requestFocus()
                 }
             }
 
@@ -222,6 +239,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             override fun afterTextChanged(s: Editable) {
                 if (etOTPThree.text.length == 1) {
                     etOTPFour.requestFocus()
+                }else if(etOTPThree.text.isEmpty()){
+                    etOTPTwo.requestFocus()
                 }
             }
 
@@ -238,6 +257,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             override fun afterTextChanged(s: Editable) {
                 if (etOTPFour.text.length == 1) {
                     etOTPFive.requestFocus()
+                }else if(etOTPFour.text.isEmpty()){
+                    etOTPThree.requestFocus()
                 }
             }
 
@@ -254,6 +275,8 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             override fun afterTextChanged(s: Editable) {
                 if (etOTPFive.text.length == 1) {
                     etOTPSix.requestFocus()
+                }else if(etOTPFive.text.isEmpty()){
+                    etOTPFour.requestFocus()
                 }
             }
 
@@ -268,9 +291,11 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
 
         etOTPSix.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                if (etOTPFive.text.length == 1) {
+                if (etOTPSix.text.length == 1) {
                     //  etOTPSix.clearFocus()
 
+                }else if(etOTPSix.text.isEmpty()){
+                    etOTPFive.requestFocus()
                 }
             }
 
