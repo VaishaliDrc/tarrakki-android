@@ -116,6 +116,7 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
     }
 
     fun getNewOTP(encryptedData: String): MutableLiveData<ApiResponse> {
+        val getNewOTP = MutableLiveData<ApiResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JSONObject(encryptedData.toDecrypt())
         val data = json.toString().toEncrypt()
@@ -124,12 +125,32 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
                 apiNames = WebserviceBuilder.ApiNames.getOTP,
-                singleCallback = this@VerifySocialMobileVM
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                getNewOTP.value = o
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
         )
-        return getOTP
+        return getNewOTP
     }
 
     fun getCallOTP(encryptedData: String): MutableLiveData<ApiResponse> {
+        val getCallOTP = MutableLiveData<ApiResponse>()
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JSONObject(encryptedData.toDecrypt())
         json.put("voice", "true")
@@ -139,9 +160,28 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).getOTP(data),
                 apiNames = WebserviceBuilder.ApiNames.getOTP,
-                singleCallback = this@VerifySocialMobileVM
+                singleCallback =  object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            o.printResponse()
+                            if (o.status?.code == 1) {
+                                getCallOTP.value = o
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
         )
-        return getOTP
+        return getCallOTP
     }
 
     fun forgotPasswordSendOTP(isCall : Boolean): MutableLiveData<ForgotPasswordEmailResponse> {

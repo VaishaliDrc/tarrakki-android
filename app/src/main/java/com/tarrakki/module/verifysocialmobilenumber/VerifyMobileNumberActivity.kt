@@ -198,7 +198,6 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
                         getViewModel().getNewOTP(it1).observe(this, Observer { apiResponse->
-                            apiResponse.printResponse();
                             apiResponse?.status?.message?.let {
                                 simpleAlert(it)
                             }
@@ -222,7 +221,6 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
                         getViewModel().getCallOTP(it1).observe(this, Observer { apiResponse->
-                            apiResponse.printResponse();
                             apiResponse?.status?.message?.let {
                                 simpleAlert(it)
                             }
