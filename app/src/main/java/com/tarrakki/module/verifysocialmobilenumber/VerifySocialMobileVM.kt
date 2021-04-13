@@ -34,6 +34,7 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
         e("Plain Data=>", json.toString())
         val data = AES.encrypt(json.toString())
         e("Encrypted Data=>", data)
+        EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).socialSignUp(data),
                 apiNames = WebserviceBuilder.ApiNames.onSignUp,

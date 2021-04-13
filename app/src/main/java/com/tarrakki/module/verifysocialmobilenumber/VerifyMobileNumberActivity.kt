@@ -104,6 +104,9 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             apiResponse?.let { response ->
                 getViewModel().startTimer(46)
                 response.printResponse();
+                response?.status?.message?.let {
+                    simpleAlert(it)
+                }
                 val json = JSONObject(response.data?.toDecrypt())
                 //getViewModel().otp.set(json.optString("otp"))
 

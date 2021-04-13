@@ -193,7 +193,7 @@
     <string name="resend">Resend</string>
     <string name="resend_otp_alert">The OTP you generated has been sent to you. Please do not share your OTP with anyone.</string>
     <string name="send_otp_via_call">Send OTP via call</string>
-    <string name="call_submitted">Call submitted successfully.</string>
+    <string name="call_submitted">Call Request Submitted.</string>
     <string name="we_promise_not_spam">We promise not to spam you 😇</string>
     <string name="you_are_on_final_step">You are on the final step for registration</string>
     <string name="enter_otp_sent_on_your_mobile">Enter OTP sent on your registered mobile number</string>

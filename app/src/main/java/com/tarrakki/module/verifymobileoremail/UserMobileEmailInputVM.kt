@@ -30,7 +30,7 @@ class UserMobileEmailInputVM : ActivityViewModel(), SingleCallback<WebserviceBui
 
     fun sendEmailOrMobileOTP(): MutableLiveData<NormalLoginData> {
         val onOTPSend = MutableLiveData<NormalLoginData>()
-        EventBus.getDefault().post(SHOW_PROGRESS)
+
         val json = JSONObject()
         json.put("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
         json.put("mobile", mobile.get())
@@ -48,6 +48,7 @@ class UserMobileEmailInputVM : ActivityViewModel(), SingleCallback<WebserviceBui
         val data = json.toString().toEncrypt()
         e("Plain Data=>", data.toDecrypt())
         e("Encrypted Data=>", data)
+        EventBus.getDefault().post(SHOW_PROGRESS)
         subscribeToSingle(
                 observable = ApiClient.getApiClient().create(WebserviceBuilder::class.java).sendOTPWithUserData(data),
                 apiNames = WebserviceBuilder.ApiNames.getOTP,
