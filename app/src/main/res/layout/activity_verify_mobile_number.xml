@@ -252,7 +252,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_12sdp"
-                android:drawableEnd="@drawable/ic_smile"
                 android:drawablePadding="@dimen/_5sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/we_promise_not_spam"
