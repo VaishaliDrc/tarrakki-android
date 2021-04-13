@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.Selection
 import android.text.TextWatcher
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.google.gson.JsonObject
 import com.tarrakki.R
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_user_mobile_email_input.btnContin
 import kotlinx.android.synthetic.main.activity_user_mobile_email_input.etEmail
 import kotlinx.android.synthetic.main.activity_user_mobile_email_input.etMobile
 import kotlinx.android.synthetic.main.activity_user_mobile_email_input.ivBack
+import kotlinx.android.synthetic.main.activity_verify_mobile_or_email.*
 import org.json.JSONObject
 import org.supportcompact.CoreActivity
 import org.supportcompact.ktx.dismissKeyboard
@@ -62,11 +64,13 @@ class UserMobileEmailInputActivity : CoreActivity<UserMobileEmailInputVM, Activi
 
         if(getViewModel().isMobileVerified.get()!!){
             etMobile.setText("+91 ${getViewModel().mobile.get()}")
+            etMobile.setTextColor(ContextCompat.getColor(this,R.color.auto_cancel))
             etMobile.isClickable = false
             etMobile.isFocusable = false
             etMobile.isEnabled = false
         }else{
             etEmail.setText(getViewModel().email.get())
+            etEmail.setTextColor(ContextCompat.getColor(this,R.color.auto_cancel))
             etEmail.isClickable = false
             etEmail.isFocusable = false
             etEmail.isEnabled = false

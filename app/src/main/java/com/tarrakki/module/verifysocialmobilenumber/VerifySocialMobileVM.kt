@@ -131,9 +131,8 @@ class VerifySocialMobileVM : ActivityViewModel(), SingleCallback<WebserviceBuild
     fun getCallOTP(encryptedData: String): MutableLiveData<ApiResponse> {
         EventBus.getDefault().post(SHOW_PROGRESS)
         val json = JSONObject(encryptedData.toDecrypt())
-
-        val data = json.toString().toEncrypt()
         json.put("voice", "true")
+        val data = json.toString().toEncrypt()
         e("Plain Data=>", data.toDecrypt())
         e("Encrypted Data=>", data)
         subscribeToSingle(
