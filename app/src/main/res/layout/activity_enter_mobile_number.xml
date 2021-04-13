@@ -60,7 +60,6 @@
 
             <TextView
                 android:drawablePadding="@dimen/_5sdp"
-                android:drawableEnd="@drawable/ic_smile"
                 android:id="@+id/tvNotSpam"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

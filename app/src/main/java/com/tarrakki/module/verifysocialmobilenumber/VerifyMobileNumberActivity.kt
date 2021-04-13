@@ -75,24 +75,24 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         getViewModel().resendOtpObserver.observe { second ->
             if (second <= 0) {
                 tvTimer.visibility = View.INVISIBLE
-                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.light_black))
-                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.light_black))
-                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
-                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_black)
+                tvResendOtp.setTextColor(ContextCompat.getColor(this, R.color.light_black))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this, R.color.light_black))
+                tvResendOtp.background = ContextCompat.getDrawable(this, R.drawable.line_black)
+                tvSendOtpViaCall.background = ContextCompat.getDrawable(this, R.drawable.line_black)
                 tvResendOtp.isClickable = true
                 tvSendOtpViaCall.isClickable = true
 
             } else {
                 tvTimer.visibility = View.VISIBLE
-                if(second < 10){
+                if (second < 10) {
                     tvTimer.text = "00:0$second"
-                }else {
+                } else {
                     tvTimer.text = "00:$second"
                 }
-                tvResendOtp.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
-                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this,R.color.border_gray))
-                tvResendOtp.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
-                tvSendOtpViaCall.background =  ContextCompat.getDrawable(this,R.drawable.line_gray_new)
+                tvResendOtp.setTextColor(ContextCompat.getColor(this, R.color.border_gray))
+                tvSendOtpViaCall.setTextColor(ContextCompat.getColor(this, R.color.border_gray))
+                tvResendOtp.background = ContextCompat.getDrawable(this, R.drawable.line_gray_new)
+                tvSendOtpViaCall.background = ContextCompat.getDrawable(this, R.drawable.line_gray_new)
                 tvResendOtp.isClickable = false
                 tvSendOtpViaCall.isClickable = false
             }
@@ -110,16 +110,15 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             }
         }
 
-      //  setFocuseListener()
-        setFocuseListenerNew()
+        setFocuseListener()
         ivBack.setOnClickListener {
             finish()
         }
         if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
             data = JSONObject(intent.getStringExtra(SOACIAL_SIGNUP_DATA))
             data?.optString("mobile")?.let {
-                if(data?.optString("mobile").toString().isNotEmpty())
-                etMobile.setText("+91 ${data!!.optString("mobile")}")
+                if (data?.optString("mobile").toString().isNotEmpty())
+                    etMobile.setText("+91 ${data!!.optString("mobile")}")
             }
             etMobile.visibility = View.VISIBLE
             tvNotSpam.visibility = View.VISIBLE
@@ -231,25 +230,25 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         }
     }
 
-        private fun setFocuseListenerNew() {
-            //GenericTextWatcher here works only for moving to next EditText when a number is entered
-    //first parameter is the current EditText and second parameter is next EditText
-            etOTPOne.addTextChangedListener(GenericTextWatcher(etOTPOne, etOTPTwo))
-            etOTPTwo.addTextChangedListener(GenericTextWatcher(etOTPTwo, etOTPThree))
-            etOTPThree.addTextChangedListener(GenericTextWatcher(etOTPThree, etOTPFour))
-            etOTPFour.addTextChangedListener(GenericTextWatcher(etOTPFour, etOTPFive))
-            etOTPFive.addTextChangedListener(GenericTextWatcher(etOTPFive, etOTPSix))
-            etOTPSix.addTextChangedListener(GenericTextWatcher(etOTPSix, null))
+    private fun setFocuseListener() {
+        //GenericTextWatcher here works only for moving to next EditText when a number is entered
+        //first parameter is the current EditText and second parameter is next EditText
+        etOTPOne.addTextChangedListener(GenericTextWatcher(etOTPOne, etOTPTwo))
+        etOTPTwo.addTextChangedListener(GenericTextWatcher(etOTPTwo, etOTPThree))
+        etOTPThree.addTextChangedListener(GenericTextWatcher(etOTPThree, etOTPFour))
+        etOTPFour.addTextChangedListener(GenericTextWatcher(etOTPFour, etOTPFive))
+        etOTPFive.addTextChangedListener(GenericTextWatcher(etOTPFive, etOTPSix))
+        etOTPSix.addTextChangedListener(GenericTextWatcher(etOTPSix, null))
 
-    //GenericKeyEvent here works for deleting the element and to switch back to previous EditText
-    //first parameter is the current EditText and second parameter is previous EditText
-            etOTPOne.setOnKeyListener(GenericKeyEvent(etOTPOne, null))
-            etOTPTwo.setOnKeyListener(GenericKeyEvent(etOTPTwo, etOTPOne))
-            etOTPThree.setOnKeyListener(GenericKeyEvent(etOTPThree, etOTPTwo))
-            etOTPFour.setOnKeyListener(GenericKeyEvent(etOTPFour,etOTPThree))
-            etOTPFive.setOnKeyListener(GenericKeyEvent(etOTPFive,etOTPFour))
-            etOTPSix.setOnKeyListener(GenericKeyEvent(etOTPSix,etOTPFive))
-        }
+        //GenericKeyEvent here works for deleting the element and to switch back to previous EditText
+        //first parameter is the current EditText and second parameter is previous EditText
+        etOTPOne.setOnKeyListener(GenericKeyEvent(etOTPOne, null))
+        etOTPTwo.setOnKeyListener(GenericKeyEvent(etOTPTwo, etOTPOne))
+        etOTPThree.setOnKeyListener(GenericKeyEvent(etOTPThree, etOTPTwo))
+        etOTPFour.setOnKeyListener(GenericKeyEvent(etOTPFour, etOTPThree))
+        etOTPFive.setOnKeyListener(GenericKeyEvent(etOTPFive, etOTPFour))
+        etOTPSix.setOnKeyListener(GenericKeyEvent(etOTPSix, etOTPFive))
+    }
 
     private fun isValidOTP(): Boolean {
         if ((etOTPOne.text.toString() + etOTPTwo.text.toString() + etOTPThree.text.toString() + etOTPFour.text.toString() + etOTPFive.text.toString() + etOTPSix.text.toString()).length == 6) {
@@ -262,116 +261,6 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
 
     }
 
-    private fun setFocuseListener() {
-
-        etOTPOne.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPOne.text.length == 1) {
-                    etOTPTwo.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-        etOTPTwo.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPTwo.text.length == 1) {
-                    etOTPThree.requestFocus()
-                }else if(etOTPTwo.text.isEmpty()){
-                    etOTPOne.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-
-        etOTPThree.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPThree.text.length == 1) {
-                    etOTPFour.requestFocus()
-                }else if(etOTPThree.text.isEmpty()){
-                    etOTPTwo.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-
-        etOTPFour.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPFour.text.length == 1) {
-                    etOTPFive.requestFocus()
-                }else if(etOTPFour.text.isEmpty()){
-                    etOTPThree.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-
-        etOTPFive.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPFive.text.length == 1) {
-                    etOTPSix.requestFocus()
-                }else if(etOTPFive.text.isEmpty()){
-                    etOTPFour.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-
-        etOTPSix.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                if (etOTPSix.text.length == 1) {
-                    //  etOTPSix.clearFocus()
-
-                }else if(etOTPSix.text.isEmpty()){
-                    etOTPFive.requestFocus()
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int,
-                                           after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int,
-                                       count: Int) {
-            }
-        })
-
-
-    }
 
     @Subscribe(sticky = true)
     fun onReceive(apiResponse: ApiResponse) {
@@ -381,9 +270,9 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
         }
     }
 
-    class GenericKeyEvent internal constructor(private val currentView: EditText, private val previousView: EditText?) : View.OnKeyListener{
+    class GenericKeyEvent internal constructor(private val currentView: EditText, private val previousView: EditText?) : View.OnKeyListener {
         override fun onKey(p0: View?, keyCode: Int, event: KeyEvent?): Boolean {
-            if(event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etOTPOne && currentView.text.isEmpty()) {
+            if (event!!.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DEL && currentView.id != R.id.etOTPOne && currentView.text.isEmpty()) {
                 //If current is empty then previous EditText's number will also be deleted
                 previousView!!.text = null
                 previousView.requestFocus()
