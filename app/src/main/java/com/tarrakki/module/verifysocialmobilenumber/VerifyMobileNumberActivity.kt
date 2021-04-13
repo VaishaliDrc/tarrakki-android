@@ -100,7 +100,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
 
         getViewModel().startTimer(45)
 
-        val getOtp = Observer<ApiResponse> { apiResponse ->
+        /*val getOtp = Observer<ApiResponse> { apiResponse ->
             apiResponse?.let { response ->
                 getViewModel().startTimer(46)
                 response.printResponse();
@@ -111,7 +111,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                 //getViewModel().otp.set(json.optString("otp"))
 
             }
-        }
+        }*/
 
         setFocuseListener()
         ivBack.setOnClickListener {
@@ -197,7 +197,13 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
-                        getViewModel().getNewOTP(it1).observe(this, getOtp)
+                        getViewModel().getNewOTP(it1).observe(this, Observer { apiResponse->
+                            apiResponse.printResponse();
+                            apiResponse?.status?.message?.let {
+                                simpleAlert(it)
+                            }
+                            getViewModel().startTimer(46)
+                        })
                     }
                 }
             }
@@ -215,7 +221,13 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
             if (intent.hasExtra(SOACIAL_SIGNUP_DATA)) {
                 getViewModel().getOTP.value?.let { otp ->
                     otp.data?.let { it1 ->
-                        getViewModel().getCallOTP(it1).observe(this, getOtp)
+                        getViewModel().getCallOTP(it1).observe(this, Observer { apiResponse->
+                            apiResponse.printResponse();
+                            apiResponse?.status?.message?.let {
+                                simpleAlert(it)
+                            }
+                            getViewModel().startTimer(46)
+                        })
                     }
                 }
             }
