@@ -183,6 +183,7 @@ class VerifyMobileNumberActivity : CoreActivity<VerifySocialMobileVM, ActivityVe
                             Observer { apiResponse ->
                                 val json = JsonObject()
                                 json.addProperty("token", apiResponse?.token)
+                                json.addProperty("username", getViewModel().email.get())
                                 val intent = Intent(this, SetPasswordActivity::class.java)
                                 intent.putExtra(FORGOTPASSWORD_DATA, json.toString())
                                 startActivity(intent)

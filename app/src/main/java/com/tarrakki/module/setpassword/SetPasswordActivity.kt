@@ -88,6 +88,7 @@ class SetPasswordActivity : CoreActivity<SetPasswordVM, ActivitySetPasswordBindi
             etPassword.setHint(R.string.create_a_new_password)
             tvForgotPassword.visibility = View.GONE
             getViewModel().token.set(data.optString("token"))
+            getViewModel().userName.set(data.optString("username"))
             tvNotSpam.visibility = View.GONE
         }
 
@@ -114,10 +115,11 @@ class SetPasswordActivity : CoreActivity<SetPasswordVM, ActivitySetPasswordBindi
                     if (intent.hasExtra(FORGOTPASSWORD_DATA)) {
                         getViewModel().resetPassword().observe(this, Observer { apiResponse ->
                             simpleAlert(getString(R.string.alert_profile_reset)) {
-                                val intent = Intent(this, NewLoginActivity::class.java)
+                                getViewModel().doLogin()
+                               /* val intent = Intent(this, NewLoginActivity::class.java)
                                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
-                                finish()
+                                finish()*/
                             }
                         })
                     }
