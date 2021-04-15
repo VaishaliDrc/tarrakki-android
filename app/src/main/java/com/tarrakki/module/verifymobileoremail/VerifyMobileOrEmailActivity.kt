@@ -180,12 +180,16 @@ class VerifyMobileOrEmailActivity : CoreActivity<VerifyMobileOrEmailVM, Activity
             if (!getViewModel().isEmailVerified.get()!! && !getViewModel().isMobileVerified.get()!!) {
                 getViewModel().resendOTP()
             } else {
-                getViewModel().reSendEmailOrMobileOTP()
+                getViewModel().reSendEmailOrMobileOTP(false)
             }
         }
 
         tvSendOtpViaCall.setOnClickListener {
-            getViewModel().sendOTpViaCall()
+            if (!getViewModel().isEmailVerified.get()!! && !getViewModel().isMobileVerified.get()!!) {
+                getViewModel().sendOTpViaCall()
+            } else {
+                getViewModel().reSendEmailOrMobileOTP(true)
+            }
         }
 
 

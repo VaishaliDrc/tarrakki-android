@@ -140,7 +140,7 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
     }
 
 
-    fun reSendEmailOrMobileOTP(): MutableLiveData<NormalLoginData> {
+    fun reSendEmailOrMobileOTP(isCall:Boolean): MutableLiveData<NormalLoginData> {
         val onOTPSend = MutableLiveData<NormalLoginData>()
 
         val json = JSONObject()
@@ -148,6 +148,9 @@ class VerifyMobileOrEmailVM : ActivityViewModel(), SingleCallback<WebserviceBuil
         json.put("mobile", mobile.get())
         json.put("email", email.get())
 
+        if(isCall) {
+            json.put("voice", "true")
+        }
         if(isEmailVerified.get()!!){
             json.put("type", "mobile_signup")
         }else{
