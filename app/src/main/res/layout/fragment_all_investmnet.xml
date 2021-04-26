@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.portfolio.PortfolioVM" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/mRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvAllInvest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                <TextView
+                    android:id="@+id/tvHowReturns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rvAllInvest"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginEnd="@dimen/space_16"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/how_are_returns_calculated"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
+
+                <TextView
+                    android:id="@+id/tvWhen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvHowReturns"
+                    android:layout_marginStart="@dimen/space_16"
+                    android:layout_marginEnd="@dimen/space_16"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="@dimen/space_16"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@string/when_does_my_portfolio_update_here"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/colorAccent"
+                    android:visibility="@{vm.isDirectEmpty==true?View.GONE:View.VISIBLE}" />
+
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/no_funds_found"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:visibility="@{vm.isDirectEmpty==true?View.VISIBLE:View.GONE}" />
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+            <org.supportcompact.customefloatingmenu.OneMoreFabMenu
+                android:id="@+id/fab"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:content_options="@menu/omfm_content_options"
+                app:close_on_click="true"
+                app:color_main_button="@color/colorPrimaryDark"
+                app:color_main_button_expanded="@color/white"
+                app:color_secondary_buttons="@color/colorPrimary"
+                app:expanded_background_color="@color/omfm_expanded_background_sample"
+                app:rotate_main_button="false"
+                app:size_main_button="0"
+                app:size_secondary_buttons="0"
+                app:label_text_color="@color/colorPrimary"
+                app:enable_main_as_action="true"
+                app:main_action_drawable="@drawable/ic_floating_purple_cross"
+                app:expanded_drawable="@drawable/bg_blur_investment" />
+
+            <ImageView
+                android:id="@+id/ivAddRound"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="@dimen/_13sdp"
+                android:src="@drawable/ic_import_button_purple"
+                android:layout_width="@dimen/_43sdp"
+                android:layout_marginEnd="@dimen/_32sdp"
+                android:layout_height="@dimen/_43sdp"/>
+
+            <ImageView
+                android:id="@+id/ivAddPortfolio"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_import_portfolio"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_height="wrap_content"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</layout>
+

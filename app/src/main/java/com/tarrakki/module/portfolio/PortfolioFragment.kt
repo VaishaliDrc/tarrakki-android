@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import com.tarrakki.App
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentPortfolioBinding
-import com.tarrakki.module.portfolio.fragments.LiquiLoanPortfolioFragment
-import com.tarrakki.module.portfolio.fragments.DirectInvestmentFragment
-import com.tarrakki.module.portfolio.fragments.GoalBasedInvestmentFragment
-import com.tarrakki.module.portfolio.fragments.TarrakkiZyaadaPortfolioFragment
+import com.tarrakki.module.portfolio.fragments.*
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.Page
@@ -55,9 +52,10 @@ class PortfolioFragment : CoreFragment<PortfolioVM, FragmentPortfolioBinding>() 
         getViewModel().getLiquiloansPortfolioAPI()
 
         val pages = arrayListOf(
-                Page(getString(R.string.goal_base_investment), GoalBasedInvestmentFragment.newInstance()),
+                Page(getString(R.string.mutual_funds_portfolio), AllInvestmnetFragment.newInstance()),
+                /*Page(getString(R.string.goal_base_investment), GoalBasedInvestmentFragment.newInstance()),
                 Page(getString(R.string.direct_investment), DirectInvestmentFragment.newInstance()),
-                Page(getString(R.string.tarrakki_zyaada_investment), TarrakkiZyaadaPortfolioFragment.newInstance()),
+                Page(getString(R.string.tarrakki_zyaada_investment), TarrakkiZyaadaPortfolioFragment.newInstance()),*/
                 Page(getString(R.string.liquiloans), LiquiLoanPortfolioFragment.newInstance())
         )
         mPager?.isNestedScrollingEnabled = false

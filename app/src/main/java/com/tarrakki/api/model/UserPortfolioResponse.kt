@@ -5,19 +5,23 @@ import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 import org.supportcompact.ktx.*
 import java.math.BigInteger
+import kotlin.math.abs
 
 data class UserPortfolioResponse(
         @SerializedName("data")
         val `data`: Data
 ) {
     data class Data(
-            @SerializedName("direct_investment")
+            @SerializedName("investment")
             val directInvestment: List<DirectInvestment>,
             @SerializedName("goal_based_investment")
             val goalBasedInvestment: List<GoalBasedInvestment>,
-            @SerializedName("tarrakki_zyaada_investments")
-            val tarrakkiZyaadaInvestment: List<TarrakkiZyaadaInvestment>
+            @SerializedName("investments")
+            val tarrakkiZyaadaInvestment: List<TarrakkiZyaadaInvestment>,
     ) {
+
+
+
         data class GoalBasedInvestment(
                 @SerializedName("current_value")
                 val currentValue: Double,
@@ -265,6 +269,8 @@ data class UserPortfolioResponse(
                 val totalInvestment: Double?,
                 @SerializedName("xirr")
                 val xirr: String,
+                @SerializedName("absolute_return")
+                val absoluteReturn: String,
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("iaip_aip")
@@ -393,6 +399,8 @@ data class UserPortfolioResponse(
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
                     val xirr: String?,
+                    @SerializedName("absolute_return")
+                    val absoluteReturn: String?,
                     @SerializedName("is_apply_debit_card")
                     val isApplyDebitCard: Boolean?
             ) {
@@ -469,6 +477,8 @@ data class UserPortfolioResponse(
         data class DirectInvestment(
                 @SerializedName("insta_redeem")
                 val instaRedeem: Boolean?,
+                @SerializedName("tz_id")
+                val tzId: Boolean?,
                 @SerializedName("current_value")
                 val currentValue: Double?,
                 @SerializedName("folio_list")
@@ -481,6 +491,8 @@ data class UserPortfolioResponse(
                 val totalInvestment: Double?,
                 @SerializedName("xirr")
                 val xirr: String,
+                @SerializedName("absolute_return")
+                val absoluteReturn: String,
                 @SerializedName("pi_minimum_initial")
                 val piMinimumInitial: String?,
                 @SerializedName("iaip_aip")
@@ -509,6 +521,9 @@ data class UserPortfolioResponse(
 
             val applyForDebitCartBtnVisibility
                 get() = if (relianceDebitFund == true) View.VISIBLE else View.GONE
+
+            val tzBorderVisibility
+                get() = if (tzId == true) View.VISIBLE else View.GONE
 
             var redeemRequest: JsonObject? = null
 
@@ -590,6 +605,8 @@ data class UserPortfolioResponse(
             var xiRR: String = ""
                 get() = parseAsReturn(xirr)
 
+            var absolute: String = ""
+                get() = parseAsReturn(absoluteReturn)
             data class Folio(
                     @SerializedName("folio_id")
                     val folioId: String?,
@@ -607,11 +624,16 @@ data class UserPortfolioResponse(
                     val sipDetails: List<SipDetail>,
                     @SerializedName("xirr")
                     val xirr: String?,
+                    @SerializedName("absolute_return")
+                    val absoluteReturn: String,
                     @SerializedName("is_apply_debit_card")
                     val isApplyDebitCard: Boolean?
             ) {
                 var xiRR: String = ""
                     get() = parseAsReturn(xirr)
+
+                var absolute: String = ""
+                    get() = parseAsReturn(absoluteReturn)
 
 
                 data class SipDetail(

@@ -150,10 +150,11 @@
     <string name="lumpsum_amount">Lumpsum Amount</string>
     <string name="add_one_time_amount">+ Add one time amount</string>
     <string name="portfolio">Portfolio</string>
+    <string name="import_portfolio">Import Portfolio</string>
     <string name="total_investment_">Total Investment:</string>
     <string name="xirr_">XIRR:</string>
     <string name="current_value_">Current Value:</string>
-    <string name="folio_no">Folio No.: </string>
+    <string name="folio_no">Folio No: </string>
     <string name="stop">Stop</string>
     <string name="edit_funds">Edit Funds</string>
     <string name="redeem">Redeem</string>
@@ -679,6 +680,7 @@
     <string name="ticket_conversation">Ticket Conversation</string>
     <string name="direct_investment">Direct\nInvestment</string>
     <string name="goal_base_investment">Goal Based Investment</string>
+    <string name="mutual_funds_portfolio">Mutual Funds</string>
     <string name="amount_credited_to">Amount credited to</string>
     <string name="redeemed_amount">Redeemed amount</string>
     <string name="do_you_want_to_enable_app_security">Do you want to enable screen lock?</string>
@@ -848,7 +850,7 @@
     <string name="on_call_appointment">On Call Appointment with a Wealth Manager (Monthly)</string>
     <string name="portfolio_analytics">Portfolio Analytics</string>
     <string name="choose_plan">Choose a plan</string>
-    <string name="fees_for_investments">*Fees for investments upro Rs 1Cr</string>
+    <string name="fees_for_investments">*Fees for investments up to Rs 1Cr</string>
     <string name="months"> Months</string>
     <string name="total_price">Total Price \u20B9</string>
     <string name="three_month">3 Month</string>

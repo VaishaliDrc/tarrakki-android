@@ -1,55 +1,77 @@
 package com.tarrakki.module.portfolio.fragments
 
+import android.os.Bundle
+import android.os.Handler
+import android.view.MotionEvent
+import android.view.View
+import android.widget.TableLayout
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import android.os.Bundle
-import android.util.Log
-import android.widget.TableLayout
 import com.google.gson.JsonObject
 import com.tarrakki.*
 import com.tarrakki.api.model.FolioData
 import com.tarrakki.api.model.SIPDetails
 import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.api.model.printRequest
-import com.tarrakki.databinding.FragmentDirectInvestmentBinding
-import com.tarrakki.databinding.RowDirectInvestmentListItemBinding
+import com.tarrakki.databinding.FragmentAllInvestmnetBinding
+import com.tarrakki.databinding.RowAllInvestmentListItemBinding
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.portfolio.ImportPortfolioFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
-import kotlinx.android.synthetic.main.fragment_direct_investment.*
+import com.tarrakki.module.webview.WebViewFragment
+import com.tarrakki.module.webviewActivity.CMSPagesActivity
+import kotlinx.android.synthetic.main.fragment_all_investmnet.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
+import org.supportcompact.customefloatingmenu.OneMoreFabMenu
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
 
 
-class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestmentBinding>() {
+class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBinding>(), OneMoreFabMenu.OptionsClick {
+
 
     var vm: PortfolioVM? = null
-
     override val isBackEnabled: Boolean
         get() = true
     override val title: String
         get() = getString(R.string.portfolio)
 
     override fun getLayout(): Int {
-        return R.layout.fragment_direct_investment
+        return R.layout.fragment_all_investmnet
     }
 
     override fun createViewModel(): Class<out PortfolioVM> {
         return PortfolioVM::class.java
     }
 
-    override fun setVM(binding: FragmentDirectInvestmentBinding) {
+    override fun setVM(binding: FragmentAllInvestmnetBinding) {
         binding.vm = getViewModel()
         binding.executePendingBindings()
     }
 
     override fun createReference() {
 
-        rvDInvests?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
+
+        fab.setOptionsClick(this)
+        ivAddRound.setOnClickListener {
+            ivAddRound.visibility = View.GONE
+            ivAddPortfolio.visibility = View.VISIBLE
+        }
+
+        ivAddPortfolio.setOnClickListener {
+            ivAddPortfolio.visibility = View.GONE
+            fab.visibility = View.VISIBLE
+            fab.expand()
+        }
+
+        rvAllInvest?.addItemDecoration(EqualSpacingItemDecoration(resources.getDimensionPixelSize(R.dimen.space_item)))
 
         parentFragment?.let {
             vm = ViewModelProviders.of(it).get(PortfolioVM::class.java)
@@ -63,14 +85,16 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
         vm?.let { vm ->
             vm.portfolioData.observe(this, Observer {
+
                 if (!it?.data?.directInvestment.isNullOrEmpty()) {
                     getViewModel().isDirectEmpty.set(false)
-                    rvDInvests?.setUpRecyclerView(R.layout.row_direct_investment_list_item, it?.data?.directInvestment as ArrayList<UserPortfolioResponse.Data.DirectInvestment>) { item: UserPortfolioResponse.Data.DirectInvestment, binder: RowDirectInvestmentListItemBinding, position ->
+                    rvAllInvest?.setUpRecyclerView(R.layout.row_all_investment_list_item, it?.data?.directInvestment as ArrayList<UserPortfolioResponse.Data.DirectInvestment>) { item: UserPortfolioResponse.Data.DirectInvestment, binder: RowAllInvestmentListItemBinding, position ->
                         binder.investment = item
                         binder.executePendingBindings()
                         if (item.folioList.size > 1) {
                             binder.tlfolio.removeAllViews()
 
+                            /**Header View**/
                             /**Header View**/
                             val tableRowHeader = context?.tableRow()
                             tableRowHeader?.setBackgroundResource(R.color.bg_img_color)
@@ -78,8 +102,11 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             tableRowHeader?.addView(context?.tableRowContent("Total\nInvestment", context?.color(R.color.black)))
                             tableRowHeader?.addView(context?.tableRowContent("Current\nValue", context?.color(R.color.black)))
                             tableRowHeader?.addView(context?.tableRowContent("Units", context?.color(R.color.black)))
-                            tableRowHeader?.addView(context?.tableRowContent("%\nReturns", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("Returns\n(XIRR)", context?.color(R.color.black)))
+                            tableRowHeader?.addView(context?.tableRowContent("Returns\n(Absolute)", context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRowHeader, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
+
+                            /**Body View**/
 
                             /**Body View**/
                             for (folioList in item.folioList) {
@@ -91,22 +118,38 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                                 tableRow?.addView(context?.tableRowContent(folioList.units
                                         ?: ""/*(folioList.units?.toDoubleOrNull()?: 0.0).decimalFormat())*/))
                                 tableRow?.addView(context?.tableRowContent(folioList.xiRR))
+                                tableRow?.addView(context?.tableRowContent(folioList.absolute))
                                 binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
                             }
 
+                            /**Footer View**/
                             /**Footer View**/
                             val tableRow = context?.tableRow()
                             tableRow?.addView(context?.tableRowContent("Total", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.currentValue?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent("${item.totalUnits
-                                    ?: ""}", context?.color(R.color.black)))
-                            tableRow?.addView(context?.tableRowContent(item.xiRR + " (XIRR)", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent("${
+                                item.totalUnits
+                                        ?: ""
+                            }", context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(item.xiRR, context?.color(R.color.black)))
+                            tableRow?.addView(context?.tableRowContent(item.absolute, context?.color(R.color.black)))
                             binder.tlfolio.addView(tableRow, TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT))
 
                             // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
-                        } else{
+                        } else {
 
+                        }
+                        binder.tvYDRLabel.setOnClickListener {
+                            if (binder.tvYDRLabel.contentDescription == "xirr") {
+                                binder.tvYDRLabel.text = "Returns (Absolute)"
+                                binder.tvYDRLabel.contentDescription = "absolute"
+                                binder.tvYDR.text = item.absolute
+                            } else {
+                                binder.tvYDRLabel.text = "Returns (XIRR)"
+                                binder.tvYDRLabel.contentDescription = "xirr"
+                                binder.tvYDR.text = item.xiRR
+                            }
                         }
 
                         binder.tvAddPortfolio.setOnClickListener {
@@ -227,8 +270,32 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
 
     companion object {
         @JvmStatic
-        fun newInstance(basket: Bundle? = null) = DirectInvestmentFragment().apply { arguments = basket }
+        fun newInstance(basket: Bundle? = null) = AllInvestmnetFragment().apply { arguments = basket }
     }
 
     data class InvestmentPortfolioIntro(val title: String, val description: String)
+
+
+    override fun onOptionClick(optionId: Int?) {
+        var text = ""
+        fab.collapse()
+
+        Handler().postDelayed({
+            when (optionId) {
+                R.id.main_option -> text = ""
+                R.id.option1 -> {
+                    startFragment(ImportPortfolioFragment.newInstance(), R.id.frmContainer)
+                }
+                R.id.option2 ->  {
+                    startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+                    postSticky(Event.PRIVACY_PAGE)
+                }
+
+            }
+        }, 300)
+
+
+    }
+
+
 }

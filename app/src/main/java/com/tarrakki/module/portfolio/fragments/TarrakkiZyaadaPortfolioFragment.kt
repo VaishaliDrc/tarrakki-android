@@ -11,6 +11,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.method.MovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.TableLayout
 import android.widget.TextView
@@ -101,6 +102,9 @@ class TarrakkiZyaadaPortfolioFragment : CoreParentFragment<PortfolioVM, Fragment
         })
 
         vm.portfolioData.observe(this, Observer {
+            if (!it?.data?.tarrakkiZyaadaInvestment.isNullOrEmpty()) {
+                Log.e("TZResponse",(it?.data?.tarrakkiZyaadaInvestment as ArrayList<UserPortfolioResponse.Data.TarrakkiZyaadaInvestment>).toString())
+            }
             if (!it?.data?.tarrakkiZyaadaInvestment.isNullOrEmpty()) {
                 getViewModel().isDirectEmpty.set(false)
                 rvDInvests?.setUpRecyclerView(R.layout.row_tarrakki_zyaada_investment_list_item, it?.data?.tarrakkiZyaadaInvestment as ArrayList<UserPortfolioResponse.Data.TarrakkiZyaadaInvestment>) { item: UserPortfolioResponse.Data.TarrakkiZyaadaInvestment, binder: RowTarrakkiZyaadaInvestmentListItemBinding, position ->

@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="investment"
+            type="com.tarrakki.api.model.UserPortfolioResponse.Data.DirectInvestment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="@dimen/space_2"
+        tools:layout_margin="@dimen/default_space">
+
+        <ImageView
+            android:src="@drawable/tz_top_border"
+            android:scaleType="fitXY"
+            android:id="@+id/ivTZBorder"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{investment.tzBorderVisibility}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_8"
+            app:layout_constraintTop_toBottomOf="@+id/ivTZBorder">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clTop"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_4sdp"
+                    android:fontFamily="@font/lato_semibold"
+                    android:maxLines="2"
+                    android:text="@{investment.fundName}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/item_selected_color"
+                    app:layout_constraintEnd_toStartOf="@+id/ivTZLogo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:redirectToFundDetails="@{investment.fundId}"
+                    tools:text="SBI Banking and Financial Services Growth Direct Plan" />
+
+                <ImageView
+                    android:id="@+id/ivTZLogo"
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:src="@drawable/tarrakki_zyaada_logo"
+                    android:visibility="@{investment.tzBorderVisibility}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <View
+                android:id="@+id/mDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
+                android:background="@color/lighter_gray"
+                app:layout_constraintTop_toBottomOf="@+id/clTop" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_folio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toStartOf="@+id/ll_units"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mDivider">
+
+                <TextView
+                    android:id="@+id/tvFolioNoL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/folio_no"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <TextView
+                    android:id="@+id/tvFolioNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/lato_semibold"
+                    android:maxLines="2"
+                    android:text="@{investment.folioNoList}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    tools:text="@string/dummy3" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/gdlSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.60" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:orientation="vertical"
+                android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
+                app:layout_constraintStart_toEndOf="@+id/gdlSecond"
+                app:layout_constraintTop_toBottomOf="@+id/mDivider">
+
+                <TextView
+                    android:id="@+id/tvUnitsL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/units_"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                <TextView
+                    android:id="@+id/tvUnits"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/lato_semibold"
+                    android:maxLines="1"
+                    android:text="@{investment.totalUnits.toString()}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    tools:text="@string/dummy3" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lyt_single_folio_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:visibility="@{investment.moreFolioList?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ll_folio">
+
+
+                <TextView
+                    android:id="@+id/tvLastPriceL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:text="@string/total_investment_"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvLastPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:dprice="@{investment.totalInvestment}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastPriceL"
+                    tools:text="\u20B939.55" />
+
+                <TextView
+                    android:id="@+id/tvDayChangeL"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/current_value_"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintEnd_toStartOf="@+id/tvYDRLabel"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/gdlCenter"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDayChange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:dprice="@{investment.currentValue}"
+                    app:layout_constraintStart_toStartOf="@id/tvDayChangeL"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDayChangeL"
+                    tools:text="@string/dummy3" />
+
+                <TextView
+                    android:id="@+id/tvYDRLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_16"
+                    android:text="Returns (XIRR):"
+                    android:contentDescription="xirr"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:drawableEnd="@drawable/ic_sort_arrow"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    app:layout_constraintStart_toStartOf="@+id/tvLastPrice"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLastPrice" />
+
+                <TextView
+                    android:id="@+id/tvYDR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semibold"
+                    android:text="@{investment.xiRR}"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="@color/semi_black"
+                    app:layout_constraintStart_toStartOf="@id/tvYDRLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/tvYDRLabel"
+                    tools:text="17.85%" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gdlCenter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.60" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/gdlCenterEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.80" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/lyt_multi_folio_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_8"
+                android:visibility="@{investment.moreFolioList?View.VISIBLE:View.GONE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_single_folio_value">
+
+                <HorizontalScrollView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TableLayout
+                        android:id="@+id/tlfolio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:divider="?android:attr/dividerHorizontal"
+                        android:orientation="vertical"
+                        android:showDividers="middle|end|beginning"
+                        android:stretchColumns="*">
+
+                        <!--<TableRow
+                            android:id="@+id/trContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/bg_img_color"
+                            android:divider="?android:attr/dividerHorizontal"
+                            android:showDividers="middle">
+
+                            <TextView
+                                android:id="@+id/tvFolioNumberMultiple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="@dimen/space_8"
+                                android:text="Folio\nNumber"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/black"
+                                tools:text="Folio\nNumber" />
+
+                            <TextView
+                                android:id="@+id/tvTotalInvestmentMultiple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="@dimen/space_8"
+                                android:text="Total\nInvestment"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/black"
+                                tools:text="Total\nInvestment" />
+
+                            <TextView
+                                android:id="@+id/tvCurrentValueMultiple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="@dimen/space_8"
+                                android:text="Current\nValue"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/black"
+                                tools:text="Current\nValue" />
+
+                            <TextView
+                                android:id="@+id/tvUnitsMultiple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="@dimen/space_8"
+                                android:text="Units"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/black"
+                                tools:text="Units" />
+
+                            <TextView
+                                android:id="@+id/tvReturnsMultiple"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:padding="@dimen/space_8"
+                                android:text="%\nReturns"
+                                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                                android:textColor="@color/black"
+                                tools:text="%\nReturns" />
+
+                        </TableRow>-->
+                    </TableLayout>
+
+                </HorizontalScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:paddingBottom="@dimen/_5sdp"
+                android:id="@+id/ll_options"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_12"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lyt_multi_folio_value">
+
+
+                <TextView
+                    android:id="@+id/tvAddPortfolio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:drawableStart="@drawable/ic_add_small_new"
+                    android:drawablePadding="@dimen/space_4"
+                    android:gravity="center"
+                    android:text="@string/add"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp" />
+
+                <TextView
+                    android:id="@+id/tvRedeem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_12"
+                    android:drawableStart="@drawable/ic_redeem_new"
+                    android:drawablePadding="@dimen/space_4"
+                    android:gravity="center"
+                    android:text="@string/redeem"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp" />
+
+                <TextView
+                    android:id="@+id/tvStopPortfolio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/space_8"
+                    android:drawableStart="@drawable/ic_stop"
+                    android:drawablePadding="@dimen/space_4"
+                    android:gravity="center"
+                    android:text="@string/stop"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvApplyForDebitCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_portfolio_debit_card_new"
+                    android:drawablePadding="@dimen/space_4"
+                    android:gravity="center"
+                    android:text="@string/apply_for_debit_cart"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/_9sdp"
+                    android:visibility="@{investment.applyForDebitCartBtnVisibility}"
+                    app:applyForDebitCart="@{investment.folioData}"
+                    tools:text="Apply for Debit Card" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

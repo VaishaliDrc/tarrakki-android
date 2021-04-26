@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tarrakki.module.portfolio.PortfolioDetailsVM" />
+
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_space"
+        android:background="@drawable/shape_cart_view"
+        android:elevation="@dimen/space_2"
+        android:paddingBottom="@dimen/_20sdp"
+        android:paddingTop="@dimen/default_space"
+        android:paddingStart="@dimen/default_space"
+        android:paddingEnd="@dimen/default_space">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/tvStepTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Steps to follow"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_19ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvStep1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="1. Select Detailed in Statment Type"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStepTitle" />
+
+                <ImageView
+                    android:id="@+id/ivStep1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_85sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_one_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep1" />
+
+                <TextView
+                    android:id="@+id/tvStep2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="2. Select Specific Period"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep1" />
+
+                <ImageView
+                    android:id="@+id/ivStep2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_two_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep2" />
+
+                <TextView
+                    android:id="@+id/tvStep3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="3. Select 01-Jan-1990 in From Date"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep2" />
+
+                <ImageView
+                    android:id="@+id/ivStep3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_thee_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep3" />
+
+                <TextView
+                    android:id="@+id/tvStep4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="4. Select With Zero balance folios"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep3" />
+
+                <ImageView
+                    android:id="@+id/ivStep4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_four_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep4" />
+
+                <TextView
+                    android:id="@+id/tvStep5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="5. Enter your email address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep4" />
+
+                <ImageView
+                    android:id="@+id/ivStep5"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_110sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_five_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep5" />
+
+                <TextView
+                    android:id="@+id/tvStep6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="6. Enter password as your PAN number (in UPPER CASE), confirm the same password and hit Submit"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep5" />
+
+                <ImageView
+                    android:id="@+id/ivStep6"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_155sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/bg_dotted_round_purple"
+                    android:scaleType="fitStart"
+                    android:src="@drawable/step_six_portfolio"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep6" />
+
+                <TextView
+                    android:id="@+id/tvInSometime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="In sometime..."
+                    android:textColor="@color/black"
+                    android:textStyle="italic"
+                    android:textSize="@dimen/_8ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivStep6" />
+
+                <TextView
+                    android:id="@+id/tvStep7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="7. You will receive an email from CAMS with your CAS. Please forward the email to cas@tarrakki.com"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvInSometime" />
+
+                <TextView
+                    android:id="@+id/tvStep8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="8. Login to Tarrakki to see your updated portfolio."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep7" />
+
+
+                <Button
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/tvStep8"
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_btn_purple"
+                    android:fontFamily="@font/lato_bold"
+                    android:textAllCaps="false"
+                    android:text="Visit CAMS website"
+                    android:textColor="@color/white" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
