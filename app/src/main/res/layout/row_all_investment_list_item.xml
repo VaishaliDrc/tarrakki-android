@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/space_16"
-                    android:text="Returns (XIRR):"
+                    android:text="@string/return_xirr"
                     android:contentDescription="xirr"
                     android:drawablePadding="@dimen/_2sdp"
                     android:drawableEnd="@drawable/ic_sort_arrow"

@@ -3,7 +3,11 @@ package com.tarrakki.module.portfolio
 import android.os.Bundle
 import com.tarrakki.R
 import com.tarrakki.databinding.FragmentImportPortfolioBinding
+import com.tarrakki.module.webview.WebViewFragment
+import kotlinx.android.synthetic.main.fragment_import_portfolio.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
+import org.supportcompact.ktx.startFragment
 
 
 class ImportPortfolioFragment : CoreFragment<PortfolioDetailsVM, FragmentImportPortfolioBinding>() {
@@ -27,6 +31,11 @@ class ImportPortfolioFragment : CoreFragment<PortfolioDetailsVM, FragmentImportP
     }
 
     override fun createReference() {
+
+        btnCamsWebsite.setOnClickListener {
+            startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+            postSticky(Event.CAMS_WEBSITE)
+        }
     }
 
     companion object {

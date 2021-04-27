@@ -2,11 +2,8 @@ package com.tarrakki.module.portfolio.fragments
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.MotionEvent
 import android.view.View
 import android.widget.TableLayout
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.JsonObject
@@ -23,7 +20,6 @@ import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import com.tarrakki.module.webview.WebViewFragment
-import com.tarrakki.module.webviewActivity.CMSPagesActivity
 import kotlinx.android.synthetic.main.fragment_all_investmnet.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -142,11 +138,11 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                         }
                         binder.tvYDRLabel.setOnClickListener {
                             if (binder.tvYDRLabel.contentDescription == "xirr") {
-                                binder.tvYDRLabel.text = "Returns (Absolute)"
+                                binder.tvYDRLabel.text = resources.getString(R.string.return_absolute)
                                 binder.tvYDRLabel.contentDescription = "absolute"
                                 binder.tvYDR.text = item.absolute
                             } else {
-                                binder.tvYDRLabel.text = "Returns (XIRR)"
+                                binder.tvYDRLabel.text = resources.getString(R.string.return_xirr)
                                 binder.tvYDRLabel.contentDescription = "xirr"
                                 binder.tvYDR.text = item.xiRR
                             }
@@ -277,18 +273,17 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
 
 
     override fun onOptionClick(optionId: Int?) {
-        var text = ""
         fab.collapse()
 
         Handler().postDelayed({
             when (optionId) {
-                R.id.main_option -> text = ""
+                //   R.id.main_option ->
                 R.id.option1 -> {
                     startFragment(ImportPortfolioFragment.newInstance(), R.id.frmContainer)
                 }
-                R.id.option2 ->  {
+                R.id.option2 -> {
                     startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
-                    postSticky(Event.PRIVACY_PAGE)
+                    postSticky(Event.CAMS_WEBSITE)
                 }
 
             }
