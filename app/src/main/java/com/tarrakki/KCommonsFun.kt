@@ -218,10 +218,10 @@ fun Context.tableRowContentWithDrawable(text: String = "", drawable: Drawable? =
 
 fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> {
     val options: MutableList<DirectInvestmentFragment.InvestmentPortfolioIntro> = mutableListOf()
-    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
+    /*options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
             "How are returns calculated?",
             "Investments of less than one year reflect absolute returns.\n" +
-                    "Investments of one year and above reflect XIRR returns (annualised returns)."))
+                    "Investments of one year and above reflect XIRR returns (annualised returns)."))*/
     options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
             "When does my portfolio get updated?",
             "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 10:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen."))

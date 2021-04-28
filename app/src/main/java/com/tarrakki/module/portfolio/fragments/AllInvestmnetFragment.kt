@@ -1,9 +1,16 @@
 package com.tarrakki.module.portfolio.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.TableLayout
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.gson.JsonObject
@@ -21,6 +28,11 @@ import com.tarrakki.module.portfolio.StopSIP
 import com.tarrakki.module.redeem.RedeemStopConfirmationFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_all_investmnet.*
+import kotlinx.android.synthetic.main.fragment_all_investmnet.mRefresh
+import kotlinx.android.synthetic.main.fragment_all_investmnet.tvHowReturns
+import kotlinx.android.synthetic.main.fragment_all_investmnet.tvNote
+import kotlinx.android.synthetic.main.fragment_all_investmnet.tvWhen
+import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada_portfolio.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.customefloatingmenu.OneMoreFabMenu
@@ -52,8 +64,41 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
         binding.executePendingBindings()
     }
 
+    private fun makeLinks(textView: TextView, links: Array<String>, clickableSpans: Array<ClickableSpan>) {
+        val spannableString = SpannableString(textView.text)
+        for (i in links.indices) {
+            val clickableSpan = clickableSpans[i]
+            val link = links[i]
+            val startIndexOfLink = textView.text.toString().indexOf(link)
+            spannableString.setSpan(clickableSpan, startIndexOfLink, startIndexOfLink + link.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        textView.highlightColor = Color.TRANSPARENT // prevent TextView change background when highlight
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        textView.setText(spannableString, TextView.BufferType.SPANNABLE)
+    }
+
     override fun createReference() {
 
+        val webClickLink = object : ClickableSpan() {
+
+            override fun onClick(widget: View) {
+                widget.context?.browse("https://www.nipponindiamf.com/")
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.isUnderlineText = false
+                context?.color(R.color.colorAccent)?.let { ds.color = it }
+            }
+        }
+
+        tvNote?.let {
+            makeLinks(
+                    it,
+                    arrayOf("Nippon AMC's Website"),
+                    arrayOf(webClickLink)
+            )
+        }
 
         fab.setOptionsClick(this)
         ivAddRound.setOnClickListener {
@@ -259,7 +304,7 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
         }
 
         tvWhen?.setOnClickListener {
-            context?.portfolioIntro(getPortfolioCalculatedIntro(), 1)
+            context?.portfolioIntro(getPortfolioCalculatedIntro(), 0)
         }
 
     }
