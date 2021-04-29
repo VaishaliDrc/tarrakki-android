@@ -417,7 +417,7 @@
     <string name="enter_your_email_address">5. Enter your email address</string>
     <string name="enter_pan_password">6. Enter password as your PAN number (in UPPER CASE), confirm the same password and hit \"Submit\"</string>
     <string name="receive_email">7. You will receive an email from CAMS with your CAS. Please forward the email to <font fgcolor='#A32CC3'>cas@tarrakki.com</font></string>
-    <string name="login_to_tarrakki">8. Login to Tarrakki to see your updated portfolio.</string>
+    <string name="login_to_tarrakki">8. Log in to Tarrakki to see your updated portfolio.</string>
     <string name="in_some_time">In sometime…</string>
 
 

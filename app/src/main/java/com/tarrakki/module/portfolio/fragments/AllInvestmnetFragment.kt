@@ -206,7 +206,7 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                 folios.add(fData)
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
-                                addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio).observe(
+                                addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, if(item.tzId!!) "1" else null).observe(
                                         this,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -229,6 +229,10 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                 json.addProperty("qty", units.toCurrencyBigDecimal().toString())
                                 json.addProperty("folio_number", portfolioNo)
                                 json.addProperty("folio_id", folioId)
+                                if(item.tzId!!){
+                                    json.addProperty("tz_id", "1")
+                                }
+
                                 item.redeemRequest = json
                                 item.redeemUnits = units
                                 item.isInstaRedeem = false
@@ -248,6 +252,9 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                     json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
                                     json.addProperty("redemption_flag", allRedeem)
                                     json.addProperty("folio_id", folioId)
+                                    if(item.tzId){
+                                        json.addProperty("tz_id", "1")
+                                    }
                                     item.redeemRequest = json
                                     item.redeemUnits = amount.toCurrency().toDecimalCurrency()
                                     item.isInstaRedeem = true
