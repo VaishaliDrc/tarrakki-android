@@ -1,10 +1,12 @@
 package org.supportcompact.customefloatingmenu
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -16,6 +18,7 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.Animation.AnimationListener
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -62,8 +65,10 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
     private val initialFabBottomMargin = 45
     private val labelSpacing = 2
     private val childElevation = 10f
-    private val labelPadding = 12
+    private val labelPadding = 22
     private val initialFabSpacing = 45
+
+    private var myActivity : View? = null
 
     // animations
     private val expandInitialFab = AnimationUtils.loadAnimation(context, R.anim.omfm_anim_main_expand)
@@ -112,13 +117,16 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
             }
         })
     }
+    fun setActivity(view: View){
+        myActivity = view
+    }
 
     /// Override methods
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
 
         // calculating the initial button sizes for use as reference
-        val horizontalCenter = right - left - (maxButtonWidth / 2)
+        val horizontalCenter = right - left - (maxButtonWidth/3)
 
         val initialFabTop = bottom - top - initialFab.measuredHeight
         val initialFabLeft = horizontalCenter - (initialFab.measuredWidth / 2)
@@ -168,6 +176,11 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
             // the entire screen
             height = Resources.getSystem().displayMetrics.heightPixels
             initialFab.backgroundTintList = ColorStateList.valueOf(mainButtonExpandedColor)
+
+           /* val map = BlurBuilder.takeScreenShot(requireActivity())
+            val fast = BlurBuilder.fastBlur(map, 5)
+            val draw = BitmapDrawable(resources, fast)*/
+
          //   setBackgroundColor(expandedBackgroundColor)
             background = expandedBackgroundDrawable
             setOnClickListener({ collapse() })

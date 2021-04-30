@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/shape_green_round_bg"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="@dimen/_6sdp"
                     android:text="@string/view_portfolio"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textColor="@color/colorAccent"

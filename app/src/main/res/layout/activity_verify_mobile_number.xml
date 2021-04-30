@@ -61,7 +61,8 @@
 
             <TextView
                 android:id="@+id/tvEnterOTP"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_30sdp"

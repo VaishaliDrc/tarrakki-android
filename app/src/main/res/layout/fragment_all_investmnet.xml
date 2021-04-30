@@ -130,7 +130,7 @@
                 android:layout_marginBottom="@dimen/_13sdp"
                 android:src="@drawable/ic_import_button_purple"
                 android:layout_width="@dimen/_43sdp"
-                android:layout_marginEnd="@dimen/_32sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_height="@dimen/_43sdp"/>
 
             <ImageView
@@ -140,7 +140,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_import_portfolio"
                 android:layout_width="@dimen/_145sdp"
-                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:layout_height="wrap_content"/>
 
 
