@@ -86,7 +86,7 @@ fun setRiskLevel(speedView: SpeedView, riskLevel: Int) {
         speedView.indicator = imageIndicator
     }
     speedView.sections.clear()
-  //  speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
+    //  speedView.addSections(Section(0f, .2f, App.INSTANCE.color(R.color.conservative), speedView.dpTOpx(30f)), Section(.2f, .4f, App.INSTANCE.color(R.color.moderately_conservative), speedView.dpTOpx(30f)), Section(.4f, .6f, App.INSTANCE.color(R.color.balanced), speedView.dpTOpx(30f)), Section(.6f, .8f, App.INSTANCE.color(R.color.moderately_aggressive), speedView.dpTOpx(30f)), Section(.8f, 1f, App.INSTANCE.color(R.color.aggressive), speedView.dpTOpx(30f)))
     speedView.setSpeedAt(riskLevel.toFloat() - 7)
 }
 
@@ -751,16 +751,15 @@ fun setFont(textView: TextView, color: Int) {
 
 @BindingAdapter("primeColor")
 fun setFont(textView: TextView, color: String) {
-    if(color.isNotEmpty()){
-        when(color.get(0)){
-            'B'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.buy))
-            'S'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.sell))
-            'H'-> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.hold))
-            else -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.colorPrimary))
+    if (color.isNotEmpty()) {
+        when (color.get(0)) {
+            'B' -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(), R.color.buy))
+            'S' -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(), R.color.sell))
+            'H' -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(), R.color.hold))
+            else -> textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(), R.color.colorPrimary))
         }
-    }
-    else{
-        textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(),R.color.colorPrimary))
+    } else {
+        textView.setTextColor(ContextCompat.getColor(CoreApp.getInstance(), R.color.colorPrimary))
     }
 
 }
@@ -1051,18 +1050,21 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                                       onRedeem: ((portfolioNo: String,
                                                   folioId: String,
                                                   allRedeem: String,
-                                                  units: String) -> Unit)? = null) {
+                                                  units: String,
+                                                  amount: String) -> Unit)? = null) {
     val mBinder = DialogRedeemPortfolioBinding.inflate(LayoutInflater.from(this))
     val mDialog = AlertDialog.Builder(this).setView(mBinder.root).create()
     mBinder.edtTotalInvestedAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()
     mBinder.edtAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()
-
+    var redeemAmount = 0
     val folioList = portfolioList.map { it.folioNo } as ArrayList
 
     if (folioList.isNotEmpty()) {
         mBinder.folio = folioList[0]
         val folio = portfolioList.find { it.folioNo == folioList[0] }
         mBinder.investmentAmount = folio?.units
+        redeemAmount = folio?.currentValue?.toInt() ?: 0
+
         mBinder.isSingleFolio = folioList.size == 1
     } else {
         mBinder.isSingleFolio = true
@@ -1084,6 +1086,24 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         }
     }
 
+    mBinder.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
+        portfolioList.find { it.folioNo == mBinder.edtChooseFolio.text.toString() }?.let { folio ->
+            if (isChecked) {
+                //mBinder?.edtTotalInvestedAmount.applyCurrencyDecimalFormatPositiveOnlyWithoutRoundOff()
+                //mBinder?.edtAmount.applyCurrencyDecimalFormatPositiveOnlyWithoutRoundOff()
+                mBinder.investmentAmount = "${redeemAmount}"
+            } else {
+                //mBinder.edtTotalInvestedAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()
+                //mBinder.edtAmount.applyCurrencyInfiniteDecimalFormatPositiveOnly()s
+                mBinder.investmentAmount = folio.units
+            }
+        }
+        mBinder.edtAmount.setText("")
+        mBinder.chkAmount.isChecked = false
+        mBinder.isAmountRedeem = isChecked
+        mBinder.executePendingBindings()
+    }
+
     mBinder.edtChooseFolio.setOnClickListener {
         this.showCustomListDialog("Select Folio", folioList) { item ->
             mBinder.folio = item
@@ -1091,29 +1111,59 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             if (selectedAmount != null) {
                 mBinder.investmentAmount = selectedAmount.units/*(selectedAmount.cValue.toDouble() / todayNAV).roundOff().toString()*/
                 mBinder.chkAmount.isChecked = false
+                mBinder.investmentAmount = selectedAmount.units
+                mBinder.isAmountRedeem = false
+                redeemAmount = selectedAmount.currentValue?.toInt() ?: 0
             }
         }
     }
 
     mBinder.btnInvest.setOnClickListener {
         it.dismissKeyboard()
-        val units = mBinder.edtAmount.text.toString()
-        val folioNo = mBinder.edtChooseFolio.text.toString()
-        val folioId = portfolioList.find { it.folioNo == folioNo }?.folioId
-        if (isAmountValid(units.toCurrencyBigDecimal())) {
-            if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
-                mDialog.dismiss()
-                val isRedeem = if (mBinder.chkAmount.isChecked) {
-                    "Y"
+        if (mBinder.switchOnOff.isChecked) {
+            val amount = mBinder.edtAmount.text.toString()
+            val folioNo = mBinder.edtChooseFolio.text.toString()
+            val folioId = portfolioList.find { it.folioNo == folioNo }?.folioId
+            if (isAmountValid(amount.toCurrencyBigDecimal())) {
+                if (amount.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
+                    if (amount.toCurrencyBigDecimal().toDouble() % 1.00 == 0.00) {
+                        mDialog.dismiss()
+                        val isRedeem = if (mBinder.chkAmount.isChecked) {
+                            "F"
+                        } else {
+                            "P"
+                        }
+                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, "",amount)
+                    } else {
+                        this.simpleAlert(getString(R.string.multi_insta_redeem_amount))
+                    }
                 } else {
-                    "N"
+                    this.simpleAlert("The redemption amount can not be greater than the total amount of the selected folio.")
                 }
-                onRedeem?.invoke(folioNo, "$folioId", isRedeem, units)
             } else {
-                this.simpleAlert(getString(R.string.greater_units))
+                this.simpleAlert(getString(R.string.alert_req_amount))
             }
+
         } else {
-            this.simpleAlert(getString(R.string.alert_req_units))
+            val units = mBinder.edtAmount.text.toString()
+            val folioNo = mBinder.edtChooseFolio.text.toString()
+            val folioId = portfolioList.find { it.folioNo == folioNo }?.folioId
+            if (isAmountValid(units.toCurrencyBigDecimal())) {
+                if (units.toCurrencyBigDecimal() <= "${mBinder.investmentAmount}".toCurrencyBigDecimal()) {
+                    mDialog.dismiss()
+                    val isRedeem = if (mBinder.chkAmount.isChecked) {
+                        "Y"
+                    } else {
+                        "N"
+                    }
+                    onRedeem?.invoke(folioNo, "$folioId", isRedeem, units,"")
+                } else {
+                    this.simpleAlert(getString(R.string.greater_units))
+                }
+            } else {
+                this.simpleAlert(getString(R.string.alert_req_units))
+            }
+
         }
     }
 
@@ -1131,7 +1181,8 @@ fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList:
                                                                   onRedeem: ((portfolioNo: String,
                                                                               folioId: String,
                                                                               allRedeem: String,
-                                                                              units: String) -> Unit)? = null,
+                                                                              units: String,
+                                                                              amount: String, ) -> Unit)? = null,
                                                                   onInstaRedeem: ((portfolioNo: String,
                                                                                    folioId: String,
                                                                                    amount: String,
@@ -1272,7 +1323,7 @@ fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList:
                         } else {
                             "N"
                         }
-                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, units)
+                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, units,"")
                     } else {
                         mContext.simpleAlert(mContext.getString(R.string.greater_units))
                     }

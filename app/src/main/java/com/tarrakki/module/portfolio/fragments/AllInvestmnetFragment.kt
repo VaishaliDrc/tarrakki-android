@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.TableLayout
 import android.widget.TextView
@@ -206,7 +207,7 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                 folios.add(fData)
                             }
                             context?.addFundPortfolioDialog(folios, item.validminlumpsumAmount, item.validminSIPAmount, item.bseData) { portfolio, amountLumpsum, amountSIP ->
-                                addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, if(item.tzId!!) "1" else null).observe(
+                                addToCartPortfolio(item.fundId, amountSIP.toString(), amountLumpsum.toString(), portfolio, if (item.tzId!!) "1" else null).observe(
                                         this,
                                         Observer { response ->
                                             context?.simpleAlert(getString(R.string.cart_fund_added)) {
@@ -221,20 +222,33 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                             for (folio in item.folioList) {
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
-                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units ->
+                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String, amount: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units, amount ->
                                 val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
                                 json.addProperty("fund_id", item.fundId)
                                 json.addProperty("all_redeem", allRedeem)
-                                json.addProperty("qty", units.toCurrencyBigDecimal().toString())
+                                if (units.toCurrencyBigDecimal().toString() == "0") {
+                                    json.addProperty("qty", "")
+                                    item.redeemUnits = ""
+                                } else {
+                                    json.addProperty("qty", units.toCurrencyBigDecimal().toString())
+                                    item.redeemUnits = units
+                                }
                                 json.addProperty("folio_number", portfolioNo)
                                 json.addProperty("folio_id", folioId)
-                                if(item.tzId!!){
+                                if (amount.toCurrencyBigDecimal().toString() == "0") {
+                                    json.addProperty("amount", "")
+                                    item.redeemAmount = ""
+                                } else {
+                                    json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
+                                    item.redeemAmount = amount
+                                }
+
+                                if (item.tzId!!) {
                                     json.addProperty("tz_id", "1")
                                 }
 
                                 item.redeemRequest = json
-                                item.redeemUnits = units
                                 item.isInstaRedeem = false
                                 getDefaultBank().observe(this, Observer {
                                     it?.let { bank ->
@@ -252,7 +266,7 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                     json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
                                     json.addProperty("redemption_flag", allRedeem)
                                     json.addProperty("folio_id", folioId)
-                                    if(item.tzId){
+                                    if (item.tzId) {
                                         json.addProperty("tz_id", "1")
                                     }
                                     item.redeemRequest = json

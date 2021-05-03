@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import com.tarrakki.R
@@ -51,7 +52,19 @@ class RedeemConfirmFragment : CoreFragment<RedeemConfirmVM, FragmentRedeemConfir
                 tvName?.text = fund.fundName
                 tvTitle?.setText(if (fund.isInstaRedeem) R.string.redeemed_amount else R.string.number_of_unites_redeemed)
                 getViewModel().isInstaRedeem.set(fund.isInstaRedeem)
-                tvUnits?.text = fund.redeemUnits
+                if((fund.isInstaRedeem)){
+                    tvUnits?.text = fund.redeemUnits
+                }else {
+                    fund.redeemUnits?.let {
+                        if (it.isEmpty()) {
+                            tvTitle?.setText(R.string.redeemed_amount)
+                            tvUnits?.text = fund.redeemAmount
+                        } else {
+                            tvTitle?.setText(R.string.number_of_unites_redeemed)
+                            tvUnits?.text = fund.redeemUnits
+                        }
+                    }
+                }
                 tvExit?.text = fund.exitLoad
                 getBinding().bank = fund.bank
                 getBinding().executePendingBindings()

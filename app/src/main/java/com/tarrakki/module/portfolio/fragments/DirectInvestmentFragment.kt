@@ -137,7 +137,7 @@ class DirectInvestmentFragment : CoreFragment<PortfolioVM, FragmentDirectInvestm
                             for (folio in item.folioList) {
                                 folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                             }
-                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units ->
+                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String, amount : String) -> Unit)? = { portfolioNo, folioId, allRedeem, units , amount ->
                                 val json = JsonObject()
                                 json.addProperty("user_id", App.INSTANCE.getUserId())
                                 json.addProperty("fund_id", item.fundId)

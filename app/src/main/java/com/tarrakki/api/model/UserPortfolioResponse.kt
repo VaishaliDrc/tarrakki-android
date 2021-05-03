@@ -529,6 +529,8 @@ data class UserPortfolioResponse(
 
             var redeemUnits: String? = null
 
+            var redeemAmount: String? = null
+
             var isInstaRedeem = false
 
             var bank: DefaultBankResponse.DefaultBank? = null

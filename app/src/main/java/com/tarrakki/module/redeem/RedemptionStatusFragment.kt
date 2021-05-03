@@ -12,7 +12,11 @@ import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.databinding.FragmentRedemptionStatusBinding
 import com.tarrakki.databinding.RowTransactionListStatusBinding
 import com.tarrakki.module.transactionConfirm.TransactionConfirmVM
+import kotlinx.android.synthetic.main.fragment_redeem_confirm.*
 import kotlinx.android.synthetic.main.fragment_redemption_status.*
+import kotlinx.android.synthetic.main.fragment_redemption_status.tvName
+import kotlinx.android.synthetic.main.fragment_redemption_status.tvNote
+import kotlinx.android.synthetic.main.fragment_redemption_status.tvUnits
 import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
@@ -62,7 +66,20 @@ class RedemptionStatusFragment : CoreFragment<RedeemConfirmVM, FragmentRedemptio
                 tvRemark?.text = fund.redeemedStatus?.data?.remarks
                 tvAmount?.setText(if (fund.isInstaRedeem) R.string.amount else R.string.units)
                 tvName?.text = fund.fundName
-                tvUnits?.text = fund.redeemUnits
+
+                if((fund.isInstaRedeem)){
+                    tvUnits?.text = fund.redeemUnits
+                }else{
+                    fund.redeemUnits?.let {
+                        if(it.isEmpty()){
+                            tvAmount?.setText(R.string.amount)
+                            tvUnits?.text = fund.redeemAmount
+                        }else{
+                            tvAmount?.setText(R.string.units)
+                            tvUnits?.text = fund.redeemUnits
+                        }
+                    }
+                }
                 getBinding().bank = fund.bank
                 getBinding().isFailed = isFailed
                 getBinding().executePendingBindings()

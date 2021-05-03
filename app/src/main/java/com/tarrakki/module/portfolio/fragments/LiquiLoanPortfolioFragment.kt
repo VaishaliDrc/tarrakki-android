@@ -10,7 +10,6 @@ import com.tarrakki.api.model.*
 import com.tarrakki.databinding.FragmentLiquiloanPortfolioBinding
 import com.tarrakki.databinding.RowGoalBasedInvestmentListItemBinding
 import com.tarrakki.databinding.RowLiquiloansPortfolioBinding
-import com.tarrakki.module.portfolio.PortfolioDetailsFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.showComingSoonAddRedeemPortfolio
 import kotlinx.android.synthetic.main.fragment_consumer_loan_liqui.mRefresh
