@@ -1129,9 +1129,9 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                     if (amount.toCurrencyBigDecimal().toDouble() % 1.00 == 0.00) {
                         mDialog.dismiss()
                         val isRedeem = if (mBinder.chkAmount.isChecked) {
-                            "F"
+                            "Y"
                         } else {
-                            "P"
+                            "N"
                         }
                         onRedeem?.invoke(folioNo, "$folioId", isRedeem, "",amount)
                     } else {
