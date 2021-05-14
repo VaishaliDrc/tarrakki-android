@@ -5,17 +5,20 @@
     <!-- Title here can be empty if you don't to add any action in the main button -->
     <item
         android:id="@+id/main_option"
+        android:iconTint="@color/white"
         android:icon="@drawable/ic_add_button_white"
         android:title=""/>
 
     <!-- Options buttons of the Fab menu -->
     <item
         android:id="@+id/option1"
+        android:iconTint="@color/white"
         android:icon="@drawable/ic_upload_cas"
         android:title="Upload CAS" />
 
     <item
         android:id="@+id/option2"
+        android:iconTint="@color/white"
         android:icon="@drawable/ic_website_button"
         android:title="Visit CAMS website" />
 

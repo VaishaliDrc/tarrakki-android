@@ -63,7 +63,7 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
         mGoogleSignInHelper = GoogleSignInHelper(this, this)
         setAdapter()
 
-        tvTermsConditions.makeSpannableLinks(resources.getColor(R.color.auto_cancel),
+        tvTermsConditions.makeSpannableLinks(resources.getColor(R.color.auto_cancel),true,
                 Pair("Terms & conditions", View.OnClickListener {
                     startActivity<CMSPagesActivity>()
                     postSticky(Event.TERMS_AND_CONDITIONS_PAGE)

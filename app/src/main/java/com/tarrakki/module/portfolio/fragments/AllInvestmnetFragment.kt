@@ -43,7 +43,7 @@ import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
 
 
-class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBinding>(), OneMoreFabMenu.OptionsClick {
+class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBinding>(), OneMoreFabMenu.OptionsClick, OneMoreFabMenu.OnExpandOrCollapse {
 
 
     var vm: PortfolioVM? = null
@@ -80,6 +80,20 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
 
     override fun createReference() {
 
+
+        if(extFab.isExtended){
+            extFab.shrink()
+        }
+        extFab.setOnClickListener {
+            if(extFab.isExtended){
+                extFab.visibility = View.GONE
+                fab.visibility = View.VISIBLE
+                fab.expand()
+            }else{
+                extFab.extend()
+            }
+        }
+
         val webClickLink = object : ClickableSpan() {
 
             override fun onClick(widget: View) {
@@ -102,6 +116,7 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
         }
 
         fab.setOptionsClick(this)
+        fab.setExpandListner(this)
         ivAddRound.setOnClickListener {
             ivAddRound.visibility = View.GONE
             ivAddPortfolio.visibility = View.VISIBLE
@@ -358,5 +373,8 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
 
     }
 
+    override fun OnExpandOrCollapse(isExpand: Boolean) {
+        blurView.visibility = if (isExpand) View.VISIBLE else View.GONE
+    }
 
 }

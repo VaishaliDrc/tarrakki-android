@@ -60,4 +60,12 @@
         <item name="colorControlNormal">@color/rating_yellow</item>
     </style>
 
+    <style name="AppThemeMaterial" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
 </resources>

@@ -125,7 +125,7 @@ fun View.animateScaleX(values: FloatArray, duration: Long = 300, repeatCount: In
     animator.start()
 }
 
-fun TextView.makeSpannableLinks(color : Int,vararg links: Pair<String, View.OnClickListener>) {
+fun TextView.makeSpannableLinks(color : Int, isUderLine:Boolean,vararg links: Pair<String, View.OnClickListener>) {
     val spannableString = SpannableString(this.text)
     var startIndexOfLink = -1
     for (link in links) {
@@ -136,7 +136,7 @@ fun TextView.makeSpannableLinks(color : Int,vararg links: Pair<String, View.OnCl
                  textPaint.color = color
                 // toggle below value to enable/disable
                 // the underline shown below the clickable text
-                textPaint.isUnderlineText = true
+                textPaint.isUnderlineText = isUderLine
             }
 
             override fun onClick(view: View) {

@@ -1086,6 +1086,33 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
         }
     }
 
+    mBinder.rgTicketType?.setOnCheckedChangeListener { group, checkedId ->
+        when (mBinder.rgTicketType?.checkedRadioButtonId) {
+            R.id.rbUnits -> {
+                portfolioList.find { it.folioNo == mBinder.edtChooseFolio.text.toString() }?.let { folio ->
+                    mBinder.investmentAmount = folio.units
+                    mBinder.edtAmount.setText("")
+                    mBinder.chkAmount.isChecked = false
+                    mBinder.isAmountRedeem = false
+                    mBinder.executePendingBindings()
+                }
+            }
+            R.id.rbAmount -> {
+                portfolioList.find { it.folioNo == mBinder.edtChooseFolio.text.toString() }?.let { folio ->
+                    mBinder.investmentAmount = "${redeemAmount}"
+                    mBinder.investmentAmount = folio.units
+                    mBinder.edtAmount.setText("")
+                    mBinder.chkAmount.isChecked = false
+                    mBinder.isAmountRedeem = true
+                    mBinder.executePendingBindings()
+                }
+            }
+
+        }
+    }
+
+
+
     mBinder.switchOnOff.setOnCheckedChangeListener { buttonView, isChecked ->
         portfolioList.find { it.folioNo == mBinder.edtChooseFolio.text.toString() }?.let { folio ->
             if (isChecked) {
@@ -1113,6 +1140,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                 mBinder.chkAmount.isChecked = false
                 mBinder.investmentAmount = selectedAmount.units
                 mBinder.isAmountRedeem = false
+                mBinder.rbUnits.isChecked = true
                 redeemAmount = selectedAmount.currentValue?.toInt() ?: 0
             }
         }
@@ -1133,7 +1161,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                         } else {
                             "N"
                         }
-                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, "",amount)
+                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, "", amount)
                     } else {
                         this.simpleAlert(getString(R.string.multi_insta_redeem_amount))
                     }
@@ -1156,7 +1184,7 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
                     } else {
                         "N"
                     }
-                    onRedeem?.invoke(folioNo, "$folioId", isRedeem, units,"")
+                    onRedeem?.invoke(folioNo, "$folioId", isRedeem, units, "")
                 } else {
                     this.simpleAlert(getString(R.string.greater_units))
                 }
@@ -1178,11 +1206,13 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
 }
 
 fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList: MutableList<FolioData>,
-                                                                  onRedeem: ((portfolioNo: String,
-                                                                              folioId: String,
-                                                                              allRedeem: String,
-                                                                              units: String,
-                                                                              amount: String, ) -> Unit)? = null,
+                                                                  onRedeem: ((
+                                                                          portfolioNo: String,
+                                                                          folioId: String,
+                                                                          allRedeem: String,
+                                                                          units: String,
+                                                                          amount: String,
+                                                                  ) -> Unit)? = null,
                                                                   onInstaRedeem: ((portfolioNo: String,
                                                                                    folioId: String,
                                                                                    amount: String,
@@ -1323,7 +1353,7 @@ fun androidx.fragment.app.Fragment.redeemFundTarrakkiZyaadaDialog(portfolioList:
                         } else {
                             "N"
                         }
-                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, units,"")
+                        onRedeem?.invoke(folioNo, "$folioId", isRedeem, units, "")
                     } else {
                         mContext.simpleAlert(mContext.getString(R.string.greater_units))
                     }

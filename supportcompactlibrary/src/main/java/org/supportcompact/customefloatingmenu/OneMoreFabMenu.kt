@@ -32,6 +32,10 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         fun onOptionClick(optionId: Int?)
     }
 
+    interface OnExpandOrCollapse {
+        fun OnExpandOrCollapse(isExpand : Boolean)
+    }
+
     enum class Direction {
         EXPANDED, COLLAPSED
     }
@@ -40,6 +44,7 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
     private var inflater = MenuInflater(context)
     private var initialFab = FloatingActionButton(context)
     private var clickCallback: OptionsClick? = null
+    private var expandCallback: OnExpandOrCollapse? = null
 
     // flags
     private var closeOnClick = false
@@ -182,7 +187,8 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
             val draw = BitmapDrawable(resources, fast)*/
 
          //   setBackgroundColor(expandedBackgroundColor)
-            background = expandedBackgroundDrawable
+        //    background = expandedBackgroundDrawable
+            background = null
             setOnClickListener({ collapse() })
         } else {
             // calculating the total width and height of the component
@@ -211,8 +217,9 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         if(rotateMainButton) {
             initialFab.startAnimation(collapseInitialFab)
         }
-
+        expandCallback?.OnExpandOrCollapse(false)
         animateChildren(downChildAnimation)
+
     }
 
     fun expand() {
@@ -221,7 +228,7 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         if(rotateMainButton) {
             initialFab.startAnimation(expandInitialFab)
         }
-
+        expandCallback?.OnExpandOrCollapse(true)
         animateChildren(upChildAnimation)
         requestLayout()
     }
@@ -249,6 +256,10 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
 
     fun setOptionsClick(callback: OptionsClick) {
         clickCallback = callback
+    }
+
+    fun setExpandListner(callback: OnExpandOrCollapse) {
+        expandCallback = callback
     }
 
     /// Private methods
@@ -323,6 +334,7 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
                 // get the first position of the options array
                 // to be the first fab button of the component
                 initialFab = fab
+                initialFab.drawable.mutate().setTint(ContextCompat.getColor(context, R.color.white))
 
                 if(enableMainAsAction
                         && !item.title.isEmpty()
@@ -362,6 +374,7 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         fab.id = item.itemId
         fab.layoutParams = generateDefaultLayoutParams()
         fab.setImageDrawable(item.icon)
+        fab.drawable.mutate().setTint(ContextCompat.getColor(context, R.color.white))
 
        // val size = if(isFirst) mainFabSize else secondaryFabSize
         fab.size = if(isFirst) mainFabSize else secondaryFabSize
@@ -412,6 +425,16 @@ class OneMoreFabMenu @JvmOverloads constructor(context: Context, attrs: Attribut
         if(enableMainAsAction && mainExpandedDrawable != null) {
             initialFab.setImageDrawable(if(isExpanded()) mainExpandedDrawable else mainCollapsedDrawable)
         }
+
+        if(isExpanded()){
+            initialFab.drawable.mutate().setTint(ContextCompat.getColor(context, R.color.colorPrimary))
+        }else{
+            initialFab.drawable.mutate().setTint(ContextCompat.getColor(context, R.color.white))
+        }
+
+
+
+
 
         // set the listener of the main button
         // if the main was enabled as action

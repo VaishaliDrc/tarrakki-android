@@ -199,6 +199,11 @@ dependencies {
 
     // Lottie animation
     implementation 'com.airbnb.android:lottie:3.7.0'
+
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
+
+    implementation 'com.google.android.material:material:1.4.0-beta01'
+
 }
 
 apply plugin: 'com.google.gms.google-services'
