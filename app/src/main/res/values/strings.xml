@@ -21,7 +21,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="account">Account</string>
     <string name="why_tarrakki">Why Tarrakki ?</string>
+    <string name="already_invested_in_mf">Already invested in Mutual Funds?</string>
+    <string name="add_your_existing">Add your existing investments here to track and manage your investments</string>
     <string name="why_rural_invest">Why Rural Invest ?</string>
+    <string name="import_funds">Import Funds</string>
     <string name="dummy">\u20B93,24666666666666888888888</string>
     <string name="dummy1">\u20B95,000,00</string>
     <string name="dummy3">\u20B91,583</string>
