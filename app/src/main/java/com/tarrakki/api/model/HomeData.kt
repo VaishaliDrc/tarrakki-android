@@ -22,6 +22,8 @@ data class HomeData(
             val portfolioDetails: PortfolioDetails,
             @SerializedName("is_kyc_verified")
             val isKycVerified: Boolean?,
+            @SerializedName("is_first_cas_upload")
+            val isFirstCasUpload: Boolean?,
             @SerializedName("complete_registration")
             val completeRegistration: Boolean?,
             @SerializedName("ready_to_invest")

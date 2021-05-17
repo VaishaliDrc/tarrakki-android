@@ -154,6 +154,27 @@
     <string name="add_one_time_amount">+ Add one time amount</string>
     <string name="portfolio">Portfolio</string>
     <string name="import_portfolio">Import Portfolio</string>
+
+    <string name="view_detailed_steps">View detailed steps to get CAS</string>
+    <string name="visit_cams_websites">Visit CAMS website</string>
+    <string name="steps_to_get_cas">Steps to get the Consolidated Account Statement (CAS)</string>
+    <string name="enter_details">Enter the details and password as listed below and click on \'Submit\'</string>
+    <string name="statement_type">Statement Type</string>
+    <string name="detailed">Detailed</string>
+    <string name="period">Period</string>
+    <string name="specific_period">Specific Period</string>
+    <string name="from_date">From Date</string>
+    <string name="first_jan">1st jan, 1990</string>
+    <string name="to_date">To Date</string>
+    <string name="current_date">Current Date</string>
+    <string name="folio_listing">Folio Listing</string>
+    <string name="with_zero_balance">With Zero balance folios</string>
+    <string name="email">Email</string>
+    <string name="pan">PAN</string>
+    <string name="passwords">Password</string>
+    <string name="once_you_get_email">Once you get the email from \n<b>donotreply@camsonline.com</b></string>
+    <string name="forward_email_to">Forward the email to <i>cas@tarrakki.com</i></string>
+
     <string name="total_investment_">Total Investment:</string>
     <string name="xirr_">XIRR:</string>
     <string name="current_value_">Current Value:</string>
@@ -256,6 +277,7 @@
     <string name="bank_mandate">Bank Mandate</string>
     <string name="change_password">Change Password</string>
     <string name="my_profile">My Profile</string>
+    <string name="import_external_invest">Import External Mutual Fund Investments</string>
     <string name="transactions">Transactions</string>
     <string name="my_portfolio">My Portfolio</string>
     <string name="my_sip">MY SIPs</string>

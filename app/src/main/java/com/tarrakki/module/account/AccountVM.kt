@@ -10,10 +10,7 @@ import com.tarrakki.App
 import com.tarrakki.BuildConfig
 import com.tarrakki.R
 import com.tarrakki.api.*
-import com.tarrakki.api.model.ApiResponse
-import com.tarrakki.api.model.KYCStatusApiResponse
-import com.tarrakki.api.model.parseTo
-import com.tarrakki.api.model.printResponse
+import com.tarrakki.api.model.*
 import com.tarrakki.getVisibility
 import org.greenrobot.eventbus.EventBus
 import org.supportcompact.FragmentViewModel
@@ -83,6 +80,7 @@ class AccountVM : FragmentViewModel() {
         accountMenus.clear()
         if (App.INSTANCE.isCompletedRegistration()) {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_profile), R.drawable.ic_my_profile))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.import_external_invest), R.drawable.ic_visit_cams))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_risk_assessment))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
@@ -98,6 +96,7 @@ class AccountVM : FragmentViewModel() {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.about_us), R.drawable.ic_about_us))
         } else {
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.risk_assessment), R.drawable.ic_risk_assessment))
+            accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.import_external_invest), R.drawable.ic_visit_cams))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.transactions), R.drawable.ic_transactions))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_portfolio), R.drawable.ic_my_portfolio))
             accountMenus.add(AccountMenu(App.INSTANCE.getString(R.string.my_sip), R.drawable.ic_my_sip))
@@ -149,6 +148,39 @@ class AccountVM : FragmentViewModel() {
         })
         return apiResponse
     }
+    fun getUserProfile(): MutableLiveData<UserProfileResponse> {
+        val apiResponse = MutableLiveData<UserProfileResponse>()
+        EventBus.getDefault().post(SHOW_PROGRESS)
+        subscribeToSingle(
+                observable = ApiClient.getHeaderClient()
+                        .create(WebserviceBuilder::class.java)
+                        .getUserProfile(),
+                apiNames = WebserviceBuilder.ApiNames.getGoals,
+                singleCallback = object : SingleCallback<WebserviceBuilder.ApiNames> {
+                    override fun onSingleSuccess(o: Any?, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        if (o is ApiResponse) {
+                            if ((o.status?.code == 1)) {
+                                o.printResponse()
+                                val data = o.data?.parseTo<UserProfileResponse>()
+                                apiResponse.value = data
+                            } else {
+                                EventBus.getDefault().post(ShowError("${o.status?.message}"))
+                            }
+                        } else {
+                            EventBus.getDefault().post(ShowError(App.INSTANCE.getString(R.string.try_again_to)))
+                        }
+                    }
+
+                    override fun onFailure(throwable: Throwable, apiNames: WebserviceBuilder.ApiNames) {
+                        EventBus.getDefault().post(DISMISS_PROGRESS)
+                        EventBus.getDefault().post(ShowError("${throwable.message}"))
+                    }
+                }
+        )
+        return apiResponse
+    }
+
 }
 
 data class AccountMenu(var title: String, @DrawableRes var imgRes: Int)

@@ -108,6 +108,77 @@
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                     android:id="@+id/cl_import_funds"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_space"
+                    android:layout_marginTop="@dimen/default_space"
+                    android:layout_marginEnd="@dimen/default_space"
+                    android:background="@drawable/shape_cart_view"
+                    android:elevation="2dp"
+                    android:padding="8dp"
+                  >
+
+
+                    <TextView
+                        android:id="@+id/tvAlreadyInvest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_semibold"
+                        android:text="@string/already_invested_in_mf"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/_13ssp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/already_invested_in_mf" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivFile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:src="@drawable/ic_file_purple"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvAlreadyInvest" />
+
+                    <TextView
+                        android:id="@+id/tvAddExisting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:fontFamily="@font/lato_regular"
+                        android:text="@string/add_your_existing"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ivFile"
+                        app:layout_constraintTop_toBottomOf="@id/tvAlreadyInvest"
+                        tools:text="@string/add_your_existing" />
+
+                    <TextView
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:id="@+id/btnImportFund"
+                        android:layout_width="wrap_content"
+                        android:paddingStart="@dimen/_20sdp"
+                        android:paddingEnd="@dimen/_20sdp"
+                        android:textSize="@dimen/_11ssp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_btn_idle_bg"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="@string/import_funds"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clTarrakkiZyaada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

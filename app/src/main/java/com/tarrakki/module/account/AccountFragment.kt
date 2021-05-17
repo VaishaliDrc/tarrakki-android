@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import androidx.core.app.ShareCompat
 import androidx.databinding.ViewDataBinding
@@ -23,6 +24,7 @@ import com.tarrakki.module.debitcart.DebitCartInfoFragment
 import com.tarrakki.module.ekyc.*
 import com.tarrakki.module.my_sip.MySipFragment
 import com.tarrakki.module.myprofile.MyProfileFragment
+import com.tarrakki.module.portfolio.ImportFundsFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.risk_profile.RiskProfileFragment
 import com.tarrakki.module.risk_profile.StartAssessmentFragment
@@ -31,6 +33,9 @@ import com.tarrakki.module.support.SupportFragment
 import com.tarrakki.module.transactions.TransactionsFragment
 import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_account.*
+import kotlinx.android.synthetic.main.fragment_account.edtPanNo
+import kotlinx.android.synthetic.main.fragment_account.ll_complete_verification
+import kotlinx.android.synthetic.main.fragment_home.*
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.WidgetsViewModel
 import org.supportcompact.adapters.setUpMultiViewRecyclerAdapter
@@ -279,6 +284,9 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
                         postSticky(Event.ABOUT_US)
                     }
+                    R.drawable.ic_visit_cams -> {
+                        handleImportFunds()
+                    }
                 }
             }
         }
@@ -450,6 +458,24 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                 getViewModel().appLock.set(getViewModel().appLock.get() != true)
             }
         }
+    }
+
+    private fun handleImportFunds() {
+        getViewModel().getUserProfile().observe(this, Observer { response ->
+            response?.let {
+                //getBinding().root.visibility = View.VISIBLE
+                Log.e("ProfileData",it.toString())
+
+                response.data.kycDetail.pan?.let {
+                    if(it.isEmpty()){
+                        context?.simpleAlert(resources.getString(R.string.alert_req_pan_number)).apply {
+                        }
+                    }else{
+                        startFragment(ImportFundsFragment.newInstance(), R.id.frmContainer)
+                    }
+                }
+            }
+        })
     }
 
     private fun proceedVideoKYC(kyc: KYCData) {

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
@@ -23,6 +24,7 @@ import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
 import com.tarrakki.module.netbanking.NetBankingFragment
+import com.tarrakki.module.portfolio.ImportFundsFragment
 import com.tarrakki.module.portfolio.PortfolioFragment
 import com.tarrakki.module.prime_investor.PrimeInvestorMutualFundListFragment
 import com.tarrakki.module.tarrakkipro.TarrakkiProBenefitsFragment
@@ -32,6 +34,7 @@ import com.tarrakki.module.yourgoal.KEY_GOAL_ID
 import com.tarrakki.module.zyaada.TarrakkiZyaadaFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home_invest.*
+import kotlinx.android.synthetic.main.fragment_import_funds.*
 import org.greenrobot.eventbus.Subscribe
 import org.json.JSONObject
 import org.supportcompact.CoreFragment
@@ -343,6 +346,25 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
 
         clTarrakkiPro?.setOnClickListener {
             startFragment(TarrakkiProBenefitsFragment.newInstance(), R.id.frmContainer)
+        }
+
+        btnImportFund?.setOnClickListener {
+            getViewModel().getUserProfile().observe(this, Observer { response ->
+                response?.let {
+                    //getBinding().root.visibility = View.VISIBLE
+                    Log.e("ProfileData",it.toString())
+
+                    response.data.kycDetail.pan?.let {
+                       if(it.isEmpty()){
+                           context?.simpleAlert(resources.getString(R.string.alert_req_pan_number)).apply {
+                               edtPanNo.requestFocus()
+                           }
+                       }else{
+                           startFragment(ImportFundsFragment.newInstance(), R.id.frmContainer)
+                       }
+                    }
+                }
+            })
         }
 
         clPrimeInvestor?.setOnClickListener {

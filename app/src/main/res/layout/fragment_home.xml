@@ -293,6 +293,7 @@
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:visibility="@{vm.importFundsVisibility?View.VISIBLE:View.GONE}"
                         android:id="@+id/cl_import_funds"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
