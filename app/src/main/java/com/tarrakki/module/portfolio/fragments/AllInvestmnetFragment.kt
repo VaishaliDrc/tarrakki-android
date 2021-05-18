@@ -22,6 +22,7 @@ import com.tarrakki.api.model.UserPortfolioResponse
 import com.tarrakki.api.model.printRequest
 import com.tarrakki.databinding.FragmentAllInvestmnetBinding
 import com.tarrakki.databinding.RowAllInvestmentListItemBinding
+import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.cart.CartFragment
 import com.tarrakki.module.portfolio.ImportPortfolioFragment
 import com.tarrakki.module.portfolio.PortfolioVM
@@ -81,15 +82,15 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
     override fun createReference() {
 
 
-        if(extFab.isExtended){
+        if (extFab.isExtended) {
             extFab.shrink()
         }
         extFab.setOnClickListener {
-            if(extFab.isExtended){
+            if (extFab.isExtended) {
                 extFab.visibility = View.GONE
                 fab.visibility = View.VISIBLE
                 fab.expand()
-            }else{
+            } else {
                 extFab.extend()
             }
         }
@@ -186,8 +187,8 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                             tableRow?.addView(context?.tableRowContent("${item.totalInvestment?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${item.currentValue?.toDecimalCurrencyWithoutRoundOff()}", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent("${
-                                item.totalUnits
-                                        ?: ""
+                            item.totalUnits
+                                    ?: ""
                             }", context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent(item.xiRR, context?.color(R.color.black)))
                             tableRow?.addView(context?.tableRowContent(item.absolute, context?.color(R.color.black)))
@@ -233,63 +234,42 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                         }
 
                         binder.tvRedeem.setOnClickListener {
-                            val folios: MutableList<FolioData> = mutableListOf()
-                            for (folio in item.folioList) {
-                                folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
-                            }
-                            val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String, amount: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units, amount ->
-                                val json = JsonObject()
-                                json.addProperty("user_id", App.INSTANCE.getUserId())
-                                json.addProperty("fund_id", item.fundId)
-                                json.addProperty("all_redeem", allRedeem)
-                                if (units.toCurrencyBigDecimal().toString() == "0") {
-                                    json.addProperty("qty", "")
-                                    item.redeemUnits = ""
-                                } else {
-                                    json.addProperty("qty", units.toCurrencyBigDecimal().toString())
-                                    item.redeemUnits = units
-                                }
-                                json.addProperty("folio_number", portfolioNo)
-                                json.addProperty("folio_id", folioId)
-                                if (amount.toCurrencyBigDecimal().toString() == "0") {
-                                    json.addProperty("amount", "")
-                                    item.redeemAmount = ""
-                                } else {
-                                    json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
-                                    item.redeemAmount = amount
-                                }
 
-                                if (item.tzId!!) {
-                                    json.addProperty("tz_id", "1")
+                            if (context?.isCompletedRegistration()!!) {
+                                val folios: MutableList<FolioData> = mutableListOf()
+                                for (folio in item.folioList) {
+                                    folios.add(FolioData(folio.folioId, folio.currentValue, folio.units, folio.folioNo))
                                 }
-
-                                item.redeemRequest = json
-                                item.isInstaRedeem = false
-                                getDefaultBank().observe(this, Observer {
-                                    it?.let { bank ->
-                                        json.printRequest()
-                                        item.bank = bank.data
-                                        startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
-                                        repostSticky(item)
-                                    }
-                                })
-                            }
-                            if (item.tzId == true) {
-                                redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, folioId: String, amount: String, allRedeem: String ->
+                                val onRedeem: ((portfolioNo: String, folioId: String, allRedeem: String, units: String, amount: String) -> Unit)? = { portfolioNo, folioId, allRedeem, units, amount ->
                                     val json = JsonObject()
+                                    json.addProperty("user_id", App.INSTANCE.getUserId())
+                                    json.addProperty("fund_id", item.fundId)
+                                    json.addProperty("all_redeem", allRedeem)
+                                    if (units.toCurrencyBigDecimal().toString() == "0") {
+                                        json.addProperty("qty", "")
+                                        item.redeemUnits = ""
+                                    } else {
+                                        json.addProperty("qty", units.toCurrencyBigDecimal().toString())
+                                        item.redeemUnits = units
+                                    }
                                     json.addProperty("folio_number", portfolioNo)
-                                    json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
-                                    json.addProperty("redemption_flag", allRedeem)
                                     json.addProperty("folio_id", folioId)
-                                    if (item.tzId) {
+                                    if (amount.toCurrencyBigDecimal().toString() == "0") {
+                                        json.addProperty("amount", "")
+                                        item.redeemAmount = ""
+                                    } else {
+                                        json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
+                                        item.redeemAmount = amount
+                                    }
+
+                                    if (item.tzId!!) {
                                         json.addProperty("tz_id", "1")
                                     }
+
                                     item.redeemRequest = json
-                                    item.redeemUnits = amount.toCurrency().toDecimalCurrency()
-                                    item.isInstaRedeem = true
+                                    item.isInstaRedeem = false
                                     getDefaultBank().observe(this, Observer {
                                         it?.let { bank ->
-                                            json.addProperty("bank", bank.data?.bankName)
                                             json.printRequest()
                                             item.bank = bank.data
                                             startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
@@ -297,8 +277,38 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                                         }
                                     })
                                 }
+                                if (item.tzId == true) {
+                                    redeemFundTarrakkiZyaadaDialog(folios, onRedeem) { portfolioNo: String, folioId: String, amount: String, allRedeem: String ->
+                                        val json = JsonObject()
+                                        json.addProperty("folio_number", portfolioNo)
+                                        json.addProperty("amount", amount.toCurrencyBigDecimal().toString())
+                                        json.addProperty("redemption_flag", allRedeem)
+                                        json.addProperty("folio_id", folioId)
+                                        if (item.tzId) {
+                                            json.addProperty("tz_id", "1")
+                                        }
+                                        item.redeemRequest = json
+                                        item.redeemUnits = amount.toCurrency().toDecimalCurrency()
+                                        item.isInstaRedeem = true
+                                        getDefaultBank().observe(this, Observer {
+                                            it?.let { bank ->
+                                                json.addProperty("bank", bank.data?.bankName)
+                                                json.printRequest()
+                                                item.bank = bank.data
+                                                startFragment(RedeemStopConfirmationFragment.newInstance(isRedeemReq = true), R.id.frmContainer)
+                                                repostSticky(item)
+                                            }
+                                        })
+                                    }
+                                } else {
+                                    context?.redeemFundPortfolioDialog(folios, onRedeem)
+                                }
                             } else {
-                                context?.redeemFundPortfolioDialog(folios, onRedeem)
+                                context?.confirmationDialog(getString(R.string.alert_req_place_order_registration),
+                                        btnPositiveClick = {
+                                            startActivity<AccountActivity>()
+                                        }
+                                )
                             }
                         }
 

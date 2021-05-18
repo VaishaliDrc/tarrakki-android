@@ -284,7 +284,7 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
                         startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
                         postSticky(Event.ABOUT_US)
                     }
-                    R.drawable.ic_visit_cams -> {
+                    R.drawable.ic_external_transactions -> {
                         handleImportFunds()
                     }
                 }
@@ -463,9 +463,6 @@ class AccountFragment : CoreFragment<AccountVM, FragmentAccountBinding>() {
     private fun handleImportFunds() {
         getViewModel().getUserProfile().observe(this, Observer { response ->
             response?.let {
-                //getBinding().root.visibility = View.VISIBLE
-                Log.e("ProfileData",it.toString())
-
                 response.data.kycDetail.pan?.let {
                     if(it.isEmpty()){
                         context?.simpleAlert(resources.getString(R.string.alert_req_pan_number)).apply {

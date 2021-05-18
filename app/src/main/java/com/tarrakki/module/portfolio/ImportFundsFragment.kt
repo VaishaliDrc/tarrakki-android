@@ -68,8 +68,6 @@ class ImportFundsFragment : CoreFragment<PortfolioDetailsVM, FragmentImportFunds
 
         val profileObserver: androidx.lifecycle.Observer<UserProfileResponse> = androidx.lifecycle.Observer { response ->
             response?.let {
-                //getBinding().root.visibility = View.VISIBLE
-                Log.e("ProfileData",it.toString())
                 tvEmail.text = response.data.email
                 response.data.kycDetail.pan?.let {
                     tvPan.text = it

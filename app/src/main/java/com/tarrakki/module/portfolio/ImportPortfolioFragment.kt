@@ -40,12 +40,16 @@ class ImportPortfolioFragment : CoreFragment<PortfolioDetailsVM, FragmentImportP
 
         tvStep7.makeSpannableLinks(resources.getColor(R.color.equity_fund_color), false,
                 Pair("cas@tarrakki.com", View.OnClickListener {
-                    it.setOnLongClickListener(View.OnLongClickListener { v ->
+                    val cm: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    cm.text = "cas@tarrakki.com"
+                    Toast.makeText(context, "Email Copied", Toast.LENGTH_SHORT).show()
+
+                    /*it.setOnLongClickListener(View.OnLongClickListener { v ->
                         val cm: ClipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                         cm.text = "cas@tarrakki.com"
                         Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
                         false
-                    })
+                    })*/
 
                 }))
 

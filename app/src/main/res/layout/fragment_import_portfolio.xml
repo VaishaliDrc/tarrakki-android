@@ -200,6 +200,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:fontFamily="@font/lato_regular"
                     android:text="@string/receive_email"
+                    android:drawablePadding="@dimen/_4sdp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="parent"
