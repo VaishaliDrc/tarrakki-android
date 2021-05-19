@@ -40,7 +40,7 @@
                     android:id="@+id/tvStepTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
+                    android:fontFamily="@font/lato_semibold"
                     android:text="@string/steps_to_follow"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_19ssp"
