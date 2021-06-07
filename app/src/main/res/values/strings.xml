@@ -277,7 +277,7 @@
     <string name="bank_mandate">Bank Mandate</string>
     <string name="change_password">Change Password</string>
     <string name="my_profile">My Profile</string>
-    <string name="import_external_invest">Import External Mutual Fund Investments</string>
+    <string name="import_external_invest">Import Mutual Fund Investments</string>
     <string name="transactions">Transactions</string>
     <string name="my_portfolio">My Portfolio</string>
     <string name="my_sip">MY SIPs</string>
@@ -549,6 +549,7 @@
     <string name="alert_select_amount">Please Select an Amount.</string>
     <string name="alert_req_full_name">Please Enter your Full Name.</string>
     <string name="alert_req_pan_number">Please enter your PAN Number.</string>
+    <string name="alert_req_pan_number_register">Please enter your PAN details and complete your registration</string>
     <string name="alert_valid_pan_number">Please enter a valid PAN Number.</string>
     <string name="alert_req_nominee_name">Please Enter the Name of a Nominee.</string>
     <string name="alert_req_nominee_relationship">Please Enter your Relationship with the Nominee.</string>

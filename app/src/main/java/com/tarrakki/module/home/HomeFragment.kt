@@ -353,7 +353,7 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
                 response?.let {
                     response.data.kycDetail.pan?.let {
                        if(it.isEmpty()){
-                           context?.simpleAlert(resources.getString(R.string.alert_req_pan_number)).apply {
+                           context?.simpleAlert(resources.getString(R.string.alert_req_pan_number_register)).apply {
                                edtPanNo.requestFocus()
                            }
                        }else{
