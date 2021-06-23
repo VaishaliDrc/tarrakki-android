@@ -51,6 +51,21 @@
 
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/tvAlert1"
+                android:textStyle="italic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:fontFamily="@font/lato_regular"
+                android:text="@string/i_confirm_these_units"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/llInfo"
+                tools:text="@string/i_confirm_these_units" />
+
+
             <TextView
                 android:id="@+id/tvAlert"
                 android:layout_width="match_parent"

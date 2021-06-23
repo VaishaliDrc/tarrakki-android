@@ -741,16 +741,13 @@
     <string name="we_could_not_retrieve">We couldn’t retrieve the username from your social media account. Please change the privacy settings of your social media account and try again.</string>
     <string name="max_file_size_msg">File size can not be greater than 25 MB</string>
     <string name="redeem_confirm_msg">
-        In the last 25 years, markets have gone through many ups and downs. They have fallen and recovered multiple times.
-        \n\n
-        But, in the long run, those who remained invested through the ups and downs have emerged as multi-millionaires.
-        \n\n
-        Those who redeemed or stopped their investments because of market dips, simply missed the bus.
+        In the last 25 years, markets have gone through many ups and downs. They have fallen and recovered multiple times.\n\nBut, in the long run, those who remained invested through the ups and downs have emerged as multi-millionaires.\n\nThose who redeemed or stopped their investments because of market dips, simply missed the bus.
     </string>
 
     <string name="tell_us_more">Tell Us More</string>
     <string name="redeem_disclaimer">Note: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at <i><a href='https://www.reliancemutual.com/'>Nippon AMC\'s Website</a></i></string>
     <string name="are_you_sure_you_want_to_redeem">Are you sure you would like to redeem ?</string>
+    <string name="i_confirm_these_units">I confirm these units are not held in demat mode.</string>
     <string name="are_you_sure_you_want_to_stop">Are you sure you would like to stop your SIP ?</string>
     <string name="redemption">Redemption</string>
     <string name="app_update">App Update</string>
