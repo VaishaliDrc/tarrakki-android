@@ -86,7 +86,7 @@ class NewLoginVM : ActivityViewModel(), SingleCallback<WebserviceBuilder.ApiName
         showProgress()
         val json = JsonObject()
         json.addProperty("email_or_mobile", emailOrMobile)
-       // json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
+        json.addProperty("organization", BuildConfig.FLAVOR.isTarrakki().getOrganizationCode())
 
         e("Plain Data=>", json.toString())
         val authData = AES.encrypt(json.toString())

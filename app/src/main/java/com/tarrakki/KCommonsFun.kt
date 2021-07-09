@@ -96,7 +96,7 @@ fun getReturnLevel(returnType: String?): String {
     }
 }
 
-fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Fragment,navigateToTPro: Boolean,item: HomeData.Data.Category.SecondLevelCategory) {
+fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment: Fragment, navigateToTPro: Boolean, item: HomeData.Data.Category.SecondLevelCategory) {
     if (!item.isGoal) {
         if (item.isThematic) {
             val bundle = Bundle().apply {
@@ -117,7 +117,7 @@ fun androidx.fragment.app.FragmentActivity?.onInvestmentStrategies(fragment:Frag
                         EventBus.getDefault().postSticky(item)
                     } else {
                         this?.investmentStragiesDialog(item.thirdLevelCategory[0]) { thirdLevelCategoryItem, amountLumpsum, amountSIP ->
-                            investmentRecommendation(fragment,navigateToTPro,thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
+                            investmentRecommendation(fragment, navigateToTPro, thirdLevelCategoryItem.id, amountSIP, amountLumpsum, 0).observe(this,
                                     androidx.lifecycle.Observer { response ->
                                         val bundle = Bundle().apply {
                                             putString("sip", amountSIP.toString())
@@ -224,7 +224,10 @@ fun getPortfolioCalculatedIntro(): MutableList<DirectInvestmentFragment.Investme
                     "Investments of one year and above reflect XIRR returns (annualised returns)."))*/
     options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
             "When does my portfolio get updated?",
-            "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 10:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen. \n\nNote: Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Nippon AMC's Website."))
+            "Updates that you make to your portfolio today will only be visible here, on your Portfolio Screen, after 10:30 am tomorrow. To check the status of your recent transactions, please navigate to the Transactions screen."))
+    options.add(DirectInvestmentFragment.InvestmentPortfolioIntro(
+            "Tarrakki Zyaada investments",
+            "Redemptions made outside of the Tarrakki app (ATM or Using your Debit Card) will take T+3 days to update under the portfolio section. You can check the current value of your Tarrakki Zyaada investment at Nippon AMC's Website."))
     return options
 }
 

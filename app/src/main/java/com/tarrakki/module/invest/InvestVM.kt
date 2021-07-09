@@ -5,6 +5,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import android.graphics.Color
+import android.util.Log
 import android.view.View
 import com.google.gson.JsonObject
 import com.tarrakki.App

@@ -42,6 +42,7 @@ import org.supportcompact.events.Event
 import org.supportcompact.ktx.*
 import org.supportcompact.utilise.EqualSpacingItemDecoration
 import java.util.*
+import kotlin.collections.HashMap
 
 
 class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBinding>(), OneMoreFabMenu.OptionsClick, OneMoreFabMenu.OnExpandOrCollapse {

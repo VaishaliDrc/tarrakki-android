@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/space_8"
-            android:text="Would you like to redeem by? Unit/Amount"
+            android:text="Would you like to redeem by?"
             android:textAllCaps="true"
             android:layout_marginTop="@dimen/default_space"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -147,7 +147,7 @@
                 android:checked="true"
                 android:gravity="center"
                 android:padding="@dimen/_8sdp"
-                android:text="Unit"
+                android:text="Units"
                 android:textColor="@color/view_redeem_selector" />
 
             <RadioButton

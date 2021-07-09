@@ -166,7 +166,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
             }
         }
         var riskLevel = 0
-        rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
+       /* rvRiskLevel?.setUpRecyclerView(R.layout.row_risk_level_indicator, getViewModel().arrRiskLevel) { item: RiskLevel, binder: RowRiskLevelIndicatorBinding, position ->
             binder.riskLevel = item
             binder.executePendingBindings()
             binder.root.setOnClickListener {
@@ -188,7 +188,7 @@ class InvestFragment : CoreFragment<InvestVM, FragmentInvestBinding>() {
                 getViewModel().arrRiskLevel[riskLevel].isSelected = true
                 rvRiskLevel?.adapter?.notifyDataSetChanged()
             }
-        }
+        }*/
         rvFundType?.setUpRecyclerView(R.layout.row_fund_type_list_item, getViewModel().fundTypes) { item: FundType, binder: RowFundTypeListItemBinding, position ->
             binder.fundType = item
             binder.executePendingBindings()

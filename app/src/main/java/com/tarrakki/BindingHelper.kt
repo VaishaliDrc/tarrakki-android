@@ -1110,7 +1110,6 @@ fun Context.redeemFundPortfolioDialog(portfolioList: MutableList<FolioData>,
             R.id.rbAmount -> {
                 portfolioList.find { it.folioNo == mBinder.edtChooseFolio.text.toString() }?.let { folio ->
                     mBinder.investmentAmount = "${redeemAmount}"
-                    mBinder.investmentAmount = folio.units
                     mBinder.edtAmount.setText("")
                     mBinder.chkAmount.isChecked = false
                     mBinder.isAmountRedeem = true
