@@ -24,6 +24,9 @@ import com.tarrakki.databinding.FragmentAllInvestmnetBinding
 import com.tarrakki.databinding.RowAllInvestmentListItemBinding
 import com.tarrakki.module.account.AccountActivity
 import com.tarrakki.module.cart.CartFragment
+import com.tarrakki.module.debitcart.DebitCartInfoFragment
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.portfolio.ImportPortfolioFragment
 import com.tarrakki.module.portfolio.PortfolioVM
 import com.tarrakki.module.portfolio.StopSIP
@@ -35,6 +38,7 @@ import kotlinx.android.synthetic.main.fragment_all_investmnet.tvHowReturns
 import kotlinx.android.synthetic.main.fragment_all_investmnet.tvNote
 import kotlinx.android.synthetic.main.fragment_all_investmnet.tvWhen
 import kotlinx.android.synthetic.main.fragment_tarrakki_zyaada_portfolio.*
+import org.greenrobot.eventbus.EventBus
 import org.supportcompact.CoreFragment
 import org.supportcompact.adapters.setUpRecyclerView
 import org.supportcompact.customefloatingmenu.OneMoreFabMenu
@@ -198,6 +202,29 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                             // binder.tlfolio.setBackgroundResource(R.drawable.shape_border)
                         } else {
 
+                        }
+
+                        binder.tvName.setOnClickListener {
+                            startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                                putString(ITEM_ID, "${item.fundId}")
+                            }), R.id.frmContainer)
+                        }
+
+                        binder.tvApplyForDebitCart.setOnClickListener {
+                            if (requireContext().isCompletedRegistration()!!) {
+                                getAddressAmountAPI().observe(this, androidx.lifecycle.Observer { addressAmountData ->
+                                    startFragment(DebitCartInfoFragment.newInstance(), R.id.frmContainer)
+                                    item.folioData?.let { EventBus.getDefault().postSticky(it) }
+                                    addressAmountData?.let { EventBus.getDefault().postSticky(addressAmountData) }
+                                })
+
+                            } else {
+                                requireContext().confirmationDialog(getString(R.string.alert_req_place_order_registration),
+                                        btnPositiveClick = {
+                                            startActivity<AccountActivity>()
+                                        }
+                                )
+                            }
                         }
                         binder.tvYDRLabel.setOnClickListener {
                             if (binder.tvYDRLabel.contentDescription == "xirr") {

@@ -54,7 +54,6 @@
                     app:layout_constraintEnd_toStartOf="@+id/ivTZLogo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:redirectToFundDetails="@{investment.fundId}"
                     tools:text="SBI Banking and Financial Services Growth Direct Plan" />
 
                 <ImageView
@@ -415,7 +414,7 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_9sdp"
                     android:visibility="@{investment.applyForDebitCartBtnVisibility}"
-                    app:applyForDebitCart="@{investment.folioData}"
+
                     tools:text="Apply for Debit Card" />
 
             </LinearLayout>
