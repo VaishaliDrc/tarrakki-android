@@ -51,7 +51,11 @@ class OverviewFragment : androidx.fragment.app.Fragment() {
             vm.fundDetailsResponse.observe(viewLifecycleOwner, Observer { fundDetailsResponse ->
 
                 txt_fund_offer?.setOnClickListener {
-                    context?.openUrl(fundDetailsResponse?.fundsDetails?.amcLink.toString())
+                    if (fundDetailsResponse?.fundsDetails?.amcLink.toString().isEmpty()) {
+                        context?.simpleAlert(getString(R.string.no_scheme_document))
+                    }else {
+                        context?.openUrl(fundDetailsResponse?.fundsDetails?.amcLink.toString())
+                    }
                 }
 
                 btnRiskAssessment?.setOnClickListener {

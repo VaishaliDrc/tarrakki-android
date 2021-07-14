@@ -7,8 +7,10 @@ import com.tarrakki.databinding.FragmentHomeInvestBinding
 import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.equityadvisory.EquityAdvisoryFragment
 import com.tarrakki.module.exploreallinvestfunds.ExploreAllInvestFundsFragment
+import com.tarrakki.module.webview.WebViewFragment
 import kotlinx.android.synthetic.main.fragment_home_invest.*
 import org.supportcompact.CoreFragment
+import org.supportcompact.events.Event
 import org.supportcompact.ktx.simpleAlert
 import org.supportcompact.ktx.startFragment
 
@@ -40,8 +42,9 @@ class HomeInvestFragment : CoreFragment<HomeInvestVM, FragmentHomeInvestBinding>
         }
 
         lyt_advisory?.setOnClickListener {
-          //  context?.simpleAlert(getString(R.string.coming_soon))
-            startFragment(EquityAdvisoryFragment.newInstance(), R.id.frmContainer)
+            //startFragment(EquityAdvisoryFragment.newInstance(), R.id.frmContainer)
+            startFragment(WebViewFragment.newInstance(), R.id.frmContainer)
+            postSticky(Event.EQUITY_WEB)
         }
 
         lyt_consume_liquiloans?.setOnClickListener {

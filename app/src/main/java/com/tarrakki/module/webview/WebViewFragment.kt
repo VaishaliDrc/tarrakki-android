@@ -52,6 +52,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun createReference() {
+        val newUA = "Mozilla/5.0 (Linux; Android 6.0.1; SM-J500M Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36"
 
         mWebView.settings.javaScriptEnabled = true // enable javascript
         mWebView.settings.loadWithOverviewMode = true
@@ -62,6 +63,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
         mWebView.settings.setAppCacheEnabled(true)
         mWebView.settings.cacheMode = WebSettings.LOAD_DEFAULT
         mWebView.settings.setSupportMultipleWindows(false)
+        mWebView.settings.mediaPlaybackRequiresUserGesture = false
+        mWebView.settings.userAgentString = newUA
+        mWebView.settings.domStorageEnabled = true
+
 
         mWebView.webChromeClient = object : WebChromeClient() {
 
@@ -160,6 +165,10 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                     Event.CAMS_WEBSITE -> {
                         coreActivityVM?.title?.set(context?.getString(R.string.visit_cams_website))
                         mWebView?.loadUrl("https://new.camsonline.com/Investors/Statements/Consolidated-Account-Statement")
+                    }
+                    Event.EQUITY_WEB -> {
+                        coreActivityVM?.title?.set(context?.getString(R.string.equity_advisory))
+                        mWebView?.loadUrl("https://tarrakki.smallcase.com/")
                     }
                     else -> {
                         /*coreActivityVM?.title?.set("Refresh")
