@@ -238,7 +238,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_4"
                         android:fontFamily="@font/lato_semibold"
-                        android:text="With our equity advisory services, you can become a discerning investor in no time. Expert equity advisors build a model portfolio for you based on your risk profile and investment goals, so you can watch your wealth grow."
+                        android:text="With our equity advisory services, you can become a discerning investor in no time. Invest in our customized model stock portfolio, based on extensive research with periodic rebalancing to minimize risk."
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 </LinearLayout>
