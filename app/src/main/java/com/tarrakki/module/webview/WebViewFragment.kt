@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.webkit.*
@@ -105,6 +106,7 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                         // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
                         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                             startActivity(this)
+                            Handler().postDelayed({onBack(1)},1000)
                         }
                         return true
                     }
