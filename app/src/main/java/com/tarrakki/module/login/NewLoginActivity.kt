@@ -214,19 +214,19 @@ class NewLoginActivity : CoreActivity<NewLoginVM, ActivityNewLoginBinding>(), Go
 
     override fun onGoogleSignInFailed(e: ApiException) {
         getViewModel().dismissProgress()
-        e(e.localizedMessage.toString())
+      //  e(e.localizedMessage.toString())
     }
 
     private fun getGoogleAccountData() {
         val acct = GoogleSignIn.getLastSignedInAccount(this)
         if (acct != null) {
-            val personName = acct.displayName
+         //   val personName = acct.displayName
             val fname = acct.givenName
             val lname = acct.familyName
             val personEmail = acct.email
             val personId = acct.id
-            val personPhoto = acct.photoUrl
-            e(personName.toString())
+         //   val personPhoto = acct.photoUrl
+         //   e(personName.toString())
             getViewModel().socialEmail.set(personEmail)
             getViewModel().socialFName.set(fname)
             getViewModel().socialLName.set(lname)

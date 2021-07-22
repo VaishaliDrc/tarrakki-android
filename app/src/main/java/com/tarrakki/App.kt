@@ -51,11 +51,12 @@ class App : CoreApp() {
         if (BuildConfig.FLAVOR.isTarrakki()) {
             // Branch logging for debugging
             Branch.getAutoInstance(this)
+            initializeAppsflyer()
         }
         //Sentry Tracking
         Sentry.init("https://e33bb6ed55444fc69342ecfe5f38c2ed@sentry.drcsystems.com/13", AndroidSentryClientFactory(this))
 
-        initializeAppsflyer()
+
     }
 
     private fun initializeAppsflyer() {

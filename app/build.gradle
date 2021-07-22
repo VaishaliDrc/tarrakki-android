@@ -111,7 +111,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$APPCOMPAT"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
-    implementation "com.google.android.material:material:1.2.1"
+    implementation "com.google.android.material:material:1.4.0"
     implementation 'ru.bullyboo.animation:text_counter:1.0.2'
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
@@ -127,8 +127,8 @@ dependencies {
     implementation 'com.github.drawers:SpinnerDatePicker:1.0.6'
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.github.simonebortolin:FlowLayoutManager:1.5'
-    implementation 'me.relex:circleindicator:1.2.2'
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'me.relex:circleindicator:2.1.6'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.otaliastudios:zoomlayout:1.5.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
@@ -137,29 +137,29 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 
     //implementation 'com.github.smart-fun:XmlToJson:1.4.4'
     //implementation 'com.android.support:support-v4:28.0.0'
     /**Firebase Dependency*/
-    implementation 'com.google.firebase:firebase-core:17.5.1'
-    implementation 'com.google.firebase:firebase-messaging:20.3.0'
-    implementation 'com.facebook.android:facebook-login:5.5.1'
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.facebook.android:facebook-login:6.1.0'
     //implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
     // Recommended: Add the Google Analytics SDK.
-    implementation 'com.google.firebase:firebase-analytics:18.0.2'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
 
     //In - App messaging
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
-    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.5'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.0.0'
 
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
@@ -168,28 +168,28 @@ dependencies {
     // required for all Android apps
     //implementation 'io.branch.sdk.android:library:4.2.1'
     implementation 'io.branch.sdk.android:library:5.0.3'
-    implementation 'androidx.browser:browser:1.2.0'
+    implementation 'androidx.browser:browser:1.3.0'
 
 
     // required if your app is in the Google Play Store (tip: avoid using bundled play services libs)
-    implementation 'com.google.firebase:firebase-appindexing:19.1.0' // App indexing
-    implementation 'com.google.android.gms:play-services-ads:19.4.0'
+    implementation 'com.google.firebase:firebase-appindexing:20.0.0' // App indexing
+    implementation 'com.google.android.gms:play-services-ads:20.2.0'
 
 //    Sentry Traking
     implementation 'io.sentry:sentry-android:1.7.27'
     implementation 'org.slf4j:slf4j-nop:1.7.25'
 
     //kotlinx-corountines-core, kotlinx-coroutines-android
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha05"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha02"
 
     // Speedometer
     implementation 'com.github.anastr:speedviewlib:1.5.2'
 
     //Cashfree Payment gateway integration
     implementation files("libs/cashfreesdk-1.4.9.8-release.aar")
-    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.2.0'
 
     //Facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:6.1.0'
