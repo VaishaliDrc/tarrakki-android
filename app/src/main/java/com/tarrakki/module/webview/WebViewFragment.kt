@@ -21,6 +21,7 @@ import org.greenrobot.eventbus.Subscribe
 import org.supportcompact.CoreFragment
 import org.supportcompact.events.Event
 import org.supportcompact.events.ShowError
+import java.lang.IllegalStateException
 
 
 /**
@@ -104,10 +105,15 @@ class WebViewFragment : CoreFragment<WebViewVM, FragmentWebViewBinding>() {
                     }
                     else -> {
                         // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
+
                         Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                             startActivity(this)
-                            Handler().postDelayed({onBack(1)},1000)
+                            try {
+                                Handler().postDelayed({ onBack(1) }, 500)
+                            } catch (e: IllegalStateException) {
+                            }
                         }
+
                         return true
                     }
                 }
