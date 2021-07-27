@@ -20,6 +20,8 @@ import com.tarrakki.databinding.FragmentHomeBinding
 import com.tarrakki.fcm.eventPanKYCVerified
 import com.tarrakki.module.consumerloansliquilons.ConsumerLoansLiquiLoanFragment
 import com.tarrakki.module.ekyc.*
+import com.tarrakki.module.funddetails.FundDetailsFragment
+import com.tarrakki.module.funddetails.ITEM_ID
 import com.tarrakki.module.goal.GoalFragment
 import com.tarrakki.module.investmentstrategies.InvestmentStrategiesFragment
 import com.tarrakki.module.netbanking.NET_BANKING_PAGE
@@ -481,6 +483,12 @@ class HomeFragment : CoreFragment<HomeVM, FragmentHomeBinding>() {
         when (event.event) {
             Event.OPEN_MY_CART -> {
                 getViewModel().redirectToInvestmentStratergy.value = event.message
+                removeStickyEvent(event)
+            }
+            Event.FUND_DETAILS -> {
+                startFragment(FundDetailsFragment.newInstance(Bundle().apply {
+                    putString(ITEM_ID,event.message)
+                }), R.id.frmContainer)
                 removeStickyEvent(event)
             }
             else -> super.onEvent(event)

@@ -140,13 +140,11 @@ class HomeActivity : BaseActivity() {
             if (error == null) {
                 referringParams?.let { e("BRANCH SDK", it) }
                 if (referringParams?.optString("~referring_link")?.contains("tarrakki_zyaada") == true) {
-                    //EventBus.getDefault().post(Event.OPEN_TARRAKKI_ZYAADA)
                     postSticky(Event.OPEN_TARRAKKI_ZYAADA)
                 } else if (referringParams?.optString("~referring_link")?.contains("investment_strategy?id=") == true) {
                     try {
                         val uri = Uri.parse(referringParams.optString("~referring_link"))
                         uri?.let {
-                            //EventBus.getDefault().post(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
                             postSticky(EventData(Event.OPEN_MY_CART, "${uri.getQueryParameter("id")}"))
                         }
                     } catch (e: Exception) {
@@ -155,6 +153,16 @@ class HomeActivity : BaseActivity() {
                 }
                 else if (referringParams?.optString("~referring_link")?.contains("liquiloans") == true) {
                     postSticky(Event.OPEN_LIQUILOANS)
+                }else if (referringParams?.optString("~referring_link")?.contains("fund_details?id=") == true) {
+                    try {
+                        val uri = Uri.parse(referringParams.optString("~referring_link"))
+                        uri?.let {
+                            postSticky(EventData(Event.FUND_DETAILS, "${uri.getQueryParameter("id")}"))
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+
+                    }
                 }
                 /*if(referringParams?.optBoolean("+clicked_branch_link") == true){
                 }*/
