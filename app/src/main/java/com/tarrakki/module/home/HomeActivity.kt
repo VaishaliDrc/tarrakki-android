@@ -135,6 +135,9 @@ class HomeActivity : BaseActivity() {
         kycData?.let { postSticky(it) }
     }
 
+
+    // To add any new deep link open branch io website and login with parth.p@drcsystems.com - Drc@1234
+
     private val branchReferralInitListener = object : Branch.BranchReferralInitListener {
         override fun onInitFinished(referringParams: JSONObject?, error: BranchError?) {
             if (error == null) {
