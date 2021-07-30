@@ -29,6 +29,7 @@ class FundDetailsVM : FragmentViewModel() {
     val fundDetailsResponse = MutableLiveData<FundDetails>()
     var tarrakkiZyaadaId: String? = null
     val hasRiskProfile = ObservableField(false)
+    val isRegularFund = ObservableField(false)
     val riskScore = ObservableField(0f)
 
     init {
@@ -58,6 +59,7 @@ class FundDetailsVM : FragmentViewModel() {
                                     fundDetails?.bseData?.isTarrakkiZyaada = !tarrakkiZyaadaId.isNullOrBlank()
                                     riskScore.set(fundDetails?.riskProfileLevel ?: 0f)
                                     hasRiskProfile.set(!TextUtils.isEmpty(fundDetails?.riskProfile))
+                                    isRegularFund.set(fundDetails?.isRegularPlan)
                                     fundDetailsResponse.postValue(fundDetails)
                                     EventBus.getDefault().post(DISMISS_PROGRESS)
                                 }

@@ -239,6 +239,11 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                         }
 
                         binder.tvAddPortfolio.setOnClickListener {
+
+                            if (item.isRegularPlan){
+                                context?.simpleAlert(getString(R.string.add_error_regular_plan))
+                                return@setOnClickListener
+                            }
                             App.piMinimumInitialMultiple = toBigInt(item.piMinimumInitialMultiple)
                             App.piMinimumSubsequentMultiple = toBigInt(item.piMinimumSubsequentMultiple)
                             App.additionalSIPMultiplier = item.additionalSIPMultiplier
@@ -262,6 +267,11 @@ class AllInvestmnetFragment : CoreFragment<PortfolioVM, FragmentAllInvestmnetBin
                         }
 
                         binder.tvRedeem.setOnClickListener {
+
+                            if (item.isRegularPlan){
+                                context?.simpleAlert(getString(R.string.redeem_error_regular_plan))
+                                return@setOnClickListener
+                            }
 
                             if (context?.isCompletedRegistration()!!) {
                                 val folios: MutableList<FolioData> = mutableListOf()

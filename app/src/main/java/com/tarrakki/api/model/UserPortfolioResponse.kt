@@ -479,6 +479,8 @@ data class UserPortfolioResponse(
                 val instaRedeem: Boolean?,
                 @SerializedName("tz_id")
                 val tzId: Boolean?,
+                @SerializedName("is_regular_plan")
+                val isRegularPlan: Boolean = false,
                 @SerializedName("current_value")
                 val currentValue: Double?,
                 @SerializedName("folio_list")

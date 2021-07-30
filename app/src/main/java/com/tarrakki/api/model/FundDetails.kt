@@ -29,7 +29,9 @@ data class FundDetails(
         @SerializedName("lumpsum_additional_min_amount")
         val lumpsumAdditionalMinAmount: String?,
         @SerializedName("risk_profile")
-        val riskProfile: String?
+        val riskProfile: String?,
+        @SerializedName("is_regular_plan")
+        val isRegularPlan: Boolean = false
 ) {
 
     val additionalMinLumpsum: BigInteger
