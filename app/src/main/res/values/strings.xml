@@ -378,8 +378,8 @@
     <string name="cart_fund_added">The fund has been added to your cart successfully.</string>
     <string name="cart_goal_added">The goal has been added to your cart successfully.</string>
     <string name="no_scheme_document">No scheme document found for this fund</string>
-    <string name="add_error_regular_plan">To redeem your Regular Plan please reach out to us at support@tarrakki.com</string>
-    <string name="redeem_error_regular_plan">Funds cannot be added to Regular Plans</string>
+    <string name="add_error_regular_plan">Funds cannot be added to Regular Plans</string>
+    <string name="redeem_error_regular_plan">To redeem your Regular Plan please reach out to us at support@tarrakki.com</string>
 
     <string name="alert_profile_reset">Your Password has been Reset Successfully.</string>
     <string name="alert_profile_change">Your Password has been Changed Successfully.</string>
