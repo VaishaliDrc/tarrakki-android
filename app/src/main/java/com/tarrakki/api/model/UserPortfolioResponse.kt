@@ -522,7 +522,7 @@ data class UserPortfolioResponse(
             var redeemedStatus: RedeemedStatus? = null
 
             val applyForDebitCartBtnVisibility
-                get() = if (relianceDebitFund == true) View.VISIBLE else View.GONE
+                get() = if(tzId == true && (folioList.filter { it.isApplyDebitCard == false }).isNotEmpty()) View.VISIBLE else View.GONE
 
             val tzBorderVisibility
                 get() = if (tzId == true) View.VISIBLE else View.GONE
