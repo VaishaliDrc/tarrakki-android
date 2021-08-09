@@ -37,7 +37,7 @@ project.ext {
     MIN_SDK_VERSION = 21
 
 
-    VERSION_CODE = 47
+    VERSION_CODE = 48
     VERSION_NAME = "1.3.9"
 
     VERSION_CODE_RURAL = 11
