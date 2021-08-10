@@ -64,22 +64,22 @@ class App : CoreApp() {
             override fun onConversionDataSuccess(data: MutableMap<String, Any>?) {
                 data?.let { cvData ->
                     cvData.map {
-                        Log.e("AppsflyerLog", "conversion_attribute:  ${it.key} = ${it.value}")
+                     //   Log.e("AppsflyerLog", "conversion_attribute:  ${it.key} = ${it.value}")
                     }
                 }
             }
             override fun onConversionDataFail(error: String?) {
-                Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
+             //   Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
             }
 
             override fun onAppOpenAttribution(data: MutableMap<String, String>?) {
                 data?.map {
-                    Log.d("AppsflyerLog", "onAppOpen_attribute: ${it.key} = ${it.value}")
+                  //  Log.d("AppsflyerLog", "onAppOpen_attribute: ${it.key} = ${it.value}")
                 }
             }
 
             override fun onAttributionFailure(error: String?) {
-                Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
+             //   Log.e("AppsflyerLog", "error onAttributionFailure :  $error")
             }
         }
 
